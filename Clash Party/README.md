@@ -1,6 +1,6 @@
-# Clash Party / Clash Verge / Mihomo Party 使用方法
+# Clash Party / Clash Verge / Mihomo Party 使用教程
 
-> 覆写脚本：`Clash Smart内核覆写脚本.js`（**v5.2.2**，2026-04-13）
+> 覆写脚本：`Clash Smart内核覆写脚本.js`（**v5.2.3**，2026-04-20）
 > UI 补充配置：已整合到本文「四、粘贴 UI 补充配置」章节
 > 架构：**SUB-STORE 多机场融合** + 9 Smart 区域组 + 28 业务策略组 + **373+ rule-providers**
 > 适用客户端：
@@ -8,6 +8,46 @@
 > - **Clash Verge Rev**（桌面端，支持 JS/YAML 双覆写）
 > - **Clash Nyanpasu**（桌面端）
 > - 任何支持 Mihomo **JavaScript 覆写引擎**的客户端
+
+---
+
+## 🚀 零基础 5 分钟快速开始
+
+> 第一次用？先看这段，看完按顺序做就能上网。
+
+### 这是什么？
+本仓库提供一份 **JS 覆写脚本**（可以理解为"配置模板"），你把它塞给 Clash Party/Verge Rev/Mihomo Party，它会在你每次启动客户端时**自动重写你的配置**，让节点按地区分组、按业务分流、自动选最优节点。你自己不用手动配 300+ 条规则。
+
+### 我要准备什么？
+1. **一个机场订阅 URL**。机场 = 代理服务商，你花几十块一个月订阅一家，他给你一个长长的 URL（`https://xxx.com/subscribe?token=yyy` 这种）。本仓库**不提供订阅**，只提供配置模板。
+2. **本仓库里的 `Clash Smart内核覆写脚本.js`** 这一个文件。
+3. **三选一的客户端**：Mihomo Party / Clash Verge Rev / Clash Nyanpasu。**推荐 Mihomo Party**（不用你自己下载 mihomo 内核，开箱即用）。
+
+### 术语速查（遇到不懂就回来翻）
+- **订阅 / 机场**：服务商给你的那条 URL。
+- **节点**：海外具体服务器（"美国洛杉矶-01"、"香港-02" 这样）。
+- **代理组 / 策略组**：把一堆节点按地区或用途打包。例如 `🇺🇸 美国节点` = 所有美国节点的集合。
+- **分流**：按规则自动决定每条流量走代理还是直连。访问国内站点直连更快，访问 Google 必须走代理。
+- **Smart 组 + LightGBM**：Mihomo Smart 内核独有的"用机器学习自动选最优节点"功能。本仓库启用了它。
+- **TUN 模式**：让整台电脑的所有流量都过代理（而不只是浏览器）。**建议开启**。
+
+### 3 步走完
+1. **下载客户端**（选一个，推荐 Mihomo Party）：
+   - Mihomo Party：https://github.com/mihomo-party-org/mihomo-party/releases （找适合你系统的 `.exe` / `.dmg` / `.deb`）
+   - Clash Verge Rev：https://github.com/clash-verge-rev/clash-verge-rev/releases
+2. **导入订阅**：打开客户端 → 左侧「订阅」→ 输入机场给你的 URL → 保存。
+3. **启用本仓库的覆写脚本**：详细在下面第三章「导入覆写脚本（核心步骤）」。本质就是：左侧「覆写/脚本」→ 新建 → 类型选 JavaScript → 粘贴 `Clash Smart内核覆写脚本.js` 全文 → 保存 → 回到订阅页勾选启用这个脚本 → 点「连接」。
+
+### 跑起来之后怎么验证成功？
+- 浏览器打开 `https://www.google.com`，能打开说明代理通了。
+- 客户端左侧「代理」页面应能看到 **37 个代理组**（9 区域 + 28 业务）。
+- 左侧「连接」页面可以看每条请求走了哪个组/哪个节点。
+
+### 最常见的第一次踩坑
+- ❌ **订阅链接格式不对**：有些机场默认给的是 V2ray 格式。换链接时加 `?flag=clash.meta` 或 `?flag=meta` 后缀。
+- ❌ **首次下载 rule-provider 卡住**：脚本会下载 373+ 条规则，约 15–30 MB。**必须在 WiFi 环境 + 已连接代理**（先连一个简单节点，再启动覆写），否则 GitHub/jsdelivr 在国内直连会 404。
+- ❌ **LightGBM 模型没下载**：启动后若日志有 `Model.bin not found`，手动下 https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin 放到客户端的 mihomo 工作目录。
+- ❌ **找不到 `📥 下载更新` 等业务组**：确认你用的是 **mihomo Smart 内核**（Alpha 分支），不是旧 Clash Premium。在 Clash Verge Rev 的「设置 → Clash 内核」里切换。
 
 ---
 

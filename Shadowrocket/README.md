@@ -1,9 +1,59 @@
-# Shadowrocket（小火箭）使用方法
+# Shadowrocket（小火箭）使用教程
 
 > 配置文件：`shadowrocket-smart.conf`
-> 版本：**v5.2.2-SR.1**（Build 2026-04-16，从 Clash Party v5.2.2 迁移重构）
+> 版本：**v5.2.2-SR.2**（Build 2026-04-20，从 Clash Party v5.2.2 迁移重构）
 > 目标：**Shadowrocket iOS（App Store 正版）** / macOS 通用
-> 架构：9 Smart 区域组（`url-test` + `policy-regex-filter`）+ 28 业务策略组 + 250+ rule-set
+> 架构：9 区域组（`url-test` + `policy-regex-filter` 按节点名自动分类）+ 28 业务策略组 + 250+ rule-set
+
+---
+
+## 🚀 零基础 5 分钟快速开始
+
+> 第一次在 iPhone 上用代理？先看这段。
+
+### 这是什么？
+一份 **Shadowrocket（SR，俗称"小火箭"）配置文件**。把它塞给 SR，SR 就会按这份规则帮你：
+- 访问 Google / YouTube / Netflix 走代理
+- 访问淘宝 / 支付宝 / 国内银行 App 直连（更快、不被误伤）
+- 屏蔽广告 / 钓鱼网站
+
+你**不需要**懂任何技术，只需要把配置文件托管到一个 URL，让 SR 自己去拉。
+
+### 我要准备什么？
+1. **一部 iPhone / iPad**（iOS 15+）或一台 **Apple Silicon / Intel Mac**（Mac 也能装 iOS 版 SR）
+2. **一个「非中国区」的 Apple ID**（香港、美国、日本都行），因为 SR 在中国区下架了
+3. **¥2.99 美元约 ¥20 人民币**（SR 是一次性付费 App）
+4. **一个机场订阅 URL**（代理服务商给你的）
+5. **一个能托管文件的 URL**（GitHub 个人仓库最方便，免费）
+
+### 术语速查
+- **机场订阅**：代理服务商给你的 URL。里面是节点列表。
+- **SR 配置（.conf 文件）**：本仓库提供的这个文件。里面是**规则**（哪些流量走代理、哪些直连），**不包含节点**。节点是你从机场订阅导入的。
+- **节点 + 规则 = 可用的代理**。SR 里两者分开管理：节点从"首页-子网"导入，规则从"配置"导入。
+- **TUN 模式**：SR 接管全系统流量。iOS 用 `VPN` 权限实现，首次启动会弹出「是否允许添加 VPN 配置」→ **允许**。
+
+### 3 步走完
+1. **买并安装 SR**：App Store → 搜 "Shadowrocket" → 购买 ¥20 → 安装 → 首次启动允许 VPN 权限。
+2. **把本仓库的 `shadowrocket-smart.conf` 托管到 URL**：
+   - **最简单的方法**：把这个文件上传到你自己的 GitHub 仓库（Public 就行），点文件 → 「Raw」按钮 → 复制那个 URL。格式大概是 `https://raw.githubusercontent.com/你用户名/仓库名/main/shadowrocket-smart.conf`
+   - 或者用 jsDelivr 加速：`https://cdn.jsdelivr.net/gh/你用户名/仓库名@main/shadowrocket-smart.conf`
+3. **导入 SR**：
+   - 导入配置：打开 SR → 底部「**配置**」标签 → 右上角 ➕ → 粘贴上一步的 URL → 下载 → 点下载完的那条 → **使用配置**。
+   - 导入节点：回到底部「**首页**」→ 上方「**子网**」 → ➕ → 粘贴你机场给的订阅 URL → 下载。
+   - 回到「首页」最上面，点那个大按钮从 **Not Connected** 变 **Connected**。
+
+### 跑起来之后怎么验证？
+- Safari 打开 `https://www.google.com` 能打开 = 代理通了。
+- SR「首页」最上方显示绿色的"Connected"。
+- SR「首页 → 代理组」应能看到 **9 区域 + 28 业务 = 37 个组**。
+- SR「首页 → 连接信息（Connections）」能看到每次请求走了哪个组/节点。
+
+### 最常见踩坑
+- ❌ **App Store 搜不到 SR**：你的 Apple ID 是中国区。换非中国区 Apple ID（注册需要一个非中国的地址 + 外国信用卡/礼品卡）。
+- ❌ **导入配置时规则下载失败一半**：首次导入时 SR 要从 GitHub 拉 250+ 个规则包。**必须先开代理再下载配置**。可以先用一个简单的代理配置连上，再切到本配置。
+- ❌ **国内支付/银行 App 变卡 / 登不上**：配置里已把主流支付（支付宝/微信支付）+ 5 大国行（工行/建行/农行/交行/邮储）加到 skip-proxy。你遇到的那个 App 没被排除就加进去：SR 首页往下拉到「Skip Proxy」→ 追加 `*.你遇到的域名.com`。
+- ❌ **TikTok 海外版看不了**：在「📱 社交媒体」组里切到 🇯🇵 日韩节点或 🌏 亚太节点，对 TikTok 友好。
+- ❌ **后台刷新后规则没更新**：iOS 设置 → 通用 → 后台 App 刷新 → 确认 Shadowrocket 是开的。
 
 ---
 

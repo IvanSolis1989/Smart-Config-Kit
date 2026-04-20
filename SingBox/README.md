@@ -1,9 +1,50 @@
-# SingBox 使用教程（对齐 Clash Party v5.2.2 Full 语义）
+# SingBox 使用教程（对齐 Clash Party v5.2.3 Full 语义）
 
 > 配置文件（推荐）：`SingBox/singbox-smart-full.json`  
 > 基础模板：`SingBox/singbox-smart.json`  
 > 生成脚本：`SingBox/generate-singbox-full.js`  
 > 目标：在 **sing-box** 上复刻 Clash Party 的「9 个区域组 + 28 个业务组 + 387 rule-providers + 977 规则」语义，并保持 sing-box 官方配置兼容。
+
+---
+
+## 🚀 零基础快速开始
+
+### 这是什么？
+一份 **sing-box 原生 JSON 配置**。sing-box 是一个新一代跨平台代理内核，**比 Clash 内存占用更低、协议支持更新**。任何加载 sing-box 内核的客户端都能用这份配置——包括 **Hiddify**、**SFA**（sing-box for Android）、**SFM**（Mac）、**SFI**（iOS）、**Karing**、**NekoBox**、以及 **v2rayN 切到 sing-box 核**。
+
+### 选哪份文件？
+| 文件 | 规则数 | 适合 |
+|---|---:|---|
+| `singbox-smart.json` | 4 rule-sets + 28 条内联规则 | 快速体验 / 学习结构 |
+| `singbox-smart-full.json` | 387 rule-sets + 977 规则 | **推荐**，对齐 Clash Party 全量 |
+
+### 术语速查
+- **sing-box**：一个代理内核（类比 mihomo/Xray）。**不是**一个具体的客户端 App，它是核心引擎，由各种 GUI 客户端调用。
+- **rule_set**：sing-box 的"规则集"概念，等同于 Clash 的 `rule-provider`。
+- **selector / urltest**：sing-box 里的策略组类型。`selector` = 手动选，`urltest` = 按延迟自动选最优。
+
+### 3 步走完（以 Hiddify 为例，最简单）
+1. **下载 Hiddify**：https://hiddify.com（Windows / Mac / Linux / Android / iOS 都有）。
+2. **替换节点**：用文本编辑器打开 `singbox-smart-full.json`，`outbounds` 数组里找 `"type": "trojan"` / `"vless"` / `"vmess"` / `"hysteria2"` 的占位节点（`proxy-hk-1`、`proxy-us-1`…），换成你机场给的真实节点参数。保存。
+3. **导入**：Hiddify → 添加配置 → 从文件导入 → 选这个 JSON → 启用。
+
+### 其它客户端也一样？
+基本一样。所有吃 sing-box JSON 的客户端都是"导入 JSON → 启用"。不同的仅仅是每个客户端按钮位置不同：
+- **SFA**（Android）、**SFM**（Mac）、**SFI**（iOS）：官方客户端，UI 最干净
+- **Karing**：跨平台，UI 更漂亮
+- **NekoBox / NekoRay**：Android/PC，多核切换方便
+- **v2rayN**：Windows，需要先在「设置 → 核心基础设置」切到 **sing-box**，然后「自定义配置服务器」导入本 JSON
+
+### 跑起来怎么验证？
+- 浏览器打开 `https://www.google.com` 能打开 = 代理通了
+- 客户端的"出站"/"策略"面板应看到 38 个组（1 `🚀 节点选择` + 9 区域 + 28 业务）
+- 首次启动后等 387 个 rule-set 下载完（约 1–3 分钟），日志不报 404 即可
+
+### 最常见踩坑
+- ❌ **客户端说 "config invalid"**：你改节点时漏了逗号/引号。用 `python3 -c 'import json; json.load(open("singbox-smart-full.json"))'` 校验 JSON 合法性。
+- ❌ **rule_set 下载失败**：jsdelivr 被墙。先用任意一个能通的节点连上，再重新启用本配置，让 sing-box 把 387 个 .srs 拉下来缓存。
+- ❌ **Hiddify 提示 TUN 冲突**：Hiddify 会自己管 TUN。把本 JSON 里的 `inbounds.tun` 段删掉就好。
+- ❌ **配置里的节点占位跑不通**：那是示例节点（`proxy-hk-1` 等），需要你替换成真实节点。**不替换直接导入是跑不通的**。
 
 ---
 

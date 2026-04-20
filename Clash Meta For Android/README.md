@@ -1,9 +1,48 @@
-# Clash Meta For Android（CMFA）使用方法
+# Clash Meta For Android（CMFA）使用教程
 
 > 配置文件：`clash-smart-cmfa.yaml`
 > 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**
-> 内核要求：**Mihomo Smart**（已内置 LightGBM 自学习模型）
-> 当前版本：**v5.2.0**（基于 `clash-smart-v5.2.0.js` 转换）
+> 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
+> 当前版本：**v5.2.2**（跟随 Clash Party 主线）
+
+---
+
+## 🚀 零基础 5 分钟快速开始
+
+> 第一次在安卓上用代理？先看这段。
+
+### 这是什么？
+一份**写死的 Clash 配置 YAML**，用安卓版 Clash 客户端打开就能用。**不需要**你懂 Clash 是什么、也**不需要**手动配任何规则。
+
+### 我要准备什么？
+1. **一部安卓 8.0+ 手机**（大部分 2018 年后的手机都支持）
+2. **一个机场订阅 URL**（机场 = 代理服务商，你花钱买他们的订阅）
+3. **CMFA 客户端 APK**（下面教你选）
+4. **本仓库的 `clash-smart-cmfa.yaml` 文件**（你只需要改里面一行 URL）
+
+### 术语速查
+- **APK**：安卓 App 的安装包文件。不同手机要用不同的 APK。
+- **arm64-v8a / armeabi-v7a**：手机 CPU 架构。下面第一章会教你怎么选。
+- **订阅链接**：机场给你的一串 URL。`http`/`https` 开头，通常还带 `?token=xxx`。
+- **VPN 权限**：安卓系统会弹出窗口问「是否允许 CMFA 建立 VPN 连接」，必须允许。
+- **TUN 模式**：CMFA 接管手机所有流量（包括其它 App）。默认开启，别关。
+
+### 3 步走完
+1. **下载 CMFA APK**：打开 https://github.com/MetaCubeX/ClashMetaForAndroid/releases ，下最新版的 **arm64-v8a** 那个（2017 年以后的手机都用这个）。如果不确定就下 `universal`。
+2. **改订阅链接**：用文本编辑器（手机上的「文件管理 → 编辑文本」也行）打开 `clash-smart-cmfa.yaml`，找到 `url:` 那行（大约第 31 行），把后面的 URL 换成你机场给你的 URL。保存。
+3. **导入 + 启动**：把修改后的 YAML 传到手机（微信/QQ/AirDroid/U盘都行） → 打开 CMFA → 右下角 ➕ → **从文件导入** → 选这个 YAML → 回到首页 → 点中间那个大按钮「启动」 → 系统弹「允许建立 VPN 连接」→ **允许**。
+
+### 跑起来之后怎么验证？
+- 浏览器打开 `https://www.google.com` 能打开 = 代理通了。
+- CMFA 点底部「代理」，应看到 **9 个区域组 + 28 个业务组**。
+- 点底部「连接」能看到每次访问走了哪个组/节点。
+
+### 最常见踩坑
+- ❌ **APK 装不上**：没允许"来自未知来源的应用"。设置 → 安全 → 允许安装未知来源。
+- ❌ **导入后节点列表是空的**：订阅链接返回的格式不对。换链接加 `?flag=clash.meta` 后缀；或用 Sub-Store 做格式转换。
+- ❌ **首次启动卡在"加载规则"**：CMFA 要下 375+ 条规则约 15–30 MB。**必须在 WiFi + 已开代理**（可以先用随便一个能用的节点启动，等规则下完再切到本配置），否则 GitHub/jsdelivr 在国内会 404。
+- ❌ **打开支付宝/银行 App 卡死**：已在配置里把 `+.alipay.com` / 主流银行域名排除了代理。如果你用的银行没排除，在 CMFA 的「应用 → 分应用代理」里把那个银行 App 设为"不走代理"。
+- ❌ **LightGBM 自动择优不生效**：CMFA YAML 用的是 `url-test`（按延迟择优），**不是** Mihomo Smart 组。如果你想要 Smart + LightGBM，要么用 FlClash（部分支持 Alpha 内核），要么改用桌面端 Clash Verge Rev + 仓库的 JS 覆写脚本。
 
 ---
 

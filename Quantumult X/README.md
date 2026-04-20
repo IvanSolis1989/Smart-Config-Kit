@@ -7,6 +7,52 @@
 
 ---
 
+## 🚀 零基础快速开始
+
+### 这是什么？
+**Quantumult X（QX / 圈 X）** 是 iOS 上的付费代理客户端。最大卖点是 **`resource_parser_url`（通用订阅解析器）+ 脚本化重写生态**——几乎任何奇葩订阅格式它都能吃下，签到/VIP 破解/去广告插件社区最丰富。价位介于 Shadowrocket 和 Loon 之间（**¥68**）。
+
+### 我要准备什么？
+1. **iPhone / iPad（仅 iOS，无 macOS 版）**
+2. **非中国区 Apple ID**
+3. **💸 QX 付费**：约 **¥68 / 区**（~$10）
+4. **一个机场订阅 URL**
+5. **本仓库的 `qx-smart.conf`**，托管到 URL
+
+### QX 适合谁？
+- **适合**：折腾脚本、签到自动化、想导入非标准订阅格式的用户
+- **不适合**：只要稳定转发、不做自动化 → Shadowrocket 就够；或者你在 Mac 上也要用 → Surge（有 Mac 版）
+
+### 术语速查
+- **QX 配置 `.conf`**：结构和 Surge / Loon 完全不同。关键段落：
+  - `[general]` / `[dns]` / `[policy]`（策略组）/ `[server_remote]`（机场订阅）/ `[server_local]`（手动节点）/ `[filter_remote]`（远程规则集 URL）/ `[filter_local]`（内联规则）/ `[rewrite_remote]`（脚本）/ `[mitm]`
+- **policy 类型**：`url-latency-benchmark=` ≈ Surge 的 `url-test`；`static=` ≈ Surge 的 `select`
+- **server-tag-regex**：QX 按节点的 **tag** 字段（不是 name）做正则匹配
+
+### 3 步走完（+ 一个 QX 特有的第 4 步）
+1. **App Store 搜 "Quantumult X" → 购买 → 安装 → 允许 VPN 权限**。
+2. **把 `qx-smart.conf` 托管到 URL**（GitHub Raw 最简单）→ QX → 设置 → 配置 → 下载配置 → 粘贴 URL → 下载。
+3. **⚠️ QX 特有：加节点要改配置文件**！QX 不会像 SR/Surge 那样自动识别 `[server_local]` 里的节点。打开 `qx-smart.conf` 的 `[server_remote]` 段，加：
+   ```
+   https://your-subscription.example.com/sub, tag=YOUR_AIRPORT, update-interval=86400, opt-parser=true, enabled=true
+   ```
+   然后重新下载本配置即可。**或者**在 QX 首页手动扫码/添加节点。
+4. **启用** ：QX 首页 → 按下圆形开关。
+
+### 跑起来验证？
+- 浏览器打开 `https://www.google.com` 能打开
+- QX「策略」面板应看到 37 组（9 url-latency-benchmark + 28 static）
+- QX「日志」面板看 filter_remote 下载成功无 404
+
+### 最常见踩坑
+- ❌ **加了节点但不被 9 区域组识别**：QX 用节点的 **tag 字段**做正则匹配（不是 name！）。确认订阅返回的节点 tag 含 `HK` / `JP` / `US` 等地区关键字。机场的订阅链接加 `&flag=quanx` 后缀通常能让 tag 含地区标识。
+- ❌ **filter_remote 下载一半 404**：先开代理再下配置。
+- ❌ **想导入非标准订阅（vless:// 分享链接列表等）**：`resource_parser_url` 已在 `[general]` 预置 KOP-XIAO 的解析脚本，能吃 vmess/vless/trojan/ss/hysteria base64 订阅。
+- ❌ **想用 MITM 签到脚本**：本配置默认 `[mitm]` 留空。启用步骤：QX → 证书 → 生成 → 信任 → 在 `[rewrite_remote]` 加社区插件（例如 BoxJs），hostname 自动追加到 `[mitm]`。
+- ❌ **想要 LightGBM**：QX 不是 mihomo 内核，不支持。要就用桌面端 Clash Verge Rev / Mihomo Party。
+
+---
+
 ## 一、下载 Quantumult X
 
 - **iOS**：App Store 搜「Quantumult X」，约 ¥68 / 区。需要非中国区 Apple ID。

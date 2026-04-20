@@ -7,6 +7,50 @@
 
 ---
 
+## 🚀 零基础快速开始
+
+### 这是什么？
+**Loon 是 iOS 上的付费代理客户端**，价位比 Surge 低一半（¥198 vs ¥648）。本仓库提供 Loon 专用 `.conf`，9 区域 + 28 业务组全保留。
+
+### 我要准备什么？
+1. **iPhone / iPad（仅 iOS，无 macOS 版）**
+2. **非中国区 Apple ID**
+3. **💸 Loon 付费**：约 **¥198 / 区**（~$28）
+4. **一个机场订阅 URL**
+5. **本仓库的 `loon-smart.conf`**，托管到 URL
+
+### Loon 值不值这个价？替代品对比
+| | Shadowrocket | **Loon** | Surge | QX |
+|---|---|---|---|---|
+| 价格 | ¥20 | **¥198** | ¥648 | ¥68 |
+| 稳定性 | 普通 | **好** | 极好 | 好 |
+| macOS 版 | ✅ | ❌ | ✅ | ❌ |
+| 脚本/MITM | 一般 | **好** | 极好 | 极好 |
+| 插件生态 | ❌ | **✅ Plugin** | ⚠️ Modules | ⚠️ Scripts |
+
+### 术语速查
+- **Loon 配置 `.conf`**：和 Surge 几乎同语法；`[General]` 里的 DNS 字段名有小差异
+- **RULE-SET**：规则列表 URL，Loon 启动时下载（本配置放在 `[Rule]` 段内，与 Surge 格式兼容）
+- **MMDB**：GeoIP 数据库。Loon **不支持**在配置里指定 URL，**必须 UI 手动下载**（见下一步 2）
+
+### 3 步走完
+1. **App Store 搜 "Loon" → 购买 → 安装 → 允许 VPN 权限**。
+2. **先装 MMDB**（Loon 独有的小麻烦）：Loon → 设置 → GeoLite2 数据库 → 填入 `https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb` → 下载。
+3. **导入**：把 `loon-smart.conf` 托管到 URL → Loon → 配置 → ⊕ → 从 URL 下载 → 启用。节点来源：底部「节点」→ ⊕ → 粘贴机场订阅 URL → 下载。
+
+### 跑起来验证？
+- 浏览器打开 `https://www.google.com` 能打开
+- Loon「策略组」面板应看到 37 组
+- Loon「设置 → 运行日志」看规则集下载状态
+
+### 最常见踩坑
+- ❌ **忘了装 MMDB**：精准标签规则（`GEOIP,netflix,...`）会失效，但 `GEOIP,CN,DIRECT` 仍工作（Loon 内置）。强烈建议补上 MMDB。
+- ❌ **规则集下载失败**：首次安装**必须先开代理**；Loon → 设置 → 自动更新配置 调频率。
+- ❌ **我把 Surge 的 `surge-smart.conf` 直接给 Loon 行不行**：大部分兼容，但 `encrypted-dns-server` / `geoip-maxmind-url` 等 Surge 独有字段 Loon 会报警告。**用本目录的 `loon-smart.conf`**（字段已适配）。
+- ❌ **想要 LightGBM**：Loon 不是 mihomo 内核，不支持。要就用桌面端 Clash Verge Rev / Mihomo Party。
+
+---
+
 ## 一、下载 Loon
 
 - **iOS**：App Store 搜「Loon」，价格约 ¥198 / 区。需要非中国区 Apple ID。

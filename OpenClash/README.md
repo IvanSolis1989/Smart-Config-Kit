@@ -1,9 +1,53 @@
-# OpenClash 使用方法
+# OpenClash 使用教程
 
 > 覆写脚本（轻量版）：`openclash_custom_overwrite.sh`（**v5.3.4-align-dns-baseline**）
 > 覆写脚本（完整版）：`openclash_custom_overwrite_full.sh`（**v5.2.3-oc-full.2**，387 providers，对齐 Clash Party v5.2.3 + DNS 基线）
 > 界面配置：`clash-smart-openclash.conf`
-> 架构：提供 **Slim / Full 双版本**，分别覆盖“低 OOM 风险”与“完整规则覆盖”两种需求
+> 架构：提供 **Slim / Full 双版本**，分别覆盖"低 OOM 风险"与"完整规则覆盖"两种需求
+
+---
+
+## 🚀 零基础快速开始（适合已刷 OpenWrt 的用户）
+
+> OpenClash 是给"已经装好 OpenWrt 的软路由 / R4S / 刷过机的路由器"用的。如果你还没装 OpenWrt、只是想在电脑上用代理，**请回仓库根目录看 Clash Party 或 v2rayN 目录**，不是这里。
+
+### 这是什么？
+一个**部署在路由器上**的 shell 脚本。装好之后路由器下所有设备（电脑、手机、电视、机顶盒）的流量都会自动分流——国内直连、国外走代理，不需要每台设备单独配。
+
+### 我要准备什么？
+1. **一台已刷 OpenWrt 的路由器**（NanoPi R4S / R5S / 小米 AX 刷机 / x86 软路由都行，内存 ≥ 1GB）
+2. **OpenClash 插件已装好**（`opkg install luci-app-openclash`）
+3. **SSH 能登录路由器**（`ssh root@192.168.1.1`）
+4. **一个机场订阅 URL**
+5. **本仓库的 `openclash_custom_overwrite.sh`（Slim）或 `openclash_custom_overwrite_full.sh`（Full）**
+
+### Slim 还是 Full？一句话决定
+- **内存 < 4GB**（小米 AX、NanoPi R4S 2GB 版）→ **Slim**（省 1GB 内存，但只有 136 条规则集）
+- **内存 ≥ 4GB** 且想要完整体验 → **Full**（387 条规则集，与 Clash Party 桌面端 1:1）
+
+### 术语速查
+- **覆写脚本（Overwrite Script）**：OpenClash 在加载机场订阅 YAML 之前会调用这个脚本，用它返回的 YAML 覆盖原配置——相当于"订阅预处理器"。
+- **OOM**：Out Of Memory，路由器内存爆了 Linux 会 kill 进程。小内存路由器装 Full 容易 OOM。
+- **rule-provider / 规则集**：每一类域名（Netflix / GitHub / AI 等）的规则列表文件，OpenClash 首次启动会从 jsDelivr/GitHub 下载。
+- **fake-ip**：一种加速技术。本脚本默认开启。
+- **Smart 内核 + LightGBM**：Mihomo 的 Alpha 分支，用机器学习自动选最优节点。本脚本已启用。
+
+### 4 步走完
+1. **在 OpenClash 里切到 Smart 内核**：LuCI → 服务 → OpenClash → 版本更新 → "Meta 内核版本" 选 **Smart** → 点「一键下载」→ 重启 OpenClash。
+2. **上传覆写脚本**：在本机跑 `scp openclash_custom_overwrite.sh root@192.168.1.1:/etc/openclash/` （Slim 选这个；Full 把文件名换掉）。然后 `ssh root@192.168.1.1 chmod +x /etc/openclash/openclash_custom_overwrite.sh`。
+3. **启用覆写**：LuCI → 服务 → OpenClash → 覆写设置（Overwrite Settings）→ "自定义 OpenClash 脚本" 填 `/etc/openclash/openclash_custom_overwrite.sh` → 勾选"启用自定义覆写" → 保存。
+4. **导入订阅 + 启动**：LuCI → 服务 → OpenClash → 配置订阅 → 添加订阅链接 → 点「下载」→ 全局设置里选中这个配置 → 启动 OpenClash。
+
+### 跑起来之后怎么验证？
+- 连到路由器 WiFi 的任何设备打开浏览器访问 `https://www.google.com` 能打开 = 代理通了。
+- OpenClash LuCI → 运行状态，应看到 9 区域 + 28 业务组。
+- `/tmp/openclash.log` 里搜 `[Clash-Smart]`，能看到 `v5.3.4-align-dns-baseline overwrite starting...` 这行就是本脚本成功被调用。
+
+### 最常见踩坑
+- ❌ **启动后路由器内存爆了被 OOM**：你用了 Full 但路由器只有 2GB。改用 Slim，或在 `clash-smart-openclash.conf` 里把 `GEODATA_LOADER` 从 `standard` 改为 `memconservative`。
+- ❌ **日志报 `list geosite not found`**：`CHINA_IP_ROUTE=1` 导致 OpenClash 注入了裸 `geosite` 引用。**必须改成 `CHINA_IP_ROUTE=0`**（本仓库的 `clash-smart-openclash.conf` 已硬编码为 0）。
+- ❌ **jsdelivr 大量 DNS resolve failed**：DNS 冷启动循环依赖。本版本已内置 DNS 救援，但若仍失败把 `GEOSITE_CUSTOM_URL` 改为自建镜像。
+- ❌ **LightGBM Model.bin 没下**：路由器无法连外网导致。手动 `wget -O /etc/openclash/Model.bin https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin`。
 
 ---
 
@@ -162,7 +206,7 @@ uci commit openclash
 
 ---
 
-## 七、优化使用方法（Slim / Full）
+## 七、优化使用教程（Slim / Full）
 
 ### A. Slim（轻量版）优化点
 
