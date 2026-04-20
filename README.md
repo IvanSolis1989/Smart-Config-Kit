@@ -27,35 +27,6 @@
 
 ---
 
-## 🗂️ 仓库结构速览
-
-```text
-Clash/
-├── Clash Meta For Android/
-│   ├── clash-smart-cmfa.yaml
-│   └── 使用方法.md
-├── Clash Party/
-│   ├── Clash Smart内核覆写脚本.js
-│   ├── 其他配置在UI里面填写
-│   └── 使用方法.md
-├── SingBox/
-│   ├── generate-singbox-full.js
-│   ├── singbox-smart.json
-│   ├── singbox-smart-full.json
-│   └── 使用教程.md
-├── OpenClash/
-│   ├── openclash_custom_overwrite.sh
-│   ├── openclash_custom_overwrite_full.sh
-│   ├── clash-smart-openclash.conf
-│   └── 使用方法.md
-├── Shadowrocket/
-│   ├── shadowrocket-smart.conf
-│   └── 使用方法.md
-└── README.md
-```
-
----
-
 ## 🧭 分流策略设计框架（重点）
 
 下面是这套配置的“架构设计图（文字版）”：
@@ -112,71 +83,58 @@ DNS/嗅探层（Resolver + Sniffer Layer）
 
 ---
 
-## 🔁 版本体系与差异说明
+## 🧩 Clash Party（v5.2.2）分流规则：28 代理组美化速览
 
-> 你最关心的问题：不同版本到底差在哪？
-
-### v5.2.2（Clash Party 主线）
-
-- 定位：桌面端/Party 侧主力版本。
-- 特点：
-  - 优化 Sub-Store 多机场融合适配；
-  - 修复规则顺序与局部误判；
-  - 针对规则下载链路做可用性加固（如 jsdelivr 直连策略）。
-
-### 🧩 Clash Party（v5.2.2）分流规则的 28 代理组说明
-
-为了方便理解 PARTY 版本“按业务分流”的落地方式，可以把代理组拆成 **5 层 + 28 组** 来看：
+为了让结构更清晰，下面用“**分层卡片 + 关系图**”展示 28 个代理组，而不是单一大表。
 
 ```mermaid
-flowchart TD
-    A[节点池 / 订阅源] --> B[① 入口与总控组]
-    B --> C[② 核心业务组]
-    C --> D[③ 区域与节点选择组]
-    D --> E[④ 基础能力组]
-    E --> F[⑤ 兜底与直连组]
+flowchart LR
+    A[入口总控 2组] --> B[核心业务 10组]
+    B --> C[区域选路 8组]
+    C --> D[基础能力 5组]
+    D --> E[兜底直连 3组]
+
+    style A fill:#EAF4FF,stroke:#4A90E2,stroke-width:1px
+    style B fill:#EEF9F1,stroke:#27AE60,stroke-width:1px
+    style C fill:#FFF6E9,stroke:#F39C12,stroke-width:1px
+    style D fill:#F3F0FF,stroke:#8E44AD,stroke-width:1px
+    style E fill:#FFEFF0,stroke:#E74C3C,stroke-width:1px
 ```
 
-> 说明：不同订阅源命名会导致“地区子组”名字略有差异，但分层职责保持一致。
+### ① 入口与总控（2 组）
+- `🚀 节点选择`
+- `🎯 全球直连`
 
-| 层级 | 组数量 | 典型组名（示例） | 作用 |
-|---|---:|---|---|
-| ① 入口与总控组 | 2 | `🚀 节点选择`、`🎯 全球直连` | 控制全局默认出口与手动覆盖入口 |
-| ② 核心业务组 | 10 | `🤖 AI`、`🎬 流媒体`、`📺 YouTube`、`🎵 Spotify`、`💬 Telegram`、`📱 TikTok`、`🧰 GitHub`、`🧪 测速`、`📰 国外媒体`、`🛒 电商` | 按业务语义拆分，避免“一组走天下” |
-| ③ 区域与节点选择组 | 8 | `🇭🇰 HK`、`🇹🇼 TW`、`🇯🇵 JP`、`🇸🇬 SG`、`🇺🇸 US`、`🇪🇺 EU`、`🌐 其他地区`、`♻️ 自动选优` | 用 url-test / 智能策略完成自动择路 |
-| ④ 基础能力组 | 5 | `🧱 漏网之鱼`、`📦 CDN`、`🛡️ 广告拦截`、`🔒 隐私`、`🧭 DNS相关` | 承接规则未命中或基础设施类流量 |
-| ⑤ 兜底与直连组 | 3 | `DIRECT`、`REJECT`、`FINAL` | 最终兜底，保证未知流量有归属 |
+> 控制默认出口与手动覆盖入口。
 
-**合计：2 + 10 + 8 + 5 + 3 = 28 组。**
+### ② 核心业务（10 组）
+- `🤖 AI`、`🎬 流媒体`、`📺 YouTube`、`🎵 Spotify`、`💬 Telegram`
+- `📱 TikTok`、`🧰 GitHub`、`🧪 测速`、`📰 国外媒体`、`🛒 电商`
 
-如果你要快速调优，建议优先改这 3 类组：
+> 按业务语义拆分，避免“一组走天下”。
+
+### ③ 区域与节点选择（8 组）
+- `🇭🇰 HK`、`🇹🇼 TW`、`🇯🇵 JP`、`🇸🇬 SG`
+- `🇺🇸 US`、`🇪🇺 EU`、`🌐 其他地区`、`♻️ 自动选优`
+
+> 用 `url-test` + 智能策略完成自动择路。
+
+### ④ 基础能力（5 组）
+- `🧱 漏网之鱼`、`📦 CDN`、`🛡️ 广告拦截`、`🔒 隐私`、`🧭 DNS相关`
+
+> 承接规则未命中与基础设施类流量。
+
+### ⑤ 兜底与直连（3 组）
+- `DIRECT`、`REJECT`、`FINAL`
+
+> 作为最终兜底，保证未知流量有归属。
+
+**总计：2 + 10 + 8 + 5 + 3 = 28 组。**
+
+快速调优建议（优先级从高到低）：
 1. `🚀 节点选择`（全局体验影响最大）；
-2. `🤖 AI / 🎬 流媒体`（最常见“能否可用”问题）；
-3. 区域组（如 `🇭🇰 HK` / `🇯🇵 JP`，直接决定延迟与稳定性）。
-
-### v5.2.2-SR.1（Shadowrocket 分支）
-
-- 定位：iOS/macOS Shadowrocket 适配线。
-- 特点：
-  - 针对 SR 引擎能力边界进行规则映射；
-  - DNS 段重构以贴近主线策略意图；
-  - 某些 Meta/内核特性以可兼容形式替代。
-
-### v5.3.x-oc-slim（OpenClash 轻量优化线）
-
-- 定位：OpenWrt 路由器（例如 R4S 4GB）长期稳定运行。
-- 特点：
-  - 大幅精简 rule-providers，控制峰值内存；
-  - 保留核心分流框架（区域层 + 业务层 + DNS 层）；
-  - 优先保障“持续在线能力”和“低 OOM 风险”。
-
-### v5.2.2-oc-full（OpenClash 完整规则线）
-
-- 定位：内存充足设备（推荐 ≥ 4GB，x86/高配 ARM 更佳）的高覆盖场景。
-- 特点：
-  - `rule-providers` 与 Clash Party 主线保持同等规则量（387 providers）；
-  - 适合对冷门地区/小众服务命中率敏感的用户；
-  - 提供与 `oc-slim` 并行的可选覆写脚本，按设备能力二选一。
+2. `🤖 AI / 🎬 流媒体`（最常见“可用性”问题）；
+3. 区域组（如 `🇭🇰 HK` / `🇯🇵 JP`，直接影响延迟与稳定性）。
 
 ---
 
@@ -192,6 +150,11 @@ flowchart TD
 1. 修改 `clash-smart-cmfa.yaml` 中订阅 URL；
 2. 在 CMFA 导入配置；
 3. 首次拉取相关规则与地理数据库资源。
+
+### 📦 SingBox
+1. 按需选择 `singbox-smart.json`（常规版）或 `singbox-smart-full.json`（完整规则版）；
+2. 将文件导入支持 sing-box 的客户端（如 SFA 等）并绑定你的节点来源；
+3. 首次启动后等待规则集与远程资源完成拉取，再按需微调策略组。
 
 ### 🛜 OpenClash
 1. 上传 OpenClash 覆写脚本（`openclash_custom_overwrite.sh` 轻量版 / `openclash_custom_overwrite_full.sh` 完整版）并启用自定义覆写；
