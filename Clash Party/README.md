@@ -255,7 +255,7 @@ sniffer:
 | 文件 | 用途 |
 |------|------|
 | `Clash Smart内核覆写脚本.js` | 主覆写脚本，粘贴到客户端 JS 覆写区 |
-| `使用方法.md`（本文第四章） | DNS / Sniffer / GeoX URL，粘贴到客户端 Mixin 区 |
+| `README.md`（本文第四章） | DNS / Sniffer / GeoX URL，粘贴到客户端 Mixin 区 |
 
 ---
 

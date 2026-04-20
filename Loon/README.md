@@ -47,7 +47,7 @@ Loon 的节点来源：
 - **9 区域组**：url-test + `policy-regex-filter` 自动按地区聚合节点；测速间隔 **600s**，tolerance **50ms**。
 - **28 业务组**：select 手动选择，候选列表默认为所有区域组 + DIRECT。
 
-推荐配置参考 `Surge/使用教程.md` 第五章（映射关系完全一致，不在此重复）。
+推荐配置参考 `Surge/README.md` 第五章（映射关系完全一致，不在此重复）。
 
 ---
 

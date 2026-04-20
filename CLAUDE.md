@@ -27,7 +27,7 @@
 
 > **关于 v2rayN：** v2rayN 是多核调度器，不是独立内核。推荐使用路径是在 v2rayN 里切到 mihomo 或 sing-box 核心，然后加载 #1 / #5 / #6；这种情况下 v2rayN 本身不是独立产物，无需单独同步。仅当 v2rayN 用户坚持走 Xray 核心时才用到 `v2rayN/v2rayn-smart-xray-routing.json`（功能裁剪版，只有 proxy/direct/block 三出站），此文件是独立产物，受本文约束。
 >
-> **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `SingBox/singbox-smart*.json`，**不需要**独立产物；`SingBox/使用教程.md §2a` 提供 Hiddify 专用导入说明。
+> **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `SingBox/singbox-smart*.json`，**不需要**独立产物；`SingBox/README.md §2a` 提供 Hiddify 专用导入说明。
 >
 > **关于 Surge / Loon / Quantumult X：** 这三款 iOS/macOS 付费客户端各自使用私有 `.conf` 语法，与 Shadowrocket 部分兼容但不完全一致，因此每个都是独立产物。其中：
 > - Surge 与 Shadowrocket 语法最接近（~90% 兼容），从 Shadowrocket 迁移改动最小
@@ -66,7 +66,7 @@
    - `Loon/loon-smart.conf`（从 Surge 迁移；头部 + [General] 不同，[Rule] 段基本同 Surge）
    - `Quantumult X/qx-smart.conf`（Shadowrocket → QX 转换；policy / filter_remote / filter_local 三段结构；可由等价脚本重新生成）
 3. **同步更新每个产物头部的「介绍 / 更新日志 / 版本号」注释块**（见 §1.3 强制注释字段）。
-4. **同步更新文档**：`README.md`、对应的 `使用方法.md` / `使用教程.md`、必要时 `CHANGELOG`。
+4. **同步更新文档**：根 `README.md` + 对应子目录的 `README.md`（原 `使用方法.md` / `使用教程.md` 已统一重命名为 `README.md`，GitHub 子目录视图会自动渲染），必要时 `CHANGELOG`。
 5. **自检命令必须通过**（§2）。
 6. **提交前在 PR 描述里列出「影响面」**：
    - 改动的代理组 / rule-provider / 规则行数
@@ -119,7 +119,7 @@
 
 - **平台专属字段**（例如 CMFA 的 `find-process-mode: strict`，OpenClash 的 `CORE_TYPE`，SR 的 `skip-proxy`，sing-box 的 `inbounds.tun`）。
 - **平台专属 bug 修复**（例如 CMFA 特定内存泄漏、SR iOS 进程限制）。
-- **平台专属文档**（`使用方法.md` / `使用教程.md` 只改本目录对应的版本）。
+- **平台专属文档**（子目录 `README.md` 只改本目录对应的版本）。
 
 但即便如此，PR 描述里必须写清楚「为什么其他版本无需同步」。
 
@@ -144,7 +144,7 @@
 改动涉及新字段或跨版本字段时，**必须**：
 
 1. **字段存在性核对**：在目标 APP 的官方文档里定位该字段，确认拼写、层级、取值范围。
-2. **版本兼容性核对**：确认该字段在目标 APP 的**最低支持版本**，并与 `使用方法.md` 中声明的最低版本一致。
+2. **版本兼容性核对**：确认该字段在目标 APP 的**最低支持版本**，并与子目录 `README.md` 中声明的最低版本一致。
    - 例：sing-box 1.11+ 已用 `action` + `outbound` 替代旧 `outbound` 直接绑定；改动必须符合当前目标内核。
    - 例：mihomo Smart 内核的 `uselightgbm` 属于 Alpha 分支能力，不能下放到稳定分支的 Clash 核心。
 3. **格式核对**：
@@ -212,7 +212,7 @@
 - Clash Party JS 顶部 VERSION 注释是**唯一主版本号**（目前 `v5.2.2`）。
 - 其他 5 份产物使用同主版本号 + 平台后缀：
   - `v5.2.2-cmfa.X`、`v5.3.X-oc-slim`、`v5.2.2-oc-full`、`v5.2.2-SR.X`、`v5.2.2-sing.X`
-- 平台后缀内部可独立递增，但主版本号必须与 Clash Party 对齐；若不对齐，必须在对应 `使用方法.md` 开头标明原因。
+- 平台后缀内部可独立递增，但主版本号必须与 Clash Party 对齐；若不对齐，必须在对应子目录 `README.md` 开头标明原因。
 
 ---
 
@@ -279,7 +279,7 @@ python3 -c 'import yaml;yaml.safe_load(open("Clash Meta For Android/clash-smart-
 ③ 改 Clash Party JS → 主线先落地
 ④ 同步 CMFA → OpenClash(slim+full) → Shadowrocket → SingBox(slim+full)
 ⑤ 跑 §5 自检命令
-⑥ 更新 README + 各 使用方法.md
+⑥ 更新根 README.md + 各子目录 README.md
 ⑦ PR 描述里写：改动摘要 / 影响矩阵 / 官方文档链接 / 自检输出
 ```
 

@@ -109,7 +109,7 @@ Surge 的节点来源有两种方式，任选其一：
 
 ## 六、DNS 配置（与 Clash Party 对齐）
 
-本版本的 DNS 段直接映射 Clash Party `使用方法.md` 第四节的「DNS」基线：
+本版本的 DNS 段直接映射 Clash Party `README.md` 第四节的「DNS」基线：
 
 | Surge 字段 | 对应 Clash 字段 | 值 |
 |------------|-----------------|------|

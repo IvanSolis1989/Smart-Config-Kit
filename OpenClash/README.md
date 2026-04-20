@@ -228,7 +228,7 @@ uci commit openclash
 4. 最后才动 `uselightgbm: false`（会牺牲自动择优）
 
 ### Q5：DNS 冷启动失败 / jsdelivr 大量 DNS resolve failed？
-本版本的 DNS 段对齐 Clash Party `使用方法.md` 基线（国内 DoH 优先 + 海外 DoH fallback），同时保留 OpenClash 侧救援：
+本版本的 DNS 段对齐 Clash Party `README.md` 基线（国内 DoH 优先 + 海外 DoH fallback），同时保留 OpenClash 侧救援：
 - `hosts` 段直接写入 `one.one.one.one` / `cloudflare-dns.com` / `dns.google` / `dns.quad9.net` 的 IP，确保 bootstrap DNS 不走规则环。
 - `default-nameserver` 先 `223.5.5.5` / `119.29.29.29`（国内明文 UDP，路由冷启动可达），再 `1.1.1.1` / `8.8.8.8` 冗余。
 - `nameserver` / `direct-nameserver` 用 `223.5.5.5` + `doh.pub` 的国内 DoH；`proxy-server-nameserver` 叠加海外 DoH 做机场域名解析；`fallback` 仅两条 Cloudflare / Google。
