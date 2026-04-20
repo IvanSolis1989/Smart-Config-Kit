@@ -1,8 +1,8 @@
 # 🚀 科学上网智能分流配置中心（AI 全仓维护版）
 
 > 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线，同步产出多核心 / 多客户端等价配置的科学上网分流体系。  
-> 覆盖核心：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket 自带引擎**  
-> 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / OpenClash / Shadowrocket / sing-box / v2rayN**  
+> 覆盖核心：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎**  
+> 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / OpenClash / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN**  
 > 覆盖设备：**Windows / macOS / Linux / Android / iOS / OpenWrt 软路由**  
 > 目标：让同一套分流策略在任何设备、任何代理工具上给出**一致、可解释、可迭代**的结果。
 
@@ -215,6 +215,25 @@ flowchart LR
 1. 托管 `shadowrocket-smart.conf` 至可访问 URL；
 2. 在 SR 中下载配置并启用；
 3. 初始化时完成规则拉取并按需微调策略组。
+
+### 💎 Surge（iOS / macOS，付费正版）
+1. 托管 `Surge/surge-smart.conf` 至可访问 URL；
+2. Surge → 配置 → 安装配置 → 粘贴 URL → 下载；
+3. Surge 独有：已在配置里启用 `geoip-maxmind-url`（Loyalsoldier 加强版 MMDB 自动下载）、`encrypted-dns-server`（DoH 专用通道）。
+4. 详见 `Surge/使用教程.md`。
+
+### 🌙 Loon（iOS，付费正版）
+1. 托管 `Loon/loon-smart.conf` 至可访问 URL；
+2. Loon → 配置 → ⊕ → 从 URL 下载 → 启用；
+3. ⚠️ MMDB 需在 Loon UI **设置 → GeoLite2** 手动填 `https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb`（Loon 不支持配置文件里指定）。
+4. 详见 `Loon/使用教程.md`。
+
+### ⚛️ Quantumult X（iOS，付费正版）
+1. 托管 `Quantumult X/qx-smart.conf` 至可访问 URL；
+2. QX → 设置 → 配置 → 下载配置 → 粘贴 URL；
+3. ⚠️ QX 不会自动识别 `[Proxy]` 节点；必须在配置的 `[server_remote]` 段填入机场订阅 URL 或在 `[server_local]` 粘贴节点；
+4. QX 独有 `resource_parser_url` + `rewrite_remote`（签到/去广告生态）默认未启用，可按需追加。
+5. 详见 `Quantumult X/使用教程.md`。
 
 ### 🪟 v2rayN（Windows 桌面）
 v2rayN 本身是多核调度器，支持 mihomo / sing-box / Xray 三种核心，按完整度从高到低：

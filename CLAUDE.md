@@ -7,7 +7,7 @@
 
 ## 0. 仓库定位
 
-本仓库维护「**同一套 Mihomo Smart 分流策略**」在 7 个客户端形态下的等价实现：
+本仓库维护「**同一套 Mihomo Smart 分流策略**」在 10 个客户端形态下的等价实现：
 
 | # | 形态 | 文件 | 角色 |
 |---|------|------|------|
@@ -19,10 +19,20 @@
 | 5 | SingBox 常规版（JSON） | `SingBox/singbox-smart.json` | 从属 |
 | 6 | SingBox 完整版（JSON，由脚本生成） | `SingBox/singbox-smart-full.json` + `SingBox/generate-singbox-full.js` | 从属（生成产物） |
 | 7 | v2rayN Xray 路由 JSON | `v2rayN/v2rayn-smart-xray-routing.json` | 从属（仅 Xray 核心兜底；v2rayN 推荐用 mihomo/sing-box 核心直接加载 #1 或 #5/#6） |
+| 8 | Surge（iOS / macOS 付费正版 `.conf`） | `Surge/surge-smart.conf` | 从属（独立引擎） |
+| 9 | Loon（iOS 付费正版 `.conf`） | `Loon/loon-smart.conf` | 从属（独立引擎） |
+| 10 | Quantumult X（iOS 付费正版 `.conf`） | `Quantumult X/qx-smart.conf` | 从属（独立引擎） |
 
 **基线原则：** Clash Party JS 脚本是唯一的「**策略权威源**」。其他产物必须在语义上与其一致；仅在平台能力受限处允许差异（见 §3）。
 
 > **关于 v2rayN：** v2rayN 是多核调度器，不是独立内核。推荐使用路径是在 v2rayN 里切到 mihomo 或 sing-box 核心，然后加载 #1 / #5 / #6；这种情况下 v2rayN 本身不是独立产物，无需单独同步。仅当 v2rayN 用户坚持走 Xray 核心时才用到 `v2rayN/v2rayn-smart-xray-routing.json`（功能裁剪版，只有 proxy/direct/block 三出站），此文件是独立产物，受本文约束。
+>
+> **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `SingBox/singbox-smart*.json`，**不需要**独立产物；`SingBox/使用教程.md §2a` 提供 Hiddify 专用导入说明。
+>
+> **关于 Surge / Loon / Quantumult X：** 这三款 iOS/macOS 付费客户端各自使用私有 `.conf` 语法，与 Shadowrocket 部分兼容但不完全一致，因此每个都是独立产物。其中：
+> - Surge 与 Shadowrocket 语法最接近（~90% 兼容），从 Shadowrocket 迁移改动最小
+> - Loon 兼容 Surge 的 `[Rule] RULE-SET` 语法，但 [General] DNS 字段和 MMDB 配置方式不同
+> - Quantumult X 使用完全独立的 `[policy]` / `[filter_remote]` / `[filter_local]` 结构，由 `tools/srk_to_qx.py` 或等价脚本从 Shadowrocket 自动转换生成
 
 ---
 
@@ -44,7 +54,7 @@
 若本次改动命中上述任一触发条件，PR 必须：
 
 1. **先改 Clash Party JS 主线**（`Clash Party/Clash Smart内核覆写脚本.js`），作为唯一权威源。
-2. **同步修改全部 7 个产物文件**（或明确在 PR 说明里标注为何某个产物不受影响）：
+2. **同步修改全部 10 个产物文件**（或明确在 PR 说明里标注为何某个产物不受影响）：
    - `Clash Meta For Android/clash-smart-cmfa.yaml`
    - `OpenClash/openclash_custom_overwrite.sh`
    - `OpenClash/openclash_custom_overwrite_full.sh`
@@ -52,6 +62,9 @@
    - `SingBox/singbox-smart.json`
    - `SingBox/singbox-smart-full.json`（通过 `node SingBox/generate-singbox-full.js` 重新生成，不允许手工改）
    - `v2rayN/v2rayn-smart-xray-routing.json`（仅当业务组/规则类别发生变化时需同步；Xray 只有 proxy/direct/block 三出站，单纯区域选择/LightGBM 调整可豁免）
+   - `Surge/surge-smart.conf`（与 Shadowrocket 保持 ~1:1 规则行；仅 [General] DNS/MMDB 不同）
+   - `Loon/loon-smart.conf`（从 Surge 迁移；头部 + [General] 不同，[Rule] 段基本同 Surge）
+   - `Quantumult X/qx-smart.conf`（Shadowrocket → QX 转换；policy / filter_remote / filter_local 三段结构；可由等价脚本重新生成）
 3. **同步更新每个产物头部的「介绍 / 更新日志 / 版本号」注释块**（见 §1.3 强制注释字段）。
 4. **同步更新文档**：`README.md`、对应的 `使用方法.md` / `使用教程.md`、必要时 `CHANGELOG`。
 5. **自检命令必须通过**（§2）。
@@ -86,6 +99,9 @@
 | `SingBox/singbox-smart-full.json` | 由 `SingBox/generate-singbox-full.js` 自动注入 `_meta.version` + `_meta.clash_party_sync` | 生成脚本版本 |
 | `SingBox/generate-singbox-full.js` | 顶部 `// ==` 注释块 | JS 内常量 |
 | `v2rayN/v2rayn-smart-xray-routing.json` | 顶层 `_meta` 对象（`name` / `version` / `build` / `baseline` / `changelog`） | `_meta.version` |
+| `Surge/surge-smart.conf` | 顶部 `# ══…` 双线框注释 | 第 2 行 `# Surge Smart vX.Y.Z-Surge.N` |
+| `Loon/loon-smart.conf` | 顶部 `# ══…` 双线框注释 | 第 2 行 `# Loon Smart vX.Y.Z-Loon.N` |
+| `Quantumult X/qx-smart.conf` | 顶部 `# ══…` 双线框注释 | 第 2 行 `# Quantumult X Smart vX.Y.Z-QX.N` |
 
 **触发更新的最小粒度：**
 
@@ -208,6 +224,9 @@ grep -cE "^- name: " "Clash Meta For Android/clash-smart-cmfa.yaml"            #
 grep -cE "^- name: " "OpenClash/openclash_custom_overwrite.sh"                  # 期望 37
 grep -cE "^- name: " "OpenClash/openclash_custom_overwrite_full.sh"             # 期望 37
 grep -cE " = select,|= url-test," "Shadowrocket/shadowrocket-smart.conf"        # 期望 37
+grep -cE " = select,|= url-test," "Surge/surge-smart.conf"                      # 期望 37
+grep -cE " = select,|= url-test," "Loon/loon-smart.conf"                        # 期望 37
+grep -cE "^(url-latency-benchmark|static)=" "Quantumult X/qx-smart.conf"        # 期望 37
 python3 -c 'import json;d=json.load(open("SingBox/singbox-smart.json"));print(sum(1 for o in d["outbounds"] if o["type"] in ("selector","urltest")))'       # 期望 38（含顶层 🚀）
 python3 -c 'import json;d=json.load(open("SingBox/singbox-smart-full.json"));print(sum(1 for o in d["outbounds"] if o["type"] in ("selector","urltest")))'  # 期望 38
 
