@@ -48,14 +48,51 @@
    - `Shadowrocket/shadowrocket-smart.conf`
    - `SingBox/singbox-smart.json`
    - `SingBox/singbox-smart-full.json`（通过 `node SingBox/generate-singbox-full.js` 重新生成，不允许手工改）
-3. **同步更新文档**：`README.md`、对应的 `使用方法.md` / `使用教程.md`、必要时 `CHANGELOG`。
-4. **自检命令必须通过**（§2）。
-5. **提交前在 PR 描述里列出「影响面」**：
+3. **同步更新每个产物头部的「介绍 / 更新日志 / 版本号」注释块**（见 §1.3 强制注释字段）。
+4. **同步更新文档**：`README.md`、对应的 `使用方法.md` / `使用教程.md`、必要时 `CHANGELOG`。
+5. **自检命令必须通过**（§2）。
+6. **提交前在 PR 描述里列出「影响面」**：
    - 改动的代理组 / rule-provider / 规则行数
    - 每个产物的同步位置（行号或 commit diff 摘要）
    - 手动跳过同步的产物及原因
 
-### 1.3 允许的「不同步」例外
+### 1.3 强制的「头部注释 + 更新日志 + 版本号」规范 ⚠️
+
+每个产物文件开头都有一段**简介 + 更新日志 + 版本号**注释块。**每次改动必须同步更新此注释块**——这是本仓库追踪历史的唯一权威来源，PR 描述仅作辅助。
+
+**必须包含的字段（按顺序）：**
+
+1. **产物名称 + 版本号**（与 Clash Party 主版本对齐，加平台后缀）
+2. **Build 日期**（YYYY-MM-DD）
+3. **基线对齐声明**（写明「对齐 Clash Party vX.Y.Z」或「独立平台修复，不影响基线」）
+4. **本次变更列表**（至少 1 条，用 ★ / FIX#N 等前缀做编号）
+5. **保持不变的核心架构**（可选，但建议每次重写一遍，方便用户快速确认什么没被动）
+6. **若有风险或代价，必须标注**（例如 OOM 风险、首次命中延迟、iOS 平台限制）
+
+**对应到各产物文件的位置：**
+
+| 文件 | 头部注释位置 | 版本变量/字段 |
+|------|--------------|----------------|
+| `Clash Party/Clash Smart内核覆写脚本.js` | 顶部 `/* ... */` 块 | JS 内 `VERSION` / `const VERSION_TAG` |
+| `Clash Meta For Android/clash-smart-cmfa.yaml` | 顶部 `# ... ` 注释块 | 第一行 `# Clash Smart vX.Y.Z - CMFA` |
+| `OpenClash/openclash_custom_overwrite.sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-slim"` |
+| `OpenClash/openclash_custom_overwrite_full.sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-full"` |
+| `Shadowrocket/shadowrocket-smart.conf` | 顶部 `# ══…` 双线框注释 | 第 2 行 `# Shadowrocket Smart vX.Y.Z-SR.N` |
+| `SingBox/singbox-smart.json` | JSON 无原生注释，改在 `log.tag` 或 `experimental._meta` 里标记 | — |
+| `SingBox/singbox-smart-full.json` | 由 `SingBox/generate-singbox-full.js` 自动注入 `_meta.version` + `_meta.clash_party_sync` | 生成脚本版本 |
+| `SingBox/generate-singbox-full.js` | 顶部 `// ==` 注释块 | JS 内常量 |
+
+**触发更新的最小粒度：**
+
+- **任何**代码/规则/注释以外的变更 → 必须 bump 版本号尾段（例如 `v5.2.2-SR.1` → `v5.2.2-SR.2`）
+- **任何** Clash Party 主线版本号 bump → 全部产物主版本号必须同步 bump
+- **任何**一次提交，头部 "本次变更" 至少新增 1 行说明做了什么；不允许只改代码不改注释
+
+**若发现某文件的头部注释版本号与实际代码状态不符（或缺少变更日志）：** 当前 PR 必须顺手修正，不得留作后续 TODO。
+
+---
+
+### 1.4 允许的「不同步」例外
 
 仅以下情况允许单一版本改动：
 
@@ -183,6 +220,23 @@ grep -nE "^[^#].*🎵 TikTok"   "Shadowrocket/shadowrocket-smart.conf"          
 # 4) JSON 合法性（sing-box）
 python3 -c 'import json;json.load(open("SingBox/singbox-smart.json"))'
 python3 -c 'import json;json.load(open("SingBox/singbox-smart-full.json"))'
+
+# 4b) OpenClash full 生成的 override YAML：必须只有 1 个 rule-providers + 1 个 rules 顶层键
+#     （Ruby Psych 对重复顶层键 last-wins，会静默丢掉前面的全量内容——本仓库曾在此犯错）
+awk '
+  /^cat > "\$OVERRIDE_YAML" << .OVERRIDE_EOF./ { inblock=1; next }
+  /^cat >> "\$OVERRIDE_YAML" << .OVERRIDE_EOF./ { inblock=1; next }
+  /^OVERRIDE_EOF$/ { inblock=0; next }
+  inblock { print }
+' "OpenClash/openclash_custom_overwrite_full.sh" > /tmp/oc_full_override_probe.yaml
+grep -cE "^rule-providers:$" /tmp/oc_full_override_probe.yaml   # 期望 1
+grep -cE "^rules:$" /tmp/oc_full_override_probe.yaml             # 期望 1
+ruby -ryaml -e '
+  d = YAML.load_file("/tmp/oc_full_override_probe.yaml", permitted_classes: [Symbol], aliases: true)
+  raise "providers < 380" if (d["rule-providers"] || {}).size < 380   # full 期望 ≈387
+  raise "rules    < 900" if (d["rules"]         || []).size < 900     # full 期望 ≈977
+  puts "OC full override yaml: providers=#{d["rule-providers"].size} rules=#{d["rules"].size}"
+'
 
 # 5) YAML 合法性（可选，需 pyyaml）
 python3 -c 'import yaml;yaml.safe_load(open("Clash Meta For Android/clash-smart-cmfa.yaml"))'
