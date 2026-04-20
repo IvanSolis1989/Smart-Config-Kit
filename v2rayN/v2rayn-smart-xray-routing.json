@@ -1,0 +1,551 @@
+{
+  "_meta": {
+    "name": "Smart-Config-Kit v2rayN Xray Routing",
+    "version": "v5.2.3-v2n.1",
+    "build": "2026-04-20",
+    "baseline": "Clash Party v5.2.3 (Clash Party/Clash Smart内核覆写脚本.js)",
+    "note": "v2rayN + Xray-core 只支持 3 个出站 (proxy / direct / block)，无法还原 Clash Party 的 28 业务组 + 9 区域组。若要完整体验请在 v2rayN 里切到 mihomo 核心并导入 Clash Meta For Android/clash-smart-cmfa.yaml。",
+    "changelog": [
+      "v5.2.3-v2n.1 (2026-04-20): 初版，基于 Clash Party v5.2.3 提取关键业务域名→Xray routing rule"
+    ]
+  },
+  "remarks": "Smart-Config-Kit v5.2.3 (v2rayN + Xray)",
+  "url": "",
+  "customIcon": "",
+  "sort": 0,
+  "locked": false,
+  "domainStrategy": "IPIfNonMatch",
+  "domainMatcher": "hybrid",
+  "rules": [
+    {
+      "id": "scki-001-ads",
+      "enabled": true,
+      "remarks": "广告拦截 (ads / phishing / TIF)",
+      "outboundTag": "block",
+      "domain": [
+        "geosite:category-ads-all"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-002-dns-hijack",
+      "enabled": true,
+      "remarks": "DNS 劫持 → 转发 Xray DNS 出站",
+      "outboundTag": "dns-out",
+      "domain": [],
+      "ip": [],
+      "port": "53",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-003-private",
+      "enabled": true,
+      "remarks": "私有网段 / 局域网 → 直连",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:private"
+      ],
+      "ip": [
+        "geoip:private"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-004-reject-port-7680",
+      "enabled": true,
+      "remarks": "Windows Delivery Optimization (端口 7680) → 拦截",
+      "outboundTag": "block",
+      "domain": [],
+      "ip": [],
+      "port": "7680",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-010-ai",
+      "enabled": true,
+      "remarks": "AI 服务 (OpenAI/Claude/Gemini/Copilot) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:openai",
+        "geosite:anthropic",
+        "geosite:gemini",
+        "geosite:copilot",
+        "geosite:bard",
+        "geosite:perplexity",
+        "geosite:huggingface",
+        "domain:cursor.com",
+        "domain:v0.dev",
+        "domain:character.ai",
+        "domain:mistral.ai",
+        "domain:cohere.ai",
+        "domain:cohere.com",
+        "domain:replicate.com",
+        "domain:together.ai",
+        "domain:runpod.io",
+        "domain:openrouter.ai",
+        "domain:suno.ai",
+        "domain:suno.com",
+        "domain:midjourney.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-011-ai-pi",
+      "enabled": true,
+      "remarks": "Pi.ai / Inflection.ai → 代理 (GFW)",
+      "outboundTag": "proxy",
+      "domain": [
+        "domain:pi.ai",
+        "domain:inflection.ai"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-012-crypto",
+      "enabled": true,
+      "remarks": "加密货币 (Binance / Coinbase / TradingView) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:cryptocurrency",
+        "geosite:binance",
+        "domain:tradingview.com",
+        "domain:coinglass.com",
+        "domain:coinmarketcap.com",
+        "domain:coingecko.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-013-payments",
+      "enabled": true,
+      "remarks": "金融支付 (PayPal / Stripe / Visa 等) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:paypal",
+        "geosite:stripe",
+        "domain:wise.com",
+        "domain:revolut.com",
+        "domain:visa.com",
+        "domain:mastercard.com",
+        "domain:amex.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-014-email",
+      "enabled": true,
+      "remarks": "邮件服务 (Gmail / Outlook / ProtonMail) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:gmail",
+        "geosite:outlook",
+        "geosite:protonmail",
+        "domain:fastmail.com",
+        "domain:tuta.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-015-im",
+      "enabled": true,
+      "remarks": "即时通讯 (Telegram / Discord / WhatsApp / Line) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:telegram",
+        "geosite:discord",
+        "geosite:whatsapp",
+        "geosite:line",
+        "geosite:signal",
+        "geosite:kakaotalk"
+      ],
+      "ip": [
+        "geoip:telegram"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-016-social",
+      "enabled": true,
+      "remarks": "社交媒体 (Twitter / Facebook / Instagram / TikTok / Reddit) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:twitter",
+        "geosite:facebook",
+        "geosite:instagram",
+        "geosite:tiktok",
+        "geosite:reddit",
+        "geosite:pinterest",
+        "geosite:linkedin",
+        "geosite:snapchat"
+      ],
+      "ip": [
+        "geoip:twitter",
+        "geoip:facebook"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-017-work",
+      "enabled": true,
+      "remarks": "会议协作 (Zoom / Teams / Slack / Notion / Atlassian) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:zoom",
+        "geosite:teams",
+        "geosite:slack",
+        "geosite:notion",
+        "geosite:atlassian",
+        "domain:meet.google.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-018-cn-media",
+      "enabled": true,
+      "remarks": "国内流媒体 (B 站 / 爱奇艺 / 优酷 / 腾讯视频) → 直连",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:bilibili",
+        "geosite:iqiyi",
+        "geosite:youku",
+        "geosite:tencentvideo",
+        "geosite:mgtv",
+        "geosite:douyin"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-020-us-media",
+      "enabled": true,
+      "remarks": "美国流媒体 (YouTube / Netflix / Disney+ / HBO / Hulu / Spotify) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:youtube",
+        "geosite:netflix",
+        "geosite:disney",
+        "geosite:hbo",
+        "geosite:hulu",
+        "geosite:spotify",
+        "geosite:primevideo"
+      ],
+      "ip": [
+        "geoip:netflix"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-021-hk-media",
+      "enabled": true,
+      "remarks": "香港流媒体 (myTV SUPER / now TV) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:mytvsuper",
+        "geosite:nowe",
+        "domain:mytvsuper.com",
+        "domain:now.com",
+        "domain:viu.tv"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-022-tw-media",
+      "enabled": true,
+      "remarks": "台湾流媒体 (巴哈姆特 / LiTV / friDay / Hami) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:bahamut",
+        "geosite:litv",
+        "geosite:kktv",
+        "geosite:hamivideo",
+        "geosite:linetv",
+        "domain:bahamut.com.tw",
+        "domain:hinet.net"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-023-jp-media",
+      "enabled": true,
+      "remarks": "日韩流媒体 (Abema / DAZN / niconico / Rakuten) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:abema",
+        "geosite:niconico",
+        "geosite:dazn",
+        "geosite:dmm",
+        "geosite:tver",
+        "geosite:rakuten"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-024-eu-media",
+      "enabled": true,
+      "remarks": "欧洲流媒体 (BBC / ITV / Channel 4) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:bbc",
+        "geosite:itv",
+        "geosite:all4",
+        "geosite:my5",
+        "geosite:skygo",
+        "geosite:britbox"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-025-cn-game",
+      "enabled": true,
+      "remarks": "国内游戏 (完美世界 / 万达 / 雀魂) → 直连",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:steamcn",
+        "domain:wanmei.com",
+        "domain:majsoul.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-026-intl-game",
+      "enabled": true,
+      "remarks": "国外游戏 (Steam / Epic / PS / Xbox / Riot / HoYo) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:steam",
+        "geosite:epicgames",
+        "geosite:playstation",
+        "geosite:xbox",
+        "geosite:riotgames",
+        "geosite:ea",
+        "geosite:hoyoverse"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-027-search",
+      "enabled": true,
+      "remarks": "搜索引擎 (Google / Bing / DDG / Yandex) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:google",
+        "geosite:bing",
+        "geosite:duckduckgo",
+        "geosite:yandex",
+        "domain:scholar.google.com"
+      ],
+      "ip": [
+        "geoip:google"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-028-dev",
+      "enabled": true,
+      "remarks": "开发者服务 (GitHub / Docker / GitLab / npm / pypi) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:github",
+        "geosite:gitlab",
+        "geosite:docker",
+        "geosite:npmjs",
+        "geosite:pypi",
+        "geosite:python",
+        "geosite:developer"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-029-microsoft",
+      "enabled": true,
+      "remarks": "微软服务 (Office / OneDrive / Edge / Bing) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:microsoft",
+        "geosite:onedrive",
+        "geosite:microsoftedge",
+        "domain:office.com",
+        "domain:live.com"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-030-apple",
+      "enabled": true,
+      "remarks": "苹果服务 (默认直连；需要 AppStore 代理时改 outboundTag)",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:apple",
+        "geosite:icloud",
+        "geosite:appstore",
+        "geosite:applemusic",
+        "geosite:appletv"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-031-cloud-cdn",
+      "enabled": true,
+      "remarks": "云与 CDN (Cloudflare / Fastly / Akamai) → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:cloudflare",
+        "geosite:fastly",
+        "geosite:akamai",
+        "domain:jsdelivr.net"
+      ],
+      "ip": [
+        "geoip:cloudflare",
+        "geoip:fastly"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-032-tracker",
+      "enabled": true,
+      "remarks": "BT/PT Tracker → 直连 (避免代理流量计费)",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:privatetracker"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-040-gfw",
+      "enabled": true,
+      "remarks": "GFW 受限网站 → 代理",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:gfw",
+        "geosite:greatfire",
+        "geosite:geolocation-!cn"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-050-cn-site",
+      "enabled": true,
+      "remarks": "国内网站 → 直连",
+      "outboundTag": "direct",
+      "domain": [
+        "geosite:cn"
+      ],
+      "ip": [
+        "geoip:cn"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-099-final",
+      "enabled": true,
+      "remarks": "漏网之鱼 → 代理 (FINAL)",
+      "outboundTag": "proxy",
+      "domain": [],
+      "ip": [],
+      "port": "0-65535",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    }
+  ]
+}

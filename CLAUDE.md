@@ -7,7 +7,7 @@
 
 ## 0. 仓库定位
 
-本仓库维护「**同一套 Mihomo Smart 分流策略**」在 6 个客户端形态下的等价实现：
+本仓库维护「**同一套 Mihomo Smart 分流策略**」在 7 个客户端形态下的等价实现：
 
 | # | 形态 | 文件 | 角色 |
 |---|------|------|------|
@@ -18,8 +18,11 @@
 | 4 | Shadowrocket（iOS SR 私有 conf） | `Shadowrocket/shadowrocket-smart.conf` | 从属 |
 | 5 | SingBox 常规版（JSON） | `SingBox/singbox-smart.json` | 从属 |
 | 6 | SingBox 完整版（JSON，由脚本生成） | `SingBox/singbox-smart-full.json` + `SingBox/generate-singbox-full.js` | 从属（生成产物） |
+| 7 | v2rayN Xray 路由 JSON | `v2rayN/v2rayn-smart-xray-routing.json` | 从属（仅 Xray 核心兜底；v2rayN 推荐用 mihomo/sing-box 核心直接加载 #1 或 #5/#6） |
 
-**基线原则：** Clash Party JS 脚本是唯一的「**策略权威源**」。其他 5 份产物必须在语义上与其一致；仅在平台能力受限处允许差异（见 §3）。
+**基线原则：** Clash Party JS 脚本是唯一的「**策略权威源**」。其他产物必须在语义上与其一致；仅在平台能力受限处允许差异（见 §3）。
+
+> **关于 v2rayN：** v2rayN 是多核调度器，不是独立内核。推荐使用路径是在 v2rayN 里切到 mihomo 或 sing-box 核心，然后加载 #1 / #5 / #6；这种情况下 v2rayN 本身不是独立产物，无需单独同步。仅当 v2rayN 用户坚持走 Xray 核心时才用到 `v2rayN/v2rayn-smart-xray-routing.json`（功能裁剪版，只有 proxy/direct/block 三出站），此文件是独立产物，受本文约束。
 
 ---
 
@@ -41,13 +44,14 @@
 若本次改动命中上述任一触发条件，PR 必须：
 
 1. **先改 Clash Party JS 主线**（`Clash Party/Clash Smart内核覆写脚本.js`），作为唯一权威源。
-2. **同步修改全部 6 个产物文件**（或明确在 PR 说明里标注为何某个产物不受影响）：
+2. **同步修改全部 7 个产物文件**（或明确在 PR 说明里标注为何某个产物不受影响）：
    - `Clash Meta For Android/clash-smart-cmfa.yaml`
    - `OpenClash/openclash_custom_overwrite.sh`
    - `OpenClash/openclash_custom_overwrite_full.sh`
    - `Shadowrocket/shadowrocket-smart.conf`
    - `SingBox/singbox-smart.json`
    - `SingBox/singbox-smart-full.json`（通过 `node SingBox/generate-singbox-full.js` 重新生成，不允许手工改）
+   - `v2rayN/v2rayn-smart-xray-routing.json`（仅当业务组/规则类别发生变化时需同步；Xray 只有 proxy/direct/block 三出站，单纯区域选择/LightGBM 调整可豁免）
 3. **同步更新每个产物头部的「介绍 / 更新日志 / 版本号」注释块**（见 §1.3 强制注释字段）。
 4. **同步更新文档**：`README.md`、对应的 `使用方法.md` / `使用教程.md`、必要时 `CHANGELOG`。
 5. **自检命令必须通过**（§2）。
@@ -81,6 +85,7 @@
 | `SingBox/singbox-smart.json` | JSON 无原生注释，改在 `log.tag` 或 `experimental._meta` 里标记 | — |
 | `SingBox/singbox-smart-full.json` | 由 `SingBox/generate-singbox-full.js` 自动注入 `_meta.version` + `_meta.clash_party_sync` | 生成脚本版本 |
 | `SingBox/generate-singbox-full.js` | 顶部 `// ==` 注释块 | JS 内常量 |
+| `v2rayN/v2rayn-smart-xray-routing.json` | 顶层 `_meta` 对象（`name` / `version` / `build` / `baseline` / `changelog`） | `_meta.version` |
 
 **触发更新的最小粒度：**
 
@@ -217,9 +222,10 @@ grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "OpenClash/openclash_custom_over
 grep -nE "^[^#].*🇸🇬 亚太节点" "Shadowrocket/shadowrocket-smart.conf"                  # 必须无输出
 grep -nE "^[^#].*🎵 TikTok"   "Shadowrocket/shadowrocket-smart.conf"                  # 必须无输出
 
-# 4) JSON 合法性（sing-box）
+# 4) JSON 合法性（sing-box + v2rayN 路由）
 python3 -c 'import json;json.load(open("SingBox/singbox-smart.json"))'
 python3 -c 'import json;json.load(open("SingBox/singbox-smart-full.json"))'
+python3 -c 'import json;d=json.load(open("v2rayN/v2rayn-smart-xray-routing.json"));assert d["_meta"]["version"].startswith("v5.");print("v2rayN meta:",d["_meta"]["version"]);print("rules:",len(d["rules"]))'
 
 # 4b) OpenClash full 生成的 override YAML：必须只有 1 个 rule-providers + 1 个 rules 顶层键
 #     （Ruby Psych 对重复顶层键 last-wins，会静默丢掉前面的全量内容——本仓库曾在此犯错）

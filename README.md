@@ -1,7 +1,10 @@
 # 🚀 科学上网智能分流配置中心
 
-> 一套围绕 **Mihomo （Smart） 内核** 打造的多平台 Clash 配置体系。  
-> 目标：让你在 **Android / iOS / OpenWrt / 桌面端** 获得一致、可解释、可迭代的分流体验。
+> 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线，同步产出多核心 / 多客户端等价配置的科学上网分流体系。  
+> 覆盖核心：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket 自带引擎**  
+> 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / OpenClash / Shadowrocket / sing-box / v2rayN**  
+> 覆盖设备：**Windows / macOS / Linux / Android / iOS / OpenWrt 软路由**  
+> 目标：让同一套分流策略在任何设备、任何代理工具上给出**一致、可解释、可迭代**的结果。
 
 ---
 
@@ -212,6 +215,14 @@ flowchart LR
 1. 托管 `shadowrocket-smart.conf` 至可访问 URL；
 2. 在 SR 中下载配置并启用；
 3. 初始化时完成规则拉取并按需微调策略组。
+
+### 🪟 v2rayN（Windows 桌面）
+v2rayN 本身是多核调度器，支持 mihomo / sing-box / Xray 三种核心，按完整度从高到低：
+1. **路径 A（推荐）**：v2rayN 切 **mihomo** 核心 → 直接加载 `Clash Meta For Android/clash-smart-cmfa.yaml`，得到 28 业务组 + 9 个 `url-test` 区域组；规则层和 Clash Party 主线 1:1 对齐；**但不含 `type: smart` 组 / LightGBM**（CMFA YAML 是静态的）；
+2. **路径 B**：v2rayN 切 **sing-box** 核心 → 加载 `SingBox/singbox-smart-full.json`，28 业务 + 9 区域（selector/urltest）；sing-box 核心本身不支持 LightGBM；
+3. **路径 C**：v2rayN 保持 **Xray** 核心 → 导入 `v2rayN/v2rayn-smart-xray-routing.json`，功能裁剪（只有 proxy/direct/block 三出站）；
+> 要完整启用 **Smart 组 + LightGBM 自动择优**，请用 **Clash Party / Clash Verge Rev / Mihomo Party** 直接加载 `Clash Party/Clash Smart内核覆写脚本.js`（JS 覆写运行时才会把区域组注入为 `type: smart`）。
+详见 `v2rayN/使用教程.md`。
 
 ---
 
