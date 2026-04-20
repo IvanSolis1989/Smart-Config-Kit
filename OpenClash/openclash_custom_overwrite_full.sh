@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.2.3-oc-full.2 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v5.2.4-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # ============================================================================
 # 定位：
 #   对齐 Clash Party v5.2.3 JS 主线的 OpenClash 全量版本。
@@ -19,6 +19,11 @@
 #   • Ruby 阶段做：节点过滤 / 区域分类 / Smart 组生成 / TLS 指纹注入
 #
 # 更新日志：
+#   v5.2.4-oc-full.1  (2026-04-20)
+#     ★ 同步 Clash Party v5.2.4 FIX#22-P0：snapchat rule-provider 拉取 403 修复
+#         • MetaCubeX meta-rules-dat 上游文件名是 `snap.mrs` 不是 `snapchat.mrs`
+#         • URL 改为 `.../geosite/snap.mrs`；path 改为 `./ruleset/meta-snap.mrs`
+#         • provider ID 保持 `snapchat`（[Rule] 段引用不变）
 #   v5.2.3-oc-full.2  (2026-04-20)
 #     ★ 对齐 Clash Party 基线 DNS（使用方法.md 第 99-132 行）：
 #         • use-hosts: true → false
@@ -49,7 +54,7 @@
 # ============================================================================
 
 
-VERSION_TAG="v5.2.3-oc-full.2"
+VERSION_TAG="v5.2.4-oc-full.1"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -484,8 +489,8 @@ rule-providers:
     type: http
     behavior: domain
     format: mrs
-    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/snapchat.mrs
-    path: "./ruleset/meta-snapchat.mrs"
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/snap.mrs
+    path: "./ruleset/meta-snap.mrs"
     interval: 85783
     proxy: "\U0001F6AB 受限网站"
   pinterest:
@@ -4086,7 +4091,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.3-oc-full.2"
+VERSION = "v5.2.4-oc-full.1"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }

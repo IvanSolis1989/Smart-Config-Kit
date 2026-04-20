@@ -1,12 +1,19 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v5.2.3 (2026-04-20)
+// 版本：v5.2.4 (2026-04-20)
 // 架构：SUB-STORE 多机场融合 + 9 Smart 区域组 + 28 业务策略组 + 373+ rule-providers 100%+ 服务覆盖
 // 完整变更历史：见 CHANGELOG.md（v4.5.5 ~ v5.2.0）
+// v5.2.4 变更摘要（2026-04-20）：
+//   ★ FIX#22-P0：snapchat rule-provider 拉取 403 Forbidden
+//     - v5.2.3 的 metaDomain('snapchat', 'snapchat') 指向 `geosite/snapchat.mrs`
+//     - MetaCubeX meta-rules-dat 上游实际文件名是 `snap.mrs` 不是 `snapchat.mrs`
+//     - 改为 metaDomain('snapchat', 'snap')，ID 保持 `snapchat`（规则引用不变）、URL 指向 `snap.mrs`
+//     - 已核对：https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/snap.mrs → HTTP 200
 // v5.2.3 变更摘要（2026-04-20）：
 //   ★ FIX#21-P1：替换 bm7 BBC/Snap 规则源，消除 USER-AGENT 解析警告
 //     - bm7 BBC.yaml 含 USER-AGENT,BBCiPlayer*；bm7 Snap.yaml 含 USER-AGENT,TikTok*
 //     - Clash Party / mihomo 不支持 USER-AGENT 规则类型，reload 时产生 warning
 //     - 改为 Meta geosite provider：metaDomain('bbc') + metaDomain('snapchat')，保持规则覆盖并兼容解析
+//     - 注：v5.2.3 里 metaDomain('snapchat','snapchat') 有 filename typo，v5.2.4 FIX#22-P0 已修正
 // v5.2.2 变更摘要（2026-04-13）：
 //   ★ FIX#20-P2：PI.ai（inflection.ai / pi.ai）从 🤖 AI 服务 移至 🚫 受限网站（GFW）
 //     - PI.ai 在中国被 GFW 封锁，应归入受限网站组统一管理
@@ -32,7 +39,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.2.3'
+const VERSION = 'v5.2.4'
 
 // ================================================================
 //  模块 A：节点过滤（沿用 v3.1）
@@ -297,7 +304,9 @@ function injectRuleProviders(config) {
   bm7('instagram', 'Instagram')
   // v5.2.3 FIX: Snap 规则改用 Meta geosite（兼容 mihomo，不再触发 USER-AGENT,TikTok* 解析警告）
   // bm7 Apple 相关 provider 含格式错误 IP-CIDR（多余空格），每次 reload 产生 warning，不影响功能
-  metaDomain('snapchat', 'snapchat')
+  // v5.2.4 FIX#22-P0: MetaCubeX geosite 的实际文件名是 `snap.mrs` 不是 `snapchat.mrs`，
+  //   之前 metaDomain('snapchat','snapchat') 会产生 [Provider] snapchat pull error: 403 Forbidden
+  metaDomain('snapchat', 'snap')
   bm7('pinterest', 'Pinterest')
   bm7('linkedin', 'LinkedIn')
   metaIpCidr('facebook-ip', 'facebook')
