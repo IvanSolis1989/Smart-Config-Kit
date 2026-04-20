@@ -19,13 +19,153 @@ LOG_OUT "Info" "[Clash-Smart] Full-rule build (Clash Party parity)"
 # ============================================================================
 OVERRIDE_YAML="/tmp/clash_smart_override.yaml"
 cat > "$OVERRIDE_YAML" << 'OVERRIDE_EOF'
-find-process-mode: off
+hosts:
+  one.one.one.one:
+  - 1.1.1.1
+  - 1.0.0.1
+  cloudflare-dns.com:
+  - 1.1.1.1
+  - 1.0.0.1
+  dns.google:
+  - 8.8.8.8
+  - 8.8.4.4
+  dns.quad9.net: 9.9.9.9
+dns:
+  enable: true
+  listen: 0.0.0.0:7874
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - +.lan
+  - +.local
+  - time.*.com
+  - ntp.*.com
+  - +.market.xiaomi.com
+  - +.localdomain
+  - +.home.arpa
+  - +.stun.*.*
+  - +.stun.*.*.*
+  - +.ntp.org
+  - +.pool.ntp.org
+  - +.binance.com
+  - +.binancefuture.com
+  - +.binance.vision
+  - +.n.n.srv.nintendo.net
+  - +.stun.playstation.net
+  - +.xboxlive.com
+  - stun.l.google.com
+  cache-algorithm: arc
+  use-hosts: true
+  use-system-hosts: false
+  # 救援模式：先让 DNS 自己能出去，禁止继续跟随普通路由规则，避免 DNS 递归套娃。
+  respect-rules: true
+  prefer-h3: false
+  default-nameserver:
+  - 1.1.1.1
+  - 1.0.0.1
+  - 8.8.8.8
+  - 8.8.4.4
+  - 9.9.9.9
+  - 208.67.222.222
+  nameserver-policy:
+    '+.jsdelivr.net':
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    '+.github.com':
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    '+.githubusercontent.com':
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    '+.githubassets.com':
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    '+.fastly.net':
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+  nameserver:
+  - https://1.1.1.1/dns-query
+  - https://1.0.0.1/dns-query
+  - https://8.8.8.8/dns-query
+  - https://8.8.4.4/dns-query
+  - https://9.9.9.9/dns-query
+  proxy-server-nameserver:
+  - https://1.1.1.1/dns-query
+  - https://8.8.8.8/dns-query
+  - https://9.9.9.9/dns-query
+  direct-nameserver:
+  - https://1.1.1.1/dns-query
+  - https://1.0.0.1/dns-query
+  - https://8.8.8.8/dns-query
+  - https://8.8.4.4/dns-query
+  - https://9.9.9.9/dns-query
+  direct-nameserver-follow-policy: false
+  fallback:
+  - https://1.1.1.1/dns-query
+  - https://8.8.8.8/dns-query
+  - https://9.9.9.9/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+    - 240.0.0.0/4
+    - 0.0.0.0/32
+    - 127.0.0.0/8
+    - 10.0.0.0/8
+    - 192.168.0.0/16
+    domain: []
+find-process-mode: 'off'
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  force-dns-mapping: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports:
+      - '80'
+      - 8080-8880
+      override-destination: true
+    TLS:
+      ports:
+      - '443'
+      - '8443'
+    QUIC:
+      ports:
+      - '443'
+      - '8443'
+      - '4433'
+  skip-domain:
+  - +.push.apple.com
+  - +.binance.com
+  - Mijia Cloud
+  - +.binancefuture.com
+  - +.binance.vision
+  skip-dst-address:
+  - 91.105.192.0/23
+  - 91.108.4.0/22
+  - 91.108.8.0/21
+  - 91.108.16.0/21
+  - 91.108.56.0/22
+  - 95.161.64.0/20
+  - 149.154.160.0/20
+  - 185.76.151.0/24
+  - 2001:67c:4e8::/48
+  - 2001:b28:f23c::/47
+  - 2001:b28:f23f::/48
+  - 2a0a:f280:203::/48
+  force-domain: []
+  skip-src-address: []
 unified-delay: true
 tcp-concurrent: true
 keep-alive-idle: 30
 keep-alive-interval: 15
 geodata-mode: true
-geodata-loader: standard
+# ★★ 优化 #1 ★★ standard → memconservative，节省 400-600MB
+# memconservative 用 mmap 按需读 geosite/geoip 文件，代替 standard
+# 一次性解压全部数据到内存构建 trie 的旧做法
+geodata-loader: memconservative
 geo-auto-update: true
 geox-url:
   geoip: https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat
@@ -35,355 +175,148 @@ geox-url:
 profile:
   store-selected: true
   store-fake-ip: true
-  tracing: true
 proxy-groups:
-- name: "\U0001F916 AI 服务"
+- name: 🤖 AI 服务
+  type: select
+  proxies: &id001
+  - 🌍 全球节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇯🇵 日韩节点
+  - 🌏 亚太节点
+  - 🇺🇸 美国节点
+  - 🇪🇺 欧洲节点
+  - 🌎 美洲节点
+  - 🌍 非洲节点
+  - DIRECT
+- name: 💰 加密货币
+  type: select
+  proxies: *id001
+- name: 🏦 金融支付
+  type: select
+  proxies: *id001
+- name: 📧 邮件服务
+  type: select
+  proxies: *id001
+- name: 💬 即时通讯
+  type: select
+  proxies: *id001
+- name: 📱 社交媒体
+  type: select
+  proxies: *id001
+- name: 🧑‍💼 会议协作
+  type: select
+  proxies: *id001
+- name: 📺 国内流媒体
+  type: select
+  proxies: &id002
+  - DIRECT
+  - 🌍 全球节点
+  - 🇭🇰 香港节点
+  - 🇹🇼 台湾节点
+  - 🇯🇵 日韩节点
+  - 🌏 亚太节点
+  - 🇺🇸 美国节点
+  - 🇪🇺 欧洲节点
+  - 🌎 美洲节点
+  - 🌍 非洲节点
+- name: 📺 东南亚流媒体
   type: select
   proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
+  - 🌏 亚太节点
+  - 🌍 全球节点
+  - 🇭🇰 香港节点
+  - 🇯🇵 日韩节点
+  - 🇺🇸 美国节点
   - DIRECT
-- name: "\U0001F4B0 加密货币"
+- name: 🇺🇸 美国流媒体
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F3E6 金融支付"
+  proxies: *id001
+- name: 🇭🇰 香港流媒体
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F4E7 邮件服务"
+  proxies: *id001
+- name: 🇹🇼 台湾流媒体
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F4AC 即时通讯"
+  proxies: *id001
+- name: 🇯🇵 日韩流媒体
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F4F1 社交媒体"
+  proxies: *id001
+- name: 🇪🇺 欧洲流媒体
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F9D1‍\U0001F4BC 会议协作"
+  proxies: *id001
+- name: 🕹️ 国内游戏
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F4FA 国内流媒体"
+  proxies: *id002
+- name: 🎮 国外游戏
   type: select
-  proxies:
-  - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-- name: "\U0001F4FA 东南亚流媒体"
+  proxies: *id001
+- name: 🔍 搜索引擎
   type: select
-  proxies:
-  - "\U0001F30F 亚太节点"
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - DIRECT
-- name: "\U0001F1FA\U0001F1F8 美国流媒体"
+  proxies: *id001
+- name: 📟 开发者服务
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F1ED\U0001F1F0 香港流媒体"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F1F9\U0001F1FC 台湾流媒体"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F1EF\U0001F1F5 日韩流媒体"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F1EA\U0001F1FA 欧洲流媒体"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F579️ 国内游戏"
-  type: select
-  proxies:
-  - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-- name: "\U0001F3AE 国外游戏"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F50D 搜索引擎"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F4DF 开发者服务"
-  type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
+  proxies: *id001
 - name: Ⓜ️ 微软服务
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F34E 苹果服务"
+  proxies: *id001
+- name: 🍎 苹果服务
   type: select
-  proxies:
-  - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-- name: "\U0001F4E5 下载更新"
+  proxies: *id002
+- name: 📥 下载更新
   type: select
-  proxies:
-  - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-- name: "☁️ 云与CDN"
+  proxies: *id002
+- name: ☁️ 云与CDN
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F6F0️ BT/PT Tracker"
+  proxies: *id001
+- name: 🛰️ BT/PT Tracker
   type: select
   proxies:
   - REJECT
   - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F30F 亚太节点"
-- name: "\U0001F3E0 国内网站"
+  - 🌍 全球节点
+  - 🇭🇰 香港节点
+  - 🌏 亚太节点
+- name: 🏠 国内网站
   type: select
-  proxies:
-  - DIRECT
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-- name: "\U0001F6AB 受限网站"
+  proxies: *id002
+- name: 🚫 受限网站
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F310 国外网站"
+  proxies: *id001
+- name: 🌐 国外网站
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F41F 漏网之鱼"
+  proxies: *id001
+- name: 🐟 漏网之鱼
   type: select
-  proxies:
-  - "\U0001F30D 全球节点"
-  - "\U0001F1ED\U0001F1F0 香港节点"
-  - "\U0001F1F9\U0001F1FC 台湾节点"
-  - "\U0001F1EF\U0001F1F5 日韩节点"
-  - "\U0001F30F 亚太节点"
-  - "\U0001F1FA\U0001F1F8 美国节点"
-  - "\U0001F1EA\U0001F1FA 欧洲节点"
-  - "\U0001F30E 美洲节点"
-  - "\U0001F30D 非洲节点"
-  - DIRECT
-- name: "\U0001F6D1 广告拦截"
+  proxies: *id001
+- name: 🛑 广告拦截
   type: select
   proxies:
   - REJECT
   - DIRECT
+OVERRIDE_EOF
+
+# 继续写 rule-providers (由后续脚本片段追加)
+
+# ============================================================================
+# OVERRIDE YAML (续) — Rule-Providers：387 → 136
+# 精简策略：
+#   ✂ 合并 Google 家族（GoogleSearch/Drive/Earth/FCM/Voice 等 5 项 → google 单项）
+#   ✂ 合并 Apple 细分（AppleTV/News/Dev/Proxy/Siri/TestFlight/Firmware/FindMy 8 项 → apple + icloud）
+#   ✂ 删 Telegram 区域分片（NL/SG/US 3 项，telegram 已全球覆盖）
+#   ✂ 删冷门通讯（KakaoTalk/Zalo/GoogleVoice/iTalkBB 4 项，用户在印尼/中国不用）
+#   ✂ 删大陆长尾流媒体（Youku/Sohu/AcFun/Douyu/HuYa/CCTV/HunanTV/PPTV/LeTV 等 30+ 项）
+#   ✂ 删欧洲/日韩细分流媒体（20+ 项）
+#   ✂ 删非核心 GeoRouting（仅保留 Asia_East/EastSouth/China 6 项，删 20 项）
+#   ✂ 删冗余广告拦截（10+ 项 blackmatrix7 广告集功能重叠）
+#   ✂ 删区域银行（UK/JP/AU/CA/DE/NL/FR 7 项，用户在印尼/中国）
+#   ✂ 删 FakeLocation 伪装定位（10 项，非核心需求）
+# 保留策略：
+#   ✓ 用户核心业务（加密货币 3 项全保）
+#   ✓ AI 服务（9 项，包含 szkane + acc 补充）
+#   ✓ 中国+印尼双环境所需（国内流媒体头部 8 项 + cn + chinamax + china）
+#   ✓ 核心平台（苹果/微软/Google/CloudFlare/GitHub）
+# ============================================================================
+cat >> "$OVERRIDE_YAML" << 'OVERRIDE_EOF'
 rule-providers:
   '56':
     type: http
@@ -5959,7 +5892,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.3.0-oc-slim"
+VERSION = "v5.2.2-oc-full"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
