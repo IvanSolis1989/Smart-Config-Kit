@@ -1,7 +1,7 @@
 # ================================================================
-# Clash Smart v5.2.2 - CMFA (Clash Meta for Android) 配置
-# 架构：proxy-providers 订阅 + 9 url-test 区域组 + 28 业务策略组 + 375+ rule-providers
-# 基线：Clash Party v5.2.4（唯一主线）
+# Clash Smart v5.2.5 - CMFA (Clash Meta for Android) 配置
+# 架构：proxy-providers 订阅 + 9 url-test 区域组 + 28 业务策略组 + 373+ rule-providers
+# 基线：Clash Party v5.2.5（唯一主线）
 # 变更历史：见 `Clash Meta For Android/CHANGELOG.md`
 # ================================================================
 # ★ 快速上手：
@@ -2864,26 +2864,13 @@ rule-providers:
     path: ./ruleset/acc-fastly.yaml
     interval: 90336
     proxy: '🚫 受限网站'
-  acc-geositecn:
-    type: http
-    behavior: classical
-    url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/GeositeCN/GeositeCN.yaml'
-    path: ./ruleset/acc-geositecn.yaml
-    interval: 90319
-    proxy: '🚫 受限网站'
+  # v5.2.5 FIX#23-P1: acc-geositecn / acc-china 删除（与 geosite:cn 纯重复）
   acc-chinamax:
     type: http
     behavior: classical
     url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/ChinaMax/ChinaMax.yaml'
     path: ./ruleset/acc-chinamax.yaml
     interval: 90361
-    proxy: '🚫 受限网站'
-  acc-china:
-    type: http
-    behavior: classical
-    url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/China/China.yaml'
-    path: ./ruleset/acc-china.yaml
-    interval: 90366
     proxy: '🚫 受限网站'
   acc-waybackmachine:
     type: http
@@ -4228,9 +4215,7 @@ rules:
 - 'RULE-SET,cn-ip,🏠 国内网站,no-resolve'
 - 'DOMAIN-SUFFIX,alimama.com,🏠 国内网站'
 - 'DOMAIN-SUFFIX,zxtdjy.com,🏠 国内网站'
-- 'RULE-SET,acc-geositecn,🏠 国内网站'
 - 'RULE-SET,acc-chinamax,🏠 国内网站'
-- 'RULE-SET,acc-china,🏠 国内网站'
 - 'RULE-SET,acc-homeip-us,🌐 国外网站,no-resolve'
 - 'RULE-SET,acc-homeip-jp,🌐 国外网站,no-resolve'
 - 'RULE-SET,acc-aqara-cn,🏠 国内网站'

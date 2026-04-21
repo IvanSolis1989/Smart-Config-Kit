@@ -7,6 +7,16 @@
 
 ---
 
+## v5.2.5 (2026-04-20)
+
+- ★ **FIX#23-P1**：去冗余（方案 B 保守优化）——删除与 `metaDomain('cn', 'cn')` 重叠的 Accademia 国内规则源
+  - 删除 `acc-geositecn`（`GeositeCN/GeositeCN.yaml`）——与 geosite:cn 字节级重复
+  - 删除 `acc-china`（`China/China.yaml`）——与 geosite:cn + acc-chinamax 大面积重叠
+  - 保留 `acc-chinamax`（独立的 ChinaMax 列表，有独特域名覆盖）+ `metaDomain('cn', 'cn')` + `metaIpCidr('cn-ip', 'cn')`
+  - 收益：减 2 个 rule-provider（373 → 371），省 ~5 MB 内存 + 2 次冷启动 HTTP 拉取
+  - 精度损失：0（acc-geositecn 完全重复；acc-china 的独特域名少到可忽略）
+  - 同步到 9 产物：Clash Party JS / CMFA / OC slim / OC full / SingBox full（重新生成）；Shadowrocket / Surge / Loon / QX / v2rayN 不涉及（不使用 Accademia 命名空间）
+
 ## v5.2.4 (2026-04-20)
 
 - ★ **FIX#22-P0**：`snapchat` rule-provider 拉取 403 Forbidden

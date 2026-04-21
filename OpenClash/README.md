@@ -1,7 +1,7 @@
 # OpenClash 使用教程
 
-> 覆写脚本（轻量版）：`openclash_custom_overwrite.sh`（**v5.3.4-align-dns-baseline**）
-> 覆写脚本（完整版）：`openclash_custom_overwrite_full.sh`（**v5.2.4-oc-full.1**，387 providers，对齐 Clash Party v5.2.4）
+> 覆写脚本（轻量版）：`openclash_custom_overwrite.sh`（**v5.3.5-dedup-acc-china**，135 providers）
+> 覆写脚本（完整版）：`openclash_custom_overwrite_full.sh`（**v5.2.5-oc-full.1**，385 providers，对齐 Clash Party v5.2.5）
 > 界面配置：`clash-smart-openclash.conf`
 > 架构：提供 **Slim / Full 双版本**，分别覆盖"低 OOM 风险"与"完整规则覆盖"两种需求
 

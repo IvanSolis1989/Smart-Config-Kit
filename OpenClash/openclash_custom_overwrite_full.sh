@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.2.4-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v5.2.5-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # ============================================================================
 # 定位：对齐 Clash Party v5.2.4 JS 主线的 OpenClash 全量版本。
 #       与同目录 openclash_custom_overwrite.sh（slim, 136 providers）互补：
@@ -22,7 +22,7 @@
 
 
 
-VERSION_TAG="v5.2.4-oc-full.1"
+VERSION_TAG="v5.2.5-oc-full.1"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -2759,26 +2759,13 @@ rule-providers:
     path: "./ruleset/acc-Fastly.yaml"
     interval: 90669
     proxy: "\U0001F6AB 受限网站"
-  acc-geositecn:
-    type: http
-    behavior: classical
-    url: https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/GeositeCN/GeositeCN.yaml
-    path: "./ruleset/acc-GeositeCN.yaml"
-    interval: 90684
-    proxy: "\U0001F6AB 受限网站"
+  # v5.2.5 FIX#23-P1: acc-geositecn / acc-china 删除（与 geosite:cn 纯重复）
   acc-chinamax:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/ChinaMax/ChinaMax.yaml
     path: "./ruleset/acc-ChinaMax.yaml"
     interval: 90693
-    proxy: "\U0001F6AB 受限网站"
-  acc-china:
-    type: http
-    behavior: classical
-    url: https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/China/China.yaml
-    path: "./ruleset/acc-China.yaml"
-    interval: 90701
     proxy: "\U0001F6AB 受限网站"
   acc-homeip-us:
     type: http
@@ -3962,9 +3949,7 @@ rules:
 - "RULE-SET,cn-ip,\U0001F3E0 国内网站,no-resolve"
 - "DOMAIN-SUFFIX,alimama.com,\U0001F3E0 国内网站"
 - "DOMAIN-SUFFIX,zxtdjy.com,\U0001F3E0 国内网站"
-- "RULE-SET,acc-geositecn,\U0001F3E0 国内网站"
 - "RULE-SET,acc-chinamax,\U0001F3E0 国内网站"
-- "RULE-SET,acc-china,\U0001F3E0 国内网站"
 - "RULE-SET,acc-homeip-us,\U0001F310 国外网站,no-resolve"
 - "RULE-SET,acc-homeip-jp,\U0001F310 国外网站,no-resolve"
 - "RULE-SET,acc-aqara-cn,\U0001F3E0 国内网站"
@@ -4059,7 +4044,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.4-oc-full.1"
+VERSION = "v5.2.5-oc-full.1"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }

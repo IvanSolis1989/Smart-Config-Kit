@@ -9,6 +9,11 @@
 
 ## Slim（`openclash_custom_overwrite.sh`）
 
+### v5.3.5-dedup-acc-china (2026-04-20)
+
+- ★ 同步 Clash Party v5.2.5 FIX#23-P1：删除 `acc-china`（与 `geosite:cn` 纯重复；slim 从 v5.3.4 起已不含 `acc-geositecn`，本次只删 `acc-china`）
+- 收益：slim provider 数 136 → 135；省 ~2 MB 内存 + 1 次冷启动 HTTP 拉取
+
 ### v5.3.4-align-dns-baseline (2026-04-20)
 
 - ★ 对齐 Clash Party 基线 DNS（`Clash Party/README.md` 第 99-132 行）：
@@ -46,6 +51,12 @@
 ---
 
 ## Full（`openclash_custom_overwrite_full.sh`）
+
+### v5.2.5-oc-full.1 (2026-04-20)
+
+- ★ 同步 Clash Party v5.2.5 FIX#23-P1：删除 `acc-geositecn` + `acc-china`（与 `geosite:cn` 纯重复）
+- 收益：full provider 数 387 → 385；省 ~5 MB 内存 + 2 次冷启动 HTTP 拉取
+- Ruby Psych 解析验证：`providers=385 rules=975`（预期减 2 provider、减 2 rule line）
 
 ### v5.2.4-oc-full.1 (2026-04-20)
 

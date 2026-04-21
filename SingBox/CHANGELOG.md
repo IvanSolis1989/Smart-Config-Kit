@@ -5,6 +5,12 @@
 
 ---
 
+## v5.2.5-sing.1 (2026-04-20)
+
+- ★ 跟随 Clash Party v5.2.5 FIX#23-P1 重新生成：`acc-geositecn` + `acc-china` 两个 rule_set 从 `singbox-smart-full.json` 消失
+- 重新生成命令：`node SingBox/generate-singbox-full.js`
+- 结果：`route.rules` 977 → 975；`route.rule_set` 对应减 2 项
+
 ## v5.2.3-sing.1 (2026-04-20)
 
 - ★ Full 版本由 `SingBox/generate-singbox-full.js` 从 Clash Party v5.2.3 JS 主线自动提取：

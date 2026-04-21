@@ -1,13 +1,13 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v5.2.4 (2026-04-20)
-// 架构：SUB-STORE 多机场融合 + 9 Smart 区域组 + 28 业务策略组 + 373+ rule-providers 100%+ 服务覆盖
+// 版本：v5.2.5 (2026-04-20)
+// 架构：SUB-STORE 多机场融合 + 9 Smart 区域组 + 28 业务策略组 + 371+ rule-providers 100%+ 服务覆盖
 // 变更历史：见 `Clash Party/CHANGELOG.md`
 
 // ================================================================
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.2.4'
+const VERSION = 'v5.2.5'
 
 // ================================================================
 //  模块 A：节点过滤（沿用 v3.1）
@@ -932,26 +932,15 @@ function injectRuleProviders(config) {
     // acc-globaldns  ← REMOVED
     // v5.1.2 FIX#6: 删除 acc-chinadns provider（中国DNS由CN兜底规则自然分流到直连）
     // acc-chinadns  ← REMOVED
+    // v5.2.5 FIX#23-P1: acc-geositecn + acc-china 删除
+    //   这两个是 geosite:cn (metaDomain('cn', 'cn') 已提供) 的纯重复，
+    //   保留 acc-chinamax 作为 ChinaMax 独立补充覆盖
 
     // ── 国内兜底补充 ──
-    config['rule-providers']['acc-geositecn'] = {
-      type: 'http', behavior: 'classical',
-      url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/GeositeCN/GeositeCN.yaml',
-      path: './ruleset/acc-GeositeCN.yaml',
-      interval: nextInterval(),
-      proxy: RP_PROXY
-    }
     config['rule-providers']['acc-chinamax'] = {
       type: 'http', behavior: 'classical',
       url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/ChinaMax/ChinaMax.yaml',
       path: './ruleset/acc-ChinaMax.yaml',
-      interval: nextInterval(),
-      proxy: RP_PROXY
-    }
-    config['rule-providers']['acc-china'] = {
-      type: 'http', behavior: 'classical',
-      url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/China/China.yaml',
-      path: './ruleset/acc-China.yaml',
       interval: nextInterval(),
       proxy: RP_PROXY
     }
@@ -1985,9 +1974,8 @@ function injectRules(config) {
     `DOMAIN-SUFFIX,alimama.com,${BIZ.CN_SITE}`,
     `DOMAIN-SUFFIX,zxtdjy.com,${BIZ.CN_SITE}`,
     // v5.1.2 FIX#6: RULE-SET,acc-chinadns 已删除（中国DNS由CN兜底自然直连）
-    `RULE-SET,acc-geositecn,${BIZ.CN_SITE}`,
+    // v5.2.5 FIX#23-P1: acc-geositecn / acc-china 删除（与 metaDomain('cn','cn') 纯重复）
     `RULE-SET,acc-chinamax,${BIZ.CN_SITE}`,
-    `RULE-SET,acc-china,${BIZ.CN_SITE}`,
     // v5.1.2 FIX#4: HomeIP × 2国 → INTL_SITE（v5.1.1 误归入 CN_SITE 导致美日IP段走直连）
     `RULE-SET,acc-homeip-us,${BIZ.INTL_SITE},no-resolve`,
     `RULE-SET,acc-homeip-jp,${BIZ.INTL_SITE},no-resolve`,

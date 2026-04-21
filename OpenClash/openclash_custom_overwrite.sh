@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.3.4-oc-slim — OpenClash 覆写脚本（R4S 4GB 内存优化版）
+# Clash Smart v5.3.5-oc-slim — OpenClash 覆写脚本（R4S 4GB 内存优化版）
 # ============================================================================
 # 定位：Slim（轻量版），面向 1–4GB 路由器 / 低 OOM 风险。
 #       136 rule-providers（由 387 精简），9 Smart 组 + 28 业务组保持不变。
@@ -12,7 +12,7 @@
 # 变更历史：见 `OpenClash/CHANGELOG.md`（Slim 部分）。
 # ============================================================================
 
-VERSION_TAG="v5.3.4-align-dns-baseline"
+VERSION_TAG="v5.3.5-dedup-acc-china"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -989,13 +989,7 @@ rule-providers:
     path: ./ruleset/meta-ip-cn.mrs
     interval: 86582
     proxy: 🚫 受限网站
-  acc-china:
-    type: http
-    behavior: classical
-    url: https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/China/China.yaml
-    path: ./ruleset/acc-china.yaml
-    interval: 90319
-    proxy: 🚫 受限网站
+  # v5.2.5 FIX#23-P1: acc-china 删除（与 geosite:cn 纯重复；OC slim 从 v5.3.4 起不含 acc-geositecn）
   acc-chinamax:
     type: http
     behavior: classical
@@ -2077,7 +2071,6 @@ rules:
 - DOMAIN-SUFFIX,alimama.com,🏠 国内网站
 - DOMAIN-SUFFIX,zxtdjy.com,🏠 国内网站
 - RULE-SET,acc-chinamax,🏠 国内网站
-- RULE-SET,acc-china,🏠 国内网站
 - RULE-SET,acc-geo-d-asia-china,🏠 国内网站
 - RULE-SET,acc-geo-ip-asia-china,🏠 国内网站,no-resolve
 

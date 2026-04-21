@@ -727,7 +727,7 @@
         "type": "remote",
         "tag": "snapchat",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Snap/Snap.srs",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/snap.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -735,7 +735,7 @@
         "type": "remote",
         "tag": "pinterest",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Pinterest/Pinterest.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Pinterest/Pinterest.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -743,7 +743,7 @@
         "type": "remote",
         "tag": "linkedin",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/LinkedIn/LinkedIn.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/LinkedIn/LinkedIn.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -759,7 +759,7 @@
         "type": "remote",
         "tag": "slack",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Slack/Slack.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Slack/Slack.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -775,7 +775,7 @@
         "type": "remote",
         "tag": "teams",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Teams/Teams.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Teams/Teams.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -799,7 +799,7 @@
         "type": "remote",
         "tag": "bing",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -807,7 +807,7 @@
         "type": "remote",
         "tag": "googlesearch",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GoogleSearch/GoogleSearch.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GoogleSearch/GoogleSearch.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -847,7 +847,7 @@
         "type": "remote",
         "tag": "disney",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -855,7 +855,7 @@
         "type": "remote",
         "tag": "hbo",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -863,7 +863,7 @@
         "type": "remote",
         "tag": "primevideo",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PrimeVideo/PrimeVideo.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PrimeVideo/PrimeVideo.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -871,7 +871,7 @@
         "type": "remote",
         "tag": "hulu",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hulu/Hulu.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hulu/Hulu.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -879,7 +879,7 @@
         "type": "remote",
         "tag": "paramount",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ParamountPlus/ParamountPlus.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ParamountPlus/ParamountPlus.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -887,7 +887,7 @@
         "type": "remote",
         "tag": "amazon",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Amazon/Amazon.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Amazon/Amazon.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -895,7 +895,7 @@
         "type": "remote",
         "tag": "peacock",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Peacock/Peacock.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Peacock/Peacock.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -903,7 +903,7 @@
         "type": "remote",
         "tag": "twitch",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -919,7 +919,7 @@
         "type": "remote",
         "tag": "kktv",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/KKTV/KKTV.srs",
+        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/KKTV/KKTV.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -935,7 +935,7 @@
         "type": "remote",
         "tag": "dazn",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DAZN/DAZN.srs",
+        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DAZN/DAZN.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -943,7 +943,7 @@
         "type": "remote",
         "tag": "bbc",
         "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BBC/BBC.srs",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bbc.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -3317,25 +3317,9 @@
       },
       {
         "type": "remote",
-        "tag": "acc-geositecn",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/GeositeCN/GeositeCN.srs",
-        "download_detour": "🌍 全球节点",
-        "update_interval": "1d"
-      },
-      {
-        "type": "remote",
         "tag": "acc-chinamax",
         "format": "binary",
         "url": "https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/ChinaMax/ChinaMax.srs",
-        "download_detour": "🌍 全球节点",
-        "update_interval": "1d"
-      },
-      {
-        "type": "remote",
-        "tag": "acc-china",
-        "format": "binary",
-        "url": "https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/China/China.srs",
         "download_detour": "🌍 全球节点",
         "update_interval": "1d"
       },
@@ -9974,21 +9958,7 @@
       },
       {
         "rule_set": [
-          "acc-geositecn"
-        ],
-        "action": "route",
-        "outbound": "🏠 国内网站"
-      },
-      {
-        "rule_set": [
           "acc-chinamax"
-        ],
-        "action": "route",
-        "outbound": "🏠 国内网站"
-      },
-      {
-        "rule_set": [
-          "acc-china"
         ],
         "action": "route",
         "outbound": "🏠 国内网站"
