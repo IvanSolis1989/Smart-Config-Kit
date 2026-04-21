@@ -86,6 +86,110 @@ DNS/嗅探层（Resolver + Sniffer Layer）
 
 ---
 
+## 🛡️ DNS 净化：科学上网的第一道防线
+
+> 分流规则配得再好，**DNS 漏了照样白搭**。这一节解释为什么 DNS 在科学上网里是"基石"，并给出本仓库的推荐配置（完整 YAML 见 `Clash Party/README.md` 第四章 DNS 段）。
+
+### 为什么 DNS 比节点协议更重要？
+
+科学上网的三个主要敌人——**GFW / ISP / 机场节点封控**——**全都从 DNS 层下手**，早于节点握手：
+
+| 威胁 | 常见手法 | 没做 DNS 净化的后果 |
+|---|---|---|
+| **GFW DNS 污染** | 对敏感域名（google/youtube/telegram/github…）的明文 DNS 查询返回假 IP | 浏览器拿到假 IP → 走代理组里的节点也打不通（因为 IP 是假的）|
+| **ISP DNS 劫持** | 你的 53 端口 UDP 包被运营商拦截 → 返回广告页或空白 | 机场节点域名解析失败；`jsdelivr.net` 冷启动下载规则失败 |
+| **运营商流量审计** | 通过明文 DNS 记录你访问了哪些域名（即便流量本身加密）| 上网日志被运营商完整记录；风控系统据此限速或约谈 |
+| **机场节点 IP 暴露** | 解析 `node.xxx-airport.com` 的 DNS 查询走 ISP → ISP 知道你"经常解析一个特定 VPS 域名" | 机场节点 IP 被针对性封禁；切换新节点没用（运营商封域名不封 IP）|
+| **DNS 缓存污染** | 本地或上游 DNS 缓存了错的结果 | 机场节点切 IP 后你还在走旧 IP；解锁流媒体时 CDN 选错 |
+
+**结论**：DNS 是整个代理链路里**最容易被在不加密的情况下植入侧信道**的一环。加密 DNS（DoH / DoT）不是可选项，是**必选项**。
+
+### 本仓库的 DNS 四层分工
+
+Clash Party / CMFA / OpenClash 都采用同一套分层方案（详见 `Clash Party/README.md` 第四章的完整 YAML）：
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  ① default-nameserver（明文 UDP，仅用于 bootstrap）             │
+│     223.5.5.5 / 119.29.29.29 / 1.1.1.1 / 8.8.8.8                │
+│     作用：启动时解析下面那些 DoH URL 的域名（dns.alidns.com 等） │
+│     只查 4 个 IP，不参与任何业务查询 → 零暴露面                  │
+└──────────────┬──────────────────────────────────────────────────┘
+               │ bootstrap 成功后，所有业务查询全走加密 DoH：
+               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  ② nameserver（国内域名主通道，DoH）                              │
+│     https://223.5.5.5/dns-query     (AliDNS)                    │
+│     https://doh.pub/dns-query        (DNSPod / Tencent)         │
+│     作用：大陆站点 / 国内 CDN 用国内权威 DoH → 不被 ISP 记录     │
+├─────────────────────────────────────────────────────────────────┤
+│  ③ proxy-server-nameserver（机场节点域名解析，DoH）               │
+│     https://1.1.1.1/dns-query       (Cloudflare)                │
+│     https://8.8.8.8/dns-query       (Google)                    │
+│     https://223.5.5.5/dns-query     (AliDNS)                    │
+│     https://doh.pub/dns-query       (DNSPod)                    │
+│     作用：解析 node.xxx-airport.com 时走海外 DoH → 机场节点      │
+│           域名和 IP 都不暴露给 ISP，也不被 DNS 污染              │
+├─────────────────────────────────────────────────────────────────┤
+│  ④ fallback（海外域名回退通道，DoH + GeoIP 解毒）                 │
+│     https://1.1.1.1/dns-query + https://8.8.8.8/dns-query       │
+│     fallback-filter.geoip-code: CN                              │
+│     作用：国外域名若查出 CN 段 IP（说明被污染），自动用 fallback │
+│           重查 → 避开 GFW 注入的假 IP                            │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 为什么这套分工能同时解决 5 个威胁
+
+| 威胁 | 本方案如何化解 |
+|---|---|
+| GFW DNS 污染 | ① ~ ④ 全部走 DoH（TLS 加密），GFW 看不到 DNS 内容更注入不了；④ 的 `fallback-filter.geoip-code: CN` 再做一次"看到 CN IP 就切换上游"的解毒逻辑 |
+| ISP DNS 劫持 | 53 端口只用于 bootstrap 那 4 个 IP，业务查询 **100% 走 443 DoH**；ISP 连 SNI 都看不到（Cloudflare / 阿里 DNS 的 ECH/CECPQ 进一步加密） |
+| 运营商流量审计 | DoH 走 HTTPS 443，和正常网页流量外观一致；运营商**不能区分**你在查 DNS 还是刷网页 |
+| 机场节点 IP 暴露 | ③ `proxy-server-nameserver` 让节点域名解析走海外 DoH，ISP 完全不知道你连过这个机场 |
+| DNS 缓存污染 | fake-ip 模式下本地不缓存真实 IP（每次查询返回 198.18.x.x 假 IP，由 mihomo 实时映射真实出站）；节点切 IP 后**立刻生效**，无缓存延迟 |
+
+### 推荐做法
+
+1. **首选加密 DoH**。不要用明文 UDP DNS（`114.114.114.114` / `8.8.8.8` 直连 53）——`114.114.114.114` 在大陆运营商会做劫持，`8.8.8.8` 会被 GFW 污染 + ISP 看到你在用海外 DNS。
+2. **国内 DoH 建议用 AliDNS + DNSPod 组合**（`https://223.5.5.5/dns-query` + `https://doh.pub/dns-query`）。两家都是中国合规 DoH，在 443 端口的 TLS 流量里 ISP 无法区分。
+3. **海外 DoH 建议用 Cloudflare + Google**（`https://1.1.1.1/dns-query` + `https://8.8.8.8/dns-query`）。Cloudflare 额外支持 ODoH / ECH，隐私更好。
+4. **`proxy-server-nameserver` 必须单独配置**（容易忽略）。这是解决"机场节点 IP 被针对性封"的关键——让机场节点域名的解析也走海外 DoH 而不是默认通道。
+5. **fake-ip 模式强烈推荐**（`enhanced-mode: fake-ip`）。比 redir-host 快 + 无本地缓存污染 + 规则命中更精准。
+6. **别在 `hosts:` 里写业务域名**。`hosts:` 只适合给 bootstrap DoH（例如 `one.one.one.one → 1.1.1.1`）写兜底 IP，用来规避 DNS 冷启动死锁；写业务域名会让本配置的规则命中失效。
+
+### 怎么验证 DNS 真的净化了
+
+```bash
+# 1) 检查是否泄漏 DNS（浏览器里访问）
+https://dnsleaktest.com          # 应只显示你配置的 DoH 上游，不应看到 ISP DNS
+https://whoami.cloudflare.com    # 应显示 Cloudflare DoH
+
+# 2) 命令行直接测 DoH 可达
+curl -H 'accept: application/dns-json' \
+  'https://doh.pub/dns-query?name=google.com&type=A'
+# 成功 = 返回 JSON（含 Answer 字段）
+
+# 3) 抓包确认查询走 443（不是 53）
+tcpdump -n -i any port 53        # 应只看到 bootstrap 的 4 个 IP 被查一次
+tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
+```
+
+### 各端配置要点（跳过手动配的对照）
+
+| 端 | DNS 段已内置 | 用户要做的 |
+|---|:-:|---|
+| Clash Party / Verge / Mihomo Party | ❌（脚本不注入 DNS，需粘到 UI Mixin） | 把 `Clash Party/README.md` 第四章的 DNS YAML 粘到客户端 Mixin / 合并字段 |
+| CMFA / FlClash | ✅（已写在 YAML 里） | 无 |
+| OpenClash slim / full | ✅（脚本已注入） | 无 |
+| Shadowrocket | ✅（`.conf` 已含 DoH 字段） | iOS 15+ 即可，不需额外操作 |
+| Surge / Loon / QX | ✅（`.conf` 已含 DoH） | 无 |
+| SingBox / Hiddify / HomeProxy | ✅（JSON 已含 DoH server） | 无 |
+| v2rayN（mihomo 核）| ✅（吃 CMFA YAML） | 在 v2rayN 设置里勾选"使用配置文件里的 DNS 设置" |
+| v2rayN（sing-box / Xray 核）| ⚠️ | 参见 `v2rayN/README.md` |
+
+---
+
 ## 🧩 Clash Party（v5.2.4）分流规则：28 代理组美化速览
 
 为了让结构更清晰，下面用“**分层卡片 + 关系图**”展示 28 个代理组，而不是单一大表。
