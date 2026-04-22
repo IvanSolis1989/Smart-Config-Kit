@@ -1,9 +1,14 @@
-# SingBox 使用教程（对齐 Clash Party v5.2.3 Full 语义）
+# SingBox 使用教程（对齐 Clash Party v5.2.5 Full 语义）
 
-> 配置文件（推荐）：`SingBox/singbox-smart-full.json`  
-> 基础模板：`SingBox/singbox-smart.json`  
-> 生成脚本：`SingBox/generate-singbox-full.js`  
-> 目标：在 **sing-box** 上复刻 Clash Party 的「9 个区域组 + 28 个业务组 + 387 rule-providers + 977 规则」语义，并保持 sing-box 官方配置兼容。
+> 配置文件（推荐）：`SingBox/singbox-smart-full.json`（v5.2.5-sing.2）
+> 基础模板：`SingBox/singbox-smart.json`（重建于 v5.2.5-sing.2，兼容 sing-box 1.12+）
+> 生成脚本：`SingBox/generate-singbox-full.js`
+> 目标：在 **sing-box** 上复刻 Clash Party 的「9 个区域组 + 28 个业务组 + 391 rule-providers + 975 规则」语义，并保持 sing-box 1.12/1.13/1.14 官方配置兼容。
+
+> **v5.2.5-sing.2（2026-04-22）兼容性重要变更**：
+> - 删除已废弃的 `type: "block"` 特殊 outbound（sing-box 1.11 deprecated, 1.13 removed），避免用户升到 1.13+ 后 FATAL 起不来
+> - DNS server 迁移到新 schema（`{type:"https",server:"..."}` 取代 legacy `{address:"https://..."}`），避免 1.14 起被移除
+> - 重建基础模板 `singbox-smart.json`（之前被误删），生成脚本重新可用
 
 ---
 

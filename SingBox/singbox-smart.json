@@ -1,0 +1,571 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "store_fakeip": true,
+      "store_rdrc": true
+    },
+    "_meta": {
+      "name": "SingBox Smart Full",
+      "version": "v5.2.5-sing.2",
+      "build": "2026-04-22",
+      "baseline": "Clash Party v5.2.5",
+      "changelog": "见 SingBox/CHANGELOG.md"
+    }
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns_direct",
+        "type": "https",
+        "server": "223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns_proxy",
+        "type": "https",
+        "server": "1.1.1.1",
+        "detour": "🌍 全球节点"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "action": "route",
+        "server": "dns_direct"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ads-all"
+        ],
+        "action": "reject"
+      }
+    ],
+    "final": "dns_proxy",
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "🚀 节点选择",
+      "outbounds": [
+        "🌍 全球节点",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "urltest",
+      "tag": "🌍 全球节点",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇯🇵 日韩节点",
+        "🌏 亚太节点",
+        "🇺🇸 美国节点",
+        "🇪🇺 欧洲节点",
+        "🌎 美洲节点",
+        "🌍 非洲节点"
+      ],
+      "interval": "3m",
+      "tolerance": 50
+    },
+    {
+      "type": "selector",
+      "tag": "🇭🇰 香港节点",
+      "outbounds": [
+        "proxy-hk-1",
+        "proxy-hk-2",
+        "DIRECT"
+      ],
+      "default": "proxy-hk-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇹🇼 台湾节点",
+      "outbounds": [
+        "proxy-tw-1",
+        "DIRECT"
+      ],
+      "default": "proxy-tw-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇯🇵 日韩节点",
+      "outbounds": [
+        "proxy-jp-1",
+        "proxy-kr-1",
+        "DIRECT"
+      ],
+      "default": "proxy-jp-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌏 亚太节点",
+      "outbounds": [
+        "proxy-sg-1",
+        "proxy-id-1",
+        "DIRECT"
+      ],
+      "default": "proxy-sg-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇺🇸 美国节点",
+      "outbounds": [
+        "proxy-us-1",
+        "proxy-us-2",
+        "DIRECT"
+      ],
+      "default": "proxy-us-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇪🇺 欧洲节点",
+      "outbounds": [
+        "proxy-eu-1",
+        "DIRECT"
+      ],
+      "default": "proxy-eu-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌎 美洲节点",
+      "outbounds": [
+        "proxy-ca-1",
+        "proxy-us-1",
+        "DIRECT"
+      ],
+      "default": "proxy-ca-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌍 非洲节点",
+      "outbounds": [
+        "proxy-af-1",
+        "DIRECT"
+      ],
+      "default": "proxy-af-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🤖 AI 服务",
+      "outbounds": [
+        "🇺🇸 美国节点",
+        "🌍 全球节点",
+        "🇯🇵 日韩节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "💰 加密货币",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🌍 全球节点",
+        "🇺🇸 美国节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🏦 金融支付",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🇯🇵 日韩节点",
+        "🌍 全球节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📧 邮件服务",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "💬 即时通讯",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🇯🇵 日韩节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📱 社交媒体",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🌍 全球节点",
+        "🇺🇸 美国节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🧑‍💼 会议协作",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📺 国内流媒体",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🌍 全球节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📺 东南亚流媒体",
+      "outbounds": [
+        "🌏 亚太节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🇺🇸 美国流媒体",
+      "outbounds": [
+        "🇺🇸 美国节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🇭🇰 香港流媒体",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🇹🇼 台湾流媒体",
+      "outbounds": [
+        "🇹🇼 台湾节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🇯🇵 日韩流媒体",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🇪🇺 欧洲流媒体",
+      "outbounds": [
+        "🇪🇺 欧洲节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🕹️ 国内游戏",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🌍 全球节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🎮 国外游戏",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🇭🇰 香港节点",
+        "🌍 全球节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🔍 搜索引擎",
+      "outbounds": [
+        "🌍 全球节点",
+        "🇯🇵 日韩节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📟 开发者服务",
+      "outbounds": [
+        "🌍 全球节点",
+        "🇺🇸 美国节点",
+        "🇯🇵 日韩节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "Ⓜ️ 微软服务",
+      "outbounds": [
+        "🌍 全球节点",
+        "🇯🇵 日韩节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🍎 苹果服务",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🌍 全球节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📥 下载更新",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🇭🇰 香港节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "☁️ 云与CDN",
+      "outbounds": [
+        "🌍 全球节点",
+        "DIRECT",
+        "🇺🇸 美国节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🛰️ BT/PT Tracker",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🇭🇰 香港节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🏠 国内网站",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🌍 全球节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🚫 受限网站",
+      "outbounds": [
+        "🌍 全球节点",
+        "🇺🇸 美国节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🌐 国外网站",
+      "outbounds": [
+        "🌍 全球节点",
+        "🇯🇵 日韩节点",
+        "🇺🇸 美国节点",
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🐟 漏网之鱼",
+      "outbounds": [
+        "🌍 全球节点",
+        "DIRECT",
+        "🇭🇰 香港节点"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "🛑 广告拦截",
+      "outbounds": [
+        "DIRECT"
+      ]
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-hk-1",
+      "server": "example-hk-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-hk-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-hk-2",
+      "server": "example-hk-2.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-hk-2.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-tw-1",
+      "server": "example-tw-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-tw-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-jp-1",
+      "server": "example-jp-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-jp-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-kr-1",
+      "server": "example-kr-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-kr-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-sg-1",
+      "server": "example-sg-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-sg-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-id-1",
+      "server": "example-id-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-id-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-us-1",
+      "server": "example-us-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-us-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-us-2",
+      "server": "example-us-2.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-us-2.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-eu-1",
+      "server": "example-eu-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-eu-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-ca-1",
+      "server": "example-ca-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-ca-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-af-1",
+      "server": "example-af-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-af-1.com"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "DIRECT"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "rules": []
+  }
+}
