@@ -1,9 +1,9 @@
-# Surge 使用教程（对齐 Clash Party v5.2.3）
+# Surge 使用教程（对齐 Clash Party v5.2.5）
 
 > 配置文件：`Surge/surge-smart.conf`
-> 版本：**v5.2.3-Surge.1**（Build 2026-04-20，从 Shadowrocket v5.2.2-SR.2 迁移适配）
+> 版本：**v5.2.5-Surge.2**（Build 2026-04-22，删除 72 条 Clash yaml 规则集 + anti-AD CDN + 主版本号对齐，详见 `Surge/CHANGELOG.md`）
 > 目标：**Surge 5 / Surge Mac**（付费正版；iOS + macOS 通用）
-> 架构：9 区域 url-test 组（policy-regex-filter 自动按地区聚合）+ 28 业务策略组 + 250+ RULE-SET
+> 架构：9 区域 url-test 组（policy-regex-filter 自动按地区聚合）+ 28 业务策略组 + ~290 RULE-SET
 
 ---
 
