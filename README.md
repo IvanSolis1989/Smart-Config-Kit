@@ -14,7 +14,7 @@
 - 🧩 **精细分流**：按业务语义拆分策略组，避免“大一统代理”带来的误伤与浪费。
 - ⚡ **性能可控**：OpenClash 提供轻量化方案，兼顾命中率与内存占用。
 - 🤖 **AI 原生仓库**：**本仓库全部脚本与配置由 AI 编写，并由 AI 持续维护与迭代**。
-- 💬 **Issue 自动初筛**：[开 issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues/new/choose) 会触发 AI 初步分析（首轮 DeepSeek-Chat 快回 / `/ai-help` 追问升级 Reasoner 深度推理），维护者人工兜底，**AI 无代码修改权限**。
+- 💬 **Issue 自动回答**：[开 issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues/new/choose) 会触发 AI 初步分析回答（`/ai-help` 追问升级深度推理），维护者人工兜底，**AI 无代码修改权限**。
 
 ---
 
