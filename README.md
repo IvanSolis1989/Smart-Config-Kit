@@ -12,7 +12,7 @@
 
 - 🧠 **统一架构**：同一套策略模型覆盖多端，降低“设备 A 可用、设备 B 抽风”的割裂感。
 - 🧩 **精细分流**：按业务语义拆分策略组，避免“大一统代理”带来的误伤与浪费。
-- ⚡ **性能可控**：OpenClash 提供轻量化方案，兼顾命中率与内存占用。
+- ⚡ **内核可切换**：OpenClash 提供 Smart / Normal 双版本（同规则量），按内核能力选择 `smart` 或经典 `url-test` 选路。
 - 🤖 **AI 原生仓库**：**本仓库全部脚本与配置由 AI 编写，并由 AI 持续维护与迭代**。
 - 💬 **Issue 自动回答**：[开 issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues/new/choose) 会触发 AI 自动回答（`/ai-help` 或者追问会升级深度推理分析），维护者人工兜底，**AI 回复机器人无代码修改权限**。
 
@@ -312,7 +312,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 |---|:-:|---|
 | Clash Party / Verge / Mihomo Party | ❌（脚本不注入 DNS，需粘到 UI Mixin） | 把 `Clash Party/README.md` 第四章的 DNS YAML 粘到客户端 Mixin / 合并字段 |
 | CMFA / FlClash | ✅（已写在 YAML 里） | 无 |
-| OpenClash slim / full | ✅（脚本已注入） | 无 |
+| OpenClash Smart / Normal | ✅（脚本已注入） | 无 |
 | Shadowrocket | ✅（`.conf` 已含 DoH 字段） | iOS 15+ 即可，不需额外操作 |
 | Surge / Loon / QX | ✅（`.conf` 已含 DoH） | 无 |
 | SingBox / Hiddify / HomeProxy | ✅（JSON 已含 DoH server） | 无 |
@@ -360,7 +360,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 **📁 具体配置文件**（点击上方 📖 列进对应子目录查看）：
 - Clash Party → `Clash Smart内核覆写脚本.js`（JS 覆写脚本）
 - CMFA → `clash-smart-cmfa.yaml`
-- OpenClash → `openclash_custom_overwrite.sh`（slim） / `openclash_custom_overwrite_full.sh`（full） + `clash-smart-openclash.conf`
+- OpenClash → `openclash_custom_overwrite_full.sh`（Smart） / `openclash_custom_overwrite_normal.sh`（Normal） + `clash-smart-openclash.conf`
 - Shadowrocket → `shadowrocket-smart.conf`
 - Surge → `surge-smart.conf`
 - Loon → `loon-smart.conf`
@@ -383,7 +383,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 
 - **ShellClash**（`juewuy/ShellCrash`，mihomo 核）→ 用 **CMFA 列** 的 `clash-smart-cmfa.yaml`
 - **HomeProxy**（sing-box 官方 LuCI 插件，sing-box 核）→ 用 **sing-box 列** 的 `singbox-smart-full.json`
-- **Passwall / Passwall2**（xray / sing-box 核，**没有 proxy-groups 嵌套**）→ 首选**迁移到 OpenClash** 拿完整能力；或保留插件用本仓库 `Passwall2/` 目录的 **shunt rule 降级版**（28 条手工展平，功能约 OpenClash slim 的 70%）
+- **Passwall / Passwall2**（xray / sing-box 核，**没有 proxy-groups 嵌套**）→ 首选**迁移到 OpenClash** 拿完整能力；或保留插件用本仓库 `Passwall2/` 目录的 **shunt rule 降级版**（28 条手工展平，功能约 OpenClash 全量规则版的 70%）
 - **SSR Plus+**（已停更 + 无 geosite / rule_set 层）→ 直接换 **OpenClash**
 
 > 💡 Passwall 系**能**做 `geosite` / `geoip` / `rule_set` 的规则匹配，**不能**做 mihomo 的「业务组 → 区域组 → 节点」两级 `select` + `url-test` 嵌套。想要完整的 28+9 架构 + LightGBM + 机场换节点自动归位，只有 mihomo 系（OpenClash / CMFA / ShellClash）能原生给。详细差异见 `Passwall2/README.md`。
