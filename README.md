@@ -32,59 +32,29 @@
 
 ## 🧭 分流策略设计框架（重点）
 
-下面是这套配置的“架构设计图（文字版）”：
+```mermaid
+flowchart TB
+    A(["📡 订阅节点池"])
+    A --> B{{"节点清洗 · 命名识别 · 低质量过滤"}}
+    B --> C("🌍 <b>区域层</b> · Smart Region Layer<br/>按地区聚合 + url-test / Smart 自动择路<br/><i>连通性问题隔离在此层，业务层无感</i>")
+    C --> D("🧱 <b>业务层</b> · Service Policy Layer<br/>AI · 流媒体 · 社交 · 开发 · CDN · 广告 按语义分组<br/><i>业务和物理节点解耦，换机场无感迁移</i>")
+    D --> E("📚 <b>规则层</b> · Rule Provider Layer<br/>社区规则源拼装 + 按平台资源裁剪<br/><i>命中逻辑可解释，跟随上游修订</i>")
+    E --> F("🔍 <b>DNS · 嗅探层</b> · Resolver + Sniffer<br/>分层 DNS · 国内 / 国外 / 回退 + 嗅探协同<br/><i>降低 DNS 泄漏，fake-ip 场景精准识别</i>")
+    F --> G("🛟 <b>兜底层</b> · Fallback Layer<br/>GEOIP · GEOSITE · Private<br/><i>未知流量不裸奔、已知流量有归属</i>")
 
-```text
-订阅节点池
-   ↓（节点清洗 + 命名识别 + 低质量过滤）
-区域层（Smart Region Layer）
-   ↓
-业务层（Service Policy Layer）
-   ↓
-规则层（Rule Provider Layer）
-   ↓
-DNS/嗅探层（Resolver + Sniffer Layer）
-   ↓
-兜底层（Fallback Layer）
+    style A fill:#FFE9E9,stroke:#C0392B,stroke-width:2px,color:#000
+    style B fill:#F5F5F5,stroke:#888,stroke-width:1px,color:#000
+    style C fill:#FFF6E9,stroke:#F39C12,stroke-width:2px,color:#000
+    style D fill:#EEF9F1,stroke:#27AE60,stroke-width:2px,color:#000
+    style E fill:#EAF4FF,stroke:#4A90E2,stroke-width:2px,color:#000
+    style F fill:#F3F0FF,stroke:#8E44AD,stroke-width:2px,color:#000
+    style G fill:#FFEFF0,stroke:#E74C3C,stroke-width:2px,color:#000
 ```
 
-### 1) 区域层：Smart Region Layer 🌍
-
-通过关键字 + 国家/地区语义识别，把节点聚合到区域组（如 HK / TW / JP / SG / US / EU 等），每组使用智能选优策略（如 `url-test` + Smart 能力）完成自动择路。
-
-**设计意义：**
-- 降低手工选节点成本；
-- 把“连通性问题”隔离在区域层，业务层不用频繁改。
-
-### 2) 业务层：Service Policy Layer 🧱
-
-以业务语义分组（AI 服务、流媒体、社交、开发、云/CDN、广告拦截等），每个业务组只关心“该走哪类路径”，而不是具体节点名。
-
-**设计意义：**
-- 业务行为与物理节点解耦；
-- 当订阅供应商变化时，业务组可基本无感迁移。
-
-### 3) 规则层：Rule Provider Layer 📚
-
-依赖社区规则源进行能力拼装，不做无谓重复造轮子；在不同平台按资源约束做裁剪组合。
-
-**设计意义：**
-- 命中逻辑可解释；
-- 便于跟随上游规则修订。
-
-### 4) DNS/嗅探层：Resolver + Sniffer 🔍
-
-采用分层 DNS（国内/国外/回退）+ 嗅探协同，确保 fake-ip 场景下依然能尽量正确识别目标业务。
-
-**设计意义：**
-- 降低 DNS 泄漏风险；
-- 提高复杂站点与多域业务命中准确率。
-
-### 5) 兜底层：Fallback Layer 🛟
-
-使用 GEOIP / GEOSITE / Private 等规则做最后防线，保证“未知流量不裸奔、已知流量有归属”。
+每一层只做一件事，上层稳定下层就稳定——**区域层 → 业务层 → 规则层 → DNS/嗅探层 → 兜底层**。订阅换了、机场改了、规则上游变了，只影响**对应那一层**，不会全链路翻车。
 
 ---
+
 ## 🧩 Smart 分流规则：28 代理组速览
 
 为了让结构更清晰，下面用“**分层卡片 + 关系图**”展示 28 个代理组，而不是单一大表。
