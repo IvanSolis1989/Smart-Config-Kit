@@ -33,14 +33,20 @@
 ## 🧭 分流策略设计框架（重点）
 
 ```mermaid
+---
+config:
+  flowchart:
+    htmlLabels: true
+    wrappingWidth: 800
+---
 flowchart TB
-    A(["📡 订阅节点池"])
-    A --> B{{"节点清洗 · 命名识别 · 过滤低质量节点"}}
-    B --> C("🌍 <b>区域层</b> Smart Region — 按地区聚合 + url-test / Smart 自动择路")
-    C --> D("🧱 <b>业务层</b> Service Policy — AI / 流媒体 / 社交 / 开发 / CDN / 广告 按语义分组")
-    D --> E("📚 <b>规则层</b> Rule Provider — 社区规则源拼装 + 按平台资源裁剪")
-    E --> F("🔍 <b>DNS · 嗅探层</b> Resolver + Sniffer — 分层 DNS（国内/国外/回退）+ 嗅探协同")
-    F --> G("🛟 <b>兜底层</b> Fallback — GEOIP / GEOSITE / Private 兜底")
+    A(["📡&nbsp;订阅节点池"])
+    A --> B{{"节点清洗&nbsp;·&nbsp;命名识别&nbsp;·&nbsp;过滤低质量节点"}}
+    B --> C("🌍&nbsp;<b>区域层</b>&nbsp;Smart&nbsp;Region&nbsp;—&nbsp;按地区聚合&nbsp;+&nbsp;url-test&nbsp;/&nbsp;Smart&nbsp;自动择路")
+    C --> D("🧱&nbsp;<b>业务层</b>&nbsp;Service&nbsp;Policy&nbsp;—&nbsp;AI&nbsp;/&nbsp;流媒体&nbsp;/&nbsp;社交&nbsp;/&nbsp;开发&nbsp;/&nbsp;CDN&nbsp;/&nbsp;广告&nbsp;按语义分组")
+    D --> E("📚&nbsp;<b>规则层</b>&nbsp;Rule&nbsp;Provider&nbsp;—&nbsp;社区规则源拼装&nbsp;+&nbsp;按平台资源裁剪")
+    E --> F("🔍&nbsp;<b>DNS·嗅探层</b>&nbsp;Resolver+Sniffer&nbsp;—&nbsp;分层&nbsp;DNS（国内/国外/回退）+&nbsp;嗅探协同")
+    F --> G("🛟&nbsp;<b>兜底层</b>&nbsp;Fallback&nbsp;—&nbsp;GEOIP&nbsp;/&nbsp;GEOSITE&nbsp;/&nbsp;Private&nbsp;兜底")
 
     style A fill:#FFE9E9,stroke:#C0392B,stroke-width:2px,color:#000
     style B fill:#F5F5F5,stroke:#888,stroke-width:1px,color:#000
