@@ -7,6 +7,19 @@
 
 ---
 
+## Normal（`openclash_custom_overwrite_normal.sh`，非 Smart 内核 / url-test 版）
+
+### v5.2.6-oc-normal.1 (2026-04-22)
+
+- ★ **FIX#24-P0**（同构 bug 补齐）：Ruby `REGIONS` 哈希补 `KOR` 字面量
+  - 现象：`KR  => /韩国|韓國|KR|Korea|Korean|🇰🇷|Seoul/i`。Ruby 正则对 `"KOR 01"` 做子串匹配时，
+    `KR` 不是 `KOR` 的子串（字母序 K-O-R，无连续 K-R），`Korea` 也不是 `KOR` 的子串 → `KOR` 节点
+    被归为 `nil`（UNCLASSIFIED），从而不进入 🇯🇵 日韩节点组
+  - 修复：L4086 追加 `KOR` 字面量 → `KR  => /韩国|韓國|KR|KOR|Korea|Korean|🇰🇷|Seoul/i`
+  - 附注：`TW` 已通过 `/TW/i` 子串命中 `TWN`、`JP` 已通过 `/JP/i` 子串命中 `JPN`、`SG` 已通过
+    `/SG/i` 子串命中 `SGP`，这三个本次无需改（Ruby 正则无 word boundary，与 JS 行为不同）
+  - 同步 Clash Party v5.2.6 FIX#24
+
 ## Slim（`openclash_custom_overwrite.sh`）
 
 ### v5.3.5-dedup-acc-china (2026-04-20)
@@ -51,6 +64,12 @@
 ---
 
 ## Full（`openclash_custom_overwrite_full.sh`）
+
+### v5.2.6-oc-full.1 (2026-04-22)
+
+- ★ **FIX#24-P0**（同构 bug 补齐）：Ruby `REGIONS` 哈希补 `KOR` 字面量
+  - 同 Normal 版 v5.2.6-oc-normal.1：L4085 `KR` 正则追加 `KOR`
+  - 同步 Clash Party v5.2.6 FIX#24
 
 ### v5.2.5-oc-full.1 (2026-04-20)
 

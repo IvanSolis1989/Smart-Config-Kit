@@ -36,9 +36,15 @@
       均不依赖任何订阅原生组，清空后由脚本重新注入 37 组即为权威来源
   - 兼容性：`config.proxies`（节点本体）不动，Smart 组按节点名重新聚合
 
-- 同步范围：仅 Clash Party JS。其它 9 产物不涉及（平台专属 bug 修复，§1.4 例外）——
-  原因：`cleanupSubscription` 与 `classifyAllNodes` 是 JS 覆写脚本独有的运行时逻辑；其它产物（CMFA / OpenClash / SingBox / Shadowrocket / Surge / Loon / QX / v2rayN）
-  是静态配置文件，不合并订阅原生组、也不在运行时分类节点，两类 bug 结构上不存在
+- 同步范围（v5.2.6 追加审计，修订先前评估）：
+  - ✅ **Clash Party Smart JS**（本文件）：完整 3 bug 修复
+  - ✅ **Clash Party Normal JS**（`Clash 普通内核覆写脚本.js`）：**共用同一份 REGION_DB / cleanupSubscription / fallback 链 —— 3 bug 100% 同构**，同步修复为 `v5.2.6-normal.1`
+  - ✅ **CMFA YAML**：mihomo `filter:` 正则子串匹配缺 `TWN/JPN/KOR/SGP/🇸🇬`（TW/JP/KR 列表里只有 `Taiwan/Japan/Korea/Tokyo/Osaka/NRT/KIX/ICN/TPE` 等，无 alpha-3）—— 同步修复为 `v5.2.6`
+  - ✅ **OpenClash normal / full**（Ruby REGIONS 哈希）：`/TW/i`、`/JP/i`、`/SG/i` 通过**子串匹配**能命中 `TWN/JPN/SGP`（与 JS 的 word-boundary 正则行为不同），但 `/KR/` 因字母序无法命中 `KOR` —— 两脚本各补一个 `KOR` 字面量，同步修复为 `v5.2.6-oc-{normal,full}.1`
+  - ⛔ **Shadowrocket / Surge / Loon / Quantumult X**：`policy-regex-filter` / `server-tag-regex` / `NameRegex` 原文已显式包含 `TWN|JPN|KOR|TPE|NRT|ICN` 等 alpha-3，审计后无需改动（版本号暂保持 v5.2.5-*，见子目录 README 说明）
+  - ⛔ **SingBox slim+full**：静态 outbound 列表（用户按 tag 字面量接入节点），无运行时分类器，不存在此类 bug
+  - ⛔ **v2rayN Xray routing**：纯路由规则（domain/geo → outbound tag），不做节点分类，不存在此类 bug
+- 审计契约补丁：本 PR 同步修订 `CLAUDE.md` / `AGENTS.md` §1.1，新增「同构 bug 全产物审计」强制动作，防止再次出现"同一 bug 只修一份产物"的漏补
 
 ## v5.2.5 (2026-04-20)
 

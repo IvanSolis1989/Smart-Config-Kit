@@ -55,7 +55,8 @@
 - 修改**规则条目的目标组**（例如把 `RULE-SET,tiktok` 从 `📱 社交媒体` 改到其他组）
 - 修改**规则顺序**中影响命中优先级的段（特别是广告拦截、GFW、FINAL 前置关系）
 - 修改 **DNS / Sniffer / fake-ip / GeoX URL / LightGBM URL** 等全局行为
-- 修改 **规则源仓库**（MetaCubeX / blackmatrix7 / Loyalsoldier / szkane / Accademia 等）
+- 修改 **规则源仓库**（MetaCubeX / blackmatrix7 / Loyalsoldier / szkane / Accademia 等)
+- **修复「节点名分类 / 订阅合并 / 区域组 fallback」等运行时逻辑 bug**（自 v5.2.6 起强制加入触发条件 —— 参见 §1.5 同构 bug 审计）
 
 ### 1.2 强制动作清单（Per-PR Checklist）
 
@@ -159,6 +160,61 @@
 - **平台专属文档**（子目录 `README.md` 只改本目录对应的版本）。
 
 但即便如此，PR 描述里必须写清楚「为什么其他版本无需同步」。
+
+⚠️ **「平台专属 bug」不是逃避 §1.5 审计的挡箭牌。** 声明某个 bug 是平台专属前，**必须**先按 §1.5 走一遍同构审计——当且仅当其他产物不存在**同构的运行时逻辑点**时才适用本例外。v5.2.5 的
+FIX#24~#26 曾被误判为 Clash Party JS 专属，实际 Clash Party Normal JS / CMFA YAML / OpenClash
+Ruby 共 4 份产物都存在同构漏洞（见 v5.2.6 补丁），教训记在此处。
+
+### 1.5 同构 bug 全产物审计（自 v5.2.6 起强制）⚠️
+
+**触发条件**：只要本次修复命中以下任一运行时逻辑点，**必须对全部 10 份产物做同构审计**：
+
+1. **节点名 → 区域分类**：`REGION_DB` / `REGIONS` / `filter:` / `policy-regex-filter` / `server-tag-regex` / `NameRegex FilterKey`
+2. **区域组 fallback 链**：区域为空时回落到 `apacNodes` / `c.ALL` / 全局组
+3. **订阅原生 proxy-groups 合并 / 清理**：`cleanupSubscription` / Ruby `config["proxy-groups"] = ...`
+4. **proxy-providers filter / `include-all-proxies` / `use` 筛选语义**
+5. **节点过滤**：`isInfoNode` / `isBlockedSpeedTag` / `INFO_PATTERNS` / `exclude-filter`
+
+**审计矩阵（快速参考）**：
+
+| 产物 | 运行时分类器 / 过滤器位置 |
+|------|--------------------------|
+| Clash Party Smart JS | `REGION_DB` 常量 + `classifyAllNodes` + `cleanupSubscription` |
+| Clash Party Normal JS | 同上（与 Smart 版几乎同构，差别仅 `type: smart` → `url-test`） |
+| Clash Meta For Android YAML | 各 `proxy-groups[].filter:` mihomo 正则（子串匹配，无 word boundary） |
+| OpenClash normal / full | Ruby `REGIONS` 哈希（子串匹配） + `make_smart_group` fallback + `config["proxy-groups"] = ...` 重建 |
+| Shadowrocket | `[Proxy Group] ... policy-regex-filter=...` 正则 |
+| Surge | 同上 |
+| Loon | `[Remote Filter] ..._Filter = NameRegex, FilterKey = "(?i)..."` |
+| Quantumult X | `[policy] url-latency-benchmark=..., server-tag-regex=...` |
+| SingBox slim / full | 静态 outbound 列表（无运行时分类，用户按 tag 接入节点） |
+| v2rayN Xray routing | 路由规则（无节点分类） |
+
+**审计流程（每条运行时逻辑 bug 必做）**：
+
+1. 锁定 bug 所在的**运行时逻辑点类型**（对应上表行）。
+2. 对其它产物逐个打开对应位置（上表列出），**用 grep / 目测 / 样例输入回归**一次：
+   - 同一输入（本次 bug 的触发样例）能否在该产物中稳定分流？
+   - 若分流路径不同（例如 mihomo 子串 vs JS word boundary vs SR 字面量罗列），**必须各自验证**，不能凭"应该是一样的"偷懒。
+3. 任何一个产物命中同构漏洞，**本 PR 必须同步修复**，不得拆到后续 PR。
+4. 若某产物结构上不存在该逻辑点（如 SingBox 用静态列表），在 PR 描述 + CHANGELOG 写清楚"不适用"及理由。
+5. **产物间正则语义差异要点**（一定要记住）：
+   - **JS**（Clash Party）使用 word-boundary regex `(^|[^a-zA-Z])<kw>([^a-zA-Z]|$)` → `TW` **不**命中 `TWN`
+   - **mihomo `filter:`** 使用 Go RE2 子串匹配 → `TW` 命中 `TWN`，但 `KR` **不**命中 `KOR`
+   - **Ruby OpenClash REGIONS** 使用 Ruby 正则子串匹配 → 同 mihomo，`KR` 不命中 `KOR`
+   - **Shadowrocket `policy-regex-filter`** 使用罗列字面量，必须显式包含每个 alpha-3
+   - **Loon `NameRegex FilterKey`** 同上
+   - **QX `server-tag-regex`** 同上
+
+**禁止事项**：
+
+- ❌ 凭"运行时逻辑只在 JS 里有"就跳过其它产物的审计。许多产物（CMFA / OpenClash Ruby）也有等价运行时逻辑，只是语法不同。
+- ❌ 用"静态配置文件不会有此 bug"作为不审计的理由——必须逐个开文件验证一遍。
+- ❌ 把同构 bug 拆成多个 PR 分批合入（会导致用户在某段时间内部分端 OK / 部分端 broken）。
+
+---
+
+
 
 ---
 

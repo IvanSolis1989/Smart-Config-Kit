@@ -1,7 +1,7 @@
 # ================================================================
-# Clash Smart v5.2.5 - CMFA (Clash Meta for Android) 配置
+# Clash Smart v5.2.6 - CMFA (Clash Meta for Android) 配置
 # 架构：proxy-providers 订阅 + 9 url-test 区域组 + 28 业务策略组 + 373+ rule-providers
-# 基线：Clash Party v5.2.5（唯一主线）
+# 基线：Clash Party v5.2.6（唯一主线）
 # 变更历史：见 `Clash Meta For Android/CHANGELOG.md`
 # ================================================================
 # ★ 快速上手：
@@ -518,7 +518,7 @@ proxy-groups:
   name: '🇹🇼 台湾节点'
   use:
   - Subscribe
-  filter: '(?i)(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|🇹🇼)'
+  filter: '(?i)(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼)'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -545,7 +545,7 @@ proxy-groups:
   name: '🌏 亚太节点'
   use:
   - Subscribe
-  filter: '(?i)(马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺)'
+  filter: '(?i)(新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺)'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -554,7 +554,7 @@ proxy-groups:
   name: '🇯🇵 日韩节点'
   use:
   - Subscribe
-  filter: '(?i)(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|韩国|首尔|Korea|Seoul|ICN|🇯🇵|🇰🇷)'
+  filter: '(?i)(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷)'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120

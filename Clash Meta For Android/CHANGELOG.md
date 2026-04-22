@@ -5,6 +5,18 @@
 
 ---
 
+## v5.2.6 (2026-04-22)
+
+- ★ **FIX#24-P0**（同构 bug 补齐）：`filter:` 正则补 ISO alpha-3 国家代码
+  - 现象：机场节点命名为 `TWN 01 / JPN 01 / KOR 01 / SGP 01` 时，mihomo 按 `filter:` 正则做子串匹配。
+    原 TW 组只有 `Taiwan|Taipei|TPE|🇹🇼`；JP/KR 组只有 `Japan|Korea|Tokyo|Osaka|Seoul|NRT|KIX|ICN|🇯🇵|🇰🇷`；
+    APAC 组没有 `SG/Singapore/🇸🇬`。这些 alpha-3 命名节点一律漏过滤 → 台湾/日韩/亚太组少节点
+  - 修复：
+    - L521 🇹🇼 台湾节点 filter：补 `TWN`
+    - L548 🌏 亚太节点 filter：补 `新加坡|Singapore|SGP|🇸🇬`
+    - L557 🇯🇵 日韩节点 filter：补 `JPN|KOR`
+  - 同步 Clash Party v5.2.6 FIX#24（JS REGION_DB + OpenClash Ruby REGIONS 同步修复）
+
 ## v5.2.5 (2026-04-20)
 
 - ★ 同步 Clash Party v5.2.5 FIX#23-P1：删除 `acc-geositecn` + `acc-china` 两个 rule-provider（与 `geosite:cn` 纯重复）

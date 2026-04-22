@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.2.5-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v5.2.6-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # ============================================================================
 # 定位：对齐 Clash Party v5.2.4 JS 主线的 OpenClash 全量版本。
 #       与同目录 openclash_custom_overwrite.sh（slim, 136 providers）互补：
@@ -22,7 +22,7 @@
 
 
 
-VERSION_TAG="v5.2.5-oc-full.1"
+VERSION_TAG="v5.2.6-oc-full.1"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -4044,7 +4044,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.5-oc-full.1"
+VERSION = "v5.2.6-oc-full.1"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
@@ -4083,7 +4083,9 @@ REGIONS = {
   "HK"  => /香港|HK|Hong\s?Kong|🇭🇰/i,
   "TW"  => /台湾|台灣|TW|Taiwan|🇹🇼/i,
   "JP"  => /日本|JP|Japan|🇯🇵|Tokyo|Osaka/i,
-  "KR"  => /韩国|韓國|KR|Korea|Korean|🇰🇷|Seoul/i,
+  # v5.2.6-oc-full FIX#24-P0: 补 KOR（TW/JP/SG 子串匹配能命中 TWN/JPN/SGP，
+  #   但 KOR 不是 KR 的子串，原始 /KR/ 无法匹配 "KOR 01"）
+  "KR"  => /韩国|韓國|KR|KOR|Korea|Korean|🇰🇷|Seoul/i,
   "SG"  => /新加坡|SG|Singapore|🇸🇬/i,
   "US"  => /美国|美國|US\b|USA|United\s?States|America|🇺🇸|Los\s?Angeles|New\s?York|Seattle|Silicon|San\s?Jose/i,
   "UK"  => /英国|英國|UK\b|GB\b|Britain|London|🇬🇧/i,
