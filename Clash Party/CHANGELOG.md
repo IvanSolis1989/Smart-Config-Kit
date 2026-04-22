@@ -7,6 +7,39 @@
 
 ---
 
+## v5.2.6 (2026-04-22)
+
+- ★ **FIX#24-P0**：补齐 ISO alpha-3 国家代码，修复 `TWN/JPN/KOR/SGP` 命名节点归类失败
+  - 现象：机场节点命名为 `TWN 01 AnyRoute IEPL x2.5` / `JPN 01 ...` / `KOR 01 ...` / `SGP 01 ...` 时，
+    `REGION_DB` 只有 alpha-2 (`TW`/`JP`/`KR`/`SG`) 与 IATA (`tpe`/`nrt`/`icn`/`sin`)，
+    word-boundary 正则无法把 `TW` 匹配到 `TWN`（后面是字母 `N`），这些节点全部归为 `UNCLASSIFIED`
+  - 修复：在 `REGION_DB` 的 `kw` 列表补加小写 alpha-3 ——
+    TW: `twn` / JP: `jpn` / KR: `kor` / SG: `sgp` / US: 已有 `usa` / CN: 新增 `chn`
+  - 同步修正：原 alpha-3 `HKG` 已在 HK 列表，验证无误
+  - 影响：此前该类机场的台湾/日韩组会因全部 UNCLASSIFIED + fallback 到 `apacNodes` / `c.ALL` 而掺入 HK 等节点（见 FIX#25）
+
+- ★ **FIX#25-P0**：统一空区域不建 Smart 组，消除 HK/全节点污染 🇹🇼 / 🇯🇵 组
+  - 现象（issue 截图）：🇹🇼 台湾节点 与 🇯🇵 日韩节点 Smart 组里出现 `HKG 01~04` + `SGP 01` + `KOR 01` 等一共 11 个节点（等于 `c.ALL`），
+    原因是原 fallback `c.TW.length > 0 ? c.TW : apacNodes.length > 0 ? apacNodes : c.ALL` 在 TW/JP/KR 区域为空时
+    silently 把 `apacNodes`（含 HK）或 `c.ALL` 塞进去
+  - 修复：HK / TW / JPKR / APAC / US 五个组统一改为**空区域不建组**（原 EU / AMERICAS / AFRICA 已是该策略）
+    - `SMART.GLOBAL = c.ALL` 始终存在作为兜底
+    - `STANDARD_PROXIES` 的 `filterProxies` 会自动从 28 业务组里剔除未创建的 Smart 组引用，不会产生 dangling reference
+  - 配合 FIX#24：原仅有 HKG+TWN+JPN+KOR+SGP 的机场，修复前看到 🇹🇼=11 / 🇯🇵=11，修复后 🇹🇼=1 / 🇯🇵=3，符合预期
+
+- ★ **FIX#26-P0**：`cleanupSubscription` 全量清空订阅原生 proxy-groups
+  - 现象（issue 原文）：用户订阅覆写后代理组高达 60 个（本脚本期望 37 个）
+  - 原逻辑仅按 4 关键词黑名单（`负载均衡` / `自动选择` / `手动选择` / `节点选择`）删除，
+    机场若提供地区组（🇭🇰 香港 / 🇹🇼 台湾 / …）或流媒体组（📺 Netflix / 🎮 游戏 / …）会保留，和本脚本注入的 37 组共存
+  - 修复：直接 `config['proxy-groups'] = []`
+    - 安全前提：本脚本 28 业务组的 `proxies` 引用仅含 `SMART.*` + `DIRECT` + `REJECT`；Smart 组仅引用 `config.proxies` 里的节点名；
+      均不依赖任何订阅原生组，清空后由脚本重新注入 37 组即为权威来源
+  - 兼容性：`config.proxies`（节点本体）不动，Smart 组按节点名重新聚合
+
+- 同步范围：仅 Clash Party JS。其它 9 产物不涉及（平台专属 bug 修复，§1.4 例外）——
+  原因：`cleanupSubscription` 与 `classifyAllNodes` 是 JS 覆写脚本独有的运行时逻辑；其它产物（CMFA / OpenClash / SingBox / Shadowrocket / Surge / Loon / QX / v2rayN）
+  是静态配置文件，不合并订阅原生组、也不在运行时分类节点，两类 bug 结构上不存在
+
 ## v5.2.5 (2026-04-20)
 
 - ★ **FIX#23-P1**：去冗余（方案 B 保守优化）——删除与 `metaDomain('cn', 'cn')` 重叠的 Accademia 国内规则源
