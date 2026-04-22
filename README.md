@@ -35,12 +35,12 @@
 ```mermaid
 flowchart TB
     A(["📡 订阅节点池"])
-    A --> B{{"节点清洗 · 命名识别 · 低质量过滤"}}
-    B --> C("🌍 <b>区域层</b> · Smart Region Layer<br/>按地区聚合 + url-test / Smart 自动择路<br/><i>连通性问题隔离在此层，业务层无感</i>")
-    C --> D("🧱 <b>业务层</b> · Service Policy Layer<br/>AI · 流媒体 · 社交 · 开发 · CDN · 广告 按语义分组<br/><i>业务和物理节点解耦，换机场无感迁移</i>")
-    D --> E("📚 <b>规则层</b> · Rule Provider Layer<br/>社区规则源拼装 + 按平台资源裁剪<br/><i>命中逻辑可解释，跟随上游修订</i>")
-    E --> F("🔍 <b>DNS · 嗅探层</b> · Resolver + Sniffer<br/>分层 DNS · 国内 / 国外 / 回退 + 嗅探协同<br/><i>降低 DNS 泄漏，fake-ip 场景精准识别</i>")
-    F --> G("🛟 <b>兜底层</b> · Fallback Layer<br/>GEOIP · GEOSITE · Private<br/><i>未知流量不裸奔、已知流量有归属</i>")
+    A --> B{{"节点清洗 · 命名识别 · 过滤低质量节点"}}
+    B --> C("🌍 <b>区域层</b> Smart Region — 按地区聚合 + url-test / Smart 自动择路")
+    C --> D("🧱 <b>业务层</b> Service Policy — AI / 流媒体 / 社交 / 开发 / CDN / 广告 按语义分组")
+    D --> E("📚 <b>规则层</b> Rule Provider — 社区规则源拼装 + 按平台资源裁剪")
+    E --> F("🔍 <b>DNS · 嗅探层</b> Resolver + Sniffer — 分层 DNS（国内/国外/回退）+ 嗅探协同")
+    F --> G("🛟 <b>兜底层</b> Fallback — GEOIP / GEOSITE / Private 兜底")
 
     style A fill:#FFE9E9,stroke:#C0392B,stroke-width:2px,color:#000
     style B fill:#F5F5F5,stroke:#888,stroke-width:1px,color:#000
@@ -51,7 +51,7 @@ flowchart TB
     style G fill:#FFEFF0,stroke:#E74C3C,stroke-width:2px,color:#000
 ```
 
-每一层只做一件事，上层稳定下层就稳定——**区域层 → 业务层 → 规则层 → DNS/嗅探层 → 兜底层**。订阅换了、机场改了、规则上游变了，只影响**对应那一层**，不会全链路翻车。
+每一层只做一件事，上层稳定下层就稳定——订阅换了、机场改了、规则上游变了，只影响**对应那一层**，不会全链路翻车。
 
 ---
 
