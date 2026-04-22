@@ -88,7 +88,7 @@ jobs:
             head -150 README.md 2>/dev/null || echo "(README.md not found)"
           } > /tmp/context.txt
           # 不再走 GITHUB_OUTPUT 回传 + jq -Rs 编码——下一步直接 jq --rawfile 读 /tmp/context.txt，
-          # 既绕开了 ${{ }} 文本替换破坏 JSON 引号的坑，又少 30 行代码。
+          # 既绕开了 GitHub Actions 模板替换破坏 JSON 引号的坑，又少 30 行代码。
           echo "✅ context built: $(wc -l < /tmp/context.txt) lines, $(wc -c < /tmp/context.txt) bytes"
 
       - name: Call DeepSeek API
@@ -96,7 +96,8 @@ jobs:
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           # 全部走 env 把不可信用户输入隔离到环境变量，bash 不会再次解释——
-          # 直接 ${{ }} 拼到 run: 里会被 GitHub Actions 文本替换，留下引号注入风险。
+          # 如果把 GitHub Actions 表达式直接拼到 run: 里，会在 YAML 阶段做纯文本替换，
+          # 留下引号注入风险（评论含 " 或反引号就炸）。
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
@@ -259,8 +260,8 @@ jobs:
         if: steps.llm.outputs.skipped != 'true'
         uses: actions/github-script@v7
         env:
-          # 走 env 而不是直接 ${{ }} 拼到 script 里——AI 回复必含反引号（markdown 代码块），
-          # 直接拼进 JS 模板字符串会破坏语法。env 走 process.env 安全。
+          # 走 env 而不是直接把 GitHub Actions 表达式拼到 script 里——AI 回复必含反引号
+          # （markdown 代码块），直接拼进 JS 模板字符串会破坏语法。env 走 process.env 安全。
           AI_REPLY: ${{ steps.llm.outputs.reply }}
           AI_MODEL: ${{ steps.llm.outputs.model }}
           AI_TIER:  ${{ steps.llm.outputs.tier_label }}
