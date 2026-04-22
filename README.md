@@ -468,31 +468,51 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 
 ## 🔌 各端协议支持 + 快速导入速查
 
-一张表搞定："**机场给什么协议 → 选哪个端 → 用哪份文件 → 去哪看教程**"。每个子目录 README 里有更详细的单端说明。
+一张表搞定："**机场给什么协议 → 选哪个端 → 去哪看教程**"。列名缩写 + 具体配置文件 → 见表下方。
 
-| 协议 \ 客户端 | Clash Party / Verge / Mihomo Party | CMFA / FlClash | OpenClash | Shadowrocket | Surge 5 | Loon | Quantumult X | SingBox / Hiddify / SFA | v2rayN (Xray) | v2rayN (mihomo/sing-box) |
+| 协议 | Clash<br>Party | CMFA | Open<br>Clash | Shadow<br>rocket | Surge | Loon | QX | sing-<br>box | v2rayN<br>Xray | v2rayN<br>mihomo |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| **Shadowsocks (SS + 2022)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **ShadowsocksR (SSR)** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅（仅 mihomo）|
+| **SS (+ 2022)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **SSR** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅¹ |
 | **VMess** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **VLESS** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ | ✅ | ✅ |
-| **REALITY + XTLS-Vision** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ | ✅ | ✅ |
-| **Trojan (+Trojan-Go)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Hysteria v1** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **Hysteria 2** | ✅ | ✅ | ✅ | ✅ | ⚠️ 5.9+ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| **REALITY + Vision** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ | ✅ | ✅ |
+| **Trojan** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Hysteria 1** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| **Hysteria 2** | ✅ | ✅ | ✅ | ✅ | ⚠️² | ✅ | ❌ | ✅ | ❌ | ✅ |
 | **TUIC v5** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **WireGuard** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ 实验 | ✅ |
+| **WireGuard** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ |
 | **AnyTLS** | ✅ | ✅ | ✅ | ✅ | ❌ | ⚠️ | ❌ | ✅ | ❌ | ✅ |
-| **ShadowTLS v1/v2/v3** | ✅ | ✅ | ✅ | ✅ | ❌ | ⚠️ | ❌ | ✅ | ❌ | ✅ |
-| **Snell v4** | ✅ | ✅ | ✅ | ✅ | ✅（自家协议）| ✅ | ❌ | ❌ | ❌ | ✅（仅 mihomo）|
-| **Mieru** | ✅ | ✅ | ✅ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅（仅 mihomo）|
+| **ShadowTLS** | ✅ | ✅ | ✅ | ✅ | ❌ | ⚠️ | ❌ | ✅ | ❌ | ✅ |
+| **Snell v4** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅¹ |
+| **Mieru** | ✅ | ✅ | ✅ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅¹ |
 | **SSH 出站** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ |
-| **HTTP/HTTPS/SOCKS5** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **LightGBM 自动择优**（区域组）| ✅（Smart Alpha + JS 覆写）| ❌（静态 YAML）| ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **📁 用这个配置文件** | `Clash Party/Clash Smart内核覆写脚本.js` | `Clash Meta For Android/clash-smart-cmfa.yaml` | `OpenClash/openclash_custom_overwrite{,_full}.sh` + `clash-smart-openclash.conf` | `Shadowrocket/shadowrocket-smart.conf` | `Surge/surge-smart.conf` | `Loon/loon-smart.conf` | `Quantumult X/qx-smart.conf` | `SingBox/singbox-smart-full.json` | `v2rayN/v2rayn-smart-xray-routing.json` | 复用 CMFA YAML 或 SingBox JSON |
-| **🚀 详细教程** | [Clash Party/README](Clash%20Party/README.md) | [CMFA/README](Clash%20Meta%20For%20Android/README.md) | [OpenClash/README](OpenClash/README.md) | [Shadowrocket/README](Shadowrocket/README.md) | [Surge/README](Surge/README.md) | [Loon/README](Loon/README.md) | [Quantumult X/README](Quantumult%20X/README.md) | [SingBox/README](SingBox/README.md) | [v2rayN/README](v2rayN/README.md) | [v2rayN/README](v2rayN/README.md) |
+| **HTTP / SOCKS5** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **LightGBM 自动择优** | ✅³ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **📖 子目录** | [Clash Party](./Clash%20Party/) | [CMFA](./Clash%20Meta%20For%20Android/) | [OpenClash](./OpenClash/) | [Shadow<br>rocket](./Shadowrocket/) | [Surge](./Surge/) | [Loon](./Loon/) | [QX](./Quantumult%20X/) | [SingBox](./SingBox/) | [v2rayN](./v2rayN/) | [v2rayN](./v2rayN/) |
 
-> ✅ 原生支持 · ⚠️ 部分 / 新版本才有 / 需 External Proxy 桥接 · ❌ 不支持
+> ✅ 原生支持 · ⚠️ 部分 / 新版本才有 · ❌ 不支持
+> ¹ 需 v2rayN 切到 mihomo 核心 · ² Surge 5.9+ 才有 · ³ 需 mihomo Smart Alpha + JS 覆写
+
+**🏷️ 客户端列名缩写对照**：
+- **Clash Party** = Clash Party / Clash Verge Rev / Mihomo Party
+- **CMFA** = Clash Meta For Android / FlClash / mihomo-party-android
+- **QX** = Quantumult X
+- **sing-box** = sing-box 通用客户端（SFA / SFM / SFI / Hiddify / NekoBox / Karing / HomeProxy）
+- **v2rayN Xray** = v2rayN 默认 Xray 核模式
+- **v2rayN mihomo** = v2rayN 切到 mihomo 或 sing-box 核
+
+**📁 具体配置文件**（点击上方 📖 列进对应子目录查看）：
+- Clash Party → `Clash Smart内核覆写脚本.js`（JS 覆写脚本）
+- CMFA → `clash-smart-cmfa.yaml`
+- OpenClash → `openclash_custom_overwrite.sh`（slim） / `openclash_custom_overwrite_full.sh`（full） + `clash-smart-openclash.conf`
+- Shadowrocket → `shadowrocket-smart.conf`
+- Surge → `surge-smart.conf`
+- Loon → `loon-smart.conf`
+- Quantumult X → `qx-smart.conf`
+- SingBox → `singbox-smart-full.json`（推荐） / `singbox-smart.json`（精简）
+- v2rayN Xray → `v2rayn-smart-xray-routing.json`
+- v2rayN mihomo/sing-box → 复用 `Clash Meta For Android/clash-smart-cmfa.yaml` 或 `SingBox/singbox-smart-full.json`
 
 ### 一句话决策树
 - 机场只给 **SS / VMess / Trojan**：任何客户端都行，**按设备+预算挑**
