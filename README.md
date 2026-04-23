@@ -265,7 +265,7 @@ Clash Party / CMFA / OpenClash 都采用同一套分层方案（详见 `Clash Pa
 │  ④ fallback（海外域名回退通道，DoH + GeoIP 解毒）                 │
 │     https://1.1.1.1/dns-query + https://8.8.8.8/dns-query       │
 │     fallback-filter.geoip-code: CN                              │
-│     作用：国外域名若查出 CN 段 IP（说明被污染），自动用 fallback     │
+│     作用：国外域名若查出 CN 段 IP（说明被污染），自动用 fallback    │
 │           重查 → 避开 GFW 注入的假 IP                            │
 └─────────────────────────────────────────────────────────────────┘
 ```
