@@ -38,9 +38,9 @@
 
 > [!TIP]
 > 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线、同步产出多核心 / 多客户端等价配置的科学上网分流体系，**同一套策略模型覆盖多端**，让同一套分流策略在任何设备、任何代理工具上给出**一致、可解释、可迭代**的结果，降低“设备 A 可用、设备 B 抽风”的割裂感。  
-> - **覆盖核心**：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎**  
-> - **覆盖客户端**：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN**  
-> - **覆盖设备**：**Windows / macOS / Linux / Android / iOS / OpenWrt 软路由**
+> - **覆盖核心**：Mihomo (Clash.Meta / Smart) · sing-box · Xray · Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎 
+> - **覆盖客户端**：Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN
+> - **覆盖设备**：Windows / macOS / Linux / Android / iOS / OpenWrt 软路由
 > - 🧩 **精细分流**：按业务语义拆分策略组，避免“大一统代理”带来的误伤与浪费。
 > - ⚡ **内核可切换**：OpenClash 提供 Smart / Normal 双版本（同规则量），按内核能力选择 `smart` 或经典 `url-test` 选路。
 > - 🤖 **AI 原生仓库**：全部脚本与配置由 AI 编写并持续维护迭代——版本演进 / 结构整理 / 文档优化全由 AI 执行，坚持可读性优先（能跑 + 好懂 + 好改 + 好排障）与平台一致性（同类业务在不同客户端表现一致）。
