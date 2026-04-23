@@ -1,7 +1,7 @@
 # Clash Meta For Android（CMFA）使用教程
 
 > 配置文件：`clash-smart-cmfa.yaml`
-> 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**
+> 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
 > 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
 > 当前版本：**v5.2.2**（跟随 Clash Party 主线）
 
@@ -228,9 +228,50 @@ A：已通过 `sniffer.skip-domain` 排除主要支付域名（支付宝/微信/
 
 ---
 
-## 九、参考与致谢
+## 九、兼容客户端：ClashMi（跨平台）
+
+**[ClashMi](https://github.com/KaringX/clashmi)**（又称 Clash Mi，KaringX 团队维护的 Flutter 跨平台 Mihomo GUI，GPL-3.0）可以**直接加载本 YAML**，无需任何修改；覆盖 **iOS 15+ / macOS 12+ / Android 8+ / Windows 10+ / Linux**。
+
+> 与 CMFA 的关系：ClashMi bundle 的是 **MetaCubeX mihomo mainline**（[README](https://github.com/KaringX/clashmi)），与 CMFA 内核同源；但软件设置逻辑、UI、订阅管理流程和 CMFA 完全不同，因此单独列出使用说明；**配置层面（YAML schema）100% 共享**，本仓库不为 ClashMi 单开产物。
+
+### 导入方式
+
+ClashMi App 首页菜单 → **我的配置** → 右上角 **＋** → 选择一种：
+- **添加配置链接**（订阅 URL，推荐长期使用，定时自动更新）
+- **从剪贴板导入**（粘贴 YAML 内容）
+- **从文件导入**（本地 `.yml` / `.yaml`）
+- **扫描二维码**
+
+命名后确定即可启用。TUN / HTTP 代理 / DNS 劫持等开关由 **App UI** 托管（不在 YAML 里手写）。
+
+### 与 CMFA 行为一致的部分
+
+- ✅ 37 代理组（9 区域 + 28 业务）结构 1:1 加载。
+- ✅ 387 条 `RULE-SET` + 380+ `rule-providers` 全部走同一 MetaCubeX / blackmatrix7 / Loyalsoldier / szkane / Accademia 源。
+- ✅ fake-ip DNS / sniffer / `proxy-providers.filter` / `exclude-filter` 行为与 CMFA 等价。
+- ✅ 9 区域组使用 `type: url-test`（按延迟择优）—— 与 CMFA 完全相同。
+
+### ClashMi 专属差异（官方 [FAQ](https://clashmi.app/guide/faq) 声明；本 YAML 均已规避）
+
+| 项 | ClashMi 行为 | 本 YAML 的影响 |
+|---|---|---|
+| **GEOIP / GEOSITE 规则** | 启动时强制转换为对应 geo rule-set（内核定制） | **零触发**。本 YAML 使用 **387 条 `RULE-SET`**，**0 条 `GEOIP,`**，**0 条 `GEOSITE,`**（已在仓库自检）|
+| **`GEOIP,<ASN>` ASN 规则** | iOS 版本不支持 IP-ASN 数据库 | **未使用** ASN 规则 |
+| **iOS VPN Extension 50 MB 内存硬顶** | 超出即被系统杀进程 | 本 YAML 全部走 `.mrs` 二进制 ruleset + 懒加载，**不会触发** OOM |
+| **`tun:` YAML 字段块** | 由 App UI 托管 TUN 开关，不建议 YAML 手写 | 本 YAML **未写** `tun:` 段（交 App 设置），对 ClashMi 天然友好 |
+| **Mihomo Smart 内核 / LightGBM** | bundle 的是 mainline（**非** `vernesong/mihomo` Smart fork），不识别 `type: smart` / `uselightgbm` / `lgbm-custom-url` | 本 YAML 区域组本就是 `url-test`（CMFA 同因），此限制不适用 |
+| **内核版本升级** | 跟随 App 发版，**不可独立更新**（FAQ） | 无影响；本 YAML 使用 mainline 稳定字段 |
+
+### 一句话结论
+
+`clash-smart-cmfa.yaml` 可在 ClashMi 上**开箱即用**，行为与 CMFA 等价；UI 操作路径不同但产物层无差异。
+
+---
+
+## 十、参考与致谢
 
 - 上游内核：[MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo)
 - LightGBM 模型：[vernesong/mihomo](https://github.com/vernesong/mihomo)
 - 规则集：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)
 - GeoIP：[Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
+- 兼容客户端：[KaringX/clashmi](https://github.com/KaringX/clashmi) · [ClashMi 官方 FAQ](https://clashmi.app/guide/faq)

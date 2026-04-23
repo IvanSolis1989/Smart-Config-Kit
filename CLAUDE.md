@@ -29,6 +29,8 @@
 >
 > **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `SingBox/singbox-smart*.json`，**不需要**独立产物；`SingBox/README.md §2a` 提供 Hiddify 专用导入说明。
 >
+> **关于 ClashMi（`KaringX/clashmi`，KaringX 跨平台 Flutter GUI，覆盖 iOS/macOS/Android/Windows/Linux）：** bundle 的是 **MetaCubeX mihomo mainline**（**非** `vernesong/mihomo` Smart fork），与 CMFA 内核同源，直接消费 `Clash Meta For Android/clash-smart-cmfa.yaml`，**不需要**独立产物；`Clash Meta For Android/README.md §九` 提供 ClashMi 专用导入说明。注意 ClashMi 的内核定制会把 `GEOIP,*` / `GEOSITE,*` 规则**强制转换**为对应 rule-set、iOS 端不支持 IP-ASN 数据库、`tun:` 由 App UI 托管不在 YAML 手写（官方 [FAQ](https://clashmi.app/guide/faq)）——这三点对本仓库 YAML **零影响**（0 条 GEOIP、0 条 GEOSITE、0 条 ASN、无 `tun:` 块）。与 Hiddify 对称：Hiddify 是 sing-box 的跨平台 GUI / ClashMi 是 mihomo 的跨平台 GUI。
+>
 > **关于 ShellClash（`juewuy/ShellCrash`）：** 内核是 mihomo，直接复用 `Clash Meta For Android/clash-smart-cmfa.yaml` 或 `OpenClash/openclash_custom_overwrite.sh` 里的 heredoc YAML 块，**不需要**独立产物。
 >
 > **关于 HomeProxy（OpenWrt 官方 sing-box LuCI 插件）：** 内核就是 sing-box，直接导入 `SingBox/singbox-smart-full.json`，**不需要**独立产物；`SingBox/README.md §2b` 提供 HomeProxy 专用导入说明。

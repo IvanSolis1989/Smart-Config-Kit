@@ -5,6 +5,22 @@
 
 ---
 
+## docs (2026-04-23) — 追加 ClashMi 兼容说明（纯文档，YAML 未改动）
+
+- ★ **README §一 顶部"适用客户端"行**：追加 **[ClashMi](https://github.com/KaringX/clashmi)**（KaringX 跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux）。
+- ★ **README 新增 §九〈兼容客户端：ClashMi（跨平台）〉**：导入方式 + 与 CMFA 行为一致点（37 代理组 / 387 RULE-SET / fake-ip DNS / 区域组 url-test）+ ClashMi 专属差异表 6 项。
+- ★ **根 `README.md`**：
+  - 顶部"覆盖客户端"列表补 `ClashMi`
+  - 协议矩阵"客户端列名缩写对照"里 **CMFA** 条目扩展到包含 ClashMi，指向 CMFA §九
+- ★ **`CLAUDE.md` §0 备注链**：新增一段〈关于 ClashMi〉（与〈关于 Hiddify〉对称，说明"mihomo 跨平台 GUI 版"的复用模式）。
+- **关键兼容性论据**（均引自 ClashMi 官方 [FAQ](https://clashmi.app/guide/faq)）：
+  - ClashMi bundle 的是 MetaCubeX mihomo **mainline**（非 vernesong Smart fork）—— 与 CMFA 同源。
+  - ClashMi 内核定制会把 `GEOIP,*` / `GEOSITE,*` **强制转换**为 rule-set → 本 YAML 自检 **0 条 GEOIP / 0 条 GEOSITE / 387 条 RULE-SET**，转换零触发。
+  - iOS VPN Extension 50 MB 内存硬顶 → 本 YAML 使用 `.mrs` 二进制 + 懒加载，不触发 OOM。
+  - iOS 端 IP-ASN 不可用 → 本 YAML 未使用 ASN 规则。
+  - `tun:` 由 App UI 托管 → 本 YAML 未写 `tun:` 段，天然兼容。
+- **版本号策略**：本次仅改 `README.md` / `CHANGELOG.md` / 根 `README.md` / `CLAUDE.md`，**未触及** `clash-smart-cmfa.yaml`，故不 bump YAML 版本号。
+
 ## v5.2.6 (2026-04-22)
 
 - ★ **FIX#24-P0**（同构 bug 补齐）：`filter:` 正则补 ISO alpha-3 国家代码

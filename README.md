@@ -2,7 +2,7 @@
 
 > 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线，同步产出多核心 / 多客户端等价配置的科学上网分流体系。  
 > 覆盖核心：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎**  
-> 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN**  
+> 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN**  
 > 覆盖设备：**Windows / macOS / Linux / Android / iOS / OpenWrt 软路由**  
 > 目标：让同一套分流策略在任何设备、任何代理工具上给出**一致、可解释、可迭代**的结果。
 
@@ -351,7 +351,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 
 **🏷️ 客户端列名缩写对照**：
 - **Clash Party** = Clash Party / Clash Verge Rev / Mihomo Party
-- **CMFA** = Clash Meta For Android / FlClash / mihomo-party-android
+- **CMFA** = Clash Meta For Android / FlClash / mihomo-party-android / **[ClashMi](https://github.com/KaringX/clashmi)**（KaringX 跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，同样 bundle MetaCubeX mainline，直接复用 `clash-smart-cmfa.yaml`；导入流程与差异点见 [CMFA 子目录 §九](./Clash%20Meta%20For%20Android/README.md#九兼容客户端clashmi跨平台)）
 - **QX** = Quantumult X
 - **sing-box** = sing-box 通用客户端（SFA / SFM / SFI / Hiddify / NekoBox / Karing / HomeProxy）
 - **v2rayN Xray** = v2rayN 默认 Xray 核模式
