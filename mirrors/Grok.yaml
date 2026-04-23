@@ -1,0 +1,9 @@
+# Mirror of: https://github.com/Accademia/Additional_Rule_For_Clash/blob/main/Grok/Grok.yaml
+# Cleanup: dropped malformed `IP-CIDR         , 17.253.4.125` (extra whitespace + missing CIDR mask)
+# triggering `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error` in mihomo.
+# Also normalized whitespace around commas in DOMAIN-SUFFIX entries.
+payload:
+  - DOMAIN-SUFFIX,x.ai
+  - DOMAIN-SUFFIX,grok.com
+  - DOMAIN-SUFFIX,featureassets.org
+  - DOMAIN-SUFFIX,xai.chronosphere.io

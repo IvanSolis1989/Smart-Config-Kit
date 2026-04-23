@@ -1,0 +1,30 @@
+# Mirror of: https://github.com/szkane/ClashRuleSet/blob/main/Clash/Ruleset/UK.list
+# Cleanup: dropped `USER-AGENT,BBCiPlayer*` — mihomo `classical` provider does not
+# support USER-AGENT rules and emits
+#   `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`.
+# BBC iPlayer domain coverage is already provided by MetaCubeX geosite:bbc (metaDomain('bbc')).
+DOMAIN-SUFFIX,uk
+DOMAIN-SUFFIX,co.uk
+
+# BBCiPlayer
+DOMAIN-KEYWORD,bbcfmt
+DOMAIN-KEYWORD,uk-live
+DOMAIN,aod-dash-uk-live.akamaized.net
+DOMAIN,aod-hls-uk-live.akamaized.net
+DOMAIN,vod-dash-uk-live.akamaized.net
+DOMAIN,vod-thumb-uk-live.akamaized.net
+DOMAIN-SUFFIX,bbc.co
+DOMAIN-SUFFIX,bbc.co.uk
+DOMAIN-SUFFIX,bbc.com
+DOMAIN-SUFFIX,bbc.net.uk
+DOMAIN-SUFFIX,bbcfmt.hs.llnwd.net
+DOMAIN-SUFFIX,bbci.co
+DOMAIN-SUFFIX,bbci.co.uk
+DOMAIN-SUFFIX,bidi.net.uk
+
+# BITESIZE
+DOMAIN-SUFFIX,emp.bbc.co.uk
+DOMAIN-SUFFIX,emp.bbci.co.uk
+DOMAIN-SUFFIX,uk-script.dotmetrics.net
+DOMAIN-SUFFIX,rm-script.dotmetrics.net
+DOMAIN-SUFFIX,dotmetrics.net

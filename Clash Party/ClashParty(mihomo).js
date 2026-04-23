@@ -1,7 +1,7 @@
 // Clash 普通内核覆写脚本 - SUB-STORE 多机场精细分流版（非 Smart 内核）
-// 版本：v5.2.6-normal.1 (2026-04-22)
+// 版本：v5.2.7-normal.1 (2026-04-23)
 // 架构：SUB-STORE 多机场融合 + 9 url-test 区域组 + 28 业务策略组 + 371+ rule-providers 100%+ 服务覆盖
-// 基线：Clash Party v5.2.6（与同目录 Clash Smart 内核覆写脚本.js 规则 100% 等价，仅 9 区域组从 smart 改为 url-test）
+// 基线：Clash Party v5.2.7（与同目录 ClashParty(mihomo-smart).js 规则 100% 等价，仅 9 区域组从 smart 改为 url-test）
 // 适用：Mihomo / Clash.Meta 稳定版内核、不支持 smart + LightGBM 的分支；也适用于想完全关闭 ML 评估的用户
 // 变更历史：见 `Clash Party/CHANGELOG.md`
 
@@ -9,7 +9,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.2.6-normal.1'
+const VERSION = 'v5.2.7-normal.1'
 
 // ================================================================
 //  模块 A：节点过滤（沿用 v3.1）
@@ -630,9 +630,13 @@ function injectRuleProviders(config) {
       proxy: RP_PROXY
     }
     // ── szkane CiciAI（字节海外AI：Coze International/Luma AI，需新加坡节点）──
+    // v5.2.7 FIX#27-P1: upstream `Clash/Ruleset/CiciAi.list` 含 `USER-AGENT,TikTok*`，mihomo
+    //   classical provider 不识别 USER-AGENT 会触发 `parse classical rule [USER-AGENT,TikTok*]
+    //   error: unsupported rule type: USER-AGENT`。改用本仓库 mirrors/ 的清洗副本（仅删该行，
+    //   TikTok 域名已由 metaDomain('tiktok','tiktok') 覆盖）。
     config['rule-providers']['szkane-ciciai'] = {
       type: 'http', behavior: 'classical', format: 'text',
-      url: 'https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/CiciAi.list',
+      url: 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/CiciAi.list',
       path: './ruleset/szkane-CiciAi.list',
       interval: nextInterval(),
       proxy: RP_PROXY
@@ -670,9 +674,13 @@ function injectRuleProviders(config) {
       proxy: RP_PROXY
     }
     // ── szkane UK Apps ──
+    // v5.2.7 FIX#27-P1: upstream `Clash/Ruleset/UK.list` 含 `USER-AGENT,BBCiPlayer*`，
+    //   mihomo classical provider 不识别 USER-AGENT 会触发
+    //   `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`。
+    //   改用本仓库 mirrors/ 的清洗副本（BBC 域名已由 metaDomain('bbc','bbc') 覆盖）。
     config['rule-providers']['szkane-uk'] = {
       type: 'http', behavior: 'classical', format: 'text',
-      url: 'https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/UK.list',
+      url: 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/UK.list',
       path: './ruleset/szkane-UK.list',
       interval: nextInterval(),
       proxy: RP_PROXY
@@ -750,9 +758,13 @@ function injectRuleProviders(config) {
       interval: nextInterval(),
       proxy: RP_PROXY
     }
+    // v5.2.7 FIX#27-P1: upstream `Grok/Grok.yaml` 含 `IP-CIDR         , 17.253.4.125`
+    //   （多余空格 + 缺 CIDR 掩码）会触发
+    //   `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error`。
+    //   改用本仓库 mirrors/ 的清洗副本（仅删该行 + 规整空格）。
     config['rule-providers']['acc-grok'] = {
       type: 'http', behavior: 'classical',
-      url: 'https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/Grok/Grok.yaml',
+      url: 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/Grok.yaml',
       path: './ruleset/acc-Grok.yaml',
       interval: nextInterval(),
       proxy: RP_PROXY

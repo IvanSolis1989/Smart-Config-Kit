@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.2.6-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v5.2.7-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # ============================================================================
 # 定位：对齐 Clash Party v5.2.4 JS 主线的 OpenClash 全量版本。
 #       与同目录 OpenClash(mihomo).sh（Normal）互补：
@@ -15,14 +15,14 @@
 #   • ~977 条 rules
 #   • DNS fake-ip + 嗅探（HTTP/TLS/QUIC）+ nameserver-policy 救援
 #   • Ruby 阶段做：节点过滤 / 区域分类 / Smart 组生成 / TLS 指纹注入
-# 基线：Clash Party v5.2.4（唯一主线）── 任何规则/组/DNS 改动必须先改 Clash Party JS，
+# 基线：Clash Party v5.2.7（唯一主线）── 任何规则/组/DNS 改动必须先改 Clash Party JS，
 #       再同步到此文件。参见仓库根目录 CLAUDE.md / AGENTS.md。
 # 变更历史：见 `OpenClash/CHANGELOG.md`（Full 部分）。
 # ============================================================================
 
 
 
-VERSION_TAG="v5.2.6-oc-full.1"
+VERSION_TAG="v5.2.7-oc-full.1"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -2363,11 +2363,14 @@ rule-providers:
     path: "./ruleset/szkane-AiDomain.list"
     interval: 89808
     proxy: "\U0001F6AB 受限网站"
+  # v5.2.7 FIX#27-P1: upstream CiciAi.list 含 USER-AGENT,TikTok* (mihomo classical 触发
+  # `parse classical rule [USER-AGENT,TikTok*] error: unsupported rule type: USER-AGENT`)
+  # 改用本仓库 mirrors/ 清洗副本；TikTok 域名已由 geosite:tiktok 覆盖。
   szkane-ciciai:
     type: http
     behavior: classical
     format: text
-    url: https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/CiciAi.list
+    url: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/CiciAi.list
     path: "./ruleset/szkane-CiciAi.list"
     interval: 89844
     proxy: "\U0001F6AB 受限网站"
@@ -2403,11 +2406,14 @@ rule-providers:
     path: "./ruleset/szkane-Edutools.list"
     interval: 89927
     proxy: "\U0001F6AB 受限网站"
+  # v5.2.7 FIX#27-P1: upstream UK.list 含 USER-AGENT,BBCiPlayer* (mihomo classical 触发
+  # `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`)
+  # 改用本仓库 mirrors/ 清洗副本；BBC 域名已由 geosite:bbc 覆盖。
   szkane-uk:
     type: http
     behavior: classical
     format: text
-    url: https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/UK.list
+    url: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/UK.list
     path: "./ruleset/szkane-UK.list"
     interval: 89896
     proxy: "\U0001F6AB 受限网站"
@@ -2458,10 +2464,13 @@ rule-providers:
     path: "./ruleset/acc-AppleAI.yaml"
     interval: 90028
     proxy: "\U0001F6AB 受限网站"
+  # v5.2.7 FIX#27-P1: upstream Grok.yaml 含 `IP-CIDR         , 17.253.4.125`
+  # (多余空格 + 缺 CIDR 掩码 → `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error`)
+  # 改用本仓库 mirrors/ 清洗副本（仅删该行 + 规整空格）。
   acc-grok:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/Grok/Grok.yaml
+    url: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/Grok.yaml
     path: "./ruleset/acc-Grok.yaml"
     interval: 90049
     proxy: "\U0001F6AB 受限网站"
@@ -4044,7 +4053,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.6-oc-full.1"
+VERSION = "v5.2.7-oc-full.1"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }

@@ -1,0 +1,84 @@
+# Mirror of: https://github.com/szkane/ClashRuleSet/blob/main/Clash/Ruleset/CiciAi.list
+# Cleanup: dropped `USER-AGENT,TikTok*` — mihomo `classical` provider does not support
+# USER-AGENT rules (Surge / iOS leftover) and emits
+#   `parse classical rule [USER-AGENT,TikTok*] error: unsupported rule type: USER-AGENT`.
+# TikTok domain coverage is already provided by MetaCubeX geosite:tiktok (metaDomain('tiktok')).
+# CiciAI
+PROCESS-NAME,Cici
+PROCESS-NAME,Cici Helper (Renderer)
+PROCESS-NAME,Cici Helper
+DOMAIN-KEYWORD,ciciai
+DOMAIN-KEYWORD,dola
+DOMAIN-KEYWORD,byteoversea
+DOMAIN-SUFFIX,cici.com
+DOMAIN-SUFFIX,dola.com
+DOMAIN-SUFFIX,ciciai.com
+DOMAIN-SUFFIX,vcs-sg.byteoversea.com
+DOMAIN-SUFFIX,vmweb-va.ciciai.com
+DOMAIN-SUFFIX,mcs-va.ciciai.com
+DOMAIN-SUFFIX,lf-rc1.yhgfb-static.com
+DOMAIN-SUFFIX,itobsnssdk.com
+DOMAIN-SUFFIX,ciciaicdn.com
+DOMAIN-SUFFIX,abtestvm-sg.bytedance.com
+DOMAIN-SUFFIX,starling-oversea.byteoversea.com
+DOMAIN-SUFFIX,sf16-tcc-tos-sg.byteoversea.com
+DOMAIN-SUFFIX,bytedapm.com
+DOMAIN-SUFFIX,byteintl.net
+IP-CIDR,23.41.4.0/22,no-resolve
+
+
+#trae  + MarsCode Oversea version
+PROCESS-NAME,Trae Helper
+PROCESS-NAME,Trae Helper (Plugin)
+PROCESS-NAME,ai
+PROCESS-NAME,ai-agent
+PROCESS-NAME,ai-completion
+DOMAIN-SUFFIX,trae.ai
+DOMAIN-SUFFIX,bytednsdoc.com
+DOMAIN-SUFFIX,mchost.guru
+
+DOMAIN-SUFFIX,marscode.com
+DOMAIN-SUFFIX,zijieapi.com
+DOMAIN-SUFFIX,api.marscode.com
+DOMAIN-SUFFIX,api-sg-central.marscode.com
+DOMAIN-SUFFIX,mon-va.byteoversea.com
+DOMAIN-SUFFIX,sgali-mcs.byteoversea.com
+DOMAIN-SUFFIX,maliva-mcs.byteoversea.com
+DOMAIN-SUFFIX,mcs.zijieapi.com
+DOMAIN-SUFFIX,mon.zijieapi.com
+DOMAIN-SUFFIX,lf-cdn.marscode.com
+DOMAIN-SUFFIX,abtestvm.bytedance.com
+
+
+
+
+# TikTok
+PROCESS-NAME,TikTok
+DOMAIN-KEYWORD,tiktokcdn
+DOMAIN-SUFFIX,byteoversea.com
+DOMAIN-SUFFIX,ibytedtos.com
+DOMAIN-SUFFIX,ipstatp.com
+DOMAIN-SUFFIX,muscdn.com
+DOMAIN-SUFFIX,musical.ly
+DOMAIN-SUFFIX,tik-tokapi.com
+DOMAIN-SUFFIX,tiktok.com
+DOMAIN-SUFFIX,tiktokcdn.com
+DOMAIN-SUFFIX,tiktokv.com
+DOMAIN-SUFFIX,tiktokcdn-us.com
+
+# capcut
+PROCESS-NAME,CapCut
+DOMAIN-SUFFIX,ulikecam.com
+DOMAIN-SUFFIX,capcut.com
+DOMAIN-SUFFIX,capcutapi.com
+
+
+# lemon8
+PROCESS-NAME,Lemon8
+DOMAIN-KEYWORD,lemon8
+DOMAIN-SUFFIX,lemon8cdn.com
+DOMAIN-SUFFIX,lemon8-app.com
+DOMAIN-SUFFIX,ttwstatic.com
+DOMAIN-SUFFIX,ibyteimg.com
+DOMAIN-SUFFIX,snapkit.com
+DOMAIN-SUFFIX,pangle.io

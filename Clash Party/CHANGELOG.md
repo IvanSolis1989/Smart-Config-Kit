@@ -7,6 +7,32 @@
 
 ---
 
+## v5.2.7 (2026-04-23)
+
+- ★ **FIX#27-P1**：消除 mihomo 加载 3 个 classical rule-provider 时的 parse warning
+  - 现象（用户报告）：mihomo 启动 / reload 日志反复打印
+    - `parse classical rule [USER-AGENT,TikTok*] error: unsupported rule type: USER-AGENT`
+    - `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`
+    - `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error`
+  - 根因定位：
+    - `szkane-ciciai` → upstream `szkane/ClashRuleSet/Clash/Ruleset/CiciAi.list` 第 52 行 `USER-AGENT,TikTok*`（mihomo `classical` provider 不识别 USER-AGENT，是 Surge/iOS 遗留语法）
+    - `szkane-uk` → upstream `szkane/ClashRuleSet/Clash/Ruleset/UK.list` 第 5 行 `USER-AGENT,BBCiPlayer*`（同上）
+    - `acc-grok` → upstream `Accademia/Additional_Rule_For_Clash/Grok/Grok.yaml` 第 9 行 `IP-CIDR         , 17.253.4.125`（多余空格 + 缺 CIDR 掩码 → mihomo 解析失败）
+  - 修复方案：在仓库根目录新增 `mirrors/` 子目录托管这 3 份**仅删去问题行**的清洗副本，把 4 个 mihomo-family 产物的 URL 切到本仓库的 jsdelivr 镜像
+    - `mirrors/CiciAi.list`：去除 `USER-AGENT,TikTok*`（TikTok 域名已由 `metaDomain('tiktok','tiktok')` 提供 100% 覆盖）
+    - `mirrors/UK.list`：去除 `USER-AGENT,BBCiPlayer*`（BBC 域名已由 `metaDomain('bbc','bbc')` 提供 100% 覆盖）
+    - `mirrors/Grok.yaml`：去除 `IP-CIDR , 17.253.4.125`（该 IP 是 Apple `time.apple.com` 的 anycast 地址，与 Grok 路由无关）+ 规整 DOMAIN-SUFFIX 周围多余空格
+  - 同步范围（FIX#27 同构审计）：
+    - ✅ **Clash Party Smart JS**（本文件）：3 个 provider URL 切镜像，bump 到 `v5.2.7`
+    - ✅ **Clash Party Normal JS**（`ClashParty(mihomo).js`）：3 个 provider URL 切镜像，bump 到 `v5.2.7-normal.1`
+    - ✅ **CMFA YAML**（`Clash Meta For Android/CMFA(mihomo).yaml`）：3 个 provider URL 切镜像，bump 到 `v5.2.7-cmfa.1`
+    - ✅ **OpenClash Smart sh**（heredoc YAML）：3 个 provider URL 切镜像，bump 到 `v5.2.7-oc-full.1`
+    - ✅ **OpenClash Normal sh**（heredoc YAML）：3 个 provider URL 切镜像，bump 到 `v5.2.7-oc-normal.1`
+    - ⛔ **Shadowrocket / Surge / Loon / Quantumult X**：iOS 系产物的 RULE-SET 解析器**原生支持** `USER-AGENT`（Surge / Shadowrocket / Loon / QX 都把这条规则当一等公民），同样能容忍 `IP-CIDR  , 1.2.3.4` 这种空格变体；仍可继续直接拉 szkane / Accademia 的上游 URL，无须切镜像 —— 但若上游 yaml 里有 `IP-CIDR ,` 缺 mask（mihomo 报错的本因），iOS 端会把它解析成 `1.2.3.4/32`，行为等价。审计通过、不动。
+    - ⛔ **SingBox Full**：使用 sing-box 自身的 `route.rule_set`（binary `.srs` / source JSON），与 Clash classical 完全无关，零影响
+    - ⛔ **v2rayN Xray routing**：纯 Xray `routing.rules` 结构，不消费 Clash classical provider，零影响
+  - 兼容性：jsdelivr 对本仓库的拉取首次冷缓存 ~5 min；之后命中边缘缓存。镜像内容仅去掉问题行，剩余规则和 upstream 字节级一致。
+
 ## v5.2.6 (2026-04-22)
 
 - ★ **FIX#24-P0**：补齐 ISO alpha-3 国家代码，修复 `TWN/JPN/KOR/SGP` 命名节点归类失败

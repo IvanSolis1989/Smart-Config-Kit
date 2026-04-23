@@ -9,6 +9,17 @@
 
 ## Normal（`OpenClash(mihomo).sh`，非 Smart 内核 / url-test 版）
 
+### v5.2.7-oc-normal.1 (2026-04-23)
+
+- ★ **FIX#27-P1**（与 Clash Party v5.2.7 同步）：消除 mihomo 加载 3 个 classical rule-provider 的 parse warning
+  - 现象：OpenClash → mihomo 启动 / reload 日志反复打印
+    - `parse classical rule [USER-AGENT,TikTok*] error: unsupported rule type: USER-AGENT`
+    - `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`
+    - `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error`
+  - 根因：upstream `szkane/ClashRuleSet` 的 `CiciAi.list` / `UK.list` 各有 1 行 USER-AGENT（mihomo 不识别）；upstream `Accademia/...` 的 `Grok.yaml` 有 1 行 `IP-CIDR         , 17.253.4.125`（多余空格 + 缺 mask）
+  - 修复：把 `szkane-ciciai` / `szkane-uk` / `acc-grok` 的 URL 切到本仓库 `mirrors/` 子目录的清洗副本（仅删问题行，剩余规则字节级一致）
+  - 跟随基线：Clash Party v5.2.7 → Normal bump 到 `v5.2.7-oc-normal.1`
+
 ### v5.2.6-oc-normal.1 (2026-04-22)
 
 - ★ **FIX#24-P0**（同构 bug 补齐）：Ruby `REGIONS` 哈希补 `KOR` 字面量
@@ -64,6 +75,13 @@
 ---
 
 ## Full（`OpenClash(mihomo-smart).sh`）
+
+### v5.2.7-oc-full.1 (2026-04-23)
+
+- ★ **FIX#27-P1**（与 Clash Party v5.2.7 同步）：消除 mihomo 加载 3 个 classical rule-provider 的 parse warning
+  - 现象 / 根因：同 Normal 版 v5.2.7-oc-normal.1 —— upstream `CiciAi.list` / `UK.list` 各 1 行 `USER-AGENT,*`、`Grok.yaml` 1 行 `IP-CIDR         , 17.253.4.125`（多余空格 + 缺 mask）
+  - 修复：把 `szkane-ciciai` / `szkane-uk` / `acc-grok` 的 URL 切到本仓库 `mirrors/` 子目录的清洗副本
+  - 跟随基线：Clash Party v5.2.7 → Full bump 到 `v5.2.7-oc-full.1`
 
 ### v5.2.6-oc-full.1 (2026-04-22)
 
