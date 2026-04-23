@@ -2,7 +2,7 @@
     {
       "id": "scki-000-meta",
       "enabled": false,
-      "remarks": "Smart-Config-Kit v5.2.6-v2n.3 | Build 2026-04-23 | Baseline Clash Party v5.2.6 | changelog: v2rayN/CHANGELOG.md",
+      "remarks": "Smart-Config-Kit v5.2.8-v2n.1 | Build 2026-04-23 | Baseline Clash Party v5.2.8 | changelog: v2rayN/CHANGELOG.md",
       "outboundTag": "direct",
       "domain": [
         "domain:smart-config-kit.invalid"
@@ -240,6 +240,41 @@
       "network": "tcp,udp"
     },
     {
+      "id": "scki-019-hmt-media",
+      "enabled": true,
+      "remarks": "港澳台 B 站 (szkane BilibiliHMT: bstar/upos-bstar/bilibili.tv 等) → 代理；必须排在 scki-018-cn-media 之前，否则 geosite:bilibili 会先命中直连导致 412",
+      "outboundTag": "proxy",
+      "domain": [
+        "p-bstarstatic.akamaized.net",
+        "p.bstarstatic.com",
+        "upos-bstar-mirrorakam.akamaized.net",
+        "upos-bstar1-mirrorakam.akamaized.net",
+        "upos-hz-mirrorakam.akamaized.net",
+        "domain:acgvideo.com",
+        "domain:bilibili.com",
+        "domain:bilibili.tv"
+      ],
+      "ip": [
+        "45.43.32.234/32",
+        "103.151.150.0/23",
+        "119.29.29.29/32",
+        "128.1.62.200/32",
+        "128.1.62.201/32",
+        "150.116.92.250/32",
+        "164.52.33.178/32",
+        "164.52.33.182/32",
+        "164.52.76.18/32",
+        "203.107.1.33/32",
+        "203.107.1.34/32",
+        "203.107.1.65/32",
+        "203.107.1.66/32"
+      ],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
       "id": "scki-018-cn-media",
       "enabled": true,
       "remarks": "国内流媒体 (B 站 / 爱奇艺 / 优酷 / 腾讯视频) → 直连",
@@ -251,6 +286,20 @@
         "geosite:tencentvideo",
         "geosite:mgtv",
         "geosite:douyin"
+      ],
+      "ip": [],
+      "port": "",
+      "protocol": [],
+      "inboundTag": [],
+      "network": "tcp,udp"
+    },
+    {
+      "id": "scki-019a-sea-media",
+      "enabled": true,
+      "remarks": "东南亚流媒体 (biliintl 国际版 B 站) → 代理；v2rayN Xray 只有 proxy/direct/block 三出站，STREAM_SEA 区域组在此降级为 proxy",
+      "outboundTag": "proxy",
+      "domain": [
+        "geosite:biliintl"
       ],
       "ip": [],
       "port": "",

@@ -7,6 +7,35 @@
 
 ---
 
+## v5.2.8-v2n.1 (2026-04-23) — 补齐港澳台 / 国际版 B 站分流，主线对齐 v5.2.8
+
+本轮补齐与 Clash Party v5.2.7 / v5.2.8 的主线同步欠账，以及港澳台 / 国际版 B 站在 Xray 路径的规则缺失。
+
+### 改动
+
+- ★ **FIX#v2n-07**：新增 `scki-019-hmt-media`（港澳台 B 站 → 代理）
+  - 基线 `Clash Party/ClashParty(mihomo-smart).js:1555` 将 `RULE-SET,szkane-bilihmt` 归入 `🇭🇰 香港流媒体`；Xray 三出站模型下降级为 `proxy`。
+  - szkane 的 `ClashRuleSet@main/Clash/Ruleset/BilibiliHMT.list` 是 Clash 私有 `.list`，xray 的 `geosite.dat` 不含对应分类，因此**内联**上游 21 条（5 DOMAIN / 3 DOMAIN-SUFFIX / 13 IP-CIDR）。
+  - **放置在 `scki-018-cn-media` 之前**：xray 与 mihomo 一样按数组顺序评估，`geosite:bilibili` 里包含 `bilibili.com` 后缀，若 HMT 排在 018 之后会先被 018 捕获命中直连 → 港澳台番剧 412。
+- ★ **FIX#v2n-08**：新增 `scki-019a-sea-media`（国际版 B 站 → 代理）
+  - 基线将 `RULE-SET,biliintl` 归入 `📺 东南亚流媒体`；v2rayN Xray 三出站下降级为 `proxy`。
+  - 用 `geosite:biliintl`（v2fly `geosite.dat` 标准分类）；若用户 geosite 不含该分类，会自然回落到 `scki-040-gfw` → proxy，语义不变。
+- ★ 主线对齐：`scki-000-meta` remarks 由 `v5.2.6-v2n.3` / `Baseline Clash Party v5.2.6` bump 到 `v5.2.8-v2n.1` / `Baseline Clash Party v5.2.8`（前两次 v5.2.7 / v5.2.8 主线 bump 未同步 v2rayN，一并补上）。
+
+### 官方文档证据
+
+- [v2rayN Wiki — 自定义路由规则](https://github.com/2dust/v2rayN/wiki/%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B-%E8%B7%AF%E7%94%B1)：自定义路由规则为数组，每项是一条 Xray 路由规则对象（顶层仍为数组保持不变）。
+- [Xray Routing — domain prefix](https://xtls.github.io/config/routing.html)：`geosite:*` / `domain:*` / 纯域名 / IP-CIDR 的匹配语义；路由按规则数组**顺序**评估，首条命中立即出站。
+
+### 自检
+
+- JSON 合法 ✓
+- 对象总数 32（启用 31 + 禁用 metadata 1）✓
+- `outboundTag` 集合仍为 `{proxy, direct, block}` ✓
+- 规则顺序：`scki-019-hmt-media` < `scki-018-cn-media` < `scki-019a-sea-media` ✓（python 断言通过）
+
+---
+
 ## v5.2.6-v2n.3 (2026-04-23) — 改为官方规则数组 + 移除悬空 dns-out
 
 本轮处理 P0 兼容性审查中 v2rayN Xray 路径的导入格式与 outboundTag 问题。

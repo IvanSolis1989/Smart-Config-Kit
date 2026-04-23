@@ -5,6 +5,29 @@
 
 ---
 
+## v5.2.8-sing.2 (2026-04-23) — 修复港澳台 B 站（szkane-bilihmt）缺失
+
+- ★ FIX：Full 配置之前**静默丢失**了 `szkane-bilihmt`（港澳台哔哩哔哩）。
+  - 根因：`SingBox(sing-box)-generator.js` 的 `toSrsUrl()` 只识别 MetaCubeX `meta-rules-dat@meta/*.mrs` 和 DustinWin ads 两种 URL；szkane 的 `ClashRuleSet@main/Clash/Ruleset/BilibiliHMT.list` 不匹配 → provider 被 `filter(Boolean)` 丢弃 → `RULE-SET,szkane-bilihmt,🇭🇰 香港流媒体` 规则也被 `availableRuleSets` 过滤成 `null`。
+  - 结果：用户在 sing-box 上访问港澳台番剧域名（如 `p.bstarstatic.com` / `upos-bstar-*.akamaized.net`）会落到后续规则或 FINAL，不会路由到 🇭🇰 香港流媒体，可能触发港澳台 B 站 412 校验。
+- ★ 修法：在 `toSingRule()` 的 `RULE-SET` 分支里特判 `szkane-bilihmt`，用内联默认规则（`domain` × 5 / `domain_suffix` × 3 / `ip_cidr` × 13，共 21 条，与 szkane 上游一致）替代 remote rule_set 引用。
+  - sing-box 同一默认规则内 `domain` / `domain_suffix` / `ip_cidr` 默认 OR 组合（见 [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/)）。
+- ★ Full 产物 `_meta.version` bump 到 `v5.2.8-sing.2`。
+
+### 自检摘要
+
+- `node SingBox/SingBox(sing-box)-generator.js` 重新生成后：
+  - `route.rules` = 624（比 sing.1 的 623 多 1 条，即恢复的 HMT 规则）
+  - 其中含有 `outbound: "🇭🇰 香港流媒体"` 且 `domain_suffix` 包含 `bilibili.com`/`bilibili.tv`/`acgvideo.com` 的 1 条内联规则
+  - `outbounds` selector/urltest 数仍为 47
+- JSON 合法性：`python3 -c 'import json;json.load(open("SingBox/SingBox(sing-box)-full.json"))'` 通过。
+
+### 官方文档证据
+
+- [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/)：默认规则同类字段（`domain` / `domain_suffix` / `domain_keyword` / `ip_cidr` / `ip_is_private` 等）以 `||` 组合，跨类以 `&&` 组合——单条 inline 规则里混用 domain/ip_cidr 的 OR 语义正确。
+
+---
+
 ## v5.2.6-sing.5 (2026-04-23) — 删除 SingBox 非 Full 产物
 
 - ★ 删除旧的非 Full SingBox JSON 产物，本目录只保留 Full 配置。

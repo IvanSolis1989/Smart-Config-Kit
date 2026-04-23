@@ -1,7 +1,7 @@
 const fs = require('fs');
 const vm = require('vm');
 
-const VERSION = 'v5.2.8-sing.1';
+const VERSION = 'v5.2.8-sing.2';
 const BUILD = '2026-04-23';
 const BASELINE = 'Clash Party v5.2.8';
 
@@ -312,12 +312,52 @@ function isRejectTarget(target) {
   return target === 'REJECT' || target === ADS_OUTBOUND;
 }
 
+// szkane/ClashRuleSet BilibiliHMT.list 为 Clash 私有 .list 文本，
+// MetaCubeX/meta-rules-dat 没有对应的 .srs，无法作为 sing-box remote rule_set 使用。
+// 将 21 条原始条目内联到一条默认规则里；sing-box 对同一分类下的
+// domain / domain_suffix / ip_cidr 默认按 OR 组合（见官方 route/rule 文档）。
+const SZKANE_BILIHMT_RULE = {
+  domain: [
+    'p-bstarstatic.akamaized.net',
+    'p.bstarstatic.com',
+    'upos-bstar-mirrorakam.akamaized.net',
+    'upos-bstar1-mirrorakam.akamaized.net',
+    'upos-hz-mirrorakam.akamaized.net'
+  ],
+  domain_suffix: [
+    'acgvideo.com',
+    'bilibili.com',
+    'bilibili.tv'
+  ],
+  ip_cidr: [
+    '45.43.32.234/32',
+    '103.151.150.0/23',
+    '119.29.29.29/32',
+    '128.1.62.200/32',
+    '128.1.62.201/32',
+    '150.116.92.250/32',
+    '164.52.33.178/32',
+    '164.52.33.182/32',
+    '164.52.76.18/32',
+    '203.107.1.33/32',
+    '203.107.1.34/32',
+    '203.107.1.65/32',
+    '203.107.1.66/32'
+  ]
+};
+
 function toSingRule(ruleText, availableRuleSets) {
   if (typeof ruleText !== 'string') return null;
   const parts = ruleText.split(',');
   const type = parts[0];
 
   if (type === 'RULE-SET') {
+    if (parts[1] === 'szkane-bilihmt') {
+      if (isRejectTarget(parts[2])) {
+        return { ...SZKANE_BILIHMT_RULE, action: 'reject' };
+      }
+      return { ...SZKANE_BILIHMT_RULE, action: 'route', outbound: parts[2] };
+    }
     if (!availableRuleSets.has(parts[1])) return null;
     if (isRejectTarget(parts[2])) return { rule_set: [parts[1]], action: 'reject' };
     return { rule_set: [parts[1]], action: 'route', outbound: parts[2] };
