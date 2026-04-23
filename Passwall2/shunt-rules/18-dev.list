@@ -11,6 +11,6 @@ geosite:docker
 geosite:npmjs
 geosite:pypi
 geosite:python
-domain-suffix:jetbrains.com
-domain-suffix:stackoverflow.com
-domain-suffix:stackexchange.com
+domain:jetbrains.com
+domain:stackoverflow.com
+domain:stackexchange.com

@@ -8,6 +8,6 @@
 geosite:gmail
 geosite:outlook
 geosite:protonmail
-domain-suffix:fastmail.com
-domain-suffix:tuta.com
-domain-suffix:mail.ru
+domain:fastmail.com
+domain:tuta.com
+domain:mail.ru

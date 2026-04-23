@@ -35,7 +35,7 @@
 >
 > **关于 HomeProxy（OpenWrt 官方 sing-box LuCI 插件）：** 内核就是 sing-box，直接导入 `SingBox/singbox-smart-full.json`，**不需要**独立产物；`SingBox/README.md §2b` 提供 HomeProxy 专用导入说明。
 >
-> **关于 Passwall / Passwall2：** 底层走 xray/sing-box，**支持 geosite / geoip / rule_set** 规则匹配能力，但**没有** mihomo 的 proxy-groups 嵌套选择器（两级 `select`/`url-test` 串联 + Smart + LightGBM）。**本仓库 `Passwall2/` 目录**提供简化版 shunt rule 参考（28 条业务规则展平版，功能约 OpenClash slim 的 70%）；想要完整体验应迁移到 OpenClash。`OpenClash/README.md` 顶部有迁移步骤。
+> **关于 Passwall / Passwall2：** 这两款是 [`Openwrt-Passwall`](https://github.com/Openwrt-Passwall) 组织（原 `xiaorouji` 个人仓库已于 2025 年前后迁入该组织，访问旧 URL 会 301 跳转）**并行维护**的两款独立 OpenWrt 插件（**不是**新旧关系；2026-04 两者发版仅差 4 天）。**Passwall** = 全功能（直连/屏蔽/GFW/代理 4 列表 + 分流 + `trojan-plus` 节点）；**Passwall2** = 精简分流（砍掉四列表，只保留 keyword/domain/geosite/geoip 匹配）。两者底层都是 **xray-core + sing-box 双栈**（都**不打包** mihomo），都**没有** mihomo 的 proxy-groups 嵌套选择器（两级 `select`/`url-test` + Smart + LightGBM）——Lua CBI 表单式 UI 没有 YAML 嵌套组语义。**规则语法两者完全相同**（共用 [`shunt_rules.lua`](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua)：纯字符串 / `domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote|local:` / `geoip:` + CIDR；**不支持** Clash 的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` / `IP-CIDR,` 前缀）。**本仓库 `Passwall2/` 目录**提供把 Clash Party 两层结构手工展平为 **28 条 shunt rule** 的参考实现，**同一份 `.list` 两者通用**（Passwall 用户把 `apply-shunt-rules.sh` 里 `CONFIG_NAME` 从 `passwall2` 改为 `passwall` 即可）。想要 mihomo 完整体验（嵌套组 + Smart + LightGBM）请迁移到 **OpenClash**（本仓库 `OpenClash/`）。
 >
 > **关于 SSR Plus+：** 架构老旧 + 已停止维护，没有 geosite/rule_set 层能力。**不提供产物**，建议直接换 OpenClash。
 >

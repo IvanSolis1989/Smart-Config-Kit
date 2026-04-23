@@ -7,8 +7,8 @@
 # [Domain List]
 geosite:paypal
 geosite:stripe
-domain-suffix:wise.com
-domain-suffix:revolut.com
-domain-suffix:visa.com
-domain-suffix:mastercard.com
-domain-suffix:amex.com
+domain:wise.com
+domain:revolut.com
+domain:visa.com
+domain:mastercard.com
+domain:amex.com

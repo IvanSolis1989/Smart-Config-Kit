@@ -5,11 +5,11 @@
 # 在 Passwall2 LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
 
 # [Domain List]
-domain-suffix:dl.google.com
-domain-suffix:play.googleapis.com
-domain-suffix:msftconnecttest.com
-domain-suffix:windowsupdate.com
-domain-suffix:cdn-apple.com
-domain-suffix:ubuntu.com
-domain-suffix:mozilla.org
-domain-suffix:apkpure.com
+domain:dl.google.com
+domain:play.googleapis.com
+domain:msftconnecttest.com
+domain:windowsupdate.com
+domain:cdn-apple.com
+domain:ubuntu.com
+domain:mozilla.org
+domain:apkpure.com

@@ -6,6 +6,6 @@
 
 # [Domain List]
 geosite:private-tracker
-domain-suffix:opentrackr.org
-domain-suffix:openbittorrent.com
-domain-suffix:nyaa.si
+domain:opentrackr.org
+domain:openbittorrent.com
+domain:nyaa.si

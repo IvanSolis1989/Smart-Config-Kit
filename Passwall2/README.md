@@ -1,9 +1,9 @@
-# Passwall2 使用教程（对齐 Clash Party v5.2.5 简化版）
+# Passwall / Passwall2 使用教程（对齐 Clash Party v5.2.6 简化版）
 
 > 配置参考：`Passwall2/` 目录  
-> 版本：**v5.2.5-pw2.1**（Build 2026-04-20，初版）  
-> 目标：**Passwall2**（iceeeder / xiaorouter 等社区分支），兼顾 Passwall 旧版  
-> 架构：28 条 shunt rule（展平版）+ 每条支持 `geosite:xxx` / `geoip:xxx` / `domain-suffix:xxx` / `IP-CIDR,x/n` 混合匹配
+> 版本：**v5.2.6-pw2.2**（Build 2026-04-23）  
+> 目标：**[Passwall](https://github.com/Openwrt-Passwall/openwrt-passwall)**（全功能版）+ **[Passwall2](https://github.com/Openwrt-Passwall/openwrt-passwall2)**（精简分流版）—— [`Openwrt-Passwall`](https://github.com/Openwrt-Passwall) 组织（原 `xiaorouji` 个人仓库已迁入）并行维护的两款 OpenWrt 插件，**规则语法同源**（共用 [shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua) 解析器），同一份 `.list` 两者通用。  
+> 架构：28 条 shunt rule（展平版，每条对应一个业务类别）+ xray/sing-box 原生域名匹配语法（纯字符串 / `regexp:` / `domain:` / `full:` / `geosite:` / `rule-set:remote|local:` / `geoip:` / CIDR）
 
 ---
 
@@ -55,7 +55,7 @@
 - ❌ **规则多了顺序错乱**：Passwall2 按列表顺序匹配，**把"国内网站"/"广告拦截"放最前或最后**，业务规则放中间
 - ❌ **geosite 关键字不识别**：确认 Passwall2 的 xray/sing-box 核已下载 `geosite.dat`（LuCI → 全局设置 → 规则资源设置里有个"更新 geosite.dat / geoip.dat"按钮）
 - ❌ **节点换了规则都白写**：这是 Passwall 的固有限制，没办法。想避开就换 OpenClash
-- ❌ **Passwall 旧版语法稍不同**：Passwall 老版用 "分流节点" 字段；Passwall2 用 "分流规则" 面板。本文档的 `geosite:` / `geoip:` 语法两者都支持
+- ❌ **混淆 Passwall 和 Passwall2**：这两款是 [`Openwrt-Passwall`](https://github.com/Openwrt-Passwall) 组织（原 `xiaorouji` 个人仓库迁入）**并行维护**的两款插件（**不是**新旧关系；最新发版仅差 4 天）。Passwall = 全功能（有直连/屏蔽/GFW/代理 4 列表 + 分流），Passwall2 = 精简分流（只有 keyword/domain/geosite/geoip 匹配）。**规则语法两者完全相同**（共用 `shunt_rules.lua` 解析器），本目录的 28 个 `.list` 同时适用。
 
 ---
 
@@ -83,11 +83,25 @@ Passwall2 根据你选的核提供不同协议，与 v2rayN 同理：
 
 > 下方的每一条规则也以独立 `.list` 文件形式存放于 `Passwall2/shunt-rules/`（如 `01-ai-service.list` / `06-social.list`），方便逐条复制。想一次性看全部 28 条的单文件版本：`Passwall2/passwall2-smart-shunt.conf`。
 
-每一条 = Passwall2 「分流控制」面板里点一次「新增」。按顺序添加。**第 24-28 条（国内/受限/国外/FINAL/广告）顺序很关键**。
+每一条 = Passwall / Passwall2「分流控制」面板里点一次「新增」。按顺序添加。**第 24-28 条（国内/受限/国外/FINAL/广告）顺序很关键**。
 
-> 使用语法：`geosite:xxx` = xray/sing-box geosite 分类；`domain-suffix:xxx` = 手工补充域名；`geoip:xxx` = geoip 分类；`IP-CIDR,x/n` = IP 段。
+> **Passwall / Passwall2 分流规则语法**（两者共用同一套 xray/sing-box 域名匹配语法，`shunt_rules.lua` 权威源见文末参考）：
 >
-> **推荐节点区域** = Clash Party 基线推荐。你要在 Passwall2 的"节点列表"里创建对应地区的负载均衡组（比如"🇺🇸 美国-LB"），然后把这里的 shunt rule 指向这个组。
+> | 前缀 | 含义 | 示例 |
+> |---|---|---|
+> | （无前缀） | 纯字符串**子串匹配** | `sina.com` 命中 `sina.com` / `sina.com.cn` / `www.sina.com`，**不**匹配 `sina.cn` |
+> | `domain:` | **子域名匹配（推荐，等价 Clash `DOMAIN-SUFFIX`）** | `domain:v2ray.com` 命中 `v2ray.com` / `www.v2ray.com`，**不**匹配 `xv2ray.com` |
+> | `full:` | 完整匹配（等价 Clash `DOMAIN`） | `full:v2ray.com` 只命中 `v2ray.com` |
+> | `regexp:` | 正则 | `regexp:\.goo.*\.com$` 命中 `www.google.com` / `fonts.googleapis.com` |
+> | `geosite:` | V2Ray `geosite.dat` 预定义分类 | `geosite:cn` / `geosite:google` |
+> | `rule-set:remote:<url>` | sing-box 远程 `.srs` 规则集 | `rule-set:remote:https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs` |
+> | `rule-set:local:<path>` | sing-box 本地 `.srs` 规则集 | `rule-set:local:/usr/share/sing-box/geosite-cn.srs` |
+> | IP 列表字段 | `geoip:<tag>` / CIDR / `rule-set:` | `geoip:cn` / `geoip:private` / `192.168.0.0/16` |
+> | `#` 开头 | 注释 |  |
+>
+> ⚠️ **不要**用 Clash 的 `DOMAIN-SUFFIX,xxx` / `DOMAIN-KEYWORD,xxx` / `DOMAIN,xxx` / `IP-CIDR,xxx,...` 语法——Passwall / Passwall2 **不识别**这些前缀，会把整串 `DOMAIN-SUFFIX,v0.dev` 当成纯字符串子串匹配的字面量（**100% 不命中**任何域名）。本目录 v5.2.6-pw2.2 修复前曾犯此错误。
+>
+> **推荐节点区域** = Clash Party 基线推荐。你要在 Passwall / Passwall2 的"节点列表"里创建对应地区的负载均衡组（比如"🇺🇸 美国-LB"），然后把这里的 shunt rule 指向这个组。
 
 ---
 
@@ -103,21 +117,21 @@ geosite:copilot
 geosite:bard
 geosite:perplexity
 geosite:huggingface
-domain-suffix:cursor.com
-domain-suffix:v0.dev
-domain-suffix:character.ai
-domain-suffix:mistral.ai
-domain-suffix:cohere.ai
-domain-suffix:cohere.com
-domain-suffix:replicate.com
-domain-suffix:together.ai
-domain-suffix:runpod.io
-domain-suffix:openrouter.ai
-domain-suffix:suno.ai
-domain-suffix:suno.com
-domain-suffix:midjourney.com
-domain-suffix:pi.ai
-domain-suffix:inflection.ai
+domain:cursor.com
+domain:v0.dev
+domain:character.ai
+domain:mistral.ai
+domain:cohere.ai
+domain:cohere.com
+domain:replicate.com
+domain:together.ai
+domain:runpod.io
+domain:openrouter.ai
+domain:suno.ai
+domain:suno.com
+domain:midjourney.com
+domain:pi.ai
+domain:inflection.ai
 ```
 
 ### 2️⃣ 💰 加密货币
@@ -127,10 +141,10 @@ domain-suffix:inflection.ai
 ```
 geosite:cryptocurrency
 geosite:binance
-domain-suffix:tradingview.com
-domain-suffix:coinglass.com
-domain-suffix:coinmarketcap.com
-domain-suffix:coingecko.com
+domain:tradingview.com
+domain:coinglass.com
+domain:coinmarketcap.com
+domain:coingecko.com
 ```
 
 ### 3️⃣ 🏦 金融支付
@@ -140,11 +154,11 @@ domain-suffix:coingecko.com
 ```
 geosite:paypal
 geosite:stripe
-domain-suffix:wise.com
-domain-suffix:revolut.com
-domain-suffix:visa.com
-domain-suffix:mastercard.com
-domain-suffix:amex.com
+domain:wise.com
+domain:revolut.com
+domain:visa.com
+domain:mastercard.com
+domain:amex.com
 ```
 
 ### 4️⃣ 📧 邮件服务
@@ -155,9 +169,9 @@ domain-suffix:amex.com
 geosite:gmail
 geosite:outlook
 geosite:protonmail
-domain-suffix:fastmail.com
-domain-suffix:tuta.com
-domain-suffix:mail.ru
+domain:fastmail.com
+domain:tuta.com
+domain:mail.ru
 ```
 
 ### 5️⃣ 💬 即时通讯
@@ -209,7 +223,7 @@ geosite:teams
 geosite:slack
 geosite:notion
 geosite:atlassian
-domain-suffix:meet.google.com
+domain:meet.google.com
 ```
 
 ### 8️⃣ 📺 国内流媒体
@@ -233,10 +247,10 @@ geosite:qqmusic
 **域名列表**：
 ```
 geosite:viu
-domain-suffix:iq.com
-domain-suffix:wetv.vip
-domain-suffix:vidio.com
-domain-suffix:iqiyiintl.com
+domain:iq.com
+domain:wetv.vip
+domain:vidio.com
+domain:iqiyiintl.com
 ```
 
 ### 🔟 🇺🇸 美国流媒体
@@ -251,9 +265,9 @@ geosite:hbo
 geosite:hulu
 geosite:spotify
 geosite:primevideo
-domain-suffix:paramountplus.com
-domain-suffix:peacocktv.com
-domain-suffix:twitch.tv
+domain:paramountplus.com
+domain:peacocktv.com
+domain:twitch.tv
 ```
 
 **IP 列表**：
@@ -267,11 +281,11 @@ geoip:netflix
 **域名列表**：
 ```
 geosite:mytvsuper
-domain-suffix:mytvsuper.com
-domain-suffix:now.com
-domain-suffix:viu.tv
-domain-suffix:encoretvb.com
-domain-suffix:rthk.hk
+domain:mytvsuper.com
+domain:now.com
+domain:viu.tv
+domain:encoretvb.com
+domain:rthk.hk
 ```
 
 ### 1️⃣2️⃣ 🇹🇼 台湾流媒体
@@ -280,12 +294,12 @@ domain-suffix:rthk.hk
 **域名列表**：
 ```
 geosite:bahamut
-domain-suffix:bahamut.com.tw
-domain-suffix:hinet.net
-domain-suffix:kktv.me
-domain-suffix:litv.tv
-domain-suffix:hamivideo.hinet.net
-domain-suffix:friday.tw
+domain:bahamut.com.tw
+domain:hinet.net
+domain:kktv.me
+domain:litv.tv
+domain:hamivideo.hinet.net
+domain:friday.tw
 ```
 
 ### 1️⃣3️⃣ 🇯🇵 日韩流媒体
@@ -295,11 +309,11 @@ domain-suffix:friday.tw
 ```
 geosite:abema
 geosite:niconico
-domain-suffix:dazn.com
-domain-suffix:dmm.com
-domain-suffix:tv-tokyo.co.jp
-domain-suffix:tver.jp
-domain-suffix:rakuten.tv
+domain:dazn.com
+domain:dmm.com
+domain:tv-tokyo.co.jp
+domain:tver.jp
+domain:rakuten.tv
 ```
 
 ### 1️⃣4️⃣ 🇪🇺 欧洲流媒体
@@ -308,12 +322,12 @@ domain-suffix:rakuten.tv
 **域名列表**：
 ```
 geosite:bbc
-domain-suffix:itv.com
-domain-suffix:channel4.com
-domain-suffix:my5.tv
-domain-suffix:sky.com
-domain-suffix:skygo.com
-domain-suffix:britbox.co.uk
+domain:itv.com
+domain:channel4.com
+domain:my5.tv
+domain:sky.com
+domain:skygo.com
+domain:britbox.co.uk
 ```
 
 ### 1️⃣5️⃣ 🕹️ 国内游戏
@@ -322,9 +336,9 @@ domain-suffix:britbox.co.uk
 **域名列表**：
 ```
 geosite:steamcn
-domain-suffix:wanmei.com
-domain-suffix:majsoul.com
-domain-suffix:battlenet.com.cn
+domain:wanmei.com
+domain:majsoul.com
+domain:battlenet.com.cn
 ```
 
 ### 1️⃣6️⃣ 🎮 国外游戏
@@ -337,11 +351,11 @@ geosite:epicgames
 geosite:playstation
 geosite:xbox
 geosite:nintendo
-domain-suffix:riotgames.com
-domain-suffix:ea.com
-domain-suffix:blizzard.com
-domain-suffix:hoyoverse.com
-domain-suffix:mihoyo.com
+domain:riotgames.com
+domain:ea.com
+domain:blizzard.com
+domain:hoyoverse.com
+domain:mihoyo.com
 ```
 
 ### 1️⃣7️⃣ 🔍 搜索引擎
@@ -353,7 +367,7 @@ geosite:google
 geosite:bing
 geosite:duckduckgo
 geosite:yandex
-domain-suffix:scholar.google.com
+domain:scholar.google.com
 ```
 
 **IP 列表**：
@@ -372,9 +386,9 @@ geosite:docker
 geosite:npmjs
 geosite:pypi
 geosite:python
-domain-suffix:jetbrains.com
-domain-suffix:stackoverflow.com
-domain-suffix:stackexchange.com
+domain:jetbrains.com
+domain:stackoverflow.com
+domain:stackexchange.com
 ```
 
 ### 1️⃣9️⃣ Ⓜ️ 微软服务
@@ -384,9 +398,9 @@ domain-suffix:stackexchange.com
 ```
 geosite:microsoft
 geosite:onedrive
-domain-suffix:office.com
-domain-suffix:live.com
-domain-suffix:microsoftedge.com
+domain:office.com
+domain:live.com
+domain:microsoftedge.com
 ```
 
 ### 2️⃣0️⃣ 🍎 苹果服务
@@ -396,11 +410,11 @@ domain-suffix:microsoftedge.com
 ```
 geosite:apple
 geosite:icloud
-domain-suffix:appstore.com
-domain-suffix:mzstatic.com
-domain-suffix:itunes.com
-domain-suffix:applemusic.com
-domain-suffix:apple-dns.net
+domain:appstore.com
+domain:mzstatic.com
+domain:itunes.com
+domain:applemusic.com
+domain:apple-dns.net
 ```
 
 ### 2️⃣1️⃣ 📥 下载更新
@@ -408,14 +422,14 @@ domain-suffix:apple-dns.net
 
 **域名列表**：
 ```
-domain-suffix:dl.google.com
-domain-suffix:play.googleapis.com
-domain-suffix:msftconnecttest.com
-domain-suffix:windowsupdate.com
-domain-suffix:cdn-apple.com
-domain-suffix:ubuntu.com
-domain-suffix:mozilla.org
-domain-suffix:apkpure.com
+domain:dl.google.com
+domain:play.googleapis.com
+domain:msftconnecttest.com
+domain:windowsupdate.com
+domain:cdn-apple.com
+domain:ubuntu.com
+domain:mozilla.org
+domain:apkpure.com
 ```
 
 ### 2️⃣2️⃣ ☁️ 云与CDN
@@ -426,8 +440,8 @@ domain-suffix:apkpure.com
 geosite:cloudflare
 geosite:fastly
 geosite:akamai
-domain-suffix:jsdelivr.net
-domain-suffix:cloudfront.net
+domain:jsdelivr.net
+domain:cloudfront.net
 ```
 
 **IP 列表**：
@@ -442,9 +456,9 @@ geoip:fastly
 **域名列表**：
 ```
 geosite:private-tracker
-domain-suffix:opentrackr.org
-domain-suffix:openbittorrent.com
-domain-suffix:nyaa.si
+domain:opentrackr.org
+domain:openbittorrent.com
+domain:nyaa.si
 ```
 
 ### 2️⃣4️⃣ 🏠 国内网站（倒数第 5 条 — 位置重要）
@@ -476,16 +490,16 @@ geosite:greatfire
 **域名列表**：
 ```
 geosite:geolocation-!cn
-domain-suffix:cnn.com
-domain-suffix:nytimes.com
-domain-suffix:bloomberg.com
-domain-suffix:wikipedia.org
+domain:cnn.com
+domain:nytimes.com
+domain:bloomberg.com
+domain:wikipedia.org
 ```
 
 ### 2️⃣7️⃣ 🐟 漏网之鱼 FINAL（倒数第 2 条）
 **推荐节点**：🌍 全球
 
-**域名列表**：留空（或 `domain-keyword:` 通配）
+**域名列表**：留空（兜底规则不用显式写域名；Passwall / Passwall2 的 FINAL 走"全局设置 → 基本设置"里的**默认代理节点**开关，不是作为 shunt rule 的一条）
 **IP 列表**：留空
 **网络**：tcp,udp
 **匹配**：Passwall2 把这条设置为**兜底规则**（通常是「其余流量默认走代理主节点」开关）
@@ -516,13 +530,17 @@ Passwall2 有个单独的"黑名单"或"广告拦截"切换开关，直接开即
 
 想换回 OpenClash 反过来就行。配置互相独立保留，切换无数据丢失。
 
-**我们强烈推荐 OpenClash**。Passwall2 版本是降级版，用于不愿意换插件的用户兜底。
+**想要 mihomo 的 proxy-groups 嵌套（业务组 → 区域组）+ Smart/LightGBM 自动择优？请改用 OpenClash**（本仓库 `OpenClash/`）。Passwall / Passwall2 架构上都**没有**嵌套选择器（Lua CBI 表单式 UI，无 YAML 嵌套组语义），也**都不打包** mihomo（只有 xray + sing-box 双栈）——本目录的 28 条 shunt rule 是**把两层结构手工展平**的降级方案，适合坚持用 Passwall 系的用户。
 
 ---
 
 ## 📚 参考
 
-- Passwall2 项目：https://github.com/xiaorouji/openwrt-passwall2
-- Passwall（旧版）：https://github.com/xiaorouji/openwrt-passwall
-- MetaCubeX geosite.dat：https://github.com/MetaCubeX/meta-rules-dat（本参考使用的分类名称依据）
-- 本仓库完整体验：`OpenClash/README.md`（强烈推荐）
+- **Passwall 项目（全功能）**：https://github.com/Openwrt-Passwall/openwrt-passwall
+- **Passwall2 项目（精简分流）**：https://github.com/Openwrt-Passwall/openwrt-passwall2
+- **Shunt rule 语法权威源（两者共用）**：https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua
+- 节点类型清单（Passwall，含 `trojan-plus`）：https://github.com/Openwrt-Passwall/openwrt-passwall/tree/main/luci-app-passwall/luasrc/model/cbi/passwall/client/type
+- 节点类型清单（Passwall2）：https://github.com/Openwrt-Passwall/openwrt-passwall2/tree/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type
+- 社区权威解读（两者定位差异）：https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555
+- MetaCubeX geosite.dat（本参考使用的 `geosite:` 分类名称依据）：https://github.com/MetaCubeX/meta-rules-dat
+- 本仓库完整体验（mihomo proxy-groups 嵌套 + Smart + LightGBM）：`OpenClash/README.md`

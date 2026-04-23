@@ -13,9 +13,9 @@ geosite:hbo
 geosite:hulu
 geosite:spotify
 geosite:primevideo
-domain-suffix:paramountplus.com
-domain-suffix:peacocktv.com
-domain-suffix:twitch.tv
+domain:paramountplus.com
+domain:peacocktv.com
+domain:twitch.tv
 
 # [IP List]
 geoip:netflix

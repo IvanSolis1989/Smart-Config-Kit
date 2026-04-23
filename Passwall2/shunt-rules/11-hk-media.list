@@ -6,8 +6,8 @@
 
 # [Domain List]
 geosite:mytvsuper
-domain-suffix:mytvsuper.com
-domain-suffix:now.com
-domain-suffix:viu.tv
-domain-suffix:encoretvb.com
-domain-suffix:rthk.hk
+domain:mytvsuper.com
+domain:now.com
+domain:viu.tv
+domain:encoretvb.com
+domain:rthk.hk

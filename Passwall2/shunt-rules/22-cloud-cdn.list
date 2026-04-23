@@ -9,8 +9,8 @@
 geosite:cloudflare
 geosite:fastly
 geosite:akamai
-domain-suffix:jsdelivr.net
-domain-suffix:cloudfront.net
+domain:jsdelivr.net
+domain:cloudfront.net
 
 # [IP List]
 geoip:cloudflare
