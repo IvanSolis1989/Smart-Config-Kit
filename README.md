@@ -36,7 +36,7 @@
 >
 > </details>
 
-> 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线，同步产出多核心 / 多客户端等价配置的科学上网分流体系。  
+> 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线、同步产出多核心 / 多客户端等价配置的科学上网分流体系，**同一套策略模型**覆盖多端，降低“设备 A 可用、设备 B 抽风”的割裂感。  
 > 覆盖核心：**Mihomo (Clash.Meta / Smart)** · **sing-box** · **Xray** · **Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎**  
 > 覆盖客户端：**Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN**  
 > 覆盖设备：**Windows / macOS / Linux / Android / iOS / OpenWrt 软路由**  
@@ -46,7 +46,6 @@
 
 ## ✨ 项目亮点（先看这个）
 
-- 🧠 **统一架构**：同一套策略模型覆盖多端，降低“设备 A 可用、设备 B 抽风”的割裂感。
 - 🧩 **精细分流**：按业务语义拆分策略组，避免“大一统代理”带来的误伤与浪费。
 - ⚡ **内核可切换**：OpenClash 提供 Smart / Normal 双版本（同规则量），按内核能力选择 `smart` 或经典 `url-test` 选路。
 - 🤖 **AI 原生仓库**：**本仓库全部脚本与配置由 AI 编写，并由 AI 持续维护与迭代，除 mihomo 内核由本人实际使用，其他内核未经实测，请测试后使用并积极反馈**。
