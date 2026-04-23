@@ -1,8 +1,51 @@
-# Passwall2 — 变更日志
+# Passwall / Passwall2 — 变更日志
 
-> `Passwall2/README.md` 的变更日志。
-> 本目录提供 Passwall2 的**降级版** shunt rule 参考（28 条展平，功能约 OpenClash slim 的 70%）。
+> `Passwall2/` 目录的变更日志（目录名保留历史命名，实际产物同时适用 Passwall 全功能版 + Passwall2 精简分流版——两者共用 `shunt_rules.lua` 解析器，同一份 `.list` 互通）。
+> 本目录提供把 Clash Party 两层结构（业务组 → 区域组）**手工展平**为 28 条 shunt rule 的降级参考。
 > 主版本号跟随 Clash Party 主线；尾段 `-pw2.N` 独立递增。
+
+---
+
+## v5.2.6-pw2.2 (2026-04-23) — ★ 致命 bug 修复 + 定位纠正
+
+本次 PR 源自用户指出的两个错误，经深度调研 Passwall / Passwall2 官方仓库（`Openwrt-Passwall` org）+ `shunt_rules.lua` 源码后修复。
+
+### FIX#P2-01（致命）：分流规则语法完全错误
+
+- **问题**：初版使用 `domain-suffix:xxx` 前缀（**Clash/Shadowrocket 语法**），Passwall / Passwall2 的 `shunt_rules.lua` 解析器**不识别**这个前缀 → 粘进 LuCI 后整串 `domain-suffix:v0.dev` 被当成**纯字符串子串匹配的字面量** → **100% 不命中**任何实际域名。
+- **修复**：全局 `domain-suffix:` → `domain:`（子域名匹配，等价 Clash `DOMAIN-SUFFIX` 语义）：
+  - 28 个 `shunt-rules/*.list`：~94 行
+  - `README.md`：96 处
+  - `passwall2-smart-shunt.conf`：94 处
+  - `apply-shunt-rules.sh`：94 处
+  - **合计 ~378 处**
+- **README 新增完整语法表**（8 种前缀），并加 ⚠️ 警告"不要用 Clash 的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` / `DOMAIN,` / `IP-CIDR,` 前缀"。
+- **权威源**：https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua
+
+### FIX#P2-02：定位关系说反
+
+- **问题**：初版 README 称 Passwall 为"旧版"、Passwall2 为"新版/降级版"，暗示线性继承。错。
+- **官方事实**（均为 2025-2026 年持续发版）：Passwall 与 Passwall2 是作者 `xiaorouji`（现 `Openwrt-Passwall` org）**并行维护**的两款独立插件。Passwall 最新 `26.4.15-1`（2026-04-15）、Passwall2 最新 `26.4.20-1`（2026-04-19），相差 4 天。社区解读（[Discussion #555](https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555)）：**Passwall2 像是 Xray/Sing-box 的 UI，抛弃了直连/屏蔽/GFW 列表，只保留 keyword/domain/geosite/geoip 分流**。
+- **修复**：
+  - README 头部目标行重写为"Passwall（全功能）+ Passwall2（精简分流），并行维护，规则语法同源"
+  - 踩坑段"Passwall 旧版语法稍不同"重写为"混淆 Passwall / Passwall2"
+  - 末尾"降级版"措辞去掉，改为说明两者的架构差异（都无嵌套组、都无 mihomo）
+  - 参考段链接更新为 `Openwrt-Passwall` org、加 `shunt_rules.lua` 源码链接、加 Discussion #555 解读
+
+### 附带修正
+
+- 注释"iceeeder / xiaorouter 等社区分支"措辞去掉（`xiaorouji` 本人已迁 `Openwrt-Passwall` org 维护，官方即主流）
+- `apply-shunt-rules.sh` 加注释：Passwall 用户把 `CONFIG_NAME` 改为 `passwall` 即可复用
+- 头部版本号：`v5.2.5-pw2.1` → `v5.2.6-pw2.2`（对齐 Clash Party 主线 v5.2.6）
+
+### 对其他产物的联动评估（按 CLAUDE.md §1.5 同构审计）
+
+本次修复只动 Passwall/Passwall2 的 shunt rule 语法，**与 §1.5 5 个运行时逻辑点都不相关**（Passwall 系本来就是静态 shunt rule，无节点名分类 / fallback 链 / 订阅合并 / proxy-providers filter / 节点过滤）。其他 9 份产物（Clash Party / CMFA / OpenClash / Shadowrocket / Surge / Loon / QX / SingBox / v2rayN）不受影响。
+
+### 根 README + CLAUDE.md 同步
+
+- `CLAUDE.md` §0 「关于 Passwall / Passwall2」段重写：删除"Passwall2 是精简版"暗示，改为"两者并行维护，规则语法同源"。
+- 根 `README.md` L386 / L389 Passwall 系描述同步。
 
 ---
 

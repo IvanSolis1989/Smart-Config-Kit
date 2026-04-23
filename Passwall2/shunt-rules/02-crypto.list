@@ -7,7 +7,7 @@
 # [Domain List]
 geosite:cryptocurrency
 geosite:binance
-domain-suffix:tradingview.com
-domain-suffix:coinglass.com
-domain-suffix:coinmarketcap.com
-domain-suffix:coingecko.com
+domain:tradingview.com
+domain:coinglass.com
+domain:coinmarketcap.com
+domain:coingecko.com

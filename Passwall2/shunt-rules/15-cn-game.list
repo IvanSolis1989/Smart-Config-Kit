@@ -6,6 +6,6 @@
 
 # [Domain List]
 geosite:steamcn
-domain-suffix:wanmei.com
-domain-suffix:majsoul.com
-domain-suffix:battlenet.com.cn
+domain:wanmei.com
+domain:majsoul.com
+domain:battlenet.com.cn

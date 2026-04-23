@@ -10,7 +10,7 @@ geosite:google
 geosite:bing
 geosite:duckduckgo
 geosite:yandex
-domain-suffix:scholar.google.com
+domain:scholar.google.com
 
 # [IP List]
 geoip:google

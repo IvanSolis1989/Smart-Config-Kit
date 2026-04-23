@@ -6,7 +6,7 @@
 
 # [Domain List]
 geosite:geolocation-!cn
-domain-suffix:cnn.com
-domain-suffix:nytimes.com
-domain-suffix:bloomberg.com
-domain-suffix:wikipedia.org
+domain:cnn.com
+domain:nytimes.com
+domain:bloomberg.com
+domain:wikipedia.org

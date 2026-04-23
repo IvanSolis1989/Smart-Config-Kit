@@ -7,8 +7,8 @@
 # [Domain List]
 geosite:abema
 geosite:niconico
-domain-suffix:dazn.com
-domain-suffix:dmm.com
-domain-suffix:tv-tokyo.co.jp
-domain-suffix:tver.jp
-domain-suffix:rakuten.tv
+domain:dazn.com
+domain:dmm.com
+domain:tv-tokyo.co.jp
+domain:tver.jp
+domain:rakuten.tv

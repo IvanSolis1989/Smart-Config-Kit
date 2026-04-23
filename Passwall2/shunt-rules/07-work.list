@@ -10,4 +10,4 @@ geosite:teams
 geosite:slack
 geosite:notion
 geosite:atlassian
-domain-suffix:meet.google.com
+domain:meet.google.com

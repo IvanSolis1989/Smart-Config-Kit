@@ -383,10 +383,10 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 
 - **ShellClash**（`juewuy/ShellCrash`，mihomo 核）→ 用 **CMFA 列** 的 `clash-smart-cmfa.yaml`
 - **HomeProxy**（sing-box 官方 LuCI 插件，sing-box 核）→ 用 **sing-box 列** 的 `singbox-smart-full.json`
-- **Passwall / Passwall2**（xray / sing-box 核，**没有 proxy-groups 嵌套**）→ 首选**迁移到 OpenClash** 拿完整能力；或保留插件用本仓库 `Passwall2/` 目录的 **shunt rule 降级版**（28 条手工展平，功能约 OpenClash 全量规则版的 70%）
+- **Passwall / Passwall2**（`xiaorouji` 并行维护的两款插件，xray + sing-box 双栈，都**不打包** mihomo，都**没有 proxy-groups 嵌套**）→ 首选**迁移到 OpenClash** 拿完整能力；或保留插件用本仓库 `Passwall2/` 目录的 **28 条 shunt rule 展平参考**（同一份 `.list` Passwall 与 Passwall2 通用，规则语法共用 `shunt_rules.lua`）
 - **SSR Plus+**（已停更 + 无 geosite / rule_set 层）→ 直接换 **OpenClash**
 
-> 💡 Passwall 系**能**做 `geosite` / `geoip` / `rule_set` 的规则匹配，**不能**做 mihomo 的「业务组 → 区域组 → 节点」两级 `select` + `url-test` 嵌套。想要完整的 28+9 架构 + LightGBM + 机场换节点自动归位，只有 mihomo 系（OpenClash / CMFA / ShellClash）能原生给。详细差异见 `Passwall2/README.md`。
+> 💡 Passwall 系**能**做 `geosite` / `geoip` / `rule_set` 的规则匹配，**不能**做 mihomo 的「业务组 → 区域组 → 节点」两级 `select` + `url-test` 嵌套。**注意**：Passwall / Passwall2 的 shunt rule **不识别** Clash 的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` 前缀，要用 xray/sing-box 原生语法（`domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote|local:`）。想要完整的 28+9 架构 + LightGBM + 机场换节点自动归位，只有 mihomo 系（OpenClash / CMFA / ShellClash）能原生给。详细差异见 `Passwall2/README.md`。
 
 ---
 

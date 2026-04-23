@@ -7,6 +7,6 @@
 # [Domain List]
 geosite:microsoft
 geosite:onedrive
-domain-suffix:office.com
-domain-suffix:live.com
-domain-suffix:microsoftedge.com
+domain:office.com
+domain:live.com
+domain:microsoftedge.com

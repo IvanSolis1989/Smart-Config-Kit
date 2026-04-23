@@ -10,8 +10,8 @@ geosite:epicgames
 geosite:playstation
 geosite:xbox
 geosite:nintendo
-domain-suffix:riotgames.com
-domain-suffix:ea.com
-domain-suffix:blizzard.com
-domain-suffix:hoyoverse.com
-domain-suffix:mihoyo.com
+domain:riotgames.com
+domain:ea.com
+domain:blizzard.com
+domain:hoyoverse.com
+domain:mihoyo.com

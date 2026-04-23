@@ -6,9 +6,9 @@
 
 # [Domain List]
 geosite:bbc
-domain-suffix:itv.com
-domain-suffix:channel4.com
-domain-suffix:my5.tv
-domain-suffix:sky.com
-domain-suffix:skygo.com
-domain-suffix:britbox.co.uk
+domain:itv.com
+domain:channel4.com
+domain:my5.tv
+domain:sky.com
+domain:skygo.com
+domain:britbox.co.uk

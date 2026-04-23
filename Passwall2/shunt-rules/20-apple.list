@@ -7,8 +7,8 @@
 # [Domain List]
 geosite:apple
 geosite:icloud
-domain-suffix:appstore.com
-domain-suffix:mzstatic.com
-domain-suffix:itunes.com
-domain-suffix:applemusic.com
-domain-suffix:apple-dns.net
+domain:appstore.com
+domain:mzstatic.com
+domain:itunes.com
+domain:applemusic.com
+domain:apple-dns.net

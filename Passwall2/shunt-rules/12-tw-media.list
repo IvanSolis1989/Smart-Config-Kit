@@ -6,9 +6,9 @@
 
 # [Domain List]
 geosite:bahamut
-domain-suffix:bahamut.com.tw
-domain-suffix:hinet.net
-domain-suffix:kktv.me
-domain-suffix:litv.tv
-domain-suffix:hamivideo.hinet.net
-domain-suffix:friday.tw
+domain:bahamut.com.tw
+domain:hinet.net
+domain:kktv.me
+domain:litv.tv
+domain:hamivideo.hinet.net
+domain:friday.tw
