@@ -1,0 +1,20 @@
+# 📱 社交媒体
+# 推荐出站: 🇯🇵 日韩 / 🌍 全球
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+# 在「IP 列表」字段里粘贴本文件末尾 [IP] 段落内容。
+
+# [Domain List]
+geosite:twitter
+geosite:facebook
+geosite:instagram
+geosite:tiktok
+geosite:reddit
+geosite:pinterest
+geosite:linkedin
+geosite:snap
+
+# [IP List]
+geoip:twitter
+geoip:facebook

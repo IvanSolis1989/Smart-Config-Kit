@@ -1,0 +1,21 @@
+# 🇺🇸 美国流媒体
+# 推荐出站: 🇺🇸 美国
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+# 在「IP 列表」字段里粘贴本文件末尾 [IP] 段落内容。
+
+# [Domain List]
+geosite:youtube
+geosite:netflix
+geosite:disney
+geosite:hbo
+geosite:hulu
+geosite:spotify
+geosite:primevideo
+domain:paramountplus.com
+domain:peacocktv.com
+domain:twitch.tv
+
+# [IP List]
+geoip:netflix

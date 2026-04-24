@@ -1,0 +1,11 @@
+# 🛰️ BT/PT Tracker
+# 推荐出站: direct or block（按用途）
+# 建议目标策略: direct
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:private-tracker
+domain:opentrackr.org
+domain:openbittorrent.com
+domain:nyaa.si

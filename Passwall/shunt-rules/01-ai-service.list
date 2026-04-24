@@ -1,0 +1,29 @@
+# 🤖 AI 服务
+# 推荐出站: 🇺🇸 美国（避开 HK/CN）
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:openai
+geosite:anthropic
+geosite:gemini
+geosite:copilot
+geosite:bard
+geosite:perplexity
+geosite:huggingface
+domain:cursor.com
+domain:v0.dev
+domain:character.ai
+domain:mistral.ai
+domain:cohere.ai
+domain:cohere.com
+domain:replicate.com
+domain:together.ai
+domain:runpod.io
+domain:openrouter.ai
+domain:suno.ai
+domain:suno.com
+domain:midjourney.com
+domain:pi.ai
+domain:inflection.ai

@@ -1,0 +1,13 @@
+# 💰 加密货币
+# 推荐出站: 🇭🇰 香港 / 🇯🇵 日韩（合规考虑）
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:cryptocurrency
+geosite:binance
+domain:tradingview.com
+domain:coinglass.com
+domain:coinmarketcap.com
+domain:coingecko.com

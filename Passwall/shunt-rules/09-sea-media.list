@@ -1,0 +1,12 @@
+# 📺 东南亚流媒体
+# 推荐出站: 🌏 亚太（SG/ID）
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:viu
+domain:iq.com
+domain:wetv.vip
+domain:vidio.com
+domain:iqiyiintl.com

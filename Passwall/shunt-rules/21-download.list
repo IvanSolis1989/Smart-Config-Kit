@@ -1,0 +1,15 @@
+# 📥 下载更新
+# 推荐出站: direct
+# 建议目标策略: direct
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+domain:dl.google.com
+domain:play.googleapis.com
+domain:msftconnecttest.com
+domain:windowsupdate.com
+domain:cdn-apple.com
+domain:ubuntu.com
+domain:mozilla.org
+domain:apkpure.com
