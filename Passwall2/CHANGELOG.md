@@ -6,6 +6,10 @@
 
 ---
 
+## v5.2.8-pw2.3 (2026-04-24) — ★ 版本号对齐 v5.2.8 基线
+
+跟随 Clash Party v5.2.8 基线版本号对齐。本产物无功能性变更（同构审计 N/A 理由同 Passwall `v5.2.8-pw.3`）。
+
 ## v5.2.6-pw2.2 (2026-04-23) — ★ 致命 bug 修复 + 定位纠正
 
 本次 PR 源自用户指出的两个错误，经深度调研 Passwall / Passwall2 官方仓库（`Openwrt-Passwall` org）+ `shunt_rules.lua` 源码后修复。

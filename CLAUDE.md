@@ -341,7 +341,7 @@ node -e "const d=JSON.parse(require('fs').readFileSync('SingBox/SingBox(sing-box
 grep -c "proxy: DIRECT" "OpenClash/OpenClash(mihomo).sh"                    # 期望 0
 grep -c "proxy: '☁️ 云与CDN'" "Clash Meta For Android/CMFA(mihomo).yaml"         # 期望 0
 grep -c "proxy: '🚫 受限网站'" "Clash Meta For Android/CMFA(mihomo).yaml"        # 期望 ≥ 300
-grep -c "proxy: 🚫 受限网站" "OpenClash/OpenClash(mihomo).sh"               # 期望 ≥ 130
+grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "OpenClash/OpenClash(mihomo).sh"               # 期望 ≥ 130
 grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "OpenClash/OpenClash(mihomo-smart).sh"  # 期望 ≥ 380
 
 # 3) 禁止死引用（旗帜 emoji 与组名 emoji 必须匹配；忽略注释行）

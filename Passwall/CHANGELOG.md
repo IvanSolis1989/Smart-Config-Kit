@@ -7,6 +7,16 @@
 
 ---
 
+## v5.2.8-pw.3 (2026-04-24) — ★ 版本号对齐 v5.2.8 基线
+
+跟随 Clash Party v5.2.8 基线版本号对齐。本产物无功能性变更，因为：
+
+| FIX# | 描述 | Passwall 影响 |
+|------|------|--------------|
+| #27 | 新建 `mirrors/` 目录，静默 classical provider 警告 | **N/A** — Passwall 无 rule-provider 概念（静态 shunt_rules 本地域名/IP 匹配） |
+| #28 | APAC 区域分类扩展（HK/TW/JP/KR 并入 APAC；US 并入 AMERICAS） | **N/A** — Passwall 无运行时节点分类（用户的 geosite/geoip + UCI 节点列表，无自动归类） |
+| #24-#26 | 节点名分类 / fallback / 订阅清理 | **N/A** — Passwall 无 proxy-groups 嵌套和订阅预处理 |
+
 ## v5.2.6-pw.2 (2026-04-24) — ★ Passwall 专属目录初版
 
 本次 PR 新建 `Passwall/` 独立目录，提供面向 Passwall 全功能版的 28 条 shunt rule 参考，与已有的 `Passwall2/` 目录内容互通但各有侧重。
