@@ -258,35 +258,47 @@ flowchart LR
 
 Clash Party / CMFA / OpenClash 都采用同一套分层方案（详见 `Clash Party/README.md` 第四章的完整 YAML）：
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  ① default-nameserver（明文 UDP，仅用于 bootstrap）              │
-│     223.5.5.5 / 119.29.29.29 / 1.1.1.1 / 8.8.8.8                │
-│     作用：启动时解析下面那些 DoH URL 的域名（dns.alidns.com 等）   │
-│     只查 4 个 IP，不参与任何业务查询 → 零暴露面                    │
-└──────────────┬──────────────────────────────────────────────────┘
-               │ bootstrap 成功后，所有业务查询全走加密 DoH：
-               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  ② nameserver（国内域名主通道，DoH）                              │
-│     https://223.5.5.5/dns-query     (AliDNS)                    │
-│     https://doh.pub/dns-query        (DNSPod / Tencent)         │
-│     作用：大陆站点 / 国内 CDN 用国内权威 DoH → 不被 ISP 记录       │
-├─────────────────────────────────────────────────────────────────┤
-│  ③ proxy-server-nameserver（机场节点域名解析，DoH）               │
-│     https://1.1.1.1/dns-query       (Cloudflare)                │
-│     https://8.8.8.8/dns-query       (Google)                    │
-│     https://223.5.5.5/dns-query     (AliDNS)                    │
-│     https://doh.pub/dns-query       (DNSPod)                    │
-│     作用：解析 node.xxx-airport.com 时走海外 DoH → 机场节点       │
-│           域名和 IP 都不暴露给 ISP，也不被 DNS 污染               │
-├─────────────────────────────────────────────────────────────────┤
-│  ④ fallback（海外域名回退通道，DoH + GeoIP 解毒）                 │
-│     https://1.1.1.1/dns-query + https://8.8.8.8/dns-query       │
-│     fallback-filter.geoip-code: CN                              │
-│     作用：国外域名若查出 CN 段 IP（说明被污染），自动用 fallback    │
-│           重查 → 避开 GFW 注入的假 IP                            │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+---
+config:
+  flowchart:
+    htmlLabels: true
+    wrappingWidth: 800
+---
+flowchart TB
+    Start(["🚀&nbsp;客户端启动"])
+
+    subgraph S1 ["① default-nameserver · 明文 UDP · 仅用于 bootstrap"]
+      B["<b>223.5.5.5</b>&nbsp;·&nbsp;<b>119.29.29.29</b>&nbsp;·&nbsp;<b>1.1.1.1</b>&nbsp;·&nbsp;<b>8.8.8.8</b><br/>作用：启动时解析下方 DoH 服务的域名（dns.alidns.com 等）<br/>只查 4 个 IP，不参与任何业务查询&nbsp;→&nbsp;零暴露面"]
+    end
+
+    Start --> B
+    B ==>|"bootstrap 成功后，所有业务查询全走加密 DoH"| Gate
+
+    Gate{{"🔀&nbsp;按域名性质分三路查询"}}
+
+    subgraph S2 ["② nameserver · 国内域名主通道 · DoH"]
+      N["<b>AliDNS</b>&nbsp;&nbsp;https://223.5.5.5/dns-query<br/><b>DNSPod</b>&nbsp;https://doh.pub/dns-query<br/>作用：大陆站点&nbsp;/&nbsp;国内 CDN 用国内权威 DoH&nbsp;→&nbsp;不被 ISP 记录"]
+    end
+
+    subgraph S3 ["③ proxy-server-nameserver · 机场节点域名解析 · DoH"]
+      P["<b>Cloudflare</b>&nbsp;https://1.1.1.1/dns-query<br/><b>Google</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://8.8.8.8/dns-query<br/><b>AliDNS</b>&nbsp;&nbsp;&nbsp;&nbsp;https://223.5.5.5/dns-query<br/><b>DNSPod</b>&nbsp;&nbsp;&nbsp;&nbsp;https://doh.pub/dns-query<br/>作用：解析&nbsp;node.xxx-airport.com&nbsp;走海外/加密 DoH<br/>→&nbsp;节点域名与 IP 都不暴露给 ISP，也不被 DNS 污染"]
+    end
+
+    subgraph S4 ["④ fallback · 海外域名回退通道 · DoH + GeoIP 解毒"]
+      F["<b>Cloudflare</b>&nbsp;https://1.1.1.1/dns-query<br/><b>Google</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://8.8.8.8/dns-query<br/><b>fallback-filter.geoip-code: CN</b><br/>作用：海外域名若查出 CN 段 IP（说明被污染），<br/>自动切 fallback 重查&nbsp;→&nbsp;避开 GFW 注入的假 IP"]
+    end
+
+    Gate -->|"国内域名 / 国内 CDN"| N
+    Gate -->|"机场节点域名"| P
+    Gate -->|"海外域名"| F
+
+    style Start fill:#FFE9E9,stroke:#C0392B,stroke-width:2px,color:#000
+    style B fill:#F5F5F5,stroke:#888,stroke-width:1px,color:#000
+    style Gate fill:#FFF6E9,stroke:#F39C12,stroke-width:2px,color:#000
+    style N fill:#EEF9F1,stroke:#27AE60,stroke-width:2px,color:#000
+    style P fill:#EAF4FF,stroke:#4A90E2,stroke-width:2px,color:#000
+    style F fill:#F3F0FF,stroke:#8E44AD,stroke-width:2px,color:#000
 ```
 
 ### 为什么这套分工能同时解决 5 个威胁
