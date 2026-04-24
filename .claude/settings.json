@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const a=JSON.parse\\(require\\('fs'\\).readFileSync\\('v2rayN/v2rayN\\(xray\\).json','utf8'\\)\\);const m=a[0];console.log\\('v2rayN JSON: VALID, items:', a.length, 'version:', m.remarks?.match\\(/v5\\\\.[0-9.]+/\\)?.[0]\\)\")",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

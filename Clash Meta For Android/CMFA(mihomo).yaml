@@ -35,7 +35,7 @@ profile:
   tracing: true
 dns:
   enable: true
-  ipv6: true
+  ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
@@ -47,12 +47,8 @@ dns:
   - +.localdomain
   - +.home.arpa
   - '+.stun.*.*'
-  - '+.stun.*.*.*'
   - +.ntp.org
   - +.pool.ntp.org
-  - +.binance.com
-  - +.binancefuture.com
-  - +.binance.vision
   - +.n.n.srv.nintendo.net
   - +.stun.playstation.net
   - +.xboxlive.com
@@ -116,10 +112,6 @@ sniffer:
       - '4433'
   skip-domain:
   - +.push.apple.com
-  - +.binance.com
-  - Mijia Cloud
-  - +.binancefuture.com
-  - +.binance.vision
   skip-dst-address:
   - 91.105.192.0/23
   - 91.108.4.0/22
