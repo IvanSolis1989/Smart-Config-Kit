@@ -287,6 +287,8 @@ flowchart TB
     Gate -->|"国内域名 / 国内 CDN"| L2
     Gate -->|"机场节点域名"| L3
     Gate -->|"海外域名"| L4
+    L2 ~~~ L3
+    L3 ~~~ L4
 
     style Start fill:#FFE9E9,stroke:#C0392B,stroke-width:3px,color:#000
     style L1 fill:#F5F5F5,stroke:#555,stroke-width:2px,color:#000
