@@ -20,15 +20,17 @@ name: AI Issue Auto-Responder (DeepSeek)
 #     绝对不能提议改代码
 #   • timeout 5 分钟硬上限防止超支
 #
-# 分层调用策略（v2）：
-#   首轮（issues opened/labeled） → deepseek-chat      快速 / 便宜 / 覆盖 80% 常见问题
-#   追问（issue_comment /ai-help）→ deepseek-reasoner  思维链 / 深度分析 / 适合复杂排障
-#   理由：首次提问大多是"导入 / 语法 / FAQ"类，chat 足够；用户看完首轮还在
-#        追问，说明问题复杂需要深度推理，这时才升级 reasoner 值回票价。
+# 分层调用策略（v3 — DeepSeek V4 API）：
+#   首轮（issues opened/labeled） → deepseek-v4-flash 非思考模式  快速 / 便宜 / 覆盖 80% 常见问题
+#   追问（issue_comment /ai-help）→ deepseek-v4-flash 思考模式    思维链 / 深度分析 / 适合复杂排障
+#   理由：首次提问大多是"导入 / 语法 / FAQ"类，非思考模式足够；用户看完首轮还在
+#        追问，说明问题复杂需要深度推理，这时才升级思考模式值回票价。
+#   注：deepseek-chat / deepseek-reasoner 两个旧模型名 V4 起将弃用，官方映射到
+#       deepseek-v4-flash 的非思考 / 思考模式（价格一致，无需切 v4-pro）。
 #
-# 成本估算：
-#   • 首轮 chat   ≈ $0.003/次；追问 reasoner ≈ $0.01/次
-#   • 典型场景：100 issues/月 + 20% 追问率 → ≈ $0.30 + $0.20 ≈ $0.5/月
+# 成本估算（V4 定价：flash 1 元/M 输入 + 2 元/M 输出，缓存命中 0.2 元/M 输入）：
+#   • 首轮非思考 ≈ 0.02 元/次；追问思考 ≈ 0.03 元/次（多出 reasoning tokens 计入输出）
+#   • 典型场景：100 issues/月 + 20% 追问率 → ≈ 2 元 + 0.6 元 ≈ 3 元/月（不到 $0.5）
 #   • GitHub Actions：public repo 无限免费
 #
 # 需要配置的 secret：
@@ -79,7 +81,7 @@ jobs:
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/ai-help'))
 
     runs-on: ubuntu-latest
-    timeout-minutes: 8   # reasoner 思考 + curl 240s 上限，留足余量避免误杀
+    timeout-minutes: 8   # 思考模式 + curl 240s 上限，留足余量避免误杀
 
     steps:
       - name: Checkout repo (read-only usage)
@@ -89,7 +91,7 @@ jobs:
 
       - name: Build AI context from repo docs
         run: |
-          # 把最关键的文档喂给 AI 作为上下文。DeepSeek V3.2 context 64K，绰绰有余。
+          # 把最关键的文档喂给 AI 作为上下文。DeepSeek V4 context 1M，绰绰有余。
           # 想追加更多文档，在这里 cat 进去即可。
           {
             echo "===== CLAUDE.md（仓库维护契约）====="
@@ -123,21 +125,23 @@ jobs:
             exit 0
           fi
 
-          # ── 分层模型选择 ───────────────────────────────────────────
-          # issues 事件 = 首次触发 → 用便宜快的 chat
-          # issue_comment 事件 = 用户 /ai-help 追问 → 升级到 reasoner
+          # ── 分层模型选择（DeepSeek V4 API）────────────────────────
+          # 统一用 deepseek-v4-flash，通过 thinking 开关切换非思考 / 思考模式：
+          # issues 事件 = 首次触发 → flash 非思考模式（等价旧 deepseek-chat）
+          # issue_comment 事件 = 用户 /ai-help 追问 → flash 思考模式（等价旧 deepseek-reasoner）
+          MODEL="deepseek-v4-flash"
           if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
-            MODEL="deepseek-reasoner"
-            CURL_TIMEOUT=240        # reasoner 思考 30–90s，给足余量
+            THINKING_TYPE="enabled"
+            CURL_TIMEOUT=240        # 思考模式 30–90s，给足余量
             TIER_MARK="FOLLOWUP"    # 在 user 消息里打标签给 AI
             TIER_LABEL="追问 · 深度分析"
           else
-            MODEL="deepseek-chat"
-            CURL_TIMEOUT=60         # chat 典型 2–5s，60s 足够
+            THINKING_TYPE="disabled"
+            CURL_TIMEOUT=60         # 非思考模式典型 2–5s，60s 足够
             TIER_MARK="FIRST"
             TIER_LABEL="首轮 · 快速回复"
           fi
-          echo "🎯 Tier: ${TIER_LABEL} / Model: ${MODEL}"
+          echo "🎯 Tier: ${TIER_LABEL} / Model: ${MODEL} / Thinking: ${THINKING_TYPE}"
           echo "model=${MODEL}"           >> "$GITHUB_OUTPUT"
           echo "tier_label=${TIER_LABEL}" >> "$GITHUB_OUTPUT"
 
@@ -201,9 +205,9 @@ jobs:
 
           【调用分层 — 用户消息会带标签】
           用户消息顶部会出现 `[TIER: FIRST]` 或 `[TIER: FOLLOWUP]`：
-          - `FIRST`  → 首次触发（issue 刚打标签），你用 deepseek-chat 速度优先
+          - `FIRST`  → 首次触发（issue 刚打标签），你用 deepseek-v4-flash 非思考模式速度优先
              → 第一行用「🤖 AI 初步分析（<类型>）」
-          - `FOLLOWUP` → 用户看过首轮后 `/ai-help` 追问，你用 deepseek-reasoner 深度推理
+          - `FOLLOWUP` → 用户看过首轮后 `/ai-help` 追问，你用 deepseek-v4-flash 思考模式深度推理
              → 第一行用「🤖 AI 深度分析（<类型> · 追问）」，并**正面回应评论里的追问焦点**，
                别重复首轮讲过的内容
 
@@ -222,17 +226,20 @@ jobs:
           # 关键设计：所有用户输入（标题/正文/评论/上下文）都通过 jq 的 --arg / --rawfile 传入，
           # 由 jq 自己负责 JSON 转义。绝对不在 bash 里手工拼 JSON 字符串。
           #
-          # 注意：deepseek-reasoner 会先输出思维链（reasoning_content 字段），再输出最终答案（content 字段）。
+          # 注意（DeepSeek V4）：thinking={type:"enabled"} 时模型会先输出思维链
+          # （reasoning_content 字段），再输出最终答案（content 字段）。
           #   - 我们只取 content（下方 jq '.choices[0].message.content'），不暴露推理过程给用户。
-          #   - reasoner 忽略 temperature 参数（官方说明），chat 使用 0.3 保持稳定。
+          #   - 思考模式忽略 temperature 参数（官方说明）；非思考模式不单独调 temperature 走默认。
           #   - max_tokens 控制"最终答案"上限，不含推理 token。
+          #   - thinking 参数按 V4 官方格式：{"type": "enabled" | "disabled"}。
           REQ_BODY=$(jq -n \
-            --arg model   "$MODEL" \
-            --arg sys     "$SYSTEM_PROMPT" \
-            --arg tier    "$TIER_MARK" \
-            --arg title   "$ISSUE_TITLE" \
-            --arg body    "$ISSUE_BODY" \
-            --arg comment "$COMMENT_BODY" \
+            --arg model    "$MODEL" \
+            --arg sys      "$SYSTEM_PROMPT" \
+            --arg tier     "$TIER_MARK" \
+            --arg title    "$ISSUE_TITLE" \
+            --arg body     "$ISSUE_BODY" \
+            --arg comment  "$COMMENT_BODY" \
+            --arg thinking "$THINKING_TYPE" \
             --rawfile ctx /tmp/context.txt \
             '{
               model: $model,
@@ -245,12 +252,13 @@ jobs:
                   + ( if $comment != "" then "\n\n---\n\n# 用户追问评论\n\n" + $comment else "" end )
                 ) }
               ],
+              thinking: { type: $thinking },
               max_tokens: 1500,
               stream: false
             }')
 
           # DeepSeek 的 API endpoint，兼容 OpenAI ChatCompletion 格式
-          # CURL_TIMEOUT 根据模型动态：chat 60s / reasoner 240s
+          # CURL_TIMEOUT 根据模式动态：非思考 60s / 思考 240s
           RESPONSE=$(curl -s --max-time "$CURL_TIMEOUT" https://api.deepseek.com/chat/completions \
             -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
             -H "Content-Type: application/json" \
@@ -282,7 +290,7 @@ jobs:
         with:
           script: |
             const aiReply = process.env.AI_REPLY || '(AI 回复为空，请等维护者人工回复)';
-            const model   = process.env.AI_MODEL || 'deepseek-chat';
+            const model   = process.env.AI_MODEL || 'deepseek-v4-flash';
             const tier    = process.env.AI_TIER  || '首轮 · 快速回复';
             const commentBody = [
               `> 🤖 **AI 自动回复**（${tier}，仅供参考）`,
@@ -290,7 +298,7 @@ jobs:
               aiReply,
               '',
               '---',
-              `<sub>Model: \`${model}\` · Tier: ${tier}（首轮 chat / 追问 reasoner 分层）· Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 无代码修改权限，最终处理请等维护者 @ivansolis1989</sub>`
+              `<sub>Model: \`${model}\` · Tier: ${tier}（首轮非思考 / 追问思考模式 分层）· Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 无代码修改权限，最终处理请等维护者 @ivansolis1989</sub>`
             ].join('\n');
 
             await github.rest.issues.createComment({
