@@ -7,6 +7,24 @@
 
 ---
 
+## v5.2.9 (2026-04-25)
+
+- ★ **全量代码审查**：修复 3 个 P0/P1 基线 bug + 跨产物同构修复
+  - **P0 FIX#30**：`PROCESS-NAME` 规则 QQ.exe/Weixin.exe/WeChat.exe 硬编码 `'🏠 国内网站'` → `${BIZ.CN_SITE}`（失效常量引用，若 CN_SITE 改名则死组）
+  - **P1 FIX#31**：APAC_OTHER `iso` 列表缺 `IN`/`IND` alpha-2/alpha-3（印度节点 `IN 01` 被归为 UNCLASSIFIED）
+  - **P1 FIX#32**：jsdelivr 规则注释写"走直连"但代码路由到 `${BIZ.GFW}`（注释 ↔ 代码矛盾）
+  - **iOS 同构 FIX#33**（SR/Surge/Loon/QX）：`policy-regex-filter` 裸子串 `US`/`PL`/`SE` 跨匹配
+    - `US` → 命中 `AUS`（澳大利亚节点误入美国组）
+    - `PL` → 命中 `IPLC`（IPLC 专线节点误入欧洲组）
+    - `SE` → 命中 `SEOUL`（首尔节点误入欧洲组）
+    - 修复方式：`|US|` → `|\bUS\b|`、`|PL|` → `|\bPL\b|`、`|SE|` → `|\bSE\b|`
+  - **iOS 同构 FIX#34**：非洲 filter 中 `AF` = 阿富汗 ISO 代码（不含南非等非洲国家），已移除
+  - **iOS 同构 FIX#35**：`nowtv.com.uk` typo → `nowtv.co.uk`
+  - **iOS 同构 FIX#36**：SR/Surge/Loon footer 日期 2026-04-16 → 2026-04-25
+  - **CMFA FIX#37**：缺 `nameserver-policy`（jsdelivr/github 强制走 Cloudflare/Google DNS），已补齐
+  - **Passwall2 FIX#38**：`geosite:kakaotalk` → `geosite:kakao` + 显式 domain fallback（v2fly geosite.dat 无 kakaotalk 分类）
+  - **Passwall2**: 版本 v5.2.6-pw2.2 → v5.2.9-pw2.1（基线追赶 + kakaotalk 修复）
+
 ## v5.2.8 (2026-04-23)
 
 - ★ **FIX#28-P0**：CMFA / OpenClash 亚太节点 filter 补 HK/TW/JP/KR 子串（同构 bug 补齐）

@@ -1,8 +1,8 @@
 # ================================================================
-# Clash Smart v5.2.8-cmfa.6 - CMFA (Clash Meta for Android) 配置
+# Clash Smart v5.2.9-cmfa.1 - CMFA (Clash Meta for Android) 配置
 # Build: 2026-04-25
 # 架构：proxy-providers 订阅 + 18 url-test 区域组（9 全部 + 9 家宽）+ 28 业务策略组 + 384 rule-providers
-# 基线：Clash Party v5.2.8（唯一主线）
+# 基线：Clash Party v5.2.9（唯一主线）
 # 变更历史：见 `Clash Meta For Android/CHANGELOG.md`
 # ================================================================
 # ★ 快速上手：
@@ -77,6 +77,13 @@ dns:
   direct-nameserver:
   - 'https://dns.alidns.com/dns-query'
   - 'https://1.12.12.12/dns-query'
+  nameserver-policy:
+    '+.jsdelivr.net':
+    - 'https://1.1.1.1/dns-query'
+    - 'https://8.8.8.8/dns-query'
+    '+.github.com':
+    - 'https://1.1.1.1/dns-query'
+    - 'https://8.8.8.8/dns-query'
   fallback:
   - 'https://dns.google/dns-query'
   - 'https://dns.cloudflare.com/dns-query'
@@ -3873,7 +3880,7 @@ rules:
 - 'DOMAIN-SUFFIX,channel4.com,🇪🇺 欧洲流媒体'
 - 'DOMAIN-SUFFIX,channel5.com,🇪🇺 欧洲流媒体'
 - 'DOMAIN-SUFFIX,sky.com,🇪🇺 欧洲流媒体'
-- 'DOMAIN-SUFFIX,nowtv.com.uk,🇪🇺 欧洲流媒体'
+- 'DOMAIN-SUFFIX,nowtv.co.uk,🇪🇺 欧洲流媒体'
 - 'DOMAIN-SUFFIX,britbox.com,🇪🇺 欧洲流媒体'
 - 'DOMAIN-SUFFIX,canalplus.com,🇪🇺 欧洲流媒体'
 - 'DOMAIN-SUFFIX,mycanal.fr,🇪🇺 欧洲流媒体'

@@ -2,10 +2,11 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash v5.2.8-oc-normal.4 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
+# Clash v5.2.9-oc-normal.1 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
 # ============================================================================
 # 定位：与同目录 OpenClash(mihomo-smart).sh 规则 100% 等价的「非 Smart 内核」版本。
 #       两者唯一区别：18 个区域组（9 全部 + 9 家宽）从 type: smart（uselightgbm）换成 type: url-test。
+#       对齐 Clash Party v5.2.9 JS 基线。
 #       适用场景：
 #         - OpenClash 内核选的是 Meta(mihomo 稳定版) 而非 Meta Alpha，不支持 smart + LightGBM
 #         - 或者明确想关闭 LightGBM ML 评估、只靠经典 url-test 延迟选路
@@ -24,7 +25,7 @@
 
 
 
-VERSION_TAG="v5.2.8-oc-normal.4"
+VERSION_TAG="v5.2.9-oc-normal.1"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -3772,7 +3773,7 @@ rules:
 - "DOMAIN-SUFFIX,channel4.com,\U0001F1EA\U0001F1FA 欧洲流媒体"
 - "DOMAIN-SUFFIX,channel5.com,\U0001F1EA\U0001F1FA 欧洲流媒体"
 - "DOMAIN-SUFFIX,sky.com,\U0001F1EA\U0001F1FA 欧洲流媒体"
-- "DOMAIN-SUFFIX,nowtv.com.uk,\U0001F1EA\U0001F1FA 欧洲流媒体"
+- "DOMAIN-SUFFIX,nowtv.co.uk,\U0001F1EA\U0001F1FA 欧洲流媒体"
 - "DOMAIN-SUFFIX,britbox.com,\U0001F1EA\U0001F1FA 欧洲流媒体"
 - "DOMAIN-SUFFIX,canalplus.com,\U0001F1EA\U0001F1FA 欧洲流媒体"
 - "DOMAIN-SUFFIX,mycanal.fr,\U0001F1EA\U0001F1FA 欧洲流媒体"
@@ -4195,7 +4196,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.8-oc-normal.4"
+VERSION = "v5.2.9-oc-normal.1"
 
 STATUS_LOG = "/tmp/clash_normal_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
@@ -4252,6 +4253,21 @@ REGIONS = {
   "FR"  => /法国|法國|FR\b|France|Paris|🇫🇷/i,
   "NL"  => /荷兰|荷蘭|NL\b|Netherlands|Amsterdam|🇳🇱/i,
   "CH"  => /瑞士|CH\b|Switzerland|🇨🇭/i,
+  "IT"  => /意大利|義大利|IT\b|Italy|Milan|Rome|🇮🇹|FCO|MXP/i,
+  "ES"  => /西班牙|ES\b|Spain|Madrid|Barcelona|🇪🇸|MAD|BCN/i,
+  "PT"  => /葡萄牙|PT\b|Portugal|Lisbon|🇵🇹/i,
+  "GR"  => /希腊|希臘|GR\b|Greece|Athens|🇬🇷/i,
+  "AT"  => /奥地利|奧地利|AT\b|Austria|Vienna|🇦🇹|VIE/i,
+  "BE"  => /比利时|比利時|BE\b|Belgium|Brussels|🇧🇪/i,
+  "IE"  => /爱尔兰|愛爾蘭|IE\b|Ireland|Dublin|🇮🇪/i,
+  "DK"  => /丹麦|丹麥|DK\b|Denmark|Copenhagen|🇩🇰/i,
+  "SE"  => /瑞典|SE\b|Sweden|Stockholm|🇸🇪/i,
+  "FI"  => /芬兰|芬蘭|FI\b|Finland|Helsinki|🇫🇮/i,
+  "NO"  => /挪威|NO\b|Norway|Oslo|🇳🇴/i,
+  "PL"  => /波兰|波蘭|PL\b|Poland|Warsaw|🇵🇱|WAW/i,
+  "CZ"  => /捷克|CZ\b|Czech|Prague|🇨🇿/i,
+  "RO"  => /罗马尼亚|羅馬尼亞|RO\b|Romania|Bucharest|🇷🇴/i,
+  "HU"  => /匈牙利|HU\b|Hungary|Budapest|🇭🇺/i,
   "RU"  => /俄罗斯|俄羅斯|RU\b|Russia|Moscow|🇷🇺/i,
   "CA"  => /加拿大|CA\b|Canada|🇨🇦|Toronto|Vancouver/i,
   "MX"  => /墨西哥|MX\b|Mexico|🇲🇽/i,
@@ -4284,7 +4300,7 @@ GROUP_MAP = {
   "TW"     => ["TW"],
   "JP_KR"  => ["JP", "KR"],
   "US"     => ["US"],
-  "EU"     => ["UK", "DE", "FR", "NL", "CH", "RU"],
+  "EU"     => ["UK", "DE", "FR", "NL", "CH", "IT", "ES", "PT", "GR", "AT", "BE", "IE", "DK", "SE", "FI", "NO", "PL", "CZ", "RO", "HU", "RU"],
   "AM"     => ["US", "CA", "MX", "BR", "AR"],
   "AF"     => ["ZA", "EG", "NG"],
   "APAC"   => ["HK", "TW", "JP", "KR", "SG", "IN", "TH", "VN", "MY", "ID", "PH", "AU", "NZ", "TR", "AE"],
@@ -4384,7 +4400,7 @@ end
 FP_CANDIDATES = %w[chrome firefox safari edge ios android random]
 filtered_proxies.each do |p|
   t = p["type"].to_s
-  if %w[vless vmess trojan hysteria hysteria2 tuic].include?(t)
+  if %w[vless vmess trojan].include?(t)
     next if p["client-fingerprint"] && !p["client-fingerprint"].to_s.empty?
     digest = Digest::MD5.hexdigest(p["name"].to_s)
     idx = digest.to_i(16) % FP_CANDIDATES.size

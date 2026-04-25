@@ -1,0 +1,17 @@
+# 🎮 国外游戏
+# 推荐出站: 🇯🇵 日韩 / 🇭🇰 香港
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:steam
+geosite:epicgames
+geosite:playstation
+geosite:xbox
+geosite:nintendo
+domain:riotgames.com
+domain:ea.com
+domain:blizzard.com
+domain:hoyoverse.com
+domain:mihoyo.com

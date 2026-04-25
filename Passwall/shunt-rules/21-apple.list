@@ -1,0 +1,14 @@
+# 🍎 苹果服务
+# 推荐出站: direct（境内）or 🌍 全球（境外）
+# 建议目标策略: direct
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:apple
+geosite:icloud
+domain:appstore.com
+domain:mzstatic.com
+domain:itunes.com
+domain:applemusic.com
+domain:apple-dns.net

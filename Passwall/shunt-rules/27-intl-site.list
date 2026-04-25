@@ -1,0 +1,12 @@
+# 🌐 国外网站
+# 推荐出站: 🌍 全球（倒数第3条）
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:geolocation-!cn
+domain:cnn.com
+domain:nytimes.com
+domain:bloomberg.com
+domain:wikipedia.org

@@ -11,7 +11,10 @@ geosite:discord
 geosite:whatsapp
 geosite:line
 geosite:signal
-geosite:kakaotalk
+geosite:kakao
+domain:kakao.com
+domain:kakaocorp.com
+domain:kakaotalk.com
 
 # [IP List]
 geoip:telegram
