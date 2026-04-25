@@ -63,13 +63,29 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="② .conf 上传位置（在覆写设置页面里）" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
-### 3.4 上传 `.sh` 到路由器，并在 WebUI 里指定路径
+### 3.4 在 WebUI 里把 `.sh` 上传并启用
 
-这一步分两个动作：先把脚本**文件**搬到路由器的硬盘上，再回到 WebUI 告诉 OpenClash「去这个路径加载脚本」。两个动作里的路径必须一致。
+回到刚才 §3.2 / §3.3 的同一个 **服务 → OpenClash → 覆写设置** 页面，底部有一排"脚本槽位"卡片（`default` / 已存在的脚本 / **`+`** 新建按钮），每张卡片右侧都有一个 enable 开关。
 
-#### (A) 把脚本拷到路由器（命令行，**不在 WebUI 里**）
+OpenClash 在这里直接支持「**上传本地 `.sh` 当作覆写脚本**」，**不需要 SSH，也不用记 `/etc/openclash/` 路径** —— 推荐就走这条路：
 
-在你电脑上 / 仓库根目录执行（示例路由器 IP `192.168.1.1`，按你自己的改）：
+1. 点击最左边的 **`+`** 卡片（新建脚本槽位）
+2. 在弹出的编辑器里：
+   - **方式 A（最简单）**：把仓库里的 `OpenClash/OpenClash(mihomo-smart).sh`（或 `OpenClash(mihomo).sh`）整份内容**复制粘贴**进编辑器
+   - **方式 B**：用编辑器右上角的"导入 / 上传"按钮，选择本地的 `.sh` 文件
+3. 给这个槽位起个名字（比如 `clash-smart` / `clash-normal`），保存
+4. 在底部卡片列表里找到刚保存的脚本，**把右侧开关拨到开**（同时把其他覆写脚本的开关**关掉**，OpenClash 一次只用一份生效的覆写）
+5. 点击页面底部 **应用**（或保存并应用）
+
+> **二选一**：装的是 Mihomo Smart / Meta Alpha 内核就上 `OpenClash(mihomo-smart).sh`；装的是普通 Meta 稳定内核就上 `OpenClash(mihomo).sh`。两份都上传也行，但**只能开一个**。
+
+保存成功之后，下次 OpenClash 启动 / 订阅更新时就会自动加载这份脚本，在 §3.3 用 `.conf` 灌进去的基础 UI 配置之上**再叠加** 18 区域组 / 28 业务组 / 385 rule-providers / 975 rules 的完整分流策略。
+
+<img width="1280" height="678" alt="③ .sh 脚本上传位置（覆写设置页面底部 + 号 + 开关）" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
+
+#### 备选：用命令行 `scp` 上传（高级用户 / 多台路由器批量部署）
+
+如果你更习惯命令行，或者要批量同步多台路由器，可以走 SSH 直接把脚本铺到 `/etc/openclash/`：
 
 ```bash
 # 路径里的 ( ) 是 shell 语法 token，必须加引号
@@ -79,25 +95,9 @@ scp 'OpenClash/OpenClash(mihomo).sh'       root@192.168.1.1:/etc/openclash/
 ssh root@192.168.1.1 "chmod +x '/etc/openclash/OpenClash(mihomo-smart).sh' '/etc/openclash/OpenClash(mihomo).sh'"
 ```
 
-执行完之后，路由器 `/etc/openclash/` 目录下就会有这两份 `.sh`。SSH 进去 `ls -l /etc/openclash/OpenClash*.sh` 应该能看到带 `x` 权限的两份脚本。
+不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla 拖拽到 `/etc/openclash/`，再 SSH 进去 `chmod +x`。
 
-> 不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla SFTP 拖拽到 `/etc/openclash/`，再 SSH 进去手动 `chmod +x`。
-
-#### (B) 回到 WebUI 把这个路径"挂"上去（在 §3.2 那同一个「覆写设置」页面）
-
-回到刚才 §3.2 / §3.3 操作的那个 **服务 → OpenClash → 覆写设置** 页面（同一页，不要去别的页），往下滚 / 切到对应区块，找到 **「自定义 OpenClash 脚本（Custom Overwrite Script）」** 字段：
-
-1. **填入脚本路径**（二选一，与 (A) 步上传上去的文件路径**一字不差**）：
-   - 装的是 Smart 内核 → `/etc/openclash/OpenClash(mihomo-smart).sh`
-   - 装的是 Normal 内核 → `/etc/openclash/OpenClash(mihomo).sh`
-2. 勾选 **启用自定义覆写**（或同义的 enable 开关，OpenClash 不同版本措辞略有出入）
-3. 点击页面底部 **保存并应用**
-
-保存成功之后，下次 OpenClash 启动 / 订阅更新时就会自动加载这份脚本，把 §3.3 用 `.conf` 灌进去的基础 UI 配置基础上**再叠加** 18 区域组 / 28 业务组 / 385 rule-providers / 975 rules 的完整分流策略。
-
-> **注意**：这个字段填的是**路由器内部的绝对路径**（即 OpenClash 在 OpenWrt 上看到的路径），不是你电脑上的路径。如果你把脚本传到了其他目录（比如 `/root/`），这里就得跟着改。
-
-<img width="1280" height="678" alt="③ .sh 脚本路径填写位置" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
+文件传上去之后**仍然要回到 WebUI 覆写设置页面，把对应槽位的开关打开**才会生效（OpenClash 不会自动启用一份新出现的脚本）。
 
 ### 3.5 导入订阅并启动
 
