@@ -63,25 +63,39 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="② .conf 上传位置（在覆写设置页面里）" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
-### 3.4 上传 `.sh` 到路由器，然后在 UI 里引用它
+### 3.4 上传 `.sh` 到路由器，并在 WebUI 里指定路径
 
-**先把脚本拷到路由器**（在仓库根目录执行，示例 IP `192.168.1.1`）：
+这一步分两个动作：先把脚本**文件**搬到路由器的硬盘上，再回到 WebUI 告诉 OpenClash「去这个路径加载脚本」。两个动作里的路径必须一致。
+
+#### (A) 把脚本拷到路由器（命令行，**不在 WebUI 里**）
+
+在你电脑上 / 仓库根目录执行（示例路由器 IP `192.168.1.1`，按你自己的改）：
 
 ```bash
 # 路径里的 ( ) 是 shell 语法 token，必须加引号
 scp 'OpenClash/OpenClash(mihomo-smart).sh' root@192.168.1.1:/etc/openclash/
 scp 'OpenClash/OpenClash(mihomo).sh'       root@192.168.1.1:/etc/openclash/
-# 远端一并 chmod
+# 远端一并加可执行权限
 ssh root@192.168.1.1 "chmod +x '/etc/openclash/OpenClash(mihomo-smart).sh' '/etc/openclash/OpenClash(mihomo).sh'"
 ```
 
-**再回到覆写设置页面**，找到 **自定义 OpenClash 脚本（Custom Overwrite Script）** 字段：
+执行完之后，路由器 `/etc/openclash/` 目录下就会有这两份 `.sh`。SSH 进去 `ls -l /etc/openclash/OpenClash*.sh` 应该能看到带 `x` 权限的两份脚本。
 
-1. 填入脚本路径（二选一，对应你装的内核）：
-   - Smart 内核 → `/etc/openclash/OpenClash(mihomo-smart).sh`
-   - Normal 内核 → `/etc/openclash/OpenClash(mihomo).sh`
-2. 勾选 **启用自定义覆写**
-3. 点击 **保存并应用**
+> 不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla SFTP 拖拽到 `/etc/openclash/`，再 SSH 进去手动 `chmod +x`。
+
+#### (B) 回到 WebUI 把这个路径"挂"上去（在 §3.2 那同一个「覆写设置」页面）
+
+回到刚才 §3.2 / §3.3 操作的那个 **服务 → OpenClash → 覆写设置** 页面（同一页，不要去别的页），往下滚 / 切到对应区块，找到 **「自定义 OpenClash 脚本（Custom Overwrite Script）」** 字段：
+
+1. **填入脚本路径**（二选一，与 (A) 步上传上去的文件路径**一字不差**）：
+   - 装的是 Smart 内核 → `/etc/openclash/OpenClash(mihomo-smart).sh`
+   - 装的是 Normal 内核 → `/etc/openclash/OpenClash(mihomo).sh`
+2. 勾选 **启用自定义覆写**（或同义的 enable 开关，OpenClash 不同版本措辞略有出入）
+3. 点击页面底部 **保存并应用**
+
+保存成功之后，下次 OpenClash 启动 / 订阅更新时就会自动加载这份脚本，把 §3.3 用 `.conf` 灌进去的基础 UI 配置基础上**再叠加** 18 区域组 / 28 业务组 / 385 rule-providers / 975 rules 的完整分流策略。
+
+> **注意**：这个字段填的是**路由器内部的绝对路径**（即 OpenClash 在 OpenWrt 上看到的路径），不是你电脑上的路径。如果你把脚本传到了其他目录（比如 `/root/`），这里就得跟着改。
 
 <img width="1280" height="678" alt="③ .sh 脚本路径填写位置" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
 
