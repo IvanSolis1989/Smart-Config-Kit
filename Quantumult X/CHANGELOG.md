@@ -6,6 +6,21 @@
 
 ---
 
+## v5.2.10-QX.3 (2026-04-25) — Bugfix: [dns] DoH 字段名错误导致 line 22 语法错误
+
+- ★ **FIX#QX-08-P0**：`[dns] server=https://...` → `doh-server=https://...`
+  - QX `[dns]` 的 `server=` 字段只接受 IP / `IP:port` / `/域名/IP` 三种形式，DoH URL 必须用独立的 `doh-server=` 字段。
+    `server=https://doh.pub/dns-query` 是非法语法，导入时报「line 22 配置文件语法错误」。
+  - 受影响 4 行：`doh.pub` / `dns.alidns.com` / `cloudflare-dns.com` / `dns.google`，全部改为 `doh-server=`。
+  - 上一版（QX.2）CHANGELOG 把此 bug 误判为 line 13 `running_mode_trigger` 报错的"级联效应、无需修改"，
+    实测仍独立报错；本版彻底修复并更正判断。
+  - 同步 `README.md §五` 文档（DoH 字段说明 + 链接到 crossutility 官方 sample.conf）。
+- 权威来源：QX 作者 [crossutility/Quantumult-X sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf) `[dns]` 段。
+- §1.5 同构审计：仅 QX 受影响——Clash 家族用 YAML `dns.nameserver: [https://...]`、
+  SR/Surge/Loon 的 `dns-server=` 接受 URL、sing-box 用 JSON `dns.servers[].address`；
+  这些产物的 DoH URL 写法与 QX 不同源，无同构 bug。
+- Bump: `v5.2.10-QX.2` → `v5.2.10-QX.3`
+
 ## v5.2.10-QX.2 (2026-04-25) — Bugfix: running_mode_trigger 语法错误
 
 - ★ **FIX#QX-07-P0**（#114）：`running_mode_trigger=filter, filter, auto` → `auto, auto, auto`
