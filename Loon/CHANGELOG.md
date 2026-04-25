@@ -4,6 +4,25 @@
 
 ---
 
+## v5.2.10-Loon.2 (2026-04-25) — 修复 Loon 弹窗"第 559 行语法错误：DST-PORT,7680,REJECT"
+
+- ★ **FIX#40**（Loon 平台专属语法 bug）：Loon 端口规则名与 Surge/Shadowrocket/Clash 不一致
+  - 现象：Loon iOS App 加载配置时弹窗 `第 559 行出现语法错误：DST-PORT,7680,REJECT`
+  - 根因：Loon 官方端口规则名是 `DEST-PORT` / `SRC-PORT`（见 [nsloon.app/docs/Rule/port_rule/](https://nsloon.app/docs/Rule/port_rule/)），
+    而仓库一直从 Surge/SR 直接迁移用 `DST-PORT`，被 Loon 解析器拒绝
+  - 修复：4 条端口规则全部改为 `DEST-PORT`
+    - `DST-PORT,7680,REJECT` → `DEST-PORT,7680,REJECT`（Windows Delivery Optimization）
+    - `DST-PORT,123,DIRECT` → `DEST-PORT,123,DIRECT`（NTP）
+    - `DST-PORT,3478,DIRECT` → `DEST-PORT,3478,DIRECT`（STUN）
+    - `DST-PORT,3479,DIRECT` → `DEST-PORT,3479,DIRECT`（STUN-alt）
+  - 防回归：在头部 `[Rule]` 段说明里加 ⚠️ 注释，明确写出 Loon 用 DEST-PORT 而非 DST-PORT
+- 同构审计（CLAUDE.md §1.5）：
+  - Surge / Shadowrocket：官方支持 `DST-PORT`，无需改动 ✓
+  - Quantumult X：当前 conf 无 DST-PORT 规则（仅注释提及），无需改动 ✓
+  - Clash 家族（CMFA / OpenClash normal+smart / Clash Party JS）：mihomo 内核支持 `DST-PORT`，无需改动 ✓
+  - SingBox / v2rayN / Passwall*：用各自原生端口字段，与本 bug 无关 ✓
+- Bump: `v5.2.10-Loon.1` → `v5.2.10-Loon.2`
+
 ## v5.2.10-Loon.1 (2026-04-25) — 境外 DoH 端点改路由到 🚫 受限网站
 
 - ★ **FIX#39**（同构联动）：跟随 Clash Party v5.2.10 基线

@@ -36,10 +36,12 @@ name: AI Issue Auto-Responder (DeepSeek)
 #   • 不改代码的模式下仍禁止 diff/patch
 #   • timeout 15 分钟硬上限
 #
-# 需要配置的 secret：
+# 需要配置的 secret（两个）：
 #   Settings → Secrets and variables → Actions → New repository secret
 #     Name:  DEEPSEEK_API_KEY
 #     Value: https://platform.deepseek.com/api_keys 生成
+#     Name:  TAVILY_API_KEY
+#     Value: https://app.tavily.com/home 生成（免费 1000 次/月；可选，不配则跳过联网搜索）
 # ═══════════════════════════════════════════════════════════════════════════
 
 on:
@@ -80,7 +82,11 @@ jobs:
           fetch-depth: 1
 
       - name: Build AI context
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
+          # ── 1. 基础上下文（仓库文档）──
           {
             echo "===== CLAUDE.md（仓库维护契约）====="
             head -150 CLAUDE.md 2>/dev/null || echo "(CLAUDE.md not found)"
@@ -91,6 +97,59 @@ jobs:
             echo "===== 根 README.md 节选（前 150 行）====="
             head -150 README.md 2>/dev/null || echo "(README.md not found)"
           } > /tmp/context.txt
+
+          # ── 2. 从 issue 标题+正文探测关联的软件文件夹 ──
+          #    转小写后做关键词匹配（优先匹配更具体的名称）
+          FOLDER=""
+          TEXT_LOWER=$(echo "${ISSUE_TITLE} ${ISSUE_BODY}" | tr '[:upper:]' '[:lower:]' | head -c 2000)
+
+          case "$TEXT_LOWER" in
+            *passwall2*|*pw2*)                        FOLDER="Passwall2" ;;
+            *passwall*|pw\ *|*\ pw\ *)               FOLDER="Passwall" ;;
+            *quantumult\ x*|*quantumultx*|qx\ *|*\ qx\ *) FOLDER="Quantumult X" ;;
+            *shadowrocket*|sr\ *|*\ sr\ *)            FOLDER="Shadowrocket" ;;
+            *openclash*)                           FOLDER="OpenClash" ;;
+            *singbox*|*sing-box*)                  FOLDER="SingBox" ;;
+            *v2rayn*|*v2ray*)                      FOLDER="v2rayN" ;;
+            *clash\ party*|*clashparty*)            FOLDER="Clash Party" ;;
+            *cmfa*|*clash\ meta*)                  FOLDER="Clash Meta For Android" ;;
+            *surge*)                               FOLDER="Surge" ;;
+            *loon*)                                FOLDER="Loon" ;;
+          esac
+
+          # ── 3. 若命中，把文件夹内所有文件追加到 context ──
+          if [ -n "$FOLDER" ] && [ -d "$FOLDER" ]; then
+            echo "📁 Issue 关联: ${FOLDER}"
+            {
+              echo ""
+              echo "===== 关联文件夹：${FOLDER} ====="
+              find "$FOLDER" -maxdepth 1 -type f | sort | while IFS= read -r f; do
+                LINE_COUNT=$(wc -l < "$f")
+                echo ""
+                echo "--- $(basename "$f")（${LINE_COUNT} 行）---"
+                cat "$f"
+              done
+            } >> /tmp/context.txt
+          else
+            echo "📁 未匹配到关联文件夹，仅使用基础上下文"
+          fi
+
+          # ── 4. tools/ 目录下如果有同名脚本也带上 ─────────
+          #    例如 Quantumult X 的 srk_to_qx.py
+          if [ -n "$FOLDER" ] && [ -d tools ]; then
+            TOOL_FILES=$(find tools -maxdepth 1 -type f \( -iname "*${FOLDER}*" -o -iname "*${FOLDER% *}*" \) 2>/dev/null || true)
+            if [ -n "$TOOL_FILES" ]; then
+              echo "$TOOL_FILES" | while IFS= read -r tf; do
+                echo "📎 关联工具: ${tf}"
+                {
+                  echo ""
+                  echo "--- tools/$(basename "$tf") ---"
+                  cat "$tf"
+                } >> /tmp/context.txt
+              done
+            fi
+          fi
+
           echo "✅ context built: $(wc -l < /tmp/context.txt) lines, $(wc -c < /tmp/context.txt) bytes"
 
       # ── 步骤 1：判定 issue 类别 + 选择模型 / thinking / 代码修改权限 ─
@@ -202,6 +261,55 @@ jobs:
           echo "curl_timeout=${CURL_TIMEOUT}"   >> "$GITHUB_OUTPUT"
           echo "ai_help_count=${AI_HELP_COUNT}" >> "$GITHUB_OUTPUT"
 
+      # ── 步骤 2.5：Tavily 联网搜索 ──────────────────────────
+      - name: Search web for context (Tavily)
+        if: steps.tier.outputs.category != 'documentation'
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          CATEGORY: ${{ steps.tier.outputs.category }}
+        run: |
+          if [ -z "$TAVILY_API_KEY" ]; then
+            echo "⚠️ TAVILY_API_KEY 未配置，跳过联网搜索"
+            echo "tavily_results=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # ── 构造搜索查询 ──────────────────────────────────
+          # 以 issue 标题为主，取正文前 300 字符辅助
+          QUERY="${ISSUE_TITLE}"
+          BODY_PREFIX=$(echo "${ISSUE_BODY}" | head -c 300 | tr '\n' ' ' | tr -s ' ')
+          if [ ${#BODY_PREFIX} -gt 20 ]; then
+            QUERY="${QUERY} - ${BODY_PREFIX}"
+          fi
+          # 按类别追加领域上下文关键词
+          case "$CATEGORY" in
+            bug)         QUERY="${QUERY} mihomo clash configuration issue" ;;
+            enhancement) QUERY="${QUERY} clash mihomo rule-set proxy-groups" ;;
+            question)    QUERY="${QUERY} clash mihomo setup guide" ;;
+          esac
+
+          echo "🔍 Tavily search: ${QUERY:0:150}..."
+
+          RESPONSE=$(curl -s --max-time 15 https://api.tavily.com/search \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg q "$QUERY" \
+              --arg key "$TAVILY_API_KEY" \
+              '{api_key: $key, query: $q, search_depth: "basic", max_results: 5, topic: "general"}')") || true
+
+          # ── 格式化追加到 context ──────────────────────────
+          {
+            echo ""
+            echo "===== 联网搜索结果（Tavily）====="
+            echo "$RESPONSE" | jq -r '.results[] | "来源: \(.url)\n标题: \(.title)\n内容: \(.content)\n---"' 2>/dev/null || echo "(搜索无结果或 Tavily 调用出错)"
+          } >> /tmp/context.txt
+
+          RESULTS_COUNT=$(echo "$RESPONSE" | jq '.results | length' 2>/dev/null || echo "0")
+          echo "✅ Tavily done: ${RESULTS_COUNT} results"
+          echo "tavily_results=${RESULTS_COUNT}" >> "$GITHUB_OUTPUT"
+
       # ── 步骤 2：调用 DeepSeek API ────────────────────────────
       - name: Call DeepSeek API
         id: llm
@@ -227,8 +335,8 @@ jobs:
 
           echo "🎯 Model: ${MODEL} / Thinking: ${THINKING} / CodeMod: ${CODE_MOD} / Timeout: ${CURL_TIMEOUT}s"
 
-          # ── 构建 system prompt ────────────────────────────────
-          SYSTEM_PROMPT=$(cat <<'PROMPT_BASE'
+          # ── 构建 system prompt → 写入文件（防 ARG_MAX 溢出）───
+          cat > /tmp/sys_prompt.txt <<'PROMPT_BASE'
           你是 Smart-Config-Kit（科学上网分流配置仓库）的 issue 初筛助手。
 
           【仓库定位】
@@ -292,11 +400,10 @@ jobs:
              → 第一行用「🤖 AI 深度分析（<类型> · 追问）」，并**正面回应评论里的追问焦点**，
                别重复首轮讲过的内容
           PROMPT_BASE
-          )
 
           # ── 代码修改模式追加指令 ──────────────────────────
           if [ "${CODE_MOD}" = "true" ]; then
-            CODE_MOD_INSTR=$(cat <<'PROMPT_CODE_MOD'
+            cat >> /tmp/sys_prompt.txt <<'PROMPT_CODE_MOD'
 
           【代码修改模式 — 已激活】
           你有代码修改权限。当你判断需要修改代码时，按以下格式输出响应：
@@ -330,26 +437,22 @@ jobs:
           - 文本回复（AI_REPLY）里**不要**重复贴代码块——代码修改全部放到 AI_PATCH 里，
             workflow 会自动提取并创建 PR。回复里只需说明分析结论 + 引用 PR 链接占位符。
           PROMPT_CODE_MOD
-          )
-            SYSTEM_PROMPT="${SYSTEM_PROMPT}${CODE_MOD_INSTR}"
           fi
 
           # ── 无代码修改模式追加指令 ──────────────────────────
           if [ "${CODE_MOD}" != "true" ]; then
-            NO_CODE_INSTR=$(cat <<'PROMPT_NO_CODE'
+            cat >> /tmp/sys_prompt.txt <<'PROMPT_NO_CODE'
 
           【无代码修改权限】
           - ❌ **不要给具体代码修改 / diff / patch**——就算你已判断出根因，
              也只说"可能在哪一层"，不提"把 X 改成 Y"。代码决策 100% 留给维护者。
           - 回复里不要出现 AI_PATCH 或 AI_PR 标记。
           PROMPT_NO_CODE
-          )
-            SYSTEM_PROMPT="${SYSTEM_PROMPT}${NO_CODE_INSTR}"
           fi
 
           # ── 回复结构（按代码修改权限区分）─────────────────
           if [ "${CODE_MOD}" = "true" ]; then
-            REPLY_STRUCTURE=$(cat <<'PROMPT_STRUCTURE_CODE'
+            cat >> /tmp/sys_prompt.txt <<'PROMPT_STRUCTURE_CODE'
 
           【回复结构】
           - **第一行**按分层规则写类型标签（使用问题 / 疑似 bug → 需维护者确认 /
@@ -360,9 +463,8 @@ jobs:
              > 以上分析和代码修改仅供参考，**最终合并 / 关闭请等维护者人工处理**。
           - 末尾**不要**再自己签名——workflow 会自动补 Model / Workflow / PR 链接元信息。
           PROMPT_STRUCTURE_CODE
-          )
           else
-            REPLY_STRUCTURE=$(cat <<'PROMPT_STRUCTURE_NOCODE'
+            cat >> /tmp/sys_prompt.txt <<'PROMPT_STRUCTURE_NOCODE'
 
           【回复结构】
           - **第一行**按分层规则写类型标签（使用问题 / 疑似 bug → 需维护者确认 /
@@ -373,14 +475,12 @@ jobs:
              > 以上分析仅供参考，**最终修复 / 采纳 / 关闭请等维护者人工处理**。
           - 末尾**不要**再自己签名——workflow 会自动补 Model / Workflow 元信息。
           PROMPT_STRUCTURE_NOCODE
-          )
           fi
-          SYSTEM_PROMPT="${SYSTEM_PROMPT}${REPLY_STRUCTURE}"
 
-          # ── 拼 API 请求 JSON ─────────────────────────────────
-          REQ_BODY=$(jq -n \
+          # ── 拼 API 请求 JSON → 写入文件（防 ARG_MAX 溢出）───
+          jq -n \
             --arg model   "$MODEL" \
-            --arg sys     "$SYSTEM_PROMPT" \
+            --rawfile sys /tmp/sys_prompt.txt \
             --arg tier    "$TIER_MARK" \
             --arg title   "$ISSUE_TITLE" \
             --arg body    "$ISSUE_BODY" \
@@ -401,12 +501,12 @@ jobs:
               thinking: { type: $thinking },
               max_tokens: (if $thinking == "enabled" then 4096 else 1500 end),
               stream: false
-            }')
+            }' > /tmp/req_body.json
 
           RESPONSE=$(curl -s --max-time "$CURL_TIMEOUT" https://api.deepseek.com/chat/completions \
             -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
             -H "Content-Type: application/json" \
-            -d "$REQ_BODY")
+            -d @/tmp/req_body.json)
 
           RAW_REPLY=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
           if [ -z "$RAW_REPLY" ]; then

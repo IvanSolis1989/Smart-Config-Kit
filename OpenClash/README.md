@@ -13,7 +13,7 @@
 | 文件 | 作用 | 上传到哪 / 在 LuCI 哪里用 |
 |------|------|---------------------------|
 | `OpenClash(mihomo).conf` | OpenClash **UI 配置快照（必导）**：把推荐的 UCI 选项（核心 = Smart、DNS = fake-ip、Sniffer、GeoX 自动更新、LightGBM 自动更新等 30+ 项）一次性灌进 OpenClash，**导完就不用再去 LuCI WebUI 上手动勾任何东西** | LuCI → OpenClash → **覆写设置** 页面里的 **配置文件上传**入口（一次性导入，不需要落到固定路径） |
-| `OpenClash(mihomo-smart).sh` | **Smart 内核**覆写脚本（`type: smart` + LightGBM） | 上传到路由器 `/etc/openclash/`，在 **覆写设置 → 自定义覆写脚本路径** 里引用 |
+| `OpenClash(mihomo-smart).sh` | **Smart 内核**覆写脚本（`type: smart` + LightGBM） | 上传到路由器，在 **覆写设置 → 脚本槽位** 里粘贴或导入内容并启用 |
 | `OpenClash(mihomo).sh` | **Normal 内核**覆写脚本（`type: url-test`，非 Smart 内核） | 同上，与 Smart 版二选一 |
 
 > 两份 `.sh` 按你装的 mihomo 内核类型二选一；`.conf` 两种内核公用同一份。
@@ -46,7 +46,7 @@
 
 LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
-后续三步都在这一页里完成：导入 `.conf`（§3.3）→ 上传 `.sh`（§3.4）→ 填脚本路径（§3.5）。
+后续三步都在这一页里完成：导入 `.conf`（§3.3）→ 上传 `.sh` 并启用（§3.4）。
 
 <img width="1280" height="678" alt="① 覆写设置页面入口" src="https://github.com/user-attachments/assets/3f7f16a8-f01c-4f7d-ad17-338140088a9a" />
 
@@ -63,7 +63,7 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="② .conf 上传位置（在覆写设置页面里）" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
-### 3.4 把 `.sh` 覆写脚本上传到路由器
+### 3.4 把 `.sh` 覆写脚本上传到路由器并启用
 
 回到覆写设置页面，在底部有一排"**脚本槽位**"卡片（`default` / 已存在的脚本 / **`+`** 新建按钮），每张卡片右侧都有一个开关。
 
@@ -75,7 +75,7 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 4. 在底部卡片列表里找到刚保存的脚本，把右侧开关拨到 **开**（同时把其他覆写脚本的开关**关掉**，OpenClash 一次只用一份生效的覆写）
 5. 点击页面底部 **应用**（或保存并应用）
 
-> 脚本槽位保存并启用后，OpenClash 会自动通过 UCI 注册此脚本为自定义覆写脚本（`openclash.config.custom_overwrite_path` + `enable_custom_overwrite=1`），**不需要再额外填任何路径**。
+> 脚本槽位保存并启用后，OpenClash 会自动通过 UCI 注册此脚本（`custom_overwrite_path` + `enable_custom_overwrite=1`），**不需要再额外填任何路径**。
 
 > **二选一**：装的是 Mihomo Smart / Meta Alpha 内核就上 `OpenClash(mihomo-smart).sh`；装的是普通 Meta 稳定内核就上 `OpenClash(mihomo).sh`。两份都上传也行，但**只能开一个**。
 
