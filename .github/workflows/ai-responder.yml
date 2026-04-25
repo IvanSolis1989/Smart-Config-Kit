@@ -105,10 +105,10 @@ jobs:
           TEXT_LOWER=$(echo "${ISSUE_TITLE} ${ISSUE_BODY}" | tr '[:upper:]' '[:lower:]' | head -c 2000)
 
           case "$TEXT_LOWER" in
-            *passwall2*|*pw2*)                     FOLDER="Passwall2" ;;
-            *passwall*|*pw\ *)                     FOLDER="Passwall" ;;
-            *quantumult\ x*|*quantumultx*|*\ qx\ *) FOLDER="Quantumult X" ;;
-            *shadowrocket*|*\ sr\ *)               FOLDER="Shadowrocket" ;;
+            *passwall2*|*pw2*)                        FOLDER="Passwall2" ;;
+            *passwall*|pw\ *|*\ pw\ *)               FOLDER="Passwall" ;;
+            *quantumult\ x*|*quantumultx*|qx\ *|*\ qx\ *) FOLDER="Quantumult X" ;;
+            *shadowrocket*|sr\ *|*\ sr\ *)            FOLDER="Shadowrocket" ;;
             *openclash*)                           FOLDER="OpenClash" ;;
             *singbox*|*sing-box*)                  FOLDER="SingBox" ;;
             *v2rayn*|*v2ray*)                      FOLDER="v2rayN" ;;
@@ -305,7 +305,7 @@ jobs:
             -d "$(jq -n \
               --arg q "$QUERY" \
               --arg key "$TAVILY_API_KEY" \
-              '{api_key: $key, query: $q, search_depth: "basic", max_results: 5, topic: "general"}')")
+              '{api_key: $key, query: $q, search_depth: "basic", max_results: 5, topic: "general"}')") || true
 
           # ── 格式化追加到 context ──────────────────────────
           {
