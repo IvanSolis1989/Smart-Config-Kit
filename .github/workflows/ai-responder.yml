@@ -17,10 +17,10 @@ name: AI Issue Auto-Responder (DeepSeek)
 #   │   help wanted        │ 第1次 /ai-help │ v4-flash │ enabled  │ ❌       │
 #   │                      │ 第2次+ /ai-help│ v4-pro   │ enabled  │ ✅       │
 #   ├──────────────────────┼───────────────┼──────────┼──────────┼──────────┤
-#   │ bug                  │ 首次（labeled）│ v4-pro   │ enabled  │ ✅       │
+#   │ bug                  │ 首次（labeled）│ v4-flash │ enabled  │ ✅       │
 #   │                      │ /ai-help 追问  │ v4-pro   │ enabled  │ ✅       │
 #   ├──────────────────────┼───────────────┼──────────┼──────────┼──────────┤
-#   │ enhancement          │ 首次（labeled）│ v4-pro   │ enabled  │ ✅       │
+#   │ enhancement          │ 首次（labeled）│ v4-flash │ enabled  │ ✅       │
 #   │                      │ /ai-help 追问  │ v4-pro   │ enabled  │ ✅       │
 #   ├──────────────────────┼───────────────┼──────────┼──────────┼──────────┤
 #   │ documentation        │ 首次（labeled）│ v4-flash │ enabled  │ ✅ (文档) │
@@ -158,28 +158,30 @@ jobs:
               fi
               ;;
             bug)
-              MODEL="deepseek-v4-pro"
-              THINKING_TYPE="enabled"
-              CODE_MOD="true"
               if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
+                MODEL="deepseek-v4-pro"
                 TIER_MARK="FOLLOWUP"
                 TIER_LABEL="Bug 追问（v4-pro 思考 · 可改代码）"
               else
+                MODEL="deepseek-v4-flash"
                 TIER_MARK="FIRST"
-                TIER_LABEL="Bug 分析（首轮 · v4-pro 思考 · 可改代码）"
+                TIER_LABEL="Bug 分析（首轮 · v4-flash 思考 · 可改代码）"
               fi
-              ;;
-            enhancement)
-              MODEL="deepseek-v4-pro"
               THINKING_TYPE="enabled"
               CODE_MOD="true"
+              ;;
+            enhancement)
               if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
+                MODEL="deepseek-v4-pro"
                 TIER_MARK="FOLLOWUP"
                 TIER_LABEL="功能建议追问（v4-pro 思考 · 可改代码）"
               else
+                MODEL="deepseek-v4-flash"
                 TIER_MARK="FIRST"
-                TIER_LABEL="功能建议（首轮 · v4-pro 思考 · 可改代码）"
+                TIER_LABEL="功能建议（首轮 · v4-flash 思考 · 可改代码）"
               fi
+              THINKING_TYPE="enabled"
+              CODE_MOD="true"
               ;;
             documentation)
               MODEL="deepseek-v4-flash"
