@@ -64,9 +64,6 @@ dns:
   - +.stun.*.*.*
   - +.ntp.org
   - +.pool.ntp.org
-  - +.binance.com
-  - +.binancefuture.com
-  - +.binance.vision
   - +.n.n.srv.nintendo.net
   - +.stun.playstation.net
   - +.xboxlive.com
