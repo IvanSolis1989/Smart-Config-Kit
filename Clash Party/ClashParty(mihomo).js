@@ -2208,7 +2208,8 @@ function cleanupSubscription(config) {
 function _simpleHash(str) {
   var hash = 0
   for (var i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash |= 0 }
-  return Math.abs(hash)
+  // >>> 0 converts to unsigned 32-bit; avoids Math.abs(-2147483648) === -2147483648 edge case
+  return hash >>> 0
 }
 
 function injectSmartFingerprint(config) {

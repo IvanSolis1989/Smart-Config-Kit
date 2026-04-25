@@ -4252,6 +4252,21 @@ REGIONS = {
   "FR"  => /法国|法國|FR\b|France|Paris|🇫🇷/i,
   "NL"  => /荷兰|荷蘭|NL\b|Netherlands|Amsterdam|🇳🇱/i,
   "CH"  => /瑞士|CH\b|Switzerland|🇨🇭/i,
+  "IT"  => /意大利|義大利|IT\b|Italy|Milan|Rome|🇮🇹|FCO|MXP/i,
+  "ES"  => /西班牙|ES\b|Spain|Madrid|Barcelona|🇪🇸|MAD|BCN/i,
+  "PT"  => /葡萄牙|PT\b|Portugal|Lisbon|🇵🇹/i,
+  "GR"  => /希腊|希臘|GR\b|Greece|Athens|🇬🇷/i,
+  "AT"  => /奥地利|奧地利|AT\b|Austria|Vienna|🇦🇹|VIE/i,
+  "BE"  => /比利时|比利時|BE\b|Belgium|Brussels|🇧🇪/i,
+  "IE"  => /爱尔兰|愛爾蘭|IE\b|Ireland|Dublin|🇮🇪/i,
+  "DK"  => /丹麦|丹麥|DK\b|Denmark|Copenhagen|🇩🇰/i,
+  "SE"  => /瑞典|SE\b|Sweden|Stockholm|🇸🇪/i,
+  "FI"  => /芬兰|芬蘭|FI\b|Finland|Helsinki|🇫🇮/i,
+  "NO"  => /挪威|NO\b|Norway|Oslo|🇳🇴/i,
+  "PL"  => /波兰|波蘭|PL\b|Poland|Warsaw|🇵🇱|WAW/i,
+  "CZ"  => /捷克|CZ\b|Czech|Prague|🇨🇿/i,
+  "RO"  => /罗马尼亚|羅馬尼亞|RO\b|Romania|Bucharest|🇷🇴/i,
+  "HU"  => /匈牙利|HU\b|Hungary|Budapest|🇭🇺/i,
   "RU"  => /俄罗斯|俄羅斯|RU\b|Russia|Moscow|🇷🇺/i,
   "CA"  => /加拿大|CA\b|Canada|🇨🇦|Toronto|Vancouver/i,
   "MX"  => /墨西哥|MX\b|Mexico|🇲🇽/i,
@@ -4284,7 +4299,7 @@ GROUP_MAP = {
   "TW"     => ["TW"],
   "JP_KR"  => ["JP", "KR"],
   "US"     => ["US"],
-  "EU"     => ["UK", "DE", "FR", "NL", "CH", "RU"],
+  "EU"     => ["UK", "DE", "FR", "NL", "CH", "IT", "ES", "PT", "GR", "AT", "BE", "IE", "DK", "SE", "FI", "NO", "PL", "CZ", "RO", "HU", "RU"],
   "AM"     => ["US", "CA", "MX", "BR", "AR"],
   "AF"     => ["ZA", "EG", "NG"],
   "APAC"   => ["HK", "TW", "JP", "KR", "SG", "IN", "TH", "VN", "MY", "ID", "PH", "AU", "NZ", "TR", "AE"],
@@ -4384,7 +4399,7 @@ end
 FP_CANDIDATES = %w[chrome firefox safari edge ios android random]
 filtered_proxies.each do |p|
   t = p["type"].to_s
-  if %w[vless vmess trojan hysteria hysteria2 tuic].include?(t)
+  if %w[vless vmess trojan].include?(t)
     next if p["client-fingerprint"] && !p["client-fingerprint"].to_s.empty?
     digest = Digest::MD5.hexdigest(p["name"].to_s)
     idx = digest.to_i(16) % FP_CANDIDATES.size
