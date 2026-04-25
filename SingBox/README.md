@@ -198,8 +198,8 @@ node 'SingBox/SingBox(sing-box)-generator.js'
 为贴近 Clash Party 使用教程中的「DNS + Sniffer + GeoX URL」补充项，`SingBox(sing-box)-full.json` 已对应实现：
 
 - **DNS 增强**：
-  - `dns_direct`（223.5.5.5 DoH）用于国内规则集；
-  - `dns_proxy`（1.1.1.1 DoH）用于代理解析；
+  - `dns_direct`（dns.alidns.com DoH）用于国内规则集；
+  - `dns_proxy`（cloudflare-dns.com DoH）用于代理解析；
   - 广告 DNS 规则使用 `action: "reject"` 返回拒绝响应。
 - **嗅探增强**：
   - `inbounds.tun.sniff=true`

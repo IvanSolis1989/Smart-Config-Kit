@@ -240,11 +240,11 @@ flowchart TB
 
     Gate{{"<b>🔀 按域名性质分三路查询</b>"}}
 
-    L2["<b>② nameserver</b> &nbsp;·&nbsp; 国内域名主通道 &nbsp;·&nbsp; DoH<br/><br/><b>AliDNS</b> &nbsp; https://223.5.5.5/dns-query<br/><b>DNSPod</b> &nbsp; https://1.12.12.12/dns-query<br/>大陆站点 / 国内 CDN 用国内权威 DoH &nbsp;→&nbsp; 不被 ISP 记录"]
+    L2["<b>② nameserver</b> &nbsp;·&nbsp; 国内域名主通道 &nbsp;·&nbsp; DoH<br/><br/><b>AliDNS</b> &nbsp; https://dns.alidns.com/dns-query<br/><b>DNSPod</b> &nbsp; https://doh.pub/dns-query<br/>大陆站点 / 国内 CDN 用国内权威 DoH &nbsp;→&nbsp; 不被 ISP 记录"]
 
-    L3["<b>③ proxy-server-nameserver</b> &nbsp;·&nbsp; 机场节点域名解析 &nbsp;·&nbsp; DoH<br/><br/><b>Cloudflare</b> &nbsp; https://1.1.1.1/dns-query<br/><b>Google</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://8.8.8.8/dns-query<br/><b>AliDNS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://223.5.5.5/dns-query<br/><b>DNSPod</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://1.12.12.12/dns-query<br/>解析 node.xxx-airport.com 走加密 DoH<br/>→&nbsp; 节点域名与 IP 都不暴露给 ISP，也不被 DNS 污染"]
+    L3["<b>③ proxy-server-nameserver</b> &nbsp;·&nbsp; 机场节点域名解析 &nbsp;·&nbsp; DoH<br/><br/><b>Cloudflare</b> &nbsp; https://cloudflare-dns.com/dns-query<br/><b>Google</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://dns.google/dns-query<br/><b>AliDNS</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://dns.alidns.com/dns-query<br/><b>DNSPod</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://doh.pub/dns-query<br/>解析 node.xxx-airport.com 走加密 DoH<br/>→&nbsp; 节点域名与 IP 都不暴露给 ISP，也不被 DNS 污染"]
 
-    L4["<b>④ fallback</b> &nbsp;·&nbsp; 海外域名回退通道 &nbsp;·&nbsp; DoH + GeoIP 解毒<br/><br/><b>Cloudflare</b> &nbsp; https://1.1.1.1/dns-query<br/><b>Google</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://8.8.8.8/dns-query<br/><b>fallback-filter.geoip-code: CN</b><br/>海外域名若查出 CN 段 IP（说明被污染）<br/>→&nbsp; 自动切 fallback 重查，避开 GFW 注入的假 IP"]
+    L4["<b>④ fallback</b> &nbsp;·&nbsp; 海外域名回退通道 &nbsp;·&nbsp; DoH + GeoIP 解毒<br/><br/><b>Cloudflare</b> &nbsp; https://cloudflare-dns.com/dns-query<br/><b>Google</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://dns.google/dns-query<br/><b>fallback-filter.geoip-code: CN</b><br/>海外域名若查出 CN 段 IP（说明被污染）<br/>→&nbsp; 自动切 fallback 重查，避开 GFW 注入的假 IP"]
 
     Start --> L1
     L1 ==>|"<b>bootstrap 成功后，所有业务查询全走加密 DoH</b>"| Gate
@@ -275,8 +275,8 @@ flowchart TB
 ### 推荐做法
 
 1. **首选加密 DoH**。不要用明文 UDP DNS（`114.114.114.114` / `8.8.8.8` 直连 53）——`114.114.114.114` 在大陆运营商会做劫持，`8.8.8.8` 会被 GFW 污染 + ISP 看到你在用海外 DNS。
-2. **国内 DoH 建议用 AliDNS + DNSPod 组合**（`https://223.5.5.5/dns-query` + `https://1.12.12.12/dns-query`）。两家都是中国合规 DoH，在 443 端口的 TLS 流量里 ISP 无法区分。
-3. **海外 DoH 建议用 Cloudflare + Google**（`https://1.1.1.1/dns-query` + `https://8.8.8.8/dns-query`）。Cloudflare 额外支持 ODoH / ECH，隐私更好。
+2. **国内 DoH 建议用 AliDNS + DNSPod 组合**（`https://dns.alidns.com/dns-query` + `https://doh.pub/dns-query`）。两家都是中国合规 DoH，在 443 端口的 TLS 流量里 ISP 无法区分。
+3. **海外 DoH 建议用 Cloudflare + Google**（`https://cloudflare-dns.com/dns-query` + `https://dns.google/dns-query`）。Cloudflare 额外支持 ODoH / ECH，隐私更好。
 4. **`proxy-server-nameserver` 必须单独配置**（容易忽略）。这是解决"机场节点 IP 被针对性封"的关键——让机场节点域名的解析也走海外 DoH 而不是默认通道。
 5. **fake-ip 模式强烈推荐**（`enhanced-mode: fake-ip`）。比 redir-host 快 + 无本地缓存污染 + 规则命中更精准。
 6. **别在 `hosts:` 里写业务域名**。`hosts:` 只适合给 bootstrap DoH（例如 `one.one.one.one → 1.1.1.1`）写兜底 IP，用来规避 DNS 冷启动死锁；写业务域名会让本配置的规则命中失效。
@@ -290,7 +290,7 @@ https://whoami.cloudflare.com    # 应显示 Cloudflare DoH
 
 # 2) 命令行直接测 DoH 可达
 curl -H 'accept: application/dns-json' \
-  'https://1.12.12.12/dns-query?name=google.com&type=A'
+  'https://doh.pub/dns-query?name=google.com&type=A'
 # 成功 = 返回 JSON（含 Answer 字段）
 
 # 3) 抓包确认查询走 443（不是 53）

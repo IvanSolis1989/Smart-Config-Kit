@@ -12,9 +12,9 @@
     },
     "_meta": {
       "name": "SingBox Smart Full",
-      "version": "v5.2.9-sing.1",
-      "build": "2026-04-25",
-      "baseline": "Clash Party v5.2.9",
+      "version": "v5.2.8-sing.2",
+      "build": "2026-04-23",
+      "baseline": "Clash Party v5.2.8",
       "changelog": "见 SingBox/CHANGELOG.md"
     }
   },
@@ -23,13 +23,13 @@
       {
         "tag": "dns_direct",
         "type": "https",
-        "server": "223.5.5.5",
+        "server": "dns.alidns.com",
         "detour": "DIRECT"
       },
       {
         "tag": "dns_proxy",
         "type": "https",
-        "server": "1.1.1.1",
+        "server": "cloudflare-dns.com",
         "detour": "🚀 节点选择"
       }
     ],

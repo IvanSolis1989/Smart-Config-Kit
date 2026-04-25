@@ -166,10 +166,10 @@ QX 的 DNS 配置用多行 `server=` 声明：
 ```
 server=223.5.5.5
 server=119.29.29.29
-server=https://1.12.12.12/dns-query
+server=https://doh.pub/dns-query
 server=https://dns.alidns.com/dns-query
-server=https://1.1.1.1/dns-query
-server=https://8.8.8.8/dns-query
+server=https://cloudflare-dns.com/dns-query
+server=https://dns.google/dns-query
 server=/*.apple.com/system     # 系统 DNS 处理 Apple 服务
 server=/*.icloud.com/system
 no-ipv6                        # QX 的 IPv6 策略（与 Clash `ipv6: false` 对齐）

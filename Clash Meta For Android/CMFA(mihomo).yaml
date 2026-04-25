@@ -68,22 +68,22 @@ dns:
   - 8.8.8.8
   nameserver:
   - 'https://dns.alidns.com/dns-query'
-  - 'https://1.12.12.12/dns-query'
+  - 'https://doh.pub/dns-query'
   proxy-server-nameserver:
   - 'https://dns.cloudflare.com/dns-query'
   - 'https://dns.google/dns-query'
   - 'https://dns.alidns.com/dns-query'
-  - 'https://1.12.12.12/dns-query'
+  - 'https://doh.pub/dns-query'
   direct-nameserver:
   - 'https://dns.alidns.com/dns-query'
-  - 'https://1.12.12.12/dns-query'
+  - 'https://doh.pub/dns-query'
   nameserver-policy:
     '+.jsdelivr.net':
-    - 'https://1.1.1.1/dns-query'
-    - 'https://8.8.8.8/dns-query'
+    - 'https://cloudflare-dns.com/dns-query'
+    - 'https://dns.google/dns-query'
     '+.github.com':
-    - 'https://1.1.1.1/dns-query'
-    - 'https://8.8.8.8/dns-query'
+    - 'https://cloudflare-dns.com/dns-query'
+    - 'https://dns.google/dns-query'
   fallback:
   - 'https://dns.google/dns-query'
   - 'https://dns.cloudflare.com/dns-query'
