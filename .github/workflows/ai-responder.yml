@@ -13,9 +13,8 @@ name: AI Issue Auto-Responder (DeepSeek)
 #   ┌──────────────────────┬───────────────┬──────────┬──────────┬──────────┐
 #   │ Issue 类别            │ 触发场景       │ 模型     │ Thinking │ 代码修改 │
 #   ├──────────────────────┼───────────────┼──────────┼──────────┼──────────┤
-#   │ question/faq/        │ 首次（labeled）│ v4-flash │ disabled │ ❌       │
-#   │   help wanted        │ 第1次 /ai-help │ v4-flash │ enabled  │ ❌       │
-#   │                      │ 第2次+ /ai-help│ v4-pro   │ enabled  │ ✅       │
+#   │ question/faq/        │ 首次（labeled）│ v4-flash │ enabled  │ ❌       │
+#   │   help wanted        │ 第1次+ /ai-help│ v4-pro   │ enabled  │ ❌       │
 #   ├──────────────────────┼───────────────┼──────────┼──────────┼──────────┤
 #   │ bug                  │ 首次（labeled）│ v4-flash │ enabled  │ ✅       │
 #   │                      │ /ai-help 追问  │ v4-pro   │ enabled  │ ✅       │
@@ -136,26 +135,17 @@ jobs:
           # ── 3. 查表决策 ──────────────────────────────────────
           case "$CATEGORY" in
             question)
-              MODEL="deepseek-v4-flash"
               if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
-                THINKING_TYPE="enabled"
-                if [ "$AI_HELP_COUNT" -ge 2 ]; then
-                  # 第 2 次+ /ai-help → 升级 v4-pro + 代码修改权限
-                  MODEL="deepseek-v4-pro"
-                  CODE_MOD="true"
-                  TIER_MARK="FOLLOWUP2"
-                  TIER_LABEL="问题追问（第${AI_HELP_COUNT}次 · v4-pro 思考 · 可改代码）"
-                else
-                  CODE_MOD="false"
-                  TIER_MARK="FOLLOWUP"
-                  TIER_LABEL="问题追问（v4-flash 思考 · 只分析）"
-                fi
+                MODEL="deepseek-v4-pro"
+                TIER_MARK="FOLLOWUP"
+                TIER_LABEL="问题追问（v4-pro 思考 · 只分析）"
               else
-                THINKING_TYPE="disabled"
-                CODE_MOD="false"
+                MODEL="deepseek-v4-flash"
                 TIER_MARK="FIRST"
-                TIER_LABEL="问题/求助（首轮 · v4-flash 非思考）"
+                TIER_LABEL="问题/求助（首轮 · v4-flash 思考 · 只分析）"
               fi
+              THINKING_TYPE="enabled"
+              CODE_MOD="false"
               ;;
             bug)
               if [ "$GITHUB_EVENT_NAME" = "issue_comment" ]; then
