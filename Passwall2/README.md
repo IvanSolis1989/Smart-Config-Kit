@@ -184,7 +184,7 @@ geosite:discord
 geosite:whatsapp
 geosite:line
 geosite:signal
-geosite:kakaotalk
+geosite:kakao
 ```
 
 **IP 列表**：

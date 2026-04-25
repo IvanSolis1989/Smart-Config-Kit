@@ -2,7 +2,7 @@
     {
       "id": "scki-000-meta",
       "enabled": false,
-      "remarks": "Smart-Config-Kit v5.2.8-v2n.1 | Build 2026-04-23 | Baseline Clash Party v5.2.8 | changelog: v2rayN/CHANGELOG.md",
+      "remarks": "Smart-Config-Kit v5.2.9-v2n.1 | Build 2026-04-25 | Baseline Clash Party v5.2.9 | changelog: v2rayN/CHANGELOG.md",
       "outboundTag": "direct",
       "domain": [
         "domain:smart-config-kit.invalid"

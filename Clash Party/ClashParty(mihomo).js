@@ -1,7 +1,7 @@
 // Clash 普通内核覆写脚本 - SUB-STORE 多机场精细分流版（非 Smart 内核）
-// 版本：v5.2.8-normal.2 (2026-04-23)
+// 版本：v5.2.9-normal.1 (2026-04-25)
 // 架构：SUB-STORE 多机场融合 + 18 url-test 区域组（9 全部 + 9 家宽）+ 28 业务策略组 + 371+ rule-providers 100%+ 服务覆盖
-// 基线：Clash Party v5.2.8（与同目录 ClashParty(mihomo-smart).js 规则 100% 等价，仅 18 区域组从 smart 改为 url-test）
+// 基线：Clash Party v5.2.9（与同目录 ClashParty(mihomo-smart).js 规则 100% 等价，仅 18 区域组从 smart 改为 url-test）
 // 适用：Mihomo / Clash.Meta 稳定版内核、不支持 smart + LightGBM 的分支；也适用于想完全关闭 ML 评估的用户
 // 变更历史：见 `Clash Party/CHANGELOG.md`
 
@@ -9,7 +9,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.2.8-normal.2'
+const VERSION = 'v5.2.9-normal.1'
 
 // ================================================================
 //  模块 A：节点过滤 / 家宽识别
@@ -1728,7 +1728,7 @@ function injectRules(config) {
     `DOMAIN-SUFFIX,channel4.com,${BIZ.STREAM_EU}`,
     `DOMAIN-SUFFIX,channel5.com,${BIZ.STREAM_EU}`,
     `DOMAIN-SUFFIX,sky.com,${BIZ.STREAM_EU}`,
-    `DOMAIN-SUFFIX,nowtv.com.uk,${BIZ.STREAM_EU}`,
+    `DOMAIN-SUFFIX,nowtv.co.uk,${BIZ.STREAM_EU}`,
     `DOMAIN-SUFFIX,britbox.com,${BIZ.STREAM_EU}`,
     `DOMAIN-SUFFIX,canalplus.com,${BIZ.STREAM_EU}`,
     `DOMAIN-SUFFIX,mycanal.fr,${BIZ.STREAM_EU}`,

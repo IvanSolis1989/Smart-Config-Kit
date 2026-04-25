@@ -12,9 +12,9 @@
     },
     "_meta": {
       "name": "SingBox Smart Full",
-      "version": "v5.2.8-sing.2",
-      "build": "2026-04-23",
-      "baseline": "Clash Party v5.2.8",
+      "version": "v5.2.9-sing.1",
+      "build": "2026-04-25",
+      "baseline": "Clash Party v5.2.9",
       "changelog": "见 SingBox/CHANGELOG.md"
     }
   },
@@ -4021,7 +4021,7 @@
       },
       {
         "domain_suffix": [
-          "nowtv.com.uk"
+          "nowtv.co.uk"
         ],
         "action": "route",
         "outbound": "🇪🇺 欧洲流媒体"

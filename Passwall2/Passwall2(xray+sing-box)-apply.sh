@@ -1,7 +1,7 @@
 #!/bin/sh
 # ═══════════════════════════════════════════════════════════════════════════
 # Smart-Config-Kit for Passwall / Passwall2 — UCI batch helper
-# Version: v5.2.6-pw2.2 | Build 2026-04-23
+# Version: v5.2.9-pw2.1 | Build 2026-04-25
 #
 # 用途：一次性在 Passwall2 中创建 28 条 shunt rule（含域名列表 + IP 列表），
 #       每条目标节点留空（NEED_CONFIG），用户之后到 LuCI 里手工选节点。
@@ -115,7 +115,10 @@ uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:discord'
 uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:whatsapp'
 uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:line'
 uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:signal'
-uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:kakaotalk'
+uci add_list ${CONFIG_NAME}.${SEC}.domain_list='geosite:kakao'
+uci add_list ${CONFIG_NAME}.${SEC}.domain_list='domain:kakao.com'
+uci add_list ${CONFIG_NAME}.${SEC}.domain_list='domain:kakaocorp.com'
+uci add_list ${CONFIG_NAME}.${SEC}.domain_list='domain:kakaotalk.com'
 uci add_list ${CONFIG_NAME}.${SEC}.ip_list='geoip:telegram'
 uci set ${CONFIG_NAME}.${SEC}.network='tcp,udp'
 # uci set ${CONFIG_NAME}.${SEC}.node='NEED_CONFIG_IN_LUCI'
