@@ -1,0 +1,14 @@
+# 🇹🇼 台湾流媒体
+# 推荐出站: 🇹🇼 台湾
+# 建议目标策略: proxy
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+
+# [Domain List]
+geosite:bahamut
+domain:bahamut.com.tw
+domain:hinet.net
+domain:kktv.me
+domain:litv.tv
+domain:hamivideo.hinet.net
+domain:friday.tw

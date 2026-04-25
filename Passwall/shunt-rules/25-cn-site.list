@@ -1,0 +1,13 @@
+# 🏠 国内网站
+# 推荐出站: direct（倒数第5条，位置重要）
+# 建议目标策略: direct
+# ───────────────────────────────
+# 在 Passwall LuCI 分流规则的「域名列表」字段里粘贴下面的所有非注释行。
+# 在「IP 列表」字段里粘贴本文件末尾 [IP] 段落内容。
+
+# [Domain List]
+geosite:cn
+
+# [IP List]
+geoip:cn
+geoip:private

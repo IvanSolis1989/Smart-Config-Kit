@@ -6,6 +6,29 @@
 
 ---
 
+## v5.2.8-pw2.4 (2026-04-24) — ★ 广告拦截规则置顶 + `apply.sh` 路径加引号
+
+与 `Passwall/v5.2.8-pw.4` 对等的同构 bug 修复（CLAUDE.md §1.5 触发 → 两份产物同步）。详细说明见 `Passwall/CHANGELOG.md` 同版本节；本节仅列具体改动文件。
+
+- ★ **FIX#CODEX-1（P1，CLAUDE.md §3.4 契约违反）**：🛑 广告拦截从 `#28`（末尾）前移至 `#01`（首位），其余 27 条规则依次下移一位。
+  - `Passwall2(xray+sing-box)-apply.sh` — 28 个 `# [NN]` 块整体重编号；echo 提示更新
+  - `Passwall2(xray+sing-box).conf` — 28 个 banner 块重编号，`slug    : NN-xxx` 字段同步更新
+  - `shunt-rules/*.list` — 文件名整体重编号（`28-ads.list` → `01-ads.list`，`01-ai-service.list` → `02-ai-service.list`，…，`27-final.list` → `28-final.list`）
+  - `README.md` — 28 个 `### <keycap>` 表头同步重编号；参考文件名示例从 `01-ai-service.list / 06-social.list` 改为 `02-ai-service.list / 07-social.list`；规则顺序说明改为"第 1 条必须是 🛑 广告拦截；第 25-28 条（国内/受限/国外/FINAL）保持末尾"
+- ★ **FIX#CODEX-2（P2，shell 元字符逃逸）**：`README.md` 中 `sh Passwall2(xray+sing-box)-apply.sh` 加单引号为 `sh 'Passwall2(xray+sing-box)-apply.sh'`。脚本头部 20-23 行使用说明原本就是正确形式，此次对齐。
+
+### 同构审计结论（按 CLAUDE.md §1.5）
+
+此修复属于"规则条目目标组 / 规则顺序影响命中优先级（广告拦截 / FINAL 前置关系）"类型；审计矩阵见 `Passwall/CHANGELOG.md` 同版本节。结论：**其他 9 份产物的广告拦截本身已正确放首段**，仅 Passwall + Passwall2 为同构漏洞，本 PR 同时修复。
+
+### 放弃 Codex DNS 建议
+
+Codex 另一条 P1（`CMFA(mihomo).yaml` 将 `1.12.12.12` 回退到 `doh.pub`）**未采纳**。原因：`1.12.12.12` 是全仓库 7 个产物（CMFA / OC Normal / OC Smart / SR / Surge / Loon / QX）的一致 DNS 基线，单独改 CMFA 会破坏 §1 多产物一致性；如确需全量迁回 `doh.pub`，应开独立 PR 整仓库同步。
+
+## v5.2.8-pw2.3 (2026-04-24) — ★ 版本号对齐 v5.2.8 基线
+
+跟随 Clash Party v5.2.8 基线版本号对齐。本产物无功能性变更（同构审计 N/A 理由同 Passwall `v5.2.8-pw.3`）。
+
 ## v5.2.6-pw2.2 (2026-04-23) — ★ 致命 bug 修复 + 定位纠正
 
 本次 PR 源自用户指出的两个错误，经深度调研 Passwall / Passwall2 官方仓库（`Openwrt-Passwall` org）+ `shunt_rules.lua` 源码后修复。
