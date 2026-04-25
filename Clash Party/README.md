@@ -194,7 +194,9 @@ geo-auto-update: true
 
 DNS：
 
-<img width="823" height="1032" alt="image" src="https://github.com/user-attachments/assets/e096c03c-5add-41ae-82bb-17494590bb9e" />
+<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/c6ad3051-17c3-43e2-8dfa-e9721bd305f8" />
+<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/d2cbbbb3-ed2c-45d7-86cc-832edfbdb365" />
+
 
 ```yaml
 dns:
@@ -234,7 +236,8 @@ dns:
 
 Sniffer：
 
-<img width="823" height="1032" alt="image" src="https://github.com/user-attachments/assets/e3bf7ea9-e89a-4989-9caa-12e7887eca81" />
+<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/76bb6490-3dee-43f5-a863-96bc99546b52" />
+
 
 ```yaml
 sniffer:
