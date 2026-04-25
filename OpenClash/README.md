@@ -63,29 +63,32 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="② .conf 上传位置（在覆写设置页面里）" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
-### 3.4 在 WebUI 里把 `.sh` 上传并启用
+### 3.4 告诉 OpenClash 调用哪份覆写脚本（关键一步）
 
-回到刚才 §3.2 / §3.3 的同一个 **服务 → OpenClash → 覆写设置** 页面，底部有一排"脚本槽位"卡片（`default` / 已存在的脚本 / **`+`** 新建按钮），每张卡片右侧都有一个 enable 开关。
+回到刚才的 **覆写设置** 页面，在 **自定义 OpenClash 脚本（Custom Overwrite Script）** 字段填入脚本路径（二选一，对应你装的内核）：
 
-OpenClash 在这里直接支持「**上传本地 `.sh` 当作覆写脚本**」，**不需要 SSH，也不用记 `/etc/openclash/` 路径** —— 推荐就走这条路：
+- Smart 内核 → `/etc/openclash/OpenClash(mihomo-smart).sh`
+- Normal 内核 → `/etc/openclash/OpenClash(mihomo).sh`
 
-1. 点击最左边的 **`+`** 卡片（新建脚本槽位）
-2. 在弹出的编辑器里：
-   - **方式 A（最简单）**：把仓库里的 `OpenClash/OpenClash(mihomo-smart).sh`（或 `OpenClash(mihomo).sh`）整份内容**复制粘贴**进编辑器
-   - **方式 B**：用编辑器右上角的"导入 / 上传"按钮，选择本地的 `.sh` 文件
-3. 给这个槽位起个名字（比如 `clash-smart` / `clash-normal`），保存
-4. 在底部卡片列表里找到刚保存的脚本，**把右侧开关拨到开**（同时把其他覆写脚本的开关**关掉**，OpenClash 一次只用一份生效的覆写）
-5. 点击页面底部 **应用**（或保存并应用）
+点击保存并应用。
 
-> **二选一**：装的是 Mihomo Smart / Meta Alpha 内核就上 `OpenClash(mihomo-smart).sh`；装的是普通 Meta 稳定内核就上 `OpenClash(mihomo).sh`。两份都上传也行，但**只能开一个**。
+> ⚠️ **这一步不能省。** `OpenClash(mihomo).conf`（§3.3 导入的）只管 DNS/Sniffer/核心类型/GeoX 更新等 30 多项 UCI 选项，**不包含**脚本路径。如果不在这里填路径，OpenClash 不知道要去调用哪份覆写脚本，规则策略就不会生效。
 
-保存成功之后，下次 OpenClash 启动 / 订阅更新时就会自动加载这份脚本，在 §3.3 用 `.conf` 灌进去的基础 UI 配置之上**再叠加** 18 区域组 / 28 业务组 / 385 rule-providers / 975 rules 的完整分流策略。
+`OpenClash(mihomo).conf` 与覆写脚本是**平行叠加**的关系：`.conf` 设定基础 UCI 环境，`.sh` 注入完整分流策略（46 代理组 / 385 rule-providers / 975 rules）。两步**都做**才能正常工作。
 
-<img width="1280" height="678" alt="③ .sh 脚本上传位置（覆写设置页面底部 + 号 + 开关）" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
+#### 把 `.sh` 文件送到路由器上
 
-#### 备选：用命令行 `scp` 上传（高级用户 / 多台路由器批量部署）
+脚本路径填好之后，你需要确保那个路径下确实有对应的 `.sh` 文件。两种方式：
 
-如果你更习惯命令行，或者要批量同步多台路由器，可以走 SSH 直接把脚本铺到 `/etc/openclash/`：
+##### 方式 A：通过 WebUI 在线创建/上传
+
+在覆写设置页面底部有一排"脚本槽位"卡片（`default` / **`+`** 新建），这是 OpenClash WebUI 提供的在线编辑功能：
+
+1. 点击 **`+`** 卡片新建一个脚本槽位
+2. 在弹出的编辑器里，把仓库里的 `.sh` 内容**复制粘贴**进去（或点击编辑器右上角"导入"按钮上传本地文件）
+3. 给这个槽位起个名字（比如 `clash-smart` / `clash-normal`），**保存**即可——WebUI 会自动把脚本保存到 `/etc/openclash/` 下
+
+##### 方式 B：通过 `scp` 上传（SSH / 批量部署）
 
 ```bash
 # 路径里的 ( ) 是 shell 语法 token，必须加引号
@@ -97,7 +100,7 @@ ssh root@192.168.1.1 "chmod +x '/etc/openclash/OpenClash(mihomo-smart).sh' '/etc
 
 不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla 拖拽到 `/etc/openclash/`，再 SSH 进去 `chmod +x`。
 
-文件传上去之后**仍然要回到 WebUI 覆写设置页面，把对应槽位的开关打开**才会生效（OpenClash 不会自动启用一份新出现的脚本）。
+> **确认文件到了之后**，回 §3.4 开头检查"自定义 OpenClash 脚本"字段里填的路径，是否与文件实际位置一致。保存应用后，下次 OpenClash 启动 / 订阅更新时就会自动加载这份脚本，在 `.conf` 灌好的基础配置之上**叠加**完整分流策略。
 
 ### 3.5 导入订阅并启动
 
