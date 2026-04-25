@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v5.2.10-oc-full.1 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v5.2.10-oc-full.2 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # ============================================================================
 # 定位：对齐 Clash Party v5.2.10 JS 主线的 OpenClash 全量版本。
 #       与同目录 OpenClash(mihomo).sh（Normal）互补：
@@ -22,7 +22,7 @@
 
 
 
-VERSION_TAG="v5.2.10-oc-full.1"
+VERSION_TAG="v5.2.10-oc-full.2"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 
@@ -145,10 +145,7 @@ sniffer:
       - '4433'
   skip-domain:
   - +.push.apple.com
-  - +.binance.com
   - Mijia Cloud
-  - +.binancefuture.com
-  - +.binance.vision
   skip-dst-address:
   - 91.105.192.0/23
   - 91.108.4.0/22
@@ -4193,7 +4190,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v5.2.10-oc-full.1"
+VERSION = "v5.2.10-oc-full.2"
 
 STATUS_LOG = "/tmp/clash_smart_status.log"
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }

@@ -9,6 +9,18 @@
 
 ## Normal（`OpenClash(mihomo).sh`，非 Smart 内核 / url-test 版）
 
+### v5.2.10-oc-normal.2 (2026-04-25) — FIX: sniffer.skip-domain 误含币安域名导致 TLS 流量按 IP 路由
+
+- ★ **FIX：OpenClash sniffer.skip-domain 误含 3 条币安域名，导致 TLS SNI 改写被跳过**
+  - 现象：freqtrade/量化交易容器访问 `data.binance.vision`、`fapi.binance.com` 等时出现
+    `ContentLengthError` / `Cannot connect` / `TimeoutError`
+  - 根因：`sniffer.skip-domain` 含 `+.binance.com` / `+.binancefuture.com` / `+.binance.vision`，
+    sniffer 嗅出 SNI 后跳过域名改写，导致流量按原始 IP 路由 → 不命中
+    `DOMAIN-SUFFIX,binance.*,💰 加密货币` → `MATCH` → 🐟 漏网之鱼 → 代理节点拒接或无 SNI 流量超时
+  - 修复：删除 `skip-domain` 中 3 条币安条目，保留 `+.push.apple.com` 和 `Mijia Cloud`。
+    fake-ip 层仍正常给币安分配真实 IP，sniffer 嗅出 SNI 后按 `DOMAIN-SUFFIX` 规则正确分流到 💰 加密货币组
+  - 版本号 `v5.2.10-oc-normal.1` → `v5.2.10-oc-normal.2`
+
 ### v5.2.10-oc-normal.1 (2026-04-25) — 境外 DoH 端点改路由到 🚫 受限网站
 
 - ★ **FIX#39**（同构联动）：跟随 Clash Party v5.2.10 基线
@@ -114,6 +126,12 @@
 ---
 
 ## Full（`OpenClash(mihomo-smart).sh`）
+
+### v5.2.10-oc-full.2 (2026-04-25) — FIX: sniffer.skip-domain 误含币安域名导致 TLS 流量按 IP 路由
+
+- ★ sniffer.skip-domain 删除 3 条币安域名（与 Normal 同步）
+  - 根因 / 修复 / 影响同 Normal `v5.2.10-oc-normal.2`
+  - 版本号 `v5.2.10-oc-full.1` → `v5.2.10-oc-full.2`
 
 ### v5.2.10-oc-full.1 (2026-04-25) — 境外 DoH 端点改路由到 🚫 受限网站
 
