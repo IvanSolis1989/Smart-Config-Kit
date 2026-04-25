@@ -138,12 +138,16 @@ Smart-Config-Kit 同时发布 **11 种客户端形态的等价产物**（分属 
 
 ## 4. 与 `CLAUDE.md` 的协同
 
-- `CLAUDE.md` 是**详细版本**：包含组名清单、官方文档链接、自检命令、提交前检查单。
+- `CLAUDE.md` 是**详细版本**：包含组名清单、官方文档链接、自检命令、提交前检查单、**§3.5 平台特有语法陷阱速查表**。
 - `AGENTS.md` 是**摘要版本**：面向首次接触本仓库的代理，强调两条硬约束与协作规范。
 - **两份都必须读**。代理在首次工作前必须：
-  1. 读 `CLAUDE.md` 全文
+  1. 读 `CLAUDE.md` 全文（特别注意 **§3.5 单平台语法陷阱**——每条都对应过真实导入失败）
   2. 读 `AGENTS.md` 全文
   3. 必要时读对应平台子目录的 `README.md`（了解用户侧语义）
+
+> **强制反射动作**：当本次改动是「跨产物联动同一字段」（如 DNS、规则前缀、节点过滤正则）时，
+> **先打开 `CLAUDE.md §3.5` 对应小节核对**该字段在每个产物上的合法写法，再动手改。
+> 凭"应该是一样的"复制粘贴是本仓库导入失败的最大单一来源。
 
 ---
 
@@ -176,6 +180,12 @@ Smart-Config-Kit 同时发布 **11 种客户端形态的等价产物**（分属 
 | 把详细变更日志塞回产物文件头 | 历史版本 v5.2.3 及之前 | 配置文件头被大段注释淹没；README + CHANGELOG + 代码三处不同步 | 自 v5.2.4 起：变更详情只写 `<子目录>/CHANGELOG.md`，配置文件头只保留版本号 + 一行架构声明 + 指向 CHANGELOG 的引用 |
 | 单边改 Clash Party JS 不同步其他产物 | 多次 | 用户同一账号跨设备策略不一致 | 全端联动 |
 | 凭训练数据说「sing-box 支持某字段」 | 潜在 | 版本字段频繁变更（1.11 重构 route action） | 必须引用 sing-box.sagernet.org 官方文档 |
+| QX `[dns] server=https://doh.pub/dns-query` | v5.2.10-QX.2 | QX `server=` 仅接受 IP / IP:port / `/域名/IP`，DoH URL 必须用独立 `doh-server=` 字段，否则导入报"line N 配置文件语法错误" | 改 `doh-server=https://...`；详见 `CLAUDE.md §3.5.1` |
+| QX `running_mode_trigger=filter, filter, auto` | v5.2.10-QX.1 | `filter` 不是合法值；合法值仅 `direct`/`proxy`/`auto`/`follower`/`none` | 改 `auto, auto, auto`；详见 `CLAUDE.md §3.5.4` |
+| Loon `[Rule] DST-PORT,...` | v5.2.10-Loon.1 | Loon 是端口规则前缀的唯一异类（其他全用 `DST-PORT`），其解析器对 `DST-` 报错 | 改 `DEST-PORT,...`；详见 `CLAUDE.md §3.5.2` |
+| 把 Surge `encrypted-dns-server=` 直接复制到 Loon / SR | 潜在 | Loon/QX 用 `doh-server=`、SR 用同一 `dns-server=`，三家字段不同 | 查 `CLAUDE.md §3.5.1` 表对应字段名 |
+| 把 Clash `DOMAIN-SUFFIX,` 复制到 Passwall `.list` | 潜在 | Passwall shunt_rules.lua 不识别 Clash 前缀 | 改 `domain:` / `full:` / `regexp:` / `geosite:` 等；详见 `CLAUDE.md §3.5.2` |
+| 假设单平台 bug 修复无需联动 | v5.2.5 FIX#24~#26 | 误判为 JS 专属，实际波及 4 份产物（CMFA/OC Normal/OC Smart/JS） | 任何运行时逻辑 bug 必须按 §1.5 同构审计 12 份产物 |
 
 ---
 
