@@ -60,12 +60,20 @@ ssh root@192.168.1.1 "chmod +x '/etc/openclash/OpenClash(mihomo-smart).sh' '/etc
 
 ### 步骤 4：在 OpenClash 启用自定义覆写脚本
 
-LuCI → 服务 → OpenClash → 覆写设置：
+LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**：
 
-- Smart 版路径：`/etc/openclash/OpenClash(mihomo-smart).sh`
-- Normal 版路径：`/etc/openclash/OpenClash(mihomo).sh`
+1. 找到 **「自定义 OpenClash 脚本（Custom Overwrite Script）」**
+2. 填写覆写脚本路径（二选一）：
+   - Smart 版：`/etc/openclash/OpenClash(mihomo-smart).sh`
+   - Normal 版：`/etc/openclash/OpenClash(mihomo).sh`
+3. 勾选「**启用自定义覆写**」
+4. 点击「**保存并应用**」
 
-勾选「启用自定义覆写」，保存并应用。
+> 以下截图展示覆写设置页面的入口和配置位置，供参考：
+
+<img width="1280" height="678" alt="覆写设置入口" src="https://github.com/user-attachments/assets/3f7f16a8-f01c-4f7d-ad17-338140088a9a" />
+<img width="1280" height="678" alt="覆写脚本配置" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
+<img width="1280" height="678" alt="保存并应用" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
 ### 步骤 5：导入订阅并启动
 
