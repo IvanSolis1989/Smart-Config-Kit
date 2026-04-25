@@ -5,6 +5,27 @@
 
 ---
 
+## v5.2.8-cmfa.6 (2026-04-25) — 补齐 18 区域 filter 中缺失的裸 ISO alpha-2 代码
+
+- ★ **FIX#29-P2**：CMFA 区域 filter 缺少裸 ISO alpha-2 代码（`HK`/`TW`/`JP`/`KR`/`SG`/`US`/`CA`/`EU`/`AF`）
+  - 现象：节点命名为 `HK-01` / `JP-01` / `US-01`（无旗帜 emoji 且无 alpha-3 代码）时，
+    CMFA `filter:` 因缺少裸 2 字母代码而无法分类 → 节点落入默认全局组。
+    其他产物（Clash Party JS word-boundary regex、OpenClash Ruby 子串、SR/Surge/Loon/QX 显式罗列）
+    均能正确分类此类命名。
+  - 根因：CMFA filter 使用 Go RE2 子串匹配，裸 `US` 会误命中 `MUSIC`/`FOCUS`/`JUST` 等
+    含 `US` 子串的单词。早期版本为规避此问题故意省略了裸代码。
+  - 修复：对 18 个区域 filter（9 全部 + 9 家宽）添加 `(^|[^a-zA-Z])CODE([^a-zA-Z]|$)` 字边界模拟模式。
+    该模式在 Go RE2 中正常工作（标准捕获组 + 锚点 + 字符类组合，不依赖 `\b`/lookahead 等 RE2 不支持的语法）。
+    - `(^|[^a-zA-Z])` 匹配字符串开头或非字母字符
+    - `CODE` 为具体的 2 字母 ISO 代码
+    - `([^a-zA-Z]|$)` 匹配非字母字符或字符串结尾
+    - 效果：`HK-01` ✅ / `NODE_US` ✅ / `JP01` ✅ / `MUSIC` ❌ / `FOCUS` ❌ / `TWD` ❌
+  - 影响区域：🇭🇰 香港 / 🇹🇼 台湾 / 🇯🇵 日韩 / 🌏 亚太 / 🇺🇸 美国 / 🇪🇺 欧洲 / 🌎 美洲 / 🌍 非洲
+    （9 全部 + 9 家宽 = 18 处 filter，含 2 组 AND 复合 home filter 各两侧同时补齐）
+  - 全量审计跳过：OpenClash Ruby 已含裸代码（子串匹配）；JS baseline 已有 word-boundary；
+    SR/Surge/Loon/QX 已有显式罗列；SingBox/v2rayN 无运行时分类（N/A）。
+  - 版本号 `v5.2.8-cmfa.5` → `v5.2.8-cmfa.6`
+
 ## v5.2.8-cmfa.5 (2026-04-24) — DNSPod DoH 端点切换为纯 IP 形式
 
 - ★ `nameserver` / `proxy-server-nameserver` / `direct-nameserver` 三段里的

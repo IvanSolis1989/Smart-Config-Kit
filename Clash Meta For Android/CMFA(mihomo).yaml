@@ -428,7 +428,7 @@ proxy-groups:
   name: '🇭🇰 香港节点'
   use:
   - Subscribe
-  filter: '(?i)(香港|Hong\s*Kong|HongKong|HKG|🇭🇰)'
+  filter: '(?i)(香港|Hong\s*Kong|HongKong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -437,7 +437,7 @@ proxy-groups:
   name: '🏡 香港家宽'
   use:
   - Subscribe
-  filter: '(?i)((香港|Hong\s*Kong|HongKong|HKG|🇭🇰).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(香港|Hong\s*Kong|HongKong|HKG|🇭🇰))'
+  filter: '(?i)((香港|Hong\s*Kong|HongKong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(香港|Hong\s*Kong|HongKong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -446,7 +446,7 @@ proxy-groups:
   name: '🇹🇼 台湾节点'
   use:
   - Subscribe
-  filter: '(?i)(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼)'
+  filter: '(?i)(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -455,7 +455,7 @@ proxy-groups:
   name: '🏡 台湾家宽'
   use:
   - Subscribe
-  filter: '(?i)((台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼))'
+  filter: '(?i)((台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(台湾|台北|台中|高雄|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -464,7 +464,7 @@ proxy-groups:
   name: '🇯🇵 日韩节点'
   use:
   - Subscribe
-  filter: '(?i)(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷)'
+  filter: '(?i)(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -473,7 +473,7 @@ proxy-groups:
   name: '🏡 日韩家宽'
   use:
   - Subscribe
-  filter: '(?i)((日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷))'
+  filter: '(?i)((日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|韩国|首尔|Korea|Seoul|ICN|KOR|🇯🇵|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -483,7 +483,7 @@ proxy-groups:
   use:
   - Subscribe
   # v5.2.8-cmfa.3 FIX#28-P0: 🌏 亚太节点 应包含 HK/TW/JP/KR（原 filter 只匹配 SG/MY/ID/TH/... 导致港台日韩节点被排除；对齐 Clash Party 主线 apacNodes = HK+TW+CN+JP+KR+SG+APAC_OTHER）
-  filter: '(?i)(香港|HongKong|Hong\s*Kong|HKG|🇭🇰|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺)'
+  filter: '(?i)(香港|HongKong|Hong\s*Kong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$)|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$)|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$)|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺|(^|[^a-zA-Z])SG([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -493,7 +493,7 @@ proxy-groups:
   use:
   - Subscribe
   # v5.2.8-cmfa.3 FIX#28-P0: 🏡 亚太家宽 同步扩展（对齐 🌏 亚太节点），补 HK/TW/JP/KR 子串
-  filter: '(?i)((香港|HongKong|Hong\s*Kong|HKG|🇭🇰|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(香港|HongKong|Hong\s*Kong|HKG|🇭🇰|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺))'
+  filter: '(?i)((香港|HongKong|Hong\s*Kong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$)|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$)|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$)|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺|(^|[^a-zA-Z])SG([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(香港|HongKong|Hong\s*Kong|HKG|🇭🇰|(^|[^a-zA-Z])HK([^a-zA-Z]|$)|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|(^|[^a-zA-Z])TW([^a-zA-Z]|$)|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷|(^|[^a-zA-Z])JP([^a-zA-Z]|$)|(^|[^a-zA-Z])KR([^a-zA-Z]|$)|新加坡|Singapore|SGP|马来西亚|Malaysia|印度尼西亚|印尼|Indonesia|泰国|Thailand|越南|Vietnam|菲律宾|Philippines|印度|India|澳大利亚|Australia|新西兰|New\s*Zealand|土耳其|Turkey|以色列|Israel|阿联酋|UAE|迪拜|Dubai|🇸🇬|🇲🇾|🇮🇩|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇦🇺|(^|[^a-zA-Z])SG([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -502,7 +502,7 @@ proxy-groups:
   name: '🇺🇸 美国节点'
   use:
   - Subscribe
-  filter: '(?i)(美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸)'
+  filter: '(?i)(美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸|(^|[^a-zA-Z])US([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -511,7 +511,7 @@ proxy-groups:
   name: '🏡 美国家宽'
   use:
   - Subscribe
-  filter: '(?i)((美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸))'
+  filter: '(?i)((美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸|(^|[^a-zA-Z])US([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(美国|United\s*States|USA|洛杉矶|Los\s*Angeles|旧金山|San\s*Francisco|西雅图|Seattle|纽约|New\s*York|LAX|SJC|SFO|JFK|🇺🇸|(^|[^a-zA-Z])US([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -520,7 +520,7 @@ proxy-groups:
   name: '🇪🇺 欧洲节点'
   use:
   - Subscribe
-  filter: '(?i)(欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺)'
+  filter: '(?i)(欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺|(^|[^a-zA-Z])EU([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -529,7 +529,7 @@ proxy-groups:
   name: '🏡 欧洲家宽'
   use:
   - Subscribe
-  filter: '(?i)((欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺))'
+  filter: '(?i)((欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺|(^|[^a-zA-Z])EU([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(欧洲|Europe|英国|UK|伦敦|London|法国|France|巴黎|Paris|德国|Germany|法兰克福|Frankfurt|荷兰|Netherlands|阿姆斯特丹|Amsterdam|瑞士|Switzerland|俄罗斯|Russia|🇬🇧|🇫🇷|🇩🇪|🇪🇺|(^|[^a-zA-Z])EU([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -538,7 +538,7 @@ proxy-groups:
   name: '🌎 美洲节点'
   use:
   - Subscribe
-  filter: '(?i)(美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷)'
+  filter: '(?i)(美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷|(^|[^a-zA-Z])US([^a-zA-Z]|$)|(^|[^a-zA-Z])CA([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -547,7 +547,7 @@ proxy-groups:
   name: '🏡 美洲家宽'
   use:
   - Subscribe
-  filter: '(?i)((美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷))'
+  filter: '(?i)((美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷|(^|[^a-zA-Z])US([^a-zA-Z]|$)|(^|[^a-zA-Z])CA([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(美国|United\s*States|USA|加拿大|Canada|墨西哥|Mexico|巴西|Brazil|阿根廷|Argentina|LAX|SJC|SFO|JFK|🇺🇸|🇨🇦|🇲🇽|🇧🇷|(^|[^a-zA-Z])US([^a-zA-Z]|$)|(^|[^a-zA-Z])CA([^a-zA-Z]|$)))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -556,7 +556,7 @@ proxy-groups:
   name: '🌍 非洲节点'
   use:
   - Subscribe
-  filter: '(?i)(非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬)'
+  filter: '(?i)(非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬|(^|[^a-zA-Z])AF([^a-zA-Z]|$))'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 120
@@ -565,7 +565,7 @@ proxy-groups:
   name: '🏡 非洲家宽'
   use:
   - Subscribe
-  filter: '(?i)((非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬))'
+  filter: '(?i)((非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬|(^|[^a-zA-Z])AF([^a-zA-Z]|$)).*(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带)|(resi(dential)?|home[-_ ]?ip|home[-_ ]?broadband|broadband|isp|家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带).*(非洲|Africa|南非|South\s*Africa|埃及|Egypt|🇿🇦|🇪🇬|(^|[^a-zA-Z])AF([^a-zA-Z]|$)))'
 rule-providers:
   anti-ad:
     type: http
