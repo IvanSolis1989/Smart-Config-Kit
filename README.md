@@ -101,18 +101,6 @@ flowchart LR
 | 🐟 漏网之鱼 | 以 GEOSITE/GEOIP/FINAL 兜底为主（非单一固定 provider） | MetaCubeX（geo 规则） |
 | 🛑 广告拦截 | `anti-ad` `sukka-phishing` `hagezi-tif` `advertising` `privacy` `acc-unsupportvpn` | DustinWin / SukkaW / Hagezi / blackmatrix7 / Accademia |
 
-> ⚠️ **Google 生态使用建议（已登录 Google 账号的用户务必留意）**
->
-> 本仓库刻意把 Google 服务按业务类型拆到不同组：`gemini.google.com` → `🤖 AI 服务`、`google.com / drive` → `🔍 搜索引擎`、`gmail.com` → `📧 邮件服务`、`youtube.com` → `🇺🇸 美国流媒体`、`meet.google.com` → `🧑‍💼 会议协作`。这样可以让每类业务独立选路（例如 AI 走家宽节点抗限流，搜索走低延迟节点）。
->
-> **代价**：Google 账号风控会对账号活动做 IP 一致性检查。若上述业务组指向**不同区域 / 不同出口 IP** 的节点，可能触发「我们的系统检测到您的计算机网络中存在异常流量」验证码，部分情况下会让 Gemini 等需账号鉴权的服务直接不可用（参见 [#120](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/120)）。
->
-> **解决办法**（任选其一，均无需改本仓库配置）：
->
-> 1. 客户端 UI 里把 `🤖 AI 服务` / `🔍 搜索引擎` / `📧 邮件服务` 三组都指到**同一区域组**（例如统一 `🇺🇸 美国节点`）；
-> 2. 或干脆把这三组都指到 `🌍 全球节点`，让 Smart / url-test 自动收敛到同一节点；
-> 3. 若使用共享出口 IP 的廉价机场，建议优先尝试家宽 / IPLC 节点，机房 IP 命中风控概率更高。
-
 ---
 
 ## 🎯 差异化价值：补充 rule-provider 相对 `geosite.dat` + `geoip.dat` 的差异
