@@ -99,7 +99,111 @@ ssh root@192.168.1.1 "uci commit openclash"
 
 不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla 拖拽到 `/etc/openclash/`，再 SSH 进去执行 UCI 注册命令。
 
-### 3.5 导入订阅并启动
+### 3.5 多机场订阅合并（三选一）
+
+如果你同时购买了多家机场（例如一家主打香港、一家主打美国、一家做家宽），需要把它们的节点合并到同一份 OpenClash 配置里。
+
+OpenClash 的节点来源是 `.sh` 覆写脚本内 `proxy-providers` 段（通过 heredoc YAML 定义）。以下三种方式均可实现多机场合并。
+
+#### 方式 A：Sub-Store 融合（推荐）
+
+**Sub-Store** 是一个 Mihomo / Surge / Loon 生态的订阅管理工具，可以把你所有机场的订阅链接合并成一个 URL，统一输出。
+
+1. 在桌面端 Mihomo Party / Clash Verge Rev 中安装 Sub-Store 插件
+2. 新建「组合订阅」→ 把多个机场 URL 填进去 → 勾选「输出为 Mihomo 格式」
+3. 生成一个融合后的 URL（形如 `http://127.0.0.1:19500/api/collection/xxx`）
+4. 把这个 URL 填入 `.sh` 脚本 heredoc 中的 `proxy-providers.Subscribe.url`
+
+**优点**：不需要改 `.sh` 脚本结构，一个 URL 搞定一切；支持重命名节点、按正则过滤。
+
+#### 方式 B：在线订阅转换站（零门槛，无需安装任何工具）
+
+如果你不想装任何 App 或插件，可以用第三方 **订阅转换站**。你把多个机场的订阅链接粘贴进去，它会输出一个合并后的 URL。
+
+**这个方案与客户端无关**——转换站在网页上完成，输出的 URL 直接用于所有客户端。
+
+常见转换站（社区维护，任选其一）：
+- `https://acl4ssr-sub.github.io`（ACL4SSR 官方前端）
+- `https://sub.v1.mk`（Sub-Store 在线版）
+- `https://id9.cc`（备用）
+
+操作步骤：
+1. 打开上述任一网站
+2. 把多家机场的订阅链接粘贴到「订阅链接」输入框（一行一个或用 `|` 分隔）
+3. 后端/输出选 **Mihomo（Clash.Meta）**
+4. 点击「生成订阅链接」→ 复制输出的新 URL
+5. 把新 URL 填入 `.sh` 脚本 heredoc 中的 `proxy-providers.Subscribe.url`
+
+> ⚠️ **隐私提醒**：转换站服务端能看到你提交的所有订阅链接（包括 token），理论上也能解密节点流量特征。**不要在转换站上提交包含敏感信息（如专属专线 IP、企业内部 VPN）的订阅链接**。如果你对隐私有要求，优先用方式 A（Sub-Store 跑在本地）或方式 C（直接改脚本）。
+
+#### 方式 C：在 .sh 脚本内写多个 proxy-providers（无需额外工具）
+
+OpenClash 的覆写脚本使用 heredoc 生成 YAML。你可以直接在 `.sh` 文件的 `cat > "$OVERRIDE_YAML"` 块内添加多个 `proxy-providers`。
+
+找到脚本中 `proxy-providers:` 段，把：
+
+```yaml
+proxy-providers:
+  Subscribe:
+    type: http
+    url: 'https://airport1.example.com/sub?token=xxx'
+    interval: 86400
+    path: ./proxy_providers/subscribe.yaml
+    health-check:
+      enable: true
+      url: 'https://www.gstatic.com/generate_204'
+      interval: 300
+    exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
+```
+
+改为多机场版本：
+
+```yaml
+proxy-providers:
+  Airport1:
+    type: http
+    url: 'https://airport1.example.com/sub?token=xxx'
+    interval: 86400
+    path: ./proxy_providers/airport1.yaml
+    health-check:
+      enable: true
+      url: 'https://www.gstatic.com/generate_204'
+      interval: 300
+    exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
+
+  Airport2:
+    type: http
+    url: 'https://airport2.example.com/sub?token=yyy'
+    interval: 86400
+    path: ./proxy_providers/airport2.yaml
+    health-check:
+      enable: true
+      url: 'https://www.gstatic.com/generate_204'
+      interval: 300
+    exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
+```
+
+**关键机制**：OpenClash 的区域组由 Ruby 脚本动态生成，使用 `use:` 字段引用 proxy-provider 名称。如果新增了 provider，**必须同步更新 `use:` 列表**。
+
+在脚本中搜索各区域组的 `use:` 字段，例如：
+
+```ruby
+use: ['Subscribe']
+```
+
+改为：
+
+```ruby
+use: ['Airport1', 'Airport2']
+```
+
+每个区域组都要做同样的修改。
+
+> 💡 方式 A（Sub-Store）没有这个问题——Sub-Store 输出单一 URL，填到一个 provider 即可，`use:` 完全不用动。
+
+---
+
+### 3.6 导入订阅并启动
 
 LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置** 选择该配置 → 启动 OpenClash。
 

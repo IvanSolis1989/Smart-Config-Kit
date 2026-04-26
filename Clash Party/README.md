@@ -144,6 +144,19 @@ Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都
 - 剔除高倍率节点（10x/20x/100x）
 - 按地区/城市/IATA 代码/ISO 代码**多维度分类**到 9 个区域组
 
+### 场景 C：在线订阅转换站（备选方案）
+
+如果你同时买了多家机场，也可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具。
+
+1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
+2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
+3. 后端选 **Mihomo（Clash.Meta）**
+4. 生成新 URL → 填入客户端「订阅」输入框
+
+> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
+>
+> **Clash Party 的 Sub-Store 是内置方案**：Clash Party / Clash Verge Rev / Mihomo Party 原生集成了 Sub-Store 插件（方式 B），无需额外安装。**优先用场景 B（Sub-Store）**，转换站仅作为没有 Sub-Store 环境时的备选。
+
 ---
 
 ## 三、导入覆写脚本（核心步骤）

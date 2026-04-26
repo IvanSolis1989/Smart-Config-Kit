@@ -125,6 +125,17 @@ sing-box 由 SagerNet 团队开发，是目前**新协议实现最前沿**的代
 
 > 说明：`SingBox(sing-box)-full.json` 已内置 39 个 sing-box SRS remote rule_set 与 623 条路由规则；你只需要替换节点出站即可。
 
+### 多机场订阅合并
+
+如果你同时买了多家机场，可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具，所有客户端通用。
+
+1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
+2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
+3. 后端选 **Mihomo（Clash.Meta）**
+4. 生成新 URL → 把节点手动填入 JSON 的 `outbounds` 段（sing-box 没有运行时节点分类，需手工替换占位节点）
+
+> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
+
 ---
 
 ## 2a. Hiddify 用户看这里
