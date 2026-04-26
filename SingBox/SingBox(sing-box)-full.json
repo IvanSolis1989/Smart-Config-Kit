@@ -3,40 +3,36 @@
     "level": "info",
     "timestamp": true
   },
+  "_meta": {
+    "name": "SingBox Smart Full",
+    "version": "v5.3.0-sing.1",
+    "build": "2026-04-26",
+    "baseline": "Clash Party v5.3.0",
+    "changelog": "见 SingBox/CHANGELOG.md"
+  },
   "experimental": {
     "cache_file": {
       "enabled": true,
       "path": "cache.db",
       "store_fakeip": true
-    },
-    "_meta": {
-      "name": "SingBox Smart Full",
-      "version": "v5.3.0-sing.1",
-      "build": "2026-04-26",
-      "baseline": "Clash Party v5.3.0",
-      "changelog": "见 SingBox/CHANGELOG.md"
     }
   },
   "dns": {
     "servers": [
       {
         "tag": "dns_bootstrap",
-        "type": "udp",
-        "server": "223.5.5.5",
-        "server_port": 53
+        "address": "udp://223.5.5.5:53"
       },
       {
         "tag": "dns_direct",
-        "type": "https",
-        "server": "dns.alidns.com",
-        "domain_resolver": "dns_bootstrap",
+        "address": "https://dns.alidns.com/dns-query",
+        "address_resolver": "dns_bootstrap",
         "detour": "DIRECT"
       },
       {
         "tag": "dns_proxy",
-        "type": "https",
-        "server": "cloudflare-dns.com",
-        "domain_resolver": "dns_bootstrap",
+        "address": "https://cloudflare-dns.com/dns-query",
+        "address_resolver": "dns_bootstrap",
         "detour": "🚀 节点选择"
       }
     ],

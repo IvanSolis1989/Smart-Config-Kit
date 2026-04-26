@@ -461,8 +461,7 @@ const convertedRules = rules.map((rule) => toSingRule(rule, availableRuleSets)).
 const skippedProviders = Object.keys(providers).length - ruleSet.length;
 const skippedRules = rules.length - convertedRules.length;
 
-baseConfig.experimental = baseConfig.experimental || {};
-baseConfig.experimental._meta = {
+baseConfig._meta = {
   name: 'SingBox Smart Full',
   version: VERSION,
   build: BUILD,
@@ -476,17 +475,15 @@ if (baseConfig.dns && Array.isArray(baseConfig.dns.servers)) {
   if (!hasBootstrap) {
     baseConfig.dns.servers.unshift({
       tag: 'dns_bootstrap',
-      type: 'udp',
-      server: '223.5.5.5',
-      server_port: 53
+      address: 'udp://223.5.5.5:53'
     });
   }
   baseConfig.dns.servers = baseConfig.dns.servers.map(function(server) {
     if (server && server.tag === 'dns_proxy') {
-      return { ...server, detour: '🚀 节点选择', domain_resolver: 'dns_bootstrap' };
+      return { ...server, detour: '🚀 节点选择', address_resolver: 'dns_bootstrap' };
     }
     if (server && server.tag === 'dns_direct') {
-      return { ...server, domain_resolver: 'dns_bootstrap' };
+      return { ...server, address_resolver: 'dns_bootstrap' };
     }
     return server;
   });

@@ -245,11 +245,11 @@
       "remarks": "港澳台 B 站 (szkane BilibiliHMT: bstar/upos-bstar/bilibili.tv 等) → 代理；必须排在 scki-018-cn-media 之前，否则 geosite:bilibili 会先命中直连导致 412",
       "outboundTag": "proxy",
       "domain": [
-        "p-bstarstatic.akamaized.net",
-        "p.bstarstatic.com",
-        "upos-bstar-mirrorakam.akamaized.net",
-        "upos-bstar1-mirrorakam.akamaized.net",
-        "upos-hz-mirrorakam.akamaized.net",
+        "domain:p-bstarstatic.akamaized.net",
+        "domain:p.bstarstatic.com",
+        "domain:upos-bstar-mirrorakam.akamaized.net",
+        "domain:upos-bstar1-mirrorakam.akamaized.net",
+        "domain:upos-hz-mirrorakam.akamaized.net",
         "domain:acgvideo.com",
         "domain:bilibili.com",
         "domain:bilibili.tv"

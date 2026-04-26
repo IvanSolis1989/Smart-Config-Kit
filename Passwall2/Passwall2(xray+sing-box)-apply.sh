@@ -3,7 +3,7 @@
 # Smart-Config-Kit for Passwall / Passwall2 — UCI batch helper
 # Version: v5.3.0-pw2.3 | Build 2026-04-26
 #
-# 用途：一次性在 Passwall2 中创建 25 条 shunt rule（含域名列表 + IP 列表），
+# 用途：一次性在 Passwall2 中创建 31 条 shunt rule（含域名列表 + IP 列表），
 #       每条目标节点留空（NEED_CONFIG），用户之后到 LuCI 里手工选节点。
 #
 # 变更：v5.3.0-pw2.3 — 跟随基线将流媒体重组为按平台分组
