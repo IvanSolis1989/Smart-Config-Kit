@@ -45,9 +45,9 @@ flowchart TB
 
 ---
 
-## 🧩 Smart 分流规则：25 代理组速览
+## 🧩 Smart 分流规则：31 代理组速览（含 13 流媒体平台组）
 
-为了让结构更清晰，下面用”**分层卡片 + 关系图**”展示 25 个代理组，而不是单一大表。
+为了让结构更清晰，下面用”**分层卡片 + 关系图**”展示 31 个代理组，而不是单一大表。
 
 ```mermaid
 flowchart LR
@@ -63,7 +63,7 @@ flowchart LR
     style E fill:#FFEFF0,stroke:#E74C3C,stroke-width:1px
 ```
 
-### 🗂️ 代理组与主要 Rule-Providers 对照（Clash Party 实际 25 业务组）
+### 🗂️ 代理组与主要 Rule-Providers 对照（Clash Party 实际 31 业务组）
 
 > 只列“主要/高频命中”项，并标明规则来源仓库；不再混入节点组（HK/US/全球节点等）。
 
@@ -76,12 +76,18 @@ flowchart LR
 | 📱 社交媒体 | `twitter` `twitter-ip` `tiktok` `facebook` `instagram` `snapchat` `reddit` | MetaCubeX / blackmatrix7 |
 | 🧑‍💼 会议协作 | `zoom` `slack` `teams` `atlassian` `notion` `remotedesktop` `acc-rustdesk` | ACL4SSR / blackmatrix7 / Accademia |
 | 📺 国内流媒体 | `bilibili` `iqiyi` `youku` `tencentvideo` `douyin` `neteasemusic` | blackmatrix7 |
-| 📺 东南亚流媒体 | `viu` `biliintl` `iqiyiintl` `wetv` `viki` `acc-kwai` | blackmatrix7 / Accademia |
-| 🇺🇸 美国流媒体 | `youtube` `netflix` `netflix-ip` `spotify` `disney` `hulu` `primevideo` | MetaCubeX / blackmatrix7 / szkane |
+| 🎥 Netflix | `netflix` `netflix-ip` `szkane-netflixip` | MetaCubeX / szkane |
+| 🎬 Disney+ | `disney` | blackmatrix7 |
+| 📡 HBO/Max | `hbo` | blackmatrix7 |
+| 📺 Hulu | `hulu` | blackmatrix7 |
+| 🎬 Prime Video | `primevideo` `amazon` | blackmatrix7 |
+| 📹 YouTube | `youtube` | MetaCubeX |
+| 🎵 音乐流媒体 | `spotify` `applemusic` `tidal` `deezer` `soundcloud` `pandora` `lastfm` `qobuz` `overcast` | blackmatrix7 |
 | 🇭🇰 香港流媒体 | `mytvsuper` `tvb` `encoretvb` `nowe` `rthk` `szkane-bilihmt` | blackmatrix7 / szkane |
 | 🇹🇼 台湾流媒体 | `bahamut` `kktv` `litv` `hamivideo` `linetv` `friday` | blackmatrix7 |
 | 🇯🇵 日韩流媒体 | `abema` `dazn` `dmm` `tver` `niconico` `rakuten` | blackmatrix7 |
 | 🇪🇺 欧洲流媒体 | `bbc` `itv` `all4` `my5` `skygo` `britboxuk` `szkane-uk` | MetaCubeX / blackmatrix7 / szkane |
+| 🌐 其他国外流媒体 | `viu` `biliintl` `iqiyiintl` `wetv` `viki` `paramount` `peacock` `twitch` `vimeo` `dailymotion` `acc-kwai` | blackmatrix7 / Accademia |
 | 🕹️ 国内游戏 | `steamcn` `wanmeishijie` `wankahuanju` `majsoul` | blackmatrix7 |
 | 🎮 国外游戏 | `steam` `epic` `playstation` `xbox` `riot` `ea` `hoyoverse` | blackmatrix7 |
 | 🔧 工具与服务 | `google` `google-ip` `googlesearch` `bing` `scholar` `yandex` `github` `docker` `gitlab` `python` `developer` `szkane-developer` | MetaCubeX / blackmatrix7 / szkane |
