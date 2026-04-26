@@ -82,7 +82,7 @@ flowchart LR
 | 📺 Hulu | `hulu` | blackmatrix7 |
 | 🎬 Prime Video | `primevideo` `amazon` | blackmatrix7 |
 | 📹 YouTube | `youtube` | MetaCubeX |
-| 🎵 音乐流媒体 | `spotify` `applemusic` `tidal` `deezer` `soundcloud` `pandora` `lastfm` `qobuz` `overcast` | blackmatrix7 |
+| 🎵 音乐流媒体 | `spotify` `tidal` `deezer` `soundcloud` `pandora` `lastfm` `qobuz` `overcast` | blackmatrix7 |
 | 🇭🇰 香港流媒体 | `mytvsuper` `tvb` `encoretvb` `nowe` `rthk` `szkane-bilihmt` | blackmatrix7 / szkane |
 | 🇹🇼 台湾流媒体 | `bahamut` `kktv` `litv` `hamivideo` `linetv` `friday` | blackmatrix7 |
 | 🇯🇵 日韩流媒体 | `abema` `dazn` `dmm` `tver` `niconico` `rakuten` | blackmatrix7 |
