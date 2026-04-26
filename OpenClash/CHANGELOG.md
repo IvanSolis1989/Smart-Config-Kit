@@ -16,6 +16,14 @@
 
 ## Normal（`OpenClash(mihomo).sh`，非 Smart 内核 / url-test 版）
 
+### v5.3.0-oc-normal.2 (2026-04-26) — FIX: fake-ip-filter 清理 + sniffer skip-domain 无效条目
+
+- ★ FIX：清理 3 条币安域名在 `fake-ip-filter` 中的残留（Smart/CMFA 均无此条目，不一致）
+  - 移除 `+.binance.com` / `+.binancefuture.com` / `+.binance.vision`
+  - 币安路由已由 sniffer SNI 识别 + `DOMAIN-SUFFIX` 规则正确处理，fake-ip-filter 豁免为冗余
+- ★ FIX：`sniffer.skip-domain` 移除无效条目 `Mijia Cloud`（含空格，非合法域名，永不匹配任何 SNI hostname）
+- 版本号 `v5.3.0-oc-normal.1` → `v5.3.0-oc-normal.2`
+
 ### v5.3.0-oc-normal.1 (2026-04-26) — 同上
 
 ### v5.2.11-oc-normal.1 (2026-04-26) — 业务组合并：4 个冗余组 → 保留组 + 新增「🔧 工具与服务」
@@ -145,6 +153,11 @@
 ---
 
 ## Full（`OpenClash(mihomo-smart).sh`）
+
+### v5.3.0-oc-full.2 (2026-04-26) — FIX: sniffer skip-domain 无效条目
+
+- ★ FIX：`sniffer.skip-domain` 移除无效条目 `Mijia Cloud`（含空格，非合法域名，永不匹配任何 SNI hostname；与 CMFA 对齐）
+- 版本号 `v5.3.0-oc-full.1` → `v5.3.0-oc-full.2`
 
 ### v5.3.0-oc-full.1 (2026-04-26) — 同上
 

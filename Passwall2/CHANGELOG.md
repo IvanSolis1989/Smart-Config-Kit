@@ -7,6 +7,11 @@
 ---
 
 
+## v5.3.0-pw2.4 (2026-04-26)
+
+- ★ FIX：8 个流媒体 .list 文件（09~16）第 5 行注释从 "Passwall LuCI" 修正为 "Passwall2 LuCI"
+  - 影响文件：09-netflix / 10-disney-plus / 11-hbo-max / 12-hulu / 13-prime-video / 14-youtube / 15-music-streaming / 16-other-streaming
+
 ## v5.3.0-pw2.3 (2026-04-26)
 
 - ★ REFACTOR#2：流媒体分组架构重构——按区域 → 按平台（7→13 流媒体组）
