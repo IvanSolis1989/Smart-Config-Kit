@@ -1,5 +1,5 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v5.3.1 (2026-04-28)
+// 版本：v5.3.2 (2026-04-28)
 // 架构：SUB-STORE 多机场融合 + 18 Smart 区域组（9 全部 + 9 家宽）+ 31 业务策略组（含 13 流媒体平台组）+ 371+ rule-providers 100%+ 服务覆盖
 // 变更历史：见 `Clash Party/CHANGELOG.md`
 
@@ -7,7 +7,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.3.1'
+const VERSION = 'v5.3.2'
 
 // ================================================================
 //  模块 A：节点过滤 / 家宽识别
@@ -1180,14 +1180,15 @@ function injectRules(config) {
     'PROCESS-NAME,gsupservice.exe,DIRECT',
     'PROCESS-NAME,gchsvc.exe,DIRECT',
     'PROCESS-NAME,Weixin.exe,DIRECT',
+    'PROCESS-NAME,WeChatAppEx.exe,DIRECT',
+    'PROCESS-NAME,QQ.exe,DIRECT',
+    'PROCESS-NAME,WeChat.exe,DIRECT',
     'DST-PORT,26880,DIRECT',
     'DST-PORT,6540,DIRECT',
     'DST-PORT,33068,DIRECT',
     'DST-PORT,123,DIRECT',
     'DST-PORT,3478,DIRECT',
     'DST-PORT,3479,DIRECT',
-    `PROCESS-NAME,QQ.exe,${BIZ.CN_SITE}`,
-    `PROCESS-NAME,WeChat.exe,${BIZ.CN_SITE}`,
     'DOMAIN-SUFFIX,chiphell.com,DIRECT',
     'DOMAIN-SUFFIX,iwipwedabay.com,DIRECT',
     // v5.2.0 CLEAN#2: Binance 精确 DOMAIN 规则已清理（全部被同组 DOMAIN-SUFFIX 覆盖）

@@ -6,6 +6,13 @@
 ---
 
 
+## v5.3.2-sing.1 (2026-04-28)
+
+- ★ **微信/QQ 全系列进程强制 DIRECT**（跟随 Clash Party v5.3.2 基线，由生成器自动重生成）
+  - `route.rules[].outbound`：Weixin.exe / WeChatAppEx.exe / QQ.exe / WeChat.exe → `DIRECT`
+  - 新增 `WeChatAppEx.exe` 进程规则（微信桌面版辅助进程）
+  - 版本号 `v5.3.1-sing.1` → `v5.3.2-sing.1`
+
 ## v5.3.1-sing.1 (2026-04-28)
 
 - ★ **Weixin.exe 进程强制 DIRECT**（跟随 Clash Party v5.3.1 基线，由生成器自动重生成）

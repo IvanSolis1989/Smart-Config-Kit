@@ -7,6 +7,14 @@
 
 ---
 
+## v5.3.2 (2026-04-28)
+
+- ★ **微信/QQ 全系列进程强制 DIRECT**：Weixin.exe / WeChatAppEx.exe / QQ.exe / WeChat.exe → DIRECT
+  - 四款 IM 进程全部移入 DIRECT 前置块，不再走代理组
+  - 新增 `PROCESS-NAME,WeChatAppEx.exe,DIRECT`（微信桌面版辅助进程）
+- 同步产物：Clash Party Normal / SingBox Full
+  - CMFA / OpenClash 豁免：Android/软路由无 Windows 进程名语义
+
 ## v5.3.1 (2026-04-28)
 
 - ★ **Weixin.exe 进程强制 DIRECT**：微信进程直连，不走代理
