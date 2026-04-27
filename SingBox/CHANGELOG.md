@@ -6,6 +6,12 @@
 ---
 
 
+## v5.3.1-sing.1 (2026-04-28)
+
+- ★ **Weixin.exe 进程强制 DIRECT**（跟随 Clash Party v5.3.1 基线，由生成器自动重生成）
+  - `route.rules[].outbound`：Weixin.exe → `DIRECT`（原 `🏠 国内网站`）
+  - 版本号 `v5.3.0-sing.1` → `v5.3.1-sing.1`
+
 ## v5.3.0-sing.1 (2026-04-26)
 
 - ★ REFACTOR#2：流媒体分组架构重构——按区域 → 按平台（7→13 流媒体组）

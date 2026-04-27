@@ -5,9 +5,9 @@
   },
   "_meta": {
     "name": "SingBox Smart Full",
-    "version": "v5.3.0-sing.1",
-    "build": "2026-04-26",
-    "baseline": "Clash Party v5.3.0",
+    "version": "v5.3.1-sing.1",
+    "build": "2026-04-28",
+    "baseline": "Clash Party v5.3.1",
     "changelog": "见 SingBox/CHANGELOG.md"
   },
   "experimental": {
@@ -1797,6 +1797,13 @@
         "outbound": "DIRECT"
       },
       {
+        "process_name": [
+          "Weixin.exe"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
         "port": [
           26880
         ],
@@ -1841,13 +1848,6 @@
       {
         "process_name": [
           "QQ.exe"
-        ],
-        "action": "route",
-        "outbound": "🏠 国内网站"
-      },
-      {
-        "process_name": [
-          "Weixin.exe"
         ],
         "action": "route",
         "outbound": "🏠 国内网站"
@@ -3967,14 +3967,14 @@
           "hulu.jp"
         ],
         "action": "route",
-        "outbound": "🇯🇵 日韩流媒体"
+        "outbound": "📺 Hulu"
       },
       {
         "domain_suffix": [
           "happyon.jp"
         ],
         "action": "route",
-        "outbound": "🇯🇵 日韩流媒体"
+        "outbound": "📺 Hulu"
       },
       {
         "domain_suffix": [

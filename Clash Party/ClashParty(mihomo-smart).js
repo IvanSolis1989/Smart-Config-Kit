@@ -1,5 +1,5 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v5.3.0 (2026-04-26)
+// 版本：v5.3.1 (2026-04-28)
 // 架构：SUB-STORE 多机场融合 + 18 Smart 区域组（9 全部 + 9 家宽）+ 31 业务策略组（含 13 流媒体平台组）+ 371+ rule-providers 100%+ 服务覆盖
 // 变更历史：见 `Clash Party/CHANGELOG.md`
 
@@ -7,7 +7,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v5.3.0'
+const VERSION = 'v5.3.1'
 
 // ================================================================
 //  模块 A：节点过滤 / 家宽识别
@@ -1179,6 +1179,7 @@ function injectRules(config) {
     'DOMAIN,ip.cip.cc,DIRECT',
     'PROCESS-NAME,gsupservice.exe,DIRECT',
     'PROCESS-NAME,gchsvc.exe,DIRECT',
+    'PROCESS-NAME,Weixin.exe,DIRECT',
     'DST-PORT,26880,DIRECT',
     'DST-PORT,6540,DIRECT',
     'DST-PORT,33068,DIRECT',
@@ -1186,7 +1187,6 @@ function injectRules(config) {
     'DST-PORT,3478,DIRECT',
     'DST-PORT,3479,DIRECT',
     `PROCESS-NAME,QQ.exe,${BIZ.CN_SITE}`,
-    `PROCESS-NAME,Weixin.exe,${BIZ.CN_SITE}`,
     `PROCESS-NAME,WeChat.exe,${BIZ.CN_SITE}`,
     'DOMAIN-SUFFIX,chiphell.com,DIRECT',
     'DOMAIN-SUFFIX,iwipwedabay.com,DIRECT',

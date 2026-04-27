@@ -7,6 +7,13 @@
 
 ---
 
+## v5.3.1 (2026-04-28)
+
+- ★ **Weixin.exe 进程强制 DIRECT**：微信进程直连，不走代理
+  - `PROCESS-NAME,Weixin.exe,🏠 国内网站` → `PROCESS-NAME,Weixin.exe,DIRECT`
+  - Weixin.exe 从 DIRECT-block 前置匹配，QQ.exe / WeChat.exe 保持 `🏠 国内网站` 不变
+  - 同步产物：Clash Party Normal / SingBox Full（CMFA / OpenClash 无 PROCESS-NAME 语义，豁免）
+
 ## v5.3.0 (2026-04-26)
 
 - ★ **REFACTOR#2**：流媒体分组架构重构——按区域 → 按平台（解决跨区低价订阅的解锁碎片化问题）
