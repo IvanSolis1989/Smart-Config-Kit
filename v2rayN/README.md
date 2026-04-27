@@ -267,6 +267,32 @@ v2rayN 主面板状态栏应显示 sing-box 已启动；打开 `http://127.0.0.1
 
 ---
 
+## Happ 用户（Xray-core 内核，跨平台）
+
+[Happ](https://www.happ.su) 是 Flyfrog LLC 开发的跨平台代理工具（iOS / Android / macOS / Windows / Linux / tvOS），底层使用 **Xray-core** 内核。
+
+### Happ 能直接使用本仓库的什么？
+
+Happ 支持 **"原始 JSON 导入"模式**——将标准 Xray JSON 1:1 直通给 Xray 内核，此时 Happ 自身路由规则不生效。因此：
+
+- **直接复用路径 C 的 `v2rayN(xray).json`**：在 Happ 中以"原始 JSON"方式导入 `v2rayN/v2rayN(xray).json`，即可获得 Direct / Proxy / Block 三级分流（广告拦截 → block、国内 → direct、国外 → proxy）。
+
+### Happ 不能做什么？
+
+- ❌ **不能表达 49 组嵌套策略体系**：Xray-core 路由只支持 `proxy / direct / block` 三出站，无法表达 31 业务组 + 18 区域组的两层 `select` / `url-test` 结构。
+- ❌ **无 LightGBM 自动择优**。
+- ❌ **无 rule-provider 自动更新**（依赖 `geosite.dat` / `geoip.dat` 数据库）。
+
+### Happ 的路由 Profile（替代方案）
+
+Happ 有自有的路由 Profile JSON 格式（`happ://routing/...` deep link 下发），可通过 <https://routing.happ.su> 在线生成。功能上与 `v2rayN(xray).json` 等价（Direct / Proxy / Block 三出站 + geosite/geoip 匹配），但格式不同。如果你更偏好 Happ 原生路由体验，可用生成器创建等价规则。
+
+### 想要完整体验？
+
+切换到 mihomo 内核客户端（[CMFA](https://github.com/MetaCubeX/ClashMetaForAndroid) / [ClashMi](https://github.com/KaringX/clashmi) / OpenClash / Clash Verge Rev / Mihomo Party），加载本仓库的 `CMFA(mihomo).yaml` 或 `ClashParty(mihomo-smart).js`。
+
+---
+
 ## 版本与同步策略
 
 - 本目录所有产物跟随 Clash Party 主线（`Clash Party/ClashParty(mihomo-smart).js`）。
