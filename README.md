@@ -3,7 +3,7 @@
 > [!TIP]
 > 一套以 **Clash Party（Mihomo Smart 内核）JS 覆写脚本** 为基线、同步产出多核心 / 多客户端等价配置的科学上网分流体系，**同一套策略模型覆盖多端**，让同一套分流策略在任何设备、任何代理工具上给出**一致、可解释、可迭代**的结果，降低“设备 A 可用、设备 B 抽风”的割裂感。  
 > - **全核心**：Mihomo (Clash.Meta / Smart) · sing-box · Xray · Shadowrocket / Surge / Loon / Quantumult X 各自私有引擎 
-> - **全客户端**：Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN
+> - **全客户端**：Clash Party / Clash Verge Rev / Mihomo Party / CMFA / FlClash / mihomo-party-android / ClashMi / OpenClash / PassWall2 / Shadowrocket / Surge / Loon / Quantumult X / sing-box / Hiddify / v2rayN / Happ
 > - **全设备**：Windows / macOS / Linux / Android / iOS / OpenWrt 软路由
 > - 🧩 **精细分流**：按业务语义拆分策略组，避免“大一统代理”带来的误伤与浪费。
 > - ⚡ **内核可切换**：Mihomo 提供 Smart / Normal 双版本（同规则量），按内核能力选择 `smart` 或经典 `url-test` 选路。
@@ -351,6 +351,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 - **sing-box** = sing-box 通用客户端（SFA / SFM / SFI / Hiddify / NekoBox / Karing / HomeProxy）
 - **v2rayN Xray** = v2rayN 默认 Xray 核模式
 - **v2rayN mihomo** = v2rayN 切到 mihomo 或 sing-box 核
+- **Happ** = [Happ Proxy Utility](https://www.happ.su)（Flyfrog LLC，Xray-core 内核，跨平台；路由仅 Direct/Proxy/Block 三出站，复用 `v2rayN(xray).json`，详见 `v2rayN/README.md`）
 
 **📁 具体配置文件**（点击上方 📖 列进对应子目录查看）：
 - Clash Party → `ClashParty(mihomo-smart).js`（JS 覆写脚本）
@@ -380,6 +381,7 @@ tcpdump -n -i any port 443       # 应看到持续流量 → DoH 正常
 - **HomeProxy**（sing-box 官方 LuCI 插件，sing-box 核）→ 用 **sing-box 列** 的 `SingBox(sing-box)-full.json`
 - **Passwall / Passwall2**（[`Openwrt-Passwall`](https://github.com/Openwrt-Passwall) 组织并行维护的两款插件——原 `xiaorouji` 个人仓库已迁入该组织，xray + sing-box 双栈，都**不打包** mihomo，都**没有 proxy-groups 嵌套**）→ 首选**迁移到 OpenClash** 拿完整能力；或保留插件用本仓库 `Passwall2/` 目录的 **25 条 shunt rule 展平参考**（同一份 `.list` Passwall 与 Passwall2 通用，规则语法共用 `shunt_rules.lua`）
 - **SSR Plus+**（已停更 + 无 geosite / rule_set 层）→ 直接换 **OpenClash**
+- **Happ**（[Flyfrog LLC](https://www.happ.su)，Xray-core 内核，跨平台）→ Happ 支持导入标准 Xray JSON（原始模式直通内核），可直接加载 `v2rayN/v2rayN(xray).json` 获得 Direct/Proxy/Block 三级分流；或使用 Happ 自带路由生成器 <https://routing.happ.su> 创建等价路由 Profile。Happ 的路由只有三出站，**不能**表达 49 组嵌套策略体系，想要完整体验请换 mihomo 系客户端。详见 `v2rayN/README.md`。
 
 > 💡 Passwall 系**能**做 `geosite` / `geoip` / `rule_set` 的规则匹配，**不能**做 mihomo 的「业务组 → 区域组 → 节点」两级 `select` + `url-test` 嵌套。**注意**：Passwall / Passwall2 的 shunt rule **不识别** Clash 的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` 前缀，要用 xray/sing-box 原生语法（`domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote|local:`）。想要完整的 25+18 架构（9 全部 + 9 家宽）+ LightGBM + 机场换节点自动归位，只有 mihomo 系（OpenClash / CMFA / ShellClash）能原生给。详细差异见 `Passwall2/README.md`。
 
