@@ -13,7 +13,7 @@
 | 文件 | 作用 | 上传到哪 / 在 LuCI 哪里用 |
 |------|------|---------------------------|
 | `OpenClash(mihomo).conf` | OpenClash **UI 配置快照（必导）**：把推荐的 UCI 选项（核心 = Smart、DNS = fake-ip、Sniffer、GeoX 自动更新、LightGBM 自动更新等 30+ 项）一次性灌进 OpenClash，**导完就不用再去 LuCI WebUI 上手动勾任何东西** | LuCI → OpenClash → **覆写设置** 页面里的 **配置文件上传**入口（一次性导入，不需要落到固定路径） |
-| `OpenClash(mihomo-smart).sh` | **Smart 内核**覆写脚本（`type: smart` + LightGBM） | 上传到路由器，在 **覆写设置 → 脚本槽位** 里粘贴或导入内容并启用 |
+| `OpenClash(mihomo-smart).sh` | **Smart 内核**覆写脚本（`type: smart` + LightGBM） | 推荐上传到路由器 `/etc/openclash/overwrite/`，再在 **覆写设置 → 脚本槽位 / 覆写模块** 里启用；高内存或兼容性好的 LuCI 环境也可直接粘贴 |
 | `OpenClash(mihomo).sh` | **Normal 内核**覆写脚本（`type: url-test`，非 Smart 内核） | 同上，与 Smart 版二选一 |
 
 > 两份 `.sh` 按你装的 mihomo 内核类型二选一；`.conf` 两种内核公用同一份。
@@ -46,7 +46,7 @@
 
 LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
-后续三步都在这一页里完成：导入 `.conf`（§3.3）→ 上传 `.sh` 并启用（§3.4）。
+后续三步都在这一页里完成：导入 `.conf`（§3.3）→ 放置 `.sh` 并启用（§3.4）。
 
 <img width="1280" height="678" alt="① 覆写设置页面入口" src="https://github.com/user-attachments/assets/3f7f16a8-f01c-4f7d-ad17-338140088a9a" />
 
@@ -63,41 +63,55 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="② .conf 上传位置（在覆写设置页面里）" src="https://github.com/user-attachments/assets/3a204b9e-ccc8-4b1f-8ed9-3dd1c1e66e7b" />
 
-### 3.4 把 `.sh` 覆写脚本上传到路由器并启用
+### 3.4 把 `.sh` 覆写脚本放到路由器并启用
 
-回到覆写设置页面，在底部有一排"**脚本槽位**"卡片（`default` / 已存在的脚本 / **`+`** 新建按钮），每张卡片右侧都有一个开关。
+两份 `.sh` 约 178 KB / 4400 行。R4S、x86 或部分 LuCI 组合可以直接粘贴保存，但也有一些 OpenWrt / LuCI / OpenClash WebUI 组合会在保存大文本时直接报 `HTTP error! status: 500`。这通常发生在 Web 表单解析阶段，**不是脚本内容或 mihomo 规则语法错误**。
 
-1. 点击最左边的 **`+`** 卡片（新建脚本槽位）
-2. 在弹出的编辑器里：
-   - **方式 A（最简单）**：把仓库里的 `OpenClash/OpenClash(mihomo-smart).sh`（或 `OpenClash(mihomo).sh`）整份内容**复制粘贴**进编辑器
-   - **方式 B**：用编辑器右上角的"导入 / 上传"按钮，选择本地的 `.sh` 文件
-3. 给这个槽位起个名字（比如 `clash-smart` / `clash-normal`），**保存**
-4. 在底部卡片列表里找到刚保存的脚本，把右侧开关拨到 **开**（同时把其他覆写脚本的开关**关掉**，OpenClash 一次只用一份生效的覆写）
-5. 点击页面底部 **应用**（或保存并应用）
+因此推荐走文件系统部署：先把 `.sh` 放到 OpenClash 当前覆写模块目录，再到 WebUI 启用它。
 
-> 脚本槽位保存并启用后，OpenClash 会自动通过 UCI 注册此脚本（`custom_overwrite_path` + `enable_custom_overwrite=1`），**不需要再额外填任何路径**。
+#### 推荐：WinSCP / `scp` 上传到 `/etc/openclash/overwrite/`
 
-> **二选一**：装的是 Mihomo Smart / Meta Alpha 内核就上 `OpenClash(mihomo-smart).sh`；装的是普通 Meta 稳定内核就上 `OpenClash(mihomo).sh`。两份都上传也行，但**只能开一个**。
-
-<img width="1280" height="678" alt="③ .sh 脚本上传位置（覆写设置页面底部 + 号 + 开关）" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
-
-#### 备选：用命令行 `scp` 上传 + UCI 注册（高级用户 / 多台路由器批量部署）
-
-如果你更习惯命令行，或者要批量同步多台路由器：
+二选一上传即可：
 
 ```bash
-# 1) 把脚本 scp 到路由器
-scp 'OpenClash/OpenClash(mihomo-smart).sh' root@192.168.1.1:/etc/openclash/
-scp 'OpenClash/OpenClash(mihomo).sh'       root@192.168.1.1:/etc/openclash/
-ssh root@192.168.1.1 "chmod +x '/etc/openclash/OpenClash(mihomo-smart).sh' '/etc/openclash/OpenClash(mihomo).sh'"
+# Smart 内核 / Meta Alpha 用户
+scp 'OpenClash/OpenClash(mihomo-smart).sh' root@192.168.1.1:/etc/openclash/overwrite/Smart-Config-Kit-smart.sh
 
-# 2) 通过 UCI 注册脚本路径（等效于 Web 槽位的效果）
-ssh root@192.168.1.1 "uci set openclash.config.custom_overwrite_path='/etc/openclash/OpenClash(mihomo-smart).sh'"
-ssh root@192.168.1.1 "uci set openclash.config.enable_custom_overwrite='1'"
+# 普通 Meta 稳定内核用户
+scp 'OpenClash/OpenClash(mihomo).sh' root@192.168.1.1:/etc/openclash/overwrite/Smart-Config-Kit-normal.sh
+```
+
+不熟悉命令行的用户，可以用 WinSCP / Cyberduck / FileZilla 登录路由器，把对应 `.sh` 拖到 `/etc/openclash/overwrite/`，文件名保持和下面启用的模块名一致。
+
+然后回到 **覆写设置** 页面底部的"**脚本槽位 / 覆写模块**"卡片：
+
+1. 点击 **`+`** 新建脚本槽位，名字填成上传后的文件名，例如 `Smart-Config-Kit-smart.sh`
+2. 类型保持为本地文件 / file，保存
+3. 打开这个槽位右侧开关，同时关闭其它覆写脚本
+4. 点击页面底部 **应用**（或保存并应用）
+
+如果 WebUI 已经先建好了同名空槽位，直接用 WinSCP / `scp` 覆盖 `/etc/openclash/overwrite/<槽位名>` 即可，不需要重复新建。
+
+命令行用户也可以用 UCI 注册当前 OpenClash 的覆写模块：
+
+```bash
+ssh root@192.168.1.1 "uci add openclash config_overwrite"
+ssh root@192.168.1.1 "uci set openclash.@config_overwrite[-1].name='Smart-Config-Kit-smart.sh'"
+ssh root@192.168.1.1 "uci set openclash.@config_overwrite[-1].type='file'"
+ssh root@192.168.1.1 "uci set openclash.@config_overwrite[-1].enable='1'"
+ssh root@192.168.1.1 "uci set openclash.@config_overwrite[-1].order='99'"
 ssh root@192.168.1.1 "uci commit openclash"
 ```
 
-不熟悉命令行的也可以用 WinSCP / Cyberduck / FileZilla 拖拽到 `/etc/openclash/`，再 SSH 进去执行 UCI 注册命令。
+> **二选一**：装的是 Mihomo Smart / Meta Alpha 内核就启用 `OpenClash(mihomo-smart).sh` 对应槽位；装的是普通 Meta 稳定内核就启用 `OpenClash(mihomo).sh` 对应槽位。两份都上传也行，但**只能开一个**。
+
+<img width="1280" height="678" alt="③ .sh 脚本上传位置（覆写设置页面底部 + 号 + 开关）" src="https://github.com/user-attachments/assets/e03460ea-606c-4e1b-b45b-a76bc8158abf" />
+
+#### 兼容：直接粘贴 / 编辑器导入
+
+如果你的路由器和 LuCI 组合保存稳定，也可以在脚本槽位编辑器里直接粘贴整份 `.sh`，或用编辑器右上角的"导入 / 上传"按钮选择本地 `.sh` 文件。
+
+但只要保存时出现 `HTTP error! status: 500`，不要反复粘贴重试，直接改用上面的 `/etc/openclash/overwrite/` 文件系统部署。
 
 ### 3.5 多机场订阅合并（三选一）
 
@@ -219,7 +233,7 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 
 不需要。在 **覆写设置 → 脚本槽位** 里把当前脚本禁用，新建或切换到另一个脚本槽位，保存并应用即可。`.conf` 不用重新导入。
 
-> 如果走的是 `scp` + UCI 部署，则把 `custom_overwrite_path` 的值改为新脚本的路径：`uci set openclash.config.custom_overwrite_path='/etc/openclash/OpenClash(mihomo-smart).sh' && uci commit openclash`。
+> 如果走的是文件系统部署，把新脚本放到 `/etc/openclash/overwrite/`，再在覆写设置里启用对应槽位；命令行用户更新 `config_overwrite` 段的 `name` / `type=file` / `enable=1` 即可。
 
 ### Q3：是否一定要导入 `.conf`？
 
@@ -230,6 +244,12 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 ### Q4：为什么 rule-provider 下载代理统一是 `🚫 受限网站`？
 
 仓库基线要求（修复中国大陆网络下规则文件 404 / timeout 拉取失败），与 Clash Party / CMFA 主线对齐。
+
+### Q5：粘贴 `.sh` 后保存提示 `HTTP error! status: 500` 怎么办？
+
+这是 LuCI / OpenClash Web 编辑器保存大文本时的兼容性问题，通常还没进入脚本执行阶段；不代表 `.sh` 内容错，也不代表 mihomo 无法识别规则。
+
+请改用 §3.4 的推荐方式：把 `.sh` 上传到 `/etc/openclash/overwrite/`，然后在覆写设置里启用对应槽位。若仍失败，再提供路由器型号、OpenWrt / LuCI / OpenClash 版本，以及 `logread | grep -Ei 'luci|uhttpd|openclash|content|maximum|POST'` 的输出。
 
 ---
 
