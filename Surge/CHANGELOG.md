@@ -4,6 +4,10 @@
 
 ---
 
+## v6.0.14-Surge.6 (2026-09-29)
+
+- FIX：第 001 远程 DIRECT RULE-SET 加入微信 HTTPDNS 两个精确主机；规则优先于 BlockHttpDNS 拒绝规则。
+
 ## v6.0.13-Surge.5 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：第 013 远程 RULE-SET 增加 `DOMAIN-SUFFIX,linuxdo.org` 并绑定 `🏠 国内网站`；`linux.do` 保持受限网站。

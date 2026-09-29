@@ -5,6 +5,11 @@
 
 ---
 
+## v6.0.14-sing.5 (2026-09-29)
+
+- SYNC：第 001 fused SRS 加入微信 HTTPDNS 两个精确域名并绑定 DIRECT 出站，优先于 BlockHttpDNS 拦截。
+- VERIFY：Full JSON 继续使用 69 个 fused SRS、76 个 remote rule_set 与 88 条路由规则。
+
 ## v6.0.13-sing.4 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：第 013 fused SRS 增加 `linuxdo.org` domain_suffix 并绑定国内网站出站；`linux.do` 保持 GFW 出站。

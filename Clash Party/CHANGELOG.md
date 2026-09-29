@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.14-dns.9 / v6.0.14-normal.10 (2026-09-29)
+
+- FIX：微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外，不再落入 `BlockHttpDNS → 🛑 广告拦截`。
+  - 来源规则集仍按上游 BlockHttpDNS 管理；例外只包含两个微信解析域名，不改变其余 provider 条目。
+- SYNC：更新 source graph 到 v6.0.14，并重建各端缓存版本键；规则与代理组数量保持不变。
+- VERIFY：`tools/tests/domestic-route-regression.test.js` 检查两个域名首命中 direct fused provider。
+
 ## v6.0.13-dns.8 / v6.0.13-normal.9 (2026-09-21)
 
 - ★ FIX#183：兼容 Clash Party v2.0.3+ 的订阅 DNS 覆写保护边界。

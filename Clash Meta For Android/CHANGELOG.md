@@ -5,6 +5,11 @@
 
 ---
 
+## v6.0.14-cmfa.6 (2026-09-29)
+
+- FIX：同步首段 DIRECT 融合资产，微信 HTTPDNS 两个精确域名先于 BlockHttpDNS 拦截规则直连。
+- SYNC：跟随 Clash Party v6.0.14；保持 132 个融合 provider / 151 条主规则。
+
 ## v6.0.13-cmfa.5 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：同步第 013 融合域名资产，`linuxdo.org` 及子域进入 `🏠 国内网站`；`linux.do` 保持受限网站。

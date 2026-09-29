@@ -1,4 +1,6 @@
 host, login.nvidia.cn
+host, dns.weixin.qq.com
+host, dns.weixin.qq.com.cn
 host, drpf-g10.proxima.nie.netease.com
 host, sigma-performance-g10.proxima.nie.netease.com
 host-suffix, account.xiaomi.com

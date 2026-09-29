@@ -7,6 +7,11 @@
 
 ---
 
+## v6.0.14-oc-normal.8 / v6.0.14-oc-smart.8 (2026-09-29)
+
+- FIX：同步首段 DIRECT 融合资产，为微信 HTTPDNS 两个精确域名提供前置直连例外。
+- SYNC：Normal / Smart 跟随 source graph v6.0.14；其他 BlockHttpDNS 条目仍维持原拦截策略。
+
 ## v6.0.13-oc-normal.7 / v6.0.13-oc-smart.7 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：Normal 与 Smart 同步第 013 融合域名资产，`linuxdo.org` 及子域进入 `🏠 国内网站`。

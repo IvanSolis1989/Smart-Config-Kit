@@ -579,7 +579,6 @@ domain_suffix_set:
   - "rocksdb.net"
   - "rocksdb.org"
   - "sc-cdn.net"
-  - "sc-gw.com"
   - "shopfacebook.com"
   - "snap-dev.net"
   - "snap.com"

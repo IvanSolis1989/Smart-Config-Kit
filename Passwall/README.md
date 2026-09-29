@@ -1,8 +1,8 @@
-# Passwall 使用教程（对齐 Clash Party v6.0.13）
+# Passwall 使用教程（对齐 Clash Party v6.0.14）
 
 > 目录简介：这里提供 Passwall 全功能版的 fused shunt rule fallback、UCI 批量脚本和 OpenWrt 导入说明。
 >
-> 版本：**v6.0.13-pw.4**（Build 2026-09-03；基线：Clash Party v6.0.13；生成 `.srs` 资产使用发布版本缓存键；变更历史见 `Passwall/CHANGELOG.md`）。
+> 版本：**v6.0.14-pw.5**（Build 2026-09-29；基线：Clash Party v6.0.14；生成 `.srs` 资产使用发布版本缓存键；变更历史见 `Passwall/CHANGELOG.md`）。
 
 ---
 

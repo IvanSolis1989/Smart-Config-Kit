@@ -4,6 +4,10 @@
 
 ---
 
+## v6.0.14-stash.6 (2026-09-29)
+
+- 由 CMFA v6.0.14-cmfa.6 受控重建；微信 HTTPDNS 两个精确域名通过首段 DIRECT 融合资产优先于 BlockHttpDNS 拦截。
+
 ## v6.0.13-stash.5 (2026-09-03)
 
 - 由 CMFA v6.0.13-cmfa.5 受控重建；`linuxdo.org` 及子域通过第 013 融合资产进入 `🏠 国内网站`，`linux.do` 仍走受限网站。

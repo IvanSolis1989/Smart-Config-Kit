@@ -34,6 +34,7 @@ host, cache.video.iqiyi.com
 host, chuangcachecdnoversea-tw.inter.ptqy.gitv.tv
 host, grpc.biliapi.net
 host, m.bilibili.com
+host, mobileso.bz.mgtv.com
 host, www.bilibili.com
 host-suffix, api.mgtv.com
 host-suffix, wetv.vip
@@ -56,6 +57,8 @@ host-suffix, vikidash.akamaized.net
 host-suffix, vikiplatform.com
 host, wetv.qq.com
 host-suffix, iflix-images.akamaized.net
+host-suffix, v.smtcdns.com
+host-suffix, v.smtcdns.net
 host-suffix, vv.video.qq.com
 host-suffix, bgr.in
 host-suffix, bollywoodlife.com

@@ -27,6 +27,10 @@ const NETEASE_GAME_DIRECT_HOSTS = [
   'drpf-g10.proxima.nie.netease.com',
   'sigma-performance-g10.proxima.nie.netease.com',
 ];
+const WECHAT_HTTPDNS_DIRECT_HOSTS = [
+  'dns.weixin.qq.com',
+  'dns.weixin.qq.com.cn',
+];
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8');
@@ -205,5 +209,27 @@ test('NVIDIA China login uses the early exact direct guard before generic NVIDIA
 
   for (const host of ['download.nvidia.com', 'developer.nvidia.com']) {
     assert.equal(firstDomainRoute(host)?.policy, '📥 下载更新', `${host} must keep the generic NVIDIA download policy`);
+  }
+});
+
+test('WeChat HTTPDNS endpoints bypass generic BlockHttpDNS rejection through the early direct guard', () => {
+  const graph = getRawRoutingGraph();
+  const directGuardIndex = graph.rules.indexOf('RULE-SET,scki-adfp-direct,DIRECT');
+  const blockHttpDnsIndex = graph.rules.indexOf('RULE-SET,blockhttpdns,🛑 广告拦截');
+  const blockHttpDnsPlusIndex = graph.rules.indexOf('RULE-SET,acc-blockhttpdnsplus,🛑 广告拦截');
+  const directGuard = readText('rulesets/supplemental/clash/adfp-direct.list');
+
+  assert.ok(directGuardIndex >= 0, 'the early direct guard must exist');
+  assert.ok(blockHttpDnsPlusIndex >= 0, 'the supplementary BlockHttpDNS rule must exist');
+  assert.ok(blockHttpDnsIndex >= 0, 'the upstream BlockHttpDNS rule must exist');
+  assert.ok(directGuardIndex < blockHttpDnsPlusIndex, 'the direct guard must precede supplementary BlockHttpDNS');
+  assert.ok(directGuardIndex < blockHttpDnsIndex, 'the direct guard must precede upstream BlockHttpDNS');
+
+  for (const host of WECHAT_HTTPDNS_DIRECT_HOSTS) {
+    assert.match(directGuard, new RegExp(`^DOMAIN,${host}$`, 'm'));
+    assert.deepEqual(firstDomainRoute(host), {
+      provider: 'scki-fused-001-direct-domain',
+      policy: DIRECT,
+    });
   }
 });

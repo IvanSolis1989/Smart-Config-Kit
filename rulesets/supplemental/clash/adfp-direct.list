@@ -1,5 +1,8 @@
 ## NVIDIA China account sign-in: exact DIRECT before generic NVIDIA download routing.
 DOMAIN,login.nvidia.cn
+## WeChat HTTPDNS endpoints must remain reachable before generic BlockHttpDNS rejection.
+DOMAIN,dns.weixin.qq.com
+DOMAIN,dns.weixin.qq.com.cn
 ## NetEase game-service endpoints: exact DIRECT before generic NetEase game routing.
 DOMAIN,drpf-g10.proxima.nie.netease.com
 DOMAIN,sigma-performance-g10.proxima.nie.netease.com

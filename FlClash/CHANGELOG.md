@@ -5,6 +5,12 @@
 
 ---
 
+## v6.0.14-flclash.11 (2026-09-29)
+
+- FIX：微信 HTTPDNS 两个精确域名命中首段 DIRECT 规则，避免 BlockHttpDNS 拦截微信图片模块的解析请求。
+- SCOPE：仅豁免 `dns.weixin.qq.com`、`dns.weixin.qq.com.cn`；其他 BlockHttpDNS 域名及 FlClash DNS 基线不变。
+- VERIFY：新增路由回归用例，检查最终融合域名资产的首命中策略为 DIRECT。
+
 ## v6.0.13-flclash.10 (2026-09-21)
 
 - ★ FIX#182：同步修复 `dns.fake-ip-filter` 继承客户端旧 rule 模式和 `rule-set:cn domain` 悬空引用的问题。

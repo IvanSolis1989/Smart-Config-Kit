@@ -2,7 +2,6 @@
 # Source id: provider-scki-fused-039-tiktok-domain
 # Source URL: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/mihomo/scki-fused-039-tiktok-domain.yaml
 domain_set:
-  - "p16-tiktok-dm-sticker-sign-sg.ibyteimg.com"
   - "p16-tiktokcdn-com.akamaized.net"
   - "roovza-launches.appsflyersdk.com"
   - "roovza.inapps.appsflyersdk.com"

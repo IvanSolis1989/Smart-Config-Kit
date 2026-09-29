@@ -6,6 +6,10 @@
 
 ---
 
+## v6.0.14-QX.6 (2026-09-29)
+
+- FIX：第 001 remote filter 加入微信 HTTPDNS 两个精确主机并设为 DIRECT，先于 BlockHttpDNS 拒绝规则。
+
 ## v6.0.13-QX.5 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：第 013 remote filter 增加 `host-suffix, linuxdo.org` 并绑定 `🏠 国内网站`；`linux.do` 保持第 059 受限网站 filter。

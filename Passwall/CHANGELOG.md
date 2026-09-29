@@ -7,6 +7,11 @@
 
 ---
 
+## v6.0.14-pw.5 (2026-09-29)
+
+- SYNC：第 001 fused SRS shunt rule 加入微信 HTTPDNS 两个精确域名并保持 direct 国内语义。
+- VERIFY：继续发布 69 条非空 shunt rule，远程资产缓存键升级为 `v6.0.14`。
+
 ## v6.0.13-pw.4 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：第 013 fused SRS shunt rule 增加 `linuxdo.org` 后缀并保持 direct 国内语义；`linux.do` 保持第 059 proxy 语义。

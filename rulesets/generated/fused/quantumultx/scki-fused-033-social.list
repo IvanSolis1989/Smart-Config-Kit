@@ -1,15 +1,15 @@
 host-suffix, twitter.jp
-host-suffix, twitter.biz
-host-suffix, pscp.tv
+host-suffix, x.com
+host-suffix, cms-twdigitalassets.com
 host-suffix, t.co
 host-suffix, tweetdeck.com
 host-suffix, twimg.com
-host-suffix, twittercommunity.com
-host-suffix, x.com
-host-suffix, twitter.com
-host-suffix, periscope.tv
-host-suffix, cms-twdigitalassets.com
 host-suffix, twitpic.com
+host-suffix, twitter.biz
+host-suffix, twittercommunity.com
+host-suffix, pscp.tv
+host-suffix, periscope.tv
+host-suffix, twitter.com
 host-suffix, twitterflightschool.com
 host-suffix, twitterinc.com
 host-suffix, twitteroauth.com
@@ -353,7 +353,6 @@ host-suffix, zuckerberg.com
 host-suffix, zuckerberg.net
 host, impala-media-production.s3.amazonaws.com
 host-suffix, sc-cdn.net
-host-suffix, sc-gw.com
 host-suffix, snap-dev.net
 host-suffix, snap.com
 host-suffix, snapchat.com
@@ -454,7 +453,9 @@ ip-cidr, 8.25.194.0/23, no-resolve
 ip-cidr, 8.25.196.0/23, no-resolve
 ip-cidr, 64.63.0.0/18, no-resolve
 ip-cidr, 69.12.56.0/21, no-resolve
+ip-cidr, 69.195.160.0/19, no-resolve
 ip-cidr, 103.252.112.0/22, no-resolve
+ip-cidr, 104.244.41.0/24, no-resolve
 ip-cidr, 104.244.42.0/24, no-resolve
 ip-cidr, 104.244.44.0/22, no-resolve
 ip-cidr, 185.45.4.0/22, no-resolve
@@ -568,7 +569,7 @@ ip6-cidr, 2a03:2887:ff30::/48, no-resolve
 ip6-cidr, 2a03:2887:ff33::/48, no-resolve
 ip6-cidr, 2a03:2887:ff37::/48, no-resolve
 ip6-cidr, 2a03:2887:ff38::/46, no-resolve
-ip6-cidr, 2a03:2887:ff3e::/47, no-resolve
+ip6-cidr, 2a03:2887:ff3f::/48, no-resolve
 ip6-cidr, 2a03:2887:ff40::/46, no-resolve
 ip6-cidr, 2a03:2887:ff44::/47, no-resolve
 ip6-cidr, 2a03:2887:ff48::/46, no-resolve

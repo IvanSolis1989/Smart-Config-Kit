@@ -83,7 +83,6 @@ DOMAIN,video-search-1258344701.shiply-cdn.qq.com
 DOMAIN,video-vip-1258344701.shiply-cdn.qq.com
 DOMAIN,yoo.gtimg.com
 DOMAIN-SUFFIX,qqvideo.gtimg.com
-DOMAIN-SUFFIX,v.smtcdns.com
 DOMAIN-SUFFIX,ixiguavideo.com
 DOMAIN-SUFFIX,toutiao.com
 DOMAIN-SUFFIX,2333333333333.com
@@ -308,6 +307,7 @@ DOMAIN-SUFFIX,oceanengine.cn
 DOMAIN-SUFFIX,oceanengine.com
 DOMAIN-SUFFIX,oortgslb.com
 DOMAIN-SUFFIX,pacmantwo.com
+DOMAIN-SUFFIX,pangle.cn
 DOMAIN-SUFFIX,pipix.com
 DOMAIN-SUFFIX,qmoji.mobi
 DOMAIN-SUFFIX,qmoji.net

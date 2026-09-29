@@ -3,7 +3,7 @@
 > 目录简介：这里维护 Shadowrocket 小火箭配置和使用教程，覆盖 iOS/macOS 私有 conf 语法下的分流实现。
 >
 > 配置文件：`Shadowrocket.conf`
-> 版本：**v6.0.13-SR.5**（Build 2026-09-03，跟随 Clash Party v6.0.13 基线；72 个源语义段对应 69 个移动端非空远程 RULE-SET；远程资产按发布版本缓存）
+> 版本：**v6.0.14-SR.6**（Build 2026-09-29，跟随 Clash Party v6.0.14 基线；72 个源语义段对应 69 个移动端非空远程 RULE-SET；远程资产按发布版本缓存）
 > 目标：**Shadowrocket iOS（App Store 正版）** / macOS 通用
 > 架构：22 区域组（11 全部 + 11 家宽，`url-test` + `policy-regex-filter` 按节点名自动分类）+ 33 业务策略组 + 69 个非空融合 rule-set（受聚合预算门禁）
 > 节点命名兼容：policy-regex-filter 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写地区码加编号的名称。

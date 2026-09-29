@@ -1,5 +1,10 @@
 # Egern — 变更日志
 
+## v6.0.14-egern.5 (2026-09-29)
+
+- SYNC：重建 Egern 原生规则集，第 001 DIRECT provider 加入微信 HTTPDNS 两个精确域名，先于 BlockHttpDNS 拦截生效。
+- VERIFY：保持 125 个原生资产、137 条规则与 120 个 rule_set 引用。
+
 ## v6.0.13-egern.4 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：以 `39b9a1e` 固定载荷重放原生 rule_set，仅在第 013 国内网站 provider 增加 `linuxdo.org`。

@@ -5,6 +5,8 @@ domain_set:
   - "api.installer.xiaomi.com"
   - "auth.be.sec.miui.com"
   - "ccc.sys.miui.com"
+  - "dns.weixin.qq.com"
+  - "dns.weixin.qq.com.cn"
   - "drpf-g10.proxima.nie.netease.com"
   - "flash.sec.miui.com"
   - "i.mi.com"

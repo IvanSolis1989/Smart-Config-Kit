@@ -83,7 +83,6 @@ host, video-search-1258344701.shiply-cdn.qq.com
 host, video-vip-1258344701.shiply-cdn.qq.com
 host, yoo.gtimg.com
 host-suffix, qqvideo.gtimg.com
-host-suffix, v.smtcdns.com
 host-suffix, ixiguavideo.com
 host-suffix, toutiao.com
 host-suffix, 2333333333333.com
@@ -308,6 +307,7 @@ host-suffix, oceanengine.cn
 host-suffix, oceanengine.com
 host-suffix, oortgslb.com
 host-suffix, pacmantwo.com
+host-suffix, pangle.cn
 host-suffix, pipix.com
 host-suffix, qmoji.mobi
 host-suffix, qmoji.net

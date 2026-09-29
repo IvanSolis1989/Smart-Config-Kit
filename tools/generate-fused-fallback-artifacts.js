@@ -15,10 +15,10 @@ const V2RAYN_FILE = path.join(REPO_ROOT, 'v2rayN/v2rayN(xray).json');
 const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall/shunt-rules');
 const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall2/shunt-rules');
 
-const BUILD_DATE = '2026-09-03';
-const V2RAYN_VERSION = 'v6.0.13-v2n.4';
-const PASSWALL_VERSION = 'v6.0.13-pw.4';
-const PASSWALL2_VERSION = 'v6.0.13-pw2.4';
+const BUILD_DATE = '2026-09-29';
+const V2RAYN_VERSION = 'v6.0.14-v2n.5';
+const PASSWALL_VERSION = 'v6.0.14-pw.5';
+const PASSWALL2_VERSION = 'v6.0.14-pw2.5';
 
 const DIRECT_POLICIES = new Set([
   'DIRECT',

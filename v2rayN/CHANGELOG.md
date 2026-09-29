@@ -7,6 +7,11 @@
 
 ---
 
+## v6.0.14-v2n.5 (2026-09-29)
+
+- SYNC：Xray fallback 第 001 RuleObject 加入微信 HTTPDNS 两个精确域名并保持 direct 出站。
+- VERIFY：产物继续保持 69 个非空融合段 + 19 条可表达内联规则 + 1 条元数据，共 89 条 RuleObject。
+
 ## v6.0.13-v2n.4 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：Xray fallback 的第 013 RuleObject 增加 `domain:linuxdo.org` 并保持 direct 国内语义；`linux.do` 仍在第 059 proxy 规则。

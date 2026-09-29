@@ -6,6 +6,12 @@
 
 ---
 
+## v6.0.14 — 微信 HTTPDNS 精确直连例外 (2026-09-29)
+
+- FIX：将 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 放入最前置 DIRECT 补充规则，避免命中 BlockHttpDNS 拒绝规则；其他 HTTPDNS 条目仍保持现有拦截策略。
+- SYNC：按规则权威源重建 14 种客户端产物及融合资产；source 统计保持 514 providers / 973 rules，fused 保持 132 providers / 151 rules。
+- VERIFY：新增首命中回归检查，两个域名均命中 `scki-fused-001-direct`。
+
 ## v6.0.13-dns.8 / v6.0.13-normal.9 (2026-09-21)
 
 - FIX#183：兼容 Clash Party v2.0.3+ 订阅 DNS 覆写保护；明确客户端内置 `controlDns` 自动关闭与本仓库 JS DNS 写入是两个不同层次。

@@ -4,6 +4,10 @@
 
 ---
 
+## v6.0.14-Loon.5 (2026-09-29)
+
+- FIX：第 001 远程 DIRECT Rule 加入微信 HTTPDNS 两个精确主机；规则优先于 BlockHttpDNS 拒绝规则。
+
 ## v6.0.13-Loon.4 (2026-09-03)
 
 - FIX-LINUXDO-CN-ROUTE：第 013 Remote Rule 增加 `linuxdo.org` 后缀并绑定 `🏠 国内网站`；`linux.do` 保持受限网站。
