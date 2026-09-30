@@ -6,7 +6,11 @@
 > 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
 > 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
 > **FlClash 用户**：推荐使用 [FlClash 覆写脚本](../FlClash/FlClash(mihomo).js)（动态节点分类 + 家宽识别 + 订阅清理）。详见 [`FlClash/README.md`](../FlClash/README.md)。
-> 当前版本：**v6.0.14-cmfa.6**（Build 2026-09-29，跟随 Clash Party v6.0.14 主线；融合规则集使用版本化本地缓存路径）
+> 当前版本：**v6.0.14-cmfa.7**（Build 2026-09-30，跟随 Clash Party v6.0.14 主线；融合规则集使用版本化本地缓存路径）
+
+> 测速候选：具名 direct/reject 支持出站留在 provider 中供拨号链引用，22 个测速组按类型排除它们；空组使用 REJECT。业务组中的显式 DIRECT 选择仍可使用。[官方代理组字段](https://wiki.metacubex.one/config/proxy-groups/)与[实核验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
+
+> 使用已验收的 Mihomo v1.19.29 或更新内核。空地区组会拒绝连接，请在业务组选择有节点的地区或全球组；不要依赖空组隐式直连。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 

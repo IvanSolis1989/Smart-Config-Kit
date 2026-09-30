@@ -1,0 +1,189 @@
+{
+  "sourceCommit": "e5e2712",
+  "coreVersion": "Mihomo Meta v1.19.29 windows amd64 with go1.26.5 Sat Jul 18 12:21:49 UTC 2026\nUse tags: with_gvisor",
+  "generatedAt": "2026-09-30T08:17:40.315Z",
+  "cases": [
+    {
+      "case": "baseline-with-ss",
+      "version": {
+        "meta": true,
+        "version": "v1.19.29"
+      },
+      "groups": {
+        "🌍 全球节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-local-direct",
+            "香港-local-reject",
+            "香港-valid-ss"
+          ],
+          "now": "香港-local-direct"
+        },
+        "🇭🇰 香港节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-local-direct",
+            "香港-local-reject",
+            "香港-valid-ss"
+          ],
+          "now": "香港-local-direct"
+        }
+      },
+      "proxies": {
+        "香港-local-direct": {
+          "type": "Direct",
+          "dialerProxy": null
+        },
+        "香港-local-reject": {
+          "type": "Reject",
+          "dialerProxy": null
+        },
+        "香港-valid-ss": {
+          "type": "Shadowsocks",
+          "dialerProxy": "香港-local-direct"
+        }
+      },
+      "providerMembers": [
+        "香港-local-direct",
+        "香港-local-reject",
+        "香港-valid-ss"
+      ],
+      "allStatus": 200,
+      "providerStatus": 200
+    },
+    {
+      "case": "patched-with-ss",
+      "version": {
+        "meta": true,
+        "version": "v1.19.29"
+      },
+      "groups": {
+        "🌍 全球节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-valid-ss"
+          ],
+          "now": "香港-valid-ss"
+        },
+        "🇭🇰 香港节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-valid-ss"
+          ],
+          "now": "香港-valid-ss"
+        }
+      },
+      "proxies": {
+        "香港-local-direct": {
+          "type": "Direct",
+          "dialerProxy": null
+        },
+        "香港-local-reject": {
+          "type": "Reject",
+          "dialerProxy": null
+        },
+        "香港-valid-ss": {
+          "type": "Shadowsocks",
+          "dialerProxy": "香港-local-direct"
+        }
+      },
+      "providerMembers": [
+        "香港-local-direct",
+        "香港-local-reject",
+        "香港-valid-ss"
+      ],
+      "allStatus": 200,
+      "providerStatus": 200
+    },
+    {
+      "case": "baseline-only-direct-reject",
+      "version": {
+        "meta": true,
+        "version": "v1.19.29"
+      },
+      "groups": {
+        "🌍 全球节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-local-direct",
+            "香港-local-reject"
+          ],
+          "now": "香港-local-direct"
+        },
+        "🇭🇰 香港节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "香港-local-direct",
+            "香港-local-reject"
+          ],
+          "now": "香港-local-direct"
+        }
+      },
+      "proxies": {
+        "香港-local-direct": {
+          "type": "Direct",
+          "dialerProxy": null
+        },
+        "香港-local-reject": {
+          "type": "Reject",
+          "dialerProxy": null
+        },
+        "香港-valid-ss": null
+      },
+      "providerMembers": [
+        "香港-local-direct",
+        "香港-local-reject"
+      ],
+      "allStatus": 200,
+      "providerStatus": 200
+    },
+    {
+      "case": "patched-only-direct-reject",
+      "version": {
+        "meta": true,
+        "version": "v1.19.29"
+      },
+      "groups": {
+        "🌍 全球节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "REJECT"
+          ],
+          "now": "REJECT"
+        },
+        "🇭🇰 香港节点": {
+          "status": 200,
+          "type": "URLTest",
+          "all": [
+            "REJECT"
+          ],
+          "now": "REJECT"
+        }
+      },
+      "proxies": {
+        "香港-local-direct": {
+          "type": "Direct",
+          "dialerProxy": null
+        },
+        "香港-local-reject": {
+          "type": "Reject",
+          "dialerProxy": null
+        },
+        "香港-valid-ss": null
+      },
+      "providerMembers": [
+        "香港-local-direct",
+        "香港-local-reject"
+      ],
+      "allStatus": 200,
+      "providerStatus": 200
+    }
+  ]
+}

@@ -8,8 +8,8 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const SOURCE_FILE = 'Clash Meta For Android/CMFA(mihomo).yaml';
 const OUTPUT_FILE = 'Stash/Stash.yaml';
 const FUSED_MANIFEST_FILE = 'rulesets/generated/fused/manifest.json';
-const VERSION_SUFFIX = 'stash.6';
-const BUILD_DATE = '2026-09-29';
+const VERSION_SUFFIX = 'stash.7';
+const BUILD_DATE = '2026-09-30';
 
 const DNS_BOOTSTRAP_PLAINTEXT = ['223.5.5.5', '119.29.29.29', '1.1.1.1', '8.8.8.8'];
 const DNS_DOMESTIC_DOH = ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query'];
@@ -128,7 +128,7 @@ function countRuleProviders(lines) {
 
 function countRules(lines) {
   const { start, end } = findTopLevelBlock(lines, 'rules');
-  return lines.slice(start + 1, end).filter((line) => /^  - /.test(line)).length;
+  return lines.slice(start + 1, end).filter((line) => /^(?:  )?- /.test(line)).length;
 }
 
 function extractCounts(source) {
@@ -219,7 +219,8 @@ function transformBody(source, versions, counts) {
 
     const line = lines[i];
     if (/^\s+proxy:\s*['"]?\u{1F6AB} \u53D7\u9650\u7F51\u7AD9['"]?\s*$/u.test(line)) continue;
-    if (/^  (lazy|tolerance):\s*/.test(line)) continue;
+    // Preserve the existing Stash compatibility policy: do not forward undocumented Mihomo group fields.
+    if (/^  (lazy|tolerance|exclude-type|empty-fallback):\s*/.test(line)) continue;
     output.push(line);
   }
 

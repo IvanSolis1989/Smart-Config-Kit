@@ -31,6 +31,134 @@ function run(target, config, max = null) {
 }
 
 for (const target of targets) {
+  test(`${target}: inline filtering projects only surviving node DNS hints`, () => {
+    const source = {
+      'proxy-providers': { local: { type: 'inline', payload: [
+        node('HK Inline x1', { server: 'inline.private.example' }),
+        node('US Inline x3', { server: 'removed.private.example' }),
+        node('Panel Notice'),
+      ] } },
+      dns: { 'proxy-server-nameserver-policy': {
+        'inline.private.example': ['10.0.0.53'], 'removed.private.example': ['10.0.0.54'],
+      } }, 'proxy-groups': [], rules: [],
+    };
+    const { input, messages } = run(target, source, 2);
+    assert.deepEqual(Array.from(input.proxies, p => p.name), ['HK Inline x1']);
+    assert.deepEqual(Array.from(input.dns['proxy-server-nameserver-policy']['inline.private.example']), ['10.0.0.53']);
+    assert.equal(Object.hasOwn(input.dns['proxy-server-nameserver-policy'], 'removed.private.example'), false);
+    assert.doesNotMatch(messages, /inline\.private\.example|10\.0\.0\.53|secret/);
+    assert.deepEqual(Array.from(run(target, input, 2).input.proxies, p => p.name), ['HK Inline x1']);
+  });
+
+  test(`${target}: every inline provider option outside literal payload is rejected atomically`, () => {
+    for (const field of ['filter', 'exclude-filter', 'exclude-type', 'override', 'health-check', 'url', 'path', 'interval', 'proxy', 'unknown']) {
+      const source = { proxies: [node('JP Explicit')], 'proxy-providers': {
+        good: { type: 'inline', payload: [node('HK Inline')] },
+        bad: { type: 'inline', payload: [node('US Inline')], [field]: null },
+      }, dns: { nameserver: ['1.1.1.1'] }, rules: ['MATCH,DIRECT'] };
+      const { input, messages } = run(target, source);
+      assert.deepEqual(input, source, field);
+      assert.match(messages, /provider-input/);
+    }
+  });
+
+  test(`${target}: conflicting inline identity and cross-source cycles reject before any mutation`, () => {
+    const cases = [
+      { proxies: [node('HK Shared')], 'proxy-providers': { local: { type: 'inline', payload: [node('HK Shared', { server: 'different.invalid' })] } } },
+      { proxies: [node('HK A', { 'dialer-proxy': 'US B' })], 'proxy-providers': { local: { type: 'inline', payload: [node('US B', { 'dialer-proxy': 'HK A' })] } } },
+      { proxies: [node('HK Dependent', { 'dialer-proxy': 'US x3' })], 'proxy-providers': { local: { type: 'inline', payload: [node('US x3')] } } },
+    ];
+    for (const entry of cases) {
+      const source = { ...entry, dns: { nameserver: ['1.1.1.1'] }, rules: ['MATCH,DIRECT'] };
+      const { input, messages } = run(target, source, 2);
+      assert.deepEqual(input, source);
+      assert.match(messages, /duplicate-name-conflict|dialer-cycle|dialer-dependency/);
+    }
+  });
+
+  test(`${target}: inline-only provider is flattened before classification`, () => {
+    const source = { 'proxy-providers': { local: { type: 'inline', payload: [node('HK Inline 01')] } }, 'proxy-groups': [], rules: [] };
+    const { input, result, messages } = run(target, source);
+    assert.equal(result, input);
+    assert.deepEqual(Array.from(input.proxies, p => p.name), ['HK Inline 01']);
+    assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
+    assert.ok(input['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies.includes('HK Inline 01'));
+    assert.match(messages, /inline=/);
+  });
+
+  test(`${target}: empty inline provider still receives a safe global selector`, () => {
+    const source = { 'proxy-providers': { local: { type: 'inline', payload: [] } }, 'proxy-groups': [], rules: [] };
+    const { input } = run(target, source);
+    assert.deepEqual(Array.from(input.proxies), []);
+    assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
+    const global = input['proxy-groups'].find(g => g.name === '🌍 全球节点');
+    assert.equal(global.type, 'select');
+    assert.deepEqual(Array.from(global.proxies), ['REJECT']);
+  });
+
+  test(`${target}: inline payload alias is not changed when node defaults are injected`, () => {
+    const inline = node('HK Inline TLS', { tls: true, custom: { note: 'retained' } });
+    const source = {
+      'proxy-providers': { local: { type: 'inline', payload: [inline, inline] } },
+      external: { linked: inline }, 'proxy-groups': [], rules: [],
+    };
+    const { input } = run(target, source);
+    assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
+    assert.equal(input.proxies.length, 1);
+    assert.notEqual(input.proxies[0], input.external.linked);
+    assert.equal(input.external.linked['client-fingerprint'], undefined);
+    assert.equal(input.proxies[0].custom.note, 'retained');
+  });
+
+  test(`${target}: mixed inline nodes retain order, deduplicate, resolve dialer and receive DNS baseline`, () => {
+    const source = {
+      proxies: [node('US Linked', { 'dialer-proxy': 'HK Inline 01' }), node('JP Explicit')],
+      'proxy-providers': { local: { type: 'inline', payload: [node('HK Inline 01'), node('JP Explicit')] } },
+      'proxy-groups': [], rules: [], dns: { nameserver: ['1.1.1.1'] },
+    };
+    const { input } = run(target, source);
+    assert.deepEqual(input.proxies.map(p => p.name), ['US Linked', 'JP Explicit', 'HK Inline 01']);
+    assert.equal(input.proxies[0]['dialer-proxy'], 'HK Inline 01');
+    assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
+    assert.ok(input['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies.includes('HK Inline 01'));
+    assert.notDeepEqual(input.dns.nameserver, ['1.1.1.1']);
+  });
+
+  test(`${target}: unsupported provider shape leaves complete source unchanged`, () => {
+    for (const providers of [
+      { remote: { type: 'http', url: 'https://example.invalid/subscribe' } },
+      { local: { type: 'inline', payload: [node('HK Inline')], url: 'https://example.invalid' } },
+    ]) {
+      const source = { proxies: [node('US Explicit')], 'proxy-providers': providers, 'proxy-groups': [], rules: [], dns: { nameserver: ['1.1.1.1'] } };
+      const { input, messages } = run(target, source);
+      assert.deepEqual(input, source);
+      assert.match(messages, /flatten in SubStore/);
+    }
+  });
+
+  test(`${target}: direct support proxy stays available for dialer but outside traffic groups`, () => {
+    const source = { proxies: [
+      { name: 'HK Interface Direct', type: 'direct', 'interface-name': 'eth0' },
+      { name: 'US Block', type: 'reject' },
+      node('US Linked', { 'dialer-proxy': 'HK Interface Direct' }),
+    ], 'proxy-groups': [], rules: [] };
+    const { input } = run(target, source);
+    assert.deepEqual(input.proxies.map(p => p.name), ['HK Interface Direct', 'US Block', 'US Linked']);
+    const global = input['proxy-groups'].find(g => g.name === '🌍 全球节点');
+    assert.deepEqual(Array.from(global.proxies), ['US Linked']);
+    assert.equal(input['proxy-groups'].some(g => g.name === '🇭🇰 香港节点'), false);
+    assert.deepEqual(Array.from(input['proxy-groups'].find(g => g.name === '🇺🇸 美国节点').proxies), ['US Linked']);
+  });
+
+  test(`${target}: only support proxies use the existing global REJECT fallback`, () => {
+    const source = { proxies: [{ name: 'HK Interface Direct', type: 'direct', 'interface-name': 'eth0' }], 'proxy-groups': [], rules: [] };
+    const { input } = run(target, source);
+    assert.equal(input.proxies.length, 1);
+    const global = input['proxy-groups'].find(g => g.name === '🌍 全球节点');
+    assert.equal(global.type, 'select');
+    assert.deepEqual(Array.from(global.proxies), ['REJECT']);
+  });
+
   test(`${target}: default retains multipliers, removes information and exact duplicates`, () => {
     const reordered = { port: 443, password: 'secret', server: 'example.invalid', type: 'trojan', name: 'HK x3' };
     const source = { proxies: [node('HK x3'), node('Panelist HK'), node('Channell US'), node('Authoritative JP'), reordered, node('Panel HK')], 'proxy-groups': [], rules: [] };
@@ -61,6 +189,7 @@ for (const target of targets) {
       { proxies: [node('HK'), node('HK', { server: 'different.invalid' })] },
       { proxies: [node('DIRECT')] },
       { proxies: [node('GLOBAL')] },
+      { proxies: [node('PASS-RULE')] },
       { proxies: [node('🌍 全球节点')] },
       { proxies: [node('HK')], 'proxy-providers': { remote: { type: 'http' } } },
       { proxies: [], 'proxy-providers': { remote: { type: 'http' } } },
@@ -151,4 +280,26 @@ for (const target of targets) {
 test('FlClash preserves the source proxies array reference', () => {
   const { input, refs } = run(targets[2], { proxies: [node('HK x1'), node('US x3')], 'proxy-groups': [], rules: [] }, 2);
   assert.equal(input.proxies, refs.proxies);
+});
+
+for (const target of targets.slice(0, 2)) {
+  test(`${target}: malformed listener and tun fields fail before DNS mutation`, () => {
+    for (const extra of [{ listeners: [null] }, { listeners: {} }, { tun: { 'exclude-process': {} } }]) {
+      const source = { proxies: [node('HK 01')], 'proxy-groups': [], rules: [], dns: { nameserver: ['1.1.1.1'] }, ...extra };
+      const { input } = run(target, source);
+      assert.deepEqual(input, source);
+    }
+  });
+}
+
+test('FlClash replaces malformed rule-provider container before fused output', () => {
+  for (const bad of [[], 'bad', 3]) {
+    const source = { proxies: [node('HK 01')], 'proxy-groups': [], rules: [], 'rule-providers': bad };
+    const { input } = run(targets[2], source);
+    const serialized = JSON.parse(JSON.stringify(input));
+    assert.equal(Array.isArray(serialized['rule-providers']), false);
+    assert.equal(typeof serialized['rule-providers'], 'object');
+    assert.equal(Object.keys(serialized['rule-providers']).length, 132);
+    assert.equal(serialized.rules.length, 151);
+  }
 });

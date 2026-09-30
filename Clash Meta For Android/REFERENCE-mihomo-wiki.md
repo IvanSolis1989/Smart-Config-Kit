@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 2026-09-30 复核：[代理组](https://wiki.metacubex.one/config/proxy-groups/) 的 `exclude-type` / `empty-fallback` 用于过滤 direct/reject 测速候选和显式 REJECT 空池回退。虽文档对“引入”的描述有歧义，[v1.19.31 核心](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) 遍历已合并成员；现有 v1.19.29 实核 controller 已证明对 `use: Subscribe` 生效且 provider 内 dialer 依赖保持，见 [后续验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
+
 > 抓取自 https://wiki.metacubex.one/ (2026-04-26)
 > 更新于 2026-04-30：最新稳定版 v1.19.24（2026-04-20）。v1.19.17 已移除 relay 组类型（改用 dialer-proxy）——本仓库未使用 relay，无影响。v1.19.24 新增 XHTTP H3/HTTP1.1 模式、BBR profile。Smart/LightGBM 字段无变更。
 > 更新于 2026-05-30：批 A #5 落地——WebFetch `wiki/config/dns` + WebSearch 确认 `direct-nameserver-follow-policy` 语义：默认 `false`（忽略 nameserver-policy），`true` 时 direct 出口域名解析也遵守 nameserver-policy，仅当 direct-nameserver 非空时生效；官方 use case 即「direct 用国内 DoH + policy 指定域名走指定 DNS」。与 `direct-nameserver` 同字段族（耦合添加），本仓库已使用 direct-nameserver，故置 true 不抬高最低内核要求。

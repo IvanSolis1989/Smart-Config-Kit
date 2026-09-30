@@ -1,5 +1,5 @@
 // FlClash 覆写脚本 — 标准 Mihomo 内核动态分流版
-// 版本：v6.0.14-flclash.12 (2026-09-30)
+// 版本：v6.0.14-flclash.13 (2026-09-30)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 151 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.14（规则 100% 等价；区域组为 url-test — FlClash 内核为标准 Mihomo，不支持 smart + LightGBM）
 // 适用：FlClash >= v0.8.85（覆盖脚本功能自该版本引入）；其他使用标准 Mihomo 内核的客户端
@@ -35,7 +35,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.14-flclash.12'
+const VERSION = 'v6.0.14-flclash.13'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -55,7 +55,7 @@ var SckiSubscriptionNodeFilter = (function() {
   var INFO_TEXT = ['导航网址', '距离下次重置', '剩余流量', '套餐到期', '网址导航', '官网', '订阅', '到期', '剩余', '重置', '免费', '试用', '应急', '已用流量', '到期时间', '下次重置']
   var INFO_RE = /\b(?:USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Sign|Login|Register|Help|FAQ)\b/i
   var DIALER_BUILTIN = ['DIRECT', 'REJECT', 'REJECT-DROP', 'PASS', 'COMPATIBLE']
-  var RESERVED_BUILTIN = DIALER_BUILTIN.concat(['GLOBAL'])
+  var RESERVED_BUILTIN = DIALER_BUILTIN.concat(['GLOBAL', 'PASS-RULE'])
   var NUMBER = '(?:[0-9]+(?:\\.[0-9]+)?)'
   var LEFT = '(^|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
   var RIGHT = '(?=$|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
@@ -67,6 +67,12 @@ var SckiSubscriptionNodeFilter = (function() {
     if (typeof name !== 'string') return false
     for (var i = 0; i < INFO_TEXT.length; i++) if (name.indexOf(INFO_TEXT[i]) !== -1) return true
     return INFO_RE.test(name)
+  }
+
+  // Keep named direct outbounds for interface/dialer settings, but never auto-select them as remote nodes.
+  function isSelectableProxy(proxy) {
+    var type = proxy.type.toLowerCase()
+    return type !== 'direct' && type !== 'reject'
   }
 
   function multiplier(name) {
@@ -105,20 +111,36 @@ var SckiSubscriptionNodeFilter = (function() {
   function preflight(config, reservedNames, maxMultiplier) {
     try {
       var providers = config['proxy-providers']
-      if (providers !== undefined && providers !== null && (typeof providers !== 'object' || Array.isArray(providers) || Object.keys(providers).length > 0)) {
-        return { ok: false, reason: 'provider-input' }
+      var providerNames = []
+      var inlineNodes = []
+      if (providers !== undefined && providers !== null) {
+        if (Object.prototype.toString.call(providers) !== '[object Object]') return { ok: false, reason: 'provider-input' }
+        providerNames = Object.keys(providers)
+        for (var pi = 0; pi < providerNames.length; pi++) {
+          var provider = providers[providerNames[pi]]
+          // Flatten only literal payloads. Filters, overrides and remote refresh semantics require a separate adapter.
+          if (!provider || Object.prototype.toString.call(provider) !== '[object Object]' ||
+              provider.type !== 'inline' || !Array.isArray(provider.payload) ||
+              Object.keys(provider).some(function(key) { return key !== 'type' && key !== 'payload' })) {
+            return { ok: false, reason: 'provider-input' }
+          }
+          for (var pn = 0; pn < provider.payload.length; pn++) inlineNodes.push(provider.payload[pn])
+        }
       }
       if (maxMultiplier !== null && (typeof maxMultiplier !== 'number' || !Number.isFinite(maxMultiplier) || maxMultiplier <= 0)) {
         return { ok: false, reason: 'invalid-multiplier-limit' }
       }
-      if (!Array.isArray(config.proxies)) return { ok: false, reason: 'no-explicit-nodes' }
+      var explicit = config.proxies
+      if (explicit === undefined && providerNames.length) explicit = []
+      if (!Array.isArray(explicit)) return { ok: false, reason: 'no-explicit-nodes' }
+      var source = explicit.concat(inlineNodes)
       var reserved = Object.create(null)
       RESERVED_BUILTIN.concat(reservedNames).forEach(function(name) { reserved[name] = true })
       var seen = Object.create(null)
       var unique = []
       var duplicates = 0
-      for (var i = 0; i < config.proxies.length; i++) {
-        var proxy = config.proxies[i]
+      for (var i = 0; i < source.length; i++) {
+        var proxy = source[i]
         if (!proxy || Object.prototype.toString.call(proxy) !== '[object Object]' ||
             typeof proxy.name !== 'string' || !proxy.name.trim() ||
             typeof proxy.type !== 'string' || !proxy.type.trim() ||
@@ -131,7 +153,8 @@ var SckiSubscriptionNodeFilter = (function() {
           continue
         }
         seen[proxy.name] = fingerprint
-        unique.push(proxy)
+        // Payloads can be shared with another provider or a YAML alias; subsequent fingerprint injection owns this copy.
+        unique.push(i < explicit.length ? proxy : JSON.parse(fingerprint))
       }
       var limit = maxMultiplier
       var kept = []
@@ -166,13 +189,14 @@ var SckiSubscriptionNodeFilter = (function() {
         }
         for (var p = 0; p < path.length; p++) dialerState[path[p]] = 2
       }
-      return { ok: true, proxies: kept, duplicates: duplicates, removedInfo: removedInfo, removedRate: removedRate }
+      return { ok: true, proxies: kept, duplicates: duplicates, removedInfo: removedInfo, removedRate: removedRate,
+        sourceCount: source.length, flattenedProviders: providerNames.length, flattenedNodes: inlineNodes.length }
     } catch (_) {
       return { ok: false, reason: 'invalid-node-shape' }
     }
   }
 
-  return { isInfoNode: isInfoNode, multiplier: multiplier, preflight: preflight }
+  return { isInfoNode: isInfoNode, isSelectableProxy: isSelectableProxy, multiplier: multiplier, preflight: preflight }
 })()
 // <<< SCKI SUBSCRIPTION NODE FILTER: END
 
@@ -294,6 +318,7 @@ function classifyAllNodes(proxies) {
   for (var i = 0; i < proxies.length; i++) {
     var p = proxies[i]
     if (!p || typeof p !== 'object' || !p.name) continue
+    if (!SckiSubscriptionNodeFilter.isSelectableProxy(p)) continue
     if (isInfoNode(p.name)) continue
     var name = String(p.name)
     var isHome = isResidentialNode(name)
@@ -1103,7 +1128,7 @@ function collectActiveSubscriptionNodeServers(proxies) {
   if (!Array.isArray(proxies)) return []
   var servers = []
   proxies.forEach(function(proxy) {
-    if (!proxy || typeof proxy !== 'object' || isInfoNode(proxy.name)) return
+    if (!proxy || typeof proxy !== 'object' || !SckiSubscriptionNodeFilter.isSelectableProxy(proxy) || isInfoNode(proxy.name)) return
     if (typeof proxy.server === 'string') servers.push(proxy.server)
   })
   return servers
@@ -1303,9 +1328,9 @@ function cleanupSubscription(config) {
     config['proxy-groups'].splice(0, config['proxy-groups'].length)
   }
   if (config.rules && config.rules.length > 0) config.rules.splice(0, config.rules.length)
-  if (config['rule-providers']) {
+  if (config['rule-providers'] && Object.prototype.toString.call(config['rule-providers']) === '[object Object]') {
     Object.keys(config['rule-providers']).forEach(function(k) { delete config['rule-providers'][k] })
-  }
+  } else config['rule-providers'] = {}
   log(`[${VERSION}] Cleared ${removed} subscription proxy-groups; rebuilt from Smart-Config-Kit baseline`)
 }
 // ================================================================
@@ -1385,14 +1410,16 @@ function main(config) {
     if (!config || typeof config !== 'object') return config
     var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
-      log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}; flatten in SubStore for provider subscriptions`)
+      log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)
       return config
     }
-    if (config.proxies.length === 0) return config
+    if (nodePlan.sourceCount === 0 && nodePlan.flattenedProviders === 0) return config
     // Preflight is side-effect free; keep FlClash's source array reference when committing it.
-    config.proxies.splice(0, config.proxies.length)
+    if (!Array.isArray(config.proxies)) config.proxies = []
+    else config.proxies.splice(0, config.proxies.length)
     for (var np = 0; np < nodePlan.proxies.length; np++) config.proxies.push(nodePlan.proxies[np])
-    log(`[${VERSION}] Node filter kept=${nodePlan.proxies.length} info=${nodePlan.removedInfo} multiplier=${nodePlan.removedRate} duplicate=${nodePlan.duplicates}`)
+    if (nodePlan.flattenedProviders > 0) delete config['proxy-providers']
+    log(`[${VERSION}] Node filter kept=${nodePlan.proxies.length} inline=${nodePlan.flattenedNodes} providers=${nodePlan.flattenedProviders} info=${nodePlan.removedInfo} multiplier=${nodePlan.removedRate} duplicate=${nodePlan.duplicates}`)
     log(`[${VERSION}] Start processing, ${config.proxies.length} proxies`)
     if (!Array.isArray(config['proxy-groups'])) config['proxy-groups'] = []
     if (!Array.isArray(config.rules)) config.rules = []

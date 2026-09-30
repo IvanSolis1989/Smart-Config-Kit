@@ -1272,6 +1272,13 @@ function validateClashYaml(record, baselineVersion, options) {
     value: cmfaLegacyRegionIntervals,
     message: 'CMFA must not use 120s/180s region test intervals',
   });
+  const nativeRegionGroups = extractYamlBlock(source, 'proxy-groups').split(/(?=^- )/m).filter(block => /^- type: url-test$/m.test(block));
+  record.check('cmfa.region-excludes-local-outbounds', nativeRegionGroups.length === EXPECTED_REGION_GROUPS && nativeRegionGroups.every(block => /^  exclude-type: ['"]direct\|reject['"]$/m.test(block)), {
+    message: 'Every CMFA region group must exclude direct/reject provider members without deleting dialer dependencies',
+  });
+  record.check('cmfa.region-empty-reject', nativeRegionGroups.length === EXPECTED_REGION_GROUPS && nativeRegionGroups.every(block => /^  empty-fallback: REJECT$/m.test(block)), {
+    message: 'A region with no remote nodes must not fall back to COMPATIBLE/direct',
+  });
   const rubyPath = findRuby();
   if (!rubyPath) {
     const message = 'Ruby not found; exact CMFA YAML parsing skipped';
@@ -1426,6 +1433,8 @@ function validateStashYaml(record, baselineVersion, options) {
     'exclude-filter',
     'lazy',
     'tolerance',
+    'exclude-type',
+    'empty-fallback',
   ];
   for (const key of forbiddenMihomoKeys) {
     const pattern = new RegExp(`^\\s*${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:`, 'm');

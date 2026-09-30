@@ -5,7 +5,7 @@ var SckiSubscriptionNodeFilter = (function() {
   var INFO_TEXT = ['导航网址', '距离下次重置', '剩余流量', '套餐到期', '网址导航', '官网', '订阅', '到期', '剩余', '重置', '免费', '试用', '应急', '已用流量', '到期时间', '下次重置']
   var INFO_RE = /\b(?:USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Sign|Login|Register|Help|FAQ)\b/i
   var DIALER_BUILTIN = ['DIRECT', 'REJECT', 'REJECT-DROP', 'PASS', 'COMPATIBLE']
-  var RESERVED_BUILTIN = DIALER_BUILTIN.concat(['GLOBAL'])
+  var RESERVED_BUILTIN = DIALER_BUILTIN.concat(['GLOBAL', 'PASS-RULE'])
   var NUMBER = '(?:[0-9]+(?:\\.[0-9]+)?)'
   var LEFT = '(^|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
   var RIGHT = '(?=$|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
@@ -17,6 +17,12 @@ var SckiSubscriptionNodeFilter = (function() {
     if (typeof name !== 'string') return false
     for (var i = 0; i < INFO_TEXT.length; i++) if (name.indexOf(INFO_TEXT[i]) !== -1) return true
     return INFO_RE.test(name)
+  }
+
+  // Keep named direct outbounds for interface/dialer settings, but never auto-select them as remote nodes.
+  function isSelectableProxy(proxy) {
+    var type = proxy.type.toLowerCase()
+    return type !== 'direct' && type !== 'reject'
   }
 
   function multiplier(name) {
@@ -55,20 +61,36 @@ var SckiSubscriptionNodeFilter = (function() {
   function preflight(config, reservedNames, maxMultiplier) {
     try {
       var providers = config['proxy-providers']
-      if (providers !== undefined && providers !== null && (typeof providers !== 'object' || Array.isArray(providers) || Object.keys(providers).length > 0)) {
-        return { ok: false, reason: 'provider-input' }
+      var providerNames = []
+      var inlineNodes = []
+      if (providers !== undefined && providers !== null) {
+        if (Object.prototype.toString.call(providers) !== '[object Object]') return { ok: false, reason: 'provider-input' }
+        providerNames = Object.keys(providers)
+        for (var pi = 0; pi < providerNames.length; pi++) {
+          var provider = providers[providerNames[pi]]
+          // Flatten only literal payloads. Filters, overrides and remote refresh semantics require a separate adapter.
+          if (!provider || Object.prototype.toString.call(provider) !== '[object Object]' ||
+              provider.type !== 'inline' || !Array.isArray(provider.payload) ||
+              Object.keys(provider).some(function(key) { return key !== 'type' && key !== 'payload' })) {
+            return { ok: false, reason: 'provider-input' }
+          }
+          for (var pn = 0; pn < provider.payload.length; pn++) inlineNodes.push(provider.payload[pn])
+        }
       }
       if (maxMultiplier !== null && (typeof maxMultiplier !== 'number' || !Number.isFinite(maxMultiplier) || maxMultiplier <= 0)) {
         return { ok: false, reason: 'invalid-multiplier-limit' }
       }
-      if (!Array.isArray(config.proxies)) return { ok: false, reason: 'no-explicit-nodes' }
+      var explicit = config.proxies
+      if (explicit === undefined && providerNames.length) explicit = []
+      if (!Array.isArray(explicit)) return { ok: false, reason: 'no-explicit-nodes' }
+      var source = explicit.concat(inlineNodes)
       var reserved = Object.create(null)
       RESERVED_BUILTIN.concat(reservedNames).forEach(function(name) { reserved[name] = true })
       var seen = Object.create(null)
       var unique = []
       var duplicates = 0
-      for (var i = 0; i < config.proxies.length; i++) {
-        var proxy = config.proxies[i]
+      for (var i = 0; i < source.length; i++) {
+        var proxy = source[i]
         if (!proxy || Object.prototype.toString.call(proxy) !== '[object Object]' ||
             typeof proxy.name !== 'string' || !proxy.name.trim() ||
             typeof proxy.type !== 'string' || !proxy.type.trim() ||
@@ -81,7 +103,8 @@ var SckiSubscriptionNodeFilter = (function() {
           continue
         }
         seen[proxy.name] = fingerprint
-        unique.push(proxy)
+        // Payloads can be shared with another provider or a YAML alias; subsequent fingerprint injection owns this copy.
+        unique.push(i < explicit.length ? proxy : JSON.parse(fingerprint))
       }
       var limit = maxMultiplier
       var kept = []
@@ -116,11 +139,12 @@ var SckiSubscriptionNodeFilter = (function() {
         }
         for (var p = 0; p < path.length; p++) dialerState[path[p]] = 2
       }
-      return { ok: true, proxies: kept, duplicates: duplicates, removedInfo: removedInfo, removedRate: removedRate }
+      return { ok: true, proxies: kept, duplicates: duplicates, removedInfo: removedInfo, removedRate: removedRate,
+        sourceCount: source.length, flattenedProviders: providerNames.length, flattenedNodes: inlineNodes.length }
     } catch (_) {
       return { ok: false, reason: 'invalid-node-shape' }
     }
   }
 
-  return { isInfoNode: isInfoNode, multiplier: multiplier, preflight: preflight }
+  return { isInfoNode: isInfoNode, isSelectableProxy: isSelectableProxy, multiplier: multiplier, preflight: preflight }
 })()

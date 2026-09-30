@@ -1,5 +1,7 @@
 # Egern 语法参考与纳入判断
 
+> 2026-09-30 复核：[官方代理类型](https://egernapp.com/docs/configuration/proxies/) 不列 Mihomo 具名 direct/reject；未将 Mihomo 类型过滤字段映射为未经确认的 Egern 字段。本次仅从最终 CMFA 刷新派生元信息与哈希清单，原生规则资产与业务组内容不变。
+
 ## 结论
 
 Egern 有必要并且已经作为正式同步产物纳入仓库。

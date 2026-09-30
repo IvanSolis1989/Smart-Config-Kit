@@ -5,6 +5,13 @@
 
 ---
 
+## v6.0.14-flclash.13 (2026-09-30)
+
+- INLINE：同步受控 inline payload 展平、共享对象保护和统一节点预检，成功后移除展平 provider；保持已有 proxies 数组引用。
+- CANDIDATES：保留具名直连/拒绝依赖出站，排除其测速分类；仅有支持出站时全球组使用 `REJECT`。
+- FIX：源 `rule-providers` 是数组、标量等错误容器时重建对象，避免日志计数正常却在 JSON 中丢失全部融合规则集；补齐 `PASS-RULE` 保留名称。
+- VERIFY：实际 main 回归及序列化读回；规则/组名/DNS 基线保持 v6.0.14，逐端限制见 [后续研究](../docs/research/2026-09-30-routing-runtime-followup.md)。
+
 ## v6.0.14-flclash.12 (2026-09-30)
 
 - FILTER：同步 Clash Party 的共享节点预检和默认关闭的倍率上限，保守解析显式标签，未知/歧义倍率保留；修复公告英文词对子串节点名的误匹配。

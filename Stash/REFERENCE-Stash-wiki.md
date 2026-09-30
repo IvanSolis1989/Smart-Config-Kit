@@ -1,5 +1,7 @@
 # REFERENCE — Stash Wiki
 
+> 2026-09-30 复核：官方 [协议类型](https://stash.wiki/en/proxy-protocols/proxy-types#direct-with-specified-interface) 支持具名 direct；[策略组](https://stash.wiki/en/proxy-protocols/proxy-groups) 与 [远程集合](https://stash.wiki/en/proxy-protocols/proxy-providers) 未公开 `exclude-type` / `empty-fallback` 等价字段，且空池按 DIRECT 处理。延续现有兼容裁剪，删除 CMFA 的两个新增组字段；测速 provider 与具名支持出站应在聚合层分开，并核对拨号依赖。
+
 > 目录简介：这里记录 Stash 产物使用的官方文档依据。最后检查日期：2026-08-08。
 
 ## 官方来源

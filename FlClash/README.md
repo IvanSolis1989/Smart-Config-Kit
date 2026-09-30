@@ -5,11 +5,11 @@
 > 覆写脚本：`FlClash(mihomo).js`
 > 适用客户端：**FlClash**（Android / Windows / macOS / Linux）
 > 内核要求：FlClash >= **v0.8.85**
-> 当前版本：**v6.0.14-flclash.12**（22 url-test 区域组 + 33 业务策略组 + 132 融合 rule-providers / 151 rules；变更历史见 `FlClash/CHANGELOG.md`）
+> 当前版本：**v6.0.14-flclash.13**（22 url-test 区域组 + 33 业务策略组 + 132 融合 rule-providers / 151 rules；变更历史见 `FlClash/CHANGELOG.md`）
 >
 > 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号会自动进入区域组；不对普通小写词做宽泛国家码匹配。
 
-> 节点筛选：本地脚本 `SCKI_MAX_NODE_MULTIPLIER = null` 默认关闭倍率筛选；设为正数才启用。预检和筛选保持 FlClash 的数组引用，遇到重名歧义、异常字段或非空 `proxy-providers` 时保留原订阅并输出脱敏原因。详见 [节点筛选指南](../docs/subscription-node-filter.md)。
+> 节点筛选：本地脚本 `SCKI_MAX_NODE_MULTIPLIER = null` 默认关闭倍率筛选；设为正数才启用。仅含 type/payload 的 inline 集合可直接展平；具名直连/拒绝出站保留拨号依赖但不参加测速。预检保持数组引用，遇到重名歧义、异常字段或不支持的集合时保留原订阅并输出脱敏原因。详见 [节点筛选指南](../docs/subscription-node-filter.md)。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 

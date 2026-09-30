@@ -4,6 +4,12 @@
 
 ---
 
+## v6.0.14-stash.7 (2026-09-30)
+
+- SYNC：从 CMFA v6.0.14-cmfa.7 重新生成；延续只使用已确认 Stash 字段的策略，裁剪其未公开支持的 `exclude-type` / `empty-fallback`，不宣称具有 Mihomo 的类型过滤与空池 REJECT 语义。
+- META：修正生成器对 CMFA 无缩进规则列表的计数，头部正确显示 151 条主规则。
+- DOCS：具名直连支持出站与测速 provider 分离，链路需在聚合层检查；详见 README 与 [平台取舍](../docs/research/2026-09-30-routing-runtime-followup.md)。规则内容不变。
+
 ## v6.0.14-stash.6 (2026-09-29)
 
 - 由 CMFA v6.0.14-cmfa.6 受控重建；微信 HTTPDNS 两个精确域名通过首段 DIRECT 融合资产优先于 BlockHttpDNS 拦截。

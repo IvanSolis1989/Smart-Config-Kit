@@ -7,6 +7,12 @@
 
 ---
 
+## v6.0.14-oc-normal.10 / v6.0.14-oc-smart.10 (2026-09-30)
+
+- INLINE：两份 Ruby 处理器只展平仅含 type/payload 的 inline provider；显式与 payload 节点统一校验，payload 深拷贝。失败不写源文件，成功后移除已展平 provider。
+- CANDIDATES：具名 direct/reject 保留供链式拨号，只将远端代理计入全球/地区/家宽候选与节点域名采集；混合输入的全球组显式列出远端节点，避免 include-all-proxies 重新收录支持出站。仅有支持出站时全球 REJECT。
+- GUARD：PASS-RULE 作为保留名称；两个实际 heredoc 与 JS/Ruby 行为对照回归通过。规则、业务选择与全局 DNS 基线保持不变，见 [后续研究](../docs/research/2026-09-30-routing-runtime-followup.md)。
+
 ## v6.0.14-oc-normal.9 / v6.0.14-oc-smart.9 (2026-09-30)
 
 - FIX：信息过滤与三个 JS 对齐，保留合法 IPLC、DNS、中转、Telegram 等线路标签；英文公告词使用边界匹配。

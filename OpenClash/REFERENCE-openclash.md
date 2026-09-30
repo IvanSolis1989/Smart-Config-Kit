@@ -1,5 +1,7 @@
 # OpenClash 配置参考文档
 
+> 2026-09-30 补充：复核 [Mihomo inline 集合](https://wiki.metacubex.one/config/proxy-providers/) 与 [具名直连](https://wiki.metacubex.one/config/proxies/direct/)。Ruby 在写 YAML 前展平受控 payload、检查全部节点与引用；direct/reject 保留为依赖，只把远端代理计入测速候选。参数与 shell/Ruby 入口不变，两份实际 heredoc 回归通过。
+
 > 更新于 2026-09-30（上次核对 2026-07-25）：实时 release 为 [v0.47.156](https://github.com/vernesong/OpenClash/releases/tag/v0.47.156)（2026-08-10）。复核 [官方覆写模板](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L1-L12) 与 [Ruby 处理示例](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L89-L110)，配置路径仍由首参数传入，Ruby/YAML 处理方式可继续沿用。本次倍率上限是本地脚本参数，通过有引号的参数传入 Ruby；不是新增 UCI 或 Mihomo 字段。空组采用已有 `REJECT` 策略，依据 [Mihomo proxies / empty-fallback 文档](https://wiki.metacubex.one/config/proxy-groups/)。release 的 Ruby 加载优化不改变本仓库节点规则源；本次仍以实际 heredoc 的执行与保存后 YAML 读回验收。
 
 > 更新于 2026-07-25（上次获取 2026-05-31）：OpenClash 最新版 v0.47.133（2026-07-18）。从 v0.47.096 升级 37 个版本；复核 release 与官方 Wiki，未发现影响本仓库 shell 覆写入口、Ruby heredoc 处理或 UCI 覆写键的 breaking change。

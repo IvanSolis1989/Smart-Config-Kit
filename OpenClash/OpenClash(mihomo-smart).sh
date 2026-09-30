@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.14-oc-smart.9 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Clash Smart v6.0.14-oc-smart.10 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
 # Build: 2026-09-30
 # ============================================================================
 # 定位：对齐 Clash Party v6.0.14 JS 主线的 OpenClash 全量版本。v5.4.2: P0-FIX#41 小米白名单。
@@ -23,7 +23,7 @@
 
 
 
-VERSION_TAG="v6.0.14-oc-smart.9"
+VERSION_TAG="v6.0.14-oc-smart.10"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-adaptive}"
@@ -1743,7 +1743,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.14-oc-smart.9"
+VERSION = "v6.0.14-oc-smart.10"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
@@ -2342,7 +2342,7 @@ module SckiSubscriptionNodeFilter
   ].freeze
   UNCERTAIN_MULTIPLIER = Regexp.new("(?:\\A|#{TOKEN_EDGE})(?:[xX×]\\s*(?:\\?|未知|unknown|nan|∞)|\\?\\s*[xX×倍]|倍率\\s*(?:\\?|未知|unknown|nan|∞))(?=\\z|#{TOKEN_EDGE})", Regexp::IGNORECASE)
   BUILTIN_NAMES = %w[DIRECT REJECT REJECT-DROP PASS COMPATIBLE].freeze
-  RESERVED_NAMES = (BUILTIN_NAMES + %w[GLOBAL]).freeze
+  RESERVED_NAMES = (BUILTIN_NAMES + %w[GLOBAL PASS-RULE]).freeze
 
   module_function
 
@@ -2356,6 +2356,10 @@ module SckiSubscriptionNodeFilter
 
   def info_node?(name)
     INFO_CN.any? { |keyword| name.include?(keyword) } || name.match?(INFO_EN)
+  end
+
+  def selectable_proxy?(proxy)
+    !%w[direct reject].include?(proxy.fetch('type').downcase)
   end
 
   def multiplier(name)
@@ -2389,21 +2393,43 @@ module SckiSubscriptionNodeFilter
     end
   end
 
+  def copy_node(value)
+    case value
+    when Hash then value.to_h { |key, item| [key.dup, copy_node(item)] }
+    when Array then value.map { |item| copy_node(item) }
+    when String then value.dup
+    else value
+    end
+  end
+
   def validate_and_filter(config, override, requested_limit, region_names)
     raise ArgumentError, 'invalid config' unless config.is_a?(Hash)
     raise ArgumentError, 'invalid override' unless override.is_a?(Hash)
     limit = max_multiplier(requested_limit)
     providers = config['proxy-providers']
-    raise ArgumentError, 'provider subscription requires flattening' unless providers.nil? || providers == {}
-    proxies = config['proxies']
+    raise ArgumentError, 'invalid proxy-providers' unless providers.nil? || providers.is_a?(Hash)
+    flattened = []
+    flattened_providers = 0
+    (providers || {}).each_value do |provider|
+      raise ArgumentError, 'unsupported proxy-provider' unless provider.is_a?(Hash) &&
+        provider.keys.length == 2 && provider.key?('type') && provider.key?('payload') &&
+        provider['type'] == 'inline' && provider['payload'].is_a?(Array)
+      flattened_providers += 1
+      flattened.concat(provider['payload'])
+    end
+    proxies = if config.key?('proxies')
+      config['proxies']
+    elsif flattened_providers.positive?
+      []
+    end
     raise ArgumentError, 'invalid proxies list' unless proxies.is_a?(Array)
-    source = proxies
+    source = proxies + flattened
     groups = override['proxy-groups']
     raise ArgumentError, 'invalid override groups' unless groups.is_a?(Array) && groups.all? { |group| group.is_a?(Hash) && group['name'].is_a?(String) && !group['name'].empty? }
     reserved = (groups.map { |group| group['name'] } + region_names + RESERVED_NAMES).uniq
     by_name = {}
     distinct = []
-    source.each do |proxy|
+    source.each_with_index do |proxy, index|
       raise ArgumentError, 'invalid proxy entry' unless proxy.is_a?(Hash)
       name = proxy['name']
       type = proxy['type']
@@ -2415,7 +2441,7 @@ module SckiSubscriptionNodeFilter
         raise ArgumentError, 'ambiguous duplicate proxy name' unless by_name[name] == signature
       else
         by_name[name] = signature
-        distinct << proxy
+        distinct << (index < proxies.length ? proxy : copy_node(proxy))
       end
     end
     kept = distinct.reject do |proxy|
@@ -2442,7 +2468,8 @@ module SckiSubscriptionNodeFilter
       end
       trail.each { |name| state[name] = :done }
     end
-    [kept, { 'source' => source.length, 'distinct' => distinct.length, 'removed' => distinct.length - kept.length, 'limit' => limit }]
+    [kept, { 'source' => source.length, 'distinct' => distinct.length, 'removed' => distinct.length - kept.length,
+             'limit' => limit, 'flattened_providers' => flattened_providers, 'flattened_nodes' => flattened.length }]
   end
 end
 # <<< SCKI SUBSCRIPTION NODE FILTER: END
@@ -2563,10 +2590,11 @@ HOME_GROUP_NAMES = {
 filtered_proxies, filter_report = SckiSubscriptionNodeFilter.validate_and_filter(
   config, override, ARGV[4], GROUP_NAMES.values + HOME_GROUP_NAMES.values + ["🌍 全球节点", "🏡 全球家宽"]
 )
+selectable_proxies = filtered_proxies.select { |proxy| SckiSubscriptionNodeFilter.selectable_proxy?(proxy) }
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
-status "[filter] raw=#{filter_report['source']} filtered=#{filtered_proxies.size} home=#{filtered_proxies.count { |p| is_residential.call(p['name']) }} removed=#{filter_report['removed']}"
+status "[filter] raw=#{filter_report['source']} filtered=#{filtered_proxies.size} selectable=#{selectable_proxies.size} home=#{selectable_proxies.count { |p| is_residential.call(p['name']) }} removed=#{filter_report['removed']} flattened_providers=#{filter_report['flattened_providers']} flattened_nodes=#{filter_report['flattened_nodes']}"
 runtime_profile = SckiSubscriptionAdapterProfiles.resolve(ARGV[3])
-active_node_servers = filtered_proxies.map { |proxy| proxy["server"] }
+active_node_servers = selectable_proxies.map { |proxy| proxy["server"] }
 node_dns_hints = SckiSubscriptionAdapter.capture_node_dns(config, active_node_servers, runtime_profile)
 
 # Ruby 的 \b 把数字视为单词字符，故 hk01 不会命中 \bHK\b。只在
@@ -2585,7 +2613,7 @@ classify = ->(name) {
 buckets = Hash.new { |h, k| h[k] = [] }
 home_buckets = Hash.new { |h, k| h[k] = [] }
 home_all_members = []
-filtered_proxies.each do |p|
+selectable_proxies.each do |p|
   name = p["name"].to_s
   is_home = is_residential.call(name)
   home_all_members << name if is_home
@@ -2631,7 +2659,13 @@ end
 
 smart_groups = []
 # 🌍 全球节点：全部节点参与 LightGBM 评估
-smart_groups << (filtered_proxies.empty? ? { "name" => "🌍 全球节点", "type" => "select", "proxies" => ["REJECT"] } : make_smart_group("🌍 全球节点", proxies_filter_mode: :include_all))
+smart_groups << if selectable_proxies.empty?
+  { "name" => "🌍 全球节点", "type" => "select", "proxies" => ["REJECT"] }
+elsif selectable_proxies.length == filtered_proxies.length
+  make_smart_group("🌍 全球节点", proxies_filter_mode: :include_all)
+else
+  make_smart_group("🌍 全球节点", proxies_filter_mode: :explicit, explicit_proxies: selectable_proxies.map { |proxy| proxy['name'] })
+end
 smart_groups << make_smart_group("🏡 全球家宽", proxies_filter_mode: :explicit, explicit_proxies: home_all_members.uniq) if home_all_members.any?
 
 # 8 个区域组：仅该区域节点参与；家宽子组只在匹配到家宽节点时创建
@@ -2690,7 +2724,7 @@ config["proxy-groups"] = [smart_groups.shift] + override_biz_groups + smart_grou
 config["rule-providers"] = override["rule-providers"] if override["rule-providers"]
 config["rules"]          = override["rules"] if override["rules"]
 
-# Preflight rejects nonempty proxy-providers; remove only an empty declaration.
+# The preflight flattened every accepted inline proxy-provider into config["proxies"].
 config.delete("proxy-providers")
 
 # ---------------------------------------------------------------

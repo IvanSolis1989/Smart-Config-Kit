@@ -1,6 +1,6 @@
 # GitHub 分流脚本搜索与横向比较
 
-快照日期：2026-09-30 UTC。本报告补足首轮研究的搜索范围和直接脚本比较；本地实现基线为已推送的 `f0966c5309e4babdf9c070ff6faf7dba7ed0c67b`。首次报告混合了规则数据、配置模板、管理器和覆写脚本，不能据其项目总数判断直接脚本的覆盖程度。
+快照日期：2026-09-30 UTC。本报告补足首轮研究的搜索范围和直接脚本比较；本地实现基线为已推送的 `f0966c5309e4babdf9c070ff6faf7dba7ed0c67b`。首次报告混合了规则数据、配置模板、管理器和覆写脚本，不能据其项目总数判断直接脚本的覆盖程度。后续新增 direct/reject 节点保留、静态 inline provider 受限展平和 CMFA 原生类型筛选实现，见[运行时补充研究](2026-09-30-routing-runtime-followup.md)。
 
 ## 搜索方法与可核对证据
 
@@ -111,10 +111,10 @@ License 列记录同日 API 的 `license.spdx_id`，未识别值不推断为允�
 
 ## 对本仓库的决定与验证边界
 
-补充搜索支持继续保留已实现的五个运行时目标：写入 DNS/组/规则前预检；等价同名去重且冲突拒绝；倍率默认关闭并按完整数值比较；筛选后校验 dialer 链；全空有效节点池明确 `REJECT`。现有 JS/Ruby 同步和回归覆盖这些输入边界。机场组保留、倍率排序、Provider `use/filter`、负载均衡等是不同功能需求，没有直接提升当前分流正确性的证据，因此本轮交付为研究与证据补足。
+后续实现已超出本报告首轮结论：五个 JS/Ruby 运行时入口保留链引用所需的 direct/reject 定义、只将远端节点投影到自动选择组，并支持字段精确的静态 inline provider 集合；远程或附带额外语义的 provider 仍明确拒绝。CMFA 原生组使用 exclude-type 与 empty-fallback，并有 Mihomo controller 夹具收据。完整实现合同、14目录适用性和验收边界见[运行时补充研究](2026-09-30-routing-runtime-followup.md)。倍率筛选仍默认关闭；未采纳机场组保留、倍率排序、通用 Provider `use/filter` 或负载均衡。
 
 Mihomo 的 [use / include-all / filter](https://wiki.metacubex.one/config/proxy-groups/)、[DNS 字段](https://wiki.metacubex.one/config/dns/)及 Clash Verge Rev 的 [main(config) 脚本入口](https://www.clashverge.dev/guide/script.html)在同日再次查阅。Provider 存在、节点已展开、运行时组引用覆盖三件事必须分别验证。
 
 四个新增直接脚本仓库、六份实际文件的 **31 条 VM 探针结果**保存在 [配置变换探针证据](2026-09-30-routing-script-probes.json)，按仓库/固定 SHA/文件及输入场景记录。VM 只验证 JavaScript 配置变换，采用合成输入、不下载 Provider、不调用真实 DNS/网络、不安装依赖；不能据此断言内核启动成功或实际网络没有 DNS 泄露。上游未承诺支持的输入只用于比较其处理边界，不将行为差异一概报告为 bug。本轮未移植第三方源码、规则条目或策略全集；API 未识别 License 的仓库不推断为可自由复制。
 
-本地结果：节点筛选回归 40/40、三个 JS 覆写、严格 Ruby 跨客户端合同 2,272 项、PROCESS-NAME、两份 OpenClash 私有节点 DNS 回归均通过；搜索证据的分页/总数/去重/逐项 star 排序读回通过。合同工具保留既有 `OpenClash(mihomo).conf` 头部版本提示，主产物 `.sh` 仍为权威。配置行为、source graph/MRS/fused、产物版本均沿用 `f0966c5`，本次文件范围为研究文档、搜索/探针证据及文档入口。
+本地结果由后续报告更新：节点筛选回归 73/73、三个 JS 覆写验证目标、严格 Ruby 合同 2,276 checks / 19 artifacts、PROCESS-NAME，以及 OpenClash 节点和 Node-DNS 测试各 2/2 通过；CMFA 有单独的 Mihomo controller 配置矩阵收据。搜索证据的分页/总数/去重/逐项 star 排序读回通过。规则权威源和 fused 基线仍为 v6.0.14；未改 source/upstream/provider/rule/DNS 内容，因而未运行远程规则同步或全规则生成。设备 UI、真实订阅下载和真实网络拨号不在这些验证范围内，具体边界见[运行时补充研究](2026-09-30-routing-runtime-followup.md)。

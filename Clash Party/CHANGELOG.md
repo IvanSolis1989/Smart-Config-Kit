@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.14-dns.11 / v6.0.14-normal.12 (2026-09-30)
+
+- INLINE：接受仅含 `type: inline` 与 `payload` 的代理集合，将显式节点和 payload 一起预检、去重、筛选、校验依赖，再移除已展平 provider；payload 节点独立复制，保留共享源对象。带远端/过滤/覆写/健康检查字段的 provider 仍需先聚合展平。
+- CANDIDATES：具名 `direct/reject` 出站保留供 `dialer-proxy` 使用，但不参加地区/全球/家宽测速或节点域名采集；没有远端代理时全球组显式 `REJECT`。
+- GUARD：补齐 `PASS-RULE` 保留名称；异常 listeners / TUN 进程排除字段在写 DNS 前拒绝，避免已变异的半配置返回。
+- SCOPE：同步三个 JS、两个 OpenClash 运行时与 CMFA 原生组过滤。Stash 缺少公开的等价字段，保留裁剪并记录限制；其余平台逐端结论见 [后续研究](../docs/research/2026-09-30-routing-runtime-followup.md)。规则图、业务默认与 DNS 基线不变。
+
 ## v6.0.14-dns.10 / v6.0.14-normal.11 (2026-09-30)
 
 - PREFLIGHT：先检查节点字段、重名、保留名称和链式代理引用，再写 DNS 与重建组/规则，避免异常节点产生半成品；完全等价的重复节点稳定去重。

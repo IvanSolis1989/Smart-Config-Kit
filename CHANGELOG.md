@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.14 — inline 订阅兼容与测速候选隔离 (2026-09-30)
+
+- 横向研究 HotKids、Repcz 与其他高星脚本后，五个订阅处理器支持受控 inline payload 展平；具名直连/拒绝出站保留依赖但不进入测速组。CMFA 同步原生类型过滤，Stash 明确平台限制，Egern 刷新派生清单。
+- 补齐写前结构检查、FlClash 规则集容器修复及内置名称检查；详见 [后续优化与逐端验收](./docs/research/2026-09-30-routing-runtime-followup.md) 和各目录 CHANGELOG。规则权威源与融合资产保持 v6.0.14。
+
 ## v6.0.14 — 订阅节点预检与可选倍率筛选 (2026-09-30)
 
 - 研究 MyClash 等分流仓库后，统一三个 JS 与两个 OpenClash 脚本的预检、默认关闭的倍率上限及空节点处理，修复 OpenClash 对正常线路的误过滤。规则权威源与融合资产保持 v6.0.14；逐端适用性及源码取舍见 [研究报告](./docs/research/2026-09-30-routing-script-research.md)。

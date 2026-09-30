@@ -64,6 +64,44 @@ const jsFilter = vm.runInNewContext(`${jsRuntime}\nSckiSubscriptionNodeFilter`);
 const jsParity = parityNames.map(name => [jsFilter.isInfoNode(name), jsFilter.multiplier(name)]);
 assert.deepEqual(JSON.parse(rubyParity.stdout), jsParity, 'JS/Ruby filter parity');
 
+const sharedCases = [
+  { config: { 'proxy-providers': { local: { type: 'inline', payload: [makeProxy('HK x1')] } } }, max: null },
+  { config: { proxies: [makeProxy('HK A', { 'dialer-proxy': 'HK B' })], 'proxy-providers': { local: { type: 'inline', payload: [makeProxy('HK B'), makeProxy('HK A', { 'dialer-proxy': 'HK B' })] } } }, max: null },
+  { config: { proxies: [makeProxy('HK direct', { type: 'direct' }), makeProxy('HK reject', { type: 'reject' }), makeProxy('HK real')] }, max: null },
+  { config: { proxies: [makeProxy('HK x3'), makeProxy('HK x1')] }, max: 2 },
+  { config: { proxies: [makeProxy('HK A')], 'proxy-providers': { local: { type: 'inline', payload: [], url: 'https://example.invalid' } } }, max: null },
+  { config: { proxies: [makeProxy('HK A', { 'dialer-proxy': 'HK A' })] }, max: null },
+  { config: { 'proxy-providers': { local: { type: 'inline', payload: [] } } }, max: null },
+];
+const reservedNames = ['🐟 漏网之鱼', '🌍 全球节点', '🏡 全球家宽', '🇭🇰 香港节点'];
+const rubyBehavior = cp.spawnSync(ruby, ['-rjson', '-r', path.join(__dirname, 'runtime', 'subscription-node-filter.rb'), '-e', [
+  'cases = JSON.parse(STDIN.read)',
+  'out = cases.map do |item|',
+  '  begin',
+  '    groups = [{ "name" => "🐟 漏网之鱼" }]',
+  '    region_names = ["🌍 全球节点", "🏡 全球家宽", "🇭🇰 香港节点"]',
+  '    limit = item["max"].nil? ? "" : item["max"].to_s',
+  '    nodes, report = SckiSubscriptionNodeFilter.validate_and_filter(item["config"], { "proxy-groups" => groups }, limit, region_names)',
+  '    { "ok" => true, "names" => nodes.map { |node| node["name"] }, "selectable" => nodes.select { |node| SckiSubscriptionNodeFilter.selectable_proxy?(node) }.map { |node| node["name"] }, "flattened_providers" => report["flattened_providers"], "flattened_nodes" => report["flattened_nodes"] }',
+  '  rescue ArgumentError',
+  '    { "ok" => false }',
+  '  end',
+  'end',
+  'puts JSON.generate(out)',
+].join(';\n')], { input: JSON.stringify(sharedCases), encoding: 'utf8' });
+assert.equal(rubyBehavior.status, 0, rubyBehavior.stderr);
+const jsBehavior = sharedCases.map(({ config, max }) => {
+  const result = jsFilter.preflight(structuredClone(config), reservedNames, max);
+  return result.ok ? {
+    ok: true,
+    names: result.proxies.map(node => node.name),
+    selectable: result.proxies.filter(node => jsFilter.isSelectableProxy(node)).map(node => node.name),
+    flattened_providers: result.flattenedProviders,
+    flattened_nodes: result.flattenedNodes,
+  } : { ok: false };
+});
+assert.deepEqual(JSON.parse(rubyBehavior.stdout), JSON.parse(JSON.stringify(jsBehavior)), 'JS/Ruby inline and support-proxy parity');
+
 for (const target of targets) {
   const source = fs.readFileSync(path.join(root, 'OpenClash', target), 'utf8');
   assert.equal(extract(source, begin, end).replace(/\r/g, ''), runtime, `${target}: embedded runtime drift`);
@@ -99,14 +137,63 @@ for (const target of targets) {
     assert.equal(result.status, 0, `${target}: one threshold ${result.stderr}`);
     assert.deepEqual(yamlRead(files.config).proxies.map(p => p.name), ['HK 0.5x', 'US 0.59x', 'SG ×0.5']);
 
+    files = fixture(temp, 'inline-only', undefined, { 'proxy-providers': {
+      first: { type: 'inline', payload: [makeProxy('HK x1'), makeProxy('HK x3'), makeProxy('剩余流量 1G')] },
+      second: { type: 'inline', payload: [makeProxy('US x2')] },
+    } });
+    result = execute(script, files, '2');
+    assert.equal(result.status, 0, `${target}: inline-only rejected ${result.stderr}`);
+    output = yamlRead(files.config);
+    assert.deepEqual(output.proxies.map(p => p.name), ['HK x1', 'US x2'], `${target}: inline-only order/filter`);
+    assert(!Object.prototype.hasOwnProperty.call(output, 'proxy-providers'), `${target}: flattened providers remain`);
+    assert.match(fs.readFileSync(files.status, 'utf8'), /flattened_providers=2 flattened_nodes=4/, `${target}: flatten report`);
+
+    const explicit = makeProxy('HK A', { 'dialer-proxy': 'HK B' });
+    const payloadB = makeProxy('HK B', { 'dialer-proxy': 'DIRECT' });
+    files = fixture(temp, 'inline-mixed', [explicit, makeProxy('US C', { 'dialer-proxy': 'HK B' })], { 'proxy-providers': {
+      first: { type: 'inline', payload: [payloadB, { port: 443, server: 'test.example', type: 'ss', name: 'HK A', 'dialer-proxy': 'HK B' }] },
+    } });
+    result = execute(script, files);
+    assert.equal(result.status, 0, `${target}: mixed inline rejected ${result.stderr}`);
+    output = yamlRead(files.config);
+    assert.deepEqual(output.proxies.map(p => p.name), ['HK A', 'US C', 'HK B'], `${target}: mixed explicit-first dedup`);
+
+    files = fixture(temp, 'support-only', [makeProxy('HK direct', { type: 'direct' }), makeProxy('HK reject', { type: 'reject' })]);
+    result = execute(script, files);
+    assert.equal(result.status, 0, `${target}: support-only rejected ${result.stderr}`);
+    output = yamlRead(files.config);
+    assert.deepEqual(output.proxies.map(p => p.name), ['HK direct', 'HK reject']);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies, ['REJECT'], `${target}: support-only global`);
+    assert(!output['proxy-groups'].some(g => g.name === '🇭🇰 香港节点'), `${target}: support-only region group`);
+
+    files = fixture(temp, 'support-mixed', [makeProxy('HK direct', { type: 'direct' }), makeProxy('HK reject', { type: 'reject' }), makeProxy('HK real')]);
+    result = execute(script, files);
+    assert.equal(result.status, 0, `${target}: support-mixed rejected ${result.stderr}`);
+    output = yamlRead(files.config);
+    assert.deepEqual(output.proxies.map(p => p.name), ['HK direct', 'HK reject', 'HK real']);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies, ['HK real'], `${target}: support-mixed global`);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🇭🇰 香港节点').proxies, ['HK real'], `${target}: support-mixed HK region`);
+
+    files = fixture(temp, 'ordinary-global', [makeProxy('HK real')]);
+    result = execute(script, files);
+    assert.equal(result.status, 0, `${target}: ordinary global rejected ${result.stderr}`);
+    assert.equal(yamlRead(files.config)['proxy-groups'].find(g => g.name === '🌍 全球节点')['include-all-proxies'], true, `${target}: ordinary include-all changed`);
+
     for (const [label, list, extra] of [
       ['bad-entry', [null], {}], ['bad-name', [makeProxy(23)], {}], ['bad-type', [makeProxy('A', { type: [] })], {}],
       ['bad-flow', [makeProxy('A', { flow: 2 })], {}],
       ['ambiguous', [makeProxy('A'), makeProxy('A', { server: 'different.example' })], {}],
       ['group-conflict', [makeProxy('🐟 漏网之鱼')], {}], ['built-in-conflict', [makeProxy('DIRECT')], {}],
       ['global-conflict', [makeProxy('GLOBAL')], {}],
+      ['pass-rule-conflict', [makeProxy('PASS-RULE')], {}],
       ['provider-only', [], { 'proxy-providers': { airport: { type: 'http' } } }],
       ['provider-mixed', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'http' } } }],
+      ['provider-fields', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'inline', payload: [makeProxy('B')], filter: 'HK' } } }],
+      ['provider-missing-payload', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'inline' } } }],
+      ['provider-bad-payload', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'inline', payload: {} } } }],
+      ['provider-bad-container', [makeProxy('A')], { 'proxy-providers': [] }],
+      ['provider-ambiguous-name', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'inline', payload: [makeProxy('A', { server: 'different.example' })] } } }],
+      ['provider-dialer-filtered', [makeProxy('HK A', { 'dialer-proxy': 'HK x3' })], { 'proxy-providers': { airport: { type: 'inline', payload: [makeProxy('HK x3')] } } }],
       ['reserved-region', [makeProxy('🇭🇰 香港节点')], {}],
       ['dialer-removed', [makeProxy('香港 x3'), makeProxy('香港依赖', { 'dialer-proxy': '香港 x3' })], {}],
       ['dialer-global', [makeProxy('香港依赖', { 'dialer-proxy': 'GLOBAL' })], {}],

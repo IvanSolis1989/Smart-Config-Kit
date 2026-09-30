@@ -5,6 +5,12 @@
 
 ---
 
+## v6.0.14-cmfa.7 (2026-09-30)
+
+- CANDIDATES：22 个原生地区/全球/家宽 url-test 组使用 `exclude-type: direct|reject`，保留 provider 的具名支持出站和链路依赖，但不把它们当作远端测速候选。
+- EMPTY：各测速组配置 `empty-fallback: REJECT`，排除支持出站后不再默认直连。
+- VERIFY：Mihomo v1.19.29 本机 controller 验证 use-provider 的实际成员与空池回退，v1.19.31 官方源码交叉核对；详见 [后续研究](../docs/research/2026-09-30-routing-runtime-followup.md)。55 组名称、规则和 DNS 不变。
+
 ## v6.0.14-cmfa.6 (2026-09-29)
 
 - FIX：同步首段 DIRECT 融合资产，微信 HTTPDNS 两个精确域名先于 BlockHttpDNS 拦截规则直连。

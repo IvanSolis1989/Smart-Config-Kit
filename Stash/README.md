@@ -1,7 +1,7 @@
 # Stash
 
 > 目录简介：这里提供 Stash 专用 YAML 产物。`Stash.yaml` 由 `tools/generate-stash-from-cmfa.js` 从 CMFA 自动裁剪生成，不手工维护。
-> 当前版本：**v6.0.14-stash.6**（Build 2026-09-29，跟随 Clash Party v6.0.14 / CMFA v6.0.14-cmfa.6；132 个融合 rule-providers / 151 条主规则）。
+> 当前版本：**v6.0.14-stash.7**（Build 2026-09-30，跟随 Clash Party v6.0.14 / CMFA v6.0.14-cmfa.7；132 个融合 rule-providers / 151 条主规则）。
 
 ## 文件
 
@@ -17,6 +17,8 @@
 2. 将 `proxy-providers` → `Subscribe` → `url` 替换为你的订阅链接。
 3. 在 Stash 中导入该 YAML。
 4. 首次导入后检查 `proxy-providers` 与 `rule-providers` 是否下载成功。
+
+测速 provider 应只包含远端代理。Stash 官方支持具名 `type: direct`，但没有公开与 Mihomo `exclude-type` / `empty-fallback` 同等的字段；本生成器会裁剪这些字段。需要 `dialer-proxy` 的具名直连出站可独立放在顶层 `proxies`，在聚合层确认引用完整，避免它混入 `Subscribe` 的地区测速来源。Stash 空 provider 或空组默认直连，使用前应检查各组实际成员。详见 [逐端取舍](../docs/research/2026-09-30-routing-runtime-followup.md)。
 
 ## 生成方式
 

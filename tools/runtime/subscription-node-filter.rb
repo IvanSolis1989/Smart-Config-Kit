@@ -12,7 +12,7 @@ module SckiSubscriptionNodeFilter
   ].freeze
   UNCERTAIN_MULTIPLIER = Regexp.new("(?:\\A|#{TOKEN_EDGE})(?:[xX×]\\s*(?:\\?|未知|unknown|nan|∞)|\\?\\s*[xX×倍]|倍率\\s*(?:\\?|未知|unknown|nan|∞))(?=\\z|#{TOKEN_EDGE})", Regexp::IGNORECASE)
   BUILTIN_NAMES = %w[DIRECT REJECT REJECT-DROP PASS COMPATIBLE].freeze
-  RESERVED_NAMES = (BUILTIN_NAMES + %w[GLOBAL]).freeze
+  RESERVED_NAMES = (BUILTIN_NAMES + %w[GLOBAL PASS-RULE]).freeze
 
   module_function
 
@@ -26,6 +26,10 @@ module SckiSubscriptionNodeFilter
 
   def info_node?(name)
     INFO_CN.any? { |keyword| name.include?(keyword) } || name.match?(INFO_EN)
+  end
+
+  def selectable_proxy?(proxy)
+    !%w[direct reject].include?(proxy.fetch('type').downcase)
   end
 
   def multiplier(name)
@@ -59,21 +63,43 @@ module SckiSubscriptionNodeFilter
     end
   end
 
+  def copy_node(value)
+    case value
+    when Hash then value.to_h { |key, item| [key.dup, copy_node(item)] }
+    when Array then value.map { |item| copy_node(item) }
+    when String then value.dup
+    else value
+    end
+  end
+
   def validate_and_filter(config, override, requested_limit, region_names)
     raise ArgumentError, 'invalid config' unless config.is_a?(Hash)
     raise ArgumentError, 'invalid override' unless override.is_a?(Hash)
     limit = max_multiplier(requested_limit)
     providers = config['proxy-providers']
-    raise ArgumentError, 'provider subscription requires flattening' unless providers.nil? || providers == {}
-    proxies = config['proxies']
+    raise ArgumentError, 'invalid proxy-providers' unless providers.nil? || providers.is_a?(Hash)
+    flattened = []
+    flattened_providers = 0
+    (providers || {}).each_value do |provider|
+      raise ArgumentError, 'unsupported proxy-provider' unless provider.is_a?(Hash) &&
+        provider.keys.length == 2 && provider.key?('type') && provider.key?('payload') &&
+        provider['type'] == 'inline' && provider['payload'].is_a?(Array)
+      flattened_providers += 1
+      flattened.concat(provider['payload'])
+    end
+    proxies = if config.key?('proxies')
+      config['proxies']
+    elsif flattened_providers.positive?
+      []
+    end
     raise ArgumentError, 'invalid proxies list' unless proxies.is_a?(Array)
-    source = proxies
+    source = proxies + flattened
     groups = override['proxy-groups']
     raise ArgumentError, 'invalid override groups' unless groups.is_a?(Array) && groups.all? { |group| group.is_a?(Hash) && group['name'].is_a?(String) && !group['name'].empty? }
     reserved = (groups.map { |group| group['name'] } + region_names + RESERVED_NAMES).uniq
     by_name = {}
     distinct = []
-    source.each do |proxy|
+    source.each_with_index do |proxy, index|
       raise ArgumentError, 'invalid proxy entry' unless proxy.is_a?(Hash)
       name = proxy['name']
       type = proxy['type']
@@ -85,7 +111,7 @@ module SckiSubscriptionNodeFilter
         raise ArgumentError, 'ambiguous duplicate proxy name' unless by_name[name] == signature
       else
         by_name[name] = signature
-        distinct << proxy
+        distinct << (index < proxies.length ? proxy : copy_node(proxy))
       end
     end
     kept = distinct.reject do |proxy|
@@ -112,6 +138,7 @@ module SckiSubscriptionNodeFilter
       end
       trail.each { |name| state[name] = :done }
     end
-    [kept, { 'source' => source.length, 'distinct' => distinct.length, 'removed' => distinct.length - kept.length, 'limit' => limit }]
+    [kept, { 'source' => source.length, 'distinct' => distinct.length, 'removed' => distinct.length - kept.length,
+             'limit' => limit, 'flattened_providers' => flattened_providers, 'flattened_nodes' => flattened.length }]
   end
 end

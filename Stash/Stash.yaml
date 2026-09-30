@@ -1,8 +1,8 @@
 # ================================================================
-# Stash Smart v6.0.14-stash.6 - Stash (Clash Premium) 配置
-# Build: 2026-09-29
-# 架构：由 CMFA 自动裁剪生成；22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 0 rules（源 514/973）
-# 规则源：rulesets/source/routing-graph.js v6.0.14 / 派生：CMFA v6.0.14-cmfa.6
+# Stash Smart v6.0.14-stash.7 - Stash (Clash Premium) 配置
+# Build: 2026-09-30
+# 架构：由 CMFA 自动裁剪生成；22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 151 rules（源 514/973）
+# 规则源：rulesets/source/routing-graph.js v6.0.14 / 派生：CMFA v6.0.14-cmfa.7
 # 生成：node tools/generate-stash-from-cmfa.js（禁止手工修改 Stash/Stash.yaml）
 # 变更历史：见 `Stash/CHANGELOG.md`
 # 注意：Stash 不支持 Mihomo Smart + LightGBM；本产物使用 url-test 区域组

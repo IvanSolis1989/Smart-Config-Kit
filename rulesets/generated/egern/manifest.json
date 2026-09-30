@@ -3,13 +3,13 @@
   "generator": "tools/generate-egern-from-cmfa.js",
   "asset_revision": "v6.0.14",
   "source": {
-    "cmfa_sha256": "3b7e26ee612c353a5bffd997416758aaacf9ce4e544005ab24402046238a759d",
+    "cmfa_sha256": "48fdf5cc1b381a81f915281512da2dda7c749935bb969ea81bbf0500c230302e",
     "routing_graph_sha256": "a7e3b7cbc61e3a0e0fbb4a9434d16ef3ddb9a8e62ca2422a9112ad05cd716a4b",
     "cmfa_provider_count": 132,
     "cmfa_rule_count": 151
   },
   "rendered": {
-    "profile_sha256": "d2ed76084e2a55afbc7dc119d970b5297715daaf5bc468d6aaee9a735265cec9",
+    "profile_sha256": "923a10fd6a3fc0301b749a0cadfc43aa25aa9a2d8f20d8b519d048284273df5b",
     "rule_count": 137,
     "rule_set_ref_count": 120,
     "native_rule_set_count": 125,

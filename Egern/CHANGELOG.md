@@ -1,5 +1,10 @@
 # Egern — 变更日志
 
+## v6.0.14-egern.6 (2026-09-30)
+
+- SYNC：从 CMFA v6.0.14-cmfa.7 离线重建并刷新源哈希、Profile 哈希和生成清单。
+- SCOPE：Egern 官方代理类型不含 Mihomo 的具名 direct/reject，未套用其类型排除字段；125 个原生资产、137 条规则与 120 个引用不变。逐端适用性见 [后续研究](../docs/research/2026-09-30-routing-runtime-followup.md)。
+
 ## v6.0.14-egern.5 (2026-09-29)
 
 - SYNC：重建 Egern 原生规则集，第 001 DIRECT provider 加入微信 HTTPDNS 两个精确域名，先于 BlockHttpDNS 拦截生效。
