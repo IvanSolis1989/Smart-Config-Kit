@@ -25,19 +25,21 @@
 
 以下 **9 个仓库**均实际阅读过直接处理配置对象的源码，按当日 star 数降序排列。五个是首轮样本，四个是此次新增：Repcz、Perfect-Rules、selfproxy、HotKids。源码链接固定至对应默认分支快照提交；这是一组经筛选的比较样本，而不是 377 个候选的完整源码审计。powerfullz 用 TypeScript 维护源码，[实际导入的是编译后的 convert.min.js](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/README.md#L33-L40)，表中 TS 是分析入口。
 
-| 排名 | 仓库 | Stars | 分支 / 固定源码入口 | 阅读范围 |
-|---|---|---:|---|---|
-| 1 | [Repcz/Tool](https://github.com/Repcz/Tool) | 1,166 | X / [Override.js](https://github.com/Repcz/Tool/blob/835041891c7cad2ee7edd22ede12197b77620fba/mihomo/Client/Override/Override.js) | 直接 JS；混合仓库按此单文件评估 |
-| 2 | [n0de-sudo/Perfect-Rules](https://github.com/n0de-sudo/Perfect-Rules) | 953 | main / [Clash_mi.js](https://github.com/n0de-sudo/Perfect-Rules/blob/0a31165c1f70f2d548b49be5d1bb83a45ee06205/Clash/Clash_mi.js)、[FlClash.js](https://github.com/n0de-sudo/Perfect-Rules/blob/0a31165c1f70f2d548b49be5d1bb83a45ee06205/Clash/FlClash.js) | 两份实际入口及机场组保留逻辑 |
-| 3 | [AIsouler/MyClash](https://github.com/AIsouler/MyClash) | 897 | main / [mihomoScript.js](https://github.com/AIsouler/MyClash/blob/be777c8aaa563f0b5f83623c94f651f311559e57/Script/mihomoScript.js) | 开关、输入、倍率、重名、dialer |
-| 4 | [xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script) | 819 | main / [扩展脚本-优化版.js](https://github.com/xiaolin-007/clash-verge-script/blob/66d3ae9937442f6e8ba97d3cf913f8da6b97966f/%E6%89%A9%E5%B1%95%E8%84%9A%E6%9C%AC-%E4%BC%98%E5%8C%96%E7%89%88.js) | Provider 检查、节点后处理、DNS |
-| 5 | [dahaha-365/YaNet](https://github.com/dahaha-365/YaNet) | 670 | main / [global_script.js](https://github.com/dahaha-365/YaNet/blob/0b6a25b65730732b37487e7dc3bf5b58461942c2/Mihomo/global_script.js) | 地区分类、倍率阈值 |
-| 6 | [powerfullz/override-rules](https://github.com/powerfullz/override-rules) | 589 | main / [main.ts](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/main.ts)、[node_parser.ts](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/node_parser.ts) | 数组校验、节点分类、输出对象投影 |
-| 7 | [yyhhyyyyyy/selfproxy](https://github.com/yyhhyyyyyy/selfproxy) | 545 | main / [script.js](https://github.com/yyhhyyyyyy/selfproxy/blob/06a98015e9803206fd72ee2b4f457f338bce4483/Mihomo/Extension_Script/script.js) | 全部 714 行；六组 VM 输入 |
-| 8 | [HotKids/Rules](https://github.com/HotKids/Rules) | 474 | master / [Clash/Script](https://github.com/HotKids/Rules/tree/b8baf8424feda354d2079d151f868989cd3c44fa/Clash/Script) | 四个实际 JS 变体；典型入口输入比较 |
-| 9 | [echs-top/proxy](https://github.com/echs-top/proxy) | 184 | main / [mihomo_smart.js](https://github.com/echs-top/proxy/blob/e5e53ad5591b07d1324f802b0658d314cea91dc4/mihomo_smart.js) | inline provider、Smart、空组锚点 |
+| 排名 | 仓库 | Stars | 分支 / 固定源码入口 | 阅读范围 | License（API SPDX） |
+|---|---|---:|---|---|---|
+| 1 | [Repcz/Tool](https://github.com/Repcz/Tool) | 1,166 | X / [Override.js](https://github.com/Repcz/Tool/blob/835041891c7cad2ee7edd22ede12197b77620fba/mihomo/Client/Override/Override.js) | 直接 JS；混合仓库按此单文件评估 | MIT |
+| 2 | [n0de-sudo/Perfect-Rules](https://github.com/n0de-sudo/Perfect-Rules) | 953 | main / [Clash_mi.js](https://github.com/n0de-sudo/Perfect-Rules/blob/0a31165c1f70f2d548b49be5d1bb83a45ee06205/Clash/Clash_mi.js)、[FlClash.js](https://github.com/n0de-sudo/Perfect-Rules/blob/0a31165c1f70f2d548b49be5d1bb83a45ee06205/Clash/FlClash.js) | 两份实际入口及机场组保留逻辑 | API 未识别 |
+| 3 | [AIsouler/MyClash](https://github.com/AIsouler/MyClash) | 897 | main / [mihomoScript.js](https://github.com/AIsouler/MyClash/blob/be777c8aaa563f0b5f83623c94f651f311559e57/Script/mihomoScript.js) | 开关、输入、倍率、重名、dialer | MIT |
+| 4 | [xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script) | 819 | main / [扩展脚本-优化版.js](https://github.com/xiaolin-007/clash-verge-script/blob/66d3ae9937442f6e8ba97d3cf913f8da6b97966f/%E6%89%A9%E5%B1%95%E8%84%9A%E6%9C%AC-%E4%BC%98%E5%8C%96%E7%89%88.js) | Provider 检查、节点后处理、DNS | API 未识别 |
+| 5 | [dahaha-365/YaNet](https://github.com/dahaha-365/YaNet) | 670 | main / [global_script.js](https://github.com/dahaha-365/YaNet/blob/0b6a25b65730732b37487e7dc3bf5b58461942c2/Mihomo/global_script.js) | 地区分类、倍率阈值 | BSD-3-Clause |
+| 6 | [powerfullz/override-rules](https://github.com/powerfullz/override-rules) | 589 | main / [main.ts](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/main.ts)、[node_parser.ts](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/node_parser.ts) | 数组校验、节点分类、输出对象投影 | MIT |
+| 7 | [yyhhyyyyyy/selfproxy](https://github.com/yyhhyyyyyy/selfproxy) | 545 | main / [script.js](https://github.com/yyhhyyyyyy/selfproxy/blob/06a98015e9803206fd72ee2b4f457f338bce4483/Mihomo/Extension_Script/script.js) | 全部 714 行；六组 VM 输入 | API 未识别 |
+| 8 | [HotKids/Rules](https://github.com/HotKids/Rules) | 474 | master / [Clash/Script](https://github.com/HotKids/Rules/tree/b8baf8424feda354d2079d151f868989cd3c44fa/Clash/Script) | 四个实际 JS 变体；典型入口输入比较 | API 未识别 |
+| 9 | [echs-top/proxy](https://github.com/echs-top/proxy) | 184 | main / [mihomo_smart.js](https://github.com/echs-top/proxy/blob/e5e53ad5591b07d1324f802b0658d314cea91dc4/mihomo_smart.js) | inline provider、Smart、空组锚点 | API 未识别 |
 
 YaNet 是沿首轮相关项目发现的候选，未出现在这八组查询中，因此不虚构其查询排名。它的 star/默认分支在补充阶段重新用 repository/commit API 核实。其他首轮脚本的元数据也再次核实。
+
+License 列记录同日 API 的 `license.spdx_id`，未识别值不推断为允许复制；逐仓元数据附在搜索证据 JSON。星数保留检索快照：后续许可复核时 Perfect-Rules 为 954★、xiaolin 为 820★，与表中的 953★/819★属于不同取数时点，排序未变化。
 
 ## 源码取舍与本地适用性
 
@@ -102,10 +104,10 @@ YaNet 是沿首轮相关项目发现的候选，未出现在这八组查询中�
 
 | 仓库 / Stars | 固定提交与源码证据 | 特点、代价和取舍 |
 |---|---|---|
-| [mwmi/ClashVergeGlobalScript](https://github.com/mwmi/ClashVergeGlobalScript) / 98 | `ec76f1ab79d0d5fabf49a43d948e521e4fa07a1c`；[两类输入分支](https://github.com/mwmi/ClashVergeGlobalScript/blob/ec76f1ab79d0d5fabf49a43d948e521e4fa07a1c/GlobalScript.js#L715-L851) | Provider 分支生成 `use+filter`，显式节点按名称分类并跳过空组；分类子串和整套 DNS/规则覆写各有代价。可取输入分支明确性；本地当前要求 SubStore 展平，暂不加入远程 Provider 路径 |
-| [Adsryen/clash-override](https://github.com/Adsryen/clash-override) / 57 | `b51956c511b5333282c38f68b0db0d5d7107f65b`；[开关](https://github.com/Adsryen/clash-override/blob/b51956c511b5333282c38f68b0db0d5d7107f65b/global_script.js#L31-L78)、[入口](https://github.com/Adsryen/clash-override/blob/b51956c511b5333282c38f68b0db0d5d7107f65b/global_script.js#L607-L630) | DNS override 默认关闭，倍率过滤默认开启；地区组阈值清楚，但检查 Provider 后仍直接调用 `config.proxies.map`。仅作静态观察，不宣称已执行其 Provider-only 探针 |
-| [wchiway/mihomo-proxy](https://github.com/wchiway/mihomo-proxy) / 7 | `6d98bf76b04155e2194c9a07e42938e05d748197`；[FlClash 输入判断](https://github.com/wchiway/mihomo-proxy/blob/6d98bf76b04155e2194c9a07e42938e05d748197/src/flclash-main.ts#L97-L150)、[重名处理](https://github.com/wchiway/mihomo-proxy/blob/6d98bf76b04155e2194c9a07e42938e05d748197/src/proxies.ts#L18-L65) | 有客户端专用变体；移动入口通过 Provider keys/include-all 支持两类来源，空来源回退 DIRECT，重名追加后缀，倍率用于排序。不能把移动入口支持外推到 desktop，也不采用改名和全空 DIRECT |
-| [mowangmowang/clash-rule-scripts](https://github.com/mowangmowang/clash-rule-scripts) / 2 | `db5502aef1c2e4479fe0a64cabb19933298f9425`；[入口与分组](https://github.com/mowangmowang/clash-rule-scripts/blob/db5502aef1c2e4479fe0a64cabb19933298f9425/Clash_script_v1.js#L690-L770) | 客户端变体、开关注释易读；虽检查 Provider keys，后续分组仍依赖显式 proxies，并改写 DNS。可取文档组织，不移植配置全集 |
+| [mwmi/ClashVergeGlobalScript](https://github.com/mwmi/ClashVergeGlobalScript) / 98 | `ec76f1ab79d0d5fabf49a43d948e521e4fa07a1c`；API 未识别 License；[两类输入分支](https://github.com/mwmi/ClashVergeGlobalScript/blob/ec76f1ab79d0d5fabf49a43d948e521e4fa07a1c/GlobalScript.js#L715-L851) | 仅 `proxies` 属性缺失/假值时走 Provider `use+filter` 分支；`proxies: []` 加 Provider 会走显式分支并因空名称返回，不生成这些地区组。分类子串和整套 DNS/规则覆写各有代价；本地要求 SubStore 展平，暂不加入该路径 |
+| [Adsryen/clash-override](https://github.com/Adsryen/clash-override) / 57 | `b51956c511b5333282c38f68b0db0d5d7107f65b`；MIT；[开关](https://github.com/Adsryen/clash-override/blob/b51956c511b5333282c38f68b0db0d5d7107f65b/global_script.js#L31-L78)、[入口](https://github.com/Adsryen/clash-override/blob/b51956c511b5333282c38f68b0db0d5d7107f65b/global_script.js#L607-L630) | DNS override 默认关闭，倍率过滤默认开启；地区组阈值清楚，但检查 Provider 后仍直接调用 `config.proxies.map`。仅作静态观察，不宣称已执行其 Provider-only 探针 |
+| [wchiway/mihomo-proxy](https://github.com/wchiway/mihomo-proxy) / 7 | `6d98bf76b04155e2194c9a07e42938e05d748197`；MIT；[FlClash 输入判断](https://github.com/wchiway/mihomo-proxy/blob/6d98bf76b04155e2194c9a07e42938e05d748197/src/flclash-main.ts#L97-L150)、[实际 include-all 分组](https://github.com/wchiway/mihomo-proxy/blob/6d98bf76b04155e2194c9a07e42938e05d748197/src/flclash-main.ts#L160-L202)、[重名处理](https://github.com/wchiway/mihomo-proxy/blob/6d98bf76b04155e2194c9a07e42938e05d748197/src/proxies.ts#L18-L65) | 有客户端专用变体；移动入口通过 Provider keys/include-all 支持两类来源，空来源回退 DIRECT，重名追加后缀，倍率用于排序。不能把移动入口支持外推到 desktop，也不采用改名和全空 DIRECT |
+| [mowangmowang/clash-rule-scripts](https://github.com/mowangmowang/clash-rule-scripts) / 2 | `db5502aef1c2e4479fe0a64cabb19933298f9425`；MIT；[入口与分组](https://github.com/mowangmowang/clash-rule-scripts/blob/db5502aef1c2e4479fe0a64cabb19933298f9425/Clash_script_v1.js#L690-L770) | 客户端变体、开关注释易读；虽检查 Provider keys，后续分组仍依赖显式 proxies，并改写 DNS。可取文档组织，不移植配置全集 |
 
 ## 对本仓库的决定与验证边界
 

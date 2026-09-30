@@ -10,6 +10,54 @@
   "unique_repository_count": 377,
   "all_returned_pages_complete": true,
   "all_matching_pages_fetched": true,
+  "license_read_note": "Same UTC date API metadata check after the ranked search. Stars at license read can differ from earlier ranked search snapshot; null means API did not identify a license.",
+  "reviewed_repository_licenses": [
+    {
+      "repository": "Repcz/Tool",
+      "license_api_spdx": "MIT",
+      "stars_at_license_read": 1166
+    },
+    {
+      "repository": "n0de-sudo/Perfect-Rules",
+      "license_api_spdx": null,
+      "stars_at_license_read": 954
+    },
+    {
+      "repository": "AIsouler/MyClash",
+      "license_api_spdx": "MIT",
+      "stars_at_license_read": 897
+    },
+    {
+      "repository": "xiaolin-007/clash-verge-script",
+      "license_api_spdx": null,
+      "stars_at_license_read": 820
+    },
+    {
+      "repository": "dahaha-365/YaNet",
+      "license_api_spdx": "BSD-3-Clause",
+      "stars_at_license_read": 670
+    },
+    {
+      "repository": "powerfullz/override-rules",
+      "license_api_spdx": "MIT",
+      "stars_at_license_read": 589
+    },
+    {
+      "repository": "yyhhyyyyyy/selfproxy",
+      "license_api_spdx": null,
+      "stars_at_license_read": 545
+    },
+    {
+      "repository": "HotKids/Rules",
+      "license_api_spdx": null,
+      "stars_at_license_read": 474
+    },
+    {
+      "repository": "echs-top/proxy",
+      "license_api_spdx": null,
+      "stars_at_license_read": 184
+    }
+  ],
   "queries": [
     {
       "id": 0,
