@@ -7,6 +7,14 @@
 
 ---
 
+## v6.0.14-oc-normal.9 / v6.0.14-oc-smart.9 (2026-09-30)
+
+- FIX：信息过滤与三个 JS 对齐，保留合法 IPLC、DNS、中转、Telegram 等线路标签；英文公告词使用边界匹配。
+- PREFLIGHT：在写源 YAML 前检查节点字段、重名与名称/链式依赖冲突。provider 输入要求先聚合展平，不再清除 provider 后只生成部分节点池。
+- FILTER：本地 `SCKI_MAX_NODE_MULTIPLIER` 默认空值关闭；只筛除明确超过正数阈值的节点，未知/歧义倍率保留。无节点时全球组显式 `REJECT`，避免 `COMPATIBLE` 回退。
+- SCOPE：共享 Ruby 运行时同步两版并通过实际 heredoc 执行与 YAML 读回验收；源图与融合资产仍为 v6.0.14。其余静态产物无同构订阅处理入口，见 [研究矩阵](../docs/research/2026-09-30-routing-script-research.md)。
+- REFERENCE：复核 OpenClash v0.47.156 官方覆写模板和 Mihomo 代理组字段，更新参考、参数教程与 CI 检查。
+
 ## v6.0.14-oc-normal.8 / v6.0.14-oc-smart.8 (2026-09-29)
 
 - FIX：同步首段 DIRECT 融合资产，为微信 HTTPDNS 两个精确域名提供前置直连例外。

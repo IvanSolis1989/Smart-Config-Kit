@@ -32,6 +32,10 @@ on:
       - 'tools/runtime/**'
       - 'tools/sync-node-dns-hints-adapters.js'
       - 'tools/test-openclash-node-dns-hints.js'
+      - 'tools/sync-subscription-node-filter.js'
+      - 'tools/sync-openclash-node-filter.js'
+      - 'tools/tests/subscription-node-filter.test.js'
+      - 'tools/test-openclash-node-filter.js'
       - 'tools/fixtures/**'
       - 'docs/client-capability-matrix.json'
       - 'docs/client-capability-matrix.md'
@@ -69,6 +73,10 @@ on:
       - 'tools/runtime/**'
       - 'tools/sync-node-dns-hints-adapters.js'
       - 'tools/test-openclash-node-dns-hints.js'
+      - 'tools/sync-subscription-node-filter.js'
+      - 'tools/sync-openclash-node-filter.js'
+      - 'tools/tests/subscription-node-filter.test.js'
+      - 'tools/test-openclash-node-filter.js'
       - 'tools/fixtures/**'
       - 'docs/client-capability-matrix.json'
       - 'docs/client-capability-matrix.md'
@@ -106,6 +114,13 @@ jobs:
 
       - name: Validate OpenClash Node-DNS hint contract
         run: node tools/test-openclash-node-dns-hints.js
+
+      - name: Validate synchronized JS and Ruby node filters
+        run: |
+          node tools/sync-subscription-node-filter.js --check
+          node tools/sync-openclash-node-filter.js --check
+          node --test tools/tests/subscription-node-filter.test.js
+          node tools/test-openclash-node-filter.js
 
       - name: Check client capability matrix
         run: |

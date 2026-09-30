@@ -7,6 +7,14 @@
 
 ---
 
+## v6.0.14-dns.10 / v6.0.14-normal.11 (2026-09-30)
+
+- PREFLIGHT：先检查节点字段、重名、保留名称和链式代理引用，再写 DNS 与重建组/规则，避免异常节点产生半成品；完全等价的重复节点稳定去重。
+- FILTER：采用共享节点筛选运行时，信息模式预编译；英文公告词按边界匹配。可选 `SCKI_MAX_NODE_MULTIPLIER` 默认 `null`，仅启用时排除明确超过上限的倍率节点，未知/歧义倍率保留。
+- GUARD：非空 `proxy-providers` 明确要求聚合展平；筛选后无节点时全球组显式 `REJECT`。预检拒绝保持输入不变，并使用计数式诊断。
+- SCOPE：FlClash 与 OpenClash 同步运行时语义；静态及无订阅分类入口的客户端没有同构执行点。源规则图、融合资产、55 组命名和 DNS 基线保持 v6.0.14，详见 [研究与逐端矩阵](../docs/research/2026-09-30-routing-script-research.md)。
+- REFERENCE：复核 Mihomo v1.19.31 及 `proxies/use/include-all-proxies/empty-fallback` 官方字段，更新本地参考。增加实际 `main()` 的异常、筛选、重名、依赖与重复执行回归；同步工具和 CI 检查运行时漂移。
+
 ## v6.0.14-dns.9 / v6.0.14-normal.10 (2026-09-29)
 
 - FIX：微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外，不再落入 `BlockHttpDNS → 🛑 广告拦截`。

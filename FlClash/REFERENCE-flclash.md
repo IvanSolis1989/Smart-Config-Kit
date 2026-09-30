@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 更新于 2026-09-30（上次核对 2026-08-31）：实时 release 为 [v0.8.98](https://github.com/chen08209/FlClash/releases/tag/v0.8.98)（2026-09-14）。复核该 tag 的 [getProfile](https://github.com/chen08209/FlClash/blob/v0.8.98/lib/providers/actions/setup.dart#L315-L368) 和 [配置 patch](https://github.com/chen08209/FlClash/blob/v0.8.98/lib/common/task.dart#L109-L245)，仍先执行脚本，再应用 App patch；DNS 覆写/追加系统 DNS 的边界延续下述说明。本次节点预检和倍率筛选只使用已有 JS 语法并保持数组引用；未抬高声明的 v0.8.85 最低版本。本次验证为 VM 回归，未代替设备上的 App patch 验收。
+
 > 来源：https://github.com/chen08209/FlClash
 > 获取日期：2026-05-03
 > 更新于 2026-07-25（复查）：FlClash 最新版 v0.8.94（2026-07-11）。相对 v0.8.93 未见影响本仓库 JS 覆写入口、DNS 配置对象或订阅关联流程的 breaking change；当前基线兼容。

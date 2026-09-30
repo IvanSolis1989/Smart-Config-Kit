@@ -3,8 +3,8 @@
 > 目录简介：这里是 Mihomo Smart/Normal 覆写脚本的事实基线，面向 Clash Party、Clash Verge Rev、Mihomo Party 等桌面客户端。
 >
 > 覆写脚本：**两份二选一**，规则 100% 等价，仅 22 区域组（11 全部 + 11 家宽）的内核选路算法不同
-> - `ClashParty(mihomo-smart).js`（**v6.0.14-dns.9**，2026-09-29）— Smart 内核 + LightGBM ML 评估
-> - `ClashParty(mihomo).js`（**v6.0.14-normal.10**，2026-09-29）— 普通内核 url-test 延迟选路
+> - `ClashParty(mihomo-smart).js`（**v6.0.14-dns.10**，2026-09-30）— Smart 内核 + LightGBM ML 评估
+> - `ClashParty(mihomo).js`（**v6.0.14-normal.11**，2026-09-30）— 普通内核 url-test 延迟选路
 >
 > UI 补充配置：已整合到本文「四、粘贴 UI 补充配置」章节
 > 架构：**SUB-STORE 多机场融合** + 22 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + **132 融合 rule-providers / 151 rules**（源 514 providers / 973 rules）
@@ -19,6 +19,8 @@
 > **Clash Party v2.0.3+ DNS 保护（Issue #183）**：客户端会在执行 JS 覆写前检查原始订阅是否包含 `proxy-server-nameserver`、`proxy-server-nameserver-policy` 或 `nameserver-policy`。如果客户端内置 DNS 控制处于开启状态，可能提示“检测到当前订阅包含自定义 DNS 配置，已自动关闭 DNS 覆写”。这只表示客户端的 `controlDns` 被保护逻辑关闭，不表示本脚本没有执行；本脚本随后仍会写入仓库 DNS 基线和受限节点 DNS。使用本仓库时请保持客户端内置 DNS 覆写关闭，不要把这条提示当作脚本加载失败。背景见 [Clash Party v2.0.3 发布说明](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.3) 和 [DNS 覆写保护源码](https://github.com/mihomo-party-org/clash-party/blob/v2.0.3/src/main/core/dnsOverrideGuard.ts)。
 
 > 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写 ISO 两位码加编号可正常归类。仅此形式放宽大小写，普通文本中的 us / in 不会被误判为地区。
+
+> 节点筛选：`SCKI_MAX_NODE_MULTIPLIER = null` 默认保留全部倍率。需要上限时在本地脚本设为正数；未知或有歧义的倍率保持原样。非空 `proxy-providers` 需先通过 Sub-Store 展平。预检拒绝时保留原始订阅，日志仅报告原因和计数。详见 [节点筛选指南](../docs/subscription-node-filter.md)。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 

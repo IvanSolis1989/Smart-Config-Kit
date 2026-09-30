@@ -1,7 +1,7 @@
 # OpenClash 使用说明（Smart / Normal 双版本）
 
 > 目录简介：这里提供 OpenWrt OpenClash 的 Smart/Normal 覆写脚本、UI 配置快照和部署排障说明。
-> 当前版本：**v6.0.14-oc-normal.8 / v6.0.14-oc-smart.8**（Build 2026-09-29，跟随 Clash Party v6.0.14；融合规则缓存按发布版本隔离）。
+> 当前版本：**v6.0.14-oc-normal.9 / v6.0.14-oc-smart.9**（Build 2026-09-30，跟随 source graph v6.0.14；融合规则缓存按发布版本隔离）。
 >
 > 本目录提供「同规则量、不同内核能力」的两份覆写脚本，外加一份 OpenClash UI 配置快照（`.conf`）。
 >
@@ -13,6 +13,8 @@
 > - 私有节点 DNS：Ruby 覆写默认采用 `adaptive` 模式；`off / policy / adaptive` 仅控制活动节点 FQDN 的 resolver、精确 policy 与 bootstrap hosts 投影，不会让机场订阅覆盖路由器的全局业务 DNS。若使用 LuCI 的 DNS 覆写/Mixin，需合并这些字段。详见 [私有节点 DNS 指南](../docs/private-node-dns.md)。
 
 > - 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号可正常进入区域组；不会把普通文本小写词误作国家码。
+
+> - 节点筛选：IPLC、中转、Telegram 等线路标签保留；只按信息节点模式清理。`SCKI_MAX_NODE_MULTIPLIER` 默认空值关闭倍率筛选，设为正数才启用；预检失败时不写回订阅文件。参数示例和链式代理边界见 [节点筛选指南](../docs/subscription-node-filter.md)。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 

@@ -2,12 +2,9 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.14-oc-normal.8 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
-# Build: 2026-09-29
+# Clash Smart v6.0.14-oc-normal.9 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
+# Build: 2026-09-30
 # ============================================================================
-# v6.0.14-oc-normal.8: 为微信 HTTPDNS 两个精确域名增加前置直连例外，避免 BlockHttpDNS 规则拦截微信图片模块
-# v5.4.33: FEAT#169-AI-CODING 接入 VPSDance AI coding 规则补齐 AI 编程工具
-# v5.4.32: FIX#168-CN-GAME 国内游戏前置到国外游戏宽规则之前，避免 HoYoverse / Game / category-games 抢先代理
 # 定位：与同目录 OpenClash(mihomo-smart).sh 规则 100% 等价的「非 Smart 内核」版本。
 #       两者唯一区别：22 个区域组（11 全部 + 11 家宽）从 type: smart（uselightgbm）换成 type: url-test。
 #       对齐 Clash Party v6.0.14 JS 基线。
@@ -22,17 +19,18 @@
 #   • 151 条 rules（源 973 rules；仅保留 19 条必要内联规则）
 #   • DNS fake-ip + 嗅探（HTTP/TLS/QUIC）+ nameserver-policy 救援
 #   • Ruby 阶段做：节点过滤 / 区域分类 / url-test 组生成 / TLS 指纹注入
-# 基线：Clash Party v6.0.9（v5.3.1/v5.3.2 为桌面端 PROCESS-NAME 改动，路由器端不适用）── 任何规则/组/DNS 改动必须先改源规则图，
+# 规则源：rulesets/source/routing-graph.js v6.0.14。任何规则/组/DNS 改动必须先改源规则图，
 #       再按生成链同步到此文件。参见仓库根目录 AGENTS.md。
 # 变更历史：见 `OpenClash/CHANGELOG.md`（Normal 部分）。
 # ============================================================================
 
 
 
-VERSION_TAG="v6.0.14-oc-normal.8"
+VERSION_TAG="v6.0.14-oc-normal.9"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-adaptive}"
+SCKI_MAX_NODE_MULTIPLIER="${SCKI_MAX_NODE_MULTIPLIER:-}"
 case "$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" in
   off|policy|adaptive) ;;
   *) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="adaptive" ;;
@@ -1748,10 +1746,9 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.14-oc-normal.8"
+VERSION = "v6.0.14-oc-normal.9"
 
 STATUS_LOG = ARGV[2]
-File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
 
 config_path   = ARGV[0]
@@ -2333,16 +2330,125 @@ end
 # ---------------------------------------------------------------
 # Phase 1a: 过滤节点（仅去信息节点；保留倍率节点）+ 家宽识别
 # ---------------------------------------------------------------
-INFO_PATTERNS = [
-  /官网/, /官方/, /网站/, /群组/, /TG|telegram/i,
-  /到期/, /剩余/, /流量/, /重置/, /过期/, /recharge/i, /expire/i,
-  /订阅/, /机场/, /客服/, /网址/, /邀请/, /注册/,
-  /公告/, /通知/, /公众号/, /永久/, /套餐/, /续费/,
-  /dns|DNS/, /IPLC|iplc/, /中转/,
-  # v5.4.20 #6 借鉴 Proxy-override：补充 junk 关键词（中文子串 + 英文 \b 词边界防误伤 Signal 等；/注册/ 已存在）
-  /免费/, /试用/, /应急/, /\bSign\b/i, /\bLogin\b/i, /\bRegister\b/i, /\bHelp\b/i, /\bFAQ\b/i,
-  /^剩余|^到期|^流量|^官网/
-]
+# >>> SCKI SUBSCRIPTION NODE FILTER: BEGIN
+# Subscription node validation and conservative filtering for OpenClash.
+# Embedded verbatim in both shell adapters by sync-openclash-node-filter.js.
+module SckiSubscriptionNodeFilter
+  INFO_CN = %w[导航网址 距离下次重置 剩余流量 套餐到期 网址导航 官网 订阅 到期 剩余 重置 免费 试用 应急 已用流量 到期时间 下次重置].freeze
+  INFO_EN = /(?<![A-Za-z0-9_])(?:USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Sign|Login|Register|Help|FAQ)(?![A-Za-z0-9_])/i
+  TOKEN_EDGE = '[[:space:]|/()\[\]{}【】（）,，;；:_·｜]'.freeze
+  NUMBER = '(?:[0-9]+(?:\.[0-9]+)?)'.freeze
+  EXPLICIT_MULTIPLIER = [
+    Regexp.new("(?:\\A|#{TOKEN_EDGE})[xX×]\\s*(#{NUMBER})(?=\\z|#{TOKEN_EDGE})"),
+    Regexp.new("(?:\\A|#{TOKEN_EDGE})(#{NUMBER})\\s*[xX×倍](?=\\z|#{TOKEN_EDGE})"),
+    Regexp.new("(?:\\A|#{TOKEN_EDGE})倍率\\s*(#{NUMBER})(?=\\z|#{TOKEN_EDGE})")
+  ].freeze
+  UNCERTAIN_MULTIPLIER = Regexp.new("(?:\\A|#{TOKEN_EDGE})(?:[xX×]\\s*(?:\\?|未知|unknown|nan|∞)|\\?\\s*[xX×倍]|倍率\\s*(?:\\?|未知|unknown|nan|∞))(?=\\z|#{TOKEN_EDGE})", Regexp::IGNORECASE)
+  BUILTIN_NAMES = %w[DIRECT REJECT REJECT-DROP PASS COMPATIBLE].freeze
+  RESERVED_NAMES = (BUILTIN_NAMES + %w[GLOBAL]).freeze
+
+  module_function
+
+  def max_multiplier(value)
+    return nil if value.nil? || value == ''
+    raise ArgumentError, 'invalid SCKI_MAX_NODE_MULTIPLIER' unless value.is_a?(String) && value.match?(/\A(?:\d+(?:\.\d+)?|\.\d+)\z/)
+    number = Float(value)
+    raise ArgumentError, 'invalid SCKI_MAX_NODE_MULTIPLIER' unless number.finite? && number.positive?
+    number
+  end
+
+  def info_node?(name)
+    INFO_CN.any? { |keyword| name.include?(keyword) } || name.match?(INFO_EN)
+  end
+
+  def multiplier(name)
+    return nil if name.match?(UNCERTAIN_MULTIPLIER)
+    numbers = EXPLICIT_MULTIPLIER.flat_map do |pattern|
+      name.scan(pattern).flatten.map { |text| Float(text) }
+    end
+    return nil if numbers.empty? || numbers.any? { |number| !number.finite? || !number.positive? }
+    unique = numbers.uniq
+    unique.length == 1 ? unique.first : nil
+  end
+
+  def fingerprint(value, parents = [], depth = 0)
+    raise ArgumentError, 'invalid proxy structure' if depth > 32
+    case value
+    when Hash
+      raise ArgumentError, 'invalid proxy structure' if parents.include?(value.object_id) || !value.keys.all? { |key| key.is_a?(String) }
+      next_parents = parents + [value.object_id]
+      ['hash', value.keys.sort.map { |key| [key, fingerprint(value.fetch(key), next_parents, depth + 1)] }]
+    when Array
+      raise ArgumentError, 'invalid proxy structure' if parents.include?(value.object_id)
+      next_parents = parents + [value.object_id]
+      ['array', value.map { |item| fingerprint(item, next_parents, depth + 1) }]
+    when String, Integer, TrueClass, FalseClass, NilClass
+      [value.class.name, value]
+    when Float
+      raise ArgumentError, 'invalid proxy structure' unless value.finite?
+      ['Float', value]
+    else
+      raise ArgumentError, 'invalid proxy structure'
+    end
+  end
+
+  def validate_and_filter(config, override, requested_limit, region_names)
+    raise ArgumentError, 'invalid config' unless config.is_a?(Hash)
+    raise ArgumentError, 'invalid override' unless override.is_a?(Hash)
+    limit = max_multiplier(requested_limit)
+    providers = config['proxy-providers']
+    raise ArgumentError, 'provider subscription requires flattening' unless providers.nil? || providers == {}
+    proxies = config['proxies']
+    raise ArgumentError, 'invalid proxies list' unless proxies.is_a?(Array)
+    source = proxies
+    groups = override['proxy-groups']
+    raise ArgumentError, 'invalid override groups' unless groups.is_a?(Array) && groups.all? { |group| group.is_a?(Hash) && group['name'].is_a?(String) && !group['name'].empty? }
+    reserved = (groups.map { |group| group['name'] } + region_names + RESERVED_NAMES).uniq
+    by_name = {}
+    distinct = []
+    source.each do |proxy|
+      raise ArgumentError, 'invalid proxy entry' unless proxy.is_a?(Hash)
+      name = proxy['name']
+      type = proxy['type']
+      raise ArgumentError, 'invalid proxy name or type' unless name.is_a?(String) && !name.strip.empty? && type.is_a?(String) && !type.strip.empty?
+      raise ArgumentError, 'invalid proxy flow' if proxy.key?('flow') && !proxy['flow'].is_a?(String)
+      raise ArgumentError, 'proxy name conflicts with group or builtin' if reserved.include?(name)
+      signature = fingerprint(proxy)
+      if by_name.key?(name)
+        raise ArgumentError, 'ambiguous duplicate proxy name' unless by_name[name] == signature
+      else
+        by_name[name] = signature
+        distinct << proxy
+      end
+    end
+    kept = distinct.reject do |proxy|
+      name = proxy.fetch('name')
+      info_node?(name) || (limit && (factor = multiplier(name)) && factor > limit)
+    end
+    kept_by_name = kept.to_h { |proxy| [proxy.fetch('name'), proxy] }
+    kept.each do |proxy|
+      dependency = proxy['dialer-proxy']
+      next unless proxy.key?('dialer-proxy')
+      raise ArgumentError, 'invalid dialer-proxy' unless dependency.is_a?(String) && !dependency.empty?
+      raise ArgumentError, 'dangling dialer-proxy after filtering' unless kept_by_name.key?(dependency) || BUILTIN_NAMES.include?(dependency)
+    end
+    # A valid reference can still create a cycle; walk each chain once without recursion.
+    state = {}
+    kept.each do |proxy|
+      current = proxy.fetch('name')
+      trail = []
+      while kept_by_name.key?(current) && state[current] != :done
+        raise ArgumentError, 'cyclic dialer-proxy dependency' if state[current] == :active
+        state[current] = :active
+        trail << current
+        current = kept_by_name.fetch(current)['dialer-proxy']
+      end
+      trail.each { |name| state[name] = :done }
+    end
+    [kept, { 'source' => source.length, 'distinct' => distinct.length, 'removed' => distinct.length - kept.length, 'limit' => limit }]
+  end
+end
+# <<< SCKI SUBSCRIPTION NODE FILTER: END
 RESIDENTIAL_PATTERNS = [
   /家宽|家庭宽带|家庭住宅|住宅宽带|住宅|宽带|专线/,
   /\bresi(?:dential)?\b/i,
@@ -2355,16 +2461,7 @@ RESIDENTIAL_PATTERNS = [
   /\biepl\b/i,
 ]
 
-raw_proxies = (config["proxies"] || []).dup
-filtered_proxies = raw_proxies.reject do |p|
-  name = p["name"].to_s
-  INFO_PATTERNS.any? { |pat| name.match?(pat) }
-end
 is_residential = ->(name) { RESIDENTIAL_PATTERNS.any? { |pat| name.match?(pat) } }
-status "[filter] raw=#{raw_proxies.size} filtered=#{filtered_proxies.size} home=#{filtered_proxies.count { |p| is_residential.call(p['name'].to_s) }} removed=#{raw_proxies.size - filtered_proxies.size}"
-runtime_profile = SckiSubscriptionAdapterProfiles.resolve(ARGV[3])
-active_node_servers = filtered_proxies.map { |proxy| proxy["server"] }
-node_dns_hints = SckiSubscriptionAdapter.capture_node_dns(config, active_node_servers, runtime_profile)
 
 # ---------------------------------------------------------------
 # Phase 1b: 区域分类
@@ -2466,6 +2563,15 @@ HOME_GROUP_NAMES = {
   "OTHER" => "🏡 其他家宽",
 }
 
+filtered_proxies, filter_report = SckiSubscriptionNodeFilter.validate_and_filter(
+  config, override, ARGV[4], GROUP_NAMES.values + HOME_GROUP_NAMES.values + ["🌍 全球节点", "🏡 全球家宽"]
+)
+File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
+status "[filter] raw=#{filter_report['source']} filtered=#{filtered_proxies.size} home=#{filtered_proxies.count { |p| is_residential.call(p['name']) }} removed=#{filter_report['removed']}"
+runtime_profile = SckiSubscriptionAdapterProfiles.resolve(ARGV[3])
+active_node_servers = filtered_proxies.map { |proxy| proxy["server"] }
+node_dns_hints = SckiSubscriptionAdapter.capture_node_dns(config, active_node_servers, runtime_profile)
+
 # Ruby 的 \b 把数字视为单词字符，故 hk01 不会命中 \bHK\b。只在
 # 字母与数字的交界插入分类边界，使小写 ISO 两位码 + 编号与 HK 01
 # 等传统写法等价，同时保持原有国家正则和抗误匹配规则。
@@ -2528,7 +2634,7 @@ end
 
 smart_groups = []
 # 🌍 全球节点：包含所有节点，url-test 自动选路
-smart_groups << make_smart_group("🌍 全球节点", proxies_filter_mode: :include_all)
+smart_groups << (filtered_proxies.empty? ? { "name" => "🌍 全球节点", "type" => "select", "proxies" => ["REJECT"] } : make_smart_group("🌍 全球节点", proxies_filter_mode: :include_all))
 smart_groups << make_smart_group("🏡 全球家宽", proxies_filter_mode: :explicit, explicit_proxies: home_all_members.uniq) if home_all_members.any?
 
 # 8 个区域组：仅该区域节点参与 url-test；家宽子组只在匹配到家宽节点时创建
@@ -2587,7 +2693,7 @@ config["proxy-groups"] = [smart_groups.shift] + override_biz_groups + smart_grou
 config["rule-providers"] = override["rule-providers"] if override["rule-providers"]
 config["rules"]          = override["rules"] if override["rules"]
 
-# 清理机场自带的 proxy-providers（如果有）
+# Preflight rejects nonempty proxy-providers; remove only an empty declaration.
 config.delete("proxy-providers")
 
 # ---------------------------------------------------------------
@@ -2607,7 +2713,7 @@ LOG_OUT "Info" "[Clash-Normal] Executing Ruby processor..."
 : > "$STATUS_LOG"
 
 # 执行 Ruby 处理脚本
-ruby "$RUBY_SCRIPT" "$CONFIG_FILE" "$OVERRIDE_YAML" "$STATUS_LOG" "$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" 2>> "$LOG_FILE"
+ruby "$RUBY_SCRIPT" "$CONFIG_FILE" "$OVERRIDE_YAML" "$STATUS_LOG" "$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" "$SCKI_MAX_NODE_MULTIPLIER" 2>> "$LOG_FILE"
 RC=$?
 
 # 将 Ruby 的状态日志逐行回显到 OpenClash 日志

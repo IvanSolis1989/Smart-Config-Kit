@@ -38,7 +38,11 @@ const PRODUCTS = [
 function enProtected(src, kw) {
   if (src.includes('\\b' + kw + '\\b')) return true;
   const groups = src.match(/\\b\(\?:[^)]+\)\\b/g) || [];
-  return groups.some((g) => g.split(/[(?:|)]/).includes(kw));
+  if (groups.some((g) => g.split(/[(?:|)]/).includes(kw))) return true;
+  // Ruby \b treats adjacent Han characters as word characters; explicit ASCII
+  // boundaries match the JavaScript word-boundary behavior for English labels.
+  const asciiGroups = src.match(/\(\?<!\[A-Za-z0-9_\]\)\(\?:[^)]+\)\(\?!\[A-Za-z0-9_\]\)/g) || [];
+  return asciiGroups.some((g) => g.split(/[(?:|)]/).includes(kw));
 }
 
 let failures = 0;
@@ -70,7 +74,7 @@ if (failures > 0) {
   console.error(`\nFAIL #6 junk 关键词跨产物一致性：${failures} 处缺失/错误`);
   process.exit(1);
 }
-console.log(`PASS #6 junk 关键词跨产物一致性：${PRODUCTS.length} 产物 × (${CN.length} 中文 + ${EN.length} 英文\\b) 全部就位`);
+console.log(`PASS #6 junk 关键词跨产物一致性：${PRODUCTS.length} 产物 × (${CN.length} 中文 + ${EN.length} 英文边界) 全部就位`);
 console.log('  正例(应过滤): 免费节点 / 试用1天 / 应急入口 / Sign Up / Login Panel / Register Now / Help Center / FAQ');
 console.log('  负例(应保留): Signal(含 Sign 但有词边界保护) / 香港 IEPL x1 / 美国节点');
 console.log('  行为回归: 见 tools/validate-js-overwrites.js（fixture 含上述正/负例，对 3 JS 产物实跑 main() 断言）');

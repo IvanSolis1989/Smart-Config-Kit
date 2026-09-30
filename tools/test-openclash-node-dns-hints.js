@@ -422,7 +422,7 @@ function runTarget(target, ruby) {
   assert(source.includes(`SCKI_SUBSCRIPTION_ADAPTER_PROFILE="\${SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-${SUBSCRIPTION_ADAPTER_PROFILE_CONTRACT.default}}"`), `${target.id}: shell selects the profile-contract default locally`, failures);
   assert(/off\|policy\|adaptive/.test(source), `${target.id}: shell profile is constrained to the supported enum`, failures);
   assert(source.includes(`*) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${SUBSCRIPTION_ADAPTER_PROFILE_CONTRACT.default}" ;;`), `${target.id}: invalid shell profile falls back to the profile-contract default`, failures);
-  assert(/"\$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" 2>>/.test(source), `${target.id}: shell passes the trusted profile into the Ruby adapter`, failures);
+  assert(/"\$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" "\$SCKI_MAX_NODE_MULTIPLIER" 2>>/.test(source), `${target.id}: shell passes the trusted profile and local node multiplier into the Ruby adapter`, failures);
   const rubyProcessor = extractRubyProcessor(source, target.file);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-openclash-node-dns-'));
   try {

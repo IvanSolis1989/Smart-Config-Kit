@@ -1128,20 +1128,35 @@ function rubyOpenClashProbe(yamlText, rubyPath) {
 function rubyOpenClashRegionClassificationProbe(source, rubyPath) {
   const start = source.indexOf('REGIONS = {');
   const end = source.indexOf('\nbuckets =', start);
-  if (start === -1 || end === -1) {
+  const moduleBegin = '# >>> SCKI SUBSCRIPTION NODE FILTER: BEGIN';
+  const moduleEnd = '# <<< SCKI SUBSCRIPTION NODE FILTER: END';
+  const moduleStart = source.indexOf(moduleBegin);
+  const moduleFinish = source.indexOf(moduleEnd, moduleStart);
+  if (start === -1 || end === -1 || moduleStart === -1 || moduleFinish === -1) {
     throw new Error('OpenClash Ruby region-classification block not found');
   }
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-openclash-region-'));
+  const statusPath = path.join(tempDir, 'probe.status');
   const rubyScript = [
     'require "json"',
-    source.slice(start, end),
+    source.slice(moduleStart + moduleBegin.length, moduleFinish).trim(),
     'nodes = ' + JSON.stringify(LOWERCASE_NUMBERED_REGION_CASES.map((sample) => sample.name)),
+    'config = { "proxies" => nodes.map { |name| { "name" => name, "type" => "ss", "server" => "example.invalid", "port" => 443 } } }',
+    'override = { "proxy-groups" => [] }',
+    'ARGV.replace(["", "", "", "off", ""])',
+    'VERSION = "region-probe"',
+    'STATUS_LOG = ' + JSON.stringify(statusPath),
+    'def status(_msg); end',
+    'is_residential = ->(_name) { false }',
+    'module SckiSubscriptionAdapterProfiles; def self.resolve(_profile); "off"; end; end',
+    'module SckiSubscriptionAdapter; def self.capture_node_dns(_config, _servers, _profile); {}; end; end',
+    source.slice(start, end),
     'results = {}',
     'nodes.each { |name| results[name] = classify.call(name) }',
     'puts JSON.generate(results)',
   ].join('\n');
   // Windows Ruby can decode non-ASCII source passed through the -e argument
   // with the active console code page. Persist this Unicode-heavy probe as UTF-8.
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-openclash-region-'));
   const scriptPath = path.join(tempDir, 'region-probe.rb');
   fs.writeFileSync(scriptPath, '# encoding: UTF-8\n' + rubyScript, 'utf8');
   let result;

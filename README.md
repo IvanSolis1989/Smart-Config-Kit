@@ -5,6 +5,7 @@
 > - 🧭 同一 source graph 经 `MRS -> fused -> 原生产物` 生成各端配置，统一规则顺序与分流目标。
 > - 🎯 国内策略优先，关键域名、API 和本地工具按明确策略分流；各内核使用适合自身能力的规则格式。
 > - 🧩 22 个区域组 + 33 个业务组，提供 Smart / Normal 两种内核。
+> - 🧹 订阅覆写入口提供节点预检和可选倍率上限；参数、重名与链式代理边界见 [节点筛选指南](./docs/subscription-node-filter.md)。
 > - 🛡️ 分层 DoH 负责业务 DNS；支持订阅覆写的 Mihomo 入口只投影活动节点所需的 DNS 提示，静态端边界见 [DNS 指南](./docs/private-node-dns.md)。
 > - 🔄 GitHub Actions 自动重建、校验和发布产物，减少跨端配置漂移。
 >

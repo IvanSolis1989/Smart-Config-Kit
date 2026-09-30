@@ -59,6 +59,10 @@ jobs:
           node tools/validate-js-overwrites.js
           node tools/validate-process-name-direct.js
           node tools/validate-artifact-contracts.js --strict-ruby
+          node tools/sync-subscription-node-filter.js --check
+          node tools/sync-openclash-node-filter.js --check
+          node --test tools/tests/subscription-node-filter.test.js
+          node tools/test-openclash-node-filter.js
           node --test tools/tests/apply-mihomo-mrs-overrides.test.js tools/tests/domestic-route-regression.test.js tools/tests/egern-generation-manifest.test.js tools/tests/fused-rule-optimizer.test.js tools/tests/fused-artifact-performance.test.js tools/tests/generated-asset-url.test.js
           node tools/validate-generated-remote-asset-size.js
           node tools/test-info-node-filter.js

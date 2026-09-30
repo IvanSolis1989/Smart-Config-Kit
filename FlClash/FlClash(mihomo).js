@@ -1,8 +1,7 @@
 // FlClash 覆写脚本 — 标准 Mihomo 内核动态分流版
-// 版本：v6.0.14-flclash.11 (2026-09-29)
+// 版本：v6.0.14-flclash.12 (2026-09-30)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 151 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.14（规则 100% 等价；区域组为 url-test — FlClash 内核为标准 Mihomo，不支持 smart + LightGBM）
-// v6.0.14-flclash.11：为微信 HTTPDNS 两个精确域名增加前置直连例外，避免 BlockHttpDNS 规则拦截微信图片模块
 // 适用：FlClash >= v0.8.85（覆盖脚本功能自该版本引入）；其他使用标准 Mihomo 内核的客户端
 // 变更历史：见 `FlClash/CHANGELOG.md`
 //
@@ -36,26 +35,153 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.14-flclash.11'
+const VERSION = 'v6.0.14-flclash.12'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
 const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'
+// 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
+const SCKI_MAX_NODE_MULTIPLIER = null
 
 function log() {
   if (typeof console !== 'undefined' && console.log) console.log.apply(console, arguments)
 }
+
+// >>> SCKI SUBSCRIPTION NODE FILTER: BEGIN — generated from tools/runtime/subscription-node-filter.js; edit runtime then synchronize.
+// Shared browser-safe runtime. Embedded verbatim in the three JS overwrite adapters.
+var SckiSubscriptionNodeFilter = (function() {
+  'use strict'
+
+  var INFO_TEXT = ['导航网址', '距离下次重置', '剩余流量', '套餐到期', '网址导航', '官网', '订阅', '到期', '剩余', '重置', '免费', '试用', '应急', '已用流量', '到期时间', '下次重置']
+  var INFO_RE = /\b(?:USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Sign|Login|Register|Help|FAQ)\b/i
+  var DIALER_BUILTIN = ['DIRECT', 'REJECT', 'REJECT-DROP', 'PASS', 'COMPATIBLE']
+  var RESERVED_BUILTIN = DIALER_BUILTIN.concat(['GLOBAL'])
+  var NUMBER = '(?:[0-9]+(?:\\.[0-9]+)?)'
+  var LEFT = '(^|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
+  var RIGHT = '(?=$|[\\s|/\\(\\)\\[\\]{}【】（）,，;；:_·｜])'
+  // The delimiter excludes dots and hyphens so IPs, ports and negative values cannot look like rates.
+  var RATE_RE = new RegExp(LEFT + '(?:[xX×]\\s*(' + NUMBER + ')|(' + NUMBER + ')\\s*[xX×倍]|倍率\\s*(' + NUMBER + '))' + RIGHT, 'g')
+  var UNKNOWN_RATE_RE = new RegExp(LEFT + '(?:[xX×]\\s*(?:\\?|未知|unknown|nan|∞)|\\?\\s*[xX×倍]|倍率\\s*(?:\\?|未知|unknown|nan|∞))' + RIGHT, 'i')
+
+  function isInfoNode(name) {
+    if (typeof name !== 'string') return false
+    for (var i = 0; i < INFO_TEXT.length; i++) if (name.indexOf(INFO_TEXT[i]) !== -1) return true
+    return INFO_RE.test(name)
+  }
+
+  function multiplier(name) {
+    if (UNKNOWN_RATE_RE.test(name)) return null
+    RATE_RE.lastIndex = 0
+    var values = []
+    var match
+    while ((match = RATE_RE.exec(name)) !== null) {
+      var value = Number(match[2] || match[3] || match[4])
+      if (!Number.isFinite(value) || value <= 0) return null
+      values.push(value)
+    }
+    if (!values.length) return null
+    for (var i = 1; i < values.length; i++) if (values[i] !== values[0]) return null
+    return values[0]
+  }
+
+  function canonical(value, stack, depth) {
+    if (depth > 32) throw new Error('invalid-node-shape')
+    if (value === null || typeof value === 'string' || typeof value === 'boolean') return JSON.stringify(value)
+    if (typeof value === 'number' && Number.isFinite(value)) return JSON.stringify(value)
+    if (!value || typeof value !== 'object' || stack.indexOf(value) !== -1) throw new Error('invalid-node-shape')
+    stack.push(value)
+    var result
+    if (Array.isArray(value)) {
+      result = '[' + value.map(function(item) { return canonical(item, stack, depth + 1) }).join(',') + ']'
+    } else {
+      if (Object.prototype.toString.call(value) !== '[object Object]') throw new Error('invalid-node-shape')
+      var keys = Object.keys(value).sort()
+      result = '{' + keys.map(function(key) { return JSON.stringify(key) + ':' + canonical(value[key], stack, depth + 1) }).join(',') + '}'
+    }
+    stack.pop()
+    return result
+  }
+
+  function preflight(config, reservedNames, maxMultiplier) {
+    try {
+      var providers = config['proxy-providers']
+      if (providers !== undefined && providers !== null && (typeof providers !== 'object' || Array.isArray(providers) || Object.keys(providers).length > 0)) {
+        return { ok: false, reason: 'provider-input' }
+      }
+      if (maxMultiplier !== null && (typeof maxMultiplier !== 'number' || !Number.isFinite(maxMultiplier) || maxMultiplier <= 0)) {
+        return { ok: false, reason: 'invalid-multiplier-limit' }
+      }
+      if (!Array.isArray(config.proxies)) return { ok: false, reason: 'no-explicit-nodes' }
+      var reserved = Object.create(null)
+      RESERVED_BUILTIN.concat(reservedNames).forEach(function(name) { reserved[name] = true })
+      var seen = Object.create(null)
+      var unique = []
+      var duplicates = 0
+      for (var i = 0; i < config.proxies.length; i++) {
+        var proxy = config.proxies[i]
+        if (!proxy || Object.prototype.toString.call(proxy) !== '[object Object]' ||
+            typeof proxy.name !== 'string' || !proxy.name.trim() ||
+            typeof proxy.type !== 'string' || !proxy.type.trim() ||
+            (proxy.flow !== undefined && typeof proxy.flow !== 'string')) return { ok: false, reason: 'invalid-node-shape' }
+        if (reserved[proxy.name]) return { ok: false, reason: 'reserved-name' }
+        var fingerprint = canonical(proxy, [], 0)
+        if (Object.prototype.hasOwnProperty.call(seen, proxy.name)) {
+          if (seen[proxy.name] !== fingerprint) return { ok: false, reason: 'duplicate-name-conflict' }
+          duplicates++
+          continue
+        }
+        seen[proxy.name] = fingerprint
+        unique.push(proxy)
+      }
+      var limit = maxMultiplier
+      var kept = []
+      var removedInfo = 0
+      var removedRate = 0
+      for (var j = 0; j < unique.length; j++) {
+        var item = unique[j]
+        if (isInfoNode(item.name)) { removedInfo++; continue }
+        var rate = limit === null ? null : multiplier(item.name)
+        if (rate !== null && rate > limit) { removedRate++; continue }
+        kept.push(item)
+      }
+      var keptNames = Object.create(null)
+      kept.forEach(function(item) { keptNames[item.name] = true })
+      DIALER_BUILTIN.forEach(function(name) { keptNames[name] = true })
+      var dialerTargets = Object.create(null)
+      for (var k = 0; k < kept.length; k++) {
+        var dialer = kept[k]['dialer-proxy']
+        if (dialer !== undefined && (typeof dialer !== 'string' || !keptNames[dialer])) return { ok: false, reason: 'dialer-dependency' }
+        if (dialer !== undefined) dialerTargets[kept[k].name] = dialer
+      }
+      // Each node is marked once; iterative traversal avoids recursion limits on large subscriptions.
+      var dialerState = Object.create(null)
+      for (var n = 0; n < kept.length; n++) {
+        var cursor = kept[n].name
+        var path = []
+        while (cursor && dialerState[cursor] !== 2) {
+          if (dialerState[cursor] === 1) return { ok: false, reason: 'dialer-cycle' }
+          dialerState[cursor] = 1
+          path.push(cursor)
+          cursor = dialerTargets[cursor]
+        }
+        for (var p = 0; p < path.length; p++) dialerState[path[p]] = 2
+      }
+      return { ok: true, proxies: kept, duplicates: duplicates, removedInfo: removedInfo, removedRate: removedRate }
+    } catch (_) {
+      return { ok: false, reason: 'invalid-node-shape' }
+    }
+  }
+
+  return { isInfoNode: isInfoNode, multiplier: multiplier, preflight: preflight }
+})()
+// <<< SCKI SUBSCRIPTION NODE FILTER: END
 
 // ================================================================
 //  模块 A：节点过滤 / 家宽识别
 // ================================================================
 
 function isInfoNode(name) {
-  // v5.4.20 #6 借鉴 Proxy-override：补充 junk 关键词（免费/试用/应急 中文子串；Sign/Login/Register/Help/FAQ 英文用 \b 词边界，避免误伤 Signal 等合法节点）。不加「更新/地址」（误伤风险高）。
-  const infoPatterns = ['导航网址', '距离下次重置', '剩余流量', '套餐到期', '网址导航', '官网', '订阅', '到期', '剩余', '重置', '免费', '试用', '应急']
-  const infoRes = [/\b(?:USE|USED|TOTAL|EXPIRE|EMAIL)\b/i, /Panel|Channel|Author|剩余流量|已用流量|到期时间|下次重置/i, /\b(?:Sign|Login|Register|Help|FAQ)\b/i]
-  const s = String(name || '')
-  return infoPatterns.some(p => s.includes(p)) || infoRes.some(re => re.test(s))
+  return SckiSubscriptionNodeFilter.isInfoNode(name)
 }
 
 const RESIDENTIAL_PATTERNS = [
@@ -1257,7 +1383,16 @@ function sortProxyGroups(config) {
 function main(config) {
   try {
     if (!config || typeof config !== 'object') return config
-    if (!Array.isArray(config.proxies) || config.proxies.length === 0) return config
+    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
+    if (!nodePlan.ok) {
+      log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}; flatten in SubStore for provider subscriptions`)
+      return config
+    }
+    if (config.proxies.length === 0) return config
+    // Preflight is side-effect free; keep FlClash's source array reference when committing it.
+    config.proxies.splice(0, config.proxies.length)
+    for (var np = 0; np < nodePlan.proxies.length; np++) config.proxies.push(nodePlan.proxies[np])
+    log(`[${VERSION}] Node filter kept=${nodePlan.proxies.length} info=${nodePlan.removedInfo} multiplier=${nodePlan.removedRate} duplicate=${nodePlan.duplicates}`)
     log(`[${VERSION}] Start processing, ${config.proxies.length} proxies`)
     if (!Array.isArray(config['proxy-groups'])) config['proxy-groups'] = []
     if (!Array.isArray(config.rules)) config.rules = []
@@ -1276,7 +1411,8 @@ function main(config) {
     var homeJpkrNodes = c.HOME_JP.concat(c.HOME_KR)
     var homeApacNodes = c.HOME_HK.concat(c.HOME_TW, c.HOME_CN, c.HOME_JP, c.HOME_KR, c.HOME_SG, c.HOME_APAC_OTHER)
     var homeAmericasNodes = c.HOME_US.concat(c.HOME_AM)
-    upsertUrlTestGroup(config, SMART.GLOBAL, c.ALL)
+    if (c.ALL.length) upsertUrlTestGroup(config, SMART.GLOBAL, c.ALL)
+    else config['proxy-groups'].push({ name: SMART.GLOBAL, type: 'select', proxies: ['REJECT'] })
     if (c.HOME_ALL.length > 0) upsertUrlTestGroup(config, SMART.GLOBAL_HOME, c.HOME_ALL)
     // v5.2.8-normal.2: 全部/家宽区域统一空组不创建，避免静默回退污染家宽或地区语义
     //   （与 Smart 版同步修复。SMART.GLOBAL 始终存在兜底）
@@ -1304,6 +1440,7 @@ function main(config) {
     // 收集实际创建的区域组名（按 SMART 常量名匹配），过滤业务组的 proxy 引用
     var activeSmartNames = new Set(config['proxy-groups'].filter(function(g) { return g && g.type === 'url-test' }).map(function(g) { return g.name }))
     activeSmartNames.add('DIRECT'); activeSmartNames.add('REJECT')
+    activeSmartNames.add(SMART.GLOBAL)
     log(`[${VERSION}] Active url-test region groups: ${[...activeSmartNames].filter(function(n) { return n !== 'DIRECT' && n !== 'REJECT' }).join(', ')}`)
 
     injectBusinessGroups(config, activeSmartNames)

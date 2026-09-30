@@ -5,6 +5,13 @@
 
 ---
 
+## v6.0.14-flclash.12 (2026-09-30)
+
+- FILTER：同步 Clash Party 的共享节点预检和默认关闭的倍率上限，保守解析显式标签，未知/歧义倍率保留；修复公告英文词对子串节点名的误匹配。
+- GUARD：异常字段、重名歧义、名称冲突、provider 输入与筛选产生的链式依赖断裂在写入前拒绝；无可用节点时显式 `REJECT`。原地更新数组，保留 FlClash 桥接引用。
+- SCOPE：源图、融合规则、组名和全局 DNS 保持 v6.0.14。静态端无同构 JS 输入处理，完整理由见 [逐端研究矩阵](../docs/research/2026-09-30-routing-script-research.md)。
+- REFERENCE：复核官方 v0.8.98 的脚本后 App patch 顺序，更新参考与参数教程；新增 VM 回归和嵌入运行时一致性检查。
+
 ## v6.0.14-flclash.11 (2026-09-29)
 
 - FIX：微信 HTTPDNS 两个精确域名命中首段 DIRECT 规则，避免 BlockHttpDNS 拦截微信图片模块的解析请求。

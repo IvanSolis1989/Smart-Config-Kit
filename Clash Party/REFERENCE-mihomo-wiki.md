@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 更新于 2026-09-30（上次核对 2026-07-25）：复核 [Mihomo v1.19.31](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.31) 与 [代理组字段](https://wiki.metacubex.one/config/proxy-groups/)。`use` 引入 provider；`include-all-proxies` 只覆盖显式节点；组内 `url` 不代替 provider 的健康检查。空组的 `empty-fallback` 默认是 `COMPATIBLE`，节点筛选结果为空时使用已有内置策略 `REJECT` 作为显式成员。本次预检/倍率解析仅在 JS 执行，不引入新内核字段；最低版本保持原要求。[DNS 字段](https://wiki.metacubex.one/config/dns/) 的节点解析与业务解析边界保持原设计。
+
 > 抓取自 https://wiki.metacubex.one/ (2026-04-26)
 > 更新于 2026-04-30：最新稳定版 v1.19.24（2026-04-20）。v1.19.17 已移除 relay 组类型（改用 dialer-proxy）——本仓库未使用 relay，无影响。Smart/LightGBM 字段无变更。
 > 更新于 2026-05-30：批 A #5 落地——WebFetch `wiki/config/dns` + WebSearch 确认 `direct-nameserver-follow-policy` 语义：默认 `false`（忽略 nameserver-policy），`true` 时 direct 出口域名解析也遵守 nameserver-policy，仅当 direct-nameserver 非空时生效；官方 use case 即「direct 用国内 DoH + policy 指定域名走指定 DNS」。与 `direct-nameserver` 同字段族（耦合添加），本仓库已使用 direct-nameserver，故置 true 不抬高最低内核要求。

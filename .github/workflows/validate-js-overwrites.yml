@@ -8,6 +8,8 @@ on:
       - 'tools/runtime/**'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/sync-node-dns-hints-adapters.js'
+      - 'tools/sync-subscription-node-filter.js'
+      - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
       - '.github/workflows/validate-js-overwrites.yml'
   push:
@@ -18,6 +20,8 @@ on:
       - 'tools/runtime/**'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/sync-node-dns-hints-adapters.js'
+      - 'tools/sync-subscription-node-filter.js'
+      - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
       - '.github/workflows/validate-js-overwrites.yml'
   workflow_dispatch:
@@ -44,3 +48,8 @@ jobs:
 
       - name: Check synchronized Node-DNS runtime adapters
         run: node tools/sync-node-dns-hints-adapters.js --check
+
+      - name: Check synchronized node filter runtime and regressions
+        run: |
+          node tools/sync-subscription-node-filter.js --check
+          node --test tools/tests/subscription-node-filter.test.js

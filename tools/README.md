@@ -5,6 +5,28 @@
 This directory contains repository-maintainer generators and checks. Generator
 commands rewrite published client artifacts; validator commands are read-only.
 
+## Subscription node filters
+
+The three JS overwrites and two OpenClash Ruby processors embed the canonical
+`tools/runtime/subscription-node-filter.js` / `.rb` runtimes. After editing a
+runtime, synchronize its client copies; use `--check` for a read-only check:
+
+```bash
+node tools/sync-subscription-node-filter.js
+node tools/sync-openclash-node-filter.js
+node tools/sync-subscription-node-filter.js --check
+node tools/sync-openclash-node-filter.js --check
+node --test tools/tests/subscription-node-filter.test.js
+node tools/test-openclash-node-filter.js
+```
+
+The regressions execute the published JS `main()` and extracted Ruby heredocs,
+including malformed fields, name ambiguity, provider-only input, dialer
+dependencies, empty pools and conservative multiplier parsing. These filters
+do not change the source routing graph or rebuild remote rule assets. User
+parameters and input boundaries are documented in the
+[node filter guide](../docs/subscription-node-filter.md).
+
 ## Generated client artifacts
 
 Run:

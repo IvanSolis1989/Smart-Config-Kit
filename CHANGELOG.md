@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.14 — 订阅节点预检与可选倍率筛选 (2026-09-30)
+
+- 研究 MyClash 等分流仓库后，统一三个 JS 与两个 OpenClash 脚本的预检、默认关闭的倍率上限及空节点处理，修复 OpenClash 对正常线路的误过滤。规则权威源与融合资产保持 v6.0.14；逐端适用性及源码取舍见 [研究报告](./docs/research/2026-09-30-routing-script-research.md)。
+- 详情：[Clash Party](./Clash%20Party/CHANGELOG.md)、[FlClash](./FlClash/CHANGELOG.md)、[OpenClash](./OpenClash/CHANGELOG.md)；使用方法见 [节点筛选指南](./docs/subscription-node-filter.md)。
+
 ## v6.0.14 — 微信 HTTPDNS 精确直连例外 (2026-09-29)
 
 - FIX：将 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 放入最前置 DIRECT 补充规则，避免命中 BlockHttpDNS 拒绝规则；其他 HTTPDNS 条目仍保持现有拦截策略。
