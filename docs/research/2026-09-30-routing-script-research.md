@@ -2,6 +2,8 @@
 
 **研究快照：2026-09-30（UTC）**
 
+**补充横向研究：** [GitHub 按 star 排序搜索及九个直接脚本的比较](2026-09-30-github-routing-script-comparison.md)，附 [八组查询的完整分页证据](2026-09-30-github-search-evidence.json)。补充报告单独区分运行脚本、规则数据、模板和管理器，新增 Repcz、Perfect-Rules、selfproxy、HotKids 的源码及 VM 输入比较；本报告保留首轮实施依据与验收记录。
+
 **范围：** 高星规则仓库、Mihomo 覆写脚本、OpenClash 配置及订阅管理工具；目标是为本仓库现有节点处理逻辑提供有边界的改进依据。
 
 **本地基线：** `rulesets/source/routing-graph.js` v6.0.14；改动以 `main` 提交 `928eb7028d31883000921b2904ed952d22b30b07` 为基线，实施于本地 `codex/research-routing-overwrites` 分支。
@@ -29,7 +31,7 @@
 | [powerfullz/override-rules](https://github.com/powerfullz/override-rules) | TypeScript Mihomo 覆写/规则分类 | 589 | 2026-09-16 15:34 | `f41f44b5b6ce54679dad0f981c82159b4f08f2e5` | MIT | 有显式 `proxies` 数组检查和国家/低成本分类；但新对象投影只保留 `proxies`/`hosts` 等，会丢掉 `proxy-providers`，对 mixed 输入的兼容不可直接假设。可借鉴失败前校验，不移植对象重建。代表：[数组校验和字段读取](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/main.ts#L69-L79)、[对象输出](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/main.ts#L124-L151)、[节点分类阈值](https://github.com/powerfullz/override-rules/blob/f41f44b5b6ce54679dad0f981c82159b4f08f2e5/src/node_parser.ts#L69-L108)。 |
 | [xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script) | Clash Verge Rev/Mihomo JS 辅助脚本 | 819 | 2026-08-22 04:38 | `66d3ae9937442f6e8ba97d3cf913f8da6b97966f` | API 未声明 License | 有 Provider 存在性检查及节点后处理，可对照订阅对象边界；相关源码会直接覆盖 DNS，不能整段复制。代表：[Provider 检查及 DNS](https://github.com/xiaolin-007/clash-verge-script/blob/66d3ae9937442f6e8ba97d3cf913f8da6b97966f/%E6%89%A9%E5%B1%95%E8%84%9A%E6%9C%AC-%E4%BC%98%E5%8C%96%E7%89%88.js#L235-L253)、[节点后处理](https://github.com/xiaolin-007/clash-verge-script/blob/66d3ae9937442f6e8ba97d3cf913f8da6b97966f/%E6%89%A9%E5%B1%95%E8%84%9A%E6%9C%AC-%E4%BC%98%E5%8C%96%E7%89%88.js#L391-L399)。 |
 
-**搜索与候选筛选：** GitHub repository 搜索使用 `mihomo script stars:>100 fork:false`、`mihomo 覆写 stars:>100 fork:false`、`clash-script stars:>50 fork:false`、`surge rules stars:>1000 fork:false`。候选需有可读源码、非本仓库 fork，且能分到规则数据、运行时覆写或管理/生成器类别；主表精读十个样本，补充五个管理器及生成器样本；不宣称全 GitHub 完整排名。首轮候选还包括 [DustinWin/ruleset_geodata](https://github.com/DustinWin/ruleset_geodata)（当日 API：1,416★、GPL-3.0、main SHA `ca831ae82b6a0fbc4c757ed45fcda573bba0610d`、`pushed_at` 2026-09-29 22:56 UTC；规则与 geodata 构建库，作为规则数据样本列于补充表）、[ShellCrash](https://github.com/juewuy/ShellCrash)（13,321★、GPL-3.0；Provider 管理器而非覆写函数）以及 [dahaha-365/YaNet](https://github.com/dahaha-365/YaNet)（671★、BSD-3-Clause；有运行脚本但倍率处理为跳过组分类，规则节点仍保留，故不采纳为本轮过滤语义）。五个补充候选为 [SukkaW/Surge](https://github.com/SukkaW/Surge)、[powerfullz/override-rules](https://github.com/powerfullz/override-rules)、[xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script)、[mihomo-party-org/override-hub](https://github.com/mihomo-party-org/override-hub) 和 [surgioproject/surgio](https://github.com/surgioproject/surgio)，均已在表格/下文说明其类别和不采纳边界。表中星数不代表脚本质量或兼容保证。
+**首轮搜索与候选筛选：** 使用过 GitHub repository 查询 `mihomo script stars:>100 fork:false`、`mihomo 覆写 stars:>100 fork:false`、`clash-script stars:>50 fork:false`、`surge rules stars:>1000 fork:false`；当时按关联性精读十个主样本和五个补充样本，未提供完整 star 排序及分页证据。十五个项目中只有五个直接配置对象脚本，其他属于规则、模板或管理/生成器；该覆盖不足已由上方补充报告纠正。补充报告保留检索请求与逐条结果，另读四个直接脚本及其他模板/工具，不宣称全 GitHub 无遗漏排名。YaNet 在首轮初次取数为 671★、后续复核为 670★，表中采用复核值；星数不代表脚本质量或兼容保证。
 
 **许可边界：** 本地改动仅重新实现通用校验和节点筛选设计，不复制 GPL-2.0、GPL-3.0、AGPL-3.0 或 CC-BY-SA 项目的实现代码；MIT/BSD 样本同样没有代码移植。本次不把第三方规则条目纳入 source graph。
 

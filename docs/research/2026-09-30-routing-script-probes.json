@@ -1,0 +1,823 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-09-30",
+  "scope": "Node VM configuration-transform probes only. Synthetic inputs; no Provider download, DNS lookup, actual Mihomo startup, or network traffic.",
+  "case_scope": "HK-only, empty proxies, Provider-only, duplicate same names, missing dialer; selfproxy also malformed proxies. The upstream input contract may not promise support for all these cases.",
+  "batches": [
+    {
+      "repository": "n0de-sudo/Perfect-Rules",
+      "commit": "0a31165c1f70f2d548b49be5d1bb83a45ee06205",
+      "source_files": [
+        "Clash/Clash_mi.js",
+        "Clash/FlClash.js"
+      ],
+      "results": [
+        {
+          "name": "perfect_Clash_Clash_mi.js",
+          "kind": "hkOnly",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "一键代理"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_Clash_mi.js",
+          "kind": "emptyProxies",
+          "groups": 14,
+          "proxyNames": [],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "一键代理"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_Clash_mi.js",
+          "kind": "providerOnly",
+          "groups": 14,
+          "proxyNames": [],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "一键代理"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_Clash_mi.js",
+          "kind": "duplicate",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1",
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "一键代理"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1",
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_Clash_mi.js",
+          "kind": "missingDialer",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "dialer": "missing-parent",
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "一键代理"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_FlClash.js",
+          "kind": "hkOnly",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_FlClash.js",
+          "kind": "emptyProxies",
+          "groups": 14,
+          "proxyNames": [],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_FlClash.js",
+          "kind": "providerOnly",
+          "groups": 14,
+          "proxyNames": [],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_FlClash.js",
+          "kind": "duplicate",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1",
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1",
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        },
+        {
+          "name": "perfect_Clash_FlClash.js",
+          "kind": "missingDialer",
+          "groups": 15,
+          "proxyNames": [
+            "香港 HK 1"
+          ],
+          "providerUseRefs": [],
+          "dialer": "missing-parent",
+          "region": [
+            {
+              "name": "网络检测",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            },
+            {
+              "name": "香港",
+              "type": "url-test",
+              "proxies": [
+                "香港 HK 1"
+              ]
+            },
+            {
+              "name": "一键代理",
+              "type": "select",
+              "proxies": [
+                "香港",
+                "国内直连"
+              ]
+            }
+          ],
+          "dnsWritten": true
+        }
+      ]
+    },
+    {
+      "repository": "yyhhyyyyyy/selfproxy",
+      "commit": "06a98015e9803206fd72ee2b4f457f338bce4483",
+      "source_files": [
+        "Mihomo/Extension_Script/script.js"
+      ],
+      "results": [
+        {
+          "label": "one-hk",
+          "proxies": 1,
+          "compatibleGroups": [
+            "TW - 自动选择",
+            "SG - 自动选择",
+            "JP - 自动选择",
+            "KR - 自动选择",
+            "US - 自动选择",
+            "UK - 自动选择",
+            "FR - 自动选择",
+            "DE - 自动选择",
+            "其它 - 自动选择",
+            "JP - 手动选择",
+            "KR - 手动选择",
+            "SG - 手动选择",
+            "US - 手动选择",
+            "UK - 手动选择",
+            "FR - 手动选择",
+            "DE - 手动选择",
+            "TW - 手动选择"
+          ],
+          "duplicateGlobal": [
+            "HK IPLC 01"
+          ],
+          "dnsWritten": true,
+          "groups": 28
+        },
+        {
+          "label": "empty",
+          "proxies": 0,
+          "compatibleGroups": [
+            "HK - 自动选择",
+            "TW - 自动选择",
+            "SG - 自动选择",
+            "JP - 自动选择",
+            "KR - 自动选择",
+            "US - 自动选择",
+            "UK - 自动选择",
+            "FR - 自动选择",
+            "DE - 自动选择",
+            "其它 - 自动选择",
+            "HK - 手动选择",
+            "JP - 手动选择",
+            "KR - 手动选择",
+            "SG - 手动选择",
+            "US - 手动选择",
+            "UK - 手动选择",
+            "FR - 手动选择",
+            "DE - 手动选择",
+            "TW - 手动选择"
+          ],
+          "duplicateGlobal": [],
+          "dnsWritten": true,
+          "groups": 28
+        },
+        {
+          "label": "malformed",
+          "error": "params.proxies.map is not a function",
+          "dnsWritten": true
+        },
+        {
+          "label": "duplicate",
+          "proxies": 2,
+          "compatibleGroups": [
+            "TW - 自动选择",
+            "SG - 自动选择",
+            "JP - 自动选择",
+            "KR - 自动选择",
+            "US - 自动选择",
+            "UK - 自动选择",
+            "FR - 自动选择",
+            "DE - 自动选择",
+            "其它 - 自动选择",
+            "JP - 手动选择",
+            "KR - 手动选择",
+            "SG - 手动选择",
+            "US - 手动选择",
+            "UK - 手动选择",
+            "FR - 手动选择",
+            "DE - 手动选择",
+            "TW - 手动选择"
+          ],
+          "duplicateGlobal": [
+            "HK",
+            "HK"
+          ],
+          "dnsWritten": true,
+          "groups": 28
+        },
+        {
+          "label": "dangling-dialer",
+          "proxies": 1,
+          "compatibleGroups": [
+            "TW - 自动选择",
+            "SG - 自动选择",
+            "JP - 自动选择",
+            "KR - 自动选择",
+            "US - 自动选择",
+            "UK - 自动选择",
+            "FR - 自动选择",
+            "DE - 自动选择",
+            "其它 - 自动选择",
+            "JP - 手动选择",
+            "KR - 手动选择",
+            "SG - 手动选择",
+            "US - 手动选择",
+            "UK - 手动选择",
+            "FR - 手动选择",
+            "DE - 手动选择",
+            "TW - 手动选择"
+          ],
+          "duplicateGlobal": [
+            "HK"
+          ],
+          "dialer": "missing",
+          "dnsWritten": true,
+          "groups": 28
+        },
+        {
+          "label": "providers-only",
+          "compatibleGroups": [],
+          "dnsWritten": false,
+          "groups": 0
+        }
+      ]
+    },
+    {
+      "repository": "Repcz/Tool",
+      "commit": "835041891c7cad2ee7edd22ede12197b77620fba",
+      "source_files": [
+        "mihomo/Client/Override/Override.js"
+      ],
+      "results": [
+        {
+          "file": "Repcz-Override.js",
+          "label": "hk",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 17,
+          "hk": {
+            "includeAll": true
+          },
+          "server": null,
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://dns.alidns.com/dns-query",
+              "https://doh.pub/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "Repcz-Override.js",
+          "label": "empty",
+          "error": "配置文件中未找到任何代理",
+          "inputChanged": false,
+          "returnedSame": false,
+          "groupCount": 0,
+          "hk": null,
+          "server": null,
+          "dns": null,
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "Repcz-Override.js",
+          "label": "provider",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 0,
+          "groupCount": 17,
+          "hk": {
+            "includeAll": true
+          },
+          "server": null,
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://dns.alidns.com/dns-query",
+              "https://doh.pub/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "Repcz-Override.js",
+          "label": "duplicate",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 2,
+          "groupCount": 17,
+          "hk": {
+            "includeAll": true
+          },
+          "server": null,
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://dns.alidns.com/dns-query",
+              "https://doh.pub/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "Repcz-Override.js",
+          "label": "dangling",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 17,
+          "hk": {
+            "includeAll": true
+          },
+          "server": null,
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://dns.alidns.com/dns-query",
+              "https://doh.pub/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        }
+      ]
+    },
+    {
+      "repository": "HotKids/Rules",
+      "commit": "b8baf8424feda354d2079d151f868989cd3c44fa",
+      "source_files": [
+        "Clash/Script/Script.js",
+        "Clash/Script/MyScript.js"
+      ],
+      "results": [
+        {
+          "file": "HotKids-Script.js",
+          "label": "hk",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 23,
+          "hk": {
+            "proxies": [
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "server": {
+            "proxies": [
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query",
+              "https://private.example/dns-query"
+            ],
+            "proxy-server-nameserver-policy": {
+              "node.example": [
+                "https://private.example/dns-query"
+              ]
+            }
+          },
+          "host": "203.0.113.1",
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-Script.js",
+          "label": "empty",
+          "error": "未找到任何代理节点，请先绑定含有效节点的订阅（如 https://sub.hotkids.me）再启用本脚本",
+          "inputChanged": false,
+          "returnedSame": false,
+          "groupCount": 0,
+          "hk": null,
+          "server": null,
+          "dns": null,
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-Script.js",
+          "label": "provider",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 0,
+          "groupCount": 23,
+          "hk": {
+            "includeAllProviders": true
+          },
+          "server": {
+            "includeAllProviders": true
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-Script.js",
+          "label": "duplicate",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 2,
+          "groupCount": 23,
+          "hk": {
+            "proxies": [
+              "HK 01",
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "server": {
+            "proxies": [
+              "HK 01",
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-Script.js",
+          "label": "dangling",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 23,
+          "hk": {
+            "proxies": [
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "server": {
+            "proxies": [
+              "HK 01"
+            ],
+            "includeAllProviders": true
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-MyScript.js",
+          "label": "hk",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 29,
+          "hk": {
+            "proxies": [
+              "HK 01"
+            ]
+          },
+          "server": {
+            "proxies": [
+              "HK 01"
+            ]
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query",
+              "https://private.example/dns-query"
+            ],
+            "proxy-server-nameserver-policy": {
+              "node.example": [
+                "https://private.example/dns-query"
+              ]
+            }
+          },
+          "host": "203.0.113.1",
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-MyScript.js",
+          "label": "empty",
+          "error": "未找到任何代理节点，请先绑定含有效节点的订阅（如 https://sub.hotkids.me）再启用本脚本",
+          "inputChanged": false,
+          "returnedSame": false,
+          "groupCount": 0,
+          "hk": null,
+          "server": null,
+          "dns": null,
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-MyScript.js",
+          "label": "provider",
+          "error": "未找到任何代理节点，请先绑定含有效节点的订阅（如 https://sub.hotkids.me）再启用本脚本",
+          "inputChanged": false,
+          "returnedSame": false,
+          "groupCount": 0,
+          "hk": null,
+          "server": null,
+          "dns": null,
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-MyScript.js",
+          "label": "duplicate",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 2,
+          "groupCount": 29,
+          "hk": {
+            "proxies": [
+              "HK 01",
+              "HK 01"
+            ]
+          },
+          "server": {
+            "proxies": [
+              "HK 01",
+              "HK 01"
+            ]
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        },
+        {
+          "file": "HotKids-MyScript.js",
+          "label": "dangling",
+          "error": null,
+          "inputChanged": true,
+          "returnedSame": true,
+          "nodeCount": 1,
+          "groupCount": 29,
+          "hk": {
+            "proxies": [
+              "HK 01"
+            ]
+          },
+          "server": {
+            "proxies": [
+              "HK 01"
+            ]
+          },
+          "dns": {
+            "proxy-server-nameserver": [
+              "https://doh.pub/dns-query",
+              "https://dns.alidns.com/dns-query"
+            ]
+          },
+          "host": null,
+          "missingStaticRefs": []
+        }
+      ]
+    }
+  ]
+}

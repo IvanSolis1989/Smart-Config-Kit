@@ -1,0 +1,2598 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-09-30",
+  "source": "GitHub REST GET /search/repositories",
+  "scope": "Repository search candidates; hits are not all routing scripts and are not all source-reviewed. Results exclude forks; queries 1-7 exclude archived repositories.",
+  "ranking_scope": "Stars descending within each recorded query, not a complete ranking of all GitHub routing repositories.",
+  "query_count": 8,
+  "page_count": 11,
+  "match_count": 482,
+  "unique_repository_count": 377,
+  "all_returned_pages_complete": true,
+  "all_matching_pages_fetched": true,
+  "queries": [
+    {
+      "id": 0,
+      "query": "clash script in:name,description stars:>=100 fork:false",
+      "total_count": 8,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=clash%20script%20in%3Aname%2Cdescription%20stars%3A%3E%3D100%20fork%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:12:41.3220222Z",
+          "incomplete_results": false,
+          "returned_count": 8
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 2,
+          "repository": "uday-khan/Termux",
+          "stars": 442
+        },
+        {
+          "rank": 3,
+          "repository": "dishao123/rules_script",
+          "stars": 328
+        },
+        {
+          "rank": 4,
+          "repository": "Accademia/Additional_Rule_For_Clash",
+          "stars": 324
+        },
+        {
+          "rank": 5,
+          "repository": "Rizalcahdemak/akun-termux",
+          "stars": 191
+        },
+        {
+          "rank": 6,
+          "repository": "dqzboy/Redmi-AX6000",
+          "stars": 189
+        },
+        {
+          "rank": 7,
+          "repository": "zall-4RT/kumpulan-code-termuxs-lenkap",
+          "stars": 105
+        },
+        {
+          "rank": 8,
+          "repository": "douglarek/mihomo-openwrt",
+          "stars": 101
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "query": "mihomo script in:name,description,readme stars:>=100 fork:false archived:false",
+      "total_count": 137,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=mihomo%20script%20in%3Aname%2Cdescription%2Creadme%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:40.3128442Z",
+          "incomplete_results": false,
+          "returned_count": 100
+        },
+        {
+          "page": 2,
+          "url": "https://api.github.com/search/repositories?q=mihomo%20script%20in%3Aname%2Cdescription%2Creadme%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=2",
+          "captured_at": "2026-09-30T07:15:19.319365Z",
+          "incomplete_results": false,
+          "returned_count": 37
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "clash-verge-rev/clash-verge-rev",
+          "stars": 148392
+        },
+        {
+          "rank": 2,
+          "repository": "jaywcjlove/awesome-mac",
+          "stars": 115149
+        },
+        {
+          "rank": 3,
+          "repository": "rust-unofficial/awesome-rust",
+          "stars": 59609
+        },
+        {
+          "rank": 4,
+          "repository": "XTLS/Xray-core",
+          "stars": 41866
+        },
+        {
+          "rank": 5,
+          "repository": "bia-pain-bache/BPB-Worker-Panel",
+          "stars": 13565
+        },
+        {
+          "rank": 6,
+          "repository": "juewuy/ShellCrash",
+          "stars": 13320
+        },
+        {
+          "rank": 7,
+          "repository": "privacy-protection-tools/anti-AD",
+          "stars": 10806
+        },
+        {
+          "rank": 8,
+          "repository": "sub-store-org/Sub-Store",
+          "stars": 10580
+        },
+        {
+          "rank": 9,
+          "repository": "igareck/vpn-configs-for-russia",
+          "stars": 8985
+        },
+        {
+          "rank": 10,
+          "repository": "kenzok8/openwrt-packages",
+          "stars": 7200
+        },
+        {
+          "rank": 11,
+          "repository": "Aethersailor/Custom_OpenClash_Rules",
+          "stars": 6566
+        },
+        {
+          "rank": 12,
+          "repository": "wnlen/clash-for-linux",
+          "stars": 6079
+        },
+        {
+          "rank": 13,
+          "repository": "0xNyk/awesome-hermes-agent",
+          "stars": 5768
+        },
+        {
+          "rank": 14,
+          "repository": "fscarmen/sing-box",
+          "stars": 5743
+        },
+        {
+          "rank": 15,
+          "repository": "nikkinikki-org/OpenWrt-nikki",
+          "stars": 5316
+        },
+        {
+          "rank": 16,
+          "repository": "MetaCubeX/metacubexd",
+          "stars": 4440
+        },
+        {
+          "rank": 17,
+          "repository": "foru17/neko-master",
+          "stars": 4087
+        },
+        {
+          "rank": 18,
+          "repository": "Cats-Team/AdRules",
+          "stars": 3645
+        },
+        {
+          "rank": 19,
+          "repository": "dongyubin/Free-AppleId-Serve",
+          "stars": 3515
+        },
+        {
+          "rank": 20,
+          "repository": "imzyb/MiSub",
+          "stars": 2534
+        },
+        {
+          "rank": 21,
+          "repository": "black-ant/Ant-Browser",
+          "stars": 1930
+        },
+        {
+          "rank": 22,
+          "repository": "CHIZI-0618/box4magisk",
+          "stars": 1916
+        },
+        {
+          "rank": 23,
+          "repository": "uhub/awesome-go",
+          "stars": 1829
+        },
+        {
+          "rank": 24,
+          "repository": "ibigbug/clash-rs",
+          "stars": 1732
+        },
+        {
+          "rank": 25,
+          "repository": "jaywcjlove/awesome-swift-macos-apps",
+          "stars": 1698
+        },
+        {
+          "rank": 26,
+          "repository": "ZeroDeng01/sublinkPro",
+          "stars": 1656
+        },
+        {
+          "rank": 27,
+          "repository": "asz798838958/aBaiFreeGPT",
+          "stars": 1486
+        },
+        {
+          "rank": 28,
+          "repository": "kenzok8/small",
+          "stars": 1463
+        },
+        {
+          "rank": 29,
+          "repository": "millylee/anyrouter-check-in",
+          "stars": 1404
+        },
+        {
+          "rank": 30,
+          "repository": "taielab/awesome-hacking-lists",
+          "stars": 1391
+        },
+        {
+          "rank": 31,
+          "repository": "NiREvil/vless",
+          "stars": 1338
+        },
+        {
+          "rank": 32,
+          "repository": "Corvus-Malus/XKeen",
+          "stars": 1334
+        },
+        {
+          "rank": 33,
+          "repository": "GFW4Fun/x-ui-pro",
+          "stars": 1311
+        },
+        {
+          "rank": 34,
+          "repository": "uhub/awesome-python",
+          "stars": 1192
+        },
+        {
+          "rank": 35,
+          "repository": "Kindness-Kismet/stelliberty",
+          "stars": 1141
+        },
+        {
+          "rank": 36,
+          "repository": "byJoey/warp-masque-actions",
+          "stars": 995
+        },
+        {
+          "rank": 37,
+          "repository": "uhub/awesome-c-sharp",
+          "stars": 932
+        },
+        {
+          "rank": 38,
+          "repository": "lij768423-svg/grok-register-panel",
+          "stars": 912
+        },
+        {
+          "rank": 39,
+          "repository": "AIsouler/MyClash",
+          "stars": 897
+        },
+        {
+          "rank": 40,
+          "repository": "xinggaoya/sing-box-windows",
+          "stars": 887
+        },
+        {
+          "rank": 41,
+          "repository": "zn0wii/satelite-proxy",
+          "stars": 868
+        },
+        {
+          "rank": 42,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 43,
+          "repository": "ClashX-Pro/ClashX",
+          "stars": 784
+        },
+        {
+          "rank": 44,
+          "repository": "conversun/fnos-apps",
+          "stars": 760
+        },
+        {
+          "rank": 45,
+          "repository": "uhub/awesome-lua",
+          "stars": 718
+        },
+        {
+          "rank": 46,
+          "repository": "Juwan-Hwang/Zephyr",
+          "stars": 716
+        },
+        {
+          "rank": 47,
+          "repository": "JohanChane/clashtui",
+          "stars": 689
+        },
+        {
+          "rank": 48,
+          "repository": "SunBK201/UA3F",
+          "stars": 659
+        },
+        {
+          "rank": 49,
+          "repository": "maguowei/awesome-stars",
+          "stars": 651
+        },
+        {
+          "rank": 50,
+          "repository": "QuixoticHeart/rule-set",
+          "stars": 647
+        },
+        {
+          "rank": 51,
+          "repository": "0xRadikal/Free-v2ray-Configs",
+          "stars": 644
+        },
+        {
+          "rank": 52,
+          "repository": "uhub/awesome-shell",
+          "stars": 637
+        },
+        {
+          "rank": 53,
+          "repository": "aorumbayev/awesome-omarchy",
+          "stars": 623
+        },
+        {
+          "rank": 54,
+          "repository": "Lanlan13-14/Rules",
+          "stars": 575
+        },
+        {
+          "rank": 55,
+          "repository": "mihomo-party-org/override-hub",
+          "stars": 572
+        },
+        {
+          "rank": 56,
+          "repository": "liandu2024/AnGe-ClashBoard",
+          "stars": 565
+        },
+        {
+          "rank": 57,
+          "repository": "yyhhyyyyyy/selfproxy",
+          "stars": 545
+        },
+        {
+          "rank": 58,
+          "repository": "halfwaystudent/douyin-sparkflow",
+          "stars": 521
+        },
+        {
+          "rank": 59,
+          "repository": "peiyizhi0724/ChatGpt-Image-Studio",
+          "stars": 512
+        },
+        {
+          "rank": 60,
+          "repository": "VPSDance/ai-proxy-rules",
+          "stars": 478
+        },
+        {
+          "rank": 61,
+          "repository": "HotKids/Rules",
+          "stars": 474
+        },
+        {
+          "rank": 62,
+          "repository": "vernette/warpscout",
+          "stars": 461
+        },
+        {
+          "rank": 63,
+          "repository": "gangz1o/clash4docker",
+          "stars": 419
+        },
+        {
+          "rank": 64,
+          "repository": "bojieli/queqiao",
+          "stars": 411
+        },
+        {
+          "rank": 65,
+          "repository": "SaladDay/clash-for-lab",
+          "stars": 410
+        },
+        {
+          "rank": 66,
+          "repository": "SUDOKU-ASCII/sudoku",
+          "stars": 407
+        },
+        {
+          "rank": 67,
+          "repository": "chenx-dust/DeckyClash",
+          "stars": 390
+        },
+        {
+          "rank": 68,
+          "repository": "eggbrid2/mobileClaw",
+          "stars": 379
+        },
+        {
+          "rank": 69,
+          "repository": "IvanSolis1989/Smart-Config-Kit",
+          "stars": 366
+        },
+        {
+          "rank": 70,
+          "repository": "funny-vibes/agent-vibes",
+          "stars": 360
+        },
+        {
+          "rank": 71,
+          "repository": "Akiyamov/xray-vps-setup",
+          "stars": 359
+        },
+        {
+          "rank": 72,
+          "repository": "Dominic789654/awesome-deepseek-harness",
+          "stars": 357
+        },
+        {
+          "rank": 73,
+          "repository": "Vadim-Khristenko/Any-Tech-ARCHITECT",
+          "stars": 355
+        },
+        {
+          "rank": 74,
+          "repository": "roseforljh/KunBox",
+          "stars": 350
+        },
+        {
+          "rank": 75,
+          "repository": "zerolabnet/SSClash",
+          "stars": 336
+        },
+        {
+          "rank": 76,
+          "repository": "Accademia/Clash_Configuration_Template",
+          "stars": 329
+        },
+        {
+          "rank": 77,
+          "repository": "n0de-sudo/Cloudflare-Tools",
+          "stars": 328
+        },
+        {
+          "rank": 78,
+          "repository": "kenzok8/openwrt-clashoo",
+          "stars": 325
+        },
+        {
+          "rank": 79,
+          "repository": "lij768423-svg/grok2api-egress-enhancements",
+          "stars": 318
+        },
+        {
+          "rank": 80,
+          "repository": "lonelam/subconverter-rs",
+          "stars": 315
+        },
+        {
+          "rank": 81,
+          "repository": "SamNet-dev/cfray",
+          "stars": 314
+        },
+        {
+          "rank": 82,
+          "repository": "Lynricsy/HyperADRules",
+          "stars": 293
+        },
+        {
+          "rank": 83,
+          "repository": "fantastic-packages/packages",
+          "stars": 286
+        },
+        {
+          "rank": 84,
+          "repository": "majiayu000/spellbook",
+          "stars": 286
+        },
+        {
+          "rank": 85,
+          "repository": "WhiteDNS/WhiteVPN",
+          "stars": 283
+        },
+        {
+          "rank": 86,
+          "repository": "hoilc/scoop-lemon",
+          "stars": 280
+        },
+        {
+          "rank": 87,
+          "repository": "123jjck/cdn-ip-ranges",
+          "stars": 273
+        },
+        {
+          "rank": 88,
+          "repository": "spongebob888/shadowquic",
+          "stars": 262
+        },
+        {
+          "rank": 89,
+          "repository": "unredacted/freesocks-control-plane",
+          "stars": 250
+        },
+        {
+          "rank": 90,
+          "repository": "A-Zuro/Secret-Sing-Box",
+          "stars": 239
+        },
+        {
+          "rank": 91,
+          "repository": "meow-rs/meow-ios",
+          "stars": 237
+        },
+        {
+          "rank": 92,
+          "repository": "XTLS/libXray",
+          "stars": 228
+        },
+        {
+          "rank": 93,
+          "repository": "pmkol/openwrt-lite",
+          "stars": 224
+        },
+        {
+          "rank": 94,
+          "repository": "baptisterajaut/radmin-vpn-linux",
+          "stars": 221
+        },
+        {
+          "rank": 95,
+          "repository": "AlexeyLCP/lucx-ui",
+          "stars": 216
+        },
+        {
+          "rank": 96,
+          "repository": "UruhaLushia/sparxie",
+          "stars": 214
+        },
+        {
+          "rank": 97,
+          "repository": "a6216abcd/K-UI",
+          "stars": 212
+        },
+        {
+          "rank": 98,
+          "repository": "jingaoyong/aslturb",
+          "stars": 207
+        },
+        {
+          "rank": 99,
+          "repository": "aneasystone/github-trending",
+          "stars": 207
+        },
+        {
+          "rank": 100,
+          "repository": "MetaCubeX/Meta-Docs",
+          "stars": 199
+        },
+        {
+          "rank": 101,
+          "repository": "Thaolga/openwrt-nekobox",
+          "stars": 190
+        },
+        {
+          "rank": 102,
+          "repository": "missuo/snell-panel",
+          "stars": 182
+        },
+        {
+          "rank": 103,
+          "repository": "suversal/apple-store-inventory-monitor",
+          "stars": 182
+        },
+        {
+          "rank": 104,
+          "repository": "technamooz/Panel_Technamooz_VPN",
+          "stars": 176
+        },
+        {
+          "rank": 105,
+          "repository": "imraywang/proxy-fleet",
+          "stars": 174
+        },
+        {
+          "rank": 106,
+          "repository": "yastorovsky/MehrON",
+          "stars": 168
+        },
+        {
+          "rank": 107,
+          "repository": "Ychris12138/dsh-usage-stats",
+          "stars": 168
+        },
+        {
+          "rank": 108,
+          "repository": "NextWeb4/yaml-proxy-editor",
+          "stars": 163
+        },
+        {
+          "rank": 109,
+          "repository": "fcshark-org/openwrt-fchomo",
+          "stars": 159
+        },
+        {
+          "rank": 110,
+          "repository": "viewer12/OverseasAI.list",
+          "stars": 159
+        },
+        {
+          "rank": 111,
+          "repository": "chinnsenn/ClashCustomRule",
+          "stars": 158
+        },
+        {
+          "rank": 112,
+          "repository": "SamuNatsu/mihomosh",
+          "stars": 152
+        },
+        {
+          "rank": 113,
+          "repository": "avatarDD/zapret-gui",
+          "stars": 152
+        },
+        {
+          "rank": 114,
+          "repository": "kazeyukiro/3m-ui",
+          "stars": 151
+        },
+        {
+          "rank": 115,
+          "repository": "Chat2AnyLLM/awesome-claude-skills",
+          "stars": 150
+        },
+        {
+          "rank": 116,
+          "repository": "tianrking/Re_edgetunnel",
+          "stars": 148
+        },
+        {
+          "rank": 117,
+          "repository": "Journalist-HK/mosdns-config",
+          "stars": 145
+        },
+        {
+          "rank": 118,
+          "repository": "HereIamGosu/amnezia-config-gen",
+          "stars": 145
+        },
+        {
+          "rank": 119,
+          "repository": "Medium1992/mihomo-proxy-ros",
+          "stars": 143
+        },
+        {
+          "rank": 120,
+          "repository": "jctaoo/ClashConfig",
+          "stars": 142
+        },
+        {
+          "rank": 121,
+          "repository": "meow-rs/meow-android",
+          "stars": 140
+        },
+        {
+          "rank": 122,
+          "repository": "mihari-proxy/mihari",
+          "stars": 136
+        },
+        {
+          "rank": 123,
+          "repository": "CHIZI-0618/AndroidTProxyShell",
+          "stars": 134
+        },
+        {
+          "rank": 124,
+          "repository": "c0nn3ct-info/noctis",
+          "stars": 133
+        },
+        {
+          "rank": 125,
+          "repository": "potoo0/mihomo-tui",
+          "stars": 131
+        },
+        {
+          "rank": 126,
+          "repository": "hamedcode/port-based-v2ray-configs",
+          "stars": 131
+        },
+        {
+          "rank": 127,
+          "repository": "huacnlee/omarchy-mihoro",
+          "stars": 127
+        },
+        {
+          "rank": 128,
+          "repository": "nosignals/openwrt-neko",
+          "stars": 116
+        },
+        {
+          "rank": 129,
+          "repository": "Internet-Helper/mixomo-openwrt",
+          "stars": 115
+        },
+        {
+          "rank": 130,
+          "repository": "theowenyoung/home",
+          "stars": 115
+        },
+        {
+          "rank": 131,
+          "repository": "howdeploy/Xrayebator",
+          "stars": 114
+        },
+        {
+          "rank": 132,
+          "repository": "zerolabnet/SSClash-Go",
+          "stars": 106
+        },
+        {
+          "rank": 133,
+          "repository": "OpsinTech/AntigravityProxyLauncher",
+          "stars": 104
+        },
+        {
+          "rank": 134,
+          "repository": "douglarek/mihomo-openwrt",
+          "stars": 101
+        },
+        {
+          "rank": 135,
+          "repository": "tianrking/AnyTLS-Go-Script",
+          "stars": 100
+        },
+        {
+          "rank": 136,
+          "repository": "Yulinanami/my-xhttp-cdn-config",
+          "stars": 100
+        },
+        {
+          "rank": 137,
+          "repository": "jxzzlfh/awesome-stars",
+          "stars": 100
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "query": "clash 覆写 in:name,description,readme stars:>=100 fork:false archived:false",
+      "total_count": 33,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=clash%20%E8%A6%86%E5%86%99%20in%3Aname%2Cdescription%2Creadme%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:41.7575063Z",
+          "incomplete_results": false,
+          "returned_count": 33
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "mihomo-party-org/clash-party",
+          "stars": 26649
+        },
+        {
+          "rank": 2,
+          "repository": "Aethersailor/Custom_OpenClash_Rules",
+          "stars": 6566
+        },
+        {
+          "rank": 3,
+          "repository": "LOWERTOP/Shadowrocket",
+          "stars": 4613
+        },
+        {
+          "rank": 4,
+          "repository": "cmliu/SubsCheck-Win-GUI",
+          "stars": 4554
+        },
+        {
+          "rank": 5,
+          "repository": "peasoft/NoMoreWalls",
+          "stars": 3527
+        },
+        {
+          "rank": 6,
+          "repository": "John19187/The-40-Best-VPNs",
+          "stars": 1725
+        },
+        {
+          "rank": 7,
+          "repository": "everett7623/airport-recommendations-2026",
+          "stars": 1163
+        },
+        {
+          "rank": 8,
+          "repository": "iluobei/miaomiaowu",
+          "stars": 1103
+        },
+        {
+          "rank": 9,
+          "repository": "Aethersailor/SubConverter-Extended",
+          "stars": 1001
+        },
+        {
+          "rank": 10,
+          "repository": "n0de-sudo/Perfect-Rules",
+          "stars": 953
+        },
+        {
+          "rank": 11,
+          "repository": "AIsouler/MyClash",
+          "stars": 897
+        },
+        {
+          "rank": 12,
+          "repository": "Avenshy/MajsoulMax",
+          "stars": 827
+        },
+        {
+          "rank": 13,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 14,
+          "repository": "Juwan-Hwang/Zephyr",
+          "stars": 716
+        },
+        {
+          "rank": 15,
+          "repository": "uhub/awesome-shell",
+          "stars": 637
+        },
+        {
+          "rank": 16,
+          "repository": "Kwisma/cf-SubCloud",
+          "stars": 605
+        },
+        {
+          "rank": 17,
+          "repository": "OpenNetCN/clash",
+          "stars": 605
+        },
+        {
+          "rank": 18,
+          "repository": "powerfullz/override-rules",
+          "stars": 589
+        },
+        {
+          "rank": 19,
+          "repository": "Charles-0509/Grok-Register",
+          "stars": 521
+        },
+        {
+          "rank": 20,
+          "repository": "HotKids/Rules",
+          "stars": 474
+        },
+        {
+          "rank": 21,
+          "repository": "gangz1o/clash4docker",
+          "stars": 419
+        },
+        {
+          "rank": 22,
+          "repository": "IvanSolis1989/Smart-Config-Kit",
+          "stars": 366
+        },
+        {
+          "rank": 23,
+          "repository": "Seven1echo/Yaml",
+          "stars": 277
+        },
+        {
+          "rank": 24,
+          "repository": "tom-snow/Sidestore-ClashMi",
+          "stars": 234
+        },
+        {
+          "rank": 25,
+          "repository": "Giveupmoon/OpenClash_Overwrite",
+          "stars": 233
+        },
+        {
+          "rank": 26,
+          "repository": "YuKongA/Mishka",
+          "stars": 206
+        },
+        {
+          "rank": 27,
+          "repository": "Xerxes-2/MajsoulMax-rs",
+          "stars": 199
+        },
+        {
+          "rank": 28,
+          "repository": "suversal/apple-store-inventory-monitor",
+          "stars": 182
+        },
+        {
+          "rank": 29,
+          "repository": "821869798/carton",
+          "stars": 182
+        },
+        {
+          "rank": 30,
+          "repository": "0xWans/my-backup",
+          "stars": 178
+        },
+        {
+          "rank": 31,
+          "repository": "zn0wii/satelite-one",
+          "stars": 168
+        },
+        {
+          "rank": 32,
+          "repository": "enriquephl/QuantumultX_config",
+          "stars": 158
+        },
+        {
+          "rank": 33,
+          "repository": "RealSeek/Clash_Rule_DIY",
+          "stars": 153
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "query": "clash 分流 in:name,description stars:>=300 fork:false archived:false",
+      "total_count": 17,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=clash%20%E5%88%86%E6%B5%81%20in%3Aname%2Cdescription%20stars%3A%3E%3D300%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:43.2566096Z",
+          "incomplete_results": false,
+          "returned_count": 17
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "yonggekkk/x-ui-yg",
+          "stars": 4069
+        },
+        {
+          "rank": 2,
+          "repository": "cirosantilli/china-dictatorship",
+          "stars": 3237
+        },
+        {
+          "rank": 3,
+          "repository": "gege-circle/.github",
+          "stars": 2031
+        },
+        {
+          "rank": 4,
+          "repository": "fscarmen/ArgoX",
+          "stars": 2020
+        },
+        {
+          "rank": 5,
+          "repository": "Semporia/Clash",
+          "stars": 1865
+        },
+        {
+          "rank": 6,
+          "repository": "luestr/ShuntRules",
+          "stars": 1746
+        },
+        {
+          "rank": 7,
+          "repository": "KJGX66F/usque-custom-pro",
+          "stars": 1435
+        },
+        {
+          "rank": 8,
+          "repository": "n0de-sudo/Perfect-Rules",
+          "stars": 953
+        },
+        {
+          "rank": 9,
+          "repository": "cutethotw/ClashRule",
+          "stars": 932
+        },
+        {
+          "rank": 10,
+          "repository": "AIsouler/MyClash",
+          "stars": 897
+        },
+        {
+          "rank": 11,
+          "repository": "SubBoost/subboost",
+          "stars": 894
+        },
+        {
+          "rank": 12,
+          "repository": "zn0wii/satelite-proxy",
+          "stars": 868
+        },
+        {
+          "rank": 13,
+          "repository": "VPSDance/ai-proxy-rules",
+          "stars": 478
+        },
+        {
+          "rank": 14,
+          "repository": "cirosantilli/china-dictatroship-7",
+          "stars": 368
+        },
+        {
+          "rank": 15,
+          "repository": "IvanSolis1989/Smart-Config-Kit",
+          "stars": 366
+        },
+        {
+          "rank": 16,
+          "repository": "dishao123/rules_script",
+          "stars": 328
+        },
+        {
+          "rank": 17,
+          "repository": "Accademia/Additional_Rule_For_Clash",
+          "stars": 324
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "query": "clash-verge-script in:name,description stars:>=50 fork:false archived:false",
+      "total_count": 2,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=clash-verge-script%20in%3Aname%2Cdescription%20stars%3A%3E%3D50%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:44.0506411Z",
+          "incomplete_results": false,
+          "returned_count": 2
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 2,
+          "repository": "mwmi/ClashVergeGlobalScript",
+          "stars": 98
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "query": "mihomo override in:name,description,readme stars:>=100 fork:false archived:false",
+      "total_count": 35,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=mihomo%20override%20in%3Aname%2Cdescription%2Creadme%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:45.4717759Z",
+          "incomplete_results": false,
+          "returned_count": 35
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "igareck/vpn-configs-for-russia",
+          "stars": 8985
+        },
+        {
+          "rank": 2,
+          "repository": "wnlen/clash-for-linux",
+          "stars": 6079
+        },
+        {
+          "rank": 3,
+          "repository": "0xNyk/awesome-hermes-agent",
+          "stars": 5768
+        },
+        {
+          "rank": 4,
+          "repository": "MetaCubeX/metacubexd",
+          "stars": 4440
+        },
+        {
+          "rank": 5,
+          "repository": "foru17/neko-master",
+          "stars": 4087
+        },
+        {
+          "rank": 6,
+          "repository": "nicobailon/pi-web-access",
+          "stars": 1563
+        },
+        {
+          "rank": 7,
+          "repository": "Kindness-Kismet/stelliberty",
+          "stars": 1141
+        },
+        {
+          "rank": 8,
+          "repository": "Avenshy/MajsoulMax",
+          "stars": 827
+        },
+        {
+          "rank": 9,
+          "repository": "HatsuneMikuUwU/MikuBoxForAndroid",
+          "stars": 757
+        },
+        {
+          "rank": 10,
+          "repository": "uhub/awesome-lua",
+          "stars": 718
+        },
+        {
+          "rank": 11,
+          "repository": "Juwan-Hwang/Zephyr",
+          "stars": 716
+        },
+        {
+          "rank": 12,
+          "repository": "JohanChane/clashtui",
+          "stars": 689
+        },
+        {
+          "rank": 13,
+          "repository": "aorumbayev/awesome-omarchy",
+          "stars": 623
+        },
+        {
+          "rank": 14,
+          "repository": "powerfullz/override-rules",
+          "stars": 589
+        },
+        {
+          "rank": 15,
+          "repository": "mihomo-party-org/override-hub",
+          "stars": 572
+        },
+        {
+          "rank": 16,
+          "repository": "gangz1o/clash4docker",
+          "stars": 419
+        },
+        {
+          "rank": 17,
+          "repository": "funny-vibes/agent-vibes",
+          "stars": 360
+        },
+        {
+          "rank": 18,
+          "repository": "Dominic789654/awesome-deepseek-harness",
+          "stars": 357
+        },
+        {
+          "rank": 19,
+          "repository": "Accademia/Clash_Configuration_Template",
+          "stars": 329
+        },
+        {
+          "rank": 20,
+          "repository": "SamNet-dev/cfray",
+          "stars": 314
+        },
+        {
+          "rank": 21,
+          "repository": "spencerwooo/mihoro",
+          "stars": 312
+        },
+        {
+          "rank": 22,
+          "repository": "AstraFoundry/KumoApp",
+          "stars": 290
+        },
+        {
+          "rank": 23,
+          "repository": "majiayu000/spellbook",
+          "stars": 286
+        },
+        {
+          "rank": 24,
+          "repository": "legiz-ru/mihomo-rule-sets",
+          "stars": 283
+        },
+        {
+          "rank": 25,
+          "repository": "XTLS/libXray",
+          "stars": 228
+        },
+        {
+          "rank": 26,
+          "repository": "ClickDevTech/CELERITY-panel",
+          "stars": 210
+        },
+        {
+          "rank": 27,
+          "repository": "suversal/apple-store-inventory-monitor",
+          "stars": 182
+        },
+        {
+          "rank": 28,
+          "repository": "fcshark-org/openwrt-fchomo",
+          "stars": 159
+        },
+        {
+          "rank": 29,
+          "repository": "tianrking/Re_edgetunnel",
+          "stars": 148
+        },
+        {
+          "rank": 30,
+          "repository": "HereIamGosu/amnezia-config-gen",
+          "stars": 145
+        },
+        {
+          "rank": 31,
+          "repository": "Medium1992/mihomo-proxy-ros",
+          "stars": 143
+        },
+        {
+          "rank": 32,
+          "repository": "mihari-proxy/mihari",
+          "stars": 136
+        },
+        {
+          "rank": 33,
+          "repository": "CHIZI-0618/AndroidTProxyShell",
+          "stars": 134
+        },
+        {
+          "rank": 34,
+          "repository": "howdeploy/Xrayebator",
+          "stars": 114
+        },
+        {
+          "rank": 35,
+          "repository": "zerolabnet/SSClash-Go",
+          "stars": 106
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "query": "clash in:name,description,readme language:JavaScript stars:>=100 fork:false archived:false",
+      "total_count": 210,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=clash%20in%3Aname%2Cdescription%2Creadme%20language%3AJavaScript%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:48.1277352Z",
+          "incomplete_results": false,
+          "returned_count": 100
+        },
+        {
+          "page": 2,
+          "url": "https://api.github.com/search/repositories?q=clash%20in%3Aname%2Cdescription%2Creadme%20language%3AJavaScript%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=2",
+          "captured_at": "2026-09-30T07:15:22.527347Z",
+          "incomplete_results": false,
+          "returned_count": 100
+        },
+        {
+          "page": 3,
+          "url": "https://api.github.com/search/repositories?q=clash%20in%3Aname%2Cdescription%2Creadme%20language%3AJavaScript%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=3",
+          "captured_at": "2026-09-30T07:15:23.9169598Z",
+          "incomplete_results": false,
+          "returned_count": 10
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "ryanmcdermott/clean-code-javascript",
+          "stars": 94760
+        },
+        {
+          "rank": 2,
+          "repository": "sudheerj/reactjs-interview-questions",
+          "stars": 44838
+        },
+        {
+          "rank": 3,
+          "repository": "sampotts/plyr",
+          "stars": 30018
+        },
+        {
+          "rank": 4,
+          "repository": "react-boilerplate/react-boilerplate",
+          "stars": 29472
+        },
+        {
+          "rank": 5,
+          "repository": "Z-Siqi/Clash-for-Windows_Chinese",
+          "stars": 28579
+        },
+        {
+          "rank": 6,
+          "repository": "tj/commander.js",
+          "stars": 28413
+        },
+        {
+          "rank": 7,
+          "repository": "zhaoolee/ChromeAppHeroes",
+          "stars": 25833
+        },
+        {
+          "rank": 8,
+          "repository": "awesome-dsh-plugin/awesome-dsh-plugin",
+          "stars": 17368
+        },
+        {
+          "rank": 9,
+          "repository": "yonggekkk/Cloudflare-vless-trojan",
+          "stars": 16372
+        },
+        {
+          "rank": 10,
+          "repository": "Hackl0us/SS-Rule-Snippet",
+          "stars": 11239
+        },
+        {
+          "rank": 11,
+          "repository": "sub-store-org/Sub-Store",
+          "stars": 10580
+        },
+        {
+          "rank": 12,
+          "repository": "marcelscruz/public-apis",
+          "stars": 9523
+        },
+        {
+          "rank": 13,
+          "repository": "mishoo/UglifyJS-old",
+          "stars": 7810
+        },
+        {
+          "rank": 14,
+          "repository": "cporter202/API-mega-list",
+          "stars": 7655
+        },
+        {
+          "rank": 15,
+          "repository": "AlaSQL/alasql",
+          "stars": 7286
+        },
+        {
+          "rank": 16,
+          "repository": "CareyWang/sub-web",
+          "stars": 6480
+        },
+        {
+          "rank": 17,
+          "repository": "cmliu/WorkerVless2sub",
+          "stars": 6256
+        },
+        {
+          "rank": 18,
+          "repository": "7Sageer/sublink-worker",
+          "stars": 5448
+        },
+        {
+          "rank": 19,
+          "repository": "serratus/quaggaJS",
+          "stars": 5208
+        },
+        {
+          "rank": 20,
+          "repository": "eKoopmans/html2pdf.js",
+          "stars": 4925
+        },
+        {
+          "rank": 21,
+          "repository": "testing-library/jest-dom",
+          "stars": 4598
+        },
+        {
+          "rank": 22,
+          "repository": "paperwm/PaperWM",
+          "stars": 4321
+        },
+        {
+          "rank": 23,
+          "repository": "cporter202/scraping-apis-for-devs",
+          "stars": 3921
+        },
+        {
+          "rank": 24,
+          "repository": "ngbp/ngbp",
+          "stars": 3879
+        },
+        {
+          "rank": 25,
+          "repository": "songguoxs/gpt4o-image-prompts",
+          "stars": 3838
+        },
+        {
+          "rank": 26,
+          "repository": "Script-Hub-Org/Script-Hub",
+          "stars": 3790
+        },
+        {
+          "rank": 27,
+          "repository": "limbopro/Profiles4limbo",
+          "stars": 3521
+        },
+        {
+          "rank": 28,
+          "repository": "Moli-X/Resources",
+          "stars": 3414
+        },
+        {
+          "rank": 29,
+          "repository": "IRNova/Nova-Proxy",
+          "stars": 3293
+        },
+        {
+          "rank": 30,
+          "repository": "amclubs/am-cf-tunnel",
+          "stars": 3155
+        },
+        {
+          "rank": 31,
+          "repository": "spark-notebook/spark-notebook",
+          "stars": 3139
+        },
+        {
+          "rank": 32,
+          "repository": "imzyb/MiSub",
+          "stars": 2534
+        },
+        {
+          "rank": 33,
+          "repository": "ericf/express-handlebars",
+          "stars": 2323
+        },
+        {
+          "rank": 34,
+          "repository": "itdoginfo/podkop",
+          "stars": 2152
+        },
+        {
+          "rank": 35,
+          "repository": "ButzYung/SystemAnimatorOnline",
+          "stars": 1896
+        },
+        {
+          "rank": 36,
+          "repository": "nicobailon/pi-web-access",
+          "stars": 1563
+        },
+        {
+          "rank": 37,
+          "repository": "prettier/plugin-ruby",
+          "stars": 1482
+        },
+        {
+          "rank": 38,
+          "repository": "KJGX66F/usque-custom-pro",
+          "stars": 1435
+        },
+        {
+          "rank": 39,
+          "repository": "hueitan/javascript-sdk-design",
+          "stars": 1429
+        },
+        {
+          "rank": 40,
+          "repository": "shaobeichen/dsh-pocket",
+          "stars": 1421
+        },
+        {
+          "rank": 41,
+          "repository": "maoberlehner/vuex-map-fields",
+          "stars": 1395
+        },
+        {
+          "rank": 42,
+          "repository": "wikieden/Freedom-To-Chatgpt-Claude-Agent",
+          "stars": 1393
+        },
+        {
+          "rank": 43,
+          "repository": "rob-balfre/svelte-select",
+          "stars": 1352
+        },
+        {
+          "rank": 44,
+          "repository": "marcrobledo/savegame-editors",
+          "stars": 1321
+        },
+        {
+          "rank": 45,
+          "repository": "amclubs/am-cf-tunnel-sub",
+          "stars": 1233
+        },
+        {
+          "rank": 46,
+          "repository": "everett7623/airport-recommendations-2026",
+          "stars": 1163
+        },
+        {
+          "rank": 47,
+          "repository": "alexadam/save-as-ebook",
+          "stars": 1123
+        },
+        {
+          "rank": 48,
+          "repository": "PAICNI/CFNext",
+          "stars": 1066
+        },
+        {
+          "rank": 49,
+          "repository": "chrisgoringe/cg-use-everywhere",
+          "stars": 1037
+        },
+        {
+          "rank": 50,
+          "repository": "byJoey/warp-masque-actions",
+          "stars": 995
+        },
+        {
+          "rank": 51,
+          "repository": "indexeddbshim/IndexedDBShim",
+          "stars": 980
+        },
+        {
+          "rank": 52,
+          "repository": "liangbin-foxmail/cc-edtunnel",
+          "stars": 974
+        },
+        {
+          "rank": 53,
+          "repository": "devanshutak25/3d-resources",
+          "stars": 970
+        },
+        {
+          "rank": 54,
+          "repository": "n0de-sudo/Perfect-Rules",
+          "stars": 953
+        },
+        {
+          "rank": 55,
+          "repository": "KOP-XIAO/QuantumultX-Surge-API",
+          "stars": 940
+        },
+        {
+          "rank": 56,
+          "repository": "pjeby/tag-wrangler",
+          "stars": 930
+        },
+        {
+          "rank": 57,
+          "repository": "styled-components/vscode-styled-components",
+          "stars": 921
+        },
+        {
+          "rank": 58,
+          "repository": "MrTangLuyao/Bilibili-thread-ripper",
+          "stars": 899
+        },
+        {
+          "rank": 59,
+          "repository": "AIsouler/MyClash",
+          "stars": 897
+        },
+        {
+          "rank": 60,
+          "repository": "renrizzolo/react-native-sectioned-multi-select",
+          "stars": 867
+        },
+        {
+          "rank": 61,
+          "repository": "qist/xray-ui",
+          "stars": 855
+        },
+        {
+          "rank": 62,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 63,
+          "repository": "fantasyland/static-land",
+          "stars": 776
+        },
+        {
+          "rank": 64,
+          "repository": "prescience-data/dark-knowledge",
+          "stars": 772
+        },
+        {
+          "rank": 65,
+          "repository": "guigrpa/storyboard",
+          "stars": 767
+        },
+        {
+          "rank": 66,
+          "repository": "KlausSchaefers/figma-low-code",
+          "stars": 753
+        },
+        {
+          "rank": 67,
+          "repository": "Station-Sciences/bot-crossing",
+          "stars": 731
+        },
+        {
+          "rank": 68,
+          "repository": "gamonoid/icehrm",
+          "stars": 728
+        },
+        {
+          "rank": 69,
+          "repository": "Juwan-Hwang/Zephyr",
+          "stars": 716
+        },
+        {
+          "rank": 70,
+          "repository": "Misaka-blog/cf-wkrs-pages-vless",
+          "stars": 713
+        },
+        {
+          "rank": 71,
+          "repository": "brannondorsey/whonow",
+          "stars": 658
+        },
+        {
+          "rank": 72,
+          "repository": "logicrw/awesome-jev-projects",
+          "stars": 626
+        },
+        {
+          "rank": 73,
+          "repository": "Kwisma/cf-SubCloud",
+          "stars": 605
+        },
+        {
+          "rank": 74,
+          "repository": "yyhhyyyyyy/selfproxy",
+          "stars": 545
+        },
+        {
+          "rank": 75,
+          "repository": "webark/ember-component-css",
+          "stars": 534
+        },
+        {
+          "rank": 76,
+          "repository": "shiteThings/extractNodes",
+          "stars": 527
+        },
+        {
+          "rank": 77,
+          "repository": "zitianya9110/cmliu-edgetunnel",
+          "stars": 521
+        },
+        {
+          "rank": 78,
+          "repository": "halfwaystudent/douyin-sparkflow",
+          "stars": 521
+        },
+        {
+          "rank": 79,
+          "repository": "cmliu/CF-Workers-BPSUB",
+          "stars": 507
+        },
+        {
+          "rank": 80,
+          "repository": "mefechoel/svelte-navigator",
+          "stars": 506
+        },
+        {
+          "rank": 81,
+          "repository": "byJoey/yx-auto",
+          "stars": 479
+        },
+        {
+          "rank": 82,
+          "repository": "HotKids/Rules",
+          "stars": 474
+        },
+        {
+          "rank": 83,
+          "repository": "alexreardon/use-memo-one",
+          "stars": 474
+        },
+        {
+          "rank": 84,
+          "repository": "kanshurichard/GoHomeEasy",
+          "stars": 473
+        },
+        {
+          "rank": 85,
+          "repository": "amclubs/am-cf-trojan",
+          "stars": 472
+        },
+        {
+          "rank": 86,
+          "repository": "xiaomaoJT/QxScript",
+          "stars": 457
+        },
+        {
+          "rank": 87,
+          "repository": "hello-world-1989/temp",
+          "stars": 445
+        },
+        {
+          "rank": 88,
+          "repository": "acuminous/yadda",
+          "stars": 430
+        },
+        {
+          "rank": 89,
+          "repository": "xt4d/GameBlocks",
+          "stars": 420
+        },
+        {
+          "rank": 90,
+          "repository": "InfiCheesy/cloudflaresub",
+          "stars": 416
+        },
+        {
+          "rank": 91,
+          "repository": "spartawhy117/JvedioNext",
+          "stars": 412
+        },
+        {
+          "rank": 92,
+          "repository": "neostandard/neostandard",
+          "stars": 408
+        },
+        {
+          "rank": 93,
+          "repository": "davidjbradshaw/eslint-config-auto",
+          "stars": 400
+        },
+        {
+          "rank": 94,
+          "repository": "RafidMuhymin/astro-spa",
+          "stars": 399
+        },
+        {
+          "rank": 95,
+          "repository": "tmont/nginx-conf",
+          "stars": 395
+        },
+        {
+          "rank": 96,
+          "repository": "edm00se/awesome-board-games",
+          "stars": 392
+        },
+        {
+          "rank": 97,
+          "repository": "bunizao/TutuBetterRules",
+          "stars": 387
+        },
+        {
+          "rank": 98,
+          "repository": "ajsahni/agents-office",
+          "stars": 378
+        },
+        {
+          "rank": 99,
+          "repository": "k0a1a/hotglue2",
+          "stars": 371
+        },
+        {
+          "rank": 100,
+          "repository": "IvanSolis1989/Smart-Config-Kit",
+          "stars": 366
+        },
+        {
+          "rank": 101,
+          "repository": "Rich-Harris/code-red",
+          "stars": 334
+        },
+        {
+          "rank": 102,
+          "repository": "wangrongding/clash-kit",
+          "stars": 330
+        },
+        {
+          "rank": 103,
+          "repository": "abynim/SketchSquares",
+          "stars": 329
+        },
+        {
+          "rank": 104,
+          "repository": "popovicu/ultimate-linux",
+          "stars": 327
+        },
+        {
+          "rank": 105,
+          "repository": "zedshaw/jzed",
+          "stars": 326
+        },
+        {
+          "rank": 106,
+          "repository": "qyjoy/AI-worker",
+          "stars": 325
+        },
+        {
+          "rank": 107,
+          "repository": "dpa99c/cordova-custom-config",
+          "stars": 317
+        },
+        {
+          "rank": 108,
+          "repository": "MartinDelophy/awesome-gpt-6-astra",
+          "stars": 297
+        },
+        {
+          "rank": 109,
+          "repository": "gajus/scream",
+          "stars": 291
+        },
+        {
+          "rank": 110,
+          "repository": "MatAtBread/nodent",
+          "stars": 287
+        },
+        {
+          "rank": 111,
+          "repository": "kaansoral/adventureland",
+          "stars": 284
+        },
+        {
+          "rank": 112,
+          "repository": "WebReflection/heresy",
+          "stars": 277
+        },
+        {
+          "rank": 113,
+          "repository": "wbolster/nothing-to-say",
+          "stars": 271
+        },
+        {
+          "rank": 114,
+          "repository": "lazywithclass/winston-cloudwatch",
+          "stars": 265
+        },
+        {
+          "rank": 115,
+          "repository": "mphin/proxy_tools",
+          "stars": 257
+        },
+        {
+          "rank": 116,
+          "repository": "danjdewhurst/story-skills",
+          "stars": 253
+        },
+        {
+          "rank": 117,
+          "repository": "MikeWang000000/ClashScan",
+          "stars": 252
+        },
+        {
+          "rank": 118,
+          "repository": "WebReflection/wicked-elements",
+          "stars": 248
+        },
+        {
+          "rank": 119,
+          "repository": "javierbyte/clashjs",
+          "stars": 247
+        },
+        {
+          "rank": 120,
+          "repository": "goldibex/targaryen",
+          "stars": 240
+        },
+        {
+          "rank": 121,
+          "repository": "tom-snow/Sidestore-ClashMi",
+          "stars": 234
+        },
+        {
+          "rank": 122,
+          "repository": "vodspider/release",
+          "stars": 225
+        },
+        {
+          "rank": 123,
+          "repository": "hrishikeshathalye/Hospital-Management-System-DBMS",
+          "stars": 225
+        },
+        {
+          "rank": 124,
+          "repository": "dale3h/alexa-skills-list",
+          "stars": 225
+        },
+        {
+          "rank": 125,
+          "repository": "BoyceLig/ClashSinicizationTool",
+          "stars": 224
+        },
+        {
+          "rank": 126,
+          "repository": "ines/juniper",
+          "stars": 224
+        },
+        {
+          "rank": 127,
+          "repository": "FoolVPN-ID/Nautica",
+          "stars": 216
+        },
+        {
+          "rank": 128,
+          "repository": "jbolda/gatsby-source-airtable",
+          "stars": 216
+        },
+        {
+          "rank": 129,
+          "repository": "bahmutov/cypress-and-jest",
+          "stars": 214
+        },
+        {
+          "rank": 130,
+          "repository": "holepunchto/dht-rpc",
+          "stars": 213
+        },
+        {
+          "rank": 131,
+          "repository": "ClickDevTech/CELERITY-panel",
+          "stars": 210
+        },
+        {
+          "rank": 132,
+          "repository": "hellogumbo/awesome-jev",
+          "stars": 209
+        },
+        {
+          "rank": 133,
+          "repository": "1345695/edcloudwasm",
+          "stars": 205
+        },
+        {
+          "rank": 134,
+          "repository": "jojoee/phaser-examples",
+          "stars": 198
+        },
+        {
+          "rank": 135,
+          "repository": "itxve/fetch-clash-node",
+          "stars": 190
+        },
+        {
+          "rank": 136,
+          "repository": "valentynkit/awesome-jev-typesafe",
+          "stars": 188
+        },
+        {
+          "rank": 137,
+          "repository": "TheGreatAzizi/Secure-DNS-over-HTTPS-Cloudflare-Worker",
+          "stars": 187
+        },
+        {
+          "rank": 138,
+          "repository": "mclintprojects/actioncable-vue",
+          "stars": 187
+        },
+        {
+          "rank": 139,
+          "repository": "echs-top/proxy",
+          "stars": 184
+        },
+        {
+          "rank": 140,
+          "repository": "wo/tpg",
+          "stars": 184
+        },
+        {
+          "rank": 141,
+          "repository": "fffomega/esim",
+          "stars": 181
+        },
+        {
+          "rank": 142,
+          "repository": "ctrlplusb/react-component-queries",
+          "stars": 180
+        },
+        {
+          "rank": 143,
+          "repository": "shidahuilang/pve",
+          "stars": 178
+        },
+        {
+          "rank": 144,
+          "repository": "RapidFireAI/rapidfireai",
+          "stars": 170
+        },
+        {
+          "rank": 145,
+          "repository": "bahmutov/snap-shot",
+          "stars": 170
+        },
+        {
+          "rank": 146,
+          "repository": "Ychris12138/dsh-usage-stats",
+          "stars": 168
+        },
+        {
+          "rank": 147,
+          "repository": "mafintosh/localcast",
+          "stars": 167
+        },
+        {
+          "rank": 148,
+          "repository": "maxov/gulp-grunt",
+          "stars": 167
+        },
+        {
+          "rank": 149,
+          "repository": "bahmutov/snap-shot-it",
+          "stars": 167
+        },
+        {
+          "rank": 150,
+          "repository": "j2css/j2c",
+          "stars": 165
+        },
+        {
+          "rank": 151,
+          "repository": "mdns-js/node-mdns-js",
+          "stars": 164
+        },
+        {
+          "rank": 152,
+          "repository": "wix-incubator/lerna-script",
+          "stars": 163
+        },
+        {
+          "rank": 153,
+          "repository": "EsunR/clash-sub-builder",
+          "stars": 162
+        },
+        {
+          "rank": 154,
+          "repository": "cmliu/SUBWEB",
+          "stars": 162
+        },
+        {
+          "rank": 155,
+          "repository": "Darsh-A/Ai-TabGroups-ZenBrowser",
+          "stars": 162
+        },
+        {
+          "rank": 156,
+          "repository": "vancur2021/ProxyFilter",
+          "stars": 161
+        },
+        {
+          "rank": 157,
+          "repository": "AlbertLucianto/vuex-search",
+          "stars": 160
+        },
+        {
+          "rank": 158,
+          "repository": "mmazzarolo/tap-the-number",
+          "stars": 159
+        },
+        {
+          "rank": 159,
+          "repository": "abrclano/Meandering.Path",
+          "stars": 158
+        },
+        {
+          "rank": 160,
+          "repository": "antialiasis/favorite-picker",
+          "stars": 158
+        },
+        {
+          "rank": 161,
+          "repository": "cmliu/WARP2sub",
+          "stars": 155
+        },
+        {
+          "rank": 162,
+          "repository": "ImLTHQ/edgetunnel",
+          "stars": 154
+        },
+        {
+          "rank": 163,
+          "repository": "tilk/digitaljs_online",
+          "stars": 153
+        },
+        {
+          "rank": 164,
+          "repository": "eooce/Merge-sub",
+          "stars": 153
+        },
+        {
+          "rank": 165,
+          "repository": "Polarisation/indexeddb-export-import",
+          "stars": 151
+        },
+        {
+          "rank": 166,
+          "repository": "hafriedlander/jquery.entwine",
+          "stars": 150
+        },
+        {
+          "rank": 167,
+          "repository": "tianrking/Re_edgetunnel",
+          "stars": 148
+        },
+        {
+          "rank": 168,
+          "repository": "jichangx/free-nodes",
+          "stars": 146
+        },
+        {
+          "rank": 169,
+          "repository": "HereIamGosu/amnezia-config-gen",
+          "stars": 145
+        },
+        {
+          "rank": 170,
+          "repository": "wquguru/dasheng",
+          "stars": 144
+        },
+        {
+          "rank": 171,
+          "repository": "Ptechgithub/pp-worker",
+          "stars": 142
+        },
+        {
+          "rank": 172,
+          "repository": "alkawryk/tinderbot",
+          "stars": 142
+        },
+        {
+          "rank": 173,
+          "repository": "killernay/HearYourVOICE",
+          "stars": 140
+        },
+        {
+          "rank": 174,
+          "repository": "BlueKnightNet/Blue-Knight-Panel",
+          "stars": 139
+        },
+        {
+          "rank": 175,
+          "repository": "glynnbird/couchimport",
+          "stars": 138
+        },
+        {
+          "rank": 176,
+          "repository": "zcag/tahta",
+          "stars": 137
+        },
+        {
+          "rank": 177,
+          "repository": "shootthesound/ComfyUI-Angelo",
+          "stars": 137
+        },
+        {
+          "rank": 178,
+          "repository": "rniemeyer/knockout-delegatedEvents",
+          "stars": 134
+        },
+        {
+          "rank": 179,
+          "repository": "xuange6610/SyncWatch",
+          "stars": 134
+        },
+        {
+          "rank": 180,
+          "repository": "jfmaes/phisherman",
+          "stars": 133
+        },
+        {
+          "rank": 181,
+          "repository": "daz-codes/Nanny-State",
+          "stars": 130
+        },
+        {
+          "rank": 182,
+          "repository": "fosslife/delta",
+          "stars": 128
+        },
+        {
+          "rank": 183,
+          "repository": "ServiceStackApps/typescript-redux",
+          "stars": 125
+        },
+        {
+          "rank": 184,
+          "repository": "lxiaya/openwrt-homeproxy",
+          "stars": 122
+        },
+        {
+          "rank": 185,
+          "repository": "IBM-Cloud/get-started-python",
+          "stars": 120
+        },
+        {
+          "rank": 186,
+          "repository": "nikonotnicotine/Uranus_Imessage",
+          "stars": 120
+        },
+        {
+          "rank": 187,
+          "repository": "juerson/config_to_sub",
+          "stars": 118
+        },
+        {
+          "rank": 188,
+          "repository": "youtubexiaoli/newb1p1b",
+          "stars": 116
+        },
+        {
+          "rank": 189,
+          "repository": "nosignals/openwrt-neko",
+          "stars": 116
+        },
+        {
+          "rank": 190,
+          "repository": "amper5and/node-google-voice",
+          "stars": 115
+        },
+        {
+          "rank": 191,
+          "repository": "buxlabs/abstract-syntax-tree",
+          "stars": 115
+        },
+        {
+          "rank": 192,
+          "repository": "mhmdxahmd/mafly",
+          "stars": 114
+        },
+        {
+          "rank": 193,
+          "repository": "sarahdayan/browserstore.js",
+          "stars": 113
+        },
+        {
+          "rank": 194,
+          "repository": "cmliu/Socks2Vlesssub",
+          "stars": 112
+        },
+        {
+          "rank": 195,
+          "repository": "zhaoolee/jikemiji",
+          "stars": 112
+        },
+        {
+          "rank": 196,
+          "repository": "oxyno-zeta/react-editable-json-tree",
+          "stars": 111
+        },
+        {
+          "rank": 197,
+          "repository": "qwrtln/Homm3BG-mission-book",
+          "stars": 110
+        },
+        {
+          "rank": 198,
+          "repository": "groundcat/Shadowsocks-CN-PAC",
+          "stars": 109
+        },
+        {
+          "rank": 199,
+          "repository": "zmzimpl/auto-friend",
+          "stars": 109
+        },
+        {
+          "rank": 200,
+          "repository": "Re0XIAOPA/AutoScrapeFreeNodes",
+          "stars": 108
+        },
+        {
+          "rank": 201,
+          "repository": "method-inc/categorizr.js",
+          "stars": 107
+        },
+        {
+          "rank": 202,
+          "repository": "jeffijoe/yenv",
+          "stars": 107
+        },
+        {
+          "rank": 203,
+          "repository": "jcyh6923/ding111",
+          "stars": 107
+        },
+        {
+          "rank": 204,
+          "repository": "Garethp/Mods-of-Mistria-Installer",
+          "stars": 107
+        },
+        {
+          "rank": 205,
+          "repository": "wynemo/v2ray-to-sing-box",
+          "stars": 106
+        },
+        {
+          "rank": 206,
+          "repository": "yorunning/clash-conf",
+          "stars": 102
+        },
+        {
+          "rank": 207,
+          "repository": "nippur72/RiotTS",
+          "stars": 102
+        },
+        {
+          "rank": 208,
+          "repository": "shi-YangYang/plus-extractor",
+          "stars": 101
+        },
+        {
+          "rank": 209,
+          "repository": "cmliu/EdgeOne-Pages-BestIP2SUB",
+          "stars": 100
+        },
+        {
+          "rank": 210,
+          "repository": "chesterheng/junior-to-senior",
+          "stars": 100
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "query": "mihomo in:name,description,readme language:JavaScript stars:>=100 fork:false archived:false",
+      "total_count": 40,
+      "sort": "stars",
+      "order": "desc",
+      "per_page": 100,
+      "pages": [
+        {
+          "page": 1,
+          "url": "https://api.github.com/search/repositories?q=mihomo%20in%3Aname%2Cdescription%2Creadme%20language%3AJavaScript%20stars%3A%3E%3D100%20fork%3Afalse%20archived%3Afalse&sort=stars&order=desc&per_page=100&page=1",
+          "captured_at": "2026-09-30T07:13:49.7360982Z",
+          "incomplete_results": false,
+          "returned_count": 40
+        }
+      ],
+      "results": [
+        {
+          "rank": 1,
+          "repository": "Z-Siqi/Clash-for-Windows_Chinese",
+          "stars": 28579
+        },
+        {
+          "rank": 2,
+          "repository": "yonggekkk/Cloudflare-vless-trojan",
+          "stars": 16372
+        },
+        {
+          "rank": 3,
+          "repository": "sub-store-org/Sub-Store",
+          "stars": 10580
+        },
+        {
+          "rank": 4,
+          "repository": "nikkinikki-org/OpenWrt-nikki",
+          "stars": 5316
+        },
+        {
+          "rank": 5,
+          "repository": "IRNova/Nova-Proxy",
+          "stars": 3293
+        },
+        {
+          "rank": 6,
+          "repository": "imzyb/MiSub",
+          "stars": 2534
+        },
+        {
+          "rank": 7,
+          "repository": "nicobailon/pi-web-access",
+          "stars": 1563
+        },
+        {
+          "rank": 8,
+          "repository": "KJGX66F/usque-custom-pro",
+          "stars": 1435
+        },
+        {
+          "rank": 9,
+          "repository": "Repcz/Tool",
+          "stars": 1166
+        },
+        {
+          "rank": 10,
+          "repository": "PAICNI/CFNext",
+          "stars": 1066
+        },
+        {
+          "rank": 11,
+          "repository": "byJoey/warp-masque-actions",
+          "stars": 995
+        },
+        {
+          "rank": 12,
+          "repository": "n0de-sudo/Perfect-Rules",
+          "stars": 953
+        },
+        {
+          "rank": 13,
+          "repository": "AIsouler/MyClash",
+          "stars": 897
+        },
+        {
+          "rank": 14,
+          "repository": "xiaolin-007/clash-verge-script",
+          "stars": 819
+        },
+        {
+          "rank": 15,
+          "repository": "Juwan-Hwang/Zephyr",
+          "stars": 716
+        },
+        {
+          "rank": 16,
+          "repository": "Kwisma/cf-SubCloud",
+          "stars": 605
+        },
+        {
+          "rank": 17,
+          "repository": "mihomo-party-org/override-hub",
+          "stars": 572
+        },
+        {
+          "rank": 18,
+          "repository": "yyhhyyyyyy/selfproxy",
+          "stars": 545
+        },
+        {
+          "rank": 19,
+          "repository": "shiteThings/extractNodes",
+          "stars": 527
+        },
+        {
+          "rank": 20,
+          "repository": "halfwaystudent/douyin-sparkflow",
+          "stars": 521
+        },
+        {
+          "rank": 21,
+          "repository": "HotKids/Rules",
+          "stars": 474
+        },
+        {
+          "rank": 22,
+          "repository": "TsukinaKasumi/StarRail-plugin",
+          "stars": 448
+        },
+        {
+          "rank": 23,
+          "repository": "hello-world-1989/temp",
+          "stars": 445
+        },
+        {
+          "rank": 24,
+          "repository": "IvanSolis1989/Smart-Config-Kit",
+          "stars": 366
+        },
+        {
+          "rank": 25,
+          "repository": "wangrongding/clash-kit",
+          "stars": 330
+        },
+        {
+          "rank": 26,
+          "repository": "tom-snow/Sidestore-ClashMi",
+          "stars": 234
+        },
+        {
+          "rank": 27,
+          "repository": "ClickDevTech/CELERITY-panel",
+          "stars": 210
+        },
+        {
+          "rank": 28,
+          "repository": "umarcheh001/Xkeen-UI",
+          "stars": 185
+        },
+        {
+          "rank": 29,
+          "repository": "echs-top/proxy",
+          "stars": 184
+        },
+        {
+          "rank": 30,
+          "repository": "Ychris12138/dsh-usage-stats",
+          "stars": 168
+        },
+        {
+          "rank": 31,
+          "repository": "EsunR/clash-sub-builder",
+          "stars": 162
+        },
+        {
+          "rank": 32,
+          "repository": "fcshark-org/openwrt-fchomo",
+          "stars": 159
+        },
+        {
+          "rank": 33,
+          "repository": "LongLights/sing-box_template_merge_sub-store",
+          "stars": 157
+        },
+        {
+          "rank": 34,
+          "repository": "tianrking/Re_edgetunnel",
+          "stars": 148
+        },
+        {
+          "rank": 35,
+          "repository": "HereIamGosu/amnezia-config-gen",
+          "stars": 145
+        },
+        {
+          "rank": 36,
+          "repository": "BlueKnightNet/Blue-Knight-Panel",
+          "stars": 139
+        },
+        {
+          "rank": 37,
+          "repository": "nosignals/openwrt-neko",
+          "stars": 116
+        },
+        {
+          "rank": 38,
+          "repository": "Internet-Helper/mixomo-openwrt",
+          "stars": 115
+        },
+        {
+          "rank": 39,
+          "repository": "mhmdxahmd/mafly",
+          "stars": 114
+        },
+        {
+          "rank": 40,
+          "repository": "shi-YangYang/plus-extractor",
+          "stars": 101
+        }
+      ]
+    }
+  ]
+}
