@@ -76,7 +76,7 @@ test('OpenClash Ruby option block routes both modes from one generated source ma
   const ruby = spawnSync('ruby', ['--version'], { encoding: 'utf8' });
   if (ruby.error || ruby.status !== 0) return context.skip('Ruby unavailable');
   for (const name of ['OpenClash(mihomo).sh', 'OpenClash(mihomo-smart).sh']) {
-    const source = fs.readFileSync(path.join(root, 'OpenClash', name), 'utf8');
+    const source = fs.readFileSync(path.join(root, 'OpenClash', name), 'utf8').replace(/\r\n/g, '\n');
     assert.match(source, /raise ArgumentError, 'invalid health check profile'/);
     assert.match(source, /raise ArgumentError, 'invalid QUIC policy'/);
     assert.match(source, /"interval"\s*=> health_profile == 'power-save' \? 900 : 300/);

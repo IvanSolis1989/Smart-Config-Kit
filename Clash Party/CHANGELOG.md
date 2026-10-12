@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.15-dns.14 / v6.0.15-normal.15 (2026-10-12)
+
+- 新增可信本地 `SCKI_ZEROTIER_PLANET_PROXY`，默认 `false`。开启时仅把四个 ZeroTier 根地址的 UDP/9993 前置到现有美国节点组，规则事实从源图导出并同步到共享运行时。
+- 节点筛选后的美国组不存在时，在写入配置前拒绝；不创建空组、不改地区选择，订阅字段与系统环境变量不能开启。重复生成不叠加四条规则。
+- 同步 Normal / FlClash 的同构 JS 执行点。默认图、DNS、55 组命名与静态端资产保持原字节；Egern 仅更新源文件哈希。逐端范围、UDP 要求和最小应用步骤见 [使用说明](../docs/zerotier-planet-proxy.md)。
+- 回归覆盖两项原交通选项的组合、默认结果一致性、前置优先级、非法值、缺少目标及输入保持。现有 OpenClash 回归读取先规范化 CRLF，Ruby 执行及原断言保留。
+
 ## v6.0.15-dns.13 / v6.0.15-normal.14 (2026-10-07)
 
 - Smart/Normal 的默认 `standard` 档维持 300 秒并设 `lazy: true`；`power-save` 仍为 900 秒加 `lazy: true`。QUIC 默认策略不变。

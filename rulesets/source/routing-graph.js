@@ -28,6 +28,16 @@ function getHealthCheckSettings(profile = getTrafficOptions().healthCheckProfile
   return { intervalSeconds: profile === 'power-save' ? 900 : 300, lazy: true };
 }
 
+// Trusted local JS opt-in only. These rules are not part of the default graph.
+function getZeroTierPlanetProxyPolicy() {
+  const targetGroup = '🇺🇸 美国节点';
+  const rootAddresses = ['103.195.103.66', '79.127.159.187', '84.17.53.155', '185.152.67.145'];
+  return {
+    targetGroup,
+    rules: rootAddresses.map(address => `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,${address}/32,no-resolve)),${targetGroup}`),
+  };
+}
+
 let SCKI_DISABLE_MIHOMO_MRS_OVERRIDES = false;
 
 function sourceGraphLog() {
@@ -2029,6 +2039,7 @@ module.exports = {
   validateTrafficOptions,
   getTrafficOptions,
   getHealthCheckSettings,
+  getZeroTierPlanetProxyPolicy,
   getQuicRules,
   buildMihomoRoutingGraph,
   getRawRoutingGraph,

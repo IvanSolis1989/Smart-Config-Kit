@@ -1,5 +1,5 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.15-dns.13 (2026-10-07)
+// 版本：v6.0.15-dns.14 (2026-10-12)
 // 架构：SUB-STORE 多机场融合 + 22 Smart 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 151 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.15（同策略规范化与语义去重）
 // 变更历史：见 `Clash Party/CHANGELOG.md`
@@ -8,7 +8,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.15-dns.13'
+const VERSION = 'v6.0.15-dns.14'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -16,12 +16,13 @@ const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'
 // 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
 const SCKI_MAX_NODE_MULTIPLIER = null
 
-// SCKI local traffic options. Edit these two constants locally; synchronization restores source defaults.
+// SCKI local traffic options. Edit trusted local constants only; synchronization restores source defaults.
 const SCKI_HEALTH_CHECK_PROFILE = 'standard'
 const SCKI_QUIC_POLICY = 'block-foreign'
+const SCKI_ZEROTIER_PLANET_PROXY = false
 
-// >>> SCKI TRAFFIC OPTIONS: BEGIN — generated from tools/runtime/traffic-options.js and rulesets/source/traffic-options.json.
-// Browser and QuickJS safe. Synchronize QUIC data from routing-graph.js with tools/sync-traffic-options.js.
+// >>> SCKI TRAFFIC OPTIONS: BEGIN — generated from tools/runtime/traffic-options.js, routing-graph.js and traffic-options.json.
+// Browser and QuickJS safe. Synchronize rule data from routing-graph.js with tools/sync-traffic-options.js.
 var SckiTrafficOptions = (function() {
   // >>> SCKI HEALTH CHECK: BEGIN
   var HEALTH_CHECK_PROFILES = {"standard":{"intervalSeconds":300,"lazy":true},"power-save":{"intervalSeconds":900,"lazy":true}};
@@ -29,11 +30,15 @@ var SckiTrafficOptions = (function() {
   // >>> SCKI QUIC RULES: BEGIN
   var BLOCK_FOREIGN_QUIC_RULES = ["AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,youtube)),📹 YouTube","AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,google)),🔍 Google 服务","AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,microsoft)),Ⓜ️ 微软服务","AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,apple)),🍎 苹果服务","AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,cn)))),REJECT"];
   // <<< SCKI QUIC RULES: END
+  // >>> SCKI ZEROTIER PLANET: BEGIN
+  var ZEROTIER_PLANET_PROXY_POLICY = {"targetGroup":"🇺🇸 美国节点","rules":["AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,103.195.103.66/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,79.127.159.187/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,84.17.53.155/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,185.152.67.145/32,no-resolve)),🇺🇸 美国节点"]};
+  // <<< SCKI ZEROTIER PLANET: END
 
   function validate(options) {
     if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
         (options.healthCheckProfile !== 'standard' && options.healthCheckProfile !== 'power-save') ||
-        (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules')) {
+        (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules') ||
+        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean')) {
       throw new Error('Invalid SCKI traffic options');
     }
     return options;
@@ -69,7 +74,27 @@ var SckiTrafficOptions = (function() {
     return rules;
   }
 
-  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy };
+  function requireZeroTierPlanetProxyTarget(enabled, groupNames) {
+    if (typeof enabled !== 'boolean') throw new Error('Invalid SCKI ZeroTier planet proxy option');
+    if (enabled && (!Array.isArray(groupNames) || groupNames.indexOf(ZEROTIER_PLANET_PROXY_POLICY.targetGroup) < 0)) {
+      throw new Error('SCKI ZeroTier planet proxy requires existing ' + ZEROTIER_PLANET_PROXY_POLICY.targetGroup);
+    }
+  }
+
+  function applyZeroTierPlanetProxy(rules, enabled, groupNames) {
+    requireZeroTierPlanetProxyTarget(enabled, groupNames);
+    if (!Array.isArray(rules)) throw new Error('SCKI rules must be an array');
+    var ownedRules = ZEROTIER_PLANET_PROXY_POLICY.rules;
+    for (var i = rules.length - 1; i >= 0; i--) {
+      if (ownedRules.indexOf(rules[i]) >= 0) rules.splice(i, 1);
+    }
+    if (enabled) {
+      for (var j = ownedRules.length - 1; j >= 0; j--) rules.unshift(ownedRules[j]);
+    }
+    return rules;
+  }
+
+  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy };
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;
@@ -1471,11 +1496,14 @@ function sortProxyGroups(config) {
 function main(config) {
   try {
     if (!config || typeof config !== 'object') return config
-    SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY })
+    SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY })
     var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
       console.log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)
       return config
+    }
+    if (SCKI_ZEROTIER_PLANET_PROXY) {
+      SckiTrafficOptions.requireZeroTierPlanetProxyTarget(true, classifyAllNodes(nodePlan.proxies).US.length ? [SMART.US] : [])
     }
     if (nodePlan.sourceCount === 0 && nodePlan.flattenedProviders === 0) return config
     // These source structures are used by overwriteGeneral; reject malformed shapes before any write.
@@ -1550,6 +1578,7 @@ function main(config) {
     applyMihomoFusedRuleSets(config)
     SckiTrafficOptions.applyHealthCheckProfile(config, SCKI_HEALTH_CHECK_PROFILE, 'smart')
     SckiTrafficOptions.applyQuicPolicy(config.rules, SCKI_QUIC_POLICY)
+    SckiTrafficOptions.applyZeroTierPlanetProxy(config.rules, SCKI_ZEROTIER_PLANET_PROXY, config['proxy-groups'].map(function(group) { return group.name }))
     sortProxyGroups(config)
     console.log(`[${VERSION}] Done! Groups: ${config['proxy-groups'].length}, Rules: ${config.rules.length}, Providers: ${Object.keys(config['rule-providers']).length}`)
     return config

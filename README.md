@@ -1,4 +1,4 @@
-# 🚀 Smart-Config-Kit v6.0.14
+# 🚀 Smart-Config-Kit v6.0.15
 
 > 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
 >
@@ -7,6 +7,7 @@
 > - 🧩 22 个区域组 + 33 个业务组，提供 Smart / Normal 两种内核。
 > - 🧹 订阅覆写入口提供节点预检、inline payload 展平和可选倍率上限；具名直连依赖保留并排除测速，详见 [节点筛选指南](./docs/subscription-node-filter.md)。
 > - ⚙️ Mihomo/Stash 默认测速组 300 秒并启用 `lazy`，可选 900 秒；海外 UDP/443 的 QUIC 策略也可切换。命令、平台差异与验证方法见[测速与 QUIC 策略选项](./docs/traffic-options.md)。
+> - 🛰️ JS 本地覆写提供默认关闭的 [ZeroTier 根节点 UDP 代理](./docs/zerotier-planet-proxy.md)，仅用于已验证需要该路径的设备。
 > - 🔎 设计依据见 [GitHub 分流脚本横向研究](./docs/research/2026-09-30-github-routing-script-comparison.md)，包含按 star 排序的搜索快照、源码对比和采用边界。
 > - 🛡️ 分层 DoH 负责业务 DNS；支持订阅覆写的 Mihomo 入口只投影活动节点所需的 DNS 提示，静态端边界见 [DNS 指南](./docs/private-node-dns.md)。
 > - 🔄 GitHub Actions 自动重建、校验和发布产物，减少跨端配置漂移。

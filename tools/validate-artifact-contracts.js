@@ -1276,6 +1276,11 @@ function validateJsProducts(record) {
       && source.includes('SckiTrafficOptions.applyQuicPolicy(config.rules, SCKI_QUIC_POLICY)'), {
       message: `JS option must match ${TRAFFIC_OPTIONS.quicPolicy} and be applied to runtime rules`,
     });
+    record.check(`js.${id}.zerotier-local-default`, source.includes('const SCKI_ZEROTIER_PLANET_PROXY = false')
+      && source.includes('SckiTrafficOptions.applyZeroTierPlanetProxy(config.rules, SCKI_ZEROTIER_PLANET_PROXY,')
+      && source.includes('SckiTrafficOptions.requireZeroTierPlanetProxyTarget(true,'), {
+      message: 'ZeroTier planet proxy must be default-off, validate its existing target before writes, and apply through the shared runtime',
+    });
   }
   record.check('js.no-legacy-fast-region-interval', !/interval:\s*(120|180),\s*tolerance:/.test(`${smart}\n${normal}\n${flclash}`), {
     message: 'JS region interval must not regress to 120s/180s',

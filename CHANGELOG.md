@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.15 — 可信本地 ZeroTier 根节点 UDP 选项 (2026-10-12)
+
+- [Clash Party](./Clash%20Party/CHANGELOG.md) 与 [FlClash](./FlClash/CHANGELOG.md) 提供默认关闭的四根 UDP/9993 代理开关；默认分流和静态资产保持不变。范围、官方规则字段与启用方法见 [使用说明](./docs/zerotier-planet-proxy.md)。Egern 清单只刷新真实来源哈希。
+- JS 验证工作流纳入四根规则、本地开关边界与写前预检回归。
+
 ## v6.0.15 — 默认测速组按需检查 (2026-10-07)
 
 - 根据实际使用选择，Mihomo 与 Stash 的默认档保持 300 秒并启用 `lazy: true`；900 秒仍是可选省电档。其他客户端沿用各自原生测速调度；海外 QUIC 默认档不变。详见[测速与 QUIC 策略选项](./docs/traffic-options.md)。

@@ -1,5 +1,9 @@
 # Egern — 变更日志
 
+## 来源清单核对 (2026-10-12)
+
+- 源图新增默认关闭的 JS 本地 ZeroTier 规则导出后，generation manifest 仅更新 `source.routing_graph_sha256`；默认图完整相同，Egern profile、原生资产及冻结快照保持原字节。客户端版本仍为 v6.0.15-egern.7；本次未增加 Egern 选项或规则。
+
 ## v6.0.15-egern.7 (2026-10-07)
 
 - 此次 CMFA 默认 `lazy` 更新只刷新生成清单的源元数据哈希；Egern `smart` 组的测速行为和本端尾号保持不变。

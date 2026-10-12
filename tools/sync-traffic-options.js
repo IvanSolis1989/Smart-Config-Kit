@@ -16,6 +16,8 @@ const ruleBegin = '  // >>> SCKI QUIC RULES: BEGIN';
 const ruleEnd = '  // <<< SCKI QUIC RULES: END';
 const healthBegin = '  // >>> SCKI HEALTH CHECK: BEGIN';
 const healthEnd = '  // <<< SCKI HEALTH CHECK: END';
+const zeroTierBegin = '  // >>> SCKI ZEROTIER PLANET: BEGIN';
+const zeroTierEnd = '  // <<< SCKI ZEROTIER PLANET: END';
 const embedBegin = '// >>> SCKI TRAFFIC OPTIONS: BEGIN';
 const embedEnd = '// <<< SCKI TRAFFIC OPTIONS: END';
 
@@ -37,7 +39,8 @@ function prepareUpdates(defaults = graph.getTrafficOptions()) {
   const ruleBlock = ruleBegin + '\n  var BLOCK_FOREIGN_QUIC_RULES = ' + JSON.stringify(graph.getQuicRules('block-foreign')) + ';\n' + ruleEnd;
   const profiles = { standard: graph.getHealthCheckSettings('standard'), 'power-save': graph.getHealthCheckSettings('power-save') };
   const healthBlock = healthBegin + '\n  var HEALTH_CHECK_PROFILES = ' + JSON.stringify(profiles) + ';\n' + healthEnd;
-  const runtime = replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock, runtimePath), healthBegin, healthEnd, healthBlock, runtimePath);
+  const zeroTierBlock = zeroTierBegin + '\n  var ZEROTIER_PLANET_PROXY_POLICY = ' + JSON.stringify(graph.getZeroTierPlanetProxyPolicy()) + ';\n' + zeroTierEnd;
+  const runtime = replaceMarked(replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock, runtimePath), healthBegin, healthEnd, healthBlock, runtimePath), zeroTierBegin, zeroTierEnd, zeroTierBlock, runtimePath);
   updates.push({ file: runtimeFile, original: originalRuntime, updated: runtime });
 
   for (const target of targets) {
@@ -45,7 +48,7 @@ function prepareUpdates(defaults = graph.getTrafficOptions()) {
     const original = fs.readFileSync(file, 'utf8');
     const eol = original.includes('\r\n') ? '\r\n' : '\n';
     const runtimeForTarget = runtime.trimEnd().replace(/\r\n/g, '\n').replace(/\n/g, eol);
-    const block = [embedBegin + ' — generated from ' + runtimePath + ' and rulesets/source/traffic-options.json.', runtimeForTarget, embedEnd].join(eol);
+    const block = [embedBegin + ' — generated from ' + runtimePath + ', routing-graph.js and traffic-options.json.', runtimeForTarget, embedEnd].join(eol);
     let updated = original;
     if (original.includes(embedBegin) || original.includes(embedEnd)) {
       updated = replaceMarked(original, embedBegin, embedEnd, block, target);
@@ -58,9 +61,10 @@ function prepareUpdates(defaults = graph.getTrafficOptions()) {
     }
     const healthLine = `const SCKI_HEALTH_CHECK_PROFILE = '${defaults.healthCheckProfile}'`;
     const quicLine = `const SCKI_QUIC_POLICY = '${defaults.quicPolicy}'`;
-    const localBegin = '// SCKI local traffic options. Edit these two constants locally; synchronization restores source defaults.';
-    const localBlock = [localBegin, healthLine, quicLine].join(eol);
-    const localPattern = /\/\/ SCKI local traffic options\.[^\r\n]*\r?\nconst SCKI_HEALTH_CHECK_PROFILE = '[^'\r\n]*'\r?\nconst SCKI_QUIC_POLICY = '[^'\r\n]*'/;
+    const localBegin = '// SCKI local traffic options. Edit trusted local constants only; synchronization restores source defaults.';
+    const zeroTierLine = 'const SCKI_ZEROTIER_PLANET_PROXY = false';
+    const localBlock = [localBegin, healthLine, quicLine, zeroTierLine].join(eol);
+    const localPattern = /\/\/ SCKI local traffic options\.[^\r\n]*\r?\nconst SCKI_HEALTH_CHECK_PROFILE = '[^'\r\n]*'\r?\nconst SCKI_QUIC_POLICY = '[^'\r\n]*'(?:\r?\nconst SCKI_ZEROTIER_PLANET_PROXY = [^\r\n]*)?/;
     if (localPattern.test(updated)) updated = updated.replace(localPattern, localBlock);
     else {
       const start = updated.indexOf(embedBegin);
