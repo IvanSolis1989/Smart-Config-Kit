@@ -37,6 +37,9 @@ const {
   mihomoAssetCachePath,
   repositoryAssetUrl,
 } = require('./lib/generated-asset-url');
+const { createFusedSourceLoader } = require('./lib/fused-source-provenance');
+const { downloadSource } = require('./sync-mihomo-mrs-rule-providers');
+const { refreshRuleQuality } = require('./refresh-rule-quality');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const MIHOMO_MRS_MANIFEST_FILE = path.join(REPO_ROOT, 'rulesets/generated/mihomo-mrs/manifest.json');
@@ -61,6 +64,14 @@ const SING_BOX_REPO_API = `https://api.github.com/repos/${SING_BOX_REPO}/release
 const RELEASE_FETCH_TIMEOUT_MS = Number(process.env.SCKI_RELEASE_FETCH_TIMEOUT_MS || 15000);
 const SOURCE_FETCH_TIMEOUT_MS = Number(process.env.SCKI_SOURCE_FETCH_TIMEOUT_MS || 30000);
 const SCKI_OFFLINE = process.env.SCKI_OFFLINE === '1';
+const sourceResolutionMemo = new Map();
+const fusedSources = createFusedSourceLoader({
+  repoRoot: REPO_ROOT,
+  cacheDir: path.join(CACHE_DIR, 'source-receipts'),
+  mrsCacheDir: path.join(MIHOMO_CACHE_DIR, 'raw-inputs'),
+  offline: SCKI_OFFLINE,
+  fetchSource: url => downloadSource(url, fetch, sourceResolutionMemo, { sourceTimeoutMs: SOURCE_FETCH_TIMEOUT_MS }),
+});
 // jsDelivr rejects files at 20 MB. Keep a 2 MiB buffer for all client-facing text assets.
 const MAX_REMOTE_RULE_SET_BYTES = 18 * 1024 * 1024;
 
@@ -293,16 +304,20 @@ function metaSourceForMrsUrl(url) {
   };
 }
 
-function readMihomoMrsSourceMap() {
+function readMihomoMrsSourceMap(manifest = null) {
   const byFile = new Map();
-  if (!fs.existsSync(MIHOMO_MRS_MANIFEST_FILE)) return byFile;
-  const manifest = JSON.parse(readText(MIHOMO_MRS_MANIFEST_FILE));
+  if (!manifest) {
+    if (!fs.existsSync(MIHOMO_MRS_MANIFEST_FILE)) return byFile;
+    manifest = JSON.parse(readText(MIHOMO_MRS_MANIFEST_FILE));
+  }
   for (const row of [...(manifest.converted || []), ...(manifest.split || []), ...(manifest.partial || [])]) {
     for (const generated of row.generated || []) {
       byFile.set(generated.file, {
         id: row.id,
         sourceUrl: row.source_url,
+        localPath: row.source_receipt?.local_path ? path.resolve(REPO_ROOT, row.source_receipt.local_path) : null,
         sourceFilter: generated.behavior,
+        expectedReceipt: row.source_receipt || null,
       });
     }
     if (row.residual) {
@@ -310,6 +325,7 @@ function readMihomoMrsSourceMap() {
         id: row.id,
         localPath: path.join(REPO_ROOT, 'rulesets/generated/mihomo-mrs', row.residual.file),
         sourceFilter: null,
+        expectedReceipt: row.residual.output_receipt || null,
       });
     }
   }
@@ -325,13 +341,15 @@ function sourceInfoForGeneratedMihomoMrs(url, byFile) {
 function sourceInfoForProvider(provider, byFile) {
   if (!provider || !provider.url) return null;
   const providerFilter = provider.behavior === 'domain' || provider.behavior === 'ipcidr' ? provider.behavior : null;
+  // Generated residuals and local MRS inputs must retain their recorded receipt
+  // before the generic repository URL shortcut is considered.
+  const generated = sourceInfoForGeneratedMihomoMrs(provider.url, byFile);
+  if (generated) return generated;
+
   const opaqueMrs = resolveOpaqueMrsSource(provider.url);
   if (opaqueMrs) return opaqueMrs;
   const local = localPathForRepositoryRuleUrl(provider.url);
   if (local && !/\.mrs$/i.test(local)) return { localPath: local, sourceFilter: providerFilter };
-
-  const generated = sourceInfoForGeneratedMihomoMrs(provider.url, byFile);
-  if (generated) return generated;
 
   const meta = metaSourceForMrsUrl(provider.url);
   if (meta) return meta;
@@ -347,60 +365,12 @@ function sourceInfoForProvider(provider, byFile) {
 }
 
 async function fetchText(url) {
-  const local = localPathForRepositoryRuleUrl(url);
-  if (local) return readText(local);
-
-  const key = Buffer.from(url).toString('base64url');
-  const cached = path.join(CACHE_DIR, `${key}.txt`);
-  if (fs.existsSync(cached)) return readText(cached);
-  if (SCKI_OFFLINE) throw new Error(`offline fused source cache miss: ${url}`);
-
-  const candidates = [url];
-  if (url.includes('fastly.jsdelivr.net/gh/')) candidates.push(url.replace('https://fastly.jsdelivr.net/gh/', 'https://cdn.jsdelivr.net/gh/'));
-  if (url.includes('cdn.jsdelivr.net/gh/')) candidates.push(url.replace('https://cdn.jsdelivr.net/gh/', 'https://fastly.jsdelivr.net/gh/'));
-  const jsdelivrMatch = url.match(/^https:\/\/(?:fastly\.|cdn\.|testingcf\.)?jsdelivr\.net\/gh\/([^/]+)\/([^@/]+)@([^/]+)\/(.+)$/);
-  if (jsdelivrMatch) {
-    const [, owner, repo, ref, filePath] = jsdelivrMatch;
-    candidates.push(`https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${filePath}`);
-  }
-  if (url.includes('raw.githubusercontent.com/')) {
-    const rawMatch = url.match(/^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)$/);
-    if (rawMatch) {
-      const [, owner, repo, ref, filePath] = rawMatch;
-      candidates.push(`https://fastly.jsdelivr.net/gh/${owner}/${repo}@${ref}/${filePath}`);
-      candidates.push(`https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/${filePath}`);
-    }
-  }
-  const errors = [];
-  const orderedCandidates = [...new Set(candidates)].sort((a, b) => {
-    const aRaw = a.includes('raw.githubusercontent.com') ? 1 : 0;
-    const bRaw = b.includes('raw.githubusercontent.com') ? 1 : 0;
-    return aRaw - bRaw;
-  });
-  for (const candidate of orderedCandidates) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), SOURCE_FETCH_TIMEOUT_MS);
-    try {
-      const response = await fetch(candidate, {
-        signal: controller.signal,
-        headers: { 'user-agent': 'Smart-Config-Kit-Fused-Rules/1.0' },
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = Buffer.from(await response.arrayBuffer()).toString('utf8');
-      writeText(cached, text);
-      return text;
-    } catch (error) {
-      errors.push(`${candidate} -> ${error.message}`);
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-  throw new Error(errors.join('; '));
+  return (await fusedSources.load({ sourceUrl: url })).text;
 }
 
 async function loadSourceEntries(sourceInfo) {
   if (!sourceInfo) return null;
-  const text = sourceInfo.localPath ? readText(sourceInfo.localPath) : await fetchText(sourceInfo.sourceUrl);
+  const { text } = await fusedSources.load(sourceInfo);
   let entries = parsePayloadEntries(text);
   if (sourceInfo.sourceFilter) {
     entries = entries.filter((entry) => classifyEntry(entry).bucket === sourceInfo.sourceFilter);
@@ -643,6 +613,7 @@ async function resolveMainRule(rule, providers, sourceMap, stats) {
     const policy = parts[2];
     if (!provider) return { fusable: false, rule, reason: `missing-provider:${providerName}` };
     const sourceInfo = sourceInfoForProvider({ ...provider, name: providerName }, sourceMap);
+    if (sourceInfo) sourceInfo.providerId = providerName;
     let rawEntries = null;
     try {
       rawEntries = await loadSourceEntries(sourceInfo);
@@ -658,7 +629,7 @@ async function resolveMainRule(rule, providers, sourceMap, stats) {
     const name = parts[1];
     let entries = null;
     try {
-      entries = await loadSourceEntries({ sourceUrl: `${META_GEOSITE_BASE}/${encodeRuleAssetName(name)}.yaml`, sourceFilter: 'domain' });
+      entries = await loadSourceEntries({ sourceUrl: `${META_GEOSITE_BASE}/${encodeRuleAssetName(name)}.yaml`, sourceFilter: 'domain', providerId: `GEOSITE:${name}` });
     } catch (error) {
       stats.unresolvedSources.push({ id: `GEOSITE:${name}`, error: error.message });
       throw new Error(`cannot fuse GEOSITE:${name}: ${error.message}`);
@@ -1716,6 +1687,7 @@ function rebuildClientsFromSnapshot(clashOutput) {
   });
   writeText(path.join(FUSED_ROOT, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   generateFusedFallbackArtifacts({ quiet: true, updateManifest: true });
+  refreshRuleQuality();
   console.log(`Reused fused snapshot payloads: providers=${manifest.fused_provider_count} rules=${manifest.fused_rule_count} segments=${manifest.segment_count}; no upstream refresh`);
 }
 
@@ -1762,6 +1734,7 @@ async function main() {
   };
   writeText(path.join(FUSED_ROOT, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   const fallbackStats = generateFusedFallbackArtifacts({ quiet: true, updateManifest: true });
+  refreshRuleQuality({ sourceReads: fusedSources.receipts() });
   console.log(`fused rule sets: source_providers=${manifest.source_provider_count} source_rules=${manifest.source_rule_count} segments=${manifest.segment_count} fused_providers=${manifest.fused_provider_count} fused_rules=${manifest.fused_rule_count} inline=${manifest.inline_rule_count} mrs=${manifest.generated_mrs_files} srs=${manifest.generated_srs_files} unresolved=${manifest.unresolved_providers.length}`);
   console.log(`fused fallback artifacts: xray_rules=${fallbackStats.xray.ruleCount} passwall_rules=${fallbackStats.passwallFiles}`);
   if (manifest.unresolved_providers.length || manifest.unresolved_sources.length) {
@@ -1774,4 +1747,4 @@ if (require.main === module) main().catch((error) => {
   process.exit(1);
 });
 
-module.exports = { applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt };
+module.exports = { applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider };

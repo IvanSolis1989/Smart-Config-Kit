@@ -23,6 +23,20 @@ on:
       - 'Passwall2/shunt-rules/**/*.list'
       - 'rulesets/source/routing-graph.js'
       - 'rulesets/source/traffic-options.json'
+      - 'rulesets/source/upstream-sources.json'
+      - 'rulesets/source/adfp-exceptions.json'
+      - 'rulesets/source/semantic-approval.json'
+      - 'rulesets/supplemental/**'
+      - 'tools/*rule-quality*.js'
+      - 'tools/*ordered-rule*.js'
+      - 'tools/*adfp*.js'
+      - 'tools/sync-mihomo-mrs-rule-providers.js'
+      - 'tools/lib/*provenance*.js'
+      - 'tools/lib/ordered-rule-semantics.js'
+      - 'tools/lib/adfp-exceptions.js'
+      - 'tools/tests/*provenance*.test.js'
+      - 'tools/tests/ordered-rule-semantics.test.js'
+      - 'tools/tests/adfp-exceptions.test.js'
       - 'rulesets/generated/**'
       - 'tools/build-fused-rule-sets.js'
       - 'tools/configure-traffic-options.js'
@@ -80,6 +94,20 @@ on:
       - 'Passwall2/shunt-rules/**/*.list'
       - 'rulesets/source/routing-graph.js'
       - 'rulesets/source/traffic-options.json'
+      - 'rulesets/source/upstream-sources.json'
+      - 'rulesets/source/adfp-exceptions.json'
+      - 'rulesets/source/semantic-approval.json'
+      - 'rulesets/supplemental/**'
+      - 'tools/*rule-quality*.js'
+      - 'tools/*ordered-rule*.js'
+      - 'tools/*adfp*.js'
+      - 'tools/sync-mihomo-mrs-rule-providers.js'
+      - 'tools/lib/*provenance*.js'
+      - 'tools/lib/ordered-rule-semantics.js'
+      - 'tools/lib/adfp-exceptions.js'
+      - 'tools/tests/*provenance*.test.js'
+      - 'tools/tests/ordered-rule-semantics.test.js'
+      - 'tools/tests/adfp-exceptions.test.js'
       - 'rulesets/generated/**'
       - 'tools/build-fused-rule-sets.js'
       - 'tools/configure-traffic-options.js'
@@ -127,6 +155,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -170,3 +200,16 @@ jobs:
 
       - name: Validate PROCESS-NAME direct whitelist
         run: node tools/validate-process-name-direct.js
+
+      - name: Validate source receipts, ordered semantics and governed exceptions
+        env:
+          SCKI_BASELINE_REF: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: |
+          node tools/refresh-rule-quality.js --check
+          node tools/validate-adfp-exceptions.js
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js
+          approval_args=()
+          if [ -f rulesets/source/semantic-approval.json ]; then
+            approval_args=(--expected-changes rulesets/source/semantic-approval.json)
+          fi
+          node tools/validate-ordered-rule-semantics.js --baseline-ref "$SCKI_BASELINE_REF" --mode domain-projection --check --output "$RUNNER_TEMP/semantic-diff.json" "${approval_args[@]}"

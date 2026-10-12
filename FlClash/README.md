@@ -1,5 +1,7 @@
 # FlClash 使用教程 — 覆写脚本版
 
+> 规则质量台账：[来源与版本、顺序语义差分、ADFP 例外范围及客户端格式依据](../docs/rule-quality.md)。各端仍由唯一 source graph 派生并使用现有原生语法；质量 metadata 用于审计输入和生成收据，不增加运行时规则。
+
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 本地 JS 副本也提供默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)，与 Clash Party 共用运行时；普通手机订阅继续使用关闭的默认值。
@@ -9,7 +11,7 @@
 > 覆写脚本：`FlClash(mihomo).js`
 > 适用客户端：**FlClash**（Android / Windows / macOS / Linux）
 > 内核要求：FlClash >= **v0.8.85**
-> 当前版本：**v6.0.15-flclash.16**（22 url-test 区域组 + 33 业务策略组 + 132 融合 rule-providers / 151 rules；变更历史见 `FlClash/CHANGELOG.md`）
+> 当前版本：**v6.0.16-flclash.16**（22 url-test 区域组 + 33 业务策略组 + 132 融合 rule-providers / 151 rules；变更历史见 `FlClash/CHANGELOG.md`）
 >
 > 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号会自动进入区域组；不对普通小写词做宽泛国家码匹配。
 

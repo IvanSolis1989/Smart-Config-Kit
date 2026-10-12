@@ -5,6 +5,11 @@ on:
     # 每周一 05:23 JST（周日 20:23 UTC）；变更 cron 可重新激活可能已停用的 schedule。
     - cron: '23 20 * * 0'
   workflow_dispatch:
+    inputs:
+      semantic_approval_path:
+        description: 'Optional identity-bound review JSON under rulesets/source/ for this exact refresh'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -43,7 +48,7 @@ jobs:
           node --test tools/tests/traffic-asset-reuse.test.js
 
       - name: Sync Mihomo MRS rule providers
-        run: node tools/sync-mihomo-mrs-rule-providers.js
+        run: node tools/sync-mihomo-mrs-rule-providers.js --keep-cache
 
       - name: Apply Mihomo MRS overrides
         run: node tools/apply-mihomo-mrs-overrides.js
@@ -61,6 +66,8 @@ jobs:
 
       - name: Validate complete fused release chain
         run: |
+          node tools/validate-adfp-exceptions.js
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js
           node tools/sync-traffic-options.js --check
           node tools/validate-js-overwrites.js
           node tools/validate-process-name-direct.js
@@ -75,6 +82,33 @@ jobs:
           node tools/test-info-node-filter.js
           node tools/test-kr-boundary.js
           git diff --check
+
+      - name: Review ordered semantic changes before publication
+        env:
+          SCKI_SEMANTIC_APPROVAL_PATH: ${{ inputs.semantic_approval_path }}
+        run: |
+          approval_args=()
+          if [ -n "$SCKI_SEMANTIC_APPROVAL_PATH" ]; then
+            case "$SCKI_SEMANTIC_APPROVAL_PATH" in
+              rulesets/source/*.json) ;;
+              *) echo "Approval must be a repository-local rulesets/source JSON file"; exit 1 ;;
+            esac
+            case "$SCKI_SEMANTIC_APPROVAL_PATH" in *..*) exit 1 ;; esac
+            approval_args=(--expected-changes "$SCKI_SEMANTIC_APPROVAL_PATH")
+          fi
+          node tools/validate-ordered-rule-semantics.js --baseline-ref HEAD --mode domain-projection --check --output rulesets/generated/semantic-diff.json "${approval_args[@]}"
+          node tools/refresh-rule-quality.js
+          node tools/refresh-rule-quality.js --check
+
+      - name: Retain rule quality evidence even when review fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rule-quality-evidence
+          path: |
+            rulesets/generated/source-ledger.json
+            rulesets/generated/adfp-exceptions.json
+            rulesets/generated/semantic-diff.json
 
       - name: Commit synchronized fused artifacts
         run: |
@@ -101,6 +135,9 @@ jobs:
             "rulesets/generated/mihomo-mrs" \
             "rulesets/generated/egern" \
             "rulesets/generated/egern-traffic-snapshot.json.gz" \
+            "rulesets/generated/source-ledger.json" \
+            "rulesets/generated/adfp-exceptions.json" \
+            "rulesets/generated/semantic-diff.json" \
             "rulesets/supplemental/egern" \
             "tools/runtime/traffic-options.js"
           if git diff --cached --quiet; then

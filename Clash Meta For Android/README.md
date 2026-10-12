@@ -1,5 +1,7 @@
 # Clash Meta For Android（CMFA）使用教程
 
+> 规则质量台账：[来源与版本、顺序语义差分、ADFP 例外范围及客户端格式依据](../docs/rule-quality.md)。各端仍由唯一 source graph 派生并使用现有原生语法；质量 metadata 用于审计输入和生成收据，不增加运行时规则。
+
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 目录简介：这里提供 CMFA/mihomo 原生 YAML 配置和 Android/ClashMi 导入教程，用于复用 Clash Party 基线策略的静态版本。
@@ -8,7 +10,7 @@
 > 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
 > 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
 > **FlClash 用户**：推荐使用 [FlClash 覆写脚本](../FlClash/FlClash(mihomo).js)（动态节点分类 + 家宽识别 + 订阅清理）。详见 [`FlClash/README.md`](../FlClash/README.md)。
-> 当前版本：**v6.0.15-cmfa.9**（Build 2026-10-07，跟随 Clash Party v6.0.15 主线；融合规则集使用版本化本地缓存路径）
+> 当前版本：**v6.0.16-cmfa.9**（Build 2026-10-12，跟随 Clash Party v6.0.16 主线；融合规则集使用版本化本地缓存路径）
 
 > 测速候选：具名 direct/reject 支持出站留在 provider 中供拨号链引用，22 个测速组按类型排除它们；空组使用 REJECT。业务组中的显式 DIRECT 选择仍可使用。[官方代理组字段](https://wiki.metacubex.one/config/proxy-groups/)与[实核验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
 

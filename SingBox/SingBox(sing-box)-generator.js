@@ -5,9 +5,9 @@ const { repositoryAssetUrl } = require('../tools/lib/generated-asset-url');
 const { getTrafficOptions } = require('../rulesets/source/routing-graph');
 const TRAFFIC_OPTIONS = getTrafficOptions();
 
-const VERSION = 'v6.0.15-sing.6';
-const BUILD = '2026-10-07';
-const BASELINE = 'Clash Party v6.0.15';
+const VERSION = 'v6.0.16-sing.6';
+const BUILD = '2026-10-12';
+const BASELINE = 'Clash Party v6.0.16';
 
 const SMART = {
   GLOBAL: '🌍 全球节点',

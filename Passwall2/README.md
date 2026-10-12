@@ -1,10 +1,12 @@
-# Passwall2 使用教程（对齐 Clash Party v6.0.15）
+# Passwall2 使用教程（对齐 Clash Party v6.0.16）
+
+> 规则质量台账：[来源与版本、顺序语义差分、ADFP 例外范围及客户端格式依据](../docs/rule-quality.md)。各端仍由唯一 source graph 派生并使用现有原生语法；质量 metadata 用于审计输入和生成收据，不增加运行时规则。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 目录简介：这里提供 Passwall2 精简分流版的 fused shunt rule fallback、UCI 批量脚本和 OpenWrt 导入说明。
 >
-> 版本：**v6.0.15-pw2.6**（Build 2026-10-07；基线：Clash Party v6.0.15；生成 `.srs` 资产使用发布版本缓存键；变更历史见 `Passwall2/CHANGELOG.md`）。
+> 版本：**v6.0.16-pw2.6**（Build 2026-10-12；基线：Clash Party v6.0.16；生成 `.srs` 资产使用发布版本缓存键；变更历史见 `Passwall2/CHANGELOG.md`）。
 
 ---
 

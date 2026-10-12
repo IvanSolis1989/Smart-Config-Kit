@@ -1,8 +1,9 @@
-# 🚀 Smart-Config-Kit v6.0.15
+# 🚀 Smart-Config-Kit v6.0.16
 
 > 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
 >
 > - 🧭 同一 source graph 经 `MRS -> fused -> 原生产物` 生成各端配置，统一规则顺序与分流目标。
+> - 🧾 规则输入来源、顺序语义差分和 ADFP 例外审计见[规则质量台账](./docs/rule-quality.md)；报告保留来源缺口与未知状态，不改变客户端运行规则。
 > - 🎯 国内策略优先，关键域名、API 和本地工具按明确策略分流；各内核使用适合自身能力的规则格式。
 > - 🧩 22 个区域组 + 33 个业务组，提供 Smart / Normal 两种内核。
 > - 🧹 订阅覆写入口提供节点预检、inline payload 展平和可选倍率上限；具名直连依赖保留并排除测速，详见 [节点筛选指南](./docs/subscription-node-filter.md)。

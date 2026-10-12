@@ -1,0 +1,773 @@
+{
+  "schema_version": 1,
+  "description": "Reviewed narrow exceptions for the four existing adfp supplemental providers. routing-graph.js remains authoritative for provider targets and order.",
+  "records": [
+    {
+      "id": "nvidia-cn-login",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,login.nvidia.cn",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The NVIDIA China account sign-in host has a recorded exact-host exception ahead of the broad NVIDIA download route; other NVIDIA download hosts retain their normal download policy.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "login.nvidia.cn` 进入首段 `scki-adfp-direct`，在 NVIDIA 下载宽规则之前精确命中 `DIRECT`",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "NVIDIA China login uses the early exact direct guard before generic NVIDIA download routing",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "login.nvidia.cn"
+      ],
+      "negative_examples": [
+        "foo.login.nvidia.cn",
+        "download.nvidia.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "wechat-httpdns-primary",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,dns.weixin.qq.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The WeChat HTTPDNS endpoint is explicitly protected from the generic BlockHttpDNS rejection; only the named host is exempted.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "WeChat HTTPDNS endpoints bypass generic BlockHttpDNS rejection through the early direct guard",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "dns.weixin.qq.com"
+      ],
+      "negative_examples": [
+        "x.dns.weixin.qq.com",
+        "other.weixin.qq.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "wechat-httpdns-cn",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,dns.weixin.qq.com.cn",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The second named WeChat HTTPDNS endpoint is explicitly protected from generic BlockHttpDNS rejection; the exception does not cover sibling hosts.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "WeChat HTTPDNS endpoints bypass generic BlockHttpDNS rejection through the early direct guard",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "dns.weixin.qq.com.cn"
+      ],
+      "negative_examples": [
+        "x.dns.weixin.qq.com.cn",
+        "other.weixin.qq.com.cn"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "netease-game-drpf",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,drpf-g10.proxima.nie.netease.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "A reported NetEase game-service host is allowed through the early direct guard; the recorded decision limits the rule to the two named hosts instead of the shared parent domain.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "reported NetEase game endpoints use the early direct guard before generic game routing",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "drpf-g10.proxima.nie.netease.com"
+      ],
+      "negative_examples": [
+        "x.drpf-g10.proxima.nie.netease.com",
+        "other.proxima.nie.netease.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "netease-game-sigma",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,sigma-performance-g10.proxima.nie.netease.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "A reported NetEase game-service host is allowed through the early direct guard; the recorded decision limits the rule to the two named hosts instead of the shared parent domain.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "reported NetEase game endpoints use the early direct guard before generic game routing",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "sigma-performance-g10.proxima.nie.netease.com"
+      ],
+      "negative_examples": [
+        "x.sigma-performance-g10.proxima.nie.netease.com",
+        "other.proxima.nie.netease.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-account",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,account.xiaomi.com",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The Xiaomi account authentication namespace is recorded as vulnerable to miuiprivacy false positives; the existing suffix rule intentionally covers its subdomains.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`account.xiaomi.com` | `DIRECT` | 小米账号认证被 `miuiprivacy` 类规则误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "account.xiaomi.com",
+        "login.account.xiaomi.com"
+      ],
+      "negative_examples": [
+        "account.xiaomi.com.example",
+        "xiaomi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-passport",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,passport.xiaomi.com",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The Xiaomi passport authentication namespace is included as an account-chain exception; this is a deliberate suffix-wide match.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`passport.xiaomi.com` | `DIRECT` | 小米账号认证链路。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "passport.xiaomi.com",
+        "api.passport.xiaomi.com"
+      ],
+      "negative_examples": [
+        "passport.xiaomi.com.example",
+        "xiaomi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-micloud",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,micloud.xiaomi.com",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The Xiaomi cloud service namespace is recorded for direct routing, with suffix scope inherited from the existing rule.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`micloud.xiaomi.com` | `DIRECT` | 小米云服务。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "micloud.xiaomi.com",
+        "api.micloud.xiaomi.com"
+      ],
+      "negative_examples": [
+        "micloud.xiaomi.com.example",
+        "xiaomi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-cloud-entry",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,i.mi.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The Xiaomi cloud entry point is kept as a single-host exception; sibling hosts are outside this exact rule.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`i.mi.com` | `DIRECT` | 小米云服务入口。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "i.mi.com"
+      ],
+      "negative_examples": [
+        "x.i.mi.com",
+        "mi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "miui-auth-be",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,auth.be.sec.miui.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "This named MIUI security-authentication host is recorded as an ad/privacy false positive; exact scope avoids granting the surrounding namespace.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`auth.be.sec.miui.com` | `DIRECT` | MIUI 安全认证误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "auth.be.sec.miui.com"
+      ],
+      "negative_examples": [
+        "x.auth.be.sec.miui.com",
+        "be.sec.miui.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "miui-identity-api",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,idm.api.io.mi.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "This named MIUI identity-management API host is recorded as an ad/privacy false positive; adjacent API hosts are outside the exception.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`idm.api.io.mi.com` | `DIRECT` | MIUI 认证 API 误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "idm.api.io.mi.com"
+      ],
+      "negative_examples": [
+        "x.idm.api.io.mi.com",
+        "api.io.mi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-installer-api",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,api.installer.xiaomi.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The named Xiaomi installer service API is recorded for direct routing; scope remains exact to this host.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`api.installer.xiaomi.com` | `DIRECT` | MIUI 安装器服务误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "api.installer.xiaomi.com"
+      ],
+      "negative_examples": [
+        "x.api.installer.xiaomi.com",
+        "installer.xiaomi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "miui-flash-service",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,flash.sec.miui.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The named MIUI security service host is recorded as vulnerable to a false positive; only this exact host is exempted.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`flash.sec.miui.com` | `DIRECT` | MIUI 安全服务误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "flash.sec.miui.com"
+      ],
+      "negative_examples": [
+        "x.flash.sec.miui.com",
+        "sec.miui.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "miui-mazu-service",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,mazu.sec.miui.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The named MIUI security service host is recorded as vulnerable to a false positive; only this exact host is exempted.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`mazu.sec.miui.com` | `DIRECT` | MIUI 安全服务误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "mazu.sec.miui.com"
+      ],
+      "negative_examples": [
+        "x.mazu.sec.miui.com",
+        "sec.miui.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "miui-system-service",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,ccc.sys.miui.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The named MIUI system-service host is recorded as vulnerable to a false positive; adjacent hosts remain outside this exception.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`ccc.sys.miui.com` | `DIRECT` | MIUI 系统服务误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "ccc.sys.miui.com"
+      ],
+      "negative_examples": [
+        "x.ccc.sys.miui.com",
+        "sys.miui.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "xiaomi-push-registration",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,register.xmpush.xiaomi.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The Xiaomi push-registration host is recorded as being blocked by advertisingMitv-like rules; the allow exception is exact-host only.",
+      "evidence": [
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`register.xmpush.xiaomi.com` | `DIRECT` | 小米推送注册被 `advertisingmitv` 类规则误伤。",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "register.xmpush.xiaomi.com"
+      ],
+      "negative_examples": [
+        "x.register.xmpush.xiaomi.com",
+        "xmpush.xiaomi.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "jpush-cn",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,jpush.cn",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The repository records JPush as a domestic push SDK whose endpoints were treated as trackers by broad ad/privacy lists; owner retained a suffix-wide exception for service continuity.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "延续 #2 jpush/umeng——被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行保推送可达",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "docs/2026-05-30-proxy-override-借鉴设计.md",
+          "anchor": "DOMAIN-SUFFIX,jpush.cn,DIRECT       # 极光推送（国内）",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "jpush.cn",
+        "push.jpush.cn"
+      ],
+      "negative_examples": [
+        "jpush.cn.example",
+        "jpush.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "jpush-io",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,jpush.io",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The JPush SDK exception also covers its explicitly listed .io namespace using the existing suffix-wide rule; neighboring domains are excluded.",
+      "evidence": [
+        {
+          "path": "docs/2026-05-30-proxy-override-借鉴设计.md",
+          "anchor": "DOMAIN-SUFFIX,jpush.io",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "jpush.io",
+        "api.jpush.io"
+      ],
+      "negative_examples": [
+        "jpush.io.example",
+        "jpush.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "umeng-message",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,msg.umeng.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "The repository records this named Umeng SDK endpoint for domestic direct routing; scope remains exact because the rule is DOMAIN, not DOMAIN-SUFFIX.",
+      "evidence": [
+        {
+          "path": "docs/2026-05-30-proxy-override-借鉴设计.md",
+          "anchor": "DOMAIN,msg.umeng.com,DIRECT        # 友盟（阿里，国内）",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "msg.umeng.com"
+      ],
+      "negative_examples": [
+        "x.msg.umeng.com",
+        "umeng.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "getui-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,getui.com",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "Getui push-SDK domains were retained because broad ad/privacy lists classify them as trackers while apps depend on push delivery; the owner explicitly accepted this namespace-wide exception.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "owner 选放行保推送可达",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "getui.com",
+        "sdk.getui.com"
+      ],
+      "negative_examples": [
+        "getui.com.example",
+        "getui.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "getui-net",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,getui.net",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "Getui push-SDK domains were retained because broad ad/privacy lists classify them as trackers while apps depend on push delivery; the owner explicitly accepted this namespace-wide exception.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "owner 选放行保推送可达",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "getui.net",
+        "sdk.getui.net"
+      ],
+      "negative_examples": [
+        "getui.net.example",
+        "getui.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "gepush-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN-SUFFIX,gepush.com",
+      "match_scope": "suffix",
+      "target_policy": "DIRECT",
+      "reason": "The Getui-related gepush namespace shares the reviewed push-delivery exception; suffix scope is the existing explicit owner choice.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "owner 选放行保推送可达",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "gepush.com",
+        "sdk.gepush.com"
+      ],
+      "negative_examples": [
+        "gepush.com.example",
+        "gepush.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "cloudflare-r2-storage",
+      "provider": "scki-adfp-intl-site",
+      "rule": "DOMAIN-SUFFIX,cloudflarestorage.com",
+      "match_scope": "suffix",
+      "target_policy": "🌐 国外网站",
+      "reason": "Sukka phishing includes the Cloudflare storage namespace, while Cloudflare documents R2 API and presigned-URL hosts under that namespace. The maintained rule deliberately routes the shared root and all subdomains to the international-site policy.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "当前 Sukka `reject_phishing` domainset 含 `+.cloudflarestorage.com`；本仓库原有 `🌐 国外网站` 规则位于广告段之后，无法覆盖首匹配",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "Cloudflare R2 官方文档确认 `*.r2.cloudflarestorage.com` 是 R2 S3 API / presigned URL 正常访问域",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "cloudflarestorage.com",
+        "bucket.r2.cloudflarestorage.com"
+      ],
+      "negative_examples": [
+        "cloudflarestorage.com.example",
+        "cloudflare.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "paddle-payments",
+      "provider": "scki-adfp-payments",
+      "rule": "DOMAIN-SUFFIX,paddle.com",
+      "match_scope": "suffix",
+      "target_policy": "🏦 金融支付",
+      "reason": "The recorded ad false positive is analytics.paddle.com used by the Antigravity account licensing/payment flow. The accepted rule routes the entire paddle.com suffix to payments, including sibling subdomains, as a deliberate shared-root exception.",
+      "evidence": [
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "当前 anti-AD/DustinWin 源包含 `analytics.paddle.com`，因此必须放在广告/钓鱼/TIF 规则之前",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "docs/GEOSITE_COVERAGE_LEDGER.md",
+          "anchor": "`paddle.com` | `🏦 金融支付` | anti-AD/DustinWin 当前包含 `analytics.paddle.com`；Antigravity 账号设置会调用 Paddle 许可/支付链路。",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "paddle.com",
+        "analytics.paddle.com"
+      ],
+      "negative_examples": [
+        "paddle.com.example",
+        "paddle.example"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "chatgpt-datadog-telemetry",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,browser-intake-datadoghq.com",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "The supplemental README identifies this verified ChatGPT telemetry host as protected because its Datadog parent domain occurs in broad ad/privacy feeds; exact host scope avoids exempting the whole Datadog domain.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "protects verified ChatGPT",
+          "level": "static"
+        },
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "browser-intake-datadoghq.com"
+      ],
+      "negative_examples": [
+        "x.browser-intake-datadoghq.com",
+        "other.datadoghq.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "chatgpt-sentry-telemetry-eu",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,o33249.ingest.sentry.io",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "The supplemental README identifies this verified ChatGPT telemetry host as protected because the Sentry parent domain occurs in broad ad/privacy feeds; exact host scope avoids exempting other Sentry projects.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "protects verified ChatGPT",
+          "level": "static"
+        },
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "o33249.ingest.sentry.io"
+      ],
+      "negative_examples": [
+        "x.o33249.ingest.sentry.io",
+        "other.ingest.sentry.io"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "chatgpt-sentry-telemetry-us",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,o33249.ingest.us.sentry.io",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "The supplemental README identifies this verified ChatGPT telemetry host as protected because the Sentry parent domain occurs in broad ad/privacy feeds; exact host scope avoids exempting other Sentry projects.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "protects verified ChatGPT",
+          "level": "static"
+        },
+        {
+          "path": "Clash Party/CHANGELOG.md",
+          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "level": "historical-owner-decision"
+        }
+      ],
+      "positive_examples": [
+        "o33249.ingest.us.sentry.io"
+      ],
+      "negative_examples": [
+        "x.o33249.ingest.us.sentry.io",
+        "other.ingest.us.sentry.io"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    }
+  ]
+}

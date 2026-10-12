@@ -27,8 +27,8 @@ const SCKI_BASE = SCKI_REPOSITORY_BASE;
 const ASSET_REVISION = SOURCE_GRAPH_VERSION;
 const META_GEOSITE_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite';
 const META_GEOIP_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip';
-const EGERN_VERSION = 'v6.0.15-egern.7';
-const BUILD_DATE = '2026-10-07';
+const EGERN_VERSION = 'v6.0.16-egern.7';
+const BUILD_DATE = '2026-10-12';
 const FETCH_CONCURRENCY = 3;
 const MIHOMO_MRS_BASE_PATH = '/rulesets/generated/mihomo-mrs/';
 // jsDelivr rejects files at 20 MB. Keep generated Egern-native rule sets below 18 MiB.

@@ -1,5 +1,7 @@
 # Clash Party / Clash Verge / Mihomo Party 使用教程
 
+> 规则质量台账：[来源与版本、顺序语义差分、ADFP 例外范围及客户端格式依据](../docs/rule-quality.md)。各端仍由唯一 source graph 派生并使用现有原生语法；质量 metadata 用于审计输入和生成收据，不增加运行时规则。
+
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 受限网络下可在本地 JS 副本中选择默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)。只匹配四个根地址的 UDP/9993；启用前需确认美国节点组可用。
@@ -7,8 +9,8 @@
 > 目录简介：这里是 Mihomo Smart/Normal 覆写脚本的事实基线，面向 Clash Party、Clash Verge Rev、Mihomo Party 等桌面客户端。
 >
 > 覆写脚本：**两份二选一**，规则 100% 等价，仅 22 区域组（11 全部 + 11 家宽）的内核选路算法不同
-> - `ClashParty(mihomo-smart).js`（**v6.0.15-dns.14**，2026-10-12）— Smart 内核 + LightGBM ML 评估
-> - `ClashParty(mihomo).js`（**v6.0.15-normal.15**，2026-10-12）— 普通内核 url-test 延迟选路
+> - `ClashParty(mihomo-smart).js`（**v6.0.16-dns.14**，2026-10-12）— Smart 内核 + LightGBM ML 评估
+> - `ClashParty(mihomo).js`（**v6.0.16-normal.15**，2026-10-12）— 普通内核 url-test 延迟选路
 >
 > UI 补充配置：已整合到本文「四、粘贴 UI 补充配置」章节
 > 架构：**SUB-STORE 多机场融合** + 22 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + **132 融合 rule-providers / 151 rules**（源 514 providers / 973 rules）

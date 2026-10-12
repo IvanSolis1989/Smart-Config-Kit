@@ -1,8 +1,10 @@
 # Egern 使用教程
 
+> 规则质量台账：[来源与版本、顺序语义差分、ADFP 例外范围及客户端格式依据](../docs/rule-quality.md)。各端仍由唯一 source graph 派生并使用现有原生语法；质量 metadata 用于审计输入和生成收据，不增加运行时规则。
+
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
-> 版本：**v6.0.15-egern.7**（Build 2026-10-07；正式跟随 Clash Party v6.0.15 / CMFA 融合规则顺序，原生规则集使用发布版本缓存键）
+> 版本：**v6.0.16-egern.7**（Build 2026-10-12；正式跟随 Clash Party v6.0.16 / CMFA 融合规则顺序，原生规则集使用发布版本缓存键）
 
 本次 CMFA 默认测速 `lazy` 设置仅更新 Egern 生成清单的来源元数据哈希；Egern `smart` 组继续按原生自适应方式探测。
 

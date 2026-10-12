@@ -13,7 +13,8 @@ const {
 } = require('../../rulesets/source/routing-graph');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
-const FUSED_ROOT = path.join(REPO_ROOT, 'rulesets/generated/fused');
+const { loadRepository, parseFusedRules: parseRules, firstDomainRoute: projectDomainRoute } = require('../lib/ordered-rule-semantics');
+const SEMANTICS = loadRepository({ root: REPO_ROOT });
 const CN_SITE = '🏠 国内网站';
 const CN_MEDIA = '📺 国内流媒体';
 const DIRECT = 'DIRECT';
@@ -37,50 +38,12 @@ function readText(relativePath) {
 }
 
 function parseFusedRules() {
-  const source = readText('Clash Party/ClashParty(mihomo-smart).js');
-  const match = source.match(/const\s+MIHOMO_FUSED_RULES\s*=\s*(\[[^\r\n]*\])/);
-  assert.ok(match, 'Clash Party Smart must contain MIHOMO_FUSED_RULES');
-  return JSON.parse(match[1]);
+  return parseRules(readText('Clash Party/ClashParty(mihomo-smart).js'));
 }
 
-function ruleSetEntries(segment) {
-  const entry = segment.files && segment.files.clash;
-  const files = Array.isArray(entry && entry.parts) ? entry.parts : [entry && entry.file].filter(Boolean);
-  return files.flatMap((file) => readText(`rulesets/generated/fused/clash/${file}`)
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#')));
-}
-
-function wildcardMatches(pattern, host) {
-  const expression = `^${pattern.split('*').map((part) => part.replace(/[|\\{}()[\]^$+?.]/g, '\\$&')).join('.*')}$`;
-  return new RegExp(expression, 'i').test(host);
-}
-
-function matchesDomainRule(rule, host) {
-  const [type, value] = rule.split(',', 3);
-  const normalized = host.toLowerCase();
-  const candidate = String(value || '').toLowerCase();
-  if (type === 'DOMAIN') return normalized === candidate;
-  if (type === 'DOMAIN-SUFFIX') return normalized === candidate || normalized.endsWith(`.${candidate}`);
-  if (type === 'DOMAIN-KEYWORD') return normalized.includes(candidate);
-  if (type === 'DOMAIN-WILDCARD') return wildcardMatches(candidate, normalized);
-  if (type === 'DOMAIN-REGEX') return new RegExp(value, 'i').test(normalized);
-  return false;
-}
-
+// Deliberate domain-provider projection; this does not assert full connection routing.
 function firstDomainRoute(host) {
-  const manifest = JSON.parse(fs.readFileSync(path.join(FUSED_ROOT, 'manifest.json'), 'utf8'));
-  const segments = new Map(manifest.segments.map((segment) => [segment.id, segment]));
-  for (const rule of parseFusedRules()) {
-    const [type, provider, policy] = rule.split(',', 3);
-    if (type !== 'RULE-SET' || !provider.endsWith('-domain')) continue;
-    const segment = segments.get(provider.slice(0, -'-domain'.length));
-    if (segment && ruleSetEntries(segment).some((entry) => matchesDomainRule(entry, host))) {
-      return { provider, policy };
-    }
-  }
-  return null;
+  return projectDomainRoute(SEMANTICS, host);
 }
 
 test('all generic CDN, geolocation and region fallbacks stay after domestic authority', () => {

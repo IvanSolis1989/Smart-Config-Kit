@@ -2,7 +2,7 @@
   {
     "id": "scki-000-meta",
     "enabled": false,
-    "remarks": "Smart-Config-Kit v6.0.15-v2n.6 | Build 2026-10-07 | Baseline Clash Party v6.0.15 | source rulesets/source/routing-graph.js | fused segments=72 | Xray native flatten from rulesets/generated/fused/sing-box/*.json",
+    "remarks": "Smart-Config-Kit v6.0.16-v2n.6 | Build 2026-10-12 | Baseline Clash Party v6.0.16 | source rulesets/source/routing-graph.js | fused segments=72 | Xray native flatten from rulesets/generated/fused/sing-box/*.json",
     "outboundTag": "direct",
     "domain": ["domain:smart-config-kit.invalid"],
     "ip": [],

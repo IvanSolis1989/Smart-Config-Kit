@@ -6,6 +6,10 @@
 
 ---
 
+## v6.0.16 — 规则质量台账 (2026-10-12)
+
+- 为共同 source graph 和生成链登记来源/版本与 MRS→fused 收据，新增有序 domain-projection 三态差分及既有 ADFP 例外双向覆盖、来源图目标/广告前置检查；各客户端格式和运行时规则维持原有实现。详见[规则质量台账](./docs/rule-quality.md)。
+- 复用当前 fused 载荷；旧资产原始远端输入 SHA 无法反推，不宣称完整历史追溯。本次未改路由策略或进行真机流量测量。
 ## v6.0.15 — 可信本地 ZeroTier 根节点 UDP 选项 (2026-10-12)
 
 - [Clash Party](./Clash%20Party/CHANGELOG.md) 与 [FlClash](./FlClash/CHANGELOG.md) 提供默认关闭的四根 UDP/9993 代理开关；默认分流和静态资产保持不变。范围、官方规则字段与启用方法见 [使用说明](./docs/zerotier-planet-proxy.md)。Egern 清单只刷新真实来源哈希。

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-07T02:28:06.940Z",
+  "generated_at": "2026-10-12T11:07:53.920Z",
   "authority": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-  "baseline_version": "v6.0.15",
-  "asset_revision": "v6.0.15",
+  "baseline_version": "v6.0.16",
+  "asset_revision": "v6.0.16",
   "source_provider_count": 514,
   "source_rule_count": 973,
   "fused_provider_count": 132,
@@ -9152,5 +9152,28 @@
   "generated_xray_rules": 89,
   "generated_xray_fused_segments": 69,
   "traffic_source_fingerprint": "4f6be52b55349a2f6f463eb0761ffae0f74f7a06cc088c403c6e15faa9eaad6b",
-  "payload_fingerprint": "57ab6b0994f7d31a303a549e73dde0006e9bb481422714040564ed6eb494c250"
+  "payload_fingerprint": "57ab6b0994f7d31a303a549e73dde0006e9bb481422714040564ed6eb494c250",
+  "rule_quality": {
+    "schema_version": 1,
+    "source_ledger": {
+      "path": "rulesets/generated/source-ledger.json",
+      "sha256": "1237cea0e66d9135680e719d57aa5447642baaa51bc39c4af9633ab9e2e84ef3",
+      "mode": "legacy-snapshot",
+      "raw_provider_count": 393,
+      "normalized_provider_count": 514
+    },
+    "adfp_exceptions": {
+      "path": "rulesets/generated/adfp-exceptions.json",
+      "sha256": "ba3720d7f3d6fcaafd1bbdb087159bc940717dc695c4514ec25f68021bd134e3",
+      "registry_sha256": "60c82af9d901231b30ce586ff45cd3212bbda9f7a84e080c648ef68edf2185a1",
+      "records": 27
+    },
+    "semantic_diff": {
+      "path": "rulesets/generated/semantic-diff.json",
+      "sha256": "68111927fdc426de1a07fdcd496cebe70f65f28dd4dae03ccba705e90a209b07",
+      "bytes": 260203,
+      "text_normalization": "LF",
+      "after_identity": "e767c355e77c4acdb5d0a293b9a0534d57122ebe012f8368bcf4001b5b84b7fa"
+    }
+  }
 }
