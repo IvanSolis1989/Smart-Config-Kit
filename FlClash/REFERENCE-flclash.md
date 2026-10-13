@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-14（上次 2026-10-12）：[官方 latest](https://github.com/chen08209/FlClash/releases/latest) 仍指向 v0.8.99。本次修复在 Node 同步/本地复制工具内保留可信 JS 布尔常量，手机端仍使用已有脚本语法与关联流程，默认 false；不增加内核字段或抬高 v0.8.85 最低要求。未代替手机设备验收。
+
 > 更新于 2026-10-12（上次核对 2026-09-30）：官方最新稳定版 [v0.8.99](https://github.com/chen08209/FlClash/releases/tag/v0.8.99) 发布于 2026-10-03；[getProfile 脚本分支](https://github.com/chen08209/FlClash/blob/v0.8.99/lib/providers/actions/setup.dart#L361-L375) 仍加载关联脚本并调用 `handleEvaluate`。[v0.8.85 发布说明](https://github.com/chen08209/FlClash/releases/tag/v0.8.85) 已声明覆写脚本支持。本地 ZeroTier 布尔开关只使用已有 JS 构造，不增加最低版本；此为源码与 VM 配置验证，不代替手机设备验收。
 
 > 同日补充：在 FlClash JS 执行边界内展平仅含 type/payload 的 inline 代理集合，沿用 [Mihomo 集合字段](https://wiki.metacubex.one/config/proxy-providers/)。direct/reject 对象保留供依赖引用，只从测速分类剔除。数组引用、未知协议字段、共享 payload 与 JSON 序列化均以实际 main 回归读回；未代替设备上的 App patch 验收。

@@ -1,5 +1,5 @@
 // Clash 覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.17-normal.15 (2026-10-12)
+// 版本：v6.0.17-normal.16 (2026-10-14)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 132 融合 rule-providers / 151 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.17（与 Smart 版规则等价，仅区域组从 smart 改为 url-test）
 // 适用：Mihomo / Clash.Meta 稳定版内核、不支持 smart + LightGBM 的分支；也适用于想完全关闭 ML 评估的用户
@@ -9,7 +9,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.17-normal.15'
+const VERSION = 'v6.0.17-normal.16'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -17,7 +17,7 @@ const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'
 // 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
 const SCKI_MAX_NODE_MULTIPLIER = null
 
-// SCKI local traffic options. Edit trusted local constants only; synchronization restores source defaults.
+// SCKI local traffic options. Sync restores health/QUIC presets and preserves the explicit local ZeroTier choice.
 const SCKI_HEALTH_CHECK_PROFILE = 'standard'
 const SCKI_QUIC_POLICY = 'block-foreign'
 const SCKI_ZEROTIER_PLANET_PROXY = false

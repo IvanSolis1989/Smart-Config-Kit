@@ -6,6 +6,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const graph = require('../rulesets/source/routing-graph.js');
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
+const { parseLocalTrafficOptions, setLocalTrafficOptions } = require('./lib/local-traffic-options');
 const runtimePath = 'tools/runtime/traffic-options.js';
 const targets = [
   'Clash Party/ClashParty(mihomo-smart).js',
@@ -31,21 +32,23 @@ function replaceMarked(source, begin, end, block, label) {
   return source.slice(0, start) + block + source.slice(after < 0 ? source.length : after);
 }
 
-function prepareUpdates(defaults = graph.getTrafficOptions()) {
+function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.readFileSync) {
   graph.validateTrafficOptions(defaults);
   const updates = [];
   const runtimeFile = path.join(root, runtimePath);
-  const originalRuntime = fs.readFileSync(runtimeFile, 'utf8');
+  const originalRuntime = readFile(runtimeFile, 'utf8');
+  const runtimeEol = originalRuntime.includes('\r\n') ? '\r\n' : '\n';
   const ruleBlock = ruleBegin + '\n  var BLOCK_FOREIGN_QUIC_RULES = ' + JSON.stringify(graph.getQuicRules('block-foreign')) + ';\n' + ruleEnd;
   const profiles = { standard: graph.getHealthCheckSettings('standard'), 'power-save': graph.getHealthCheckSettings('power-save') };
   const healthBlock = healthBegin + '\n  var HEALTH_CHECK_PROFILES = ' + JSON.stringify(profiles) + ';\n' + healthEnd;
   const zeroTierBlock = zeroTierBegin + '\n  var ZEROTIER_PLANET_PROXY_POLICY = ' + JSON.stringify(graph.getZeroTierPlanetProxyPolicy()) + ';\n' + zeroTierEnd;
-  const runtime = replaceMarked(replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock, runtimePath), healthBegin, healthEnd, healthBlock, runtimePath), zeroTierBegin, zeroTierEnd, zeroTierBlock, runtimePath);
+  const runtime = replaceMarked(replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock.replace(/\n/g, runtimeEol), runtimePath), healthBegin, healthEnd, healthBlock.replace(/\n/g, runtimeEol), runtimePath), zeroTierBegin, zeroTierEnd, zeroTierBlock.replace(/\n/g, runtimeEol), runtimePath);
   updates.push({ file: runtimeFile, original: originalRuntime, updated: runtime });
 
   for (const target of targets) {
     const file = path.join(root, target);
-    const original = fs.readFileSync(file, 'utf8');
+    const original = readFile(file, 'utf8');
+    const localOptions = parseLocalTrafficOptions(original, target).options;
     const eol = original.includes('\r\n') ? '\r\n' : '\n';
     const runtimeForTarget = runtime.trimEnd().replace(/\r\n/g, '\n').replace(/\n/g, eol);
     const block = [embedBegin + ' — generated from ' + runtimePath + ', routing-graph.js and traffic-options.json.', runtimeForTarget, embedEnd].join(eol);
@@ -59,17 +62,11 @@ function prepareUpdates(defaults = graph.getTrafficOptions()) {
       const after = original.indexOf('\n', at);
       updated = original.slice(0, after + 1) + eol + block + eol + original.slice(after + 1);
     }
-    const healthLine = `const SCKI_HEALTH_CHECK_PROFILE = '${defaults.healthCheckProfile}'`;
-    const quicLine = `const SCKI_QUIC_POLICY = '${defaults.quicPolicy}'`;
-    const localBegin = '// SCKI local traffic options. Edit trusted local constants only; synchronization restores source defaults.';
-    const zeroTierLine = 'const SCKI_ZEROTIER_PLANET_PROXY = false';
-    const localBlock = [localBegin, healthLine, quicLine, zeroTierLine].join(eol);
-    const localPattern = /\/\/ SCKI local traffic options\.[^\r\n]*\r?\nconst SCKI_HEALTH_CHECK_PROFILE = '[^'\r\n]*'\r?\nconst SCKI_QUIC_POLICY = '[^'\r\n]*'(?:\r?\nconst SCKI_ZEROTIER_PLANET_PROXY = [^\r\n]*)?/;
-    if (localPattern.test(updated)) updated = updated.replace(localPattern, localBlock);
-    else {
-      const start = updated.indexOf(embedBegin);
-      updated = updated.slice(0, start) + localBlock + eol + eol + updated.slice(start);
-    }
+    updated = setLocalTrafficOptions(updated, {
+      healthCheckProfile: defaults.healthCheckProfile,
+      quicPolicy: defaults.quicPolicy,
+      zeroTierPlanetProxy: localOptions.zeroTierPlanetProxy ?? false,
+    }, target);
     updates.push({ file, original, updated });
   }
 

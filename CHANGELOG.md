@@ -6,6 +6,10 @@
 
 ---
 
+## v6.0.17 — ZeroTier 设备选项持久化 (2026-10-14)
+
+- [Clash Party](./Clash%20Party/CHANGELOG.md) / [FlClash](./FlClash/CHANGELOG.md) 的同步与本地更新保留设备明确开关，新增只读真实 UDP 回包验收；默认图和静态客户端无对应 JS 入口，无需改变资产。命令、固定选择缓存条件及平台范围见 [使用说明](./docs/zerotier-planet-proxy.md)。
+
 ## v6.0.17 — Claude Desktop 端点保护与发布门禁 (2026-10-13)
 
 - 现有 `scki-adfp-ai` 增加两个官方 Desktop 必需主机的精确匹配；客户端规则集及原生格式维持现有实现。共享 source 语义检查、29 条 ADFP 例外校验、Claude 阶段依赖台账与文件级发布批次门禁。

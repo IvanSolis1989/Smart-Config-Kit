@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-14（上次 2026-10-12）：复核 [路由规则](https://wiki.metacubex.one/config/rules/) 与 [store-selected](https://wiki.metacubex.one/config/general/#_28)。本次只修复可信本地选项的同步/部署保留，不增加内核字段。Smart fork [API 选择缓存](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/route/proxies.go#L74) 和 [配置刷新恢复](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/executor/executor.go#L449) 支持已有 `store-selected=true`；`fixed` 是 API 状态，不能新增为 Smart 配置。缓存、组名和成员存在是恢复条件，UDP 必须实测回包。
+
 > 核对于 2026-10-12：[路由规则](https://wiki.metacubex.one/config/rules/) 页面仍标注 2026-07-08。`AND`、`NETWORK`、`DST-PORT`、`IP-CIDR` 与 `no-resolve` 的字段及从上至下优先级没有变化。本地 ZeroTier 选项使用这组已有字段；官方说明 UDP 目标不支持 UDP 时会继续向下匹配，所以启用设备须实际验证已有目标组的 UDP 能力。
 
 > 同日补充复核：[`type: inline` / `payload`](https://wiki.metacubex.one/config/proxy-providers/) 为正式集合字段，HTTP/file 的 payload 只是失败备份，不代表远端节点已展开。[具名 direct](https://wiki.metacubex.one/config/proxies/direct/) 保留接口/拨号作用，分类时排除；[`PASS-RULE`](https://wiki.metacubex.one/config/proxies/built-in/) 是保留的内置策略。组 `exclude-type` 在 [v1.19.31 GroupBase](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) 对已合并成员过滤，已用 v1.19.29 的 use-provider controller 验证；详见 [验收证据](../docs/research/2026-09-30-routing-runtime-followup.md)。

@@ -7,6 +7,12 @@
 
 ---
 
+## v6.0.17-dns.15 / v6.0.17-normal.16 (2026-10-14)
+
+- 同步工具保留可信本地 ZeroTier 的明确 true/false，缺失才使用发布 false；本地部署入口提供保留选项、dry-run、原件备份、原子替换和保存后读回。修复源码更新把办公室启用值覆盖为 false 的路径。
+- 增加只读 Windows 验收工具，依据自有四根 UDP 流量的 download 增量验证回包，分别记录 ONLINE、固定选择和 TCP；保留已有 store-selected，不将一次成功节点硬编码到仓库，也不拿 TCP 测速代替 UDP 健康。
+- Smart/Normal/FlClash 三份 JS 同步说明和版本；源图规则、55 组与全部静态客户端无本地 JS 入口，默认资产无需重生成。平台矩阵、官方缓存依据及更新流程见 [本地选项说明](../docs/zerotier-planet-proxy.md)。
+
 ## v6.0.17-dns.14 / v6.0.17-normal.15 (2026-10-13)
 
 - 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。

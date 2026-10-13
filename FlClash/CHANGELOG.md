@@ -5,6 +5,11 @@
 
 ---
 
+## v6.0.17-flclash.17 (2026-10-14)
+
+- 同构 JS 的同步和本地部署保留该设备明确的 ZeroTier 布尔选择；仓库发布值仍为 false，非法/重复常量拒绝处理，测速/QUIC 的保留由本地参数控制。
+- 复核官方 latest 仍为 v0.8.99；手机执行语法、默认规则图和区域组算法未新增字段。其他静态平台不消费该 JS 常量，平台矩阵与验证见 [本地选项说明](../docs/zerotier-planet-proxy.md)。
+
 ## v6.0.17-flclash.16 (2026-10-13)
 
 - 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。

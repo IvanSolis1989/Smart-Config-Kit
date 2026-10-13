@@ -20,6 +20,8 @@ node tools/configure-traffic-options.js --health-check power-save --quic follow-
 node tools/configure-traffic-options.js --health-check standard --quic block-foreign
 ```
 
+指定 `--target <已有本地.js>` 时只更新该设备的 JS 文件；`--source <新JS>` 更新源码，`--preserve-local` 保留该设备的测速/QUIC，ZeroTier 的明确布尔值始终默认保留。设备级启用/关闭与安全更新命令见 [ZeroTier 本地代理选项](./zerotier-planet-proxy.md)。
+
 这个命令只切换测速与 QUIC 选项，并复用已发布的 fused 规则资产；复用前会核对源图及资产内容的 SHA 绑定，不从可变的 Geo 缓存或上游重新抓取规则。Egern 另用随仓库保存的压缩原生资产快照：默认档复用原资产字节，`follow-rules` 只按冻结的 fused/Mihomo 资产重算受影响的域名部分，同时保留非域名部分。若同时修改了上游规则源、规则顺序或规则集内容，仍需按仓库生成链完整执行 MRS 同步、fused 编译与各端产物生成，不能用此选项命令代替。
 
 完整刷新时，按仓库 `AGENTS.md` 顺序执行 MRS 同步、fused 编译及各端生成；Egern 使用不带 `--reuse-assets` 的 `node tools/generate-egern-from-cmfa.js`。完整生成器无论当前 QUIC 选项为何，都会先更新可复用的 `block-foreign` 中立快照，再按当前选项输出 Egern 规则。后续仅切换选项时才用 `--reuse-assets`；无需先手动切回 `block-foreign`。

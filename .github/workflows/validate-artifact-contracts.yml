@@ -52,6 +52,8 @@ on:
       - 'tools/build-fused-rule-sets.js'
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
+      - 'tools/lib/local-traffic-options.js'
+      - 'tools/tests/local-traffic-options.test.js'
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/lib/egern-traffic-snapshot.js'
       - 'tools/tests/egern-traffic-options.test.js'
@@ -134,6 +136,8 @@ on:
       - 'tools/build-fused-rule-sets.js'
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
+      - 'tools/lib/local-traffic-options.js'
+      - 'tools/tests/local-traffic-options.test.js'
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/lib/egern-traffic-snapshot.js'
       - 'tools/tests/egern-traffic-options.test.js'
@@ -196,7 +200,7 @@ jobs:
       - name: Check synchronized traffic options and profile regressions
         run: |
           node tools/sync-traffic-options.js --check
-          node --test tools/tests/traffic-options.test.js tools/tests/traffic-cross-clients.test.js tools/tests/stash-traffic-options.test.js tools/tests/traffic-asset-reuse.test.js tools/tests/egern-traffic-options.test.js
+          node --test tools/tests/local-traffic-options.test.js tools/tests/traffic-options.test.js tools/tests/traffic-cross-clients.test.js tools/tests/stash-traffic-options.test.js tools/tests/traffic-asset-reuse.test.js tools/tests/egern-traffic-options.test.js
 
       - name: Check synchronized Node-DNS runtime adapters
         run: node tools/sync-node-dns-hints-adapters.js --check
