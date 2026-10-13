@@ -26,6 +26,17 @@ on:
       - 'rulesets/source/upstream-sources.json'
       - 'rulesets/source/adfp-exceptions.json'
       - 'rulesets/source/semantic-approval.json'
+      - 'rulesets/source/claude-service-dependencies.json'
+      - 'rulesets/source/release-batch-contract.json'
+      - 'tools/*claude-service*.js'
+      - 'tools/*release-batch*.js'
+      - 'tools/*supplemental-to-snapshot*.js'
+      - 'tools/lib/claude-service-dependencies.js'
+      - 'tools/lib/release-batch.js'
+      - 'tools/lib/snapshot-supplemental-patch.js'
+      - 'tools/tests/claude-service-dependencies.test.js'
+      - 'tools/tests/release-batch.test.js'
+      - 'tools/tests/*supplemental-patch.test.js'
       - 'rulesets/supplemental/**'
       - 'tools/*rule-quality*.js'
       - 'tools/*ordered-rule*.js'
@@ -97,6 +108,17 @@ on:
       - 'rulesets/source/upstream-sources.json'
       - 'rulesets/source/adfp-exceptions.json'
       - 'rulesets/source/semantic-approval.json'
+      - 'rulesets/source/claude-service-dependencies.json'
+      - 'rulesets/source/release-batch-contract.json'
+      - 'tools/*claude-service*.js'
+      - 'tools/*release-batch*.js'
+      - 'tools/*supplemental-to-snapshot*.js'
+      - 'tools/lib/claude-service-dependencies.js'
+      - 'tools/lib/release-batch.js'
+      - 'tools/lib/snapshot-supplemental-patch.js'
+      - 'tools/tests/claude-service-dependencies.test.js'
+      - 'tools/tests/release-batch.test.js'
+      - 'tools/tests/*supplemental-patch.test.js'
       - 'rulesets/supplemental/**'
       - 'tools/*rule-quality*.js'
       - 'tools/*ordered-rule*.js'
@@ -207,7 +229,8 @@ jobs:
         run: |
           node tools/refresh-rule-quality.js --check
           node tools/validate-adfp-exceptions.js
-          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js
+          node tools/validate-claude-service-dependencies.js --check --strict-coverage
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           approval_args=()
           if [ -f rulesets/source/semantic-approval.json ]; then
             approval_args=(--expected-changes rulesets/source/semantic-approval.json)

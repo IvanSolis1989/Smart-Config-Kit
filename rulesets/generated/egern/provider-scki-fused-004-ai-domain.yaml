@@ -2,6 +2,8 @@
 # Source id: provider-scki-fused-004-ai-domain
 # Source URL: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml
 domain_set:
+  - "a-api.anthropic.com"
+  - "a-cdn.anthropic.com"
   - "browser-intake-datadoghq.com"
   - "o33249.ingest.sentry.io"
   - "o33249.ingest.us.sentry.io"

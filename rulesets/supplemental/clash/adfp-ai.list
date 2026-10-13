@@ -1,4 +1,6 @@
-# Narrow OpenAI exceptions for broad ad/privacy feeds. Keep before anti-ad.
+# Narrow AI service exceptions for broad ad/privacy feeds. Keep before anti-ad.
 DOMAIN,browser-intake-datadoghq.com
 DOMAIN,o33249.ingest.sentry.io
 DOMAIN,o33249.ingest.us.sentry.io
+DOMAIN,a-api.anthropic.com
+DOMAIN,a-cdn.anthropic.com

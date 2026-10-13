@@ -1,10 +1,12 @@
 # 规则质量台账
 
-规则权威源仍是 [`routing-graph.js`](../rulesets/source/routing-graph.js)。本页说明来源收据、有序语义差分、现有 ADFP 例外校验和自动同步的审批边界。
+规则权威源仍是 [`routing-graph.js`](../rulesets/source/routing-graph.js)。本页说明来源收据、有序语义差分、ADFP 例外校验和自动同步的审批边界。文件级发布核验见 [release-batch.md](release-batch.md)，服务角色及证据见 [claude-service-dependencies.md](claude-service-dependencies.md)。
 
-## 本次范围
+## 补充规则增量同步
 
-本次使用既有 generator 的 `--reuse-assets` 路径同步了 14 个客户端的版本、资产 URL 和 metadata；规则 payload 与策略顺序不变，没有新增运行时字段。未进行真机流量测量。
+对已冻结的本地补充规则，`tools/apply-supplemental-to-snapshot.js` 默认只读计划；显式指定 Git 基线、provider、文件和精确 DOMAIN 增量，再用 `--write` 调用已核验的原生转换器。工具拒绝其他 provider、规则顺序、隐含新增或补丁外载荷变化；删除不能恢复历史隐藏的后续 owner，故拒绝此操作。它只优化目标段并执行全局精确去重，不重做旧资产全量优化。之后由既有生成器同步 14 客户端。Egern 使用显式增量收据验证原快照与目标变化，其余资产冻结。
+
+`rulesets/generated/supplemental-patch.json` 记录本次实际消费的本地输入、旧 Git 基线和稳定载荷的前后哈希；manifest 的阶段哈希单列，不能冒充后续生成的终态。质量台账仅在当前载荷、本地输入和输出仍匹配时标记 `current-payload-bound`，否则作为历史阶段收据。未读取的旧上游保持 `legacy-unknown`。新增两个 Claude Desktop 精确主机依据官方网络清单登记，不扩展到 Anthropic 根域或供应商后缀；未进行真机流量测量。
 
 ## 来源、版本与生成收据
 
@@ -36,7 +38,7 @@ PR 与 main 的验证 workflow 会读取可选的 `rulesets/source/semantic-appr
 
 ## 现有 ADFP 例外登记
 
-`rulesets/source/adfp-exceptions.json` 登记现有四个 provider：`scki-adfp-direct`、`scki-adfp-ai`、`scki-adfp-intl-site`、`scki-adfp-payments`。记录包含稳定 ID、规则、`reason`、`evidence` 及其 `level`、`match_scope`、`target_policy`，并为每项提供正例、反例和预期匹配关系。本次只校验既有清单，不增加白名单或扩展例外范围。
+`rulesets/source/adfp-exceptions.json` 登记四个 provider：`scki-adfp-direct`、`scki-adfp-ai`、`scki-adfp-intl-site`、`scki-adfp-payments`。记录包含稳定 ID、规则、`reason`、`evidence` 及其 `level`、`match_scope`、`target_policy`，并为每项提供正例、反例和预期匹配关系。例外变化必须同时更新补充载荷与登记表，并给出来源证据及精确范围。
 
 ```sh
 node tools/validate-adfp-exceptions.js
@@ -46,7 +48,7 @@ node tools/validate-adfp-exceptions.js
 
 ## 自动同步与发布门禁
 
-[`sync-mihomo-mrs-rule-providers.yml`](../.github/workflows/sync-mihomo-mrs-rule-providers.yml) 每周运行一次全量上游同步、MRS/fused 构建和 14 客户端派生，再执行有序语义 `--check` 与质量收据 `--check`。只有门禁通过才会进入提交和 push 步骤；有未审批的语义变化时该步骤失败，不能自动发布。无论成功或失败，workflow 都尝试上传 `rule-quality-evidence`，包括 source ledger、ADFP receipt 和 semantic diff。
+[`sync-mihomo-mrs-rule-providers.yml`](../.github/workflows/sync-mihomo-mrs-rule-providers.yml) 每周运行一次全量上游同步、MRS/fused 构建和 14 客户端派生，再执行有序语义、质量收据、Claude 有限覆盖及完整文件批次检查。只有门禁通过才会进入提交和 push；文件按收据精确暂存，暂存后与提交后再次验哈希。远端 main 若移动就中止，须对新基线重新构建验证。无论成功或失败，workflow 都尝试上传可生成的来源、例外、Claude、语义及发布批次收据。
 
 手动 `workflow_dispatch` 可传 `semantic_approval_path`，仅接受仓库内 `rulesets/source/*.json` 文件，且禁止 `..` 路径段。审核文件中的身份、变更/证据摘要须来自该次报告；unknown 和截断按上节明确确认。未提供有效审核时，变化会阻止自动 push，workflow 仍保留证据供复核。定时任务没有审批输入，因此不会无条件把上游变化推到 main。
 

@@ -11,12 +11,12 @@ const {
 
 test('the exception ledger covers the current four payloads and source graph order', () => {
   const report = validateAdfpExceptions();
-  assert.equal(report.total_records, 27);
+  assert.equal(report.total_records, 29);
   assert.deepEqual(report.coverage, {
     'scki-adfp-direct': 22,
     'scki-adfp-intl-site': 1,
     'scki-adfp-payments': 1,
-    'scki-adfp-ai': 3,
+    'scki-adfp-ai': 5,
   });
   assert.ok(report.registry_sha256 && /^[a-f0-9]{64}$/.test(report.registry_sha256));
   assert.ok(report.ordered_provider_indices['scki-adfp-direct'] < report.anti_ad_index);

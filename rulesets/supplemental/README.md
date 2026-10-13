@@ -23,6 +23,13 @@ future fused-rule rebuild.
 before broad ad/privacy feeds. `adfp-ai.list` protects verified ChatGPT
 telemetry hosts whose parent Sentry or Datadog domains occur in those feeds.
 
+`adfp-ai.list` also protects the exact Claude Desktop hosts
+`a-api.anthropic.com` and `a-cdn.anthropic.com`. Anthropic lists both in its
+[Desktop network requirements](https://code.claude.com/docs/en/desktop#network-access-requirements)
+for loading application code and user content (checked 2026-10-13). The current
+ad feed otherwise matches both before the general AI providers. These exact
+exceptions do not exempt other Anthropic subdomains or optional telemetry.
+
 Inline single rules in main product files are allowed only when the rule cannot
 be represented safely as a supplemental rule set, such as port rules, logical
 AND/OR/NOT rules, platform-local syntax traps, or documented engine gaps.

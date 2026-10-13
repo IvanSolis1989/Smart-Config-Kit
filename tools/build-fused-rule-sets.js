@@ -1747,4 +1747,5 @@ if (require.main === module) main().catch((error) => {
   process.exit(1);
 });
 
-module.exports = { applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider };
+module.exports = { applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider,
+  parsePayloadEntries, classifyEntry, optimizeSegment, removeGloballyRepeatedEntries, renderPayload, renderClassicalList, renderQxList, renderEgernYaml, renderSingBoxSource, convertWithMihomo, compileSingBoxRuleSet };

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "beforeIdentity": "e767c355e77c4acdb5d0a293b9a0534d57122ebe012f8368bcf4001b5b84b7fa",
+  "afterIdentity": "0f1d87fbef41eb00b0d78359206a5a9d58277bc9b7df7e49faa7337f276dd5a9",
+  "reviewedChangeDigest": "091483e32573f2bda9f0bf9f1676291b5a625c0df5acd0c92adc3426dfd8376f",
+  "reason": "User explicitly authorized the two exact Claude Desktop host fixes and all-client synchronization on 2026-10-13; only these hosts transfer from AD to AI. Finite domain probes do not establish service health.",
+  "officialEvidence": "https://code.claude.com/docs/en/desktop#network-access-requirements"
+}

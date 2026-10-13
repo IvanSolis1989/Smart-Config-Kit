@@ -1,0 +1,889 @@
+{
+  "schema_version": 1,
+  "version": "1.0.0",
+  "checked_date": "2026-10-13",
+  "scope": "Claude登录、API、Files API上传、Desktop/Code更新与CDN、可选遥测的静态依赖台账；不执行真实账户或客户端流量。",
+  "unresolved_questions": [
+    "普通claude.ai网页文件上传的全部实际请求主机/路径未由官方资料逐项证实；Files API上传不能替代网页上传验收。",
+    "Auth0、GrowthBook、Fathom、Statsig旧主机及Sentry/Statsig供应商tenant当前角色待核实。",
+    "动态内容后缀仅有有限合成见证；缺少真实DNS/IP/process连接字段，full-static结果可能unknown。",
+    "GCS特定bucket与路径无当前客户端trace；域名规则无法隔离其他租户。"
+  ],
+  "sources": [
+    {
+      "id": "anthropic-code-network",
+      "authority": "anthropic",
+      "level": "official-current",
+      "url": "https://code.claude.com/docs/en/network-config#network-access-requirements",
+      "locator": "Network access requirements table; Desktop and claude.ai subsection",
+      "supports": "按登录、API、更新、动态内容及可选遥测区分主机；共享存储有版本和用途限制。",
+      "checked_date": "2026-10-13"
+    },
+    {
+      "id": "anthropic-desktop-network",
+      "authority": "anthropic",
+      "level": "official-current",
+      "url": "https://code.claude.com/docs/en/desktop#network-access-requirements",
+      "locator": "Network access requirements; narrowed Anthropic hosts list",
+      "excerpt": "Desktop loads its application code and user content from Anthropic CDN hosts.",
+      "listed_hosts": ["a-api.anthropic.com", "a-cdn.anthropic.com"],
+      "supports": "Desktop CDN/用户内容访问清单列出 a-api.anthropic.com、a-cdn.anthropic.com；此证据未分别命名二者业务路径。",
+      "checked_date": "2026-10-13"
+    },
+    {
+      "id": "anthropic-files-upload",
+      "authority": "anthropic",
+      "level": "official-current",
+      "url": "https://platform.claude.com/docs/en/api/files/upload",
+      "locator": "Upload File; POST /v1/files; cURL example",
+      "supports": "API 文件上传指向 api.anthropic.com/v1/files。",
+      "checked_date": "2026-10-13"
+    },
+    {
+      "id": "anthropic-data-usage",
+      "authority": "anthropic",
+      "level": "official-current",
+      "url": "https://code.claude.com/docs/en/data-usage#telemetry-services",
+      "locator": "Telemetry services; feedback; local data-flow diagram",
+      "supports": "可关闭遥测/错误报告；用户发起反馈可上传到共享 Google Cloud Storage。",
+      "checked_date": "2026-10-13"
+    },
+    {
+      "id": "anthropic-legacy-network",
+      "authority": "anthropic",
+      "level": "official-historical",
+      "url": "https://docs.anthropic.com/en/docs/claude-code/corporate-proxy",
+      "locator": "Historical Network access requirements (search-cached older documentation)",
+      "supports": "旧文档曾列 Statsig 与 Sentry；不是当前CLI端点角色证明。",
+      "checked_date": "2026-10-13"
+    },
+    {
+      "id": "xiaolai-frozen-lead",
+      "authority": "third-party",
+      "level": "third-party-lead",
+      "url": "https://github.com/xiaolai/anthropic-claude-surge-rules-set/blob/1e88813a20eb4bb1e3c8612ea06a70e344837d22/domains.yaml",
+      "locator": "groups: Binary Distribution / Feature Flags & Telemetry / Third-Party Services",
+      "supports": "2026-10-12既有只读研究的端点分类线索；未执行其代码，不导入其规则。",
+      "checked_date": "2026-10-13",
+      "revision": "1e88813a20eb4bb1e3c8612ea06a70e344837d22"
+    },
+    {
+      "id": "vpsdance-frozen-lead",
+      "authority": "third-party",
+      "level": "third-party-lead",
+      "url": "https://github.com/VPSDance/ai-proxy-rules/blob/43fab4082a0485d0988f452c8d16a0d6477ee35a/data/providers/anthropic.yaml",
+      "locator": "Core / Third-Party groups",
+      "supports": "2026-10-12既有只读研究的候选清单；供应商域名并非Claude专属用途证据。",
+      "checked_date": "2026-10-13",
+      "revision": "43fab4082a0485d0988f452c8d16a0d6477ee35a"
+    }
+  ],
+  "entries": [
+    {
+      "id": "claude-account-login",
+      "domain": "claude.ai",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "login"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "claude.ai账号认证。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "claude.ai"
+      ]
+    },
+    {
+      "id": "claude-signin-redirect",
+      "domain": "claude.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "login"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "账号登录的浏览器跳转入口。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "claude.com"
+      ]
+    },
+    {
+      "id": "platform-oauth",
+      "domain": "platform.claude.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "login"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "Console认证以及Claude账号OAuth交换、刷新、撤销。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "platform.claude.com"
+      ]
+    },
+    {
+      "id": "api-and-files",
+      "domain": "api.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "api",
+        "upload"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "Claude API请求；Files API上传 /v1/files。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network",
+          "anthropic-files-upload"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "api.anthropic.com"
+      ]
+    },
+    {
+      "id": "desktop-a-api",
+      "domain": "a-api.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop网络访问清单中的Anthropic CDN/用户内容依赖；清单未单独证明该主机具体业务路径。",
+      "condition": "Claude Desktop；官方缩窄的必需主机清单。",
+      "shared_domain": false,
+      "restriction": "仅精确主机；不能从a-api名称推断API职责，也不能由该清单推断全部子域均必需。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "a-api.anthropic.com"
+      ]
+    },
+    {
+      "id": "desktop-a-cdn",
+      "domain": "a-cdn.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop网络访问清单中的Anthropic CDN/用户内容依赖；清单未单独证明该主机具体业务路径。",
+      "condition": "Claude Desktop；官方缩窄的必需主机清单。",
+      "shared_domain": false,
+      "restriction": "仅精确主机；不能从a-api名称推断API职责，也不能由该清单推断全部子域均必需。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "a-cdn.anthropic.com"
+      ]
+    },
+    {
+      "id": "s-cdn-anthropic-com",
+      "domain": "s-cdn.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop CDN/用户内容网络访问清单中的主机。",
+      "condition": "Claude Desktop应用代码/内容加载。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "s-cdn.anthropic.com"
+      ]
+    },
+    {
+      "id": "assets-proxy-anthropic-com",
+      "domain": "assets-proxy.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop CDN/用户内容网络访问清单中的主机。",
+      "condition": "Claude Desktop应用代码/内容加载。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "assets-proxy.anthropic.com"
+      ]
+    },
+    {
+      "id": "a-claude-ai",
+      "domain": "a.claude.ai",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop CDN/用户内容网络访问清单中的主机。",
+      "condition": "Claude Desktop应用代码/内容加载。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "a.claude.ai"
+      ]
+    },
+    {
+      "id": "assets-claude-ai",
+      "domain": "assets.claude.ai",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "官方Desktop CDN/用户内容网络访问清单中的主机。",
+      "condition": "Claude Desktop应用代码/内容加载。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "assets.claude.ai"
+      ]
+    },
+    {
+      "id": "native-distribution",
+      "domain": "downloads.claude.ai",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "原生安装/更新、版本检查及插件可执行文件下载。",
+      "condition": "使用原生安装/更新或需下载插件可执行文件时；npm或自管分发可不需原生更新用途。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "downloads.claude.ai"
+      ]
+    },
+    {
+      "id": "desktop-livepreview-ai",
+      "domain": "livepreview.claude.ai",
+      "scope": "controlled-suffix",
+      "include_apex": false,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "Desktop动态预览来源。",
+      "condition": "使用动态预览功能时。",
+      "shared_domain": false,
+      "restriction": "官方*.livepreview.claude.ai范围；不包含apex；有限合成主机不能证明全部子域覆盖。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "dependency-witness.livepreview.claude.ai"
+      ]
+    },
+    {
+      "id": "desktop-livepreview-app",
+      "domain": "livepreview.claude.app",
+      "scope": "controlled-suffix",
+      "include_apex": false,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "Desktop动态预览来源。",
+      "condition": "使用动态预览功能时。",
+      "shared_domain": false,
+      "restriction": "官方*.livepreview.claude.app范围；不包含apex；有限合成主机不能证明全部子域覆盖。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "dependency-witness.livepreview.claude.app"
+      ]
+    },
+    {
+      "id": "desktop-user-content",
+      "domain": "claudeusercontent.com",
+      "scope": "controlled-suffix",
+      "include_apex": false,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "required",
+      "evidence_status": "confirmed",
+      "role": "Desktop用户内容来源；未据此声称浏览器上传请求发往此后缀。",
+      "condition": "Claude Desktop用户内容加载。",
+      "shared_domain": false,
+      "restriction": "官方*.claudeusercontent.com动态来源；不包含apex；只检验有限合成见证，上传目标仍待核实。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-desktop-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "dependency-witness.claudeusercontent.com",
+        "dependency-witness.frame.claudeusercontent.com"
+      ]
+    },
+    {
+      "id": "chrome-bridge",
+      "domain": "bridge.claudeusercontent.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "api"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "Claude in Chrome WebSocket桥接。",
+      "condition": "使用Claude in Chrome时；组织IP白名单场景须与claude.ai/API使用一致出口。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "bridge.claudeusercontent.com"
+      ]
+    },
+    {
+      "id": "mcp-widgets",
+      "domain": "claudemcpcontent.com",
+      "scope": "controlled-suffix",
+      "include_apex": false,
+      "service_stages": [
+        "update-cdn"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "Desktop/网页连接器交互式widget的动态来源。",
+      "condition": "启用会返回MCP Apps widget的连接器时。",
+      "shared_domain": false,
+      "restriction": "官方*.claudemcpcontent.com动态来源；不包含apex；禁用影响widget不代表核心API故障。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "dependency-witness.claudemcpcontent.com"
+      ]
+    },
+    {
+      "id": "mcp-connectors",
+      "domain": "mcp-proxy.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "api"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "claude.ai账号连接器代理。",
+      "condition": "启用claude.ai连接器时；可由disableClaudeAiConnectors关闭。",
+      "shared_domain": false,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "mcp-proxy.anthropic.com"
+      ]
+    },
+    {
+      "id": "shared-gcs-distribution-feedback",
+      "domain": "storage.googleapis.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "update-cdn",
+        "upload"
+      ],
+      "necessity": "conditional",
+      "evidence_status": "confirmed",
+      "role": "插件安装统计/元数据、2.1.116前原生更新；用户发起反馈可存入GCS。",
+      "condition": "具体功能或历史版本才需要；不用于证明普通网页文件上传职责。",
+      "shared_domain": true,
+      "restriction": "共享多租户主机，客户端域名规则不能区分bucket/URL路径；只观察当前策略，不能生成全局例外。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network",
+          "anthropic-data-usage"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🔍 Google 服务",
+        "allowed": [
+          "🔍 Google 服务",
+          "🤖 AI 服务"
+        ]
+      },
+      "witnesses": [
+        "storage.googleapis.com"
+      ]
+    },
+    {
+      "id": "operational-metrics",
+      "domain": "http-intake.logs.us5.datadoghq.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "optional",
+      "evidence_status": "confirmed",
+      "role": "可关闭的运行指标接收端。",
+      "condition": "直连Anthropic API且遥测开启；DISABLE_TELEMETRY/DO_NOT_TRACK可关闭。",
+      "shared_domain": true,
+      "restriction": "共享Datadog主机；拒绝仅登记为optional-blocked，不要求放行或扩展供应商后缀。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务",
+          "🛑 广告拦截",
+          "REJECT"
+        ]
+      },
+      "witnesses": [
+        "http-intake.logs.us5.datadoghq.com"
+      ]
+    },
+    {
+      "id": "operational-errors",
+      "domain": "browser-intake-us5-datadoghq.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "optional",
+      "evidence_status": "confirmed",
+      "role": "可关闭、受服务端开启条件控制的错误报告接收端。",
+      "condition": "直连API且账号/版本/rollout条件符合并开启错误报告；可禁用。",
+      "shared_domain": true,
+      "restriction": "共享Datadog主机；拒绝不视为登录/API/上传核心故障，不添加datadoghq.com全局例外。",
+      "evidence": {
+        "level": "official-current",
+        "source_ids": [
+          "anthropic-code-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": "🤖 AI 服务",
+        "allowed": [
+          "🤖 AI 服务",
+          "🛑 广告拦截",
+          "REJECT"
+        ]
+      },
+      "witnesses": [
+        "browser-intake-us5-datadoghq.com"
+      ]
+    },
+    {
+      "id": "auth0-candidate",
+      "domain": "anthropic.auth0.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "login"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "第三方清单中的认证候选；当前Anthropic官方登录文档未核实该主机职责。",
+      "condition": "当前用途与是否仍需此tenant待官方证据或获授权的真实trace。",
+      "shared_domain": true,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "third-party-lead",
+        "source_ids": [
+          "vpsdance-frozen-lead"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "anthropic.auth0.com"
+      ]
+    },
+    {
+      "id": "growthbook-candidate",
+      "domain": "cdn.growthbook.io",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "第三方清单称特性开关；当前Claude版本是否使用未核实。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": true,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "third-party-lead",
+        "source_ids": [
+          "xiaolai-frozen-lead",
+          "vpsdance-frozen-lead"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "cdn.growthbook.io"
+      ]
+    },
+    {
+      "id": "fathom-candidate",
+      "domain": "cdn.usefathom.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "第三方清单称网页统计；当前使用情况未核实。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": true,
+      "restriction": "仅登记此主机，不新增规则；域名命中不证明账号、区域、TLS或应用运行正常。",
+      "evidence": {
+        "level": "third-party-lead",
+        "source_ids": [
+          "xiaolai-frozen-lead",
+          "vpsdance-frozen-lead"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "cdn.usefathom.com"
+      ]
+    },
+    {
+      "id": "statsig-legacy-candidate",
+      "domain": "statsig.anthropic.com",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "旧官方文档曾列遥测；当前CLI列表已使用API完成feature flags/事件，旧主机现角色未证实。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": false,
+      "restriction": "历史角色仅作迁移线索；不据旧版本信息强制当前策略或可用性。",
+      "evidence": {
+        "level": "official-historical",
+        "source_ids": [
+          "anthropic-legacy-network"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "statsig.anthropic.com"
+      ]
+    },
+    {
+      "id": "sentry-io-root-lead",
+      "domain": "sentry.io",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "第三方清单的供应商根域名线索；不是已核实Claude专属端点。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": true,
+      "restriction": "原第三方suffix不导入；这里只记录根域名线索，未知tenant/路径，禁止全局suffix例外。",
+      "evidence": {
+        "level": "third-party-lead",
+        "source_ids": [
+          "vpsdance-frozen-lead"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "sentry.io"
+      ]
+    },
+    {
+      "id": "statsigapi-net-root-lead",
+      "domain": "statsigapi.net",
+      "scope": "exact",
+      "include_apex": true,
+      "service_stages": [
+        "telemetry"
+      ],
+      "necessity": "unverified",
+      "evidence_status": "pending-verification",
+      "role": "第三方清单的供应商根域名线索；不是已核实Claude专属端点。",
+      "condition": "Anthropic直连服务；第三方provider或企业gateway须按实际配置另行核验。",
+      "shared_domain": true,
+      "restriction": "原第三方suffix不导入；这里只记录根域名线索，未知tenant/路径，禁止全局suffix例外。",
+      "evidence": {
+        "level": "third-party-lead",
+        "source_ids": [
+          "vpsdance-frozen-lead"
+        ],
+        "checked_date": "2026-10-13"
+      },
+      "policy": {
+        "target": null,
+        "allowed": []
+      },
+      "witnesses": [
+        "statsigapi.net"
+      ]
+    }
+  ]
+}

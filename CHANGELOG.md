@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.17 — Claude Desktop 端点保护与发布门禁 (2026-10-13)
+
+- 现有 `scki-adfp-ai` 增加两个官方 Desktop 必需主机的精确匹配；客户端规则集及原生格式维持现有实现。共享 source 语义检查、29 条 ADFP 例外校验、Claude 阶段依赖台账与文件级发布批次门禁。
+- 详见[Claude 服务依赖台账](./docs/claude-service-dependencies.md)、[文件级发布检查](./docs/release-batch.md)及[Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)。未进行真机故障复现或测量，未推送。
+
 ## v6.0.16 — 规则质量台账 (2026-10-12)
 
 - 为共同 source graph 和生成链登记来源/版本与 MRS→fused 收据，新增有序 domain-projection 三态差分及既有 ADFP 例外双向覆盖、来源图目标/广告前置检查；各客户端格式和运行时规则维持原有实现。详见[规则质量台账](./docs/rule-quality.md)。

@@ -7,6 +7,12 @@
 
 ---
 
+## v6.0.17-dns.14 / v6.0.17-normal.15 (2026-10-13)
+
+- 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。
+- 本端规则集与原生语法沿用现有实现；来源语义 gate、29 条 ADFP 例外校验、Claude 服务阶段清单及文件级发布批次检查接入同一发布链。详见 [Claude 服务依赖台账](../docs/claude-service-dependencies.md) 与 [发布批次检查](../docs/release-batch.md)。未进行真机故障复现或测量。
+
+
 ## v6.0.16-dns.14 / v6.0.16-normal.15 (2026-10-12)
 
 - 本端随 v6.0.16 主线登记来源/版本收据、有序 domain-projection 差分及现有 ADFP 例外双向校验；客户端转换格式、规则顺序和目标策略沿用既有实现，未新增运行时规则。详见[规则质量台账](../docs/rule-quality.md)。

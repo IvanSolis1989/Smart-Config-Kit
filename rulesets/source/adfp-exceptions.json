@@ -3,6 +3,30 @@
   "description": "Reviewed narrow exceptions for the four existing adfp supplemental providers. routing-graph.js remains authoritative for provider targets and order.",
   "records": [
     {
+      "id": "claude-desktop-a-api",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,a-api.anthropic.com",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "Anthropic's Desktop network requirements list this exact host for application code/user content access. The current ad provider matches it before general AI rules; no specific API path or live-client failure is inferred.",
+      "evidence": [{"path": "rulesets/supplemental/README.md", "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`", "level": "static"}],
+      "positive_examples": ["a-api.anthropic.com"],
+      "negative_examples": ["child.a-api.anthropic.com", "a-api.anthropic.com.example", "other.anthropic.com"],
+      "expected_relation": {"negative_examples_match": false, "positive_examples_match": true}
+    },
+    {
+      "id": "claude-desktop-a-cdn",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,a-cdn.anthropic.com",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "Anthropic's Desktop network requirements list this exact host for application code/user content access. A narrow pre-ad exception corrects the observed static routing collision without exempting unrelated CDN or telemetry hosts.",
+      "evidence": [{"path": "rulesets/supplemental/README.md", "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`", "level": "static"}],
+      "positive_examples": ["a-cdn.anthropic.com"],
+      "negative_examples": ["child.a-cdn.anthropic.com", "a-cdn.anthropic.com.example", "other.anthropic.com"],
+      "expected_relation": {"negative_examples_match": false, "positive_examples_match": true}
+    },
+    {
       "id": "nvidia-cn-login",
       "provider": "scki-adfp-direct",
       "rule": "DOMAIN,login.nvidia.cn",

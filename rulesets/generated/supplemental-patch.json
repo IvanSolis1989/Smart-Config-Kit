@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "mode": "partial-sync",
+  "baseline_commit": "b0b6689bb2fbad4831de2a6bdae576fcd8250316",
+  "baseline_source_sha256": "768fe44bc7c6e7601cc9de5ac5145cc07ada4a78585d634d2a69b335a8cf8d61",
+  "baseline_manifest_sha256": "af1353b49a5ceed00f552a1a33633b9db3290dc47dddd3675cd62dcee8e6eb4f",
+  "baseline_payload_sha256": "57ab6b0994f7d31a303a549e73dde0006e9bb481422714040564ed6eb494c250",
+  "baseline_supplemental_sha256": "90d6d2bce69c0e4cee0292300409ea9de0b785c642f1e4112c443905a5d8d7fb",
+  "provider_id": "scki-adfp-ai",
+  "local_delta": {
+    "added": [
+      "DOMAIN,a-api.anthropic.com",
+      "DOMAIN,a-cdn.anthropic.com"
+    ],
+    "removed": []
+  },
+  "source_receipt": {
+    "schema_version": 1,
+    "requested_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/adfp-ai.list",
+    "effective_url": null,
+    "local_path": "rulesets/supplemental/clash/adfp-ai.list",
+    "input_kind": "original-source",
+    "acquisition": "local-file",
+    "verification": "content-sha256",
+    "content_normalization": "LF",
+    "content": {
+      "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
+      "bytes": 235
+    },
+    "source": {
+      "id": "scki",
+      "kind": "local",
+      "repository_url": "https://github.com/IvanSolis1989/Smart-Config-Kit",
+      "requested_ref": "main",
+      "source_path": "rulesets/supplemental/clash/adfp-ai.list",
+      "declaration": "rulesets/source/upstream-sources.json#scki",
+      "license": {
+        "status": "unknown",
+        "spdx": null,
+        "declaration_url": "https://github.com/IvanSolis1989/Smart-Config-Kit",
+        "note": "Local supplemental identity; do not infer third-party asset rights from repository identity."
+      },
+      "resolved_commit": null,
+      "version_state": "local-content-addressed"
+    }
+  },
+  "changed_segments": [
+    {
+      "id": "scki-fused-004-ai",
+      "added": [
+        "DOMAIN,a-api.anthropic.com",
+        "DOMAIN,a-cdn.anthropic.com"
+      ],
+      "deleted": []
+    },
+    {
+      "id": "scki-fused-006-ad",
+      "added": [],
+      "deleted": [
+        "DOMAIN,a-api.anthropic.com",
+        "DOMAIN,a-cdn.anthropic.com"
+      ]
+    }
+  ],
+  "untouched_original_inputs": "legacy-unknown; not read or refreshed",
+  "outputs": [
+    {
+      "file": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+      "sha256": "1c171c93b5c8f762c7964af6743b0f2aa4b1ae25b5b0cb29d746bb1c62c8f5ef",
+      "bytes": 159
+    },
+    {
+      "file": "rulesets/generated/fused/clash/scki-fused-004-ai.list",
+      "sha256": "a19e0e99ae840f56a6ddbef77877393c40a52e540493f3801a4ebcc494c03b23",
+      "bytes": 155
+    },
+    {
+      "file": "rulesets/generated/fused/surge/scki-fused-004-ai.list",
+      "sha256": "a19e0e99ae840f56a6ddbef77877393c40a52e540493f3801a4ebcc494c03b23",
+      "bytes": 155
+    },
+    {
+      "file": "rulesets/generated/fused/quantumultx/scki-fused-004-ai.list",
+      "sha256": "f1e8236d09ed887415894a4173d278e008c464ae9f4e3588f6a05cfadbe115ec",
+      "bytes": 150
+    },
+    {
+      "file": "rulesets/generated/fused/egern/scki-fused-004-ai.yaml",
+      "sha256": "be0678a0dfab4b476907eea8c57a50dd6513bc3f4eda801aab5c119fae3421c2",
+      "bytes": 208
+    },
+    {
+      "file": "rulesets/generated/fused/sing-box/scki-fused-004-ai.json",
+      "sha256": "b5046f7d23fe36abccde1c6e8cfd932d436e67fc156177685853fcb369b78035",
+      "bytes": 249
+    },
+    {
+      "file": "rulesets/generated/fused/mihomo/scki-fused-006-ad-domain.yaml",
+      "sha256": "33b074ba261453f48d56dfb0800239ca325a9431a19a91524571190c081cd1df",
+      "bytes": 10974357
+    },
+    {
+      "file": "rulesets/generated/fused/clash/scki-fused-006-ad.list",
+      "sha256": "ccb88f9c663c2f6f6766d40f15da2d82342ebe40631a53c7cc4f333916c4d1d7",
+      "bytes": 12181009
+    },
+    {
+      "file": "rulesets/generated/fused/surge/scki-fused-006-ad.list",
+      "sha256": "ccb88f9c663c2f6f6766d40f15da2d82342ebe40631a53c7cc4f333916c4d1d7",
+      "bytes": 12181009
+    },
+    {
+      "file": "rulesets/generated/fused/quantumultx/scki-fused-006-ad.list",
+      "sha256": "8f80bbd787acef9f1a9cc552d00602cec74b8d08b450e5d1c97203c0b6296720",
+      "bytes": 11785234
+    },
+    {
+      "file": "rulesets/generated/fused/egern/scki-fused-006-ad.yaml",
+      "sha256": "d602d5648fc70b3170fad5fb754fa3da3b836e5562fb1c1a6503f91762f4f503",
+      "bytes": 10145339
+    },
+    {
+      "file": "rulesets/generated/fused/sing-box/scki-fused-006-ad.json",
+      "sha256": "e62d481221e8d11d4b5be798bd9616b40e397de22e9e951e3369ab9a35217ebe",
+      "bytes": 12129648
+    },
+    {
+      "file": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.mrs",
+      "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
+      "bytes": 148
+    },
+    {
+      "file": "rulesets/generated/fused/sing-box/scki-fused-004-ai.srs",
+      "sha256": "2a492981f5fa8c0d83594ef999efd34ba98fe55445474d533df9f4dde5ca2ce5",
+      "bytes": 134
+    },
+    {
+      "file": "rulesets/generated/fused/mihomo/scki-fused-006-ad-domain.mrs",
+      "sha256": "dbe8618aec9da78568c4913a19a70984d7bf4f1d2156d4eb01b18b60362e7fe2",
+      "bytes": 3368543
+    },
+    {
+      "file": "rulesets/generated/fused/sing-box/scki-fused-006-ad.srs",
+      "sha256": "6b366a27351d503673f35e97cc76953b262d732f0085442438327548ba3e074b",
+      "bytes": 2971045
+    },
+    {
+      "file": "rulesets/generated/mihomo-mrs/scki-adfp-ai.mrs",
+      "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
+      "bytes": 148
+    }
+  ],
+  "stage_manifest_outputs": [
+    {
+      "file": "rulesets/generated/mihomo-mrs/manifest.json",
+      "sha256": "7c60e88ff6b0aaccd2c47fc7295188b60f814119f669d872f113807686d6c20e",
+      "bytes": 175607
+    },
+    {
+      "file": "rulesets/generated/fused/manifest.json",
+      "sha256": "046d0187e7ab40dce3f5c672806d86383774493a21e7176cbcb2a82ca957d074",
+      "bytes": 243582
+    }
+  ],
+  "binding": {
+    "fused_payload_sha256": "2ee1b44c2d43fc311569a255134b029d31f22c36dda4624ae50259169580e8f5",
+    "traffic_source_fingerprint": "4f6be52b55349a2f6f463eb0761ffae0f74f7a06cc088c403c6e15faa9eaad6b",
+    "local_source_sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4"
+  },
+  "converters": {
+    "mihomo": {
+      "sha256": "04f8d7fc2b314771e1ecbf15951d59f0e1cb7914503c88cfb6972ff6a824e314",
+      "file": "mihomo-windows-amd64-compatible.exe"
+    },
+    "sing_box": {
+      "sha256": "5c19bb3f8c12d4e85b3d47fe63123a7624b314b58dd7a8e32f51004f1c4d2faf",
+      "file": "sing-box.exe"
+    }
+  }
+}

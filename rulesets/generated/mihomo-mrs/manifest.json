@@ -2778,15 +2778,75 @@
       "source_format": "text",
       "source_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/adfp-ai.list",
       "type_counts": {
-        "domain": 3
+        "domain": 5
       },
       "generated": [
         {
           "behavior": "domain",
           "file": "scki-adfp-ai.mrs",
-          "entries": 3
+          "entries": 5,
+          "output_receipt": {
+            "schema_version": 1,
+            "requested_url": null,
+            "effective_url": null,
+            "local_path": "rulesets/generated/mihomo-mrs/scki-adfp-ai.mrs",
+            "input_kind": "generated-output",
+            "acquisition": "local-file",
+            "verification": "content-sha256",
+            "content_normalization": "raw-bytes",
+            "content": {
+              "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
+              "bytes": 148
+            },
+            "source": {
+              "id": "repository-local",
+              "kind": "local",
+              "repository_url": null,
+              "requested_ref": null,
+              "source_path": "rulesets/generated/mihomo-mrs/scki-adfp-ai.mrs",
+              "declaration": null,
+              "license": {
+                "status": "unknown",
+                "spdx": null,
+                "declaration_url": null,
+                "note": "No license evidence registered."
+              },
+              "resolved_commit": null,
+              "version_state": "local-content-addressed"
+            }
+          }
         }
-      ]
+      ],
+      "source_receipt": {
+        "schema_version": 1,
+        "requested_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/adfp-ai.list",
+        "effective_url": null,
+        "local_path": "rulesets/supplemental/clash/adfp-ai.list",
+        "input_kind": "original-source",
+        "acquisition": "local-file",
+        "verification": "content-sha256",
+        "content_normalization": "LF",
+        "content": {
+          "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
+          "bytes": 235
+        },
+        "source": {
+          "id": "scki",
+          "kind": "local",
+          "repository_url": "https://github.com/IvanSolis1989/Smart-Config-Kit",
+          "requested_ref": "main",
+          "source_path": "rulesets/supplemental/clash/adfp-ai.list",
+          "declaration": "rulesets/source/upstream-sources.json#scki",
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": "https://github.com/IvanSolis1989/Smart-Config-Kit",
+            "note": "Local supplemental identity; do not infer third-party asset rights from repository identity."
+          },
+          "resolved_commit": null,
+          "version_state": "local-content-addressed"
+        }
+      }
     },
     {
       "id": "scki-adfp-direct",

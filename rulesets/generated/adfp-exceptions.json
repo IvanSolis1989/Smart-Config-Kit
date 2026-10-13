@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.16",
-  "registry_sha256": "60c82af9d901231b30ce586ff45cd3212bbda9f7a84e080c648ef68edf2185a1",
-  "total_records": 27,
+  "source_graph_version": "v6.0.17",
+  "registry_sha256": "1571be291370dce9c561bef89a98689836791908261acf04ebe743c2b71845b4",
+  "total_records": 29,
   "coverage": {
     "scki-adfp-direct": 22,
     "scki-adfp-intl-site": 1,
     "scki-adfp-payments": 1,
-    "scki-adfp-ai": 3
+    "scki-adfp-ai": 5
   },
   "ordered_provider_indices": {
     "scki-adfp-direct": 0,
@@ -16,11 +16,11 @@
     "scki-adfp-ai": 3
   },
   "anti_ad_index": 5,
-  "scope": "Existing payload coverage, matching boundaries and static early first-match probes; no live-client claim or added exceptions.",
+  "scope": "Registered payload coverage, matching boundaries and static early first-match probes; no live-client claim.",
   "registry": {
     "path": "rulesets/source/adfp-exceptions.json",
-    "sha256": "60c82af9d901231b30ce586ff45cd3212bbda9f7a84e080c648ef68edf2185a1",
-    "bytes": 27298,
+    "sha256": "1571be291370dce9c561bef89a98689836791908261acf04ebe743c2b71845b4",
+    "bytes": 28990,
     "text_normalization": "LF"
   },
   "payloads": [
@@ -44,12 +44,22 @@
     },
     {
       "path": "rulesets/supplemental/clash/adfp-ai.list",
-      "sha256": "90d6d2bce69c0e4cee0292300409ea9de0b785c642f1e4112c443905a5d8d7fb",
-      "bytes": 177,
+      "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
+      "bytes": 235,
       "text_normalization": "LF"
     }
   ],
   "probes": [
+    {
+      "host": "a-api.anthropic.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "claude-desktop-a-api"
+    },
+    {
+      "host": "a-cdn.anthropic.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "claude-desktop-a-cdn"
+    },
     {
       "host": "login.nvidia.cn",
       "expected_policy": "DIRECT",
@@ -237,6 +247,40 @@
     }
   ],
   "ordered_positive_probes": [
+    {
+      "host": "a-api.anthropic.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "claude-desktop-a-api",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "🤖 AI 服务",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+        "entry": "DOMAIN,a-api.anthropic.com",
+        "entryIndex": 3,
+        "index": 3,
+        "policy": "🤖 AI 服务",
+        "provider": "scki-fused-004-ai-domain"
+      }
+    },
+    {
+      "host": "a-cdn.anthropic.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "claude-desktop-a-cdn",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "🤖 AI 服务",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+        "entry": "DOMAIN,a-cdn.anthropic.com",
+        "entryIndex": 4,
+        "index": 3,
+        "policy": "🤖 AI 服务",
+        "provider": "scki-fused-004-ai-domain"
+      }
+    },
     {
       "host": "login.nvidia.cn",
       "expected_policy": "DIRECT",

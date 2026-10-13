@@ -1,3 +1,5 @@
 host, browser-intake-datadoghq.com
 host, o33249.ingest.sentry.io
 host, o33249.ingest.us.sentry.io
+host, a-api.anthropic.com
+host, a-cdn.anthropic.com

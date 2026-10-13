@@ -42,6 +42,10 @@ jobs:
         with:
           ruby-version: '3.3'
 
+      - name: Freeze the release baseline
+        id: baseline
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Synchronize traffic presets before the full build
         run: |
           node tools/sync-traffic-options.js
@@ -67,7 +71,7 @@ jobs:
       - name: Validate complete fused release chain
         run: |
           node tools/validate-adfp-exceptions.js
-          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           node tools/sync-traffic-options.js --check
           node tools/validate-js-overwrites.js
           node tools/validate-process-name-direct.js
@@ -86,6 +90,7 @@ jobs:
       - name: Review ordered semantic changes before publication
         env:
           SCKI_SEMANTIC_APPROVAL_PATH: ${{ inputs.semantic_approval_path }}
+          SCKI_RELEASE_BASE: ${{ steps.baseline.outputs.commit }}
         run: |
           approval_args=()
           if [ -n "$SCKI_SEMANTIC_APPROVAL_PATH" ]; then
@@ -96,11 +101,50 @@ jobs:
             case "$SCKI_SEMANTIC_APPROVAL_PATH" in *..*) exit 1 ;; esac
             approval_args=(--expected-changes "$SCKI_SEMANTIC_APPROVAL_PATH")
           fi
-          node tools/validate-ordered-rule-semantics.js --baseline-ref HEAD --mode domain-projection --check --output rulesets/generated/semantic-diff.json "${approval_args[@]}"
+          node tools/validate-ordered-rule-semantics.js --baseline-ref "$SCKI_RELEASE_BASE" --mode domain-projection --check --output rulesets/generated/semantic-diff.json "${approval_args[@]}"
           node tools/refresh-rule-quality.js
           node tools/refresh-rule-quality.js --check
+          node tools/validate-claude-service-dependencies.js --check --strict-coverage
 
-      - name: Retain rule quality evidence even when review fails
+      - name: Check the complete release batch before staging
+        env:
+          SCKI_RELEASE_BASE: ${{ steps.baseline.outputs.commit }}
+        run: node tools/validate-release-batch.js --baseline-ref "$SCKI_RELEASE_BASE" --output "$RUNNER_TEMP/release-batch.json"
+
+      - name: Stage, verify and publish the frozen release batch
+        env:
+          SCKI_RELEASE_BASE: ${{ steps.baseline.outputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node -e 'const fs=require("node:fs"); const p=require("node:path"); const r=JSON.parse(fs.readFileSync(p.join(process.env.RUNNER_TEMP,"release-batch.json"))); fs.writeFileSync(p.join(process.env.RUNNER_TEMP,"release-paths.nul"),r.changedPaths.map(f=>f+"\0").join(""));'
+          if [ ! -s "$RUNNER_TEMP/release-paths.nul" ]; then
+            echo "No upstream-derived fused artifact changes."
+            exit 0
+          fi
+          git --literal-pathspecs add --pathspec-from-file="$RUNNER_TEMP/release-paths.nul" --pathspec-file-nul
+          node tools/validate-release-batch.js --check --receipt "$RUNNER_TEMP/release-batch.json" --mode staged --baseline-ref "$SCKI_RELEASE_BASE"
+          if git diff --cached --quiet; then
+            echo "The approved batch has no Git content changes."
+            exit 0
+          fi
+          git diff --cached --check
+          git commit -m "定时同步全量融合规则集"
+          node tools/validate-release-batch.js --check --receipt "$RUNNER_TEMP/release-batch.json" --mode committed --baseline-ref "$SCKI_RELEASE_BASE"
+          git fetch origin main
+          if [ "$(git rev-parse origin/main)" != "$SCKI_RELEASE_BASE" ]; then
+            echo "main moved after validation; rebuild against its new baseline."
+            exit 1
+          fi
+          push_status=0
+          git push origin HEAD:main || push_status=$?
+          remote_commit=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$remote_commit" != "$(git rev-parse HEAD)" ]; then
+            echo "Published main could not be confirmed (push status: $push_status)."
+            exit 1
+          fi
+
+      - name: Retain quality and release evidence even when review fails
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -109,42 +153,6 @@ jobs:
             rulesets/generated/source-ledger.json
             rulesets/generated/adfp-exceptions.json
             rulesets/generated/semantic-diff.json
-
-      - name: Commit synchronized fused artifacts
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            "Clash Party" \
-            "Clash Meta For Android" \
-            "FlClash" \
-            "OpenClash" \
-            "Shadowrocket" \
-            "Stash" \
-            "Egern" \
-            "SingBox" \
-            "v2rayN" \
-            "Surge" \
-            "Loon" \
-            "Quantumult X" \
-            "Passwall" \
-            "Passwall2" \
-            "rulesets/source/routing-graph.js" \
-            "rulesets/source/traffic-options.json" \
-            "rulesets/generated/fused" \
-            "rulesets/generated/mihomo-mrs" \
-            "rulesets/generated/egern" \
-            "rulesets/generated/egern-traffic-snapshot.json.gz" \
-            "rulesets/generated/source-ledger.json" \
-            "rulesets/generated/adfp-exceptions.json" \
-            "rulesets/generated/semantic-diff.json" \
-            "rulesets/supplemental/egern" \
-            "tools/runtime/traffic-options.js"
-          if git diff --cached --quiet; then
-            echo "No upstream-derived fused artifact changes."
-            exit 0
-          fi
-          git diff --cached --check
-          git commit -m "定时同步全量融合规则集"
-          git pull --rebase origin main
-          git push origin HEAD:main
+            rulesets/generated/claude-service-dependencies.json
+            rulesets/generated/supplemental-patch.json
+            ${{ runner.temp }}/release-batch.json

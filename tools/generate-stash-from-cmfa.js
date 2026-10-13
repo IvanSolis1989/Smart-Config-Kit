@@ -11,7 +11,7 @@ const SOURCE_FILE = 'Clash Meta For Android/CMFA(mihomo).yaml';
 const OUTPUT_FILE = 'Stash/Stash.yaml';
 const FUSED_MANIFEST_FILE = 'rulesets/generated/fused/manifest.json';
 const VERSION_SUFFIX = 'stash.9';
-const BUILD_DATE = '2026-10-12';
+const BUILD_DATE = '2026-10-13';
 
 const DNS_BOOTSTRAP_PLAINTEXT = ['223.5.5.5', '119.29.29.29', '1.1.1.1', '8.8.8.8'];
 const DNS_DOMESTIC_DOH = ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query'];
