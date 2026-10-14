@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { REPOSITORY_URL_PREFIXES } = require('./lib/repository-rule-asset');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const MAX_JSDELIVR_ASSET_BYTES = 18 * 1024 * 1024;
@@ -16,7 +17,7 @@ const CLIENT_BUDGETS = new Map([
   ['Stash', { maxBytes: 32 * 1024 * 1024, maxTextRules: 1_000_000 }],
   ['SingBox', { maxBytes: 64 * 1024 * 1024, maxTextRules: 2_000_000 }],
 ]);
-const SELF_HOSTED_URL_RE = /https:\/\/(?:fastly\.)?jsdelivr\.net\/gh\/IvanSolis1989\/Smart-Config-Kit@main\/([^\s,"'\\]+)/g;
+const REPOSITORY_URL_RE = new RegExp(`(?:${REPOSITORY_URL_PREFIXES.map((prefix) => prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})[^\\s,"'\\\\]+`, 'g');
 const CLIENT_FILES = [
   'Clash Party/ClashParty(mihomo-smart).js',
   'Clash Party/ClashParty(mihomo).js',
@@ -51,14 +52,20 @@ function collectClientFiles() {
   return files;
 }
 
+function generatedAssetUrls(source) {
+  return [...source.matchAll(REPOSITORY_URL_RE)]
+    .map((match) => match[0])
+    .filter((url) => new URL(url).pathname.includes('/rulesets/generated/'));
+}
+
 function collectGeneratedReferences() {
   const consumers = new Map();
   for (const file of collectClientFiles()) {
     const content = fs.readFileSync(file, 'utf8');
     const relativeConsumer = path.relative(REPO_ROOT, file).replace(/\\/g, '/');
-    for (const match of content.matchAll(SELF_HOSTED_URL_RE)) {
-      const relativeAsset = decodeURIComponent(match[1]).replace(/[?#].*$/, '');
-      if (!relativeAsset.startsWith('rulesets/generated/')) continue;
+    for (const url of generatedAssetUrls(content)) {
+      const prefix = REPOSITORY_URL_PREFIXES.find((candidate) => url.startsWith(candidate));
+      const relativeAsset = decodeURIComponent(url.slice(prefix.length).replace(/[?#].*$/, ''));
       const rows = consumers.get(relativeAsset) || [];
       rows.push(relativeConsumer);
       consumers.set(relativeAsset, rows);
@@ -79,6 +86,7 @@ function validateGeneratedRemoteAssetSizes() {
       continue;
     }
     const size = fs.statSync(asset).size;
+    if (size === 0) failures.push(`empty generated asset: ${relativeAsset}`);
     const extension = path.extname(asset).toLowerCase();
     const isText = new Set(['.conf', '.json', '.list', '.txt', '.yaml', '.yml']).has(extension);
     const textRules = isText
@@ -87,9 +95,10 @@ function validateGeneratedRemoteAssetSizes() {
         return trimmed && !trimmed.startsWith('#') && trimmed !== 'payload:';
       }).length
       : 0;
+    if (isText && textRules === 0) failures.push(`generated text asset has no rules: ${relativeAsset}`);
     assetStats.set(relativeAsset, { size, textRules });
     if (size > MAX_JSDELIVR_ASSET_BYTES) {
-      failures.push(`oversized jsDelivr asset: ${relativeAsset} = ${size} bytes, limit = ${MAX_JSDELIVR_ASSET_BYTES} bytes (referenced by ${[...new Set(consumers)].join(', ')})`);
+      failures.push(`oversized generated asset: ${relativeAsset} = ${size} bytes, limit = ${MAX_JSDELIVR_ASSET_BYTES} bytes (referenced by ${[...new Set(consumers)].join(', ')})`);
     }
     for (const consumer of consumers) {
       const client = consumer.split('/')[0];
@@ -99,6 +108,7 @@ function validateGeneratedRemoteAssetSizes() {
     }
   }
   const clientAggregates = new Map();
+  if (references.size === 0) failures.push('no generated remote assets found in client artifacts');
   for (const [client, assets] of clientAssets) {
     const budget = CLIENT_BUDGETS.get(client) || DEFAULT_CLIENT_BUDGET;
     let bytes = 0;
@@ -135,6 +145,8 @@ module.exports = {
   CLIENT_BUDGETS,
   DEFAULT_CLIENT_BUDGET,
   MAX_JSDELIVR_ASSET_BYTES,
+  collectClientFiles,
   collectGeneratedReferences,
+  generatedAssetUrls,
   validateGeneratedRemoteAssetSizes,
 };

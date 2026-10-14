@@ -1,5 +1,7 @@
 # Shadowrocket 配置参考文档
 
+> 2026-10-15 URL 兼容性复核：仓库仍使用 `RULE-SET,<url>,<policy>`。官方帮助站 <https://help.shadowrocket.net/> 本次无法读取，因此没有据此声称重新确认官方 HTTPS 支持；Issue #186 修复只替换既有自有规则 URL 主机，不改规则行语法。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 更新于 2026-05-31（上次获取 2026-04-30）：SR 最新版 v2.2.87（2026-05 下旬）。v2.2.81-2.2.87 新增 compact stream buffers（iOS/tvOS 降低并发内存）、DNS/HTTP/3 修复等客户端侧能力。不涉及分流配置语法变更。RULE-SET/策略组/DNS 语法与当前基线兼容。
 >
 > 更新于 2026-04-30（上次获取 2026-04-26）：SR 最新版 v2.2.80（2026-02-19）。v2.2.78-2.2.80 新增 HTTP/3、VLESS 后量子加密、AnyTLS 会话池、NaiveProxy UoT、gRPC 分块传输等客户端侧能力。不涉及分流配置语法变更。RULE-SET/策略组/DNS 语法与当前基线兼容。

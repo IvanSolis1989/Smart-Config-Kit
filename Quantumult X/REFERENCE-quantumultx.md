@@ -1,5 +1,7 @@
 # Quantumult X 配置参考文档
 
+> 2026-10-15 URL 兼容性复核：上游官方 [URL Scheme](https://github.com/crossutility/Quantumult-X/blob/master/url-scheme.md)示例在 `filter_remote` 使用 HTTPS raw GitHub URL；远程条目选项参考仍来自本地记录的社区 Wiki，不作为官方文档。Issue #186 只替换既有 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 来源 URL:
 > - https://github.com/crossutility/Quantumult-X (官方 GitHub 仓库 — 文档较少)
 > - https://qx.atlucky.me/ (社区权威 Wiki，页面 hash 认证)

@@ -1,7 +1,7 @@
 #!/bin/sh
 # ═══════════════════════════════════════════════════════════════════════════
 # Smart-Config-Kit for Passwall — fused UCI batch helper
-# Version: v6.0.18-pw.7 | Build 2026-10-14 | Baseline: Clash Party v6.0.18
+# Version: v6.0.19-pw.8 | Build 2026-10-15 | Baseline: Clash Party v6.0.19
 #
 # 用途：一次性在 Passwall 中创建 78 条 fused shunt rule。
 #       每条规则只引用 rulesets/generated/fused/sing-box/*.srs，不再维护手写域名/IP 展平列表。
@@ -14,7 +14,7 @@
 set -e
 
 CONFIG_NAME="passwall"
-VERSION_TAG="v6.0.18-pw.7"
+VERSION_TAG="v6.0.19-pw.8"
 MODE="${1:---replace}"
 
 case "${MODE}" in
@@ -122,238 +122,238 @@ fi
 echo "开始创建 78 条 fused shunt rule..."
 
 # [001] scki-fused-001-direct | DIRECT
-add_fused_shunt_rule 'scki-fused-001-direct | DIRECT' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-001-direct | DIRECT' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.19' '0'
 
 # [002] scki-fused-002-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-002-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-002-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.19' '0'
 
 # [003] scki-fused-003-payments | 🏦 金融支付
-add_fused_shunt_rule 'scki-fused-003-payments | 🏦 金融支付' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-003-payments | 🏦 金融支付' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.19' '0'
 
 # [004] scki-fused-004-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-004-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-004-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.19' '0'
 
 # [005] scki-fused-005-cnmedia | 📺 国内流媒体
-add_fused_shunt_rule 'scki-fused-005-cnmedia | 📺 国内流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-005-cnmedia | 📺 国内流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.19' '0'
 
 # [006] scki-fused-006-cn-site | 🏠 国内网站
-add_fused_shunt_rule 'scki-fused-006-cn-site | 🏠 国内网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-006-cn-site | 🏠 国内网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.19' '0'
 
 # [007] scki-fused-007-stream-jpkr | 🇯🇵 日韩流媒体
-add_fused_shunt_rule 'scki-fused-007-stream-jpkr | 🇯🇵 日韩流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-007-stream-jpkr | 🇯🇵 日韩流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.19' '0'
 
 # [008] scki-fused-008-social | 📱 社交媒体
-add_fused_shunt_rule 'scki-fused-008-social | 📱 社交媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-008-social | 📱 社交媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.19' '0'
 
 # [009] scki-fused-009-tiktok | 🎵 TikTok
-add_fused_shunt_rule 'scki-fused-009-tiktok | 🎵 TikTok' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-009-tiktok | 🎵 TikTok' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.19' '0'
 
 # [010] scki-fused-010-ad | 🛑 广告拦截
-add_fused_shunt_rule 'scki-fused-010-ad | 🛑 广告拦截' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-010-ad | 🛑 广告拦截' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.19' '1'
 
 # [011] scki-fused-011-tools | 🔧 工具与服务
-add_fused_shunt_rule 'scki-fused-011-tools | 🔧 工具与服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-011-tools | 🔧 工具与服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.19' '0'
 
 # [012] scki-fused-012-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-012-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-012-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.19' '0'
 
 # [013] scki-fused-013-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-013-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-013-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.19' '0'
 
 # [014] scki-fused-014-game-cn | 🕹️ 国内游戏
-add_fused_shunt_rule 'scki-fused-014-game-cn | 🕹️ 国内游戏' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-014-game-cn | 🕹️ 国内游戏' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.19' '0'
 
 # [015] scki-fused-015-microsoft | Ⓜ️ 微软服务
-add_fused_shunt_rule 'scki-fused-015-microsoft | Ⓜ️ 微软服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-015-microsoft | Ⓜ️ 微软服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.19' '0'
 
 # [016] scki-fused-016-ad | 🛑 广告拦截
-add_fused_shunt_rule 'scki-fused-016-ad | 🛑 广告拦截' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-016-ad | 🛑 广告拦截' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.19' '1'
 
 # [017] scki-fused-017-cn-site | 🏠 国内网站
-add_fused_shunt_rule 'scki-fused-017-cn-site | 🏠 国内网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-017-cn-site | 🏠 国内网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.19' '0'
 
 # [018] scki-fused-018-direct | DIRECT
-add_fused_shunt_rule 'scki-fused-018-direct | DIRECT' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-018-direct | DIRECT' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.19' '1'
 
 # [019] scki-fused-019-work | 🧑‍💼 会议协作
-add_fused_shunt_rule 'scki-fused-019-work | 🧑‍💼 会议协作' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-019-work | 🧑‍💼 会议协作' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.19' '0'
 
 # [020] scki-fused-020-crypto | 💰 加密货币
-add_fused_shunt_rule 'scki-fused-020-crypto | 💰 加密货币' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-020-crypto | 💰 加密货币' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.19' '0'
 
 # [021] scki-fused-021-gfw | 🚫 受限网站
-add_fused_shunt_rule 'scki-fused-021-gfw | 🚫 受限网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-021-gfw | 🚫 受限网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.19' '0'
 
 # [022] scki-fused-022-youtube | 📹 YouTube
-add_fused_shunt_rule 'scki-fused-022-youtube | 📹 YouTube' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-022-youtube | 📹 YouTube' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.19' '0'
 
 # [023] scki-fused-023-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-023-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-023-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.19' '0'
 
 # [024] scki-fused-024-google | 🔍 Google 服务
-add_fused_shunt_rule 'scki-fused-024-google | 🔍 Google 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-024-google | 🔍 Google 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.19' '0'
 
 # [025] scki-fused-025-work | 🧑‍💼 会议协作
-add_fused_shunt_rule 'scki-fused-025-work | 🧑‍💼 会议协作' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-025-work | 🧑‍💼 会议协作' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.19' '0'
 
 # [026] scki-fused-026-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-026-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-026-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.19' '1'
 
 # [027] scki-fused-027-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-027-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-027-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.19' '0'
 
 # [028] scki-fused-028-im | 💬 即时通讯
-add_fused_shunt_rule 'scki-fused-028-im | 💬 即时通讯' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-028-im | 💬 即时通讯' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.19' '0'
 
 # [029] scki-fused-029-work | 🧑‍💼 会议协作
-add_fused_shunt_rule 'scki-fused-029-work | 🧑‍💼 会议协作' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-029-work | 🧑‍💼 会议协作' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.19' '0'
 
 # [030] scki-fused-030-download | 📥 下载更新
-add_fused_shunt_rule 'scki-fused-030-download | 📥 下载更新' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-030-download | 📥 下载更新' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.19' '1'
 
 # [031] scki-fused-031-google | 🔍 Google 服务
-add_fused_shunt_rule 'scki-fused-031-google | 🔍 Google 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-031-google | 🔍 Google 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.19' '1'
 
 # [032] scki-fused-032-tools | 🔧 工具与服务
-add_fused_shunt_rule 'scki-fused-032-tools | 🔧 工具与服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-032-tools | 🔧 工具与服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.19' '0'
 
 # [033] scki-fused-033-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-033-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-033-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.19' '1'
 
 # [034] scki-fused-034-google | 🔍 Google 服务
-add_fused_shunt_rule 'scki-fused-034-google | 🔍 Google 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-034-google | 🔍 Google 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.19' '0'
 
 # [035] scki-fused-035-ai | 🤖 AI 服务
-add_fused_shunt_rule 'scki-fused-035-ai | 🤖 AI 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-035-ai | 🤖 AI 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.19' '1'
 
 # [036] scki-fused-036-crypto | 💰 加密货币
-add_fused_shunt_rule 'scki-fused-036-crypto | 💰 加密货币' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-036-crypto | 💰 加密货币' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.19' '0'
 
 # [037] scki-fused-037-payments | 🏦 金融支付
-add_fused_shunt_rule 'scki-fused-037-payments | 🏦 金融支付' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-037-payments | 🏦 金融支付' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.19' '0'
 
 # [038] scki-fused-039-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-039-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-039-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.19' '0'
 
 # [039] scki-fused-040-direct | DIRECT
-add_fused_shunt_rule 'scki-fused-040-direct | DIRECT' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-040-direct | DIRECT' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.19' '0'
 
 # [040] scki-fused-041-im | 💬 即时通讯
-add_fused_shunt_rule 'scki-fused-041-im | 💬 即时通讯' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-041-im | 💬 即时通讯' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.19' '1'
 
 # [041] scki-fused-042-social | 📱 社交媒体
-add_fused_shunt_rule 'scki-fused-042-social | 📱 社交媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-042-social | 📱 社交媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.19' '1'
 
 # [042] scki-fused-043-cn-site | 🏠 国内网站
-add_fused_shunt_rule 'scki-fused-043-cn-site | 🏠 国内网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-043-cn-site | 🏠 国内网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.19' '0'
 
 # [043] scki-fused-044-social | 📱 社交媒体
-add_fused_shunt_rule 'scki-fused-044-social | 📱 社交媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-044-social | 📱 社交媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.19' '0'
 
 # [044] scki-fused-045-work | 🧑‍💼 会议协作
-add_fused_shunt_rule 'scki-fused-045-work | 🧑‍💼 会议协作' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-045-work | 🧑‍💼 会议协作' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.19' '1'
 
 # [045] scki-fused-046-direct | DIRECT
-add_fused_shunt_rule 'scki-fused-046-direct | DIRECT' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-046-direct | DIRECT' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.19' '0'
 
 # [046] scki-fused-047-cnmedia | 📺 国内流媒体
-add_fused_shunt_rule 'scki-fused-047-cnmedia | 📺 国内流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-047-cnmedia | 📺 国内流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.19' '0'
 
 # [047] scki-fused-048-tiktok | 🎵 TikTok
-add_fused_shunt_rule 'scki-fused-048-tiktok | 🎵 TikTok' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-048-tiktok | 🎵 TikTok' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.19' '0'
 
 # [048] scki-fused-049-youtube | 📹 YouTube
-add_fused_shunt_rule 'scki-fused-049-youtube | 📹 YouTube' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-049-youtube | 📹 YouTube' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.19' '0'
 
 # [049] scki-fused-050-netflix | 🎥 Netflix
-add_fused_shunt_rule 'scki-fused-050-netflix | 🎥 Netflix' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-050-netflix | 🎥 Netflix' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.19' '1'
 
 # [050] scki-fused-051-disney | 🎬 Disney+
-add_fused_shunt_rule 'scki-fused-051-disney | 🎬 Disney+' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-051-disney | 🎬 Disney+' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.19' '0'
 
 # [051] scki-fused-052-hbo-max | 📡 HBO/Max
-add_fused_shunt_rule 'scki-fused-052-hbo-max | 📡 HBO/Max' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-052-hbo-max | 📡 HBO/Max' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.19' '0'
 
 # [052] scki-fused-053-hulu | 📺 Hulu
-add_fused_shunt_rule 'scki-fused-053-hulu | 📺 Hulu' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-053-hulu | 📺 Hulu' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.19' '0'
 
 # [053] scki-fused-054-prime-video | 🎬 Prime Video
-add_fused_shunt_rule 'scki-fused-054-prime-video | 🎬 Prime Video' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-054-prime-video | 🎬 Prime Video' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.19' '0'
 
 # [054] scki-fused-055-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-055-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-055-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.19' '1'
 
 # [055] scki-fused-056-music | 🎵 音乐流媒体
-add_fused_shunt_rule 'scki-fused-056-music | 🎵 音乐流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-056-music | 🎵 音乐流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.19' '1'
 
 # [056] scki-fused-057-stream-hk | 🇭🇰 香港流媒体
-add_fused_shunt_rule 'scki-fused-057-stream-hk | 🇭🇰 香港流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-057-stream-hk | 🇭🇰 香港流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.19' '1'
 
 # [057] scki-fused-058-stream-tw | 🇹🇼 台湾流媒体
-add_fused_shunt_rule 'scki-fused-058-stream-tw | 🇹🇼 台湾流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-058-stream-tw | 🇹🇼 台湾流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.19' '0'
 
 # [058] scki-fused-059-stream-jpkr | 🇯🇵 日韩流媒体
-add_fused_shunt_rule 'scki-fused-059-stream-jpkr | 🇯🇵 日韩流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-059-stream-jpkr | 🇯🇵 日韩流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.19' '1'
 
 # [059] scki-fused-060-stream-eu | 🇪🇺 欧洲流媒体
-add_fused_shunt_rule 'scki-fused-060-stream-eu | 🇪🇺 欧洲流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-060-stream-eu | 🇪🇺 欧洲流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.19' '0'
 
 # [060] scki-fused-061-stream-other | 🌐 其他国外流媒体
-add_fused_shunt_rule 'scki-fused-061-stream-other | 🌐 其他国外流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-061-stream-other | 🌐 其他国外流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.19' '1'
 
 # [061] scki-fused-062-tools | 🔧 工具与服务
-add_fused_shunt_rule 'scki-fused-062-tools | 🔧 工具与服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-062-tools | 🔧 工具与服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.19' '0'
 
 # [062] scki-fused-063-google | 🔍 Google 服务
-add_fused_shunt_rule 'scki-fused-063-google | 🔍 Google 服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-063-google | 🔍 Google 服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.19' '0'
 
 # [063] scki-fused-064-tools | 🔧 工具与服务
-add_fused_shunt_rule 'scki-fused-064-tools | 🔧 工具与服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-064-tools | 🔧 工具与服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.19' '1'
 
 # [064] scki-fused-065-microsoft | Ⓜ️ 微软服务
-add_fused_shunt_rule 'scki-fused-065-microsoft | Ⓜ️ 微软服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-065-microsoft | Ⓜ️ 微软服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.19' '0'
 
 # [065] scki-fused-066-apple | 🍎 苹果服务
-add_fused_shunt_rule 'scki-fused-066-apple | 🍎 苹果服务' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-066-apple | 🍎 苹果服务' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.19' '1'
 
 # [066] scki-fused-067-download | 📥 下载更新
-add_fused_shunt_rule 'scki-fused-067-download | 📥 下载更新' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-067-download | 📥 下载更新' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.19' '1'
 
 # [067] scki-fused-068-tracker | 🛰️ BT/PT Tracker
-add_fused_shunt_rule 'scki-fused-068-tracker | 🛰️ BT/PT Tracker' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-068-tracker | 🛰️ BT/PT Tracker' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.19' '1'
 
 # [068] scki-fused-069-gfw | 🚫 受限网站
-add_fused_shunt_rule 'scki-fused-069-gfw | 🚫 受限网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-069-gfw | 🚫 受限网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.19' '1'
 
 # [069] scki-fused-070-game-cn | 🕹️ 国内游戏
-add_fused_shunt_rule 'scki-fused-070-game-cn | 🕹️ 国内游戏' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-070-game-cn | 🕹️ 国内游戏' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.19' '0'
 
 # [070] scki-fused-071-game-intl | 🎮 国外游戏
-add_fused_shunt_rule 'scki-fused-071-game-intl | 🎮 国外游戏' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-071-game-intl | 🎮 国外游戏' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.19' '1'
 
 # [071] scki-fused-072-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-072-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-072-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.19' '1'
 
 # [072] scki-fused-073-payments | 🏦 金融支付
-add_fused_shunt_rule 'scki-fused-073-payments | 🏦 金融支付' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-073-payments | 🏦 金融支付' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.19' '0'
 
 # [073] scki-fused-074-cnmedia | 📺 国内流媒体
-add_fused_shunt_rule 'scki-fused-074-cnmedia | 📺 国内流媒体' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-074-cnmedia | 📺 国内流媒体' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.19' '1'
 
 # [074] scki-fused-075-cn-site | 🏠 国内网站
-add_fused_shunt_rule 'scki-fused-075-cn-site | 🏠 国内网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-075-cn-site | 🏠 国内网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.19' '1'
 
 # [075] scki-fused-076-direct | DIRECT
-add_fused_shunt_rule 'scki-fused-076-direct | DIRECT' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-076-direct | DIRECT' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.19' '0'
 
 # [076] scki-fused-077-cn-site | 🏠 国内网站
-add_fused_shunt_rule 'scki-fused-077-cn-site | 🏠 国内网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.18' '0'
+add_fused_shunt_rule 'scki-fused-077-cn-site | 🏠 国内网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.19' '0'
 
 # [077] scki-fused-078-intl-site | 🌐 国外网站
-add_fused_shunt_rule 'scki-fused-078-intl-site | 🌐 国外网站' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-078-intl-site | 🌐 国外网站' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.19' '1'
 
 # [078] scki-fused-080-netflix | 🎥 Netflix
-add_fused_shunt_rule 'scki-fused-080-netflix | 🎥 Netflix' 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.18' '1'
+add_fused_shunt_rule 'scki-fused-080-netflix | 🎥 Netflix' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.19' '1'
 
 uci commit "${CONFIG_NAME}"
 echo "完成：已写入 78 条 Smart-Config-Kit fused shunt rule。请到 LuCI 分流控制中为各规则选择目标节点。"

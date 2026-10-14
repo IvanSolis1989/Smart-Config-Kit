@@ -1,11 +1,14 @@
 # OpenClash 使用说明（Smart / Normal 双版本）
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 目录简介：这里提供 OpenWrt OpenClash 的 Smart/Normal 覆写脚本、UI 配置快照和部署排障说明。
-> 当前版本：**v6.0.18-oc-normal.12 / v6.0.18-oc-smart.12**（Build 2026-10-14，跟随 source graph v6.0.18；融合规则缓存按发布版本隔离）。
+> 当前版本：**v6.0.19-oc-normal.13 / v6.0.19-oc-smart.13**（Build 2026-10-15，跟随 source graph v6.0.19；149 融合 rule-providers / 168 rules；融合规则缓存按发布版本隔离）。
 >
 > 本目录提供「同规则量、不同内核能力」的两份覆写脚本，外加一份 OpenClash UI 配置快照（`.conf`）。
 >
@@ -43,7 +46,7 @@
 | 适用内核 | Mihomo Smart / Meta Alpha | Mihomo Meta 稳定内核（非 Smart） |
 | 区域组类型 | `type: smart` | `type: url-test` |
 | LightGBM | 支持（`uselightgbm: true`） | 不支持 |
-| 规则覆盖 | 376 providers / 1020+ rules | 376 providers / 1020+ rules |
+| 规则覆盖 | 149 融合 providers / 168 rules（源 525 / 984） | 149 融合 providers / 168 rules（源 525 / 984） |
 | 业务组数量 | 33 | 33 |
 | 区域组数量 | 22 | 22 |
 | DNS / Sniffer / Rule-Providers | 完全一致 | 完全一致 |
@@ -248,7 +251,7 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 
 ### Q1：我现在不是 Smart 内核，还能用这套规则吗？
 
-可以。直接用 `OpenClash(mihomo).sh` 即可，规则覆盖（376 providers / 1020+ rules）与 Smart 版完全一致。
+可以。直接用 `OpenClash(mihomo).sh` 即可，规则覆盖（149 融合 providers / 168 rules；源 525 providers / 984 rules）与 Smart 版完全一致。
 
 ### Q2：我后面升级到 Smart 内核，要重做配置吗？
 

@@ -1,5 +1,8 @@
 # FlClash 使用教程 — 覆写脚本版
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
@@ -11,7 +14,7 @@
 > 覆写脚本：`FlClash(mihomo).js`
 > 适用客户端：**FlClash**（Android / Windows / macOS / Linux）
 > 内核要求：FlClash >= **v0.8.85**
-> 当前版本：**v6.0.18-flclash.18**（22 url-test 区域组 + 33 业务策略组 + 149 融合 rule-providers / 168 rules）
+> 当前版本：**v6.0.19-flclash.19**（Build 2026-10-15；22 url-test 区域组 + 33 业务策略组 + 149 融合 rule-providers / 168 rules）
 >
 > 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号会自动进入区域组；不对普通小写词做宽泛国家码匹配。
 
@@ -43,11 +46,10 @@
 2. 点右上角 **+**
 3. 输入名称（如 `Smart分流`），选择加载方式：
    - **URL**：填入 `https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/FlClash/FlClash%28mihomo%29.js`
-   - **jsdelivr CDN**（备用，速度与可达性取决于网络）：`https://cdn.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/FlClash/FlClash%28mihomo%29.js`
    - **粘贴**：浏览器打开 Raw 链接，全选复制粘贴；第一行必须是 `// FlClash 覆写脚本`
 4. 保存
 
-> 如果 FlClash 弹出 `SyntaxError: unexpected token '<'`，说明当前导入内容是 HTML 页面，不是 JS 脚本。删除这个覆写脚本，改用上面的 Raw / jsdelivr 链接重新创建。
+> 如果 FlClash 弹出 `SyntaxError: unexpected token '<'`，说明当前导入内容是 HTML 页面，不是 JS 脚本。删除这个覆写脚本，改用上面的 Raw 链接或粘贴方式重新创建。
 
 ### 第 2 步：关联到订阅
 
@@ -130,7 +132,7 @@ FlClash 在脚本运行后还会合并应用层配置。开启 `overrideDns` 时
 
 ### 外部资源（GeoX URL）
 
-**优先保留 FlClash 默认 URL，不要求换成 jsdelivr。** 资源下载有独立的应用层路径；脚本中的 rule-provider 下载代理不保证覆盖资源页面。GitHub、Raw、jsdelivr 在不同网络下的可达性不同，没有一个固定 CDN 保证更快。
+**本仓库覆写脚本与自有融合规则请使用配置中的 GitHub Raw HTTPS URL。** FlClash 资源下载有独立的应用层路径，脚本中的 rule-provider 下载代理不保证覆盖资源页面；网络无法访问 GitHub Raw 时需配置可用代理。外部上游资源由其各自 URL 决定。
 
 需要更换时，在资源页逐项检查完整 URL、HTTP 状态、下载大小和核心加载结果；先保留可用缓存，不要为了排障删除全部 GeoX 文件。`geosite:cn` / `geolocation-!cn` DNS 策略仍依赖 GeoSite 数据，即使路由已使用 fused MRS，也不能认为 GeoSite 完全不用了。当前内核关于 `fallback-filter.geosite` 的迁移 warning 不等于资源加载失败或 APP 被拒绝。
 

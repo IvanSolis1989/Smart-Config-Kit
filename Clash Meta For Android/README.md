@@ -1,5 +1,8 @@
 # Clash Meta For Android（CMFA）使用教程
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
@@ -10,7 +13,7 @@
 > 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
 > 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
 > **FlClash 用户**：推荐使用 [FlClash 覆写脚本](../FlClash/FlClash(mihomo).js)（动态节点分类 + 家宽识别 + 订阅清理）。详见 [`FlClash/README.md`](../FlClash/README.md)。
-> 当前版本：**v6.0.18-cmfa.10**（Build 2026-10-14，跟随 Clash Party v6.0.18 主线；融合规则集使用版本化本地缓存路径）
+> 当前版本：**v6.0.19-cmfa.11**（Build 2026-10-15，跟随 Clash Party v6.0.19 主线；149 融合 rule-providers / 168 rules / 107 MRS 资产；融合规则集使用版本化本地缓存路径）
 
 > 测速候选：具名 direct/reject 支持出站留在 provider 中供拨号链引用，22 个测速组按类型排除它们；空组使用 REJECT。业务组中的显式 DIRECT 选择仍可使用。[官方代理组字段](https://wiki.metacubex.one/config/proxy-groups/)与[实核验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
 
@@ -54,7 +57,7 @@
 ### 最常见踩坑
 - ❌ **APK 装不上**：没允许"来自未知来源的应用"。设置 → 安全 → 允许安装未知来源。
 - ❌ **导入后节点列表是空的**：订阅链接返回的格式不对。换链接加 `?flag=clash.meta` 后缀；或用 Sub-Store 做格式转换。
-- ❌ **首次启动卡在"加载规则"**：CMFA 要下载 113 个融合规则源。**必须在 WiFi + 已开代理**（可以先用随便一个能用的节点启动，等规则下完再切到本配置），否则 GitHub/jsdelivr 在国内会 404。
+- ❌ **首次启动卡在"加载规则"**：CMFA 要下载 149 个融合规则源。**必须在 WiFi + 已开代理**（可以先用随便一个能用的节点启动，等规则下完再切到本配置）；本仓库规则走 GitHub raw，当前网络无法访问时需要可用代理。
 - ❌ **打开支付宝/银行 App 卡死**：已在配置里把 `+.alipay.com` / 主流银行域名排除了代理。如果你用的银行没排除，在 CMFA 的「应用 → 分应用代理」里把那个银行 App 设为"不走代理"。
 - ❌ **LightGBM 自动择优不生效**：CMFA YAML 用的是 `url-test`（按延迟择优），**不是** Mihomo Smart 组。Smart + LightGBM 需要 Mihomo Smart Alpha 内核，**目前仅桌面端 Clash Verge Rev / Mihomo Party + Clash Party Smart JS 支持**。FlClash 覆写脚本 (`../FlClash/FlClash(mihomo).js`) 也是 url-test（标准 Mihomo 内核限制），但提供动态节点分类/家宽识别/订阅清理等 YAML 没有的能力。
 
@@ -261,7 +264,7 @@ proxy-providers:
 1. 在 CMFA 首页选择刚导入的配置，点击「**启动**」按钮。
 2. 首次启动 CMFA 会自动完成以下动作（需保持网络畅通）：
    - 下载机场节点列表（`subscribe.yaml`）
-   - 下载 **113 个融合 rule-providers**（源规则来自 `blackmatrix7 / MetaCubeX` 等上游）
+   - 下载 **149 个融合 rule-providers**（由源规则图编译；上游规则源来自 `blackmatrix7 / MetaCubeX` 等）
    - 下载 **Loyalsoldier 增强版** `geoip.dat` / `Country.mmdb` / `GeoLite2-ASN.mmdb`
    - 下载 **MetaCubeX** `geosite.dat`
    - 下载 **LightGBM 模型** `Model.bin`（用于 Smart 组自动择优）

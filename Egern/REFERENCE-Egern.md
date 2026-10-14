@@ -1,5 +1,7 @@
 # Egern 语法参考与纳入判断
 
+> 2026-10-15 URL 兼容性复核：[官方 Rules 文档](https://egernapp.com/docs/configuration/rules/)示例以 HTTPS URL 作为 `rule_set.match`，并配置 `update_interval`。本次仅替换仓库自有规则 URL 主机，不改变 Egern 原生 YAML 结构；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 2026-09-30 复核：[官方代理类型](https://egernapp.com/docs/configuration/proxies/) 不列 Mihomo 具名 direct/reject；未将 Mihomo 类型过滤字段映射为未经确认的 Egern 字段。本次仅从最终 CMFA 刷新派生元信息与哈希清单，原生规则资产与业务组内容不变。
 
 ## 结论

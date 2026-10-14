@@ -1,5 +1,8 @@
 # Shadowrocket（小火箭）使用教程
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
@@ -7,9 +10,9 @@
 > 目录简介：这里维护 Shadowrocket 小火箭配置和使用教程，覆盖 iOS/macOS 私有 conf 语法下的分流实现。
 >
 > 配置文件：`Shadowrocket.conf`
-> 版本：**v6.0.18-SR.8**（Build 2026-10-14，跟随 Clash Party v6.0.18 基线；81 个源语义段对应 78 个移动端非空远程 RULE-SET；远程资产按发布版本缓存）
+> 版本：**v6.0.19-SR.9**（Build 2026-10-15，跟随 Clash Party v6.0.19 基线；81 个源语义段对应 77 个非空远程 RULE-SET；远程资产按发布版本缓存）
 > 目标：**Shadowrocket iOS（App Store 正版）** / macOS 通用
-> 架构：22 区域组（11 全部 + 11 家宽，`url-test` + `policy-regex-filter` 按节点名自动分类）+ 33 业务策略组 + 78 个非空融合 rule-set（受聚合预算门禁）
+> 架构：22 区域组（11 全部 + 11 家宽，`url-test` + `policy-regex-filter` 按节点名自动分类）+ 33 业务策略组 + 77 个非空融合 rule-set（受聚合预算门禁）
 > 节点命名兼容：policy-regex-filter 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写地区码加编号的名称。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
@@ -45,7 +48,7 @@
 1. **买并安装 SR**：App Store → 搜 "Shadowrocket" → 购买 ¥20 → 安装 → 首次启动允许 VPN 权限。
 2. **把本仓库的 `Shadowrocket.conf` 托管到 URL**：
    - **最简单的方法**：把这个文件上传到你自己的 GitHub 仓库（Public 就行），点文件 → 「Raw」按钮 → 复制那个 URL。格式大概是 `https://raw.githubusercontent.com/你用户名/仓库名/main/Shadowrocket.conf`
-   - 或者用 jsDelivr 加速：`https://cdn.jsdelivr.net/gh/你用户名/仓库名@main/Shadowrocket.conf`
+   - 本仓库配置请使用 GitHub Raw HTTPS 地址；jsDelivr 仅适用于 package 未超出其限制的其他仓库。
 3. **导入 SR**：
    - 导入配置：打开 SR → 底部「**配置**」标签 → 右上角 ➕ → 粘贴上一步的 URL → 下载 → 点下载完的那条 → **使用配置**。
    - 导入节点：回到底部「**首页**」→ 上方「**子网**」 → ➕ → 粘贴你机场给的订阅 URL → 下载。
@@ -122,8 +125,10 @@ Shadowrocket 不像桌面端那样支持本地脚本覆写；必须把配置文�
 1. 将 `Shadowrocket.conf` 上传到你的 GitHub 仓库（public 或 private 均可，private 需生成 token URL）。
 2. 获取 Raw URL：`https://raw.githubusercontent.com/<user>/<repo>/main/Shadowrocket.conf`
 
-**B. jsDelivr CDN（国内访问更稳定）**
+**B. jsDelivr CDN（仅适用于符合 CDN 包大小限制的自建仓库）**
 `https://cdn.jsdelivr.net/gh/<user>/<repo>@main/Shadowrocket.conf`
+
+本仓库的规则资产总量超过 jsDelivr 的仓库包限制，请直接使用 GitHub Raw；更换 jsDelivr 子域名无法绕过该限制。
 
 **C. 自建 HTTP 服务器**
 任意可通过 HTTPS 访问的 URL 均可。
@@ -137,7 +142,7 @@ Shadowrocket 不像桌面端那样支持本地脚本覆写；必须把配置文�
 3. 粘贴配置 URL，点击**下载**。
 4. 下载完成后，点击该配置行 → 选择「**使用配置（Use Config）**」。
 
-此时 Shadowrocket 会开始下载 **78 个本仓库融合 rule-set**，首次通常需要 **1–3 分钟**，期间请保持代理开启。融合产物受 32 MiB / 100 万条聚合硬门禁约束。
+此时 Shadowrocket 会开始下载 **77 个本仓库融合 rule-set**，首次通常需要 **1–3 分钟**，期间请保持代理开启。融合产物受 32 MiB / 100 万条聚合硬门禁约束。
 
 ---
 

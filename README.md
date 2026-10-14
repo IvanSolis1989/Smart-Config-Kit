@@ -1,4 +1,4 @@
-# 🚀 Smart-Config-Kit v6.0.18
+# 🚀 Smart-Config-Kit v6.0.19
 
 > 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
 >
@@ -11,6 +11,8 @@
 > - 🛰️ JS 本地覆写提供默认关闭的 [ZeroTier 根节点 UDP 代理](./docs/zerotier-planet-proxy.md)，更新入口保留设备的明确选择，并提供真实 UDP 回包验收。
 > - 🔎 设计依据见 [GitHub 分流脚本横向研究](./docs/research/2026-09-30-github-routing-script-comparison.md)，包含按 star 排序的搜索快照、源码对比和采用边界。
 > - 🛡️ 分层 DoH 负责业务 DNS；支持订阅覆写的 Mihomo 入口只投影活动节点所需的 DNS 提示，静态端边界见 [DNS 指南](./docs/private-node-dns.md)。
+> - 📦 自有规则通过 GitHub raw 下载；网络前提与刷新步骤见[规则下载说明](./docs/rule-asset-delivery.md)。
+> - 📊 当前同步规模：source graph 525 providers / 984 rules → fused 149 providers / 168 rules；生成 Mihomo MRS 107 个，sing-box SRS 78 个，覆盖 81 个语义段。
 > - 🔄 GitHub Actions 自动重建、校验和发布产物，减少跨端配置漂移。
 >
 > ⚠️ Mihomo 内核由本人实测，其他内核请自行验证后使用
@@ -28,7 +30,7 @@
 | Android Mihomo | `Clash Meta For Android/CMFA(mihomo).yaml` | CMFA 是同步产物，不是规则基准 |
 | Stash | `Stash/Stash.yaml` | 从 CMFA 自动裁剪生成，保持 Clash Premium 兼容 |
 | sing-box / Hiddify / HomeProxy | `SingBox/SingBox(sing-box)-full.json` | 使用 `.srs` 融合规则集 |
-| v2rayN Xray | `v2rayN/v2rayN(xray).json` | 从 78 个非空 fused sing-box JSON 展平成 98 项 Xray 路由规则 |
+| v2rayN Xray | `v2rayN/v2rayN(xray).json` | 从 78 个非空 fused sing-box SRS 资产展平成 98 项 Xray 路由规则 |
 | iOS / macOS 其他客户端 | `Egern/`、`Shadowrocket/`、`Surge/`、`Loon/`、`Quantumult X/` | 按各 APP 原生语法同步 |
 | OpenWrt | 优先 `OpenClash/`，Passwall / Passwall2 作为降级参考 | Passwall 系使用 78 条非空 fused `.srs` shunt rule |
 

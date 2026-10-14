@@ -5,7 +5,10 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.18';
+const SOURCE_GRAPH_VERSION = 'v6.0.19';
+// Client-facing repository assets use raw GitHub: jsDelivr's repository
+// package-size limit can reject even a small, existing individual rule file.
+const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
 const VERSION = SOURCE_GRAPH_VERSION;
 const TRAFFIC_OPTIONS = require('./traffic-options.json');
 
@@ -2167,6 +2170,7 @@ function getMihomoNormalizedRoutingGraph() {
 module.exports = {
   SOURCE_GRAPH_ID,
   SOURCE_GRAPH_VERSION,
+  SOURCE_REPOSITORY_ASSET_BASE,
   BIZ,
   MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES,
   normalizeMihomoMrsProviderEntries,

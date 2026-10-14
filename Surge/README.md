@@ -1,4 +1,7 @@
-# Surge 使用教程（对齐 Clash Party v6.0.18）
+# Surge 使用教程（对齐 Clash Party v6.0.19）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -7,7 +10,7 @@
 > 目录简介：这里维护 Surge iOS/macOS 配置和导入教程，按 Surge 语法对齐 Clash Party 分流策略。
 >
 > 配置文件：`Surge/Surge.conf`
-> 版本：**v6.0.18-Surge.8**（Build 2026-10-14；跟随 Clash Party v6.0.18 基线；81 个源语义段对应 78 个非空远程 RULE-SET）
+> 版本：**v6.0.19-Surge.9**（Build 2026-10-15；跟随 Clash Party v6.0.19 基线；81 个源语义段对应 78 个非空远程 RULE-SET）
 > 目标：**Surge 5 / Surge Mac**（付费正版；iOS + macOS 通用）
 > 架构：22 区域 url-test 组（11 全部 + 11 家宽，include-all-proxies + policy-regex-filter 自动按地区聚合）+ 33 业务策略组 + 78 个非空融合 RULE-SET（受聚合预算门禁）
 > 节点命名兼容：policy-regex-filter 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写地区码加编号的名称。
@@ -106,10 +109,11 @@ Surge 不支持本地文件直接「打开即导入」，必须把配置托管�
 https://raw.githubusercontent.com/<user>/<repo>/main/Surge/Surge.conf
 ```
 
-**B. jsDelivr CDN**（国内更稳）
+**B. jsDelivr CDN**（仅当其他仓库符合 jsDelivr package 与单文件大小限制时使用）
 ```
 https://cdn.jsdelivr.net/gh/<user>/<repo>@main/Surge/Surge.conf
 ```
+本仓库自有配置与融合规则请使用上方 GitHub Raw URL；更换 jsDelivr 子域名不能绕过仓库级 package 限制。
 
 **C. 自建 HTTPS**
 任意可通过 HTTPS 访问的 URL 均可。

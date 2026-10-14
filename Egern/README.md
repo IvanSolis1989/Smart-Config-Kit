@@ -1,10 +1,13 @@
 # Egern 使用教程
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
-> 版本：**v6.0.18-egern.8**（Build 2026-10-14；正式跟随 Clash Party v6.0.18 / CMFA 融合规则顺序，原生规则集使用发布版本缓存键）
+> 版本：**v6.0.19-egern.9**（Build 2026-10-15；正式跟随 Clash Party v6.0.19 / CMFA v6.0.19-cmfa.11 融合规则顺序；本次生成 140 个 Egern 原生 YAML 资产，使用发布版本缓存键）
 
 本次 CMFA 默认测速 `lazy` 设置仅更新 Egern 生成清单的来源元数据哈希；Egern `smart` 组继续按原生自适应方式探测。
 
@@ -31,7 +34,7 @@ Egern 已纳入正式同步产物，但不能直接复制 Mihomo/Clash 的 `rule
 
 ## 平台边界
 
-- Egern Profile 正式跟随 CMFA 的 113 个融合 rule-provider 和 130 条规则顺序生成；每次上游同步后的实际渲染规模以 `rulesets/generated/egern/manifest.json` 为准，不靠固定快照数字判断成功或失败。
+- Egern Profile 按 CMFA 当前 149 个融合 rule-provider / 168 条源规则顺序生成；Egern 渲染与过滤后的实际资产规模以 `rulesets/generated/egern/manifest.json` 为准，不靠固定快照数字判断成功或失败。
 - 国家 GEOIP 使用原生 `geoip_set`，服务型 GEOIP 转换为 CIDR；桌面 `PROCESS-NAME` 及目标为空规则集是明确的平台/优化例外。所有已生成资产必须恰好被 Profile 引用一次。
 - Mihomo `.mrs` 不在 Egern 中直接引用；生成器会映射到 `rulesets/generated/egern/*.yaml` 的 Egern 原生规则集。
 

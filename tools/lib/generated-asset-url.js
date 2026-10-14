@@ -1,6 +1,7 @@
 'use strict';
 
-const SCKI_REPOSITORY_BASE = 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main';
+const { SOURCE_REPOSITORY_ASSET_BASE } = require('../../rulesets/source/routing-graph');
+const SCKI_REPOSITORY_BASE = SOURCE_REPOSITORY_ASSET_BASE;
 const ASSET_REVISION_PATTERN = /^v\d+\.\d+\.\d+(?:[-.][A-Za-z0-9]+)*$/;
 
 function normalizeAssetRevision(revision) {

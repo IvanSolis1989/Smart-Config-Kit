@@ -1,5 +1,7 @@
 # REFERENCE — Stash Wiki
 
+> 2026-10-15 URL 兼容性复核：[官方 Rule Sets 文档](https://stash.wiki/en/rules/rule-set)示范 remote provider 的 HTTPS `url` 与名称式 `RULE-SET` 引用。本次只替换仓库自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 2026-10-07 复核：官方 [协议类型](https://stash.wiki/en/proxy-protocols/proxy-types#direct-with-specified-interface) 支持具名 direct；[策略组](https://stash.wiki/en/proxy-protocols/proxy-groups) 明确支持 `interval` 与 `lazy`，空池按 DIRECT 处理；策略组与[远程集合](https://stash.wiki/en/proxy-protocols/proxy-providers)未公开 `exclude-type` / `empty-fallback` 等价字段。延续兼容裁剪，测速 provider 与具名支持出站应在聚合层分开，并核对拨号依赖。
 
 > 目录简介：这里记录 Stash 产物使用的官方文档依据。最后检查日期：2026-08-08。

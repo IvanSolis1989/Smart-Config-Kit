@@ -1,4 +1,7 @@
-# Loon 使用教程（对齐 Clash Party v6.0.18）
+# Loon 使用教程（对齐 Clash Party v6.0.19）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -7,9 +10,9 @@
 > 目录简介：这里维护 Loon iOS 配置和使用教程，按 Loon 原生语法对齐 Clash Party 分流策略。
 >
 > 配置文件：`Loon/Loon.conf`
-> 版本：**v6.0.18-Loon.7**（Build 2026-10-14；跟随 Clash Party v6.0.18 基线；81 个源语义段对应 78 个非空远程规则）
+> 版本：**v6.0.19-Loon.8**（Build 2026-10-15；跟随 Clash Party v6.0.19 基线；81 个源语义段对应 77 个非空远程规则）
 > 目标：**Loon iOS（App Store 付费正版）**
-> 架构：22 区域 url-test 组（11 全部 + 11 家宽，[Remote Filter] NameRegex）+ 33 业务策略组 + 78 个非空融合 [Remote Rule]
+> 架构：22 区域 url-test 组（11 全部 + 11 家宽，[Remote Filter] NameRegex）+ 33 业务策略组 + 77 个非空融合 [Remote Rule]
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -56,7 +59,7 @@
 
 ### 最常见踩坑
 - ❌ **导入提示 `https://...` 语法错误**：通常是拿到旧版或手工把远程规则 URL 放进了 `[Rule]`。Loon 远程规则集必须在 `[Remote Rule]`；请使用 v5.4.12-Loon.2 或更新版本。
-- ❌ **规则集下载失败**：首次安装**必须先开代理**（没代理则 GitHub/jsDelivr 访问不稳定）；Loon → 设置 → 自动更新配置 调频率。
+- ❌ **规则集下载失败**：首次安装**必须先开代理**（本仓库规则资产使用 GitHub Raw HTTPS；当前网络不可达时需可用代理）；Loon → 设置 → 自动更新配置 调频率。
 - ❌ **区域组里没有节点**：检查 Loon 是否识别了 `[Remote Filter]` 段；如果机场节点命名奇葩（例如纯英文代号），可能没匹配到 FilterKey，打开 Loon → 过滤器 → 手动 Edit 调 regex。
 - ❌ **我把 Surge 的 `Surge.conf` 直接给 Loon 行不行**：**不行**。`bypass-system` / `tun-excluded-routes` / `ipv6-enabled` / `udp-policy-not-supported-behaviour` / `hijack-dns` / `encrypted-dns-server` / url-test 的 `policy-regex-filter=` 这些 Loon 全都不识别，配置会大面积沉默失效。**用本目录的 `Loon.conf`**（v5.2.4-Loon.2 已完整对齐 Loon 官方语法）。
 - ❌ **想要 LightGBM**：Loon 不是 mihomo 内核，不支持。要就用桌面端 Clash Verge Rev / Mihomo Party。
@@ -115,8 +118,7 @@ Loon 在 iOS 上的协议覆盖面仅次于 Shadowrocket，**比 Surge 多了 VL
 Loon 必须从 URL 安装配置（和 Surge 一样）：
 
 1. 把 `Loon.conf` 托管到可访问 URL：
-   - GitHub Raw：`https://raw.githubusercontent.com/<user>/<repo>/main/Loon/Loon.conf`
-   - jsDelivr：`https://cdn.jsdelivr.net/gh/<user>/<repo>@main/Loon/Loon.conf`
+   - GitHub Raw HTTPS：`https://raw.githubusercontent.com/<user>/<repo>/main/Loon/Loon.conf`
    - 自建 HTTPS
 2. 打开 Loon → 底部 **配置（Config）** 标签。
 3. 右上角 **⊕** → 粘贴 URL → **下载**。
@@ -255,7 +257,7 @@ Parsec / Zoom / Pornhub / Wayback）：
 
 ## 九、验证
 
-1. Loon → **首页** → 应显示 `Loon Smart v6.0.18-Loon.7`，协议已启用。
+1. Loon → **首页** → 应显示 `Loon Smart v6.0.19-Loon.8`，协议已启用。
 2. **策略组** 面板应出现 55 组（22 区域 + 33 业务）。
 3. **过滤器** 面板应出现 9 个 Filter（GLOBAL_Filter / HK_Filter / TW_Filter / JPKR_Filter / APAC_Filter / US_Filter / EU_Filter / AM_Filter / AF_Filter）。
 4. 测试分流：

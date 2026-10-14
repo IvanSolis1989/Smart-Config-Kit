@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.19 — 远程规则下载修复 (2026-10-15)
+
+- FIX#186：自有规则下载统一改用 GitHub raw，消除 jsDelivr 仓库大小门槛；复用规则载荷并同步全部客户端和下载验证。详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)与[诊断及下载说明](./docs/rule-asset-delivery.md)。
+- 在线验收工具支持显式代理、可配置请求/连接时限和串行验证，修复空正文传输错误的有限重试；实际 Shadowrocket 77 个 URL 均取得完整 GET 与哈希匹配收据，保留失败批次和补验时间。
+
 ## v6.0.18 — 首匹配规则质量整合 (2026-10-14)
 
 - 整合跨服务首匹配修复、八类业务补充规则和六条误伤例外，并同步全部客户端；保留 Claude、QUIC/测速与 ZeroTier 行为。详见 [Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)、[来源与整合说明](./docs/research/2026-10-14-wip-main-integration.md)及 [发布批次检查](./docs/release-batch.md)。

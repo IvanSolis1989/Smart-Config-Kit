@@ -1394,7 +1394,11 @@ function platformRuleSetLines(platform, segment, assetRevision) {
   const policy = segment.policy;
   const target = platform === 'surge' ? 'surge' : platform === 'quantumultx' ? 'quantumultx' : 'clash';
   const files = (segment.remoteRuleSetFiles && segment.remoteRuleSetFiles[target]) || [`${segment.id}.list`];
-  return files.map((file) => {
+  // Some platform conversions have no supported entries (for example iOS
+  // process rules). Keep the frozen payload inventory, but do not make apps
+  // download whitespace-only rule sets that can never match traffic.
+  return files.filter((file) => readText(path.join(FUSED_ROOT, target, file))
+    .split(/\r?\n/).some(line => line.trim() && !line.trim().startsWith('#'))).map((file) => {
     const tag = path.basename(file, '.list');
     if (platform === 'shadowrocket') return `RULE-SET,${repositoryAssetUrl(`rulesets/generated/fused/clash/${file}`, assetRevision)},${policy}`;
     if (platform === 'surge') return `RULE-SET,${repositoryAssetUrl(`rulesets/generated/fused/surge/${file}`, assetRevision)},${policy}`;
@@ -1437,26 +1441,36 @@ function replaceSection(source, sectionName, replacementLines) {
 }
 
 function applyMobileConfigs(timeline, assetRevision) {
+  const withRuleSetCount = (source, lines) => source.replace(/(\+ )\d+( 融合)/,
+    `$1${lines.length}$2`);
+  const srLines = renderMobileRules('shadowrocket', timeline, assetRevision);
+  const surgeLines = renderMobileRules('surge', timeline, assetRevision);
+  const loonLines = renderMobileRules('loon-remote', timeline, assetRevision);
+  const qxLines = renderMobileRules('quantumultx', timeline, assetRevision);
   const shadowrocket = path.join(REPO_ROOT, 'Shadowrocket/Shadowrocket.conf');
   let sr = readText(shadowrocket);
-  sr = replaceSection(sr, 'Rule', renderMobileRules('shadowrocket', timeline, assetRevision));
+  sr = replaceSection(sr, 'Rule', srLines);
+  sr = withRuleSetCount(sr, srLines.filter(line => line.startsWith('RULE-SET,')));
   writeText(shadowrocket, sr);
 
   const surge = path.join(REPO_ROOT, 'Surge/Surge.conf');
   let surgeText = readText(surge);
-  surgeText = replaceSection(surgeText, 'Rule', renderMobileRules('surge', timeline, assetRevision));
+  surgeText = replaceSection(surgeText, 'Rule', surgeLines);
+  surgeText = withRuleSetCount(surgeText, surgeLines.filter(line => line.startsWith('RULE-SET,')));
   writeText(surge, surgeText);
 
   const loon = path.join(REPO_ROOT, 'Loon/Loon.conf');
   let loonText = readText(loon);
-  loonText = replaceSection(loonText, 'Remote Rule', renderMobileRules('loon-remote', timeline, assetRevision));
+  loonText = replaceSection(loonText, 'Remote Rule', loonLines);
   loonText = replaceSection(loonText, 'Rule', renderMobileRules('loon-local', timeline, assetRevision));
+  loonText = withRuleSetCount(loonText, loonLines);
   writeText(loon, loonText);
 
   const qx = path.join(REPO_ROOT, 'Quantumult X/QuantumultX.conf');
   let qxText = readText(qx);
-  qxText = replaceSection(qxText, 'filter_remote', renderMobileRules('quantumultx', timeline, assetRevision));
+  qxText = replaceSection(qxText, 'filter_remote', qxLines);
   qxText = replaceSection(qxText, 'filter_local', renderMobileRules('quantumultx-local', timeline, assetRevision));
+  qxText = withRuleSetCount(qxText, qxLines);
   writeText(qx, qxText);
 }
 

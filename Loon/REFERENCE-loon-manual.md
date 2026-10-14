@@ -1,5 +1,7 @@
 # Loon 配置参考文档
 
+> 2026-10-15 URL 兼容性复核：官方示例配置 [LoonExampleConfig](https://github.com/Loon0x00/LoonExampleConfig/blob/master/example.conf)含 `[Remote Rule]` HTTPS raw GitHub URL。LoonManual 的 Remote Rule 正文本次未能抓取，故证据限于官方示例配置；Issue #186 只替换既有 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 来源 URL:
 > - https://github.com/Loon0x00/LoonManual (GitHub 官方手册仓库)
 > - https://nsloon.uk/tutorial/ (Loon 官方教程网站)

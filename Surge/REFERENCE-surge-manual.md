@@ -1,5 +1,7 @@
 # Surge 官方手册参考文档
 
+> 2026-10-15 URL 兼容性复核：[官方 Rule Set 手册](https://manual.nssurge.com/rules/ruleset.html)明确允许外部 `http://` / `https://` 资源，并示例 `RULE-SET,<URL>,<policy>`；Issue #186 只替换仓库自有规则 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 来源: https://manual.nssurge.com/
 > 获取日期: 2026-04-26
 > 更新于 2026-05-31（复查）：Surge iOS v5.18.0（2026-05-06）。manual.nssurge.com 配置手册未发现语法变更。Surge 5.x 配置语法与当前基线兼容。

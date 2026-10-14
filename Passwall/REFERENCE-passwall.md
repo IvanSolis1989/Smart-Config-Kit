@@ -1,5 +1,7 @@
 # Passwall 配置参考文档
 
+> 2026-10-15 URL 兼容性复核：继续使用本文件已记录的 `rule-set:remote:https://.../*.srs` 原生语法，来源为 Passwall/Passwall2 官方解析器源码；本次仅换 URL 主机，没有重新确认解析器对 scheme 的限制。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 更新于 2026-07-09：复核当前 `shunt_rules.lua` 解析器。Passwall 的 `domain_list` 与 `ip_list` 仍接受 `rule-set:remote:` / `rule-set:local:`，因此本仓库的 Passwall fallback 直接引用 `rulesets/generated/fused/sing-box/*.srs`，不再维护手写域名/IP 展平列表。
 >
 > 更新于 2026-05-31（上次获取 2026-04-30）：Passwall 最新版 v26.5.20-1（2026-05-20）。从 v26.4.15-1 升级 5 个版本。`shunt_rules.lua` 分流规则语法无变更。

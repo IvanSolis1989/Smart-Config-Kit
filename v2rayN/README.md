@@ -1,4 +1,7 @@
-# v2rayN 使用教程（对齐 Clash Party v6.0.18）
+# v2rayN 使用教程（对齐 Clash Party v6.0.19）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -6,7 +9,7 @@
 
 > 目录简介：这里提供 v2rayN 多核心导入教程和 Xray 路由 JSON fallback 产物说明。
 >
-> 路径 C（Xray 核）产物：`v2rayN/v2rayN(xray).json` v6.0.18-v2n.7（Build 2026-10-14；基线：Clash Party v6.0.18）。
+> 路径 C（Xray 核）产物：`v2rayN/v2rayN(xray).json` v6.0.19-v2n.8（Build 2026-10-15；基线：Clash Party v6.0.19；源 525 providers / 984 rules，融合 149 providers / 168 rules）。
 
 ---
 

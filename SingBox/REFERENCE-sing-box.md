@@ -1,5 +1,7 @@
 # Sing-Box 配置参考文档
 
+> 2026-10-15 URL 兼容性复核：[官方 rule-set 文档](https://sing-box.sagernet.org/configuration/rule-set/)定义 `type: remote` 的 `url` 下载字段；官方当前文本没有明确限定 URL scheme。本次只替换远程资产 URL 主机，保留 `.srs`、`format: binary` 与其他字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
+
 > 更新于 2026-07-14：复核官方 Route Rule 文档。`process_name` 仍为 Linux、Windows、macOS 支持的正式字段，语义为匹配进程名；本仓库将 `WorkPro.exe` / `WorkProWebProcess.exe` 编译至 Windows 桌面直连 rule-set，不下放到移动端。
 >
 > 更新于 2026-05-31（上次获取 2026-04-30）：1.14.0-alpha.26 新增 Hysteria2 gecko 混淆（QUIC 流量伪装，`min_packet_size`/`max_packet_size` 字段）。alpha.20-25 为 mDNS DNS servers、Windows Schannel TLS 引擎、Hysteria2 NAT traversal、自定义 TUN DNS 模式等。稳定版仍为 1.13.12。本仓库 SingBox JSON 已完成 `download_detour` → `http_client` 迁移，兼容当前 1.11-1.13 稳定版；alpha 新功能不影响现有配置。

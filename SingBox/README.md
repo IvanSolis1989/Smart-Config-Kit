@@ -1,4 +1,7 @@
-# SingBox 使用教程（对齐 Clash Party v6.0.18 Full 语义）
+# SingBox 使用教程（对齐 Clash Party v6.0.19 Full 语义）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -6,7 +9,7 @@
 
 > 目录简介：这里维护 sing-box Full JSON 生成脚本、生成产物和 Hiddify/HomeProxy 等 sing-box 客户端导入教程。
 >
-> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.18-sing.7；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 合并为 78 个非空 `.srs`，生成资产使用发布版本缓存键）
+> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.19-sing.8；Build 2026-10-15；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 编译为 78 个 SRS，覆盖 81 个源语义段，生成资产使用发布版本缓存键）
 > 生成脚本：`SingBox/SingBox(sing-box)-generator.js`
 > 目标：在 **sing-box** 上复刻 Clash Party 的「20 区域组（10 全部 + 10 家宽）+ 33 业务组」静态策略结构，并只使用 sing-box 官方可消费的 SRS 规则集，保持 sing-box 1.12/1.13/1.14 官方配置兼容。
 > 本目录只提供 Full 配置。
@@ -42,12 +45,12 @@
 ### 跑起来怎么验证？
 - 浏览器打开 `https://www.google.com` 能打开 = 代理通了
 - 客户端的"出站"/"策略"面板应看到 54 个组（1 `🚀 节点选择` + 20 区域 + 33 业务）
-- 首次启动后等 40 个 remote rule_set 下载完（约 1 分钟），日志不报 403/404 即可
+- 首次启动后等 85 个 remote rule_set 下载完（约 1 分钟），日志不报 403/404 即可
 - 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
 
 ### 最常见踩坑
 - ❌ **客户端说 "config invalid"**：你改节点时漏了逗号/引号。用 `python3 -c 'import json; json.load(open("SingBox(sing-box)-full.json"))'` 校验 JSON 合法性。
-- ❌ **rule_set 下载失败**：jsdelivr 被墙。先用任意一个能通的节点连上，再重新启用本配置，让 sing-box 把 39 个 `.srs` + 1 个 source JSON 拉下来缓存。
+- ❌ **rule_set 下载失败**：本仓库资产使用 GitHub Raw HTTPS。先用任意一个能通的节点连上，再重新启用本配置，让 sing-box 把 85 个远程 rule_set（78 个融合 SRS + 7 个 GEO 辅助集）拉下来缓存。
 - ❌ **Hiddify 提示 TUN 冲突**：Hiddify 会自己管 TUN。把本 JSON 里的 `inbounds.tun` 段删掉就好。
 - ❌ **配置里的节点占位跑不通**：那是示例节点（`proxy-hk-1` 等），需要你替换成真实节点。**不替换直接导入是跑不通的**。
 
@@ -217,7 +220,7 @@ node 'SingBox/SingBox(sing-box)-generator.js'
 |------|---------------------|---------------------|
 | **路由模型** | 54 组嵌套 selector/urltest（业务组 → 区域组 → 节点） | 平面规则匹配（几个 GUI 开关：中国域名 / 中国 IP / 屏蔽广告 / 屏蔽跟踪器 / 屏蔽 QUIC） |
 | **出站 tag** | 中文 emoji 名称（`🐟 漏网之鱼` / `🚫 受限网站` / `🤖 AI 服务` …） | 内置 tag 常量（`proxy` / `bypass` / `block` / `direct`），导入完整配置后 GUI 路由失效 |
-| **rule_set** | 40 个 remote rule_set（39 个 SRS 二进制 + 1 个 source JSON） | **不支持** rule_set；规则只能写内联的 domain/ip/geosite |
+| **rule_set** | 85 个 remote rule_set（78 个融合 SRS + 7 个运行时 GEO 辅助） | **不支持** rule_set；规则只能写内联的 domain/ip/geosite |
 | **DNS** | 手动多层 DNS（`dns_direct` IP bootstrap + `dns_proxy` DoH + `dns_final` 兜底） | 自动 split-DNS（"直连 DNS / 远程 DNS"自动切换，由 NB4A 封装而非 sing-box 原生） |
 | **配置入口** | 外部 JSON 文件，用户编辑后导入 | GUI 为主，配置存储在 App 内部；自定义 JSON 仅作补丁合并，不作为主配置 |
 
@@ -304,7 +307,7 @@ Clash Party 当前使用 JS 覆写引擎做节点名称分类；sing-box 原生 
 
 ### Q2：规则集下载失败怎么办？
 
-- 先测试 `fastly.jsdelivr.net` 连通性；
+- 先测试当前配置中实际使用的 GitHub Raw HTTPS 规则 URL 是否可经当前网络或代理访问；
 - 若你所在网络对 CDN 有限制，可替换为你可访问的镜像地址；
 - 保持 `.srs` 二进制格式和 `format: binary` 一致。
 

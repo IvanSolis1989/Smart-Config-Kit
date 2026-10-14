@@ -1,4 +1,7 @@
-# Quantumult X 使用教程（对齐 Clash Party v6.0.18）
+# Quantumult X 使用教程（对齐 Clash Party v6.0.19）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -7,7 +10,7 @@
 > 目录简介：这里维护 Quantumult X iOS 配置和导入教程，按 QX 的 policy/filter 语法对齐 Clash Party 基线。
 >
 > 配置文件：`Quantumult X/QuantumultX.conf`
-> 版本：**v6.0.18-QX.8**（Build 2026-10-14；跟随 Clash Party v6.0.18 基线；81 个源语义段对应 78 个非空 remote filter）
+> 版本：**v6.0.19-QX.9**（Build 2026-10-15；跟随 Clash Party v6.0.19 基线；81 个源语义段对应 77 个非空 remote filter）
 > 目标：**Quantumult X iOS（App Store 付费正版）**
 > 架构：22 区域 `url-latency-benchmark` 组（11 全部 + 11 家宽）+ 33 业务 `static` 组 + 64 个 `filter_remote` + 12 条必要 `filter_local`
 > 节点命名兼容：当订阅解析器把名称写入节点 tag 时，server-tag-regex 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01。
@@ -115,7 +118,7 @@ QX 的协议栈**是四大 iOS 付费客户端里最窄的**，换来的是脚�
 
 QX 从 URL 导入配置（不支持本地文件直接打开）：
 
-1. 把 `QuantumultX.conf` 托管到可访问 URL（GitHub Raw / jsDelivr / 自建 HTTPS）。
+1. 把 `QuantumultX.conf` 托管到可访问 URL（本仓库请使用 GitHub Raw HTTPS；也可使用你自己的 HTTPS 主机）。
 2. 打开 QX → 底部「**设置**（Setting）」→ **配置** → **下载配置**。
 3. 粘贴 URL → 点击 **下载**。
 4. 下载完成后 QX 会自动切换到新配置。
@@ -240,7 +243,7 @@ QX 的真正优势是 **`resource_parser_url`（通用资源解析器）+ `rewri
 
 ## 八、验证
 
-1. QX → **设置** → **配置** → 查看当前配置名称，应显示 `Quantumult X Smart v6.0.18-QX.8`。
+1. QX → **设置** → **配置** → 查看当前配置名称，应显示 `Quantumult X Smart v6.0.19-QX.9`。
 2. **策略（Policy）** 面板应出现 55 组（22 `url-latency-benchmark` + 32 `static`）。
 3. **日志（Log）** 查看 filter_remote 下载状态，无 404 / timeout 即成功。
 4. 访问测试：
@@ -254,7 +257,7 @@ QX 的真正优势是 **`resource_parser_url`（通用资源解析器）+ `rewri
 ## 九、常见问题
 
 ### Q1：filter_remote 下载失败？
-- 开代理再下配置；GitHub / jsDelivr 在国内需要代理访问。
+- 开代理再下配置；若当前网络不能访问 GitHub Raw，需要配置可用代理。
 - 若仍失败，**设置 → 配置 → 一键更新** 强制重新拉取。
 
 ### Q2：节点没被自动聚合到 11 区域组？

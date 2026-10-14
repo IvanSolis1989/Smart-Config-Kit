@@ -14,7 +14,7 @@ test('generated asset URLs use a release cache key and Mihomo uses an isolated l
   const revision = 'v6.0.8';
   const url = repositoryAssetUrl('rulesets/generated/fused/mihomo/scki-fused-061-cn-site-domain.mrs', revision);
 
-  assert.equal(url, 'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/mihomo/scki-fused-061-cn-site-domain.mrs?scki=v6.0.8');
+  assert.equal(url, 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-cn-site-domain.mrs?scki=v6.0.8');
   assert.equal(getAssetRevisionFromUrl(url), revision);
   assert.equal(mihomoAssetCachePath('scki-fused-061-cn-site-domain.mrs', revision), './ruleset/v6.0.8/scki-fused-061-cn-site-domain.mrs');
   assert.equal(withAssetRevision('https://example.test/ruleset.mrs?old=1', revision), 'https://example.test/ruleset.mrs?old=1&scki=v6.0.8');

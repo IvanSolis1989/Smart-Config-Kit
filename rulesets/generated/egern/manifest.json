@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "generator": "tools/generate-egern-from-cmfa.js",
-  "asset_revision": "v6.0.18",
+  "asset_revision": "v6.0.19",
   "source": {
-    "cmfa_sha256": "8c76fbc9dd49ae0951e83f3e0608af40fba8adec35adad6276a7cfaceecad730",
-    "routing_graph_sha256": "5c2dd771aaa721023a0a2644f8b227a6b899add9829298435da6dd51e1d69fa8",
+    "cmfa_sha256": "c0467d678e08d768d5565ce997914ba02582d4545806d7c5d08d57fa51effe82",
+    "routing_graph_sha256": "7e811b95e015c611b0b9e96abeba35f47a6b8b7719268789dc1ad610be170a36",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },
   "rendered": {
-    "profile_sha256": "5d22c441ba1a2c37c9032a267d01dda8bc5d8372855affaa31b61ff20ed9daca",
+    "profile_sha256": "362a62d8e7cb26399853a40554c6778dbfa65ed2402efa7b99db1110c69edc57",
     "rule_count": 152,
     "rule_set_ref_count": 135,
     "native_rule_set_count": 140,

@@ -137062,10 +137062,10 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "5c2dd771aaa721023a0a2644f8b227a6b899add9829298435da6dd51e1d69fa8",
-    "bytes": 119041,
+    "sha256": "7e811b95e015c611b0b9e96abeba35f47a6b8b7719268789dc1ad610be170a36",
+    "bytes": 119334,
     "text_normalization": "LF",
-    "version": "v6.0.18",
+    "version": "v6.0.19",
     "semantic_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44"
   },
   "registry": {
@@ -137083,8 +137083,8 @@
     },
     {
       "path": "tools/build-fused-rule-sets.js",
-      "sha256": "6c0463b2e06ff25bef993c8cd87deff3e85044a0a41143622fb790d57116d5dc",
-      "bytes": 76755,
+      "sha256": "140738f976fa17e366da5a9707cde53e2027b6abdf8a4e2e4d024155aecfc868",
+      "bytes": 77627,
       "text_normalization": "LF"
     },
     {
@@ -137143,7 +137143,7 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "b8e62a996f77477c5a2b88e5438610fd266099972d0a51a4471738d6ef374418",
+      "sha256": "2962e921aa8d87a419f5200d2c427cf3bf8c80bce793711c1d39ec808afb2443",
       "bytes": 8972,
       "text_normalization": "LF"
     },
@@ -137155,19 +137155,19 @@
     },
     {
       "path": "tools/generate-egern-from-cmfa.js",
-      "sha256": "3dcad5c186f76095ef136f658da6b56024866030a8d0d4218a2efd7f777ae85e",
+      "sha256": "f77644c5681c903be4dc22cea7131db90459c0e36f4dc4084310014a4a1e5340",
       "bytes": 51901,
       "text_normalization": "LF"
     },
     {
       "path": "SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "442a5c1aae213c0a481115a24dd00f5cd3946a146bdf4f257910d535d7f3f27f",
+      "sha256": "ab742e4cccba80d7659daf2cb570dc113538834d0ec8c951632fcc7d9cda4f8f",
       "bytes": 27590,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "21586d1a96cb005bf581ed3e0d09666bfafcad20ee1adc1098061f1c6a1ff147",
+      "sha256": "52f68ad090caaa3865fa3ae9c99a23c0dc23b806d3b6422642ea735b63b54c9e",
       "bytes": 23765,
       "text_normalization": "LF"
     },

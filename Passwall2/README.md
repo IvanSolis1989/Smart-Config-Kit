@@ -1,4 +1,7 @@
-# Passwall2 使用教程（对齐 Clash Party v6.0.18）
+# Passwall2 使用教程（对齐 Clash Party v6.0.19）
+
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -6,7 +9,7 @@
 
 > 目录简介：这里提供 Passwall2 精简分流版的 fused shunt rule fallback、UCI 批量脚本和 OpenWrt 导入说明。
 >
-> 版本：**v6.0.18-pw2.7**（Build 2026-10-14；基线：Clash Party v6.0.18；生成 `.srs` 资产使用发布版本缓存键）。
+> 版本：**v6.0.19-pw2.8**（Build 2026-10-15；基线：Clash Party v6.0.19；78 个 SRS 资产使用发布版本缓存键）。
 
 ---
 
@@ -17,7 +20,7 @@ Passwall2 是 OpenWrt 上的精简分流插件。它和 Passwall 由同一组织
 本目录只提供 fallback：从最终 fused 规则集生成 78 条非空 Passwall2 原生 shunt rule。每条 rule 只引用一个远程 `.srs`：
 
 ```text
-rule-set:remote:https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/sing-box/<segment>.srs
+rule-set:remote:https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/<segment>.srs
 ```
 
 旧版 33 条手写域名/IP 展平列表已经移除。`Passwall2/shunt-rules/*.list` 与 `Passwall/shunt-rules/*.list` 内容互通。

@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const REPOSITORY_URL_PREFIXES = [
+  'https://jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/',
   'https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/',
   'https://cdn.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/',
   'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/',
@@ -25,5 +26,6 @@ function localPathForRepositoryRuleUrl(url) {
 }
 
 module.exports = {
+  REPOSITORY_URL_PREFIXES,
   localPathForRepositoryRuleUrl,
 };

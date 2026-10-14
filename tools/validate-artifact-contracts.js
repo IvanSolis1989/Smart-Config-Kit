@@ -11,6 +11,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const {
   MAX_JSDELIVR_ASSET_BYTES,
+  generatedAssetUrls,
   validateGeneratedRemoteAssetSizes,
 } = require('./validate-generated-remote-asset-size');
 const { validateEgernGenerationManifest } = require('./lib/egern-generation-manifest');
@@ -385,12 +386,6 @@ function generatedMihomoMrsUrl(file) {
 
 function generatedEgernUrl(id) {
   return `${SUPPLEMENTAL_RULESET_BASE.replace('/rulesets/supplemental', '/rulesets/generated/egern')}/provider-${id}.yaml`;
-}
-
-const GENERATED_ASSET_URL_RE = /https:\/\/(?:fastly\.)?jsdelivr\.net\/gh\/IvanSolis1989\/Smart-Config-Kit@main\/rulesets\/generated\/(?:fused|egern)\/[^\s,"'\\]+/g;
-
-function generatedAssetUrls(source) {
-  return [...source.matchAll(GENERATED_ASSET_URL_RE)].map((match) => match[0]);
 }
 
 function validateGeneratedAssetRevision(record) {
@@ -818,17 +813,29 @@ function checkSupplementalMobileRules(record, id, source, flavor, options = {}, 
     `${CONTRACT_SEGMENTS["scki-fused-062-intl-site"]}`,
   ];
   const urlsFor = (segment) => fusedTextRuleSetUrls(fusedManifest, platform, segment);
+  const isNonEmptyUrl = (url) => {
+    const marker = '/rulesets/generated/';
+    const asset = decodeURIComponent(new URL(url).pathname.split(marker)[1]);
+    return readText(`rulesets/generated/${asset}`).split(/\r?\n/)
+      .some((line) => line.trim() && !line.trim().startsWith('#'));
+  };
+  const effectiveUrlsFor = (segment) => urlsFor(segment).filter(isNonEmptyUrl);
   for (const segment of segments) {
-    const urls = urlsFor(segment);
-    record.check(`${id}.fused-manifest.${segment}`, urls.length > 0, {
+    const mappedUrls = urlsFor(segment);
+    const urls = effectiveUrlsFor(segment);
+    const emptyUrls = mappedUrls.filter((url) => !isNonEmptyUrl(url));
+    record.check(`${id}.fused-manifest.${segment}`, mappedUrls.length > 0, {
       message: `missing ${platform} fused manifest mapping for ${segment}`,
     });
-    record.check(`${id}.fused-rule.${segment}`, urls.length > 0 && urls.every((url) => source.includes(url)), {
+    record.check(`${id}.fused-rule.${segment}`, mappedUrls.length > 0 && urls.every((url) => source.includes(url)), {
       message: `missing fused ${segment} part in ${id}`,
+    });
+    record.check(`${id}.fused-rule.${segment}.empty-assets-excluded`, emptyUrls.every((url) => !source.includes(url)), {
+      message: `empty ${platform} fused assets must not be referenced by ${id}: ${emptyUrls.join(', ')}`,
     });
     checkNeedleSequence(record, `${id}.fused-rule.${segment}.part-order`, source, urls);
   }
-  checkNeedleSequence(record, `${id}.fused.timeline-order`, source, segments.flatMap((segment) => urlsFor(segment)));
+  checkNeedleSequence(record, `${id}.fused.timeline-order`, source, segments.flatMap((segment) => effectiveUrlsFor(segment)));
 }
 
 function countLiteral(source, literal) {

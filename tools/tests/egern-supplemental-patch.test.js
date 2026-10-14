@@ -10,6 +10,7 @@ const test = require('node:test');
 const { hash, validateSupplementalPatch, packStagedOutput, currentFusedHashes, validateSnapshotBindings } = require('../lib/egern-traffic-snapshot');
 const { listGeneratedEgernAssetRecords } = require('../lib/egern-generation-manifest');
 const generator = require('../generate-egern-from-cmfa');
+const { SCKI_REPOSITORY_BASE } = require('../lib/generated-asset-url');
 
 const prefix = 'rulesets/generated/fused/';
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -75,7 +76,7 @@ function assetsFor(snapshot) {
   return new Map(Object.keys(snapshot.assets).map(file => {
     const id = file.slice(0, -5);
     return [file, { file, id, behavior: 'domain', sourceUrl: id.startsWith('provider-') ?
-      `https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/${prefix}mihomo/${id.slice('provider-'.length)}.yaml` : 'frozen-extra' }];
+      `${SCKI_REPOSITORY_BASE}/${prefix}mihomo/${id.slice('provider-'.length)}.yaml` : 'frozen-extra' }];
   }));
 }
 

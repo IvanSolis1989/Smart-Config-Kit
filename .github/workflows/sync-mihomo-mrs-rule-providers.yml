@@ -83,6 +83,7 @@ jobs:
           node tools/test-openclash-node-filter.js
           node --test tools/tests/apply-mihomo-mrs-overrides.test.js tools/tests/domestic-route-regression.test.js tools/tests/egern-generation-manifest.test.js tools/tests/fused-rule-optimizer.test.js tools/tests/fused-artifact-performance.test.js tools/tests/generated-asset-url.test.js
           node tools/validate-generated-remote-asset-size.js
+          node --test tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js
           node tools/test-info-node-filter.js
           node tools/test-kr-boundary.js
           git diff --check

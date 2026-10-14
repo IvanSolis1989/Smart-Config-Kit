@@ -1,11 +1,14 @@
 # Stash
 
+规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+
+
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 目录简介：这里提供 Stash 专用 YAML 产物。`Stash.yaml` 由 `tools/generate-stash-from-cmfa.js` 从 CMFA 自动裁剪生成，不手工维护。
-> 当前版本：**v6.0.18-stash.10**（Build 2026-10-14，跟随 Clash Party v6.0.18 / CMFA v6.0.18-cmfa.10；149 个融合 rule-providers / 168 条主规则）。
+> 当前版本：**v6.0.19-stash.11**（Build 2026-10-15，跟随 Clash Party v6.0.19 / CMFA v6.0.19-cmfa.11；149 个融合 rule-providers / 168 条主规则）。
 
 ## 文件
 
@@ -33,13 +36,13 @@ node tools/generate-stash-from-cmfa.js
 
 ## 兼容范围
 
-- 保留：22 个区域 `url-test` 组、33 个业务组、113 个融合 rule-provider、`RULE-SET` / `GEOIP` / `DST-PORT` / `PROCESS-NAME` 等规则语义。
+- 保留：22 个区域 `url-test` 组、33 个业务组、149 个融合 rule-provider、`RULE-SET` / `GEOIP` / `DST-PORT` / `PROCESS-NAME` 等规则语义。
 - 保留：`proxy-providers` 远程订阅、`proxy-groups.use`、`nameserver-policy`、`fake-ip-filter`。
 - 不保留：Mihomo Smart + LightGBM、GeoX 自动更新、sniffer、provider `health-check` / `exclude-filter`、rule-provider 下载代理 `proxy`、Mihomo 专用 DNS fallback 字段。
 
 ## 注意事项
 
-- Stash Wiki 未记录 rule-provider 下载代理字段，所以本产物不写 `proxy: 🚫 受限网站`。如果你的网络无法直连 GitHub / jsDelivr，首次规则下载可能需要先让 Stash 自身具备可用代理环境。
+- Stash Wiki 未记录 rule-provider 下载代理字段，所以本产物不写 `proxy: 🚫 受限网站`。如果你的网络无法直连配置中的 GitHub Raw 规则 URL，首次规则下载可能需要先让 Stash 自身具备可用代理环境。
 - Stash 的 `default-nameserver` 按官方示例只放明文 IP；DoH 放在 `nameserver` 与 `nameserver-policy` 中。
 - Stash 不支持本仓库的 Smart Alpha / LightGBM 自动择优；区域组使用传统 `url-test`。
 - `Stash.yaml` 是生成产物，手工修改会被下次生成覆盖。

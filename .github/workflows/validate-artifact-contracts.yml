@@ -227,6 +227,9 @@ jobs:
       - name: Validate PROCESS-NAME direct whitelist
         run: node tools/validate-process-name-direct.js
 
+      - name: Validate rule asset delivery regressions
+        run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js
+
       - name: Validate source receipts, ordered semantics and governed exceptions
         env:
           SCKI_BASELINE_REF: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}

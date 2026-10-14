@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-14T05:27:43.173Z",
+  "generated_at": "2026-10-14T22:11:38.643Z",
   "authority": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-  "baseline_version": "v6.0.18",
-  "asset_revision": "v6.0.18",
+  "baseline_version": "v6.0.19",
+  "asset_revision": "v6.0.19",
   "source_provider_count": 525,
   "source_rule_count": 984,
   "fused_provider_count": 149,
@@ -11770,14 +11770,14 @@
     "schema_version": 1,
     "source_ledger": {
       "path": "rulesets/generated/source-ledger.json",
-      "sha256": "6a3d08773a9cced5146a6acdce24cd19a85b570df52db4afc4795d5300a5a0fc",
+      "sha256": "20f7e87358021509a4cb111c182d695a105c98f4a2cae7c2ef9a9c2348b95f66",
       "mode": "partial-sync",
       "raw_provider_count": 401,
       "normalized_provider_count": 525
     },
     "adfp_exceptions": {
       "path": "rulesets/generated/adfp-exceptions.json",
-      "sha256": "a5d96af42c1041a20dfc5a001ef1e70146b8b9ee62c37009c9ee485c4dd64fba",
+      "sha256": "d16e0d7431e7f78e7ab1314dbf23817f9c35c86eea9beab805890f3f102daa8a",
       "registry_sha256": "3f04d380348e29a6f4b972c4fb884dd38aa23477944b9f462e16eff1729b3e61",
       "records": 35
     },
