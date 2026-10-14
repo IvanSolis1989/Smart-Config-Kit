@@ -66,10 +66,10 @@ test('local residual output changes cannot pass the MRS output receipt binding',
 
 test('compiler source selection retains residual receipts ahead of generic local URL resolution', () => {
   const repoRoot = path.resolve(__dirname, '../..');
-  const localPath = 'rulesets/generated/mihomo-mrs/acc-apple-classical.yaml';
+  const localPath = 'rulesets/generated/mihomo-mrs/acc-microsoftapps-classical.yaml';
   const expectedReceipt = createSourceReceipt({ localPath, repoRoot, bytes: fs.readFileSync(path.join(repoRoot, localPath)), inputKind: 'generated-output' });
   const sourceMap = readMihomoMrsSourceMap({ partial: [{ id: 'example', generated: [],
-    residual: { file: 'acc-apple-classical.yaml', output_receipt: expectedReceipt } }] });
+    residual: { file: 'acc-microsoftapps-classical.yaml', output_receipt: expectedReceipt } }] });
   const source = sourceInfoForProvider({ url: 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/' + localPath, behavior: 'classical' }, sourceMap);
   assert.equal(source.expectedReceipt, expectedReceipt);
   assert.equal(source.localPath, path.join(repoRoot, localPath));

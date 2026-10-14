@@ -23,3 +23,8 @@ DOMAIN,msg.umeng.com
 DOMAIN-SUFFIX,getui.com
 DOMAIN-SUFFIX,getui.net
 DOMAIN-SUFFIX,gepush.com
+## Certificate revocation/status endpoints are shared PKI infrastructure, not Apple services.
+DOMAIN,crl3.digicert.com
+DOMAIN,crl4.digicert.com
+DOMAIN,ocsp.digicert.com
+DOMAIN,ocsp.sectigo.com

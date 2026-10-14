@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "purpose": "upstream-refresh",
   "sourceGraph": "rulesets/source/routing-graph.js",
   "generatedSourceBlock": "MIHOMO MRS OVERRIDES",
@@ -30,6 +30,7 @@
     "Passwall2/Passwall2(xray+sing-box).conf",
     "rulesets/generated/egern-traffic-snapshot.json.gz",
     "rulesets/generated/source-ledger.json",
+    "rulesets/generated/mihomo-mrs/source-ledger.json",
     "rulesets/generated/adfp-exceptions.json",
     "rulesets/generated/semantic-diff.json",
     "rulesets/generated/claude-service-dependencies.json",
@@ -49,14 +50,37 @@
     "rulesets/supplemental/egern/local-direct.yaml",
     "rulesets/supplemental/egern/work-guard.yaml",
     "rulesets/supplemental/egern/youtube-guard.yaml",
-    "tools/runtime/traffic-options.js"
+    "tools/runtime/traffic-options.js",
+    "rulesets/supplemental/egern/bytedance-app-guard.yaml",
+    "rulesets/supplemental/egern/game-cn-guard.yaml",
+    "rulesets/supplemental/egern/intl-site-guard.yaml",
+    "rulesets/supplemental/egern/microsoft-ai-guard.yaml",
+    "rulesets/supplemental/egern/microsoft-live-guard.yaml",
+    "rulesets/supplemental/egern/social-guard.yaml",
+    "rulesets/supplemental/egern/stream-jpkr-guard.yaml",
+    "rulesets/supplemental/egern/tools-guard.yaml"
   ],
   "validators": [
-    ["tools/validate-js-overwrites.js"],
-    ["tools/validate-artifact-contracts.js", "--strict-ruby"],
-    ["tools/validate-process-name-direct.js"],
-    ["tools/validate-generated-remote-asset-size.js"],
-    ["tools/refresh-rule-quality.js", "--check"],
-    ["tools/validate-claude-service-dependencies.js", "--check"]
+    [
+      "tools/validate-js-overwrites.js"
+    ],
+    [
+      "tools/validate-artifact-contracts.js",
+      "--strict-ruby"
+    ],
+    [
+      "tools/validate-process-name-direct.js"
+    ],
+    [
+      "tools/validate-generated-remote-asset-size.js"
+    ],
+    [
+      "tools/refresh-rule-quality.js",
+      "--check"
+    ],
+    [
+      "tools/validate-claude-service-dependencies.js",
+      "--check"
+    ]
   ]
 }

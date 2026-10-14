@@ -21,3 +21,7 @@ payload:
   - "+.getui.com"
   - "+.getui.net"
   - "+.gepush.com"
+  - "crl3.digicert.com"
+  - "crl4.digicert.com"
+  - "ocsp.digicert.com"
+  - "ocsp.sectigo.com"

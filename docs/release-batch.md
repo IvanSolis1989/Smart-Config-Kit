@@ -1,4 +1,4 @@
-# 文件级自动刷新发布检查 v1.0.0
+# 文件级自动刷新发布检查 v1.0.1
 
 `tools/validate-release-batch.js` 将一次上游刷新绑定到固定 Git 基线、精确文件集合和完整产物哈希。它只检查、输出收据；不执行下载、生成、stage、commit、pull 或 push。合同位于 `rulesets/source/release-batch-contract.json`，必须已经存在于基线，且本批次不得改动合同。
 
@@ -66,3 +66,11 @@ node --test tools/tests/release-batch.test.js
 ```
 
 测试在临时 Git 仓库里核对 no-op、正常全批次、动态旧资产删除/新增、未知文件、rename 越界、漏 stage、完整产物缺失、等长篡改、源图/合同冻结、CRLF、mode/symlink、validator 失败和无自动 stage。开发分支中的工具改动本来就不属于自动刷新，因此不能把当前开发树检查当作发布成功证据。
+
+## 合同 1.0.1 的适用范围
+
+MRS 正式来源台账 `rulesets/generated/mihomo-mrs/source-ledger.json` 与规则资产一起纳入完整发布批次，不能遗漏或作为未登记文件混入输出目录。
+
+合同增加了 8 个 Egern supplemental YAML 静态路径：`bytedance-app-guard.yaml`、`game-cn-guard.yaml`、`intl-site-guard.yaml`、`microsoft-ai-guard.yaml`、`microsoft-live-guard.yaml`、`social-guard.yaml`、`stream-jpkr-guard.yaml` 和 `tools-guard.yaml`。刷新时这些路径与其他静态输出一样必须按合同精确存在并参与哈希检查。
+
+源图、工具、生成逻辑或发布合同发生维护变更时，该维护提交不适用以旧合同为基线的自动刷新 gate；先将维护提交纳入新的 Git 基线，再以该基线运行后续刷新。合同自身仍必须已存在于刷新基线，刷新批次不得修改它。

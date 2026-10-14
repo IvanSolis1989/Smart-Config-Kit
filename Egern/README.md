@@ -4,7 +4,7 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
-> 版本：**v6.0.17-egern.7**（Build 2026-10-13；正式跟随 Clash Party v6.0.17 / CMFA 融合规则顺序，原生规则集使用发布版本缓存键）
+> 版本：**v6.0.18-egern.8**（Build 2026-10-14；正式跟随 Clash Party v6.0.18 / CMFA 融合规则顺序，原生规则集使用发布版本缓存键）
 
 本次 CMFA 默认测速 `lazy` 设置仅更新 Egern 生成清单的来源元数据哈希；Egern `smart` 组继续按原生自适应方式探测。
 

@@ -3,7 +3,11 @@
   "rules": [
     {
       "domain_suffix": [
-        "cloudflarestorage.com"
+        "cloudflarestorage.com",
+        "outlook.live.com"
+      ],
+      "domain": [
+        "mail.live.com"
       ]
     }
   ]

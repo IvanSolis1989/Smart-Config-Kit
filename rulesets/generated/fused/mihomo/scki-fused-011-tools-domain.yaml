@@ -1,0 +1,6 @@
+payload:
+  - "+.aws.amazon.com"
+  - "+.elasticbeanstalk.com"
+  - "+.heroku.com"
+  - "+.herokuapp.com"
+  - "+.yahoo.co.jp"

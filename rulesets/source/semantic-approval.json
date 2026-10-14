@@ -1,8 +1,29 @@
 {
   "schemaVersion": 1,
-  "beforeIdentity": "e767c355e77c4acdb5d0a293b9a0534d57122ebe012f8368bcf4001b5b84b7fa",
-  "afterIdentity": "0f1d87fbef41eb00b0d78359206a5a9d58277bc9b7df7e49faa7337f276dd5a9",
-  "reviewedChangeDigest": "091483e32573f2bda9f0bf9f1676291b5a625c0df5acd0c92adc3426dfd8376f",
-  "reason": "User explicitly authorized the two exact Claude Desktop host fixes and all-client synchronization on 2026-10-13; only these hosts transfer from AD to AI. Finite domain probes do not establish service health.",
-  "officialEvidence": "https://code.claude.com/docs/en/desktop#network-access-requirements"
+  "beforeIdentity": "0f1d87fbef41eb00b0d78359206a5a9d58277bc9b7df7e49faa7337f276dd5a9",
+  "afterIdentity": "d14fc2b9e003ad430e478ec406e117809768e2341552bdcebfa1f945a61e4821",
+  "reviewedChangeDigest": "4e1b42178c7ba7db867d1f076d8d09c0dc5439102f9f6a4c27001035e16fccd5",
+  "reviewedEvidenceDigest": "c26bd34e9e3f34be68d55a078617f689659694aedcd6ff571bbf668cad0dc946",
+  "acknowledgedUndecidableDigest": "1f55e1019f45ed8d7720eb6013a9a5d693cf65bdbb7aa403db7423c98db98ff3",
+  "acknowledgeTruncation": true,
+  "baselineRef": "9d09baf5abe83c4a7080fe16b451594446bca108",
+  "reason": "User authorized complete WIP/latest-main integration. Reviewed source normalization, business guards, six bounded ADFP records, retained Claude/traffic/ZeroTier and independent root source review; 294 tests and 2435 artifact checks passed. This approval binds the exact finite default-CI evidence, not universal or live routing.",
+  "reviewBoundary": {
+    "mode": "domain-projection",
+    "probes": 1000,
+    "droppedProbes": 4632560,
+    "unknown": 254,
+    "entryEvidenceLimit": 1000,
+    "entryEvidenceTruncated": true,
+    "targetedSupplementary": {
+      "probes": 512,
+      "unknown": 138,
+      "changedProbes": 23,
+      "droppedProbes": 4633555,
+      "entryEvidenceLimit": 96,
+      "truncated": true
+    },
+    "evidence": "docs/research/2026-10-14-wip-main-integration.md",
+    "unknownsRemainUnknown": true
+  }
 }

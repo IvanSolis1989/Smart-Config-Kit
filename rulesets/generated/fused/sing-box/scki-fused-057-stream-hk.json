@@ -1,0 +1,78 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain": [
+        "p-bstarstatic.akamaized.net",
+        "p.bstarstatic.com",
+        "upos-bstar-mirrorakam.akamaized.net",
+        "upos-bstar1-mirrorakam.akamaized.net",
+        "bcbolt446c5271-a.akamaihd.net",
+        "edge.api.brightcove.com",
+        "tvbtracking.azurewebsites.net",
+        "rthkradio1-live.akamaized.net",
+        "rthkradio2-live.akamaized.net",
+        "rthkradio3-live.akamaized.net",
+        "rthkradio4-live.akamaized.net",
+        "rthkradio5-live.akamaized.net",
+        "rthkradiocmgrgb-live.akamaized.net",
+        "rthkradiocnrhk-live.akamaized.net",
+        "rthkradiopth-live.akamaized.net",
+        "rthktv31-live.akamaized.net",
+        "rthktv32-live.akamaized.net"
+      ],
+      "domain_suffix": [
+        "mytv.com.hk",
+        "viu.com",
+        "viu.tv",
+        "hktv.com.hk",
+        "hktvmall.com",
+        "nowtv.com",
+        "icable.com",
+        "hmvod.com.hk",
+        "mytvsuper.com",
+        "tvb.com",
+        "bigbigchannel.com.hk",
+        "bigbigshop.com",
+        "content.jwplatform.com",
+        "encoretvb.com",
+        "mytvsuperlimited.hb.omtrdc.net",
+        "mytvsuperlimited.sc.omtrdc.net",
+        "tvb.com.au",
+        "tvbanywhere.com",
+        "tvbanywhere.com.sg",
+        "tvbc.com.cn",
+        "tvbeventpower.com.hk",
+        "tvbusa.com",
+        "tvbweekly.com",
+        "tvmedia.net.au",
+        "videos-f.jwpsrv.com",
+        "nowestatic.com",
+        "rthk.hk",
+        "rthk.org.hk",
+        "cabletv.com.hk",
+        "i-cable.com",
+        "moov.hk",
+        "mtg.now.com"
+      ],
+      "ip_cidr": [
+        "45.43.32.234/32",
+        "103.151.150.0/23",
+        "119.29.29.29/32",
+        "128.1.62.200/31",
+        "150.116.92.250/32",
+        "164.52.33.178/32",
+        "164.52.33.182/32",
+        "164.52.76.18/32",
+        "203.107.1.33/32",
+        "203.107.1.34/32",
+        "203.107.1.65/32",
+        "203.107.1.66/32"
+      ],
+      "domain_keyword": [
+        "nowtv100",
+        "rthklive"
+      ]
+    }
+  ]
+}

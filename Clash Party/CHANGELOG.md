@@ -7,6 +7,12 @@
 
 ---
 
+## v6.0.18-dns.16 / v6.0.18-normal.17 (2026-10-14)
+
+- 发布批次检查器与合同统一为 v1.0.1，真实仓库合同与 CLI 版本纳入回归；新增八类 Egern 补充输出及 MRS 正式来源台账覆盖。此项只影响发布工具。
+- 修复跨服务首匹配误归类；规范 Apple/Microsoft 过宽关键词和共享 AWS/Azure/CDN 后缀，加入 game-cn、microsoft-live、microsoft-ai、intl-site、stream-jpkr、tools、social、bytedance-app 八类 guard。证书吊销/状态查询的 CA 精确主机直连与微软邮件精确国际策略新增 6 条 ADFP 记录，总数 35。`api.byteoversea.com` 作为精确 TikTok 规则，不扩共享后缀。保留现有 Claude Desktop `a-api`/`a-cdn` 精确例外、QUIC/测速选项和默认关闭的 ZeroTier 代理开关。Crisp relay 仅为静态 ASN 覆盖风险推断，并非实测事故。
+- 源规则图 v6.0.18：525 providers / 984 source rules；生成 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 non-empty SRS across 81 segments。
+
 ## v6.0.17-dns.15 / v6.0.17-normal.16 (2026-10-14)
 
 - 同步工具保留可信本地 ZeroTier 的明确 true/false，缺失才使用发布 false；本地部署入口提供保留选项、dry-run、原件备份、原子替换和保存后读回。修复源码更新把办公室启用值覆盖为 false 的路径。

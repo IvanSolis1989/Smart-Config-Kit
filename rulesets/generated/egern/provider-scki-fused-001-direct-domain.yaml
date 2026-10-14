@@ -5,6 +5,8 @@ domain_set:
   - "api.installer.xiaomi.com"
   - "auth.be.sec.miui.com"
   - "ccc.sys.miui.com"
+  - "crl3.digicert.com"
+  - "crl4.digicert.com"
   - "dns.weixin.qq.com"
   - "dns.weixin.qq.com.cn"
   - "drpf-g10.proxima.nie.netease.com"
@@ -14,6 +16,8 @@ domain_set:
   - "login.nvidia.cn"
   - "mazu.sec.miui.com"
   - "msg.umeng.com"
+  - "ocsp.digicert.com"
+  - "ocsp.sectigo.com"
   - "register.xmpush.xiaomi.com"
   - "sigma-performance-g10.proxima.nie.netease.com"
 domain_suffix_set:

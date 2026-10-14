@@ -34,6 +34,8 @@ function parseClashList(filePath) {
     const parts = line.split(',').map((part) => part.trim()).filter(Boolean);
     const type = parts[0];
     const value = parts[1];
+    // Mixed sets retain domains/IPs; Egern has no PROCESS-NAME rule.
+    if (type === "PROCESS-NAME") continue;
     if (!TYPE_MAP.has(type)) {
       throw new Error(`Unsupported Egern supplemental rule type in ${filePath}: ${line}`);
     }

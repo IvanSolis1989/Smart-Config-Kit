@@ -1,4 +1,4 @@
-# v2rayN 使用教程（对齐 Clash Party v6.0.17）
+# v2rayN 使用教程（对齐 Clash Party v6.0.18）
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -6,7 +6,7 @@
 
 > 目录简介：这里提供 v2rayN 多核心导入教程和 Xray 路由 JSON fallback 产物说明。
 >
-> 路径 C（Xray 核）产物：`v2rayN/v2rayN(xray).json` v6.0.17-v2n.6（Build 2026-10-13；基线：Clash Party v6.0.17；变更历史见 `v2rayN/CHANGELOG.md`）。
+> 路径 C（Xray 核）产物：`v2rayN/v2rayN(xray).json` v6.0.18-v2n.7（Build 2026-10-14；基线：Clash Party v6.0.18）。
 
 ---
 
@@ -50,7 +50,7 @@ SingBox Full 使用 `rulesets/generated/fused/sing-box/*.srs`，是本仓库 fus
 `v2rayN/v2rayN(xray).json` 是给 Xray 核心准备的降级路由规则数组。当前文件由 `tools/generate-fused-fallback-artifacts.js` 从 `rulesets/generated/fused/sing-box/*.json` 展平成原生 Xray RuleObject：
 
 - 1 条禁用 meta 规则。
-- 69 条非空 fused 顺序段 + 19 条可表达内联规则 + 1 条元数据，共 89 条 Xray RuleObject，保持源规则图的首匹配顺序。
+- 78 条非空 fused 顺序段 + 19 条可表达内联规则 + 1 条元数据，共 98 项 Xray 路由规则，保持源规则图的首匹配顺序。
 - 19 条端口、进程加域名逻辑组合和 `MATCH` 等必要内联规则。
 - 出站只使用 `proxy`、`direct`、`block` 三个标签。
 

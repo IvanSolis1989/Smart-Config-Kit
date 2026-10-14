@@ -15,6 +15,7 @@ const targets = [
   ['FlClash/FlClash(mihomo).js', 'url-test'],
 ];
 const five = graph.getQuicRules('block-foreign');
+const ids = require('../lib/fused-contract-segments').resolveContractSegments();
 
 function run(target, profile, policy) {
   let source = fs.readFileSync(path.join(root, target), 'utf8');
@@ -63,8 +64,8 @@ for (const [target, groupType] of targets) {
         assert.ok(groups.every(group => group.interval === (profile === 'power-save' ? 900 : 300)));
         assert.ok(groups.every(group => group.lazy === true));
         for (const rule of five) assert.equal(config.rules.includes(rule), policy === 'block-foreign');
-        assert.ok(config.rules.indexOf('RULE-SET,scki-fused-006-ad-domain,🛑 广告拦截') < config.rules.indexOf('DST-PORT,7680,REJECT'));
-        assert.ok(config.rules.indexOf('DST-PORT,7680,REJECT') < config.rules.indexOf('RULE-SET,scki-fused-008-direct-domain,DIRECT'));
+        assert.ok(config.rules.indexOf(`RULE-SET,${ids['scki-fused-006-ad']}-domain,🛑 广告拦截`) < config.rules.indexOf('DST-PORT,7680,REJECT'));
+        assert.ok(config.rules.indexOf('DST-PORT,7680,REJECT') < config.rules.indexOf(`RULE-SET,${ids['scki-fused-008-direct']}-domain,DIRECT`));
       });
     }
   }

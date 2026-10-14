@@ -1,0 +1,8 @@
+host-suffix, aiot-coap-cn.aqara.com
+host-suffix, aiot-rpc-cn.aqara.com
+host-suffix, coap-cn.aqara.com
+host-suffix, open-cn.aqara.com
+host-suffix, rpc-cn.aqara.com
+host-suffix, track-cn.aqara.com
+host-keyword, aqara-camera-cn
+geoip, cn, no-resolve

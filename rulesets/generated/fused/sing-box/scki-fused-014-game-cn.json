@@ -1,0 +1,32 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "wegame.com",
+        "wegame.com.cn",
+        "wegame.gtimg.com",
+        "tgp.qq.com",
+        "qt.qq.com",
+        "gamesafe.qq.com",
+        "lol.qq.com",
+        "game.qq.com",
+        "game.gtimg.cn",
+        "anticheatexpert.com",
+        "gcloudsdk.com",
+        "gcloudcs.com",
+        "ossweb-img.qq.com",
+        "crawler.qq.com",
+        "gameact.qq.com",
+        "daoju.qq.com"
+      ],
+      "domain": [
+        "ied-tqos-tgp.qq.com",
+        "ssl.ptlogin2.qq.com",
+        "receiver.tdm.qq.com",
+        "hc.tdm.qq.com",
+        "netbarsvr.iigw.qq.com"
+      ]
+    }
+  ]
+}

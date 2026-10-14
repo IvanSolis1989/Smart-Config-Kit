@@ -3,12 +3,28 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 const test = require('node:test');
-const graph = require('../../rulesets/source/routing-graph');
-const { reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt } = require('../build-fused-rule-sets');
-
-const root = path.resolve(__dirname, '../..');
+const originalRoot = path.resolve(__dirname, '../..');
+// Publish the current source only into an isolated fixture HEAD. Maintenance
+// edits in the user's real checkout must still fail the production reuse gate.
+const root = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-traffic-published-'));
+test.after(() => fs.rmSync(root, { recursive: true, force: true }));
+for (const directory of ['tools', 'rulesets/source', 'rulesets/supplemental', 'rulesets/generated/fused', 'SingBox']) {
+  fs.mkdirSync(path.dirname(path.join(root, directory)), { recursive: true });
+  fs.cpSync(path.join(originalRoot, directory), path.join(root, directory), { recursive: true });
+}
+for (const file of ['Clash Meta For Android/CMFA(mihomo).yaml', 'FlClash/FlClash(mihomo).js']) {
+  fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
+  fs.copyFileSync(path.join(originalRoot, file), path.join(root, file));
+}
+const fixtureGit = args => execFileSync('git', ['-c', 'core.safecrlf=false', ...args], { cwd: root, windowsHide: true, stdio: 'pipe' });
+fixtureGit(['init', '-q']);
+fixtureGit(['add', '--', 'rulesets/source']);
+fixtureGit(['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test', 'commit', '-qm', 'published source fixture']);
+const graph = require(path.join(root, 'rulesets/source/routing-graph'));
+const { reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt } = require(path.join(root, 'tools/build-fused-rule-sets'));
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'rulesets/generated/fused/manifest.json'), 'utf8'));
 function source(policy) {
   const originalRandom = Math.random;

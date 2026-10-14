@@ -4,3 +4,5 @@ domain_suffix_set:
   - "copilot.tencent.com"
   - "deepseek.com"
   - "linuxdo.org"
+  - "bootcss.com"
+  - "staticfile.org"

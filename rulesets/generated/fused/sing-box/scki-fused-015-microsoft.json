@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain": [
+        "login.live.com",
+        "g.live.com",
+        "assets.msn.com",
+        "api.msn.com",
+        "ntp.msn.com",
+        "storage.live.com",
+        "onedrive.live.com"
+      ],
+      "domain_suffix": [
+        "officeapps.live.com",
+        "edge.microsoft.com",
+        "ecs.office.com",
+        "smartscreen.microsoft.com"
+      ],
+      "domain_keyword": [
+        "onedriveclucprod"
+      ]
+    }
+  ]
+}

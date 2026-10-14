@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ulikecam.com",
+        "capcut.com",
+        "capcutapi.com"
+      ],
+      "domain": [
+        "api.byteoversea.com"
+      ],
+      "process_name": [
+        "TikTok",
+        "CapCut"
+      ]
+    }
+  ]
+}

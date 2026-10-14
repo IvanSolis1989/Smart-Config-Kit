@@ -1,12 +1,12 @@
 'use strict';
 
-// File-level upstream refresh gate v1.0.0. This module never stages or commits.
+// File-level upstream refresh gate v1.0.1. This module never stages or commits.
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync, spawnSync } = require('node:child_process');
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const CONTRACT_PATH = 'rulesets/source/release-batch-contract.json';
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const normalized = bytes => Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n'));

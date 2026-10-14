@@ -1,0 +1,6 @@
+payload:
+  - "PROCESS-NAME,Music"
+  - "PROCESS-NAME,TV"
+  - "PROCESS-NAME,LookupViewService"
+  - "DOMAIN-KEYWORD,testflight"
+  - "PROCESS-NAME,com.apple.geod"

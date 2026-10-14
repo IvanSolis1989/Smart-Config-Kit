@@ -633,7 +633,8 @@ function validateRulesAndProviders(output, record, target) {
   const fusedIntlPreAd = firstFusedRuleIndex(rules, 'intl-site-domain', '🌐 国外网站');
   const fusedCnMediaPreTikTok = firstFusedRuleIndex(rules, 'cnmedia-domain', '📺 国内流媒体');
   const fusedAd = firstFusedRuleIndex(rules, 'ad-domain', '🛑 广告拦截');
-  const fusedAmap = firstFusedRuleIndex(rules, 'cn-site-domain', '🏠 国内网站');
+  const fusedEarlyCnSite = firstFusedRuleIndex(rules, 'cn-site-domain', '🏠 国内网站');
+  const fusedAmap = rules.findIndex((rule, index) => index > fusedAd && String(rule).includes('-cn-site-domain,🏠 国内网站'));
   const fusedLocalProcess = firstFusedRuleIndex(rules, 'direct-residual', 'DIRECT');
   const fusedWorkProcess = firstFusedRuleIndex(rules, 'work-residual', '🧑‍💼 会议协作');
   const fusedScholar = firstFusedRuleIndex(rules, 'google-domain', '🔍 Google 服务');
@@ -660,6 +661,7 @@ function validateRulesAndProviders(output, record, target) {
   }
 
   record.expect(fusedIntlPreAd !== -1 && fusedAd !== -1 && fusedIntlPreAd < fusedAd, 'Cloudflare R2 allowlist fused segment stays before ad/phishing reject rules');
+  record.expect(fusedEarlyCnSite !== -1 && fusedEarlyCnSite < fusedAd, 'early domestic-site guard stays before ad/phishing rules');
   record.expect(fusedAmap !== -1 && fusedAd !== -1 && fusedAd < fusedAmap, 'AMap fused guard stays after ad/phishing rules');
   record.expect(fusedAmap !== -1 && fusedForeignTail !== -1 && fusedAmap < fusedForeignTail, 'AMap fused guard stays before foreign-site tail');
   record.expect(fusedCnMediaPreTikTok !== -1 && fusedTikTok !== -1 && fusedCnMediaPreTikTok < fusedTikTok, 'Douyin Web fused guard stays before TikTok');

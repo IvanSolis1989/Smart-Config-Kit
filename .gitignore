@@ -5,3 +5,6 @@ UsersUserDocumentsGitHubGithub-API-scan/
 # 内部全量审查过程文件，不参与规则生成或发布
 .full-review/
 cache.db
+
+# 本机Cloudflare账户缓存与部署状态
+.wrangler/

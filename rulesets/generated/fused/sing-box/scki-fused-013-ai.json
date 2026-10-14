@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain": [
+        "designerapp.officeapps.live.com"
+      ]
+    }
+  ]
+}

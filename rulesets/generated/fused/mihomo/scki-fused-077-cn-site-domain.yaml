@@ -1,0 +1,7 @@
+payload:
+  - "+.aiot-coap-cn.aqara.com"
+  - "+.aiot-rpc-cn.aqara.com"
+  - "+.coap-cn.aqara.com"
+  - "+.open-cn.aqara.com"
+  - "+.rpc-cn.aqara.com"
+  - "+.track-cn.aqara.com"

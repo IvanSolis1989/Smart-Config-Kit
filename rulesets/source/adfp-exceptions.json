@@ -9,10 +9,25 @@
       "match_scope": "exact",
       "target_policy": "🤖 AI 服务",
       "reason": "Anthropic's Desktop network requirements list this exact host for application code/user content access. The current ad provider matches it before general AI rules; no specific API path or live-client failure is inferred.",
-      "evidence": [{"path": "rulesets/supplemental/README.md", "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`", "level": "static"}],
-      "positive_examples": ["a-api.anthropic.com"],
-      "negative_examples": ["child.a-api.anthropic.com", "a-api.anthropic.com.example", "other.anthropic.com"],
-      "expected_relation": {"negative_examples_match": false, "positive_examples_match": true}
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "a-api.anthropic.com"
+      ],
+      "negative_examples": [
+        "child.a-api.anthropic.com",
+        "a-api.anthropic.com.example",
+        "other.anthropic.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
     },
     {
       "id": "claude-desktop-a-cdn",
@@ -21,10 +36,25 @@
       "match_scope": "exact",
       "target_policy": "🤖 AI 服务",
       "reason": "Anthropic's Desktop network requirements list this exact host for application code/user content access. A narrow pre-ad exception corrects the observed static routing collision without exempting unrelated CDN or telemetry hosts.",
-      "evidence": [{"path": "rulesets/supplemental/README.md", "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`", "level": "static"}],
-      "positive_examples": ["a-cdn.anthropic.com"],
-      "negative_examples": ["child.a-cdn.anthropic.com", "a-cdn.anthropic.com.example", "other.anthropic.com"],
-      "expected_relation": {"negative_examples_match": false, "positive_examples_match": true}
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "`a-api.anthropic.com` and `a-cdn.anthropic.com`",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "a-cdn.anthropic.com"
+      ],
+      "negative_examples": [
+        "child.a-cdn.anthropic.com",
+        "a-cdn.anthropic.com.example",
+        "other.anthropic.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
     },
     {
       "id": "nvidia-cn-login",
@@ -787,6 +817,193 @@
       "negative_examples": [
         "x.o33249.ingest.us.sentry.io",
         "other.ingest.us.sentry.io"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-crl3-digicert-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,crl3.digicert.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Logged certificate-status routing collided with Apple/shared CA keyword ownership; retain only this exact host before broad ad and vendor providers.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "crl3.digicert.com"
+      ],
+      "negative_examples": [
+        "crl3.digicert.com.example",
+        "child.crl3.digicert.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-crl4-digicert-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,crl4.digicert.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Logged certificate-status routing collided with Apple/shared CA keyword ownership; retain only this exact host before broad ad and vendor providers.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "crl4.digicert.com"
+      ],
+      "negative_examples": [
+        "crl4.digicert.com.example",
+        "child.crl4.digicert.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-ocsp-digicert-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,ocsp.digicert.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Logged certificate-status routing collided with Apple/shared CA keyword ownership; retain only this exact host before broad ad and vendor providers.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "ocsp.digicert.com"
+      ],
+      "negative_examples": [
+        "ocsp.digicert.com.example",
+        "child.ocsp.digicert.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-ocsp-sectigo-com",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,ocsp.sectigo.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Logged certificate-status routing collided with Apple/shared CA keyword ownership; retain only this exact host before broad ad and vendor providers.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "ocsp.sectigo.com"
+      ],
+      "negative_examples": [
+        "ocsp.sectigo.com.example",
+        "child.ocsp.sectigo.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-mail-live-com",
+      "provider": "scki-adfp-intl-site",
+      "rule": "DOMAIN,mail.live.com",
+      "match_scope": "exact",
+      "target_policy": "🌐 国外网站",
+      "reason": "Preserve the reviewed foreign-mail business category before broad live.com AI/Microsoft ownership; scope stays limited to the declared mail host.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "mail.live.com"
+      ],
+      "negative_examples": [
+        "mail.live.com.example",
+        "child.mail.live.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "routing-audit-outlook-live-com",
+      "provider": "scki-adfp-intl-site",
+      "rule": "DOMAIN-SUFFIX,outlook.live.com",
+      "match_scope": "suffix",
+      "target_policy": "🌐 国外网站",
+      "reason": "Preserve the reviewed foreign-mail business category before broad live.com AI/Microsoft ownership; scope stays limited to the declared mail host.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Routing audit CA and Microsoft mail exceptions",
+          "level": "historical-owner-decision"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "confirmed routing audit collisions retain their declared business policy",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "outlook.live.com",
+        "child.outlook.live.com"
+      ],
+      "negative_examples": [
+        "outlook.live.com.example",
+        "other.live.com"
       ],
       "expected_relation": {
         "negative_examples_match": false,

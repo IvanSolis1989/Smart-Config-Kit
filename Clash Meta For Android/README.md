@@ -10,7 +10,7 @@
 > 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
 > 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
 > **FlClash 用户**：推荐使用 [FlClash 覆写脚本](../FlClash/FlClash(mihomo).js)（动态节点分类 + 家宽识别 + 订阅清理）。详见 [`FlClash/README.md`](../FlClash/README.md)。
-> 当前版本：**v6.0.17-cmfa.9**（Build 2026-10-13，跟随 Clash Party v6.0.17 主线；融合规则集使用版本化本地缓存路径）
+> 当前版本：**v6.0.18-cmfa.10**（Build 2026-10-14，跟随 Clash Party v6.0.18 主线；融合规则集使用版本化本地缓存路径）
 
 > 测速候选：具名 direct/reject 支持出站留在 provider 中供拨号链引用，22 个测速组按类型排除它们；空组使用 REJECT。业务组中的显式 DIRECT 选择仍可使用。[官方代理组字段](https://wiki.metacubex.one/config/proxy-groups/)与[实核验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
 
@@ -406,7 +406,7 @@ ClashMi App 首页菜单 → **我的配置** → 右上角 **＋** → 选择�
 ### 与 CMFA 行为一致的部分
 
 - ✅ 54 代理组（22 区域 + 33 业务）结构 1:1 加载。
-- ✅ 151 条主规则 + 132 个融合 `rule-providers` 全部由 source graph 顺序编译生成。
+- ✅ 168 条主规则 + 149 个融合 `rule-providers` 全部由 source graph 顺序编译生成。
 - ✅ fake-ip DNS / sniffer / `proxy-providers.filter` / `exclude-filter` 行为与 CMFA 等价。
 - ✅ 22 区域组使用 `type: url-test`（按延迟择优）—— 与 CMFA 完全相同。
 

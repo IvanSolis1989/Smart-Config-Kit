@@ -132,7 +132,8 @@ test('iOS fused payload stays within the repository Network Extension budget', (
   const bytes = files.reduce((total, file) => total + fs.statSync(file).size, 0);
   const rules = files.reduce((total, file) => total + nonCommentLines(file).length, 0);
 
-  assert.ok(uniqueUrls.length <= 69, `Shadowrocket references ${uniqueUrls.length} remote rule assets`);
+  const manifest = JSON.parse(read('rulesets/generated/fused/manifest.json'));
+  assert.equal(uniqueUrls.length, manifest.generated_srs_files, 'every non-empty fused asset is referenced exactly once');
   assert.ok(bytes <= 32 * 1024 * 1024, `Shadowrocket fused payload is ${bytes} bytes`);
   assert.ok(rules <= 1_000_000, `Shadowrocket fused payload contains ${rules} rules`);
 });

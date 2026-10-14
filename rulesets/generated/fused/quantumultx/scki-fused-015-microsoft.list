@@ -1,0 +1,12 @@
+host, login.live.com
+host, g.live.com
+host-suffix, officeapps.live.com
+host-suffix, edge.microsoft.com
+host-suffix, ecs.office.com
+host, assets.msn.com
+host, api.msn.com
+host, ntp.msn.com
+host-suffix, smartscreen.microsoft.com
+host, storage.live.com
+host, onedrive.live.com
+host-keyword, onedriveclucprod

@@ -1,0 +1,115 @@
+DOMAIN-SUFFIX,a.config.skype.com
+DOMAIN-SUFFIX,a.nel.cloudflare.com
+DOMAIN-SUFFIX,api.github.com
+DOMAIN-SUFFIX,app-measurement.net
+DOMAIN-SUFFIX,applicationinsights.azure.com
+DOMAIN-SUFFIX,azurewebsites.net
+DOMAIN-SUFFIX,b.config.skype.com
+DOMAIN-SUFFIX,bngpiglbalmenaabohcooocpnljgfemj
+DOMAIN-SUFFIX,c.gle
+DOMAIN-SUFFIX,cbsnews.com
+DOMAIN-SUFFIX,cdn.designerapp.osi.office.net
+DOMAIN-SUFFIX,cdn.office.net
+DOMAIN-SUFFIX,cdn.syndication.twimg.com
+DOMAIN-SUFFIX,cerebras.ai
+DOMAIN-SUFFIX,chinacloudapp.cn
+DOMAIN-SUFFIX,cjfdbemmaeeohgibnhdhlakiahifjjcf
+DOMAIN-SUFFIX,clickserve.dartsearch.net
+DOMAIN-SUFFIX,delve.office.com
+DOMAIN-SUFFIX,facebook.net
+DOMAIN-SUFFIX,github.gallery.vsassets.io
+DOMAIN-SUFFIX,github.gallerycdn.vsassets.io
+DOMAIN-SUFFIX,gtm.oasisfeng.com
+DOMAIN-SUFFIX,hexun.com
+DOMAIN-SUFFIX,latest-swx.cdn.skype.com
+DOMAIN-SUFFIX,live.com
+DOMAIN-SUFFIX,lmsudio.ai
+DOMAIN-SUFFIX,microsofttranslator.com
+DOMAIN-SUFFIX,msftoffers.com
+DOMAIN-SUFFIX,msn.com
+DOMAIN-SUFFIX,muse.ai
+DOMAIN-SUFFIX,nav-edge.smartscreen.microsoft.com
+DOMAIN-SUFFIX,onenote
+DOMAIN-SUFFIX,platform.twitter.com
+DOMAIN-SUFFIX,r.msftstatic.com
+DOMAIN-SUFFIX,recaptcha.net
+DOMAIN-SUFFIX,recraft.ai
+DOMAIN-SUFFIX,settings.crashlytics.com
+DOMAIN-SUFFIX,spoprod-a.akamaihd.net
+DOMAIN-SUFFIX,ssl.kaptcha.com
+DOMAIN-SUFFIX,swc.cdn.skype.com
+DOMAIN-SUFFIX,swx.cdn.skype.com
+DOMAIN-SUFFIX,tst.kaptcha.com
+DOMAIN-SUFFIX,usefathom.com
+DOMAIN-SUFFIX,uservoice.com
+DOMAIN-SUFFIX,variflight.com
+DOMAIN-SUFFIX,virtualearth.net
+DOMAIN-SUFFIX,windows.net
+DOMAIN-SUFFIX,xpaycdn-int.azureedge.net
+DOMAIN-SUFFIX,xpaycdn.azureedge.net
+DOMAIN-SUFFIX,cici.com
+DOMAIN-SUFFIX,vcs-sg.byteoversea.com
+DOMAIN-SUFFIX,lf-rc1.yhgfb-static.com
+DOMAIN-SUFFIX,itobsnssdk.com
+DOMAIN-SUFFIX,abtestvm-sg.bytedance.com
+DOMAIN-SUFFIX,starling-oversea.byteoversea.com
+DOMAIN-SUFFIX,sf16-tcc-tos-sg.byteoversea.com
+DOMAIN-SUFFIX,bytedapm.com
+DOMAIN-SUFFIX,byteintl.net
+DOMAIN-SUFFIX,trae.ai
+DOMAIN-SUFFIX,bytednsdoc.com
+DOMAIN-SUFFIX,mchost.guru
+DOMAIN-SUFFIX,marscode.com
+DOMAIN-SUFFIX,zijieapi.com
+DOMAIN-SUFFIX,mon-va.byteoversea.com
+DOMAIN-SUFFIX,maliva-mcs.byteoversea.com
+DOMAIN-SUFFIX,abtestvm.bytedance.com
+DOMAIN-SUFFIX,smoot.apple.com
+DOMAIN,apple-relay.apple.com
+DOMAIN,apple-relay.cloudflare.com
+DOMAIN,apple-relay.fastly-edge.com
+DOMAIN,apple-relay.mask.apple-dns.net
+DOMAIN,cp4.cloudflare.com
+DOMAIN,gspe1-ssl.ls.apple.com
+DOMAIN,guzzoni.apple.com
+DOMAIN-SUFFIX,featureassets.org
+DOMAIN-SUFFIX,xai.chronosphere.io
+IP-CIDR,74.125.0.0/16
+IP-CIDR,173.194.0.0/16
+IP-CIDR,23.41.4.0/22,no-resolve
+DOMAIN-KEYWORD,openai
+DOMAIN-KEYWORD,chatgpt
+DOMAIN-KEYWORD,datadoghq
+DOMAIN-KEYWORD,anthropic
+DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,grok
+DOMAIN-KEYWORD,bing
+DOMAIN-KEYWORD,copilot
+DOMAIN-KEYWORD,edgeassetservice
+DOMAIN-KEYWORD,gmail
+DOMAIN-KEYWORD,google
+DOMAIN-KEYWORD,goog
+DOMAIN-KEYWORD,antigravity
+PROCESS-NAME,Claude
+PROCESS-NAME,Claude Helper
+PROCESS-NAME,Claude Helper (Renderer)
+PROCESS-NAME,LM Studio
+PROCESS-NAME,grok
+PROCESS-NAME,Code Helper
+PROCESS-NAME,Code Helper (Plugin)
+PROCESS-NAME,Antigravity Helper
+PROCESS-NAME,Antigravity Helper (Renderer)
+PROCESS-NAME,Antigravity Helper (GPU)
+PROCESS-NAME,Antigravity Helper (Plugin)
+PROCESS-NAME,language_server
+PROCESS-NAME,Google Drive
+DOMAIN-KEYWORD,ciciai
+DOMAIN-KEYWORD,dola
+PROCESS-NAME,Cici
+PROCESS-NAME,Cici Helper (Renderer)
+PROCESS-NAME,Cici Helper
+PROCESS-NAME,Trae Helper
+PROCESS-NAME,Trae Helper (Plugin)
+PROCESS-NAME,ai
+PROCESS-NAME,ai-agent
+PROCESS-NAME,ai-completion

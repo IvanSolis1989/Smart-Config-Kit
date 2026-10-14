@@ -1,0 +1,3 @@
+# Explicit JP/KR streaming domains otherwise overlap broad AI and IM providers.
+DOMAIN-SUFFIX,gyao.yahoo.co.jp
+DOMAIN-SUFFIX,kakaotv.daum.net

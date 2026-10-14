@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 'use strict';
+const { resolveContractSegments } = require('../lib/fused-contract-segments');
+const CONTRACT_SEGMENTS = resolveContractSegments();
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -13,7 +15,7 @@ const {
 } = require('../../rulesets/source/routing-graph');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
-const { loadRepository, parseFusedRules: parseRules, firstDomainRoute: projectDomainRoute } = require('../lib/ordered-rule-semantics');
+const { loadRepository, parseFusedRules: parseRules, firstDomainRoute: projectDomainRoute, firstMatch, matchEntry } = require('../lib/ordered-rule-semantics');
 const SEMANTICS = loadRepository({ root: REPO_ROOT });
 const CN_SITE = '🏠 国内网站';
 const CN_MEDIA = '📺 国内流媒体';
@@ -92,18 +94,163 @@ test('reported domestic services and representative shared-CDN hosts keep their 
   }
 });
 
+// This finite projection records the first decidable pure-domain predicate, including
+// residual keywords. Unknown RE2 blockers remain in the shared evidence result;
+// it does not establish complete first-match connection routing.
+function firstAuditDomainRoute(host) {
+  const result = firstMatch(SEMANTICS, { host }, { mode: 'domain-projection' });
+  return result.firstDecidableMatch;
+}
+
+function firstProcessRoute(processName) {
+  for (const row of SEMANTICS.rules) {
+    const provider = SEMANTICS.providers.get(row.provider);
+    for (const entry of provider?.entries || []) {
+      if (!entry.startsWith('PROCESS-NAME,')) continue;
+      if (matchEntry(entry, { processName }).status === 'match') return { policy: row.policy, provider: row.provider };
+    }
+  }
+  return null;
+}
+
+test('confirmed routing audit collisions retain their declared business policy', () => {
+  const cases = [
+    ['www.wegame.com.cn', '🕹️ 国内游戏'],
+    ['ptlogin2.wegame.com.cn', '🕹️ 国内游戏'],
+    ['keepalive.wegame.com.cn', '🕹️ 国内游戏'],
+    ['dir-update.wegame.com.cn', '🕹️ 国内游戏'],
+    ['lol-data-filter.wegame.com.cn', '🕹️ 国内游戏'],
+    ['wegame.gtimg.com', '🕹️ 国内游戏'],
+    ['ied-tqos-tgp.qq.com', '🕹️ 国内游戏'],
+    ['mlol.qt.qq.com', '🕹️ 国内游戏'],
+    ['hn1-k8s-sgp.lol.qq.com', '🕹️ 国内游戏'],
+    ['tqos.gamesafe.qq.com', '🕹️ 国内游戏'],
+    ['tqos.anticheatexpert.com', '🕹️ 国内游戏'],
+    ['cn.voice.gcloudcs.com', '🕹️ 国内游戏'],
+    ['idcconfig.gcloudsdk.com', '🕹️ 国内游戏'],
+    ['lol.ams.game.qq.com', '🕹️ 国内游戏'],
+    ['img.crawler.qq.com', '🕹️ 国内游戏'],
+    ['api.me.com', '🍎 苹果服务'],
+    ['mail.me.com', '🌐 国外网站'],
+    ['api.apple.com', '🍎 苹果服务'],
+    ['login.live.com', 'Ⓜ️ 微软服务'],
+    ['g.live.com', 'Ⓜ️ 微软服务'],
+    ['designerapp.officeapps.live.com', '🤖 AI 服务'],
+    ['edge.microsoft.com', 'Ⓜ️ 微软服务'],
+    ['aks-prod-southeastasia.access-point.cloudmessaging.edge.microsoft.com', 'Ⓜ️ 微软服务'],
+    ['ecs.office.com', 'Ⓜ️ 微软服务'],
+    ['assets.msn.com', 'Ⓜ️ 微软服务'],
+    ['api.msn.com', 'Ⓜ️ 微软服务'],
+    ['ntp.msn.com', 'Ⓜ️ 微软服务'],
+    ['storage.live.com', 'Ⓜ️ 微软服务'],
+    ['nav-edge.smartscreen.microsoft.com', 'Ⓜ️ 微软服务'],
+    ['onedriveclucprodbn20003.blob.core.windows.net', 'Ⓜ️ 微软服务'],
+    ['onedriveclucproddm20046.blob.core.windows.net', 'Ⓜ️ 微软服务'],
+    ['onedrive.live.com', 'Ⓜ️ 微软服务'],
+    ['copilot.microsoft.com', '🤖 AI 服务'],
+    ['cr.m365copilotapp.svc.cloud.microsoft', '🤖 AI 服务'],
+    ['mail.live.com', '🌐 国外网站'],
+    ['outlook.live.com', '🌐 国外网站'],
+    ['odc.officeapps.live.com', 'Ⓜ️ 微软服务'],
+    ['gyao.yahoo.co.jp', '🇯🇵 日韩流媒体'],
+    ['kakaotv.daum.net', '🇯🇵 日韩流媒体'],
+    ['www.yahoo.co.jp', '🔧 工具与服务'],
+    ['aws.amazon.com', '🔧 工具与服务'],
+    ['elasticbeanstalk.com', '🔧 工具与服务'],
+    ['app.heroku.com', '🔧 工具与服务'],
+    ['myapp.herokuapp.com', '🔧 工具与服务'],
+    ['amazon.com', '🌐 国外网站'],
+    ['www.amazon.co.jp', '🌐 国外网站'],
+    ['www.amazon.com', '🌐 国外网站'],
+    ['www.primevideo.com', '🎬 Prime Video'],
+    ['configuration-server-lb-1105093370.us-east-1.elb.amazonaws.com', '🌐 国外网站'],
+    ['generic-cdn-node.cloudfront.net', '🌐 国外网站'],
+    ['client.relay.crisp.chat', '🌐 国外网站'],
+    ['awsstatic.com', '🌐 国外网站'],
+    ['foo.azureedge.net', '🌐 国外网站'],
+    ['foo.azurefd.net', '🌐 国外网站'],
+    ['otelrules.azureedge.net', 'Ⓜ️ 微软服务'],
+    ['mlccdnprod.azureedge.net', 'Ⓜ️ 微软服务'],
+    ['flightsimulator.azureedge.net', 'Ⓜ️ 微软服务'],
+    ['cdn.msecnd.net', 'Ⓜ️ 微软服务'],
+    ['foo.akamai.net', '🌐 国外网站'],
+    ['foo.akamaihd.net', '🌐 国外网站'],
+    ['foo.akamaized.net', '🌐 国外网站'],
+    ['foo.edgesuite.net', '🌐 国外网站'],
+    ['openaiapi-site.azureedge.net', '🤖 AI 服务'],
+    ['cdn.lemon8cdn.com', '📱 社交媒体'],
+    ['api.lemon8-app.com', '📱 社交媒体'],
+    ['api.byteoversea.com', '🎵 TikTok'],
+    ['foo.capcut.com', '🎵 TikTok'],
+    ['api.capcutapi.com', '🎵 TikTok'],
+    ['vcs-sg.byteoversea.com', '🤖 AI 服务'],
+    ['api.marscode.com', '🤖 AI 服务'],
+    ['ntes53.netease.com', CN_MEDIA],
+    ['cdn.bootcss.com', CN_SITE],
+    ['assets.staticfile.org', CN_SITE],
+  ];
+
+  for (const [host, policy] of cases) {
+    assert.equal(firstAuditDomainRoute(host)?.policy, policy, `${host} must keep its intended route`);
+  }
+  assert.notEqual(firstAuditDomainRoute('notmsecnd.net')?.policy, 'Ⓜ️ 微软服务', 'msecnd.net must use a suffix boundary, not a substring match');
+
+  for (const host of [
+    'crl3.digicert.com', 'crl4.digicert.com',
+    'ocsp.digicert.com', 'ocsp.sectigo.com',
+  ]) {
+    assert.equal(firstAuditDomainRoute(host)?.policy, DIRECT, `${host} must use the early certificate-status DIRECT exception`);
+  }
+  for (const host of [
+    'logs.game.qq.com', 'sentry.qt.qq.com', 'prod-diagnostic.lol.qq.com',
+    'self.events.data.microsoft.com', 'c.msn.com', 'srtb.msn.com',
+    'arc.msn.com', 'browser.events.data.msn.com',
+    'd2wy8f7a9ursnm.cloudfront.net',
+  ]) {
+    assert.equal(firstAuditDomainRoute(host)?.policy, '🛑 广告拦截', `${host} must remain blocked before broad product-domain guards`);
+  }
+  assert.notEqual(firstAuditDomainRoute('fakeapple.invalid')?.policy, '🍎 苹果服务');
+
+  for (const [processName, policy] of [
+    ['TikTok', '🎵 TikTok'],
+    ['CapCut', '🎵 TikTok'],
+    ['Lemon8', '📱 社交媒体'],
+  ]) {
+    assert.equal(firstProcessRoute(processName)?.policy, policy, `${processName} must keep its app route`);
+  }
+
+  const downloads = [
+    'windowsupdate.com', 'update.microsoft.com', 'download.microsoft.com',
+    'delivery.mp.microsoft.com', 'officecdn.microsoft.com',
+    'officecdn.microsoft.com.edgesuite.net', 'archive.ubuntu.com',
+    'security.ubuntu.com', 'mirrors.kernel.org', 'dl.fedoraproject.org',
+    'repo.anaconda.com', 'conda.anaconda.org', 'repo.continuum.io',
+    'sourceforge.net', 'fosshub.com', 'filehippo.com', 'softonic.com',
+    'gcr.io', 'ghcr.io', 'quay.io', 'registry.k8s.io',
+    'down.qq.com', 'dldir1.qq.com',
+    'lol-wegame-client-1258344700.file.myqcloud.com',
+  ];
+  for (const host of downloads) {
+    assert.equal(firstAuditDomainRoute(host)?.policy, '📥 下载更新', `${host} must keep its download route`);
+  }
+
+  const ciciaiMirror = readText('mirrors/CiciAi.list');
+  assert.doesNotMatch(ciciaiMirror, /^DOMAIN-KEYWORD,byteoversea$/m);
+  assert.doesNotMatch(ciciaiMirror, /^PROCESS-NAME,(?:TikTok|CapCut|Lemon8)$/m);
+});
+
 test('LINUX DO mainland backup domain stays domestic without broadening the main site', () => {
   const domesticGuard = readText('rulesets/supplemental/clash/cnsite-guard.list');
   const qxGuard = readText('rulesets/supplemental/quantumultx/cnsite-guard.list');
-  const egernProvider = readText('rulesets/generated/egern/provider-scki-fused-013-cn-site-domain.yaml');
-  const qxFused = readText('rulesets/generated/fused/quantumultx/scki-fused-013-cn-site.list');
-  const surgeFused = readText('rulesets/generated/fused/surge/scki-fused-013-cn-site.list');
-  const singBoxFused = JSON.parse(readText('rulesets/generated/fused/sing-box/scki-fused-013-cn-site.json'));
+  const egernProvider = readText(`rulesets/generated/egern/provider-${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}-domain.yaml`);
+  const qxFused = readText(`rulesets/generated/fused/quantumultx/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.list`);
+  const surgeFused = readText(`rulesets/generated/fused/surge/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.list`);
+  const singBoxFused = JSON.parse(readText(`rulesets/generated/fused/sing-box/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.json`));
   const xrayRules = JSON.parse(readText('v2rayN/v2rayN(xray).json'));
-  const xrayDomesticRule = xrayRules.find((rule) => rule.id === 'scki-fused-013-cn-site');
+  const xrayDomesticRule = xrayRules.find((rule) => rule.id === `${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}`);
   const fusedRules = parseFusedRules();
-  const domesticIndex = fusedRules.indexOf('RULE-SET,scki-fused-013-cn-site-domain,🏠 国内网站');
-  const genericIntlIpIndex = fusedRules.findIndex((rule) => rule.startsWith('RULE-SET,scki-fused-068-intl-site-ipcidr,'));
+  const domesticIndex = fusedRules.indexOf(`RULE-SET,${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}-domain,🏠 国内网站`);
+  const genericIntlIpIndex = fusedRules.findIndex((rule) => rule.startsWith(`RULE-SET,${CONTRACT_SEGMENTS["scki-fused-068-intl-site"]}-ipcidr,`));
   assert.match(domesticGuard, /^DOMAIN-SUFFIX,linuxdo\.org$/m);
   assert.match(qxGuard, /^host-suffix, linuxdo\.org$/m);
   assert.match(egernProvider, /^  - "linuxdo\.org"$/m);
@@ -116,13 +263,13 @@ test('LINUX DO mainland backup domain stays domestic without broadening the main
 
   for (const host of LINUX_DO_MAINLAND_HOSTS) {
     assert.deepEqual(firstDomainRoute(host), {
-      provider: 'scki-fused-013-cn-site-domain',
+      provider: `${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}-domain`,
       policy: CN_SITE,
     });
   }
 
   assert.deepEqual(firstDomainRoute('linux.do'), {
-    provider: 'scki-fused-059-gfw-domain',
+    provider: `${CONTRACT_SEGMENTS["scki-fused-059-gfw"]}-domain`,
     policy: '🚫 受限网站',
   }, 'linux.do must retain its existing GFW route');
 });
@@ -141,14 +288,14 @@ test('reported NetEase game endpoints use the early direct guard before generic 
 
   const directGuard = readText('rulesets/supplemental/clash/adfp-direct.list');
   const shadowrocket = readText('Shadowrocket/Shadowrocket.conf');
-  const shadowrocketDirectRule = `scki-fused-001-direct.list?scki=${SOURCE_GRAPH_VERSION},DIRECT`;
-  const shadowrocketGameRule = `scki-fused-060-game-cn.list?scki=${SOURCE_GRAPH_VERSION},🕹️ 国内游戏`;
+  const shadowrocketDirectRule = `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}.list?scki=${SOURCE_GRAPH_VERSION},DIRECT`;
+  const shadowrocketGameRule = `${CONTRACT_SEGMENTS["scki-fused-060-game-cn"]}.list?scki=${SOURCE_GRAPH_VERSION},🕹️ 国内游戏`;
   assert.ok(shadowrocket.indexOf(shadowrocketDirectRule) < shadowrocket.indexOf(shadowrocketGameRule), 'Shadowrocket must reference the direct guard before domestic games');
 
   for (const host of NETEASE_GAME_DIRECT_HOSTS) {
     assert.match(directGuard, new RegExp(`^DOMAIN,${host}$`, 'm'));
     assert.deepEqual(firstDomainRoute(host), {
-      provider: 'scki-fused-001-direct-domain',
+      provider: `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}-domain`,
       policy: DIRECT,
     });
   }
@@ -166,7 +313,7 @@ test('NVIDIA China login uses the early exact direct guard before generic NVIDIA
   const directGuard = readText('rulesets/supplemental/clash/adfp-direct.list');
   assert.match(directGuard, new RegExp(`^DOMAIN,${NVIDIA_CHINA_LOGIN_HOST}$`, 'm'));
   assert.deepEqual(firstDomainRoute(NVIDIA_CHINA_LOGIN_HOST), {
-    provider: 'scki-fused-001-direct-domain',
+    provider: `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}-domain`,
     policy: DIRECT,
   });
 
@@ -191,7 +338,7 @@ test('WeChat HTTPDNS endpoints bypass generic BlockHttpDNS rejection through the
   for (const host of WECHAT_HTTPDNS_DIRECT_HOSTS) {
     assert.match(directGuard, new RegExp(`^DOMAIN,${host}$`, 'm'));
     assert.deepEqual(firstDomainRoute(host), {
-      provider: 'scki-fused-001-direct-domain',
+      provider: `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}-domain`,
       policy: DIRECT,
     });
   }

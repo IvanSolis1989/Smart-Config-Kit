@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain": [
+        "client.relay.crisp.chat"
+      ]
+    }
+  ]
+}

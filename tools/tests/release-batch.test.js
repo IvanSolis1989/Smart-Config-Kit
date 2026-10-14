@@ -7,7 +7,7 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync, spawnSync } = require('node:child_process');
-const { createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH } = require('../lib/release-batch');
+const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH } = require('../lib/release-batch');
 const cli = path.resolve(__dirname, '../validate-release-batch.js');
 const hash = text => crypto.createHash('sha256').update(text.replace(/\r\n/g, '\n')).digest('hex');
 const SOURCE = 'rulesets/source/routing-graph.js';
@@ -28,7 +28,7 @@ function fixture(t, { crlf = false } = {}) {
   write(SOURCE, "const SOURCE_GRAPH_VERSION = 'v1.0.0';\n// BEGIN AUTO-GENERATED MIHOMO MRS OVERRIDES\nconst generated = 1;\n// END AUTO-GENERATED MIHOMO MRS OVERRIDES\n");
   write(CMFA, 'cmfa: original\n'); write(PROFILE, 'egern: original\n');
   write('source-input.txt', 'frozen\n'); write('fixture-validator.js', "console.log('fixture validator passed');\n");
-  const contract = { schemaVersion: 1, version: '1.0.0', purpose: 'upstream-refresh', sourceGraph: SOURCE,
+  const contract = { schemaVersion: 1, version: VERSION, purpose: 'upstream-refresh', sourceGraph: SOURCE,
     generatedSourceBlock: 'MIHOMO MRS OVERRIDES', manifests: { mrs: MRS, fused: FUSED, egern: EGERN },
     staticOutputs: [CMFA, PROFILE], validators: [['fixture-validator.js']] };
   save(CONTRACT_PATH, contract);
@@ -50,6 +50,15 @@ function fixture(t, { crlf = false } = {}) {
   const stage = receipt => { if (receipt.changedPaths.length) git('--literal-pathspecs', 'add', '--', ...receipt.changedPaths); };
   return { root, git, write, read, save, prepare, check, stage, mrs, fused, egern, bind };
 }
+
+test('published repository contract and CLI use the supported release gate version', () => {
+  const contract = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../..', CONTRACT_PATH), 'utf8'));
+  assert.equal(contract.version, VERSION);
+  assert.ok(contract.staticOutputs.includes('rulesets/generated/mihomo-mrs/source-ledger.json'), 'MRS source receipts must be covered by the release batch');
+  const result = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', windowsHide: true });
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(result.stdout.startsWith(`Release batch v${contract.version}:`));
+});
 
 test('no-op coverage is complete and validation never stages the workset', t => {
   const f = fixture(t); const receipt = f.prepare();

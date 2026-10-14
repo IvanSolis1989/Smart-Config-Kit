@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 'use strict';
+const { resolveContractSegments } = require('./lib/fused-contract-segments');
+const CONTRACT_SEGMENTS = resolveContractSegments();
 
 const fs = require('fs');
 const path = require('path');
@@ -15,12 +17,12 @@ const mihomoWorkNames = fixture.mihomoWorkProcessNames || [];
 const surgeNames = fixture.surgeMacProcessNames;
 const surgeWorkNames = fixture.surgeWorkProcessNames || [];
 const WORK_POLICY = '🧑‍💼 会议协作';
-const MIHOMO_DIRECT_RULE_SET = 'scki-fused-008-direct-residual';
-const MIHOMO_WORK_RULE_SET = 'scki-fused-009-work-residual';
-const SINGBOX_DIRECT_RULE_SET = 'scki-fused-008-direct';
-const SINGBOX_WORK_RULE_SET = 'scki-fused-009-work';
-const SURGE_DIRECT_PROCESS_URL = repositoryAssetUrl('rulesets/generated/fused/surge/scki-fused-008-direct.list', SOURCE_GRAPH_VERSION);
-const SURGE_WORK_PROCESS_URL = repositoryAssetUrl('rulesets/generated/fused/surge/scki-fused-009-work.list', SOURCE_GRAPH_VERSION);
+const MIHOMO_DIRECT_RULE_SET = `${CONTRACT_SEGMENTS["scki-fused-008-direct"]}-residual`;
+const MIHOMO_WORK_RULE_SET = `${CONTRACT_SEGMENTS["scki-fused-009-work"]}-residual`;
+const SINGBOX_DIRECT_RULE_SET = `${CONTRACT_SEGMENTS["scki-fused-008-direct"]}`;
+const SINGBOX_WORK_RULE_SET = `${CONTRACT_SEGMENTS["scki-fused-009-work"]}`;
+const SURGE_DIRECT_PROCESS_URL = repositoryAssetUrl(`rulesets/generated/fused/surge/${CONTRACT_SEGMENTS["scki-fused-008-direct"]}.list`, SOURCE_GRAPH_VERSION);
+const SURGE_WORK_PROCESS_URL = repositoryAssetUrl(`rulesets/generated/fused/surge/${CONTRACT_SEGMENTS["scki-fused-009-work"]}.list`, SOURCE_GRAPH_VERSION);
 
 const mihomoJsTargets = [
   'Clash Party/ClashParty(mihomo-smart).js',
@@ -92,15 +94,15 @@ for (const target of mihomoRuleTextTargets) {
   if (!routeRules.some((rule) => rule.rule_set?.includes(SINGBOX_WORK_RULE_SET) && rule.outbound === WORK_POLICY)) {
     failures.push(`${target}: ${SINGBOX_WORK_RULE_SET} is not routed to ${WORK_POLICY}`);
   }
-  const directProcessNames = readSingBoxFusedProcessNames('scki-fused-008-direct');
-  const workProcessNames = readSingBoxFusedProcessNames('scki-fused-009-work');
+  const directProcessNames = readSingBoxFusedProcessNames(`${CONTRACT_SEGMENTS["scki-fused-008-direct"]}`);
+  const workProcessNames = readSingBoxFusedProcessNames(`${CONTRACT_SEGMENTS["scki-fused-009-work"]}`);
   const missing = mihomoNames.filter((name) => !directProcessNames.has(name));
   if (missing.length > 0) {
-    failures.push(`rulesets/generated/fused/sing-box/scki-fused-008-direct.json: missing ${missing.length} process_name entries: ${missing.join(', ')}`);
+    failures.push(`rulesets/generated/fused/sing-box/${CONTRACT_SEGMENTS["scki-fused-008-direct"]}.json: missing ${missing.length} process_name entries: ${missing.join(', ')}`);
   }
   const missingWork = mihomoWorkNames.filter((name) => !workProcessNames.has(name));
   if (missingWork.length > 0) {
-    failures.push(`rulesets/generated/fused/sing-box/scki-fused-009-work.json: missing ${missingWork.length} RustDesk process_name entries: ${missingWork.join(', ')}`);
+    failures.push(`rulesets/generated/fused/sing-box/${CONTRACT_SEGMENTS["scki-fused-009-work"]}.json: missing ${missingWork.length} RustDesk process_name entries: ${missingWork.join(', ')}`);
   }
 }
 

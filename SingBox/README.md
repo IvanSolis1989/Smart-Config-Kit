@@ -1,4 +1,4 @@
-# SingBox 使用教程（对齐 Clash Party v6.0.17 Full 语义）
+# SingBox 使用教程（对齐 Clash Party v6.0.18 Full 语义）
 
 > Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
 
@@ -6,7 +6,7 @@
 
 > 目录简介：这里维护 sing-box Full JSON 生成脚本、生成产物和 Hiddify/HomeProxy 等 sing-box 客户端导入教程。
 >
-> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.17-sing.6；urltest interval：standard 5m / power-save 15m；132 个 Mihomo bucket provider 合并为 69 个唯一非空 `.srs`，生成资产使用发布版本缓存键）
+> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.18-sing.7；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 合并为 78 个非空 `.srs`，生成资产使用发布版本缓存键）
 > 生成脚本：`SingBox/SingBox(sing-box)-generator.js`
 > 目标：在 **sing-box** 上复刻 Clash Party 的「20 区域组（10 全部 + 10 家宽）+ 33 业务组」静态策略结构，并只使用 sing-box 官方可消费的 SRS 规则集，保持 sing-box 1.12/1.13/1.14 官方配置兼容。
 > 本目录只提供 Full 配置。
@@ -134,7 +134,7 @@ sing-box 由 SagerNet 团队开发，是目前**新协议实现最前沿**的代
 2. 将 `SingBox/SingBox(sing-box)-full.json` 导入客户端。
 3. 将文件内 `proxy-xxx` 示例节点替换成你自己的真实节点（trojan/vless/vmess/hysteria2 都可以）。
 
-> 说明：`SingBox(sing-box)-full.json` 已内置 76 个 sing-box remote rule_set（69 个 fused SRS + 7 个运行时 GEO 辅助）与 88 条路由规则；你只需要替换节点出站即可。
+> 说明：`SingBox(sing-box)-full.json` 已内置 85 个 sing-box remote rule_set（78 个 fused SRS + 7 个运行时 GEO 辅助）与 97 条路由规则；你只需要替换节点出站即可。
 
 ### 多机场订阅合并
 

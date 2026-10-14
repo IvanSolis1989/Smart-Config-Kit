@@ -1,0 +1,2 @@
+# Crisp relay has a static shared-cloud ASN overlap risk; this narrow guard is inferred, not a confirmed live misroute.
+DOMAIN,client.relay.crisp.chat

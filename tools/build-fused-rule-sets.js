@@ -11,6 +11,7 @@ const vm = require('node:vm');
 const { createRequire } = require('node:module');
 const {
   SOURCE_GRAPH_ID,
+  normalizeMihomoMrsProviderEntries,
   getTrafficOptions,
   getHealthCheckSettings,
   getQuicRules,
@@ -375,6 +376,8 @@ async function loadSourceEntries(sourceInfo) {
   if (sourceInfo.sourceFilter) {
     entries = entries.filter((entry) => classifyEntry(entry).bucket === sourceInfo.sourceFilter);
   }
+  const providerId = sourceInfo.id || sourceInfo.providerId;
+  if (providerId) entries = normalizeMihomoMrsProviderEntries(String(providerId).replace(/^GEOSITE:/, "geosite:"), entries);
   return entries;
 }
 
@@ -491,6 +494,21 @@ function createSegment(index, policy) {
     residual: [],
     optimization: null,
   };
+}
+
+function getSourceSegmentCatalog(rules) {
+  const segments = [];
+  let current = null;
+  for (const rule of rules) {
+    const parts = splitTopLevel(rule);
+    if (INLINE_ONLY_TYPES.has(parts[0])) { current = null; continue; }
+    if (!current || current.policy !== parts[2]) {
+      current = { id: createSegment(segments.length + 1, parts[2]).id, policy: parts[2], source_rules: [] };
+      segments.push(current);
+    }
+    current.source_rules.push(rule);
+  }
+  return segments;
 }
 
 function segmentHasPayload(segment) {
@@ -1721,6 +1739,7 @@ async function main() {
     generated_srs_files: writeStats.generatedSrs,
     sing_box_binary: writeStats.singBoxBinary,
     remote_asset_max_bytes: MAX_REMOTE_RULE_SET_BYTES,
+    source_segments: getSourceSegmentCatalog(clashOutput.rules),
     optimization: stats.optimization,
     pruned_empty_segments: stats.prunedEmptySegments,
     unresolved_providers: stats.unresolvedProviders,
@@ -1747,5 +1766,5 @@ if (require.main === module) main().catch((error) => {
   process.exit(1);
 });
 
-module.exports = { applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider,
+module.exports = { getSourceSegmentCatalog, applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider,
   parsePayloadEntries, classifyEntry, optimizeSegment, removeGloballyRepeatedEntries, renderPayload, renderClassicalList, renderQxList, renderEgernYaml, renderSingBoxSource, convertWithMihomo, compileSingBoxRuleSet };

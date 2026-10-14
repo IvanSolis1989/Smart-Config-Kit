@@ -5,7 +5,7 @@
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
 > 目录简介：这里提供 OpenWrt OpenClash 的 Smart/Normal 覆写脚本、UI 配置快照和部署排障说明。
-> 当前版本：**v6.0.17-oc-normal.12 / v6.0.17-oc-smart.12**（Build 2026-10-13，跟随 source graph v6.0.17；融合规则缓存按发布版本隔离）。
+> 当前版本：**v6.0.18-oc-normal.12 / v6.0.18-oc-smart.12**（Build 2026-10-14，跟随 source graph v6.0.18；融合规则缓存按发布版本隔离）。
 >
 > 本目录提供「同规则量、不同内核能力」的两份覆写脚本，外加一份 OpenClash UI 配置快照（`.conf`）。
 >
@@ -281,7 +281,6 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 | `OpenClash(mihomo-smart).sh` | 覆写脚本（Smart 内核） |
 | `OpenClash(mihomo).sh` | 覆写脚本（Normal 内核） |
 | `OpenClash(mihomo).conf` | OpenClash UI 配置快照（一次性导入） |
-| `CHANGELOG.md` | 两份脚本的变更日志（Smart 段 + Normal 段） |
 
 ---
 

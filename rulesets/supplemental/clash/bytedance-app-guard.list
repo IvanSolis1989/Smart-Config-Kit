@@ -1,0 +1,9 @@
+# TikTok and CapCut processes were bundled into an AI mirror. Their network domains
+# are otherwise covered by the dedicated TikTok provider or these exact CapCut suffixes.
+PROCESS-NAME,TikTok
+PROCESS-NAME,CapCut
+DOMAIN-SUFFIX,ulikecam.com
+DOMAIN-SUFFIX,capcut.com
+DOMAIN-SUFFIX,capcutapi.com
+# Preserve the reviewed exact API route after upstream TikTok stopped listing this shared suffix.
+DOMAIN,api.byteoversea.com

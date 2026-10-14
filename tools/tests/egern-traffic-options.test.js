@@ -12,6 +12,7 @@ const { getQuicRules } = require('../../rulesets/source/routing-graph');
 
 const ROOT = path.resolve(__dirname, '../..');
 const CMFA = path.join(ROOT, 'Clash Meta For Android/CMFA(mihomo).yaml');
+const ids = require('../lib/fused-contract-segments').resolveContractSegments();
 
 function withStage(callback) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-egern-test-'));
@@ -51,7 +52,7 @@ test('follow-rules removes conditional QUIC geos and restores domain providers',
   const stats = generator.generateNativeRuleSetsFromSnapshot(assets, snapshot, { outputDir: directory, followRules: true });
   const files = fs.readdirSync(directory);
   assert(!files.some((file) => file.startsWith('geosite-')));
-  for (const name of ['provider-scki-fused-022-google-domain.yaml', 'provider-scki-fused-055-microsoft-domain.yaml']) {
+  for (const name of [`provider-${ids['scki-fused-022-google']}-domain.yaml`, `provider-${JSON.parse(fs.readFileSync(path.join(ROOT, 'rulesets/generated/fused/manifest.json'), 'utf8')).source_segments.find(row => row.source_rules.includes('RULE-SET,microsoft,Ⓜ️ 微软服务')).id}-domain.yaml`]) {
     assert(files.includes(name), `${name} must be restored`);
     const text = fs.readFileSync(path.join(directory, name), 'utf8');
     assert.match(text, /domain_(?:suffix_)?set:/);

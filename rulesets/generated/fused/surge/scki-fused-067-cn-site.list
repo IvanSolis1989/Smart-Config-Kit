@@ -1,8 +1,0 @@
-DOMAIN-SUFFIX,track-cn.aqara.com
-DOMAIN-SUFFIX,aiot-rpc-cn.aqara.com
-DOMAIN-SUFFIX,aiot-coap-cn.aqara.com
-DOMAIN-SUFFIX,coap-cn.aqara.com
-DOMAIN-SUFFIX,rpc-cn.aqara.com
-DOMAIN-SUFFIX,open-cn.aqara.com
-DOMAIN-KEYWORD,aqara-camera-cn
-GEOIP,CN,no-resolve

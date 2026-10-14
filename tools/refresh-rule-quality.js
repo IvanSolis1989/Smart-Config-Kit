@@ -66,7 +66,7 @@ function prepareQualityArtifacts({ sourceReceipts = {}, sourceReads = null, requ
     semantic_fingerprint: manifest.traffic_source_fingerprint || null };
   ledger.registry = fileRecord('rulesets/source/upstream-sources.json');
   ledger.generators = ['tools/sync-mihomo-mrs-rule-providers.js', 'tools/build-fused-rule-sets.js',
-    'tools/lib/source-provenance.js', 'tools/lib/fused-source-provenance.js', 'tools/refresh-rule-quality.js',
+    'tools/lib/source-provenance.js', 'tools/lib/frozen-mrs-input.js', 'tools/lib/fused-source-provenance.js', 'tools/refresh-rule-quality.js',
     'tools/lib/ordered-rule-semantics.js', 'tools/lib/adfp-exceptions.js', 'tools/lib/fused-rule-optimizer.js',
     'tools/lib/mihomo-domain-payload.js', 'tools/validate-ordered-rule-semantics.js',
     'tools/generate-stash-from-cmfa.js', 'tools/generate-egern-supplemental.js', 'tools/generate-egern-from-cmfa.js',

@@ -1,4 +1,4 @@
-# 🚀 Smart-Config-Kit v6.0.17
+# 🚀 Smart-Config-Kit v6.0.18
 
 > 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
 >
@@ -28,9 +28,9 @@
 | Android Mihomo | `Clash Meta For Android/CMFA(mihomo).yaml` | CMFA 是同步产物，不是规则基准 |
 | Stash | `Stash/Stash.yaml` | 从 CMFA 自动裁剪生成，保持 Clash Premium 兼容 |
 | sing-box / Hiddify / HomeProxy | `SingBox/SingBox(sing-box)-full.json` | 使用 `.srs` 融合规则集 |
-| v2rayN Xray | `v2rayN/v2rayN(xray).json` | 从 69 个非空 fused sing-box JSON 展平成 89 条 Xray RuleObject |
+| v2rayN Xray | `v2rayN/v2rayN(xray).json` | 从 78 个非空 fused sing-box JSON 展平成 98 项 Xray 路由规则 |
 | iOS / macOS 其他客户端 | `Egern/`、`Shadowrocket/`、`Surge/`、`Loon/`、`Quantumult X/` | 按各 APP 原生语法同步 |
-| OpenWrt | 优先 `OpenClash/`，Passwall / Passwall2 作为降级参考 | Passwall 系使用 69 条非空 fused `.srs` shunt rule |
+| OpenWrt | 优先 `OpenClash/`，Passwall / Passwall2 作为降级参考 | Passwall 系使用 78 条非空 fused `.srs` shunt rule |
 
 ### 🔌 各端协议支持 + 快速导入速查
 

@@ -6,6 +6,10 @@
 
 ---
 
+## v6.0.18 — 首匹配规则质量整合 (2026-10-14)
+
+- 整合跨服务首匹配修复、八类业务补充规则和六条误伤例外，并同步全部客户端；保留 Claude、QUIC/测速与 ZeroTier 行为。详见 [Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)、[来源与整合说明](./docs/research/2026-10-14-wip-main-integration.md)及 [发布批次检查](./docs/release-batch.md)。
+
 ## v6.0.17 — ZeroTier 设备选项持久化 (2026-10-14)
 
 - [Clash Party](./Clash%20Party/CHANGELOG.md) / [FlClash](./FlClash/CHANGELOG.md) 的同步与本地更新保留设备明确开关，新增只读真实 UDP 回包验收；默认图和静态客户端无对应 JS 入口，无需改变资产。命令、固定选择缓存条件及平台范围见 [使用说明](./docs/zerotier-planet-proxy.md)。

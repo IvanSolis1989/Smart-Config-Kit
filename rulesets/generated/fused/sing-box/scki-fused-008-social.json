@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "lemon8cdn.com",
+        "lemon8-app.com"
+      ],
+      "process_name": [
+        "Lemon8"
+      ]
+    }
+  ]
+}

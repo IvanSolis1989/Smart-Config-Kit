@@ -20,3 +20,7 @@ host, msg.umeng.com
 host-suffix, getui.com
 host-suffix, getui.net
 host-suffix, gepush.com
+host, crl3.digicert.com
+host, crl4.digicert.com
+host, ocsp.digicert.com
+host, ocsp.sectigo.com

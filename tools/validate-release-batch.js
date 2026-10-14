@@ -3,14 +3,14 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { createReleaseBatch, checkReleaseBatch, writeExternalJson } = require('./lib/release-batch');
+const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson } = require('./lib/release-batch');
 
 function main(argv) {
   const options = { repoRoot: path.resolve(__dirname, '..') }; let check = false; let output; let receiptFile;
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--check') { check = true; continue; }
-    if (arg === '--help') { console.log('Release batch v1.0.0: [--repo-root DIR] [--baseline-ref HEAD] [--output ABSOLUTE_EXTERNAL_JSON]\nPost-stage: --check --receipt JSON [--mode staged|committed] [--baseline-ref REF]'); return; }
+    if (arg === '--help') { console.log(`Release batch v${VERSION}: [--repo-root DIR] [--baseline-ref HEAD] [--output ABSOLUTE_EXTERNAL_JSON]\nPost-stage: --check --receipt JSON [--mode staged|committed] [--baseline-ref REF]`); return; }
     const keys = { '--repo-root': 'repoRoot', '--baseline-ref': 'baselineRef', '--mode': 'mode' };
     if (keys[arg]) { if (!argv[i + 1] || argv[i + 1].startsWith('--')) throw new Error(`Missing value: ${arg}`); options[keys[arg]] = argv[++i]; }
     else if (arg === '--output' || arg === '--receipt') {

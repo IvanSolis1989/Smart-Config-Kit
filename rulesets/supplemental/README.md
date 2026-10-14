@@ -33,3 +33,7 @@ exceptions do not exempt other Anthropic subdomains or optional telemetry.
 Inline single rules in main product files are allowed only when the rule cannot
 be represented safely as a supplemental rule set, such as port rules, logical
 AND/OR/NOT rules, platform-local syntax traps, or documented engine gaps.
+
+## Routing audit CA and Microsoft mail exceptions
+
+The 2026-10-04 logged routing audit records shared certificate-status endpoints misclassified by Apple vendor keywords and Microsoft mail category collisions. Its source evidence is retained in [the historical audit](../../docs/research/2026-10-04-routing-priority-audit.md). The four exact hosts crl3.digicert.com, crl4.digicert.com, ocsp.digicert.com, and ocsp.sectigo.com use DIRECT; sibling CA hosts are not exempted. mail.live.com and the bounded outlook.live.com suffix retain the reviewed foreign-mail category. Registry records include positive and negative boundary examples; the regression named confirmed routing audit collisions retain their declared business policy also preserves game/Microsoft advertising rejection. These finite checks do not establish live traffic behavior.

@@ -15,6 +15,10 @@ domain_set:
   - "ccc.sys.miui.com"
   - "register.xmpush.xiaomi.com"
   - "msg.umeng.com"
+  - "crl3.digicert.com"
+  - "crl4.digicert.com"
+  - "ocsp.digicert.com"
+  - "ocsp.sectigo.com"
 domain_suffix_set:
   - "account.xiaomi.com"
   - "passport.xiaomi.com"
