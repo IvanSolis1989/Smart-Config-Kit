@@ -7,8 +7,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        > 🤖 这类 issue 打上 `question` 标签后，**Xiaomi MiMo（首轮 `mimo-v2.6-flash`）会在 1 分钟内自动给一版参考答案**，之后维护者再人工跟进。
-        > 评论区输入 `/ai-help` 会升级到 `mimo-v2.6-pro` 深度分析。自动回复需要仓库维护者配置 `MIMO_API_KEY`；Token Plan 可在 GitHub Actions Variables 配置 `MIMO_BASE_URL` 为控制台提供的完整 base URL，未配置时使用标准端点。
+        > 🤖 这类 issue 打上 `question` 标签后，Xiaomi MiMo（首轮 `mimo-v2.6-flash`）会尝试给出参考分析；服务过滤或调用失败时会明确提示等待维护者人工处理。
+        > 维护者或协作者在评论区输入 `/ai-help` 会升级到 `mimo-v2.6-pro` 深度分析。自动回复需要 `MIMO_API_KEY`；`MIMO_BASE_URL` 默认使用 Token Plan 中国端点，按量付费 key 需显式设置标准端点。配置与排障见仓库 `docs/ai-issue-responder.md`。
         >
         > 为了让 AI 和维护者都能快速命中问题，请尽量把下面的字段填全。**信息越具体，答案越准。**
 

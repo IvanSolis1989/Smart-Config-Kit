@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-16 Issue 自动回复诊断与过滤处理
+
+- AUTOMATION：按任务选择 MiMo 上下文，将完整维护契约与用户报告分属 developer/user 消息；无完整编辑目标时仅分析，过滤或截断禁止补丁。#186 分析和文档补丁已真实验收，新增离线回归及独立 CI，详见[自动回复维护说明](./docs/ai-issue-responder.md)和[实测收据](./docs/research/2026-10-16-mimo-issue-responder-acceptance.md)；客户端规则及版本保持原有基线。
+
 ## v6.0.19 — JS fake-ip 继承与 CRLF 同步修复 (2026-10-16)
 
 - Smart/Normal/FlClash 仅继承缺省或 `blacklist` 模式的合法 fake-ip 豁免项，防止 `whitelist` / `rule` 语义反转；修复同步器丢失 CRLF 的 CR，并补齐模式与字节精确换行回归。详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)和 [FlClash 日志](./FlClash/CHANGELOG.md)。

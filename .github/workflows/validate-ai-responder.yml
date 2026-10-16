@@ -1,0 +1,34 @@
+name: Validate AI Issue Responder
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/validate-ai-responder.yml'
+      - 'tools/*ai-issue*.js'
+      - 'tools/lib/ai-issue-*.js'
+      - 'tools/tests/ai-issue-*.test.js'
+      - 'tools/tests/ai-responder-workflow.test.js'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/validate-ai-responder.yml'
+      - 'tools/*ai-issue*.js'
+      - 'tools/lib/ai-issue-*.js'
+      - 'tools/tests/ai-issue-*.test.js'
+      - 'tools/tests/ai-responder-workflow.test.js'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test context selection and provider response handling (offline)
+        run: node --test tools/tests/ai-issue-*.test.js tools/tests/ai-responder-workflow.test.js

@@ -7,7 +7,7 @@ name: AI Issue Auto-Responder (Xiaomi MiMo)
 #   1. Issue 被打上（或创建时自带）任一标签：
 #        question / faq / help wanted / bug / enhancement / documentation
 #      —— 对应 .github/ISSUE_TEMPLATE 里 4 个模板各自的 labels 字段
-#   2. 任何人在 issue 评论区写 "/ai-help"
+#   2. 仓库维护者/协作者在 issue 评论区写 "/ai-help"
 #
 # 分层调用策略（Xiaomi MiMo 双模型 + 代码修改权限）：
 #   ┌──────────────────────┬───────────────┬──────────┬──────────┬──────────┐
@@ -34,13 +34,15 @@ name: AI Issue Auto-Responder (Xiaomi MiMo)
 #   • permissions 给 issues:write + contents:write + pull-requests:write
 #   • system prompt 区分「只分析」和「可改代码」两种模式
 #   • 不改代码的模式下仍禁止 diff/patch
+#   • 内容过滤 / 拒答 / 截断均禁止补丁；仅传输或限流故障有限重试
+#   • 上下文按问题选取，完整文件清单之外的文件禁止重写
 #   • timeout 15 分钟硬上限
 #
 # 需要配置的 secret / variable：
 #   Settings → Secrets and variables → Actions
 #     Secret:   MIMO_API_KEY
 #     Value:    Xiaomi MiMo 控制台生成的 API key（标准或 Token Plan，不能混用）
-#     Variable: MIMO_BASE_URL（可选；Token Plan 填控制台提供的完整 base URL）
+#     Variable: MIMO_BASE_URL（可选；当前默认 Token Plan 中国端点，标准 key 须显式配置标准端点）
 #     Secret:   TAVILY_API_KEY
 #     Value: https://app.tavily.com/home 生成（免费 1000 次/月；可选，不配则跳过联网搜索）
 # ═══════════════════════════════════════════════════════════════════════════
@@ -88,74 +90,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Build AI context
-        env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-        run: |
-          # ── 1. 基础上下文（仓库文档）──
-          {
-            echo "===== AGENTS.md（仓库维护与代理协作契约）====="
-            head -260 AGENTS.md 2>/dev/null || echo "(AGENTS.md not found)"
-            echo
-            echo "===== 根 README.md 节选（前 150 行）====="
-            head -150 README.md 2>/dev/null || echo "(README.md not found)"
-          } > /tmp/context.txt
-
-          # ── 2. 从 issue 标题+正文探测关联的软件文件夹 ──
-          #    转小写后做关键词匹配（优先匹配更具体的名称）
-          FOLDER=""
-          TEXT_LOWER=$(echo "${ISSUE_TITLE} ${ISSUE_BODY}" | tr '[:upper:]' '[:lower:]' | head -c 2000)
-
-          case "$TEXT_LOWER" in
-            *passwall2*|*pw2*)                        FOLDER="Passwall2" ;;
-            *passwall*|pw\ *|*\ pw\ *)               FOLDER="Passwall" ;;
-            *quantumult\ x*|*quantumultx*|qx\ *|*\ qx\ *) FOLDER="Quantumult X" ;;
-            *shadowrocket*|sr\ *|*\ sr\ *)            FOLDER="Shadowrocket" ;;
-            *stash*)                                FOLDER="Stash" ;;
-            *openclash*)                           FOLDER="OpenClash" ;;
-            *singbox*|*sing-box*)                  FOLDER="SingBox" ;;
-            *v2rayn*|*v2ray*)                      FOLDER="v2rayN" ;;
-            *clash\ party*|*clashparty*)            FOLDER="Clash Party" ;;
-            *cmfa*|*clash\ meta*)                  FOLDER="Clash Meta For Android" ;;
-            *surge*)                               FOLDER="Surge" ;;
-            *loon*)                                FOLDER="Loon" ;;
-          esac
-
-          # ── 3. 若命中，把文件夹内所有文件追加到 context ──
-          if [ -n "$FOLDER" ] && [ -d "$FOLDER" ]; then
-            echo "📁 Issue 关联: ${FOLDER}"
-            {
-              echo ""
-              echo "===== 关联文件夹：${FOLDER} ====="
-              find "$FOLDER" -maxdepth 1 -type f | sort | while IFS= read -r f; do
-                LINE_COUNT=$(wc -l < "$f")
-                echo ""
-                echo "--- $(basename "$f")（${LINE_COUNT} 行）---"
-                cat "$f"
-              done
-            } >> /tmp/context.txt
-          else
-            echo "📁 未匹配到关联文件夹，仅使用基础上下文"
-          fi
-
-          # ── 4. tools/ 目录下如果有同名脚本也带上 ─────────
-          #    例如 SingBox 的生成器或各平台验证脚本
-          if [ -n "$FOLDER" ] && [ -d tools ]; then
-            TOOL_FILES=$(find tools -maxdepth 1 -type f \( -iname "*${FOLDER}*" -o -iname "*${FOLDER% *}*" \) 2>/dev/null || true)
-            if [ -n "$TOOL_FILES" ]; then
-              echo "$TOOL_FILES" | while IFS= read -r tf; do
-                echo "📎 关联工具: ${tf}"
-                {
-                  echo ""
-                  echo "--- tools/$(basename "$tf") ---"
-                  cat "$tf"
-                } >> /tmp/context.txt
-              done
-            fi
-          fi
-
-          echo "✅ context built: $(wc -l < /tmp/context.txt) lines, $(wc -c < /tmp/context.txt) bytes"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       # ── 步骤 1：判定 issue 类别 + 选择模型 / thinking / 代码修改权限 ─
       - name: Determine category & model
@@ -267,6 +205,13 @@ jobs:
           echo "curl_timeout=${CURL_TIMEOUT}"   >> "$GITHUB_OUTPUT"
           echo "ai_help_count=${AI_HELP_COUNT}" >> "$GITHUB_OUTPUT"
 
+      - name: Build bounded AI context
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          CODE_MOD: ${{ steps.tier.outputs.code_mod }}
+        run: node tools/build-ai-issue-context.js --output /tmp/context.txt
       # ── 步骤 2.5：Tavily 联网搜索 ──────────────────────────
       - name: Search web for context (Tavily)
         if: steps.tier.outputs.category != 'documentation'
@@ -298,7 +243,7 @@ jobs:
             question)    QUERY="${QUERY} clash mihomo setup guide" ;;
           esac
 
-          echo "🔍 Tavily search: ${QUERY:0:150}..."
+          echo "🔍 Tavily search requested (query omitted from logs)"
 
           RESPONSE=$(curl -s --max-time 15 https://api.tavily.com/search \
             -H "Content-Type: application/json" \
@@ -311,7 +256,7 @@ jobs:
           {
             echo ""
             echo "===== 联网搜索结果（Tavily）====="
-            echo "$RESPONSE" | jq -r '.results[] | "来源: \(.url)\n标题: \(.title)\n内容: \(.content)\n---"' 2>/dev/null || echo "(搜索无结果或 Tavily 调用出错)"
+            echo "$RESPONSE" | jq -r '.results[] | "来源: \(.url)\n标题: \(.title)\n内容: \(.content[:1000])\n---"' 2>/dev/null || echo "(搜索无结果或 Tavily 调用出错)"
           } >> /tmp/context.txt
 
           RESULTS_COUNT=$(echo "$RESPONSE" | jq '.results | length' 2>/dev/null || echo "0")
@@ -336,236 +281,13 @@ jobs:
           CURL_TIMEOUT: ${{ steps.tier.outputs.curl_timeout }}
           CATEGORY: ${{ steps.tier.outputs.category }}
           AI_HELP_COUNT: ${{ steps.tier.outputs.ai_help_count }}
-        run: |
-          if [ -z "${MIMO_API_KEY}" ]; then
-            echo "⚠️  MIMO_API_KEY secret 未配置，跳过 MiMo AI 调用" >&2
-            echo "skipped=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          BASE_URL="${MIMO_BASE_URL:-https://token-plan-cn.xiaomimimo.com/v1}"
-          BASE_URL="${BASE_URL%/}"
-          API_ENDPOINT="${BASE_URL}/chat/completions"
-
-          echo "🎯 Model: ${MODEL} / Thinking: ${THINKING} / CodeMod: ${CODE_MOD} / Timeout: ${CURL_TIMEOUT}s"
-
-          # ── 构建 system prompt → 写入文件（防 ARG_MAX 溢出）───
-          cat > /tmp/sys_prompt.txt <<'PROMPT_BASE'
-          你是 Smart-Config-Kit（科学上网分流配置仓库）的 issue 初筛助手。
-
-          【仓库定位】
-          以 Clash Party JS 覆写脚本为基线，同步产出 13 份客户端等价配置：
-          CMFA YAML / Stash YAML / OpenClash Normal+Smart / Shadowrocket / SingBox Full /
-          Surge / Loon / Quantumult X / v2rayN / Passwall / Passwall2 / FlClash。
-          架构核心：33 业务组 × 22 区域组（11 全部 + 11 家宽）+ 多源 rule-providers + LightGBM 智能选路。
-          仓库维护契约见 AGENTS.md（每次改动必须全版本联动）。
-
-          【你的角色】
-          维护者人工处理前的**初步分析**层。4 种 issue 类型都会路由到你：
-
-          1. ❓ question（使用问题）
-             → 正面回答：配置导入 / 语法 / 安装步骤 / FAQ / 规则解释 / 协议兼容性 /
-               DNS / 平台差异。有把握就直接给答案。
-
-          2. 🐛 bug（用户报告的疑似 bug）
-             → 先判断"到底是不是 bug"：对照 AGENTS.md 的设计约束、README 使用说明、
-               对应子目录 CHANGELOG.md、其他客户端同组产物的行为，四类结论：
-               A. 明显不是 bug（用户理解偏差 / 配置没按 README 走 / 依赖版本不够）
-                  → 礼貌指出实际行为是设计如此，引用文档路径
-               B. 可能是 bug，有已知线索 → 说出可能的根因方向（例如 rule-provider
-                  URL 变更、某字段在新版内核 deprecated、跨产物不一致）供维护者验证
-               C. 可能是 bug 但信息不足 → 列出还需要用户补充的信息
-               D. 明显是 bug → 确认现象，定位到具体文件/行号，**给出代码修改**（见下方代码修改模式）。
-
-          3. ✨ enhancement（功能/规则建议）
-             → 对照 README "🎯 差异化价值" 的 4 类加法原则做初步可行性评估：
-                ① 新兴服务（geosite 未收录） / ② 拆 geosite 总类 /
-                ③ 广告多源互补 / ④ 地区长尾 ASN
-               如果建议和 geosite 某分类 > 95% 重叠 → 指出"可能被拒绝"并解释原因。
-               如果落在 4 类之一 → 给出肯定评估，**可直接实现**（见下方代码修改模式）。
-
-          4. 📝 documentation（文档反馈）
-             → 定位对应文件（根 README.md / AGENTS.md / 各子目录 README.md
-               或 CHANGELOG.md），判断描述与现状是否一致：
-                - 确实过时 / 错字 / 链接 404 → 说明哪里错、应该是什么，**直接修改**
-                - 描述其实正确但用户读懂有歧义 → 解释正确含义
-
-          5. 💬 /ai-help 评论召唤 → 针对评论上下文答，不要重复整个 issue 分析
-
-          【引用文档】
-          精确路径，别泛指："AGENTS.md" /
-          "Clash Party/ClashParty(mihomo-smart).js" / "OpenClash/CHANGELOG.md" /
-          "SingBox/README.md §2a" 之类。
-
-          【硬规则 — 必须遵守】
-          - ❌ 不承诺 "下个版本会加 / 会被采纳 / 会修"——你没有任何决策权。
-          - ❌ 安全漏洞 → 只提醒 "请用 GitHub Security Advisory 私下报告，不要公开"；
-             不讨论利用细节。
-          - ❌ 不确定的事直接说"不确定，等维护者确认"，不要编造文档路径或字段名。
-          - ❌ 不推荐具体机场 / VPN 服务商 / 付费订阅。
-          - ❌ 不泄露或讨论 API key / secrets / CI 配置细节。
-          - ❌ 不说"你好我是 AI"这种套话；中文回复，直奔主题。
-
-          【调用分层 — 用户消息会带标签】
-          用户消息顶部会出现 `[TIER: FIRST]` 或 `[TIER: FOLLOWUP]`：
-          - `FIRST`  → 首次触发（issue 刚打标签）
-             → 第一行用「🤖 AI 初步分析（<类型>）」
-          - `FOLLOWUP` → 用户 `/ai-help` 追问
-             → 第一行用「🤖 AI 深度分析（<类型> · 追问）」，并**正面回应评论里的追问焦点**，
-               别重复首轮讲过的内容
-          PROMPT_BASE
-
-          # ── 代码修改模式追加指令 ──────────────────────────
-          if [ "${CODE_MOD}" = "true" ]; then
-            cat >> /tmp/sys_prompt.txt <<'PROMPT_CODE_MOD'
-
-          【代码修改模式 — 已激活】
-          你有代码修改权限。当你判断需要修改代码时，按以下格式输出响应：
-
-          <!-- AI_REPLY -->
-          （你的文本回复——分析、解释、方案说明。和普通回复一样，中文 markdown。）
-          <!-- /AI_REPLY -->
-
-          <!-- AI_PATCH:relative/path/to/file.ext -->
-          （文件的完整新内容——不是 diff，是整个文件重写后的内容）
-          <!-- /AI_PATCH -->
-
-          （可重复多个 AI_PATCH 块，每个文件一个块）
-
-          <!-- AI_PR -->
-          （PR 标题，一行，简短）
-          |
-          （PR 正文，可以多行，markdown 格式。说明改动内容、原因、影响面。）
-          <!-- /AI_PR -->
-
-          **重要规则：**
-          - 如果你判断**不需要修改代码**（例如 bug 其实不是 bug、功能建议不可行），
-            **只输出 <!-- AI_REPLY --> 块**，不要输出 AI_PATCH 和 AI_PR 块。
-          - **只有在你确认需要改代码时才输出完整的三段结构。**
-          - AI_PATCH 里的路径必须是仓库内真实相对路径，不能是绝对路径，不能包含 `..`、反斜杠或 `.git`，内容必须是完整的文件内容（不是 diff）。
-          - 修 bug / 加功能时，**必须遵循 AGENTS.md §1 全版本联动规则**——
-            先改 rulesets/source/routing-graph.js 权威源，再按规定生成链同步所有受影响的产物文件。
-            **所有需要改动的文件都要各自一个 AI_PATCH 块。**
-          - 修文档时只改对应的 README.md / CHANGELOG.md。
-          - AI_PR 标题和正文用中文，PR 正文列出影响面和每个修改的文件。
-          - 文本回复（AI_REPLY）里**不要**重复贴代码块——代码修改全部放到 AI_PATCH 里，
-            workflow 会自动提取并创建 PR。回复里只需说明分析结论 + 引用 PR 链接占位符。
-          PROMPT_CODE_MOD
-          fi
-
-          # ── 无代码修改模式追加指令 ──────────────────────────
-          if [ "${CODE_MOD}" != "true" ]; then
-            cat >> /tmp/sys_prompt.txt <<'PROMPT_NO_CODE'
-
-          【无代码修改权限】
-          - ❌ **不要给具体代码修改 / diff / patch**——就算你已判断出根因，
-             也只说"可能在哪一层"，不提"把 X 改成 Y"。代码决策 100% 留给维护者。
-          - 回复里不要出现 AI_PATCH 或 AI_PR 标记。
-          PROMPT_NO_CODE
-          fi
-
-          # ── 回复结构（按代码修改权限区分）─────────────────
-          if [ "${CODE_MOD}" = "true" ]; then
-            cat >> /tmp/sys_prompt.txt <<'PROMPT_STRUCTURE_CODE'
-
-          【回复结构】
-          - **第一行**按分层规则写类型标签（使用问题 / 疑似 bug → 需维护者确认 /
-            功能建议 → 4 类加法原则评估 / 文档反馈）
-          - 中间：分析内容（短问题 1-3 段；复杂问题用小标题 / 表格 / 代码块）
-          - **倒数第二段**必须包含这句硬提示（原文复制，不要改措辞）：
-             > ⚠️ **我有代码分析和 PR 创建权限，但最终合并 / 采纳决定权在维护者**。
-             > 以上分析和代码修改仅供参考，**最终合并 / 关闭请等维护者人工处理**。
-          - 末尾**不要**再自己签名——workflow 会自动补 Model / Workflow / PR 链接元信息。
-          PROMPT_STRUCTURE_CODE
-          else
-            cat >> /tmp/sys_prompt.txt <<'PROMPT_STRUCTURE_NOCODE'
-
-          【回复结构】
-          - **第一行**按分层规则写类型标签（使用问题 / 疑似 bug → 需维护者确认 /
-            功能建议 → 4 类加法原则评估 / 文档反馈）
-          - 中间：分析内容（短问题 1-3 段；复杂问题用小标题 / 表格 / 代码块）
-          - **倒数第二段**必须包含这句硬提示（原文复制，不要改措辞）：
-             > ⚠️ **我只做初步分析，没有代码修改 / PR 合并 / 关闭 issue 的权限**。
-             > 以上分析仅供参考，**最终修复 / 采纳 / 关闭请等维护者人工处理**。
-          - 末尾**不要**再自己签名——workflow 会自动补 Model / Workflow 元信息。
-          PROMPT_STRUCTURE_NOCODE
-          fi
-
-          # ── 拼 API 请求 JSON → 写入文件（防 ARG_MAX 溢出）───
-          jq -n \
-            --arg model   "$MODEL" \
-            --rawfile sys /tmp/sys_prompt.txt \
-            --arg tier    "$TIER_MARK" \
-            --arg title   "$ISSUE_TITLE" \
-            --arg body    "$ISSUE_BODY" \
-            --arg comment "$COMMENT_BODY" \
-            --arg thinking "$THINKING" \
-            --rawfile ctx /tmp/context.txt \
-            '{
-              model: $model,
-              messages: [
-                { role: "system", content: $sys },
-                { role: "user",   content: (
-                    "[TIER: " + $tier + "]\n\n"
-                  + "# 仓库文档上下文\n\n" + $ctx
-                  + "\n\n---\n\n# Issue 内容\n\n## 标题\n" + $title + "\n\n## 正文\n" + $body
-                  + ( if $comment != "" then "\n\n---\n\n# 用户追问评论\n\n" + $comment else "" end )
-                ) }
-              ],
-              thinking: { type: $thinking },
-              max_completion_tokens: (if $thinking == "enabled" then 4096 else 1500 end),
-              stream: false
-            }' > /tmp/req_body.json
-
-          RESPONSE=$(curl -s --max-time "$CURL_TIMEOUT" "$API_ENDPOINT" \
-            -H "api-key: $MIMO_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d @/tmp/req_body.json)
-
-          RAW_REPLY=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
-          if [ -z "$RAW_REPLY" ]; then
-            ERR=$(echo "$RESPONSE" | jq -r '.error.message // "未知错误"')
-            RAW_REPLY="⚠️ MiMo AI 调用失败：${ERR}（请等维护者人工回复）"
-            echo "has_patch=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          # ── 提取 AI_REPLY 文本（去掉 AI_PATCH / AI_PR 标记）─
-          # 先检测是否有 AI_REPLY 标记；如果有就只取标记内内容，否则全文当回复
-          if echo "$RAW_REPLY" | grep -q '<!-- AI_REPLY -->'; then
-            CLEAN_REPLY=$(echo "$RAW_REPLY" | sed -n '/<!-- AI_REPLY -->/,/<!-- \/AI_REPLY -->/p' | sed '1d;$d')
-          else
-            # 无标记 → 全文作为回复，清理可能残留的结构标记行
-            CLEAN_REPLY=$(echo "$RAW_REPLY" | sed '/<!-- AI_PATCH:/,/<!-- \/AI_PATCH -->/d' | sed '/<!-- AI_PR -->/,/<!-- \/AI_PR -->/d')
-          fi
-          if [ -z "$CLEAN_REPLY" ]; then
-            CLEAN_REPLY="$RAW_REPLY"
-          fi
-
-          # ── 检测是否有补丁 ─────────────────────────────────
-          if echo "$RAW_REPLY" | grep -q '<!-- AI_PATCH:'; then
-            echo "has_patch=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_patch=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          # ── 写回 GITHUB_OUTPUT ──────────────────────────────
-          {
-            echo "reply<<REPLYEOF"
-            echo "$CLEAN_REPLY"
-            echo "REPLYEOF"
-          } >> "$GITHUB_OUTPUT"
-          {
-            echo "raw_response<<RAWEOF"
-            echo "$RAW_REPLY"
-            echo "RAWEOF"
-          } >> "$GITHUB_OUTPUT"
+        run: node tools/respond-ai-issue.js
 
       # ── 步骤 3：提取代码修改 + 创建 PR ─────────────────────
       - name: Apply code changes & create PR
         id: pr
-        if: steps.tier.outputs.code_mod == 'true' && steps.llm.outputs.has_patch == 'true'
+        if: steps.llm.outputs.status == 'ok' && steps.tier.outputs.code_mod == 'true' && steps.llm.outputs.has_patch == 'true'
         env:
-          RAW_RESPONSE: ${{ steps.llm.outputs.raw_response }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPO: ${{ github.repository }}
           GH_TOKEN: ${{ github.token }}
@@ -583,10 +305,10 @@ jobs:
           # ── 提取并应用 AI_PATCH 块 ────────────────────────
           # 格式：<!-- AI_PATCH:path/to/file --> ... <!-- /AI_PATCH -->
           PATCH_COUNT=0
-          printf '%s' "$RAW_RESPONSE" > /tmp/ai_response.txt
 
           # 用 Python 提取每个 patch 块，并在写入前验证路径仍在仓库内。
           python3 <<'PY' | tee /tmp/patch_apply.log
+          import json
           import re
           import sys
           import os
@@ -603,8 +325,16 @@ jobs:
           root = Path.cwd().resolve()
           text = Path('/tmp/ai_response.txt').read_text(encoding='utf-8')
           pattern = re.compile(r'<!--\s*AI_PATCH:([^>\n]+?)\s*-->\s*\n(.*?)\n?<!--\s*/AI_PATCH\s*-->', re.S)
+          result = json.loads(Path('/tmp/ai-result.json').read_text(encoding='utf-8'))
+          if result.get('status') != 'ok' or not result.get('hasPatch'):
+              raise SystemExit('No complete, accepted AI patch response')
+          patchable = set(result.get('patchableFiles', []))
           patches = pattern.findall(text)
           if not patches:
+              print('PATCH_COUNT=0')
+              sys.exit(0)
+          if any(raw_path.strip() not in patchable for raw_path, _ in patches):
+              print('Skipped patch set: at least one file was not supplied in full')
               print('PATCH_COUNT=0')
               sys.exit(0)
 
@@ -700,7 +430,9 @@ jobs:
           # ── 提交并推送 ────────────────────────────────────
           # D11-03: 精确暂存，仅添加 AI_PATCH 实际写入的文件
           if [ -s /tmp/modified_files.txt ]; then
-            xargs -a /tmp/modified_files.txt git add
+            while IFS= read -r file; do
+              git add -- "$file"
+            done < /tmp/modified_files.txt
           else
             echo "⚠️ modified_files.txt 为空，跳过 git add"
           fi
@@ -725,24 +457,27 @@ jobs:
         if: steps.llm.outputs.skipped != 'true'
         uses: actions/github-script@v7
         env:
-          AI_REPLY: ${{ steps.llm.outputs.reply }}
           AI_MODEL: ${{ steps.tier.outputs.model }}
           AI_TIER: ${{ steps.tier.outputs.tier_label }}
           CODE_MOD: ${{ steps.tier.outputs.code_mod }}
           PR_URL: ${{ steps.pr.outputs.pr_url }}
         with:
           script: |
-            const aiReply = process.env.AI_REPLY || '(AI 回复为空，请等维护者人工回复)';
+            const result = JSON.parse(require('fs').readFileSync('/tmp/ai-result.json', 'utf8'));
+            const aiReply = result.reply;
             const model   = process.env.AI_MODEL || 'mimo-v2.6-flash';
-            const tier    = process.env.AI_TIER  || 'AI 自动回复';
-            const codeMod = process.env.CODE_MOD || 'false';
+            const codeMod = result.codeModAllowed ? 'true' : 'false';
+            const configuredTier = process.env.AI_TIER || 'AI 自动回复';
+            const tier = codeMod === 'true' ? configuredTier : configuredTier.replace(/可改代码|可改文档/g, '只分析');
             const prUrl   = process.env.PR_URL   || '';
 
             // ── 构建 footer ──────────────────────────────────
             const footerLines = [
               '---',
             ];
-            if (prUrl) {
+            if (result.status !== 'ok') {
+              footerLines.push(`<sub>Model: ${model} · Status: ${result.status} · 本次分析未完成，等待维护者人工处理</sub>`);
+            } else if (prUrl) {
               footerLines.push(
                 `<sub>Model: \`${model}\` · Tier: ${tier} · 🔗 PR: ${prUrl} · Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 自动生成，最终处理请等维护者 @ivansolis1989</sub>`
               );
@@ -789,3 +524,9 @@ jobs:
               issue_number: context.issue.number,
               body: commentBody
             });
+
+      - name: Mark incomplete AI analysis
+        if: steps.llm.outputs.status != '' && steps.llm.outputs.status != 'ok'
+        run: |
+          echo '::error::MiMo analysis did not complete. See the provider status in the job summary; no patch was applied.'
+          exit 1
