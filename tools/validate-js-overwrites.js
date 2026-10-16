@@ -322,8 +322,8 @@ function makeFixtureConfig() {
       },
     },
     dns: {
-      // Regression fixture for Issue #182: a client may feed back a legacy rule-mode
-      // entry while the overwrite later replaces the source rule-providers.
+      // A source rule-mode list must not become a blacklist: even ordinary-looking
+      // domain entries have different semantics after the overwrite changes mode.
       'fake-ip-filter-mode': 'rule',
       'fake-ip-filter': [
         '+.lan',
@@ -752,8 +752,8 @@ function validateGeneral(output, record) {
   record.expect(Array.isArray(output.dns.nameserver) && output.dns.nameserver.length > 0, 'DNS nameserver fallback is nonempty');
   const fakeIpFilter = Array.isArray(output.dns['fake-ip-filter']) ? output.dns['fake-ip-filter'] : [];
   record.expect(fakeIpFilter.includes('+.rustdesk.com'), 'RustDesk domains receive real IP in fake-ip-filter');
-  record.expect(fakeIpFilter.includes('geosite:cn'), 'valid built-in geosite filter entries are preserved');
-  record.expect(fakeIpFilter.includes('+.fixture.local'), 'valid custom domain filter entries are trimmed and preserved');
+  record.expect(!fakeIpFilter.includes('geosite:cn'), 'source rule-mode geosite entry is not reinterpreted as a blacklist exemption');
+  record.expect(!fakeIpFilter.includes('+.fixture.local'), 'source rule-mode domain is not reinterpreted as a blacklist exemption');
   record.expect(!fakeIpFilter.includes('rule-set:cn domain'), 'Issue #182 legacy rule-set entry is removed');
   record.expect(!fakeIpFilter.some((entry) => /^(?:rule-set:|RULE-SET,)/i.test(String(entry))), 'source rule-set references are not carried into the rebuilt provider graph');
   for (const entry of ['+.msftconnecttest.com', '+.msftncsi.com', '+.in-addr.arpa', '+.ip6.arpa']) {
@@ -797,6 +797,61 @@ function validateClashPartyDnsGuardBoundary(target, logs, record) {
     }
   } else {
     record.expect(!/Clash Party v2\.0\.3\+ DNS guard detected/.test(logText), 'FlClash does not claim the Clash Party-only DNS guard');
+  }
+}
+
+function validateFakeIpFilterInheritance(api, record) {
+  const baselineFixture = makeFixtureConfig();
+  delete baselineFixture.dns['fake-ip-filter-mode'];
+  delete baselineFixture.dns['fake-ip-filter'];
+  const baselineOutput = api.main(baselineFixture);
+  const baseline = Array.from(baselineOutput.dns['fake-ip-filter'] || []);
+  record.expect(baseline.includes('+.lan') && baseline.includes('+.rustdesk.com'), 'clean-source fake-ip filter retains repository real-IP exemptions');
+
+  const inheritedEntries = ['+.inherit.fixture.test', 'custom.fixture.test', '*.wildcard.fixture.test', 'geosite:cn', '*'];
+  const rejectedEntries = ['bad domain.fixture.test', 'rule-set:cn domain', 'rule-set:legacy-provider',
+    'RULE-SET,legacy-provider,real-ip', 'GEOSITE,cn,real-ip', 'DOMAIN-SUFFIX,fixture.test,real-ip'];
+  const cases = [
+    { label: 'omitted', inherit: true },
+    { label: 'blacklist', mode: 'blacklist', inherit: true },
+    { label: 'normalized blacklist', mode: '  BlAcKlIsT  ', inherit: true },
+    { label: 'whitelist', mode: 'whitelist', inherit: false },
+    { label: 'normalized whitelist', mode: '  WhItElIsT  ', inherit: false },
+    { label: 'rule', mode: 'rule', inherit: false },
+    { label: 'normalized rule', mode: '  RuLe  ', inherit: false },
+    { label: 'unknown', mode: 'future-mode', inherit: false },
+    { label: 'empty', mode: '', inherit: false },
+    { label: 'blank', mode: '   ', inherit: false },
+    { label: 'null', mode: null, inherit: false },
+    { label: 'number', mode: 1, inherit: false },
+    { label: 'boolean', mode: false, inherit: false },
+    { label: 'object', mode: { value: 'blacklist' }, inherit: false },
+    { label: 'array', mode: ['blacklist'], inherit: false },
+  ];
+
+  for (const scenario of cases) {
+    const fixture = makeFixtureConfig();
+    delete fixture.dns['fake-ip-filter-mode'];
+    if (Object.prototype.hasOwnProperty.call(scenario, 'mode')) fixture.dns['fake-ip-filter-mode'] = scenario.mode;
+    fixture.dns['fake-ip-filter'] = [
+      inheritedEntries[0], '  custom.fixture.test  ', ...inheritedEntries.slice(2),
+      inheritedEntries[0], '+.lan', ...rejectedEntries, null, 42, {}, [],
+    ];
+    const output = api.main(fixture);
+    record.expectEqual(output.dns['fake-ip-filter-mode'], 'blacklist', `${scenario.label}: emitted fake-ip mode is blacklist`);
+    const filter = Array.isArray(output.dns['fake-ip-filter']) ? Array.from(output.dns['fake-ip-filter']) : [];
+    record.expectArrayEqual(filter.filter((entry) => baseline.includes(entry)), baseline, `${scenario.label}: repository fake-ip exemptions remain intact`);
+    record.expectEqual(new Set(filter).size, filter.length, `${scenario.label}: fake-ip exemptions contain no duplicates`);
+    if (scenario.inherit) {
+      for (const entry of inheritedEntries) record.expect(filter.includes(entry), `${scenario.label}: inherits compatible source entry ${entry}`);
+    } else {
+      record.expectArrayEqual(filter.filter((entry) => !baseline.includes(entry)), [], `${scenario.label}: incompatible source list contributes no blacklist exemptions`);
+    }
+    for (const entry of rejectedEntries) record.expect(!filter.includes(entry), `${scenario.label}: excludes incompatible source entry ${entry}`);
+    record.expect(filter.every((entry) => typeof entry === 'string' && entry.length > 0 && entry.trim() === entry && !/\s/.test(entry)), `${scenario.label}: emitted fake-ip exemptions are nonempty trimmed strings without whitespace`);
+    const secondOutput = api.main(output);
+    record.expectEqual(secondOutput.dns['fake-ip-filter-mode'], 'blacklist', `${scenario.label}: repeated overwrite keeps blacklist mode`);
+    record.expectArrayEqual(Array.from(secondOutput.dns['fake-ip-filter'] || []), filter, `${scenario.label}: repeated overwrite keeps the same fake-ip exemptions`);
   }
 }
 
@@ -1080,6 +1135,7 @@ function runTarget(target, options) {
     validateRulesAndProviders(output, record, target);
     validateGeneral(output, record);
     validateClashPartyDnsGuardBoundary(target, logs, record);
+    validateFakeIpFilterInheritance(api, record);
     if (target.id === 'flclash') validateFlClashGeneral(output, record);
 
     const nodeDnsFixture = makeNodeDnsHintFixture();

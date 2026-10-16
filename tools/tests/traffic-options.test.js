@@ -7,6 +7,7 @@ const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 const test = require('node:test');
 const graph = require('../../rulesets/source/routing-graph.js');
+const { prepareUpdates, replaceMarked } = require('../sync-traffic-options.js');
 
 const root = path.resolve(__dirname, '../..');
 const targets = [
@@ -81,3 +82,76 @@ for (const [target, groupType] of targets) {
 test('embedded runtime is synchronized with the source graph', () => {
   execFileSync(process.execPath, ['tools/sync-traffic-options.js', '--check'], { cwd: root, stdio: 'pipe' });
 });
+
+for (const [label, eol] of [['LF', '\n'], ['CRLF', '\r\n']]) {
+  for (const [ending, suffix] of [
+    ['following line and final newline', eol + 'after' + eol],
+    ['blank lines and following text', eol + eol + 'after' + eol + eol],
+    ['following text without final newline', eol + 'after'],
+    ['closing marker at EOF', ''],
+  ]) {
+    test(`replaceMarked ${label}: preserves ${ending} byte for byte`, () => {
+      const begin = '// BEGIN';
+      const end = '// END';
+      const prefix = 'before' + eol;
+      const source = prefix + [begin, 'old body', end].join(eol) + suffix;
+      const block = [begin, 'new body', end].join(eol);
+      const expected = prefix + block + suffix;
+      const updated = replaceMarked(source, begin, end, block, 'fixture');
+      assert.deepEqual(Buffer.from(updated), Buffer.from(expected));
+      assert.deepEqual(Buffer.from(replaceMarked(updated, begin, end, block, 'fixture')), Buffer.from(updated));
+    });
+  }
+
+  function makeSources() {
+    const files = ['tools/runtime/traffic-options.js', ...targets.map(([file]) => file)];
+    return new Map(files.map(file => {
+      const filename = path.join(root, file);
+      // Derive platform-independent inputs; generated outputs are compared without normalization.
+      const input = fs.readFileSync(filename, 'utf8').replace(/\r\n/g, '\n').replace(/\n/g, eol);
+      return [filename, input];
+    }));
+  }
+
+  function readFrom(sources) {
+    return (filename, encoding) => {
+      assert.equal(encoding, 'utf8');
+      assert.ok(sources.has(filename), 'synchronizer reads only the runtime and three JS fixtures');
+      return sources.get(filename);
+    };
+  }
+
+  test(`prepareUpdates ${label}: synchronized runtime and three adapters need zero byte changes`, () => {
+    const sources = makeSources();
+    const updates = prepareUpdates(graph.getTrafficOptions(), readFrom(sources));
+    assert.equal(updates.length, sources.size);
+    for (const update of updates) {
+      assert.equal(update.original, sources.get(update.file));
+      assert.ok(update.original === update.updated, `${path.relative(root, update.file)} stays byte-identical`);
+    }
+  });
+
+  test(`prepareUpdates ${label}: full generation preserves line endings and is byte-stable`, () => {
+    const expected = makeSources();
+    const sources = new Map(Array.from(expected, ([filename, source]) => {
+      const stale = source.replace(/var HEALTH_CHECK_PROFILES = [^\r\n]+/, 'var HEALTH_CHECK_PROFILES = {};');
+      assert.notEqual(stale, source, 'fixture contains a stale health-check block');
+      return [filename, stale];
+    }));
+    const updates = prepareUpdates(graph.getTrafficOptions(), readFrom(sources));
+    assert.equal(updates.length, expected.size);
+    for (const update of updates) {
+      const file = path.relative(root, update.file);
+      assert.ok(update.original !== update.updated, `${file} receives the regenerated block`);
+      assert.doesNotMatch(update.updated, label === 'CRLF' ? /(?<!\r)\n|\r(?!\n)/ : /\r/, `${file} keeps ${label} throughout`);
+      assert.ok(update.updated === expected.get(update.file), `${file} regenerates the complete expected bytes`);
+    }
+    const synced = new Map(updates.map(update => [update.file, update.updated]));
+    const repeated = prepareUpdates(graph.getTrafficOptions(), readFrom(synced));
+    assert.equal(repeated.length, synced.size);
+    for (const update of repeated) {
+      assert.equal(update.original, synced.get(update.file));
+      assert.ok(update.original === update.updated, `${path.relative(root, update.file)} second generation changes zero bytes`);
+    }
+  });
+}

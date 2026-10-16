@@ -6,6 +6,10 @@
 
 ---
 
+## v6.0.19 — JS fake-ip 继承与 CRLF 同步修复 (2026-10-16)
+
+- Smart/Normal/FlClash 仅继承缺省或 `blacklist` 模式的合法 fake-ip 豁免项，防止 `whitelist` / `rule` 语义反转；修复同步器丢失 CRLF 的 CR，并补齐模式与字节精确换行回归。详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)和 [FlClash 日志](./FlClash/CHANGELOG.md)。
+
 ## v6.0.19 — 远程规则下载修复 (2026-10-15)
 
 - FIX#186：自有规则下载统一改用 GitHub raw，消除 jsDelivr 仓库大小门槛；复用规则载荷并同步全部客户端和下载验证。详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)与[诊断及下载说明](./docs/rule-asset-delivery.md)。

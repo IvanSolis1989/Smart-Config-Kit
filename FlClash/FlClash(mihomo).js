@@ -1,5 +1,5 @@
 // FlClash 覆写脚本 — 标准 Mihomo 内核动态分流版
-// 版本：v6.0.19-flclash.19 (2026-10-15)
+// 版本：v6.0.19-flclash.20 (2026-10-16)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.19（规则等价；区域组为 url-test — FlClash 内核为标准 Mihomo，不支持 smart + LightGBM）
 // 适用：FlClash >= v0.8.85（覆盖脚本功能自该版本引入）；其他使用标准 Mihomo 内核的客户端
@@ -34,7 +34,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.19-flclash.19'
+const VERSION = 'v6.0.19-flclash.20'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -1300,8 +1300,9 @@ function overwriteGeneral(config, nodeDnsHints) {
   // FIX#182：本覆写使用传统 blacklist 域名列表。Clash Party / 订阅可能带入
   // fake-ip-filter-mode: rule 或 `rule-set:cn domain` 这类旧项；同时 cleanupSubscription()
   // 会重建 rule-providers，继续保留源 rule-set 会留下悬空引用并阻断新内核校验。
+  // 先按源模式决定是否继承，避免 whitelist/rule 列表被解释为 blacklist。
+  var currentFakeIpFilter = sanitizeFakeIpFilterEntries(config.dns['fake-ip-filter'], config.dns['fake-ip-filter-mode'])
   config.dns['fake-ip-filter-mode'] = 'blacklist'
-  var currentFakeIpFilter = sanitizeFakeIpFilterEntries(config.dns['fake-ip-filter'])
   config.dns['fake-ip-filter'] = uniqList(currentFakeIpFilter.concat([
     '+.lan',
     '+.local',
@@ -1385,7 +1386,9 @@ function uniqList(list) {
   })
 }
 
-function sanitizeFakeIpFilterEntries(list) {
+function sanitizeFakeIpFilterEntries(list, mode) {
+  // 仅缺省或显式 blacklist 共享真实 IP 豁免语义；非法模式也不继承。
+  if (mode !== undefined && (typeof mode !== 'string' || mode.trim().toLowerCase() !== 'blacklist')) return []
   if (!Array.isArray(list)) return []
   return list.map(function(item) {
     return typeof item === 'string' ? item.trim() : ''

@@ -11,6 +11,7 @@
 > - 🛰️ JS 本地覆写提供默认关闭的 [ZeroTier 根节点 UDP 代理](./docs/zerotier-planet-proxy.md)，更新入口保留设备的明确选择，并提供真实 UDP 回包验收。
 > - 🔎 设计依据见 [GitHub 分流脚本横向研究](./docs/research/2026-09-30-github-routing-script-comparison.md)，包含按 star 排序的搜索快照、源码对比和采用边界。
 > - 🛡️ 分层 DoH 负责业务 DNS；支持订阅覆写的 Mihomo 入口只投影活动节点所需的 DNS 提示，静态端边界见 [DNS 指南](./docs/private-node-dns.md)。
+> - JS fake-ip 仅继承缺省或 `blacklist` 模式的合法豁免项；`whitelist`、`rule` 和非法模式的原列表不会转换成真实 IP 豁免。
 > - 📦 自有规则通过 GitHub raw 下载；网络前提与刷新步骤见[规则下载说明](./docs/rule-asset-delivery.md)。
 > - 📊 当前同步规模：source graph 525 providers / 984 rules → fused 149 providers / 168 rules；生成 Mihomo MRS 107 个，sing-box SRS 78 个，覆盖 81 个语义段。
 > - 🔄 GitHub Actions 自动重建、校验和发布产物，减少跨端配置漂移。

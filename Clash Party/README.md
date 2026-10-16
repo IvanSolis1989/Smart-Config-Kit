@@ -7,13 +7,15 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> JS fake-ip 列表继承：仅缺省或 `blacklist` 模式的合法条目会合并到仓库豁免列表；`whitelist`、`rule` 和非法模式的原列表会丢弃，最终统一输出 `blacklist`。
+
 > 受限网络下可在本地 JS 副本中选择默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)。只匹配四个根地址的 UDP/9993；本地更新入口保留该设备的明确开关，启用前需实测美国节点的 UDP 回包。
 
 > 目录简介：这里是 Mihomo Smart/Normal 覆写脚本的事实基线，面向 Clash Party、Clash Verge Rev、Mihomo Party 等桌面客户端。
 >
 > 覆写脚本：**两份二选一**，规则 100% 等价，仅 22 区域组（11 全部 + 11 家宽）的内核选路算法不同
-> - `ClashParty(mihomo-smart).js`（**v6.0.19-dns.17**，2026-10-15）— Smart 内核 + LightGBM ML 评估
-> - `ClashParty(mihomo).js`（**v6.0.19-normal.18**，2026-10-15）— 普通内核 url-test 延迟选路
+> - `ClashParty(mihomo-smart).js`（**v6.0.19-dns.18**，2026-10-16）— Smart 内核 + LightGBM ML 评估
+> - `ClashParty(mihomo).js`（**v6.0.19-normal.19**，2026-10-16）— 普通内核 url-test 延迟选路
 >
 > UI 补充配置：已整合到本文「四、粘贴 UI 补充配置」章节
 > 架构：**SUB-STORE 多机场融合** + 22 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + **149 融合 rule-providers / 168 rules**（源 525 providers / 984 rules）

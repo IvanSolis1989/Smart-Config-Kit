@@ -28,8 +28,11 @@ function replaceMarked(source, begin, end, block, label) {
   if (start < 0 || close < start || source.indexOf(begin, start + begin.length) >= 0 || source.indexOf(end, close + end.length) >= 0) {
     throw new Error(label + ': invalid synchronization markers');
   }
-  const after = source.indexOf('\n', close);
-  return source.slice(0, start) + block + source.slice(after < 0 ? source.length : after);
+  let after = source.indexOf('\n', close);
+  if (after < 0) after = source.length;
+  // Keep the full original line ending after the closing marker.
+  else if (source[after - 1] === '\r') after--;
+  return source.slice(0, start) + block + source.slice(after);
 }
 
 function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.readFileSync) {

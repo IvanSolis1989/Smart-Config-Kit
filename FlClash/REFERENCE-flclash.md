@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-16（上次 2026-10-15）：官方最新 [v0.9.0](https://github.com/chen08209/FlClash/releases/tag/v0.9.0) 将 DNS/NTP 覆盖开关调整为按键配置，并调整自定义配置界面。fake-ip 的 [Mihomo 模式定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode) 不变；本次只修复脚本执行时的列表继承，不新增内核字段。VM 验证不代替 v0.9.0 的界面或设备导入验收，实际选中的 DNS 键仍须检查最终配置。
+
 > 2026-10-15 URL 兼容性复核：FlClash 最终消费 Mihomo `rule-providers` 字段；[Mihomo 官方文档](https://wiki.metacubex.one/en/config/rule-providers/)对 `type: http` 的必需字段 `url` 给出 HTTPS raw URL 示例。本次仅更换自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 核对于 2026-10-14（上次 2026-10-12）：[官方 latest](https://github.com/chen08209/FlClash/releases/latest) 仍指向 v0.8.99。本次修复在 Node 同步/本地复制工具内保留可信 JS 布尔常量，手机端仍使用已有脚本语法与关联流程，默认 false；不增加内核字段或抬高 v0.8.85 最低要求。未代替手机设备验收。

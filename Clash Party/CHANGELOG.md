@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.19-dns.18 / v6.0.19-normal.19 (2026-10-16)
+
+- 先读取源 `fake-ip-filter-mode` 再输出 `blacklist`：仅继承缺省或归一化后为 `blacklist` 的列表；`whitelist`、`rule`、空值及非法模式的列表全部丢弃，保留仓库固定豁免。依据 [Mihomo 官方模式定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode)，避免把 fake IP 白名单反转为真实 IP 豁免。
+- Smart/Normal/FlClash 同步修复；现有 JS 合同入口增加模式矩阵、条目清洗、基线保留和重复运行回归，并纠正旧 rule fixture 的错误继承断言。
+- 修复 `tools/sync-traffic-options.js` 标记块替换丢失 Windows CRLF 中的 CR，保留原始 LF/CRLF、块外字节和末尾换行状态；增加块替换与 runtime/三端同步的字节精确回归，`--check` 继续严格比较完整内容。
+- fake-ip 影响仅为三份 JS 的订阅列表迁移；OpenClash 整段替换 DNS，其余客户端使用静态 DNS 或无此字段，不存在同构继承入口。源规则图、策略组、规则资产无需重生成。
+
 ## v6.0.19-dns.17 / v6.0.19-normal.18 (2026-10-15)
 
 - FIX#186：自有远程规则资产统一使用 GitHub raw HTTPS，避开 jsDelivr 仓库大小门槛；保留版本查询参数与原生格式。
