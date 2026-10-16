@@ -1,4 +1,4 @@
-# SingBox 使用教程（对齐 Clash Party v6.0.19 Full 语义）
+# SingBox 使用教程（对齐 Clash Party v6.0.20 Full 语义）
 
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
@@ -7,9 +7,11 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里维护 sing-box Full JSON 生成脚本、生成产物和 Hiddify/HomeProxy 等 sing-box 客户端导入教程。
 >
-> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.19-sing.8；Build 2026-10-15；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 编译为 78 个 SRS，覆盖 81 个源语义段，生成资产使用发布版本缓存键）
+> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.20-sing.9；Build 2026-10-16；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 编译为 78 个 SRS，覆盖 81 个源语义段，生成资产使用发布版本缓存键）
 > 生成脚本：`SingBox/SingBox(sing-box)-generator.js`
 > 目标：在 **sing-box** 上复刻 Clash Party 的「20 区域组（10 全部 + 10 家宽）+ 33 业务组」静态策略结构，并只使用 sing-box 官方可消费的 SRS 规则集，保持 sing-box 1.12/1.13/1.14 官方配置兼容。
 > 本目录只提供 Full 配置。

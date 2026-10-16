@@ -11,9 +11,9 @@ const {
 
 test('the exception ledger covers the current four payloads and source graph order', () => {
   const report = validateAdfpExceptions();
-  assert.equal(report.total_records, 35);
+  assert.equal(report.total_records, 38);
   assert.deepEqual(report.coverage, {
-    'scki-adfp-direct': 26,
+    'scki-adfp-direct': 29,
     'scki-adfp-intl-site': 3,
     'scki-adfp-payments': 1,
     'scki-adfp-ai': 5,

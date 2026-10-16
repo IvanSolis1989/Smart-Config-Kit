@@ -5,7 +5,7 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.19';
+const SOURCE_GRAPH_VERSION = 'v6.0.20';
 // Client-facing repository assets use raw GitHub: jsDelivr's repository
 // package-size limit can reject even a small, existing individual rule file.
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';

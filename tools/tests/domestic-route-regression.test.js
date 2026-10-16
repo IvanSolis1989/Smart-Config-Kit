@@ -34,6 +34,11 @@ const WECHAT_HTTPDNS_DIRECT_HOSTS = [
   'dns.weixin.qq.com',
   'dns.weixin.qq.com.cn',
 ];
+const WECHAT_CONNECTION_DIRECT_HOSTS = [
+  'szlong.weixin.qq.com',
+  'hklong.weixin.qq.com',
+  'hkshort.weixin.qq.com',
+];
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(REPO_ROOT, relativePath), 'utf8');
@@ -341,5 +346,38 @@ test('WeChat HTTPDNS endpoints bypass generic BlockHttpDNS rejection through the
       provider: `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}-domain`,
       policy: DIRECT,
     });
+  }
+});
+
+for (const host of WECHAT_CONNECTION_DIRECT_HOSTS) {
+  for (const [label, processFields] of [
+    ['desktop process', { processName: 'Weixin.exe' }],
+    ['without process metadata', {}],
+  ]) {
+    test(`WeChat connection endpoint ${host} reaches the early direct guard ${label}`, () => {
+      const route = firstMatch(SEMANTICS, {
+        host, network: 'tcp', destinationPort: 443, ...processFields,
+      });
+      assert.equal(route.status, 'match', `${host} must have a decidable first match ${label}`);
+      assert.equal(route.policy, DIRECT, `${host} must reach DIRECT independently of process discovery`);
+      assert.equal(route.hit.provider, `${CONTRACT_SEGMENTS['scki-fused-001-direct']}-domain`);
+      assert.deepEqual(firstDomainRoute(host), {
+        provider: `${CONTRACT_SEGMENTS['scki-fused-001-direct']}-domain`,
+        policy: DIRECT,
+      });
+    });
+  }
+}
+
+test('WeChat connection exceptions preserve sibling ad rejection and do not exempt the parent or child domains', () => {
+  for (const host of ['ad.weixin.qq.com', 'log.weixin.qq.com']) {
+    const route = firstMatch(SEMANTICS, {
+      host, network: 'tcp', destinationPort: 443, processName: 'Weixin.exe',
+    });
+    assert.equal(route.status, 'match');
+    assert.equal(route.policy, '🛑 广告拦截', `${host} must retain its existing ad/privacy rejection`);
+  }
+  for (const host of ['weixin.qq.com', ...WECHAT_CONNECTION_DIRECT_HOSTS.map(host => `child.${host}`)]) {
+    assert.equal(firstDomainRoute(host)?.policy, CN_SITE, `${host} must retain the domestic policy outside the exact exceptions`);
   }
 });

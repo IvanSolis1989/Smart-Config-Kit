@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.20 — 微信连接端点精确例外 (2026-10-16)
+
+- Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](./docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)。
+- 文档：补充 [Windows 11 Microsoft Store 排障](./docs/microsoft-store-windows.md)，区分本机代理回环入口与图片 CDN 出口，保留机器和网络适用边界。
+
 ## 2026-10-16 Issue 自动回复诊断与过滤处理
 
 - AUTOMATION：按任务选择 MiMo 上下文，将完整维护契约与用户报告分属 developer/user 消息；无完整编辑目标时仅分析，过滤或截断禁止补丁。#186 分析和文档补丁已真实验收，新增离线回归及独立 CI，详见[自动回复维护说明](./docs/ai-issue-responder.md)和[实测收据](./docs/research/2026-10-16-mimo-issue-responder-acceptance.md)；客户端规则及版本保持原有基线。

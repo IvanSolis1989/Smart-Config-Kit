@@ -7,8 +7,10 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里提供 Stash 专用 YAML 产物。`Stash.yaml` 由 `tools/generate-stash-from-cmfa.js` 从 CMFA 自动裁剪生成，不手工维护。
-> 当前版本：**v6.0.19-stash.11**（Build 2026-10-15，跟随 Clash Party v6.0.19 / CMFA v6.0.19-cmfa.11；149 个融合 rule-providers / 168 条主规则）。
+> 当前版本：**v6.0.20-stash.12**（Build 2026-10-16，跟随 Clash Party v6.0.20 / CMFA v6.0.20-cmfa.12；149 个融合 rule-providers / 168 条主规则）。
 
 ## 文件
 

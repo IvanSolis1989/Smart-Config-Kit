@@ -3,6 +3,10 @@ DOMAIN,login.nvidia.cn
 ## WeChat HTTPDNS endpoints must remain reachable before generic BlockHttpDNS rejection.
 DOMAIN,dns.weixin.qq.com
 DOMAIN,dns.weixin.qq.com.cn
+## WeChat connection endpoints: exact DIRECT before the ad-list false positives (Issue #187).
+DOMAIN,szlong.weixin.qq.com
+DOMAIN,hklong.weixin.qq.com
+DOMAIN,hkshort.weixin.qq.com
 ## NetEase game-service endpoints: exact DIRECT before generic NetEase game routing.
 DOMAIN,drpf-g10.proxima.nie.netease.com
 DOMAIN,sigma-performance-g10.proxima.nie.netease.com

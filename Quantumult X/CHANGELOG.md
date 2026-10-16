@@ -6,6 +6,12 @@
 
 ---
 
+## v6.0.20-QX.10 (2026-10-16)
+
+- Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。
+- 不扩大到父域或子域，`ad.weixin.qq.com`、`log.weixin.qq.com` 保持广告拒绝；不改变其他策略或规则顺序。
+- 依据与有限静态验收范围见[微信连接复查](../docs/research/2026-10-16-wechat-issue-187.md)；报告者设备是否恢复仍待实际复测。
+
 ## v6.0.19-QX.9 (2026-10-15)
 
 - FIX#186：自有远程规则资产统一使用 GitHub raw HTTPS，避开 jsDelivr 仓库大小门槛；保留版本查询参数与原生格式。

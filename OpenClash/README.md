@@ -7,8 +7,10 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里提供 OpenWrt OpenClash 的 Smart/Normal 覆写脚本、UI 配置快照和部署排障说明。
-> 当前版本：**v6.0.19-oc-normal.13 / v6.0.19-oc-smart.13**（Build 2026-10-15，跟随 source graph v6.0.19；149 融合 rule-providers / 168 rules；融合规则缓存按发布版本隔离）。
+> 当前版本：**v6.0.20-oc-normal.14 / v6.0.20-oc-smart.14**（Build 2026-10-16，跟随 source graph v6.0.20；149 融合 rule-providers / 168 rules；融合规则缓存按发布版本隔离）。
 >
 > 本目录提供「同规则量、不同内核能力」的两份覆写脚本，外加一份 OpenClash UI 配置快照（`.conf`）。
 >

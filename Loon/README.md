@@ -1,4 +1,4 @@
-# Loon 使用教程（对齐 Clash Party v6.0.19）
+# Loon 使用教程（对齐 Clash Party v6.0.20）
 
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
@@ -7,10 +7,12 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里维护 Loon iOS 配置和使用教程，按 Loon 原生语法对齐 Clash Party 分流策略。
 >
 > 配置文件：`Loon/Loon.conf`
-> 版本：**v6.0.19-Loon.8**（Build 2026-10-15；跟随 Clash Party v6.0.19 基线；81 个源语义段对应 77 个非空远程规则）
+> 版本：**v6.0.20-Loon.9**（Build 2026-10-16；跟随 Clash Party v6.0.20 基线；81 个源语义段对应 77 个非空远程规则）
 > 目标：**Loon iOS（App Store 付费正版）**
 > 架构：22 区域 url-test 组（11 全部 + 11 家宽，[Remote Filter] NameRegex）+ 33 业务策略组 + 77 个非空融合 [Remote Rule]
 
@@ -257,7 +259,7 @@ Parsec / Zoom / Pornhub / Wayback）：
 
 ## 九、验证
 
-1. Loon → **首页** → 应显示 `Loon Smart v6.0.19-Loon.8`，协议已启用。
+1. Loon → **首页** → 应显示 `Loon Smart v6.0.20-Loon.9`，协议已启用。
 2. **策略组** 面板应出现 55 组（22 区域 + 33 业务）。
 3. **过滤器** 面板应出现 9 个 Filter（GLOBAL_Filter / HK_Filter / TW_Filter / JPKR_Filter / APAC_Filter / US_Filter / EU_Filter / AM_Filter / AF_Filter）。
 4. 测试分流：

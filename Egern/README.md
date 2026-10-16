@@ -7,9 +7,11 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
-> 版本：**v6.0.19-egern.9**（Build 2026-10-15；正式跟随 Clash Party v6.0.19 / CMFA v6.0.19-cmfa.11 融合规则顺序；本次生成 140 个 Egern 原生 YAML 资产，使用发布版本缓存键）
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
 
-本次 CMFA 默认测速 `lazy` 设置仅更新 Egern 生成清单的来源元数据哈希；Egern `smart` 组继续按原生自适应方式探测。
+> 版本：**v6.0.20-egern.10**（Build 2026-10-16；正式跟随 Clash Party v6.0.20 / CMFA v6.0.20-cmfa.12 融合规则顺序；当前 140 个 Egern 原生 YAML 资产，使用发布版本缓存键）
+
+CMFA 测速参数通过 Egern 生成清单记录来源；Egern `smart` 组按原生自适应方式探测。
 
 ## 定位
 

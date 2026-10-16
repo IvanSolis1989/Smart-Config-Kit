@@ -7,6 +7,8 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > JS fake-ip 列表继承：仅缺省或 `blacklist` 模式的合法条目会合并到仓库豁免列表；`whitelist`、`rule` 和非法模式的原列表会丢弃，最终统一输出 `blacklist`。
 
 > 本地 JS 副本也提供默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)，与 Clash Party 共用运行时；本地更新入口保留设备开关，普通手机订阅继续使用关闭的默认值。
@@ -16,7 +18,7 @@
 > 覆写脚本：`FlClash(mihomo).js`
 > 适用客户端：**FlClash**（Android / Windows / macOS / Linux）
 > 内核要求：FlClash >= **v0.8.85**
-> 当前版本：**v6.0.19-flclash.20**（Build 2026-10-16；22 url-test 区域组 + 33 业务策略组 + 149 融合 rule-providers / 168 rules）
+> 当前版本：**v6.0.20-flclash.21**（Build 2026-10-16；22 url-test 区域组 + 33 业务策略组 + 149 融合 rule-providers / 168 rules）
 >
 > 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号会自动进入区域组；不对普通小写词做宽泛国家码匹配。
 
@@ -98,6 +100,8 @@
 - 「DNS 劫持」：开启；「路由模式」选择「使用配置」。
 - 「DNS 覆写」：关闭；保留脚本 DNS 的 `prefer-h3: false`、`ipv6: false`。
 - 「追加系统 DNS」：关闭（备份字段 `networkProps.appendSystemDns`）。它独立于 DNS 覆写，开启后仍会向最终 `nameserver` 加入 `system://`。
+
+需要按包名排除微信时，使用客户端现有的应用访问控制排除名单；被排除应用的连接与 DNS 不再进入 Mihomo，也不会命中仓库规则。
 
 应用访问控制有两种不同用法，请保留自己需要的那一种：
 

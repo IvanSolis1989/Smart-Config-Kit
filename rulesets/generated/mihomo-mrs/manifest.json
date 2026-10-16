@@ -15946,13 +15946,13 @@
       "source_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/adfp-direct.list",
       "source_entry_count": 26,
       "type_counts": {
-        "domain": 26
+        "domain": 29
       },
       "generated": [
         {
           "behavior": "domain",
           "file": "scki-adfp-direct.mrs",
-          "entries": 26,
+          "entries": 29,
           "output_receipt": {
             "schema_version": 1,
             "requested_url": null,
@@ -15963,8 +15963,8 @@
             "verification": "content-sha256",
             "content_normalization": "raw-bytes",
             "content": {
-              "sha256": "8dcfecc996bf5e5529e33ee7cd946269488d01719f69ebfabb627d007d2411e5",
-              "bytes": 348
+              "sha256": "940a8bda33182199c0f7f608e3af90f4a9e82779fe091f7ae160e9ff237fa00b",
+              "bytes": 364
             },
             "source": {
               "id": "repository-local",
@@ -15995,8 +15995,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "d65f77cec6f77d9c189a8e900ee12adeeda090ce7dcee7604f4abfa68cfa7eb7",
-          "bytes": 1072
+          "sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716",
+          "bytes": 1251
         },
         "source": {
           "id": "scki",

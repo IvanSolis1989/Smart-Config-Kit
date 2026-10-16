@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.19",
-  "registry_sha256": "3f04d380348e29a6f4b972c4fb884dd38aa23477944b9f462e16eff1729b3e61",
-  "total_records": 35,
+  "source_graph_version": "v6.0.20",
+  "registry_sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
+  "total_records": 38,
   "coverage": {
-    "scki-adfp-direct": 26,
+    "scki-adfp-direct": 29,
     "scki-adfp-intl-site": 3,
     "scki-adfp-payments": 1,
     "scki-adfp-ai": 5
@@ -19,15 +19,15 @@
   "scope": "Registered payload coverage, matching boundaries and static early first-match probes; no live-client claim.",
   "registry": {
     "path": "rulesets/source/adfp-exceptions.json",
-    "sha256": "3f04d380348e29a6f4b972c4fb884dd38aa23477944b9f462e16eff1729b3e61",
-    "bytes": 35848,
+    "sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
+    "bytes": 39351,
     "text_normalization": "LF"
   },
   "payloads": [
     {
       "path": "rulesets/supplemental/clash/adfp-direct.list",
-      "sha256": "d65f77cec6f77d9c189a8e900ee12adeeda090ce7dcee7604f4abfa68cfa7eb7",
-      "bytes": 1072,
+      "sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716",
+      "bytes": 1251,
       "text_normalization": "LF"
     },
     {
@@ -279,6 +279,21 @@
       "host": "child.outlook.live.com",
       "expected_policy": "🌐 国外网站",
       "exception_id": "routing-audit-outlook-live-com"
+    },
+    {
+      "host": "szlong.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-szlong"
+    },
+    {
+      "host": "hklong.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-hklong"
+    },
+    {
+      "host": "hkshort.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-hkshort"
     }
   ],
   "ordered_positive_probes": [
@@ -1062,6 +1077,57 @@
         "index": 1,
         "policy": "🌐 国外网站",
         "provider": "scki-fused-002-intl-site-domain"
+      }
+    },
+    {
+      "host": "szlong.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-szlong",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "DIRECT",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
+        "entry": "DOMAIN,szlong.weixin.qq.com",
+        "entryIndex": 26,
+        "index": 0,
+        "policy": "DIRECT",
+        "provider": "scki-fused-001-direct-domain"
+      }
+    },
+    {
+      "host": "hklong.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-hklong",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "DIRECT",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
+        "entry": "DOMAIN,hklong.weixin.qq.com",
+        "entryIndex": 27,
+        "index": 0,
+        "policy": "DIRECT",
+        "provider": "scki-fused-001-direct-domain"
+      }
+    },
+    {
+      "host": "hkshort.weixin.qq.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "wechat-connection-hkshort",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "DIRECT",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
+        "entry": "DOMAIN,hkshort.weixin.qq.com",
+        "entryIndex": 28,
+        "index": 0,
+        "policy": "DIRECT",
+        "provider": "scki-fused-001-direct-domain"
       }
     }
   ]

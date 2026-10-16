@@ -24,3 +24,6 @@ host, crl3.digicert.com
 host, crl4.digicert.com
 host, ocsp.digicert.com
 host, ocsp.sectigo.com
+host, szlong.weixin.qq.com
+host, hklong.weixin.qq.com
+host, hkshort.weixin.qq.com

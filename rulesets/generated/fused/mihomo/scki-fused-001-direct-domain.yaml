@@ -25,3 +25,6 @@ payload:
   - "crl4.digicert.com"
   - "ocsp.digicert.com"
   - "ocsp.sectigo.com"
+  - "szlong.weixin.qq.com"
+  - "hklong.weixin.qq.com"
+  - "hkshort.weixin.qq.com"

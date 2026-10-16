@@ -1009,6 +1009,102 @@
         "negative_examples_match": false,
         "positive_examples_match": true
       }
+    },
+    {
+      "id": "wechat-connection-szlong",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,szlong.weixin.qq.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Tencent WeChat service discovery lists this exact connection endpoint. The frozen HaGeZi Ultimate payload rejects it before Windows process rules. This exact pre-ad guard fixes the reproduced static collision; reporter-side recovery remains unverified.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "WeChat connection endpoint exceptions",
+          "level": "static"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "reaches the early direct guard",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "szlong.weixin.qq.com"
+      ],
+      "negative_examples": [
+        "child.szlong.weixin.qq.com",
+        "szlong.weixin.qq.com.example",
+        "other.weixin.qq.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "wechat-connection-hklong",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,hklong.weixin.qq.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Tencent WeChat service discovery lists this exact connection endpoint. The frozen HaGeZi Ultimate payload rejects it before Windows process rules. This exact pre-ad guard fixes the reproduced static collision; reporter-side recovery remains unverified.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "WeChat connection endpoint exceptions",
+          "level": "static"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "reaches the early direct guard",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "hklong.weixin.qq.com"
+      ],
+      "negative_examples": [
+        "child.hklong.weixin.qq.com",
+        "hklong.weixin.qq.com.example",
+        "other.weixin.qq.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "wechat-connection-hkshort",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,hkshort.weixin.qq.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Tencent WeChat service discovery lists this exact connection endpoint. The frozen HaGeZi Ultimate payload rejects it before Windows process rules. This exact pre-ad guard fixes the reproduced static collision; reporter-side recovery remains unverified.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "WeChat connection endpoint exceptions",
+          "level": "static"
+        },
+        {
+          "path": "tools/tests/domestic-route-regression.test.js",
+          "anchor": "reaches the early direct guard",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "hkshort.weixin.qq.com"
+      ],
+      "negative_examples": [
+        "child.hkshort.weixin.qq.com",
+        "hkshort.weixin.qq.com.example",
+        "other.weixin.qq.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
     }
   ]
 }

@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.20-dns.19 / v6.0.20-normal.20 (2026-10-16)
+
+- Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。
+- 不扩大到父域或子域，`ad.weixin.qq.com`、`log.weixin.qq.com` 保持广告拒绝；不改变其他策略或规则顺序。
+- 依据与有限静态验收范围见[微信连接复查](../docs/research/2026-10-16-wechat-issue-187.md)；报告者设备是否恢复仍待实际复测。
+- 文档：增加 Windows 11 Microsoft Store 排障入口及说明，分别验证 AppContainer 本机回环入口和图片 CDN 的实际出站，不据单机结果改变微软组默认策略。
+
 ## v6.0.19-dns.18 / v6.0.19-normal.19 (2026-10-16)
 
 - 先读取源 `fake-ip-filter-mode` 再输出 `blacklist`：仅继承缺省或归一化后为 `blacklist` 的列表；`whitelist`、`rule`、空值及非法模式的列表全部丢弃，保留仓库固定豁免。依据 [Mihomo 官方模式定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode)，避免把 fake IP 白名单反转为真实 IP 豁免。

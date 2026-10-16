@@ -24,3 +24,6 @@ DOMAIN,crl3.digicert.com
 DOMAIN,crl4.digicert.com
 DOMAIN,ocsp.digicert.com
 DOMAIN,ocsp.sectigo.com
+DOMAIN,szlong.weixin.qq.com
+DOMAIN,hklong.weixin.qq.com
+DOMAIN,hkshort.weixin.qq.com

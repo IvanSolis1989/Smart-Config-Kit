@@ -1,4 +1,4 @@
-# Passwall 使用教程（对齐 Clash Party v6.0.19）
+# Passwall 使用教程（对齐 Clash Party v6.0.20）
 
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
@@ -7,9 +7,11 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里提供 Passwall 全功能版的 fused shunt rule fallback、UCI 批量脚本和 OpenWrt 导入说明。
 >
-> 版本：**v6.0.19-pw.8**（Build 2026-10-15；基线：Clash Party v6.0.19；78 个 SRS 资产使用发布版本缓存键）。
+> 版本：**v6.0.20-pw.9**（Build 2026-10-16；基线：Clash Party v6.0.20；78 个 SRS 资产使用发布版本缓存键）。
 
 ---
 

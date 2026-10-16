@@ -11,6 +11,8 @@ domain_set:
   - "dns.weixin.qq.com.cn"
   - "drpf-g10.proxima.nie.netease.com"
   - "flash.sec.miui.com"
+  - "hklong.weixin.qq.com"
+  - "hkshort.weixin.qq.com"
   - "i.mi.com"
   - "idm.api.io.mi.com"
   - "login.nvidia.cn"
@@ -20,6 +22,7 @@ domain_set:
   - "ocsp.sectigo.com"
   - "register.xmpush.xiaomi.com"
   - "sigma-performance-g10.proxima.nie.netease.com"
+  - "szlong.weixin.qq.com"
 domain_suffix_set:
   - "account.xiaomi.com"
   - "gepush.com"

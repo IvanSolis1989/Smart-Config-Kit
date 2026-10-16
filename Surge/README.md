@@ -1,4 +1,4 @@
-# Surge 使用教程（对齐 Clash Party v6.0.19）
+# Surge 使用教程（对齐 Clash Party v6.0.20）
 
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
@@ -7,10 +7,12 @@
 
 > 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
 
+> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+
 > 目录简介：这里维护 Surge iOS/macOS 配置和导入教程，按 Surge 语法对齐 Clash Party 分流策略。
 >
 > 配置文件：`Surge/Surge.conf`
-> 版本：**v6.0.19-Surge.9**（Build 2026-10-15；跟随 Clash Party v6.0.19 基线；81 个源语义段对应 78 个非空远程 RULE-SET）
+> 版本：**v6.0.20-Surge.10**（Build 2026-10-16；跟随 Clash Party v6.0.20 基线；81 个源语义段对应 78 个非空远程 RULE-SET）
 > 目标：**Surge 5 / Surge Mac**（付费正版；iOS + macOS 通用）
 > 架构：22 区域 url-test 组（11 全部 + 11 家宽，include-all-proxies + policy-regex-filter 自动按地区聚合）+ 33 业务策略组 + 78 个非空融合 RULE-SET（受聚合预算门禁）
 > 节点命名兼容：policy-regex-filter 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写地区码加编号的名称。
