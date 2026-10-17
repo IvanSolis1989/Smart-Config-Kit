@@ -1,5 +1,35 @@
 # OpenClash 使用说明（Smart / Normal 双版本）
 
+## 📥 规则下载链接
+
+[![下载规则：Smart SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Smart%20SH-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo-smart%29.sh)
+[![下载规则：Normal SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Normal%20SH-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.sh)
+[![下载规则：UI CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-UI%20CONF-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.conf)
+
+点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+
+**Smart SH 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo-smart%29.sh
+```
+
+**Normal SH 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.sh
+```
+
+**UI CONF 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.conf
+```
+
+Smart 与 Normal 覆写脚本二选一，UI CONF 为配套 UCI 配置快照；按下文分别上传到对应入口。
+
+---
+
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
 

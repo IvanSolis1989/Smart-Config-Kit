@@ -1,5 +1,28 @@
 # FlClash 使用教程 — 覆写脚本版
 
+## 📥 规则下载链接
+
+[![下载规则：FlClash JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-FlClash%20JS-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/FlClash/FlClash%28mihomo%29.js)
+[![下载规则：备选 CMFA YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-%E5%A4%87%E9%80%89%20CMFA%20YAML-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+
+点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+
+**FlClash JS 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/FlClash/FlClash%28mihomo%29.js
+```
+
+**备选 CMFA YAML 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml
+```
+
+推荐下载 JS 覆写脚本，创建后关联到节点订阅；备选 YAML 的导入方法见 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)。
+
+---
+
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
 

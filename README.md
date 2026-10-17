@@ -1,5 +1,7 @@
 # 🚀 Smart-Config-Kit v6.0.20
 
+**📥 [规则下载链接：直达各 APP 下载按钮](#-规则下载链接)**
+
 > 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
 >
 > - 🧭 同一 source graph 经 `MRS -> fused -> 原生产物` 生成各端配置，统一规则顺序与分流目标。
@@ -20,6 +22,31 @@
 > ⚠️ Mihomo 内核由本人实测，其他内核请自行验证后使用
 
 <sub>💖 [支持本项目](./docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues) · 🤖 [自动回复说明](./docs/ai-issue-responder.md)</sub>
+
+---
+
+## 📥 规则下载链接
+
+**找到自己的 APP，点击绿色或蓝色按钮即可打开真实配置／覆写脚本。** 所有按钮均直接指向 `raw.githubusercontent.com` 上的 `main` 分支原始文件。右键按钮选择“复制链接地址”，即可取得可粘贴到 APP 的完整 URL；各端教程顶部也提供可直接复制的直链代码框。
+
+| APP / 客户端 | 原始文件下载 | 导入教程 |
+| --- | --- | --- |
+| Clash Party / Clash Verge Rev / Mihomo Party | [![下载规则：Smart JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Smart%20JS-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![下载规则：Normal JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Normal%20JS-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo%29.js) | [使用说明](./Clash%20Party/README.md) |
+| CMFA / ClashMi | [![下载规则：CMFA YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-CMFA%20YAML-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) | [使用说明](./Clash%20Meta%20For%20Android/README.md) |
+| Stash | [![下载规则：Stash YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Stash%20YAML-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Stash/Stash.yaml) | [使用说明](./Stash/README.md) |
+| OpenClash | [![下载规则：Smart SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Smart%20SH-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo-smart%29.sh) [![下载规则：Normal SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Normal%20SH-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.sh) [![下载规则：UI CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-UI%20CONF-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/OpenClash/OpenClash%28mihomo%29.conf) | [使用说明](./OpenClash/README.md) |
+| Shadowrocket | [![下载规则：Shadowrocket CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Shadowrocket%20CONF-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Shadowrocket/Shadowrocket.conf) | [使用说明](./Shadowrocket/README.md) |
+| sing-box / Hiddify / HomeProxy | [![下载规则：sing-box JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-sing--box%20JSON-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json) | [使用说明](./SingBox/README.md) |
+| v2rayN | [![下载规则：mihomo YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-mihomo%20YAML-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![下载规则：sing-box JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-sing--box%20JSON-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json) [![下载规则：Xray 路由 JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Xray%20%E8%B7%AF%E7%94%B1%20JSON-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/v2rayN/v2rayN%28xray%29.json) | [使用说明](./v2rayN/README.md) |
+| Surge | [![下载规则：Surge CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Surge%20CONF-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Surge/Surge.conf) | [使用说明](./Surge/README.md) |
+| Loon | [![下载规则：Loon CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Loon%20CONF-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Loon/Loon.conf) | [使用说明](./Loon/README.md) |
+| Quantumult X | [![下载规则：Quantumult X CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Quantumult%20X%20CONF-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Quantumult%20X/QuantumultX.conf) | [使用说明](./Quantumult%20X/README.md) |
+| Egern | [![下载规则：Egern YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Egern%20YAML-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Egern/Egern.yaml) | [使用说明](./Egern/README.md) |
+| Passwall | [![下载规则：Passwall SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Passwall%20SH-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh) | [使用说明](./Passwall/README.md) |
+| Passwall2 | [![下载规则：Passwall2 SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Passwall2%20SH-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh) | [使用说明](./Passwall2/README.md) |
+| FlClash | [![下载规则：FlClash JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-FlClash%20JS-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/FlClash/FlClash%28mihomo%29.js) [![下载规则：备选 CMFA YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-%E5%A4%87%E9%80%89%20CMFA%20YAML-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) | [使用说明](./FlClash/README.md) |
+
+Clash Party / FlClash 的 JS 需要关联到节点订阅；OpenClash 的 SH 与 UI CONF 按教程上传；Passwall / Passwall2 的 SH 在路由器上通过 SSH 执行。v2rayN 请按当前核心选择文件，Xray JSON 用于路由设置导入。
 
 ---
 

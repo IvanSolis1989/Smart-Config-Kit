@@ -1,5 +1,21 @@
 # Shadowrocket（小火箭）使用教程
 
+## 📥 规则下载链接
+
+[![下载规则：Shadowrocket CONF](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Shadowrocket%20CONF-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Shadowrocket/Shadowrocket.conf)
+
+点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+
+**Shadowrocket CONF 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Shadowrocket/Shadowrocket.conf
+```
+
+复制直链到 Shadowrocket 的配置下载入口，节点订阅按下文添加。
+
+---
+
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
 

@@ -1,5 +1,28 @@
 # Clash Party / Clash Verge / Mihomo Party 使用教程
 
+## 📥 规则下载链接
+
+[![下载规则：Smart JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Smart%20JS-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo-smart%29.js)
+[![下载规则：Normal JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Normal%20JS-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo%29.js)
+
+点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+
+**Smart JS 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo-smart%29.js
+```
+
+**Normal JS 直链：**
+
+```text
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Party/ClashParty%28mihomo%29.js
+```
+
+Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚本，按下文关联到节点订阅。
+
+---
+
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
 
