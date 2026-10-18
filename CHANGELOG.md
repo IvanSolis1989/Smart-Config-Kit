@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.6.0
+
+- 本机通信改为隐藏 iframe，移除可见中转标签，并补充后台恢复与打包闭包验收；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+
 ## 2026-10-18 — Sub-Store 独立网页管理别名模块 v1.0.0
 
 - 为已审查 Worker 增加独立授权的完整管理前缀，保留旧入口与扩展受限入口；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物。

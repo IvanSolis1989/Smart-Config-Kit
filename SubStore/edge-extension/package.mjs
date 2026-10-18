@@ -71,7 +71,7 @@ function showFile(ref, relative) {
 
 function textOf(buffer) { return buffer.toString('utf8'); }
 
-function referencedFiles(relative, contents) {
+export function referencedFiles(relative, contents) {
   const text = textOf(contents);
   const refs = [];
   const matches = relative.endsWith('.html')
@@ -82,6 +82,19 @@ function referencedFiles(relative, contents) {
   for (const match of matches) {
     const specifier = match[2];
     refs.push(relative.endsWith('.html') ? rootTarget(specifier) : relativeTarget(relative, specifier));
+  }
+  if (/\b(?:chrome|api)\.offscreen\.createDocument\s*\(/.test(text)) {
+    const constants = new Map();
+    for (const match of text.matchAll(/\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(['"])([^'"]+)\2/g)) {
+      constants.set(match[1], match[3]);
+    }
+    for (const call of text.matchAll(/\b(?:chrome|api)\.offscreen\.createDocument\s*\(\s*\{([\s\S]*?)\}\s*\)/g)) {
+      const urlMatch = call[1].match(/\burl\s*:\s*(?:(['"])([^'"]+)\1|([A-Za-z_$][\w$]*))/);
+      if (!urlMatch) fail(`Cannot statically resolve chrome.offscreen.createDocument URL in ${relative}`);
+      const url = urlMatch[2] ?? constants.get(urlMatch[3]);
+      if (!url) fail(`Cannot resolve offscreen document URL variable ${urlMatch[3]} in ${relative}`);
+      refs.push(rootTarget(url));
+    }
   }
   return refs;
 }
@@ -197,7 +210,9 @@ async function main() {
   if (outExists) console.log(`Backups: ${backupRoot}`);
 }
 
-main().catch((error) => {
-  console.error(`package: ${error.message}`);
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`package: ${error.message}`);
+    process.exitCode = 1;
+  });
+}

@@ -1,4 +1,4 @@
-// Local Sub-Store transport v1.0.0 — 2026-10-18. Local-only extension source.
+// Hidden local Sub-Store iframe transport v1.6.0 — 2026-10-18.
 // ISOLATED world: the browser supplies the frontend Origin naturally.
 (() => {
   'use strict';
@@ -6,7 +6,8 @@
   const MAX_BODY = 4 * 1024 * 1024;
   const TIMEOUT_MS = 23000;
   const INSTALLED = '__sckiSubstoreLocalTransportV1';
-  if (window.top !== window || Object.prototype.hasOwnProperty.call(window, INSTALLED)) return;
+  const extensionOrigin = 'chrome-extension://' + chrome.runtime.id;
+  if (window.top === window || window.location.ancestorOrigins?.[0] !== extensionOrigin || Object.prototype.hasOwnProperty.call(window, INSTALLED)) return;
   try {
     const page = new URL(window.location.origin);
     if (page.protocol !== 'http:' || page.hostname !== '127.0.0.1' || page.origin !== window.location.origin) return;
@@ -31,11 +32,6 @@
       const url = new URL(value);
       return ['http:', 'https:'].includes(url.protocol) && Boolean(url.hostname) && !url.username && !url.password;
     } catch { return false; }
-  }
-
-  function trustedSender(sender) {
-    return Boolean(sender && sender.id === chrome.runtime.id && !sender.tab &&
-      (sender.url === undefined || sender.url === chrome.runtime.getURL('background.js')));
   }
 
   function requestFrom(message) {
@@ -105,8 +101,8 @@
       timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
       const response = await fetch(request.url, {
         method: request.method, credentials: 'omit', redirect: 'error', cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        ...(request.body === undefined ? {} : { body: request.body }),
+        signal: controller.signal,
+        ...(request.body === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: request.body }),
       });
       return { ok: true, status: response.status, contentType: response.headers.get('content-type') || '', bodyText: await bodyText(response) };
     } catch (error) {
@@ -117,10 +113,23 @@
     }
   }
 
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (!trustedSender(sender) || !message || !['LOCAL_TRANSPORT_PING', 'LOCAL_BACKEND_REQUEST'].includes(message.type)) return false;
-    const reply = result => { try { sendResponse(result); } catch {} };
-    execute(message).then(reply, () => reply({ ok: false, code: 'backend_unavailable' }));
-    return true;
+  let bound = false;
+  window.addEventListener('message', event => {
+    const config = event.data;
+    if (bound || event.source !== window.parent || event.origin !== extensionOrigin || config?.type !== 'BIND_LOCAL_OFFSCREEN' ||
+        !/^[a-f0-9]{64}$/.test(config.nonce)) return;
+    try {
+      if (localOrigin(config.frontendUrl, 'invalid') !== window.location.origin) return;
+      const backendUrl = localOrigin(config.backendUrl, 'invalid');
+      bound = true;
+      const port = chrome.runtime.connect({ name: 'scki-local-offscreen-v1' });
+      port.postMessage({ type: 'LOCAL_TRANSPORT_HELLO', nonce: config.nonce });
+      port.onMessage.addListener(message => {
+        if (message?.type !== 'LOCAL_BACKEND_REQUEST' || !Number.isSafeInteger(message.requestId) || message.requestId < 1) return;
+        const reply = result => { try { port.postMessage({ ...result, type: 'LOCAL_BACKEND_RESPONSE', requestId: message.requestId }); } catch {} };
+        if (message.backendUrl !== backendUrl) return reply({ ok: false, code: 'local_transport_invalid_backend' });
+        execute(message).then(reply, () => reply({ ok: false, code: 'backend_unavailable' }));
+      });
+    } catch { /* No page-facing or raw exception channel. */ }
   });
 })();

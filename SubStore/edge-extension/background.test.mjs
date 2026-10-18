@@ -13,7 +13,8 @@ function deferred(){let resolve;const promise=new Promise(done=>{resolve=done});
 
 test('automatic authorized-site matching and local relay',async t=>{
  const originalChrome=globalThis.chrome, originalFetch=globalThis.fetch;
- let listener, state, resetNumber=0, background, tabUpdated, tabRemoved, permissionRemoved, installed, startup;
+ let listener, state, resetNumber=0, background, tabUpdated, tabRemoved, permissionRemoved, installed, startup, connectListener, transportPort, offscreenExists=false;
+ const portEvent=()=>{const callbacks=[];return{addListener(fn){callbacks.push(fn)},emit(value){for(const fn of callbacks)fn(value)}}};
  const trustedFixtureOrigins=[ORIGIN,'https://never-hardcoded.example.com','https://other-fixture.example.com','https://next-fixture.example.com','http://192.0.2.9'];
  const area=kind=>({async get(keys){const names=typeof keys==='string'?[keys]:keys;return Object.fromEntries(names.filter(key=>Object.hasOwn(state[kind],key)).map(key=>[key,clone(state[kind][key])]))},async set(value){if(kind==='local'&&value.backups&&state.pauseStage==='backup'&&!state.paused){state.paused=true;state.entered.resolve();await state.release.promise}Object.assign(state[kind],clone(value))}});
  function documentFor(sender,nonce){
@@ -28,6 +29,7 @@ test('automatic authorized-site matching and local relay',async t=>{
   document.present=true;state.liveTabs.set(sender.tab.id,document);return document;
  }
  const reset=(overrides={})=>{
+  transportPort?.disconnect();transportPort=null;offscreenExists=false;
   PAGE.documentId='fixture-document-'+(++resetNumber);
   state={local:{settings:{enabled:true,backendUrl:'http://127.0.0.1:38324',frontendUrl:'http://127.0.0.1:14122'},trustedOrigins:{version:1,origins:[...trustedFixtureOrigins]}},session:{},subs:new Map([['星海',source()]]),calls:[],allowed:true,preview:{original:[NODE],processed:[NODE]},documents:new Map(),liveTabs:new Map(),documentOrder:0,activeTabId:20,scripts:new Map(),reloads:[],removedTabs:[],...overrides};
   activate(PAGE);return state;
@@ -50,7 +52,11 @@ test('automatic authorized-site matching and local relay',async t=>{
   }
   return new Response(JSON.stringify({status:'success',data}),{status:200,headers:{'content-type':'application/json'}});
  };
- globalThis.chrome={runtime:{id:ID,getManifest:()=>({version:'1.3.0'}),getURL:p=>'chrome-extension://'+ID+'/'+p,onMessage:{addListener(fn){listener=fn}},onInstalled:{addListener(fn){installed=fn}},onStartup:{addListener(fn){startup=fn}}},permissions:{onRemoved:{addListener(fn){permissionRemoved=fn}},async contains(){if(state.permissionGate&&!state.permissionPaused){state.permissionPaused=true;state.permissionGate.entered.resolve();await state.permissionGate.release.promise;return state.permissionGate.granted}return state.allowed}},storage:{local:area('local'),session:area('session')},action:{async setBadgeText(){},async setBadgeBackgroundColor(){}},scripting:{
+ globalThis.chrome={runtime:{id:ID,getManifest:()=>({version:'1.3.0'}),getURL:p=>'chrome-extension://'+ID+'/'+p,onMessage:{addListener(fn){listener=fn}},onInstalled:{addListener(fn){installed=fn}},onStartup:{addListener(fn){startup=fn}},
+  onConnect:{addListener(fn){connectListener=fn}},async getContexts(){return offscreenExists?[{documentUrl:'chrome-extension://'+ID+'/offscreen.html'}]:[]},
+  async sendMessage(m){assert.equal(m.type,'CONFIGURE_LOCAL_OFFSCREEN');const port={name:'scki-local-offscreen-v1',sender:{id:ID,url:m.frontendUrl+'/?api='+encodeURIComponent(m.backendUrl),origin:m.frontendUrl},onMessage:portEvent(),onDisconnect:portEvent(),disconnect(){this.onDisconnect.emit()},postMessage(message){localBackend(message).then(reply=>port.onMessage.emit({...reply,type:'LOCAL_BACKEND_RESPONSE',requestId:message.requestId}),()=>port.disconnect())}};transportPort=port;connectListener(port);port.onMessage.emit({type:'LOCAL_TRANSPORT_HELLO',nonce:m.nonce});return{configured:true}},
+ },offscreen:{async createDocument(){if(state.createFailures){state.createFailures--;throw Error('PRIVATE-CREATE-FAILURE')}offscreenExists=true},async closeDocument(){offscreenExists=false;transportPort?.disconnect()}},
+ permissions:{onRemoved:{addListener(fn){permissionRemoved=fn}},async contains(){if(state.pauseStage==='patch_transport'&&!state.paused&&state.calls.at(-1)?.method==='GET'&&state.calls.some(call=>call.method==='POST')){state.paused=true;state.entered.resolve();await state.release.promise}if(state.permissionGate&&!state.permissionPaused){state.permissionPaused=true;state.permissionGate.entered.resolve();await state.permissionGate.release.promise;return state.permissionGate.granted}return state.allowed}},storage:{local:area('local'),session:area('session')},action:{async setBadgeText(){},async setBadgeBackgroundColor(){}},scripting:{
   async getRegisteredContentScripts({ids}={}){return[...state.scripts.values()].filter(script=>!ids||ids.includes(script.id)).map(clone)},
   async unregisterContentScripts({ids}){for(const id of ids)state.scripts.delete(id)},
   async registerContentScripts(scripts){for(const script of scripts)state.scripts.set(script.id,clone(script))},
@@ -59,10 +65,12 @@ test('automatic authorized-site matching and local relay',async t=>{
   async query(query){assert.deepEqual(query,{active:true,currentWindow:true});if(state.queryHook)return state.queryHook();const tab=state.liveTabs.get(state.activeTabId);return tab?[clone(tab)]:[]},
   async reload(id){state.reloads.push(id)},
   async remove(id){state.removedTabs.push(id);state.liveTabs.delete(id)},
-  async create(options){if(state.createFailures){state.createFailures--;throw Error('PRIVATE-CREATE-FAILURE')}const id=++state.documentOrder+100;state.liveTabs.set(id,{id,url:options.url});return{id}},
+  async create(){assert.fail('local relay must not create a visible tab')},
   async sendMessage(id,m,options){
   if(m.type==='VERIFY_DOCUMENT'){assert.deepEqual(options,{frameId:0});if(state.pauseStage==='verify_candidate'&&!state.paused){state.paused=true;state.entered.resolve();await state.release.promise}const tab=state.liveTabs.get(id);return{present:!!tab?.present&&!state.detachedDocument,origin:tab?new URL(tab.url).origin:null,documentNonce:tab?.documentNonce,candidateAvailable:tab?.candidateAvailable===true,candidateUrl:tab?.candidateUrl||null}}
-  if(m.type==='LOCAL_TRANSPORT_PING'){if(state.pauseStage==='patch_transport'&&!state.paused&&state.calls.at(-1)?.method==='GET'&&state.calls.some(call=>call.method==='POST')){state.paused=true;state.entered.resolve();await state.release.promise}return{ready:true,origin:m.frontendUrl}}
+  assert.fail('only the airport document verification uses tabs messaging');
+ }}};
+ async function localBackend(m){
   assert.equal(m.type,'LOCAL_BACKEND_REQUEST');
   const body=m.body===undefined?undefined:JSON.parse(m.body);
   state.calls.push({method:m.method,path:m.path,body});
@@ -77,7 +85,7 @@ test('automatic authorized-site matching and local relay',async t=>{
   }else assert.fail('Unexpected API route');
   if(state.pauseStage==='patch_response'&&m.method==='PATCH'&&!state.paused){state.paused=true;state.entered.resolve();await state.release.promise}
   return{ok:true,status:200,contentType:'application/json',bodyText:JSON.stringify({status:'success',data})};
- }}};
+ }
  const send=(m,s=PAGE)=>{
   m=clone(m);s=clone(s);
   const actualPage=s?.id===ID&&s.frameId===0&&Number.isInteger(s.tab?.id)&&typeof s.url==='string'&&
@@ -183,7 +191,7 @@ test('automatic authorized-site matching and local relay',async t=>{
     assert.equal(state.local.sites[ORIGIN].lastResult.extensionVersion,'1.3.0');assert.equal(state.local.backups.length,1);
     assert.equal(state.calls.filter(c=>c.method==='PATCH').length,1);
   });
-  await t.test('a transient local tab-creation failure recovers automatically before any write',async()=>{reset();state.createFailures=1;await observe();assert.equal(state.local.sites[ORIGIN].lastResult.status,'updated');assert.equal(state.calls.filter(c=>c.method==='PATCH').length,1);});
+  await t.test('a transient hidden-document creation failure recovers automatically before any write',async()=>{reset();state.createFailures=1;await observe();assert.equal(state.local.sites[ORIGIN].lastResult.status,'updated');assert.equal(state.calls.filter(c=>c.method==='PATCH').length,1);});
   await t.test('permissions, own frontend/backend, invalid sources and subframes cannot read catalog or mutate',async()=>{
     for(const sender of [{...PAGE,id:'other'},{...PAGE,frameId:1},{...PAGE,tab:{id:20,url:'http://other.example.com'}},{...PAGE,url:'file:///tmp/a'},{...PAGE,tab:{id:'20'}}]){reset();await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE},sender);assert.equal(state.calls.length,0);}
     reset();state.allowed=false;assert.equal((await send({type:'PAGE_CONTEXT'})).reply.allowed,false);await observe();assert.equal(state.calls.length,0);

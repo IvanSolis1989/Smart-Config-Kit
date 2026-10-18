@@ -1,5 +1,12 @@
 # 自动订阅同步助手 — 变更日志
 
+## v1.6.0 (2026-10-18)
+
+- 本机通信改用单个 offscreen 隐藏文档和 localhost iframe，不再创建可见中转标签；增加 `offscreen` 权限、仅限 `127.0.0.1` 的 frame CSP，以及 Port 身份和随机值绑定。保留原始前端 Origin、API 白名单、节点预览、条件备份、URL 单字段 PATCH 和最终许可/候选检查。
+- 后台重启后恢复既有隐藏文档，断线清空旧请求并重新绑定；旧 PATCH 不自动重发，在途请求不被初始化失败清理。Chrome 111–115 使用 `clients.matchAll`，较新版本优先 `runtime.getContexts`。
+- 打包器递归纳入 offscreen API 的静态入口及其 HTML 脚本闭包，最小安装目录为 15 文件；旧版本 ref 仍按各自依赖打包。
+- 308 项 Node 检查、33 项隔离 Edge 完整流程通过；每项业务均核验没有可见本机中转标签，前端离线时三次隐藏初始化全部清理。另有 7 项生产文件 Edge 探针，包括真实 worker 停启、强制 `clients.matchAll` 分支及隐藏文档关闭后恢复。未以 Edge 的兼容分支代替真实 Chrome 111 二进制验收，用户现用浏览器须重新加载本版后实测。
+
 ## v1.5.1 (2026-10-18)
 
 - 无请求体的 GET 不再声明 JSON Content-Type，避免云端原生 Sub-Store 对空请求体执行 JSON 解析；POST/PATCH 仍携带 JSON，URL 单字段写入和独立读回保持不变。

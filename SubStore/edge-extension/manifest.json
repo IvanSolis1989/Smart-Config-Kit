@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Sub-Store 自动订阅同步助手",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "minimum_chrome_version": "111",
   "description": "在浏览器授权的网站或IP面板自动识别订阅，独立验证并更新本机与可选Cloudflare Sub-Store的已有链接。",
   "permissions": [
     "storage",
     "activeTab",
-    "scripting"
+    "scripting",
+    "offscreen"
   ],
   "host_permissions": [
     "http://127.0.0.1/*"
@@ -19,6 +20,9 @@
   "background": {
     "service_worker": "background.js",
     "type": "module"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; frame-src http://127.0.0.1:*"
   },
   "action": {
     "default_title": "Sub-Store 自动订阅同步",
@@ -33,7 +37,7 @@
         "local-transport.js"
       ],
       "run_at": "document_start",
-      "all_frames": false,
+      "all_frames": true,
       "world": "ISOLATED"
     }
   ]

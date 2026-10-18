@@ -21,14 +21,19 @@ function request(extra = {}) {
   return { type: 'LOCAL_BACKEND_REQUEST', frontendUrl: FRONTEND, backendUrl: BACKEND, subscriptionName: NAME, path: SUB_PATH, method: 'GET', ...extra };
 }
 
-function fixture({ origin = FRONTEND, iframe = false, responder = null } = {}) {
+function fixture({ origin = FRONTEND, iframe = true, parentOrigin = 'chrome-extension://' + EXTENSION_ID, bind = true, responder = null } = {}) {
   const listeners = [];
   const calls = [];
   const timers = new Map();
   const logs = [];
+  const handshakes = [], bindingListeners = [];
+  const replies = new Map();
+  let requestId = 0;
   let nextTimer = 1;
   const window = {
-    location: { origin },
+    location: { origin, ancestorOrigins: [parentOrigin] },
+    parent: {},
+    addEventListener(type, listener) { assert.equal(type, 'message'); bindingListeners.push(listener); },
     setTimeout(callback, delay) { const id = nextTimer++; timers.set(id, { callback, delay }); return id; },
     clearTimeout(id) { timers.delete(id); },
   };
@@ -39,7 +44,14 @@ function fixture({ origin = FRONTEND, iframe = false, responder = null } = {}) {
     runtime: {
       id: EXTENSION_ID,
       getURL: file => `chrome-extension://${EXTENSION_ID}/${file}`,
-      onMessage: { addListener(listener) { listeners.push(listener); } },
+      connect({ name }) {
+        assert.equal(name, 'scki-local-offscreen-v1');
+        return { onMessage: { addListener(listener) { listeners.push(listener); } }, postMessage(message) {
+          if (message.type === 'LOCAL_TRANSPORT_HELLO') { handshakes.push(normalize(message)); return; }
+          const value = { ...message }; delete value.type; delete value.requestId;
+          replies.get(message.requestId)?.(value); replies.delete(message.requestId);
+        } };
+      },
     },
   };
   Object.defineProperty(chrome, 'storage', { get: forbidden });
@@ -51,11 +63,14 @@ function fixture({ origin = FRONTEND, iframe = false, responder = null } = {}) {
     console: Object.fromEntries(['log', 'warn', 'error', 'info', 'debug'].map(name => [name, (...args) => logs.push(args)])) });
   for (const key of ['localStorage', 'sessionStorage', 'document', 'cookie']) Object.defineProperty(context, key, { get: forbidden });
   function install() { vm.runInContext(source, context, { filename: 'local-transport.js' }); }
-  function invoke(message, sender = { id: EXTENSION_ID }) {
+  function invoke(message) {
     if (!listeners.length) return { keepAlive: false, result: Promise.resolve(undefined) };
     let respond;
     const result = new Promise(resolve => { respond = resolve; });
-    const keepAlive = listeners[0](message, sender, respond);
+    const id = ++requestId;
+    replies.set(id, respond);
+    const keepAlive = message.type === 'LOCAL_BACKEND_REQUEST';
+    listeners[0]({ ...message, requestId: id });
     return { keepAlive, result: keepAlive === true ? result : Promise.resolve(undefined) };
   }
   async function send(message, sender) {
@@ -67,13 +82,15 @@ function fixture({ origin = FRONTEND, iframe = false, responder = null } = {}) {
     } finally { clearTimeout(timer); }
   }
   install();
-  return { window, context, chrome, calls, timers, logs, listeners, install, invoke, send };
+  function bindFrame(extra = {}, event = {}) { for (const listener of bindingListeners) listener({ source: window.parent,
+    origin: 'chrome-extension://' + EXTENSION_ID, data: { type: 'BIND_LOCAL_OFFSCREEN', frontendUrl: FRONTEND, backendUrl: BACKEND, nonce: 'a'.repeat(64), ...extra }, ...event }); }
+  if (bind) bindFrame();
+  return { window, context, chrome, calls, timers, logs, listeners, handshakes, bindFrame, install, invoke, send };
 }
 
-test('PING validates the local frontend and returns its natural origin without a fetch', async () => {
+test('binding requires the extension parent and reports the nonce without a fetch', async () => {
   const f = fixture();
-  assert.deepEqual(await f.send({ type: 'LOCAL_TRANSPORT_PING', frontendUrl: FRONTEND }), { keepAlive: true, value: { ready: true, origin: FRONTEND } });
-  assert.deepEqual(await f.send({ type: 'LOCAL_TRANSPORT_PING', frontendUrl: FRONTEND + '/' }, { id: EXTENSION_ID, url: BACKGROUND_URL }), { keepAlive: true, value: { ready: true, origin: FRONTEND } });
+  assert.deepEqual(f.handshakes, [{ type: 'LOCAL_TRANSPORT_HELLO', nonce: 'a'.repeat(64) }]);
   assert.equal(f.calls.length, 0);
   assert.equal(f.timers.size, 0);
 });
@@ -96,8 +113,8 @@ test('valid GET, preview and url-only PATCH use natural Origin and exact JSON tr
   for (let index = 0; index < inputs.length; index += 1) {
     const { url, options } = f.calls[index];
     assert.equal(url, BACKEND + inputs[index].path);
-    assert.deepEqual(normalize(options.headers), { 'Content-Type': 'application/json' });
-    assert.equal(Object.keys(options.headers).some(key => key.toLowerCase() === 'origin'), false);
+    assert.deepEqual(options.headers && normalize(options.headers), inputs[index].body === undefined ? undefined : { 'Content-Type': 'application/json' });
+    assert.equal(Object.keys(options.headers || {}).some(key => key.toLowerCase() === 'origin'), false);
     assert.equal(options.credentials, 'omit');
     assert.equal(options.redirect, 'error');
     assert.equal(options.cache, 'no-store');
@@ -111,8 +128,8 @@ test('valid GET, preview and url-only PATCH use natural Origin and exact JSON tr
   assert.equal(f.logs.length, 0);
 });
 
-test('other websites, HTTPS local pages and iframes never register a receiver', async () => {
-  for (const options of [{ origin: 'https://evil.example' }, { origin: 'https://127.0.0.1:14122' }, { origin: 'http://localhost:14122' }, { origin: 'http://127.0.0.2:14122' }, { iframe: true }]) {
+test('other websites, HTTPS local pages, top-level tabs and unrelated parents never bind', async () => {
+  for (const options of [{ origin: 'https://evil.example' }, { origin: 'https://127.0.0.1:14122' }, { origin: 'http://localhost:14122' }, { origin: 'http://127.0.0.2:14122' }, { iframe: false }, { parentOrigin: 'https://evil.example' }]) {
     const f = fixture(options);
     assert.equal(f.listeners.length, 0);
     assert.equal((await f.send(request())).keepAlive, false);
@@ -120,17 +137,12 @@ test('other websites, HTTPS local pages and iframes never register a receiver', 
   }
 });
 
-test('other extensions, content-page senders, popup senders and unrelated messages are ignored', async () => {
+test('wrong parent window, page origin, nonce, endpoint or unrelated handshake cannot bind', async () => {
+  for (const [extra, event] of [[{}, { source: {} }], [{}, { origin: 'http://127.0.0.1:14122' }], [{ nonce: 'bad' }, {}],
+    [{ frontendUrl: 'http://127.0.0.1:14123' }, {}], [{ backendUrl: 'https://evil.example' }, {}], [{ type: 'OTHER' }, {}]]) {
+    const f = fixture({ bind: false }); f.bindFrame(extra, event); assert.equal(f.listeners.length, 0); assert.equal(f.calls.length, 0);
+  }
   const f = fixture();
-  for (const sender of [
-    { id: 'other-extension-id' },
-    { id: EXTENSION_ID, tab: { id: 23 } },
-    { id: EXTENSION_ID, url: 'https://xn--9kqz23b19z.com/' },
-    { id: EXTENSION_ID, url: `chrome-extension://${EXTENSION_ID}/popup.html` },
-    { id: EXTENSION_ID, url: BACKGROUND_URL + '?spoof=1' },
-    { id: EXTENSION_ID, url: null },
-    null,
-  ]) assert.deepEqual(await f.send(request(), sender), { keepAlive: false, value: undefined });
   assert.deepEqual(await f.send({ type: 'OTHER' }), { keepAlive: false, value: undefined });
   assert.equal(f.calls.length, 0);
   assert.equal(f.timers.size, 0);
@@ -256,12 +268,12 @@ test('23-second controller abort covers the fetch and returns a private-safe tim
   assert.equal(f.logs.length, 0);
 });
 
-test('installation and PING never read cookies/storage/DOM state or start requests, and are idempotent', async () => {
+test('installation and repeated binding never read cookies/storage/DOM state or start requests, and are idempotent', async () => {
   const f = fixture();
   f.install();
   assert.equal(f.listeners.length, 1);
   assert.equal(f.calls.length, 0);
-  await f.send({ type: 'LOCAL_TRANSPORT_PING', frontendUrl: FRONTEND });
+  f.bindFrame();
   assert.equal(f.calls.length, 0);
   assert.equal(f.logs.length, 0);
   assert.equal(f.timers.size, 0);

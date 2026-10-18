@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.6.0
+
+- 本机辅助通信改用隐藏 iframe，同步无需保留可见前端标签；详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。Clash Party 本机服务仍需运行，未修改客户端二进制、路由图、DNS 或正式产物，无需全端重生成。
+
 ## 2026-10-18 — Sub-Store 网页管理别名模块 v1.0.0
 
 - 为已审查 Worker 增加独立授权的完整管理前缀；详见[SubStore 日志](../SubStore/CHANGELOG.md)。原入口与扩展权限不变，辅助通信改动无需全端重生成。

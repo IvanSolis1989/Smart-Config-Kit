@@ -195,27 +195,20 @@ function currentFetcher(settings, control) {
   });
   return async (input, request = {}) => {
     await control.checkpoint();
-    // Guard the actual send as well as core's PATCH call. The transport's tab
-    // readiness awaits must not reopen an authorization/generation race.
-    const scopedChrome = { storage: chrome.storage, tabs: {
-      create: options => chrome.tabs.create(options),
-      remove: id => chrome.tabs.remove(id),
-      async sendMessage(id, message) {
-        if (message.type === 'LOCAL_BACKEND_REQUEST') {
-          await control.checkpoint();
-          await siteAccess.require(control.ticket.origin);
-          if (!await documentPresent(control.ticket, control.requiresCandidate)) {
-            invalidateCurrentDocument(control.ticket);
-            throw new SyncError('candidate_superseded');
-          }
-          await control.checkpoint();
-          if (request.signal?.aborted) throw new DOMException('The operation was aborted.', 'AbortError');
-          if (message.method === 'PATCH') control.writeSent = true;
+    // Hidden-frame readiness must not reopen the final authorization race.
+    return createLocalFetcher(chrome, settings, {
+      async beforeSend(message) {
+        await control.checkpoint();
+        await siteAccess.require(control.ticket.origin);
+        if (!await documentPresent(control.ticket, control.requiresCandidate)) {
+          invalidateCurrentDocument(control.ticket);
+          throw new SyncError('candidate_superseded');
         }
-        return chrome.tabs.sendMessage(id, message);
+        await control.checkpoint();
+        if (request.signal?.aborted) throw new DOMException('The operation was aborted.', 'AbortError');
+        if (message.method === 'PATCH') control.writeSent = true;
       },
-    } };
-    return createLocalFetcher(scopedChrome, settings)(input, request);
+    })(input, request);
   };
 }
 function capped(map, maximum = 128) { return Object.fromEntries(Object.entries(map).slice(-maximum)); }

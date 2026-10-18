@@ -1,264 +1,173 @@
-// Fixed-purpose transport through this extension's trusted local frontend tab.
-const MAX_READY_ATTEMPTS = 20;
-const READY_DELAY_MS = 150;
-const sessions = new WeakMap();
-const noCleanup = Object.freeze({ ok: true, errors: Object.freeze([]) });
-const guardFailures = new Set(['site_not_trusted', 'site_permission_required', 'site_access_changed', 'disabled',
+// Hidden localhost iframe transport. No visible-tab fallback.
+const managers = new WeakMap();
+const PORT_NAME = 'scki-local-offscreen-v1';
+const READY_ATTEMPTS = 20;
+const guards = new Set(['site_not_trusted', 'site_permission_required', 'site_access_changed', 'disabled',
   'site_script_registration_failed', 'candidate_superseded', 'document_changed']);
-
-const defaultDelay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
-
-function failure(code) {
-  const error = new Error(code);
-  error.code = code;
-  return error;
-}
-
-function aborted() { return new DOMException('The operation was aborted.', 'AbortError'); }
-
-function throwIfAborted(signal) {
-  if (signal?.aborted) throw aborted();
-}
-
-function cleanupMetadata(error, receipt) {
-  if (!receipt.ok) {
-    error.cleanupFailed = true;
-    error.cleanupErrors = receipt.errors;
-  }
-}
-
-function abortable(operation, signal, release) {
-  if (!signal) return operation;
-  return new Promise((resolve, reject) => {
-    let listening = true;
-    const cleanup = () => {
-      if (listening) signal.removeEventListener('abort', onAbort);
-      listening = false;
-    };
-    const onAbort = () => {
-      cleanup();
-      const error = aborted();
-      // Abort remains prompt even if tabs.create has not returned an id yet.
-      // The receipt exposes eventual cleanup without exposing Chrome exceptions.
-      error.cleanup = release().then(receipt => {
-        cleanupMetadata(error, receipt);
-        return receipt;
-      });
-      reject(error);
-    };
-    signal.addEventListener('abort', onAbort, { once: true });
-    operation.then(value => { cleanup(); resolve(value); }, error => { cleanup(); reject(error); });
-    // Cover an abort between the caller's initial check and listener registration.
-    if (signal.aborted) onAbort();
-  });
-}
-
-function sessionState(session) {
-  if (!sessions.has(session)) sessions.set(session, { tail: Promise.resolve(), jobs: new Map() });
-  return sessions.get(session);
-}
-
-function withSession(state, action) {
-  const result = state.tail.then(action);
-  state.tail = result.then(() => {}, () => {});
-  return result;
-}
-
-function assertWanted(job) {
-  if (job.abandoned) throw aborted();
-}
-
-function whileWanted(job, operation) {
-  assertWanted(job);
-  return Promise.race([operation, job.cancelled.then(() => { throw aborted(); })]);
-}
-
-function loopbackOrigin(value) {
+const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+const failure = code => Object.assign(new Error(code), { code });
+const aborted = () => new DOMException('The operation was aborted.', 'AbortError');
+function checkAbort(signal) { if (signal?.aborted) throw aborted(); }
+function localOrigin(value) {
   try {
     const url = new URL(value);
-    if (url.protocol !== 'http:' || url.hostname !== '127.0.0.1' || !url.port ||
-        url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error();
+    if (url.protocol !== 'http:' || url.hostname !== '127.0.0.1' || !url.port || url.username || url.password ||
+        url.pathname !== '/' || url.search || url.hash) throw Error();
     return url.origin;
   } catch { throw failure('local_transport_invalid_settings'); }
 }
-
-export function createLocalFetcher(chromeApi, settings, { sleep = defaultDelay } = {}) {
-  const frontendUrl = loopbackOrigin(settings?.frontendUrl);
-  const backendUrl = loopbackOrigin(settings?.backendUrl);
-  const subscriptionName = settings?.subscriptionName;
-  if (typeof subscriptionName !== 'string' || !subscriptionName.trim() ||
-      subscriptionName.length > 100 || /[\x00-\x1f\x7f]/.test(subscriptionName)) {
-    throw failure('local_transport_invalid_settings');
-  }
-  const session = chromeApi.storage.session;
-  const state = sessionState(session);
-  const key = frontendUrl + '|' + backendUrl;
-
-  async function ping(id) {
-    try {
-      const reply = await chromeApi.tabs.sendMessage(id, { type: 'LOCAL_TRANSPORT_PING', frontendUrl });
-      return reply?.ready === true && reply.origin === frontendUrl;
-    } catch { return false; }
-  }
-
-  function cleanupOwned(job) {
-    if (job.cleanupPromise) return job.cleanupPromise;
-    job.cleanupPromise = (async () => {
-      // A saved tab is never ours to remove. Once a backend message was submitted,
-      // it may carry an in-flight write, so retain that tab even after abort.
-      if (job.createdId === null || job.used) return noCleanup;
-      const errors = [];
-      try { await chromeApi.tabs.remove(job.createdId); }
-      catch { errors.push('local_transport_tab_cleanup_failed'); }
-      try {
-        await withSession(state, async () => {
-          const saved = (await session.get('transportTab')).transportTab;
-          if (saved?.id === job.createdId && saved.frontendUrl === frontendUrl && saved.backendUrl === backendUrl) {
-            await session.set({ transportTab: null });
-          }
-        });
-      } catch { errors.push('local_transport_storage_cleanup_failed'); }
-      return { ok: errors.length === 0, errors };
-    })();
-    return job.cleanupPromise;
-  }
-
-  function finishUnused(job) {
-    if (!job.settled || job.consumers.size || job.finishing) return;
-    job.finishing = true;
-    cleanupOwned(job).then(receipt => {
-      if (state.jobs.get(key) === job) state.jobs.delete(key);
-      job.finish(receipt);
+function nonce() { return Array.from(crypto.getRandomValues(new Uint8Array(32)), n => n.toString(16).padStart(2, '0')).join(''); }
+function managerFor(api) {
+  const runtime = api.runtime;
+  if (!runtime?.onConnect || !api.offscreen) throw failure('local_transport_unavailable');
+  if (managers.has(runtime)) return managers.get(runtime);
+  const state = { current: null, preparing: Promise.resolve(), sequence: 0 };
+  runtime.onConnect.addListener(port => {
+    if (port.name !== PORT_NAME) return;
+    const job = state.current, sender = port.sender;
+    if (!job || job.failed || job.abandoned || job.port) return;
+    if (sender?.id !== runtime.id || sender.tab || sender.origin !== job.frontendUrl ||
+        sender.url !== job.frontendUrl + '/?api=' + encodeURIComponent(job.backendUrl)) { try { port.disconnect(); } catch {} return; }
+    let authenticated = false;
+    port.onMessage.addListener(message => {
+      if (!authenticated) {
+        if (message?.type !== 'LOCAL_TRANSPORT_HELLO' || message.nonce !== job.nonce || job.abandoned || state.current !== job || job.port) {
+          try { port.disconnect(); } catch {} return;
+        }
+        authenticated = true; job.port = port; return;
+      }
+      const pending = job.pending.get(message?.requestId);
+      if (pending && message.type === 'LOCAL_BACKEND_RESPONSE') { job.pending.delete(message.requestId); pending.resolve(message); }
     });
+    port.onDisconnect.addListener(() => {
+      if (!authenticated || job.port !== port) return;
+      job.port = null; job.failed = true;
+      for (const pending of job.pending.values()) pending.reject(failure('local_backend_request_failed'));
+      job.pending.clear();
+    });
+  });
+  managers.set(runtime, state); return state;
+}
+async function hasDocument(api, clients) {
+  const url = api.runtime.getURL('offscreen.html');
+  if (typeof api.runtime.getContexts === 'function') {
+    const contexts = await api.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'], documentUrls: [url] });
+    return contexts.some(context => context.documentUrl === url);
   }
+  // Chrome 111-115: ServiceWorker Clients sees this extension's hidden window.
+  if (!clients?.matchAll) throw failure('local_transport_unavailable');
+  const contexts = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+  return contexts.some(context => context.url === url);
+}
+async function cleanupUnused(api, job) {
+  if (!job.created || job.used || job.cleanup) return job.cleanup;
+  job.cleanup = (async () => {
+    try { await api.offscreen.closeDocument(); return { ok: true, errors: [] }; }
+    catch { return { ok: false, errors: ['local_transport_document_cleanup_failed'] }; }
+  })();
+  return job.cleanup;
+}
+function attachCleanup(error, receipt) { if (receipt?.ok === false) { error.cleanupFailed = true; error.cleanupErrors = receipt.errors; } }
 
-  async function prepare(job) {
-    let saved;
-    try { saved = (await whileWanted(job, withSession(state, () => session.get('transportTab')))).transportTab; }
-    catch {
-      assertWanted(job);
-      throw failure('local_transport_storage_failed');
-    }
-    assertWanted(job);
-    if (saved && Number.isInteger(saved.id) && saved.id >= 0 &&
-        saved.frontendUrl === frontendUrl && saved.backendUrl === backendUrl && await whileWanted(job, ping(saved.id))) {
-      return saved.id;
-    }
-
-    assertWanted(job);
-    let tab;
-    try {
-      // Creation and storage writes must settle before cleanup: either may finish
-      // after the last consumer aborts and otherwise publish an orphaned tab.
-      tab = await chromeApi.tabs.create({
-        url: frontendUrl + '/?api=' + encodeURIComponent(backendUrl), active: false,
-      });
-    } catch { throw failure('local_transport_unavailable'); }
-    if (!Number.isInteger(tab?.id) || tab.id < 0) throw failure('local_transport_unavailable');
-    job.createdId = tab.id;
-    assertWanted(job);
-    try {
-      await withSession(state, async () => {
-        assertWanted(job);
-        await session.set({ transportTab: { id: tab.id, frontendUrl, backendUrl } });
-      });
-    } catch {
-      assertWanted(job);
-      throw failure('local_transport_storage_failed');
-    }
-    assertWanted(job);
-    for (let attempt = 0; attempt < MAX_READY_ATTEMPTS; attempt++) {
-      if (await whileWanted(job, ping(tab.id))) return tab.id;
-      if (attempt + 1 < MAX_READY_ATTEMPTS) await whileWanted(job, sleep(READY_DELAY_MS));
-    }
-    throw failure('local_transport_not_ready');
-  }
-
+export function createLocalFetcher(api, settings, { sleep = delay, beforeSend = () => {}, clients = globalThis.clients } = {}) {
+  const frontendUrl = localOrigin(settings?.frontendUrl), backendUrl = localOrigin(settings?.backendUrl);
+  const subscriptionName = settings?.subscriptionName;
+  if (typeof subscriptionName !== 'string' || !subscriptionName.trim() || subscriptionName.length > 100 || /[\x00-\x1f\x7f]/.test(subscriptionName)) throw failure('local_transport_invalid_settings');
+  const state = managerFor(api), key = frontendUrl + '|' + backendUrl;
   function acquire() {
-    let job = state.jobs.get(key);
-    if (!job || job.abandoned || job.failed || job.finishing) {
-      const previous = job?.done;
-      job = { consumers: new Set(), createdId: null, used: false, abandoned: false, settled: false };
-      job.cancelled = new Promise(resolve => { job.cancel = resolve; });
-      job.done = new Promise(resolve => { job.finish = resolve; });
-      state.jobs.set(key, job);
-      const created = job;
-      job.promise = Promise.resolve().then(async () => {
-        // Do not reuse a tab while an abandoned preparation is removing it.
-        if (previous) await previous;
-        try { return await prepare(created); }
-        catch (error) {
-          created.failed = true;
-          cleanupMetadata(error, await cleanupOwned(created));
-          throw error;
-        } finally {
-          created.settled = true;
-          finishUnused(created);
+    let job = state.current;
+    if (job && job.key !== key && (job.consumers.size || job.pending.size)) throw failure('local_transport_not_ready');
+    if (!job || job.key !== key || job.failed || job.abandoned) {
+      // Never replace a document that may still be executing an aborted write.
+      if (job?.pending.size) throw failure('local_transport_not_ready');
+      job = { key, frontendUrl, backendUrl, nonce: nonce(), consumers: new Set(), pending: new Map(), used: false,
+        abandoned: false, failed: false, created: false, port: null };
+      state.current = job;
+      const wanted = () => { if (job.abandoned || state.current !== job) throw aborted(); };
+      job.ready = state.preparing.then(async () => {
+        try {
+          wanted();
+          if (!await hasDocument(api, clients)) {
+            wanted();
+            await api.offscreen.createDocument({ url: 'offscreen.html', reasons: ['IFRAME_SCRIPTING'],
+              justification: 'Use a hidden localhost iframe to communicate with the local Sub-Store using its frontend Origin.' });
+            job.created = true;
+          }
+          wanted();
+          await api.runtime.sendMessage({ type: 'CONFIGURE_LOCAL_OFFSCREEN', frontendUrl, backendUrl, nonce: job.nonce });
+          for (let attempt = 0; attempt < READY_ATTEMPTS; attempt++) {
+            wanted();
+            if (job.port) return job.port;
+            if (attempt + 1 < READY_ATTEMPTS) await sleep(150);
+          }
+          throw failure('local_transport_not_ready');
+        } catch (error) {
+          job.failed = true;
+          const safe = error?.name === 'AbortError' || ['local_transport_unavailable', 'local_transport_not_ready'].includes(error?.code) ? error : failure('local_transport_unavailable');
+          attachCleanup(safe, await cleanupUnused(api, job));
+          throw safe;
         }
       });
-      // An aborted caller still owns a cleanup receipt; its preparation rejection
-      // must not become an unhandled rejection while a late create is settling.
-      job.promise.catch(() => {});
+      state.preparing = job.ready.then(() => {}, () => {});
+      job.ready.catch(() => {});
     }
-    const consumer = {};
-    job.consumers.add(consumer);
-    let released;
+    const consumer = {}; job.consumers.add(consumer);
     return { job, release() {
-      if (released) return released;
       job.consumers.delete(consumer);
       if (!job.consumers.size && !job.used) {
         job.abandoned = true;
-        job.cancel();
-        released = job.done;
-      } else released = Promise.resolve(noCleanup);
-      finishUnused(job);
-      return released;
+        return job.ready.then(() => cleanupUnused(api, job), () => job.cleanup).then(receipt => receipt || { ok: true, errors: [] });
+      }
+      return Promise.resolve({ ok: true, errors: [] });
     } };
   }
-
   return async function localFetch(input, request = {}) {
-    const signal = request.signal;
-    throwIfAborted(signal);
+    checkAbort(request.signal);
     let url;
     try {
+      if (!(typeof input === 'string' || input instanceof URL)) throw Error();
       url = new URL(input);
-      if (url.origin !== backendUrl || url.username || url.password || url.hash ||
-          !(typeof input === 'string' || input instanceof URL)) throw new Error();
+      if (url.origin !== backendUrl || url.username || url.password || url.hash) throw Error();
     } catch { throw failure('local_transport_invalid_request'); }
     const method = request.method || 'GET';
-    if (!['GET', 'POST', 'PATCH'].includes(method) ||
-        (request.body !== undefined && request.body !== null && typeof request.body !== 'string')) {
-      throw failure('local_transport_invalid_request');
-    }
-    const lease = acquire();
+    if (!['GET', 'POST', 'PATCH'].includes(method) || (request.body !== undefined && request.body !== null && typeof request.body !== 'string')) throw failure('local_transport_invalid_request');
+    const lease = acquire(), job = lease.job, signal = request.signal;
     const operation = (async () => {
-      const id = await lease.job.promise;
-      throwIfAborted(signal);
-      assertWanted(lease.job);
-      let reply;
-      try {
-        // Once sent, never recreate a tab or retry: a lost PATCH response may hide a successful write.
-        lease.job.used = true;
-        reply = await chromeApi.tabs.sendMessage(id, {
-          type: 'LOCAL_BACKEND_REQUEST', frontendUrl, backendUrl, subscriptionName,
-          path: url.pathname + url.search, method, body: request.body,
-        });
-      } catch (error) {
-        // The background wrapper can stop before dispatch after its final access
-        // check. Preserve only its fixed guard errors, never raw Chrome failures.
-        if (error instanceof Error && guardFailures.has(error.code) && error.message === error.code) throw error;
+      const port = await job.ready;
+      checkAbort(signal);
+      if (job.abandoned || job.failed || state.current !== job || job.port !== port) throw failure('local_transport_not_ready');
+      const message = { type: 'LOCAL_BACKEND_REQUEST', requestId: ++state.sequence, frontendUrl, backendUrl,
+        subscriptionName, path: url.pathname + url.search, method, body: request.body };
+      try { await beforeSend(message, request); }
+      catch (error) {
+        if (error instanceof Error && guards.has(error.code) && error.message === error.code) throw error;
         throw failure('local_backend_request_failed');
       }
-      throwIfAborted(signal);
+      checkAbort(signal);
+      if (job.port !== port || job.failed || state.current !== job) throw failure('local_transport_not_ready');
+      const reply = await new Promise((resolve, reject) => {
+        job.pending.set(message.requestId, { resolve, reject });
+        // Once dispatched, retain the document even after caller cancellation.
+        job.used = true;
+        try { port.postMessage(message); }
+        catch { job.pending.delete(message.requestId); reject(failure('local_backend_request_failed')); }
+      });
+      checkAbort(signal);
       if (reply?.ok !== true) throw failure('local_backend_request_failed');
-      if (!Number.isInteger(reply.status) || reply.status < 200 || reply.status > 599 ||
-          typeof reply.bodyText !== 'string' || typeof reply.contentType !== 'string' ||
-          /[\r\n]/.test(reply.contentType)) throw failure('local_transport_invalid_response');
-      try {
-        const body = [204, 205, 304].includes(reply.status) ? null : reply.bodyText;
-        return new Response(body, { status: reply.status, headers: { 'Content-Type': reply.contentType } });
-      } catch { throw failure('local_transport_invalid_response'); }
-    })().finally(() => { lease.release(); });
-    return abortable(operation, signal, lease.release);
+      if (!Number.isInteger(reply.status) || reply.status < 200 || reply.status > 599 || typeof reply.bodyText !== 'string' ||
+          typeof reply.contentType !== 'string' || /[\r\n]/.test(reply.contentType)) throw failure('local_transport_invalid_response');
+      try { return new Response([204, 205, 304].includes(reply.status) ? null : reply.bodyText,
+        { status: reply.status, headers: { 'Content-Type': reply.contentType } }); }
+      catch { throw failure('local_transport_invalid_response'); }
+    })();
+    try {
+      if (!signal) return await operation;
+      return await new Promise((resolve, reject) => {
+        const onAbort = () => { const error = aborted(); error.cleanup = lease.release().then(receipt => { attachCleanup(error, receipt); return receipt; }); reject(error); };
+        signal.addEventListener('abort', onAbort, { once: true });
+        operation.then(resolve, reject).finally(() => signal.removeEventListener('abort', onAbort));
+        if (signal.aborted) onAbort();
+      });
+    } finally { lease.release(); }
   };
 }

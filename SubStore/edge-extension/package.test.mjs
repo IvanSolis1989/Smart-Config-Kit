@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { referencedFiles } from './package.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
@@ -20,6 +21,20 @@ const expectedManifestResult = spawnSync('git', ['show', `${ref}:SubStore/edge-e
 assert.equal(expectedManifestResult.status, 0, expectedManifestResult.stderr);
 const expectedManifest = JSON.parse(expectedManifestResult.stdout);
 
+const offscreenSource = `async function ensureLocalBridge(api) {
+  await api.offscreen.createDocument({ url: 'offscreen.html', reasons: ['IFRAME_SCRIPTING'], justification: 'bridge' });
+}`;
+assert.deepEqual(referencedFiles('background.js', Buffer.from(offscreenSource)), ['offscreen.html']);
+assert.deepEqual(
+  referencedFiles('offscreen.html', Buffer.from('<!doctype html><script type="module" src="offscreen.js"></script>')),
+  ['offscreen.js'],
+);
+assert.throws(
+  () => referencedFiles('local-fetch.mjs', Buffer.from("api.offscreen.createDocument({ url: '../../private.json' });")),
+  /Path escapes extension root/,
+);
+const sourceUsesOffscreen = expectedManifest.permissions?.includes('offscreen') === true;
+
 try {
   const packed = run(['--out', out]);
   assert.equal(packed.status, 0, packed.stderr || packed.stdout);
@@ -34,6 +49,15 @@ try {
   assert(names.includes('popup.html'));
   assert(names.includes('popup.js'));
   assert(names.includes('popup.css'));
+  if (sourceUsesOffscreen) {
+    assert(names.includes('offscreen.html'));
+    assert(names.includes('offscreen.js'));
+    assert.equal(names.length, 15, 'offscreen permission should add only the HTML page and its runtime script');
+  } else {
+    assert(!names.includes('offscreen.html'));
+    assert(!names.includes('offscreen.js'));
+    assert.equal(names.length, 13, 'v1.5.1 ref should remain a 13-file package without offscreen support');
+  }
   assert(!names.some((name) => /(?:\.test\.|secret|\.env)/i.test(name)));
   assert(!names.includes('package.test.mjs'));
   assert(!names.includes('build.mjs'));

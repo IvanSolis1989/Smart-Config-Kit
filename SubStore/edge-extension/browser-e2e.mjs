@@ -10,7 +10,7 @@ import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
 const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs',
-  'local-transport.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
+  'local-transport.js', 'offscreen.html', 'offscreen.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
   'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
 const FRAGMENT = '#flowDedup=account&ua=fixture%20ua&cacheKey=fixture-cache';
@@ -109,7 +109,7 @@ function fixtures() {
       operations: reappear ? ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'] :
         ['GET:catalog', 'GET:sub', 'POST:preview'] };
   });
-  const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline relay retries leave no owned tabs',
+  const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline hidden transport leaves no documents or tabs',
     origin: 'https://offline-relay.example.com', brand: 'Offline fixture', name: 'Offline fixture', mode: 'attribute', offlineRelay: true,
     expectedStatus: 'error', expectedCode: 'local_transport_not_ready', operations: [], timeout: 20000 };
   const dual = [false, true].map(cloudWarning => {
@@ -286,6 +286,11 @@ globalThis.__fixtureWhenIdle = whenIdle;
 globalThis.__fixtureRefreshAccess = () => siteAccess.refresh();
 globalThis.__fixtureEvents = {};
 globalThis.__fixtureTabLifecycle = { created: 0, removed: 0 };
+globalThis.__fixtureOffscreenLifecycle = { created: 0, closed: 0 };
+const fixtureCreateOffscreen = chrome.offscreen.createDocument.bind(chrome.offscreen);
+const fixtureCloseOffscreen = chrome.offscreen.closeDocument.bind(chrome.offscreen);
+chrome.offscreen.createDocument = async (...args) => { const result = await fixtureCreateOffscreen(...args); globalThis.__fixtureOffscreenLifecycle.created += 1; return result; };
+chrome.offscreen.closeDocument = async (...args) => { const result = await fixtureCloseOffscreen(...args); globalThis.__fixtureOffscreenLifecycle.closed += 1; return result; };
 chrome.tabs.onCreated.addListener(() => { globalThis.__fixtureTabLifecycle.created += 1; });
 chrome.tabs.onRemoved.addListener(() => { globalThis.__fixtureTabLifecycle.removed += 1; });
 chrome.runtime.onMessage.addListener((message, sender) => {
@@ -402,11 +407,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         let withdrawalProof;
         if (fixture.offlineRelay) {
           offlineTabsBefore = await worker.evaluate(async () => {
-            const saved = (await chrome.storage.session.get('transportTab')).transportTab;
-            if (saved && Number.isInteger(saved.id)) await chrome.tabs.remove(saved.id);
-            await chrome.storage.session.set({ transportTab: null });
+            const documents = await chrome.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] });
+            if (documents.length) await chrome.offscreen.closeDocument();
             return { ids: (await chrome.tabs.query({})).map(tab => tab.id).sort((left, right) => left - right),
-              lifecycle: { ...globalThis.__fixtureTabLifecycle } };
+              lifecycle: { ...globalThis.__fixtureTabLifecycle }, documents: { ...globalThis.__fixtureOffscreenLifecycle } };
           });
           await closeServer(services.frontend.server);
         }
@@ -539,17 +543,24 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'offline_idle_timeout', caseTimeout);
           const clean = await poll(() => worker.evaluate(async before => {
             const after = (await chrome.tabs.query({})).map(tab => tab.id).sort((left, right) => left - right);
-            const saved = (await chrome.storage.session.get('transportTab')).transportTab;
             const created = globalThis.__fixtureTabLifecycle.created - before.lifecycle.created;
             const removed = globalThis.__fixtureTabLifecycle.removed - before.lifecycle.removed;
-            return JSON.stringify(after) === JSON.stringify(before.ids) && !saved && created >= 2 && created === removed ? { created, removed } : null;
+            const contexts = await chrome.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] });
+            const documentCreates = globalThis.__fixtureOffscreenLifecycle.created - before.documents.created;
+            const documentCloses = globalThis.__fixtureOffscreenLifecycle.closed - before.documents.closed;
+            return JSON.stringify(after) === JSON.stringify(before.ids) && created === 0 && removed === 0 && contexts.length === 0
+              && documentCreates >= 2 && documentCreates === documentCloses ? { created, removed, documentCreates, documentCloses } : null;
           }, offlineTabsBefore));
-          check(clean, 'offline_relay_owned_tab_leaked');
-          relayRetries = clean.created;
+          check(clean, 'offline_hidden_transport_leaked');
+          relayRetries = clean.documentCreates;
         }
+        const visibleFrontendTabs = await worker.evaluate(async origin => (await chrome.tabs.query({})).filter(tab => {
+          try { return new URL(tab.url).origin === origin; } catch { return false; }
+        }).length, services.frontend.origin);
+        check(visibleFrontendTabs === (fixture.navigation === 'frontend' ? 1 : 0), 'visible_local_transport_tab_created');
         check(services.state.corsRejected === 0, 'frontend_origin_required');
         passed += 1;
-        report.cases.push({ id: fixture.id, label, status: 'passed', operations: operations.length, ...(relayRetries ? { relayAttempts: relayRetries, ownedTabsLeaked: 0 } : {}),
+        report.cases.push({ id: fixture.id, label, status: 'passed', operations: operations.length, visibleTransportTabs: 0, ...(relayRetries ? { hiddenDocumentAttempts: relayRetries, ownedTabsLeaked: 0, hiddenDocumentsLeaked: 0 } : {}),
           ...(withdrawalProof ? { withdrawal: withdrawalProof, ...(fixture.reappear ? { validations: 2, patches: 1 } : {}) } : {}) });
         console.log(`${label}: PASS count=${operations.length}${relayRetries ? ' attempts=' + relayRetries : ''}`);
       } catch (error) {
