@@ -11,6 +11,8 @@ on:
       - 'tools/tests/extension-sync-route.test.js'
       - 'tools/tests/download-gateway-fallback.test.js'
       - 'tools/tests/web-management-route.test.js'
+      - 'tools/tests/source-snapshot.test.js'
+      - 'tools/tests/local-snapshot.test.js'
       - '.github/workflows/validate-substore-scripts.yml'
   push:
     branches: [main]
@@ -23,6 +25,8 @@ on:
       - 'tools/tests/extension-sync-route.test.js'
       - 'tools/tests/download-gateway-fallback.test.js'
       - 'tools/tests/web-management-route.test.js'
+      - 'tools/tests/source-snapshot.test.js'
+      - 'tools/tests/local-snapshot.test.js'
       - '.github/workflows/validate-substore-scripts.yml'
   workflow_dispatch:
 
@@ -61,7 +65,9 @@ jobs:
           node --check SubStore/scripts/patch-download-gateway-worker.mjs
           node --check SubStore/scripts/web-management-route.mjs
           node --check SubStore/scripts/patch-web-management-worker.mjs
-          node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-worker-patch.test.js tools/tests/extension-sync-route.test.js tools/tests/download-gateway-fallback.test.js tools/tests/web-management-route.test.js tools/tests/source-snapshot.test.js
+          node --check SubStore/scripts/local-snapshot.mjs
+          node --check SubStore/scripts/patch-local-snapshot-worker.mjs
+          node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-worker-patch.test.js tools/tests/extension-sync-route.test.js tools/tests/download-gateway-fallback.test.js tools/tests/web-management-route.test.js tools/tests/source-snapshot.test.js tools/tests/local-snapshot.test.js
 
   browser-e2e:
     runs-on: windows-latest

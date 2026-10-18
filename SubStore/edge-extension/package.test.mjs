@@ -26,6 +26,10 @@ const offscreenSource = `async function ensureLocalBridge(api) {
 }`;
 assert.deepEqual(referencedFiles('background.js', Buffer.from(offscreenSource)), ['offscreen.html']);
 assert.deepEqual(
+  referencedFiles('background.js', Buffer.from("import { prepareLocalSnapshot } from './durable-snapshot.mjs';")),
+  ['durable-snapshot.mjs'],
+);
+assert.deepEqual(
   referencedFiles('offscreen.html', Buffer.from('<!doctype html><script type="module" src="offscreen.js"></script>')),
   ['offscreen.js'],
 );
@@ -61,6 +65,12 @@ try {
     return /\b(?:from\s*|import\s*\()(['"])\.\/source-snapshot\.mjs\1/.test(source);
   }))).some(Boolean);
   assert.equal(names.includes('source-snapshot.mjs'), snapshotImported, 'source-snapshot.mjs must be packaged exactly when a runtime module imports it');
+  const durableSnapshotImported = (await Promise.all(names.filter(name => /\.(?:m?js)$/.test(name)).map(async name => {
+    const source = await readFile(path.join(out, name), 'utf8');
+    return /\b(?:from\s*|import\s*\()(['"])\.\/durable-snapshot\.mjs\1/.test(source);
+  }))).some(Boolean);
+  assert.equal(names.includes('durable-snapshot.mjs'), durableSnapshotImported,
+    'durable-snapshot.mjs must be packaged exactly when a runtime module imports it');
   assert(!names.some((name) => /(?:\.test\.|secret|\.env)/i.test(name)));
   assert(!names.includes('package.test.mjs'));
   assert(!names.includes('build.mjs'));

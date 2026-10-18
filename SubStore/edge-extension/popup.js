@@ -53,6 +53,12 @@ const errors = {
   source_snapshot_policy_invalid: '云端原始节点快照策略无效，已停止。',
   source_snapshot_insufficient_nodes: '本机验证的原始节点未达到云端要求，未上传快照。',
   source_snapshot_invalid_response: '云端快照保存结果不完整，已停止后续更新。',
+  snapshot_nodes_invalid: '新快照未通过真实节点完整性或最低数量验证，已保留旧快照。',
+  snapshot_capture_retry_blocked: '此一次性链接已尝试读取。已保留旧快照，请在网页生成新链接后再试。',
+  local_snapshot_rejected: '云端拒绝快照更新，已保留旧快照。',
+  local_snapshot_unavailable: '云端快照验证暂不可用，请稍后检查。',
+  local_snapshot_conflict: '云端快照配置已变化，请重新验证后再操作。',
+  local_snapshot_too_large: '快照超出云端大小限制，已停止更新。',
 };
 const GLOBAL_FIELDS = ['enabled', 'backendUrl', 'frontendUrl', 'cloudEnabled', 'cloudBackendUrl'];
 const PAGE_STAGES = {
@@ -108,8 +114,8 @@ function safeName(value, fallback) {
 export function resultView(result, settings, { extensionVersion, observation, subscriptionName } = {}) {
   if (subscriptionName && result?.subscriptionName && result.subscriptionName !== subscriptionName) result = null;
   const status = result?.status;
-  const outcome = ({ updated: '已更新并读回验证', unchanged: '当前链接已一致', dry_run: '验证通过，未写入',
-    restored: '已恢复上次链接', disabled: '自动同步已关闭', partial: '部分成功，请核对未完成目标', error: '暂未同步' })[status];
+  const outcome = (result?.mode === 'local_snapshot' ? { updated: '本地快照已更新并读回验证', unchanged: '本地快照内容已一致', dry_run: '本地快照验证通过，未写入', restored: '旧快照已恢复', partial: '部分成功，请核对未完成目标', error: '本地快照暂未更新' } :
+    { updated: '已更新并读回验证', unchanged: '当前链接已一致', dry_run: '验证通过，未写入', restored: '已恢复上次链接', disabled: '自动同步已关闭', partial: '部分成功，请核对未完成目标', error: '暂未同步' })[status];
   let title = outcome || '等待网站自动返回订阅';
   let detail = status === 'error' ? errors[result.code] || errors.unexpected_error : '打开已登录的机场仪表盘，扩展会自动识别并匹配已有订阅。';
   if (status === 'partial') detail = '两端结果分别列在下方；一端失败不会撤销另一端已完成的更新，请先核对再手动重试。';
@@ -220,6 +226,7 @@ export function createPopup(document, chromeApi) {
         restored: '已恢复上次链接', disabled: '已关闭', error: '暂未同步' }[targetResult?.status] || '等待同步';
       const name = safeName(targetResult?.subscriptionName || targetResult?.name || record?.subscriptionName, '');
       let text = label + '：' + outcome + (name ? ' · ' + name : '');
+      if (targetResult?.mode === 'local_snapshot') text = label + '：' + ({updated:'本地快照已更新并读回验证',unchanged:'本地快照内容已一致',restored:'旧快照已恢复',dry_run:'本地快照验证通过，未写入',error:'本地快照暂未更新'}[targetResult.status] || outcome) + (name ? ' · ' + name : '');
       if (targetId === 'cloud' && !saved?.cloudEnabled) text = label + '：未启用';
       else if (!saved?.enabled) text = label + '：全局自动同步已关闭';
       else if (targetResult?.status === 'error') text += '。' + (errors[targetResult.code] || errors.unexpected_error);

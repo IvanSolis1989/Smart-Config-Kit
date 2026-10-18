@@ -21,6 +21,20 @@ function request(extra = {}) {
   return { type: 'LOCAL_BACKEND_REQUEST', frontendUrl: FRONTEND, backendUrl: BACKEND, subscriptionName: NAME, path: SUB_PATH, method: 'GET', ...extra };
 }
 
+test('only the explicitly bound snapshot name permits local preview and a content-only patch', async () => {
+  const f = fixture(), name = '都是梦', path = '/api/sub/' + encodeURIComponent(name);
+  for (const input of [request({subscriptionName:name,path,method:'PATCH',body:JSON.stringify({content:'{"proxies":[]}'})}),
+    request({subscriptionName:name,path:'/api/preview/sub?target=JSON',method:'POST',body:JSON.stringify({name,source:'local',url:'',content:'{"proxies":[]}'})})]) {
+    assert.equal((await f.send(input)).value.ok,true);
+  }
+  for (const input of [request({method:'PATCH',body:JSON.stringify({content:'secret'})}),
+    request({subscriptionName:name,path,method:'PATCH',body:JSON.stringify({content:'secret',url:''})}),
+    request({subscriptionName:name,path,method:'PATCH',body:JSON.stringify({content:''})})]) {
+    assert.equal((await f.send(input)).value.code,'local_transport_invalid_request');
+  }
+  assert.equal(f.calls.length,2);
+});
+
 function fixture({ origin = FRONTEND, iframe = true, parentOrigin = 'chrome-extension://' + EXTENSION_ID, bind = true, responder = null } = {}) {
   const listeners = [];
   const calls = [];
@@ -59,7 +73,7 @@ function fixture({ origin = FRONTEND, iframe = true, parentOrigin = 'chrome-exte
     calls.push({ url, options });
     return responder ? responder(url, options) : new Response(JSON.stringify({ status: 'success', data: { fixture: true } }), { status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } });
   };
-  const context = vm.createContext({ window, chrome, URL, fetch, AbortController, TextDecoder, Uint8Array,
+  const context = vm.createContext({ window, chrome, URL, fetch, AbortController, TextDecoder, TextEncoder, Uint8Array,
     console: Object.fromEntries(['log', 'warn', 'error', 'info', 'debug'].map(name => [name, (...args) => logs.push(args)])) });
   for (const key of ['localStorage', 'sessionStorage', 'document', 'cookie']) Object.defineProperty(context, key, { get: forbidden });
   function install() { vm.runInContext(source, context, { filename: 'local-transport.js' }); }

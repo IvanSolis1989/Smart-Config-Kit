@@ -7,14 +7,17 @@ import {buildEntries} from './build.mjs';
 const root=new URL('.',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url),'utf8'));
 
-test('dual-target release advertises both destinations without adding static cloud access',()=>{
- assert.equal(manifest.version,'1.7.0');
+test('local durable snapshot release keeps fresh-install access optional',()=>{
+ assert.equal(manifest.version,'1.8.0');
  assert.equal(manifest.minimum_chrome_version,'111');
  assert.match(manifest.description,/本机/);
  assert.match(manifest.description,/Cloudflare/);
  assert.deepEqual(manifest.host_permissions,['http://127.0.0.1/*']);
  assert.equal(manifest.key,undefined);
  assert.equal(manifest.update_url,undefined);
+ const background=fs.readFileSync(new URL('./background.js',root),'utf8');
+ assert.match(background,/from ['"]\.\/durable-snapshot\.mjs['"]/);
+ assert.ok(fs.existsSync(new URL('./durable-snapshot.mjs',root)));
 });
 
 test('fresh installation cannot inject or obtain external site access without an optional grant',()=>{

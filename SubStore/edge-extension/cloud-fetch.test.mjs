@@ -3,6 +3,25 @@ import assert from 'node:assert/strict';
 
 const backendUrl = 'https://cloud.example.invalid/private-access';
 const settings = { backendUrl, subscriptionName: 'Airport A', targetId: 'cloud' };
+
+test('durable snapshot writes are name restricted, revision guarded and marked only after final authorization', async () => {
+ const {createCloudFetcher}=await import('./cloud-fetch.mjs');let writes=0,sends=0,checks=0;
+ const nodes=Array.from({length:18},(_,i)=>({name:'N'+i,type:'ss',server:'node.example',port:443}));
+ const api={permissions:{contains:async()=>true}};
+ const make=(name='都是梦',stale=false)=>createCloudFetcher(api,{...settings,subscriptionName:name},{
+  assertCurrent:()=>{checks++;if(stale&&checks%2===0)throw Object.assign(Error('candidate_superseded'),{code:'candidate_superseded'})},
+  onWriteSent:()=>writes++,fetcher:async()=>{sends++;return new Response('{}')}
+ });
+ const path=backendUrl+'/api/local-snapshot/'+encodeURIComponent('都是梦'),body={expectedRevision:'a'.repeat(64),original:nodes};
+ await make()(path,{method:'GET'});assert.equal(writes,0);
+ await make()(path,{method:'POST',body:JSON.stringify(body)});assert.equal(writes,1);
+ await make()(path,{method:'POST',body:JSON.stringify({expectedRevision:'a'.repeat(64),restoreContent:'OLD CONTENT'})});assert.equal(writes,2);
+ await make()(path,{method:'POST',body:JSON.stringify({...body,dryRun:true})});assert.equal(writes,2);
+ for(const invalid of [{...body,url:'https://burn.example'}, {...body,original:nodes.slice(1)}, {...body,expectedRevision:'wrong'}])await assert.rejects(make()(path,{method:'POST',body:JSON.stringify(invalid)}),{code:'cloud_transport_invalid_request'});
+ await assert.rejects(make('Other')(path,{method:'GET'}),{code:'cloud_transport_invalid_request'});
+ checks=0;await assert.rejects(make('都是梦',true)(path,{method:'POST',body:JSON.stringify(body)}),{code:'candidate_superseded'});
+ assert.equal(sends,4);assert.equal(writes,2);
+});
 async function harness({ permitted = true, assertCurrent, onWriteSent, fetcher } = {}) {
   const { createCloudFetcher } = await import('./cloud-fetch.mjs');
   const calls = [], permissions = [];

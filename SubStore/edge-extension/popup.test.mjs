@@ -11,6 +11,13 @@ const clone = value => structuredClone(value);
 const SETTINGS = Object.freeze({ enabled: true, backendUrl: 'http://127.0.0.1:38324', frontendUrl: 'http://127.0.0.1:14122', cloudEnabled: false, cloudBackendUrl: '' });
 const VERSION = '1.3.0', ORIGIN = 'https://airport.example.com';
 
+test('durable snapshot outcomes name content rather than advertising URL synchronization', () => {
+ for(const status of ['updated','unchanged','restored','dry_run']){
+  const view=resultView({status,mode:'local_snapshot',extensionVersion:VERSION,at:'2026-10-18T12:00:00Z'},SETTINGS,{extensionVersion:VERSION});
+  assert.match(view.title,/快照/);assert.doesNotMatch(view.title,/链接/);
+ }
+});
+
 class Element {
   value = ''; checked = false; disabled = false; hidden = false; textContent = ''; className = '';
   listeners = new Map(); attributes = new Map(); children = [];

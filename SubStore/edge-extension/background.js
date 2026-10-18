@@ -4,6 +4,7 @@ import { createCloudFetcher } from './cloud-fetch.mjs';
 import { chooseSubscription } from './auto-match.mjs';
 import { createSiteAccess } from './site-access.mjs';
 import { prepareSourceSnapshot } from './source-snapshot.mjs';
+import { snapshotPolicy, chooseSnapshotSubscription, captureSnapshot, syncDurableSnapshot, verifyDurableSnapshot } from './durable-snapshot.mjs';
 
 let queue = Promise.resolve();
 function serial(action) { const task = queue.then(action, action); queue = task.catch(() => {}); return task; }
@@ -273,8 +274,8 @@ async function readCatalog(settings, control) {
     }
   }
 }
-async function syncOneTarget(origin, pending, control, settings, dryRun = false, manual = false) {
-  let matchedName, backupBefore, backupWritten, ledgerKey, previousAttempt, targetKey, sourceSnapshot, attemptWritten = false;
+async function syncOneTarget(origin, pending, control, settings, dryRun = false, manual = false, sharedCapture) {
+  let matchedName, backupBefore, backupWritten, ledgerKey, previousAttempt, targetKey, sourceSnapshot, snapshotMode, attemptWritten = false;
   const targetId = settings.targetId;
   try {
     await control.checkpoint();
@@ -284,17 +285,25 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
     ledgerKey = await sha256([targetId, settings.backendUrl, pending.candidateUrl]);
     const ledger = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
     previousAttempt = ledger[ledgerKey];
+    if (!dryRun && !manual && previousAttempt?.result?.mode === 'local_snapshot') {
+      const previous = previousAttempt.result, chosen = { ...settings, subscriptionName: previous.subscriptionName };
+      const verified = await verifyDurableSnapshot({ settings: chosen, policy: snapshotPolicy(origin, previous.subscriptionName),
+        expectedRevision: previous.revision, fetcher: currentFetcher(chosen, control), checkpoint: () => control.checkpoint() });
+      return { ...previous, ...verified };
+    }
     if (!dryRun && !manual && ledger[ledgerKey] && !ledger[ledgerKey].result) return {
       targetId, targetKey, status: 'error', code: 'automatic_retry_blocked', writeState: 'unknown',
     };
     const catalog = await readCatalog(settings, control);
     if (!Array.isArray(catalog) || catalog.length > 1000) throw new SyncError('catalog_unavailable');
-    const match = chooseSubscription({ candidateUrl: pending.candidateUrl, siteNames: pending.siteNames, catalog });
+    const snapshotMatch = chooseSnapshotSubscription({ origin, siteNames: pending.siteNames, catalog });
+    const match = snapshotMatch.status !== 'none' ? snapshotMatch : chooseSubscription({ candidateUrl: pending.candidateUrl, siteNames: pending.siteNames, catalog });
     if (match.status !== 'matched') throw new SyncError(match.status === 'ambiguous' ? 'auto_match_ambiguous' : 'auto_match_none');
     matchedName = match.subscriptionName;
+    snapshotMode = match.mode;
     const selected = catalog.find(item => item?.name === matchedName);
     const chosen = { ...settings, subscriptionName: match.subscriptionName };
-    if (targetId === 'cloud') {
+    if (targetId === 'cloud' && match.mode !== 'local_snapshot') {
       const global = await siteAccess.require(origin);
       await control.checkpoint();
       const localSettings = targetSettingsFrom(global, 'local');
@@ -304,9 +313,7 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
         cloudFetcher: currentFetcher(chosen, control), localFetcherFor: value => currentFetcher(value, control),
         readLocalCatalog: () => readCatalog(localSettings, control), checkpoint: () => control.checkpoint() });
     }
-    const result = await syncSubscription({ settings: chosen, candidateUrl: pending.candidateUrl, dryRun,
-      expectedBeforeURL: selected.url, allowOriginChange: match.method === 'unique_name_new_origin',
-      assertCurrent: control.assertCurrent, fetcher: currentFetcher(chosen, control), saveBackup: async backup => {
+    const saveBackup = async backup => {
         await control.checkpoint();
         const previous = (await chrome.storage.local.get('backups')).backups || [];
         await control.checkpoint();
@@ -325,10 +332,16 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
           await chrome.storage.session.set({ targetAttempts: attempts });
           attemptWritten = true;
         }
-      } });
+      };
+    const result = match.mode === 'local_snapshot' ? await syncDurableSnapshot({ settings: chosen,
+      policy: snapshotPolicy(origin, matchedName), capture: sharedCapture, dryRun,
+      checkpoint: () => control.checkpoint(), fetcher: currentFetcher(chosen, control), saveBackup }) :
+      await syncSubscription({ settings: chosen, candidateUrl: pending.candidateUrl, dryRun,
+        expectedBeforeURL: selected.url, allowOriginChange: match.method === 'unique_name_new_origin',
+        assertCurrent: control.assertCurrent, fetcher: currentFetcher(chosen, control), saveBackup });
     await control.checkpoint();
     const safe = { ...result, targetId, targetKey, matchMethod: match.method, ...(sourceSnapshot ? { sourceSnapshot } : {}) };
-    if (!dryRun && (control.writeSent || (manual && previousAttempt))) {
+    if (!dryRun && (control.writeSent || result.mode === 'local_snapshot' || (manual && previousAttempt))) {
       const attempts = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
       attempts[ledgerKey] = { at: Date.now(), result: safe };
       await chrome.storage.session.set({ targetAttempts: attempts });
@@ -353,6 +366,7 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
       return { status: 'error', code: 'candidate_superseded' };
     }
     return { targetId, targetKey, status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
+      ...(snapshotMode ? { mode: snapshotMode } : {}),
       ...(sourceSnapshot ? { sourceSnapshot } : {}),
       ...(control.writeSent ? { writeState: 'unknown' } : {}),
       ...(error?.cleanupFailed === true ? { cleanupFailed: true } : {}),
@@ -365,12 +379,28 @@ async function syncCandidate(origin, pending, control, dryRun = false, manual = 
   if (selectedTarget !== undefined && !['local', 'cloud'].includes(selectedTarget)) throw new SyncError('invalid_settings');
   if (selectedTarget === 'cloud' && !settings.cloudEnabled) throw new SyncError('disabled');
   const targets = {};
+  let captured;
+  const sharedCapture = () => {
+    if (!captured) captured = (async () => {
+      const local = { ...targetSettingsFrom(await siteAccess.require(origin), 'local'), subscriptionName: '都是梦' };
+      const captureKey = await sha256([origin, local.backendUrl, pending.candidateUrl, 'burn_capture']);
+      const attempts = (await chrome.storage.session.get('burnCaptures')).burnCaptures || {};
+      await control.checkpoint();
+      if (attempts[captureKey] && !manual) throw new SyncError('snapshot_capture_retry_blocked');
+      // Persist only that a one-use read may have started, never its raw result.
+      await chrome.storage.session.set({ burnCaptures: capped({ ...attempts, [captureKey]: { at: Date.now() } }) });
+      await control.checkpoint();
+      return captureSnapshot({ settings: local, candidateUrl: pending.candidateUrl, policy: snapshotPolicy(origin, local.subscriptionName),
+        fetcher: currentFetcher(local, control), checkpoint: () => control.checkpoint() });
+    })();
+    return captured;
+  };
   for (const targetId of ['local', 'cloud']) {
     if (selectedTarget && targetId !== selectedTarget) continue;
     if (targetId === 'cloud' && !settings.cloudEnabled) continue;
     await control.checkpoint();
     const targetControl = { ...control, writeSent: false };
-    targets[targetId] = await syncOneTarget(origin, pending, targetControl, targetSettingsFrom(settings, targetId), dryRun, manual);
+    targets[targetId] = await syncOneTarget(origin, pending, targetControl, targetSettingsFrom(settings, targetId), dryRun, manual, sharedCapture);
     if (targets[targetId].code === 'candidate_superseded') return targets[targetId];
   }
   await control.checkpoint();
@@ -528,7 +558,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (!state || !validNonce(state.documentNonce)) throw new SyncError('open_dashboard_first');
       const control = observationControl({ origin: selectedOrigin, state, generation: state.generation,
         documentKey: state.documentKey, documentNonce: state.documentNonce, tabId: state.tabId });
-      const result = await restoreBackup({ settings: chosen, backup, fetcher: currentFetcher(chosen, control) });
+      const result = backup?.kind === 'content' ? await syncDurableSnapshot({ settings: chosen,
+        policy: snapshotPolicy(selectedOrigin, name), restoreContent: backup.previousContent, expectedBackup: backup,
+        checkpoint: () => control.checkpoint(), fetcher: currentFetcher(chosen, control) }) :
+        await restoreBackup({ settings: chosen, backup, fetcher: currentFetcher(chosen, control) });
       await chrome.storage.local.set({ backups: backups.filter(item => item !== backup) });
       return record(selectedOrigin, { ...result, targets: { [targetId]: { ...result, targetId, targetKey: await sha256([targetId, selected.backendUrl]) } } }, undefined, control);
     }

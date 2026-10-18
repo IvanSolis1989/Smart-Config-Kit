@@ -1,6 +1,7 @@
 // Real-browser automatic-flow acceptance. All account/source data below is synthetic.
 // Run after build.mjs. No popup, reload, button interaction or existing profile is used.
 import http from 'node:http';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -9,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
-const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs', 'source-snapshot.mjs',
+const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs', 'source-snapshot.mjs', 'durable-snapshot.mjs',
   'local-transport.js', 'offscreen.html', 'offscreen.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
   'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
@@ -20,6 +21,10 @@ const NODES = [
   { name: 'Fixture HK', type: 'trojan', server: 'node-one.example.com', port: 443, password: 'fixture-node-one' },
   { name: 'Fixture JP', type: 'ss', server: 'node-two.example.com', port: 443, cipher: 'aes-128-gcm', password: 'fixture-node-two' },
 ];
+const DURABLE_NODES = Array.from({ length: 18 }, (_, index) => ({ name: `Dream node ${index + 1}`, type: 'ss',
+  server: `dream-node-${index + 1}.example.com`, port: 443, cipher: 'aes-128-gcm', password: `fixture-dream-${index + 1}` }));
+const DURABLE_DRYRUN_NODES = Array.from({ length: 18 }, (_, index) => ({ name: `Dream dry-run node ${index + 1}`, type: 'ss',
+  server: `dryrun-dream-node-${index + 1}.example.com`, port: 443, cipher: 'aes-128-gcm', password: `fixture-dryrun-dream-${index + 1}` }));
 const clone = value => structuredClone(value);
 const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const equal = (left, right) => JSON.stringify(left) === JSON.stringify(right);
@@ -39,6 +44,20 @@ function subscription(name, url) {
     icon: 'fixture-icon', custom: { preserve: true } };
 }
 
+function durableSubscription(name) {
+  const oldNodes = DURABLE_NODES.map(node => ({ ...node, password: 'previous-durable-snapshot' }));
+  return { ...subscription(name, ''), source: 'local', url: '', content: JSON.stringify({ proxies: oldNodes }) };
+}
+
+function cloudNameFor(fixture) { return fixture.durableSnapshot ? fixture.name : 'Cloud ' + fixture.name; }
+function cloudFixtureFor(cases, name) { return cases.find(item => item.dual && cloudNameFor(item) === name); }
+function canonical(value) {
+  if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
+  if (value && typeof value === 'object') return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonical(value[key])).join(',') + '}';
+  return JSON.stringify(value);
+}
+function revision(value) { return createHash('sha256').update(canonical(value)).digest('hex'); }
+
 function fixtures() {
   const sources = id => ({ old: `https://${id}-source.example.com/subscribe?token=OLD-${id}-FIXTURE`,
     candidate: `https://${id}-source.example.com/subscribe?token=NEW-${id}-FIXTURE` });
@@ -48,7 +67,8 @@ function fixtures() {
     { id: 'peiqian', label: 'Peiqian input', origin: 'https://www.xn--mes358aby2apfg.com', brand: '赔钱机场', name: 'Internal Peiqian fixture', mode: 'input' },
     { id: 'kitty', label: 'Kitty XHR', origin: 'https://kitty.sb', brand: 'Kitty Network', name: 'Internal Kitty fixture', mode: 'xhr', api: 'https://moka.tainaka-ritsu.com/api/v3/user/getSubscribe' },
     { id: 'star', label: 'Starnetwork fetch', origin: 'https://ad.zstarzzz.cc', brand: '星网-Starnetwork', name: 'Internal Star fixture', mode: 'fetch', api: 'https://ad.zstarzzz.cc/api/v1/user/getSubscribe' },
-    { id: 'dream', label: 'Doushimeng import', origin: 'https://therun.6128888.xyz', brand: '都是梦', name: 'Internal Dream fixture', mode: 'import' },
+    { id: 'dream', label: 'Doushimeng import', origin: 'https://therun.6128888.xyz', brand: 'Doushimeng legacy panel', name: 'Internal Dream fixture', mode: 'import' },
+    { id: 'dream_remote_regression', label: 'Doushimeng outside restricted source keeps remote sync', origin: 'https://dream-remote-regression.example.com', brand: '都是梦', name: 'Dream remote regression fixture', mode: 'import' },
     { id: 'unknown', label: 'Unknown HTTPS DOM', origin: 'https://unknown-airport.example.com', brand: '任意演示机场', name: 'Unrelated catalog identifier', mode: 'attribute' },
     { id: 'httpip', label: 'HTTP IP fetch', origin: 'http://192.0.2.99:8080', brand: 'HTTP IP 演示机场', name: 'IP catalog identifier', mode: 'fetch', api: 'http://192.0.2.99:8080/api/v1/user/getSubscribe',
       old: 'http://198.51.100.24:9090/subscribe?token=OLD-IP-FIXTURE', candidate: 'http://198.51.100.24:9090/subscribe?token=NEW-IP-FIXTURE' },
@@ -128,9 +148,22 @@ function fixtures() {
         ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub', 'GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub'],
       expectedStatus: cloudWarning ? 'partial' : 'updated', expectedLocalStatus: 'updated' };
   });
-  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, ...dual, offline]
+  const durable = [
+    { id: 'durable_snapshot_success', providerFailure: false },
+    { id: 'durable_snapshot_provider_failure', providerFailure: true },
+  ].map(({ id, providerFailure }) => {
+    const urls = sources(id);
+    return { ...urls, id, label: providerFailure ? 'Durable snapshot provider failure preserves existing local and cloud content' :
+      'Durable snapshot burns once and updates local and Cloudflare content', origin: 'https://therun.6128888.xyz',
+      brand: '都是梦', name: '都是梦', mode: 'import', dual: true, durableSnapshot: true, providerFailure,
+      expectedStatus: providerFailure ? 'error' : 'updated', expectedCode: providerFailure ? 'snapshot_nodes_invalid' : undefined,
+      operations: providerFailure ? ['GET:catalog', 'GET:sub', 'POST:preview'] :
+        ['GET:catalog', 'GET:sub', 'POST:preview', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'] };
+  });
+  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, ...dual, ...durable, offline]
     .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
-  const catalog = cases.filter(fixture => fixture.name).map(fixture => subscription(fixture.name, fixture.old));
+  const named = cases.filter(fixture => fixture.name).filter((fixture, index, all) => all.findIndex(other => other.name === fixture.name) === index);
+  const catalog = named.map(fixture => fixture.durableSnapshot ? durableSubscription(fixture.name) : subscription(fixture.name, fixture.old));
   const base = catalog.find(sub => sub.name === 'SSONE');
   catalog.push({ ...clone(base), name: 'SSONE-copy5806' }, { ...clone(base), name: 'SSONE-copy9268' });
   catalog.push(subscription('Shared account one', 'https://shared-source.example.com/subscribe?token=ACCOUNT-ONE-FIXTURE'),
@@ -181,9 +214,10 @@ async function readJSON(request) {
 }
 
 async function mockServices(cases, catalog) {
-  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], timeline: [], sequence: 0,
+  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], timeline: [], sequence: 0, activeFixture: null,
     corsRejected: 0, failure: null, previewGates: new Map(), previewHeld: new Set() };
-  const byName = new Map(cases.filter(fixture => fixture.name).map(fixture => [fixture.name, fixture]));
+  const byName = new Map();
+  for (const fixture of cases.filter(item => item.name)) if (!byName.has(fixture.name)) byName.set(fixture.name, fixture);
   const frontend = await startServer((_request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
     response.end('<!doctype html><meta charset="utf-8"><title>Mock local frontend</title><p>Local transport fixture</p>');
@@ -209,18 +243,36 @@ async function mockServices(cases, catalog) {
         else if (request.method === 'POST' && url.pathname === '/api/preview/sub') {
           const body = await readJSON(request);
           const before = state.subs.get(body.name);
-          const fixture = byName.get(body.name);
+          const fixture = state.activeFixture?.name === body.name ? state.activeFixture : byName.get(body.name);
           operation.name = body.name;
           check(before && fixture && url.search === '?target=JSON', 'preview_scope_failed');
           check(body.noCache === true && body.ignoreFailedRemoteSub === false, 'preview_cache_options_failed');
-          check(body.url === fixture.candidate + PREVIEW_FRAGMENT, 'preview_fragment_failed');
-          const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
-          check(equal(originalFields, withoutURL(before)), 'preview_process_preservation_failed');
+          if (fixture.durableSnapshot && body.source === 'remote') {
+            state.durableBurns ||= [];
+            state.durableBurns.push({ name: body.name, url: body.url });
+            check(body.url === fixture.candidate && body.name === '都是梦' && body.content === '' && equal(body.process, []), 'durable_burn_request_failed');
+            check(body.noCache === true && body.noFlow === true && body.ignoreFailedRemoteSub === false, 'durable_burn_preview_options_failed');
+          } else if (fixture.durableSnapshot) {
+            check(body.source === 'local' && body.url === '' && body.name === '都是梦', 'durable_local_preview_identity_failed');
+            check(body.noCache === true && body.noFlow === true && body.ignoreFailedRemoteSub === false, 'durable_local_preview_options_failed');
+            const proxies = JSON.parse(body.content).proxies;
+            check(equal(proxies, DURABLE_NODES) || equal(proxies, DURABLE_DRYRUN_NODES), 'durable_local_preview_content_failed');
+          } else check(body.url === fixture.candidate + PREVIEW_FRAGMENT, 'preview_fragment_failed');
+          if (fixture.durableSnapshot && body.source === 'remote') {
+            check(equal(Object.keys(body).sort(), ['content', 'ignoreFailedRemoteSub', 'name', 'noCache', 'noFlow', 'process', 'source', 'url'].sort()), 'durable_burn_fields_failed');
+          } else {
+            const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.noFlow; delete originalFields.ignoreFailedRemoteSub;
+            const expectedBefore = fixture.durableSnapshot ? { ...before, content: body.content } : before;
+            check(equal(originalFields, withoutURL(expectedBefore)), 'preview_process_preservation_failed');
+          }
           if ((fixture.lateAmbiguity || fixture.holdPreview) && !state.previewHeld.has(body.name)) {
             state.previewHeld.add(body.name);
             await new Promise(resolve => state.previewGates.set(body.name, resolve));
           }
-          const nodes = fixture.loopback ? [
+          const durableBurn = fixture.durableSnapshot && body.source === 'remote';
+          const durableLocalPreview = fixture.durableSnapshot && body.source === 'local';
+          const nodes = durableBurn ? (fixture.providerFailure ? DURABLE_NODES.slice(0, 17) : state.durableDryRunMode ? DURABLE_DRYRUN_NODES : DURABLE_NODES) :
+            durableLocalPreview ? JSON.parse(body.content).proxies : fixture.loopback ? [
             { ...NODES[0], server: '0:0:0:0:0:0:0:1' }, { ...NODES[1], server: '::ffff:127.0.0.1' },
             { ...NODES[0], server: 'localhost.' },
           ] : fixture.warning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : [...NODES, ...(fixture.infoNodes || [])];
@@ -233,10 +285,15 @@ async function mockServices(cases, catalog) {
           if (request.method === 'GET') data = before;
           else if (request.method === 'PATCH') {
             const body = await readJSON(request);
-            const fixture = byName.get(name);
-            check(equal(Object.keys(body), ['url']), 'patch_fields_failed');
-            check(fixture && body.url === fixture.candidate + FRAGMENT, 'patch_fragment_failed');
-            state.subs.set(name, { ...before, url: body.url }); data = {};
+            const fixture = state.activeFixture?.name === name ? state.activeFixture : byName.get(name);
+            if (fixture?.durableSnapshot) {
+              check(equal(Object.keys(body), ['content']) && typeof body.content === 'string' && !!body.content, 'durable_local_patch_fields_failed');
+              state.subs.set(name, { ...before, content: body.content }); data = {};
+            } else {
+              check(equal(Object.keys(body), ['url']), 'patch_fields_failed');
+              check(fixture && body.url === fixture.candidate + FRAGMENT, 'patch_fragment_failed');
+              state.subs.set(name, { ...before, url: body.url }); data = {};
+            }
           } else check(false, 'mock_method_failed');
         } else check(false, 'mock_path_failed');
         response.writeHead(200, headers); response.end(JSON.stringify({ status: 'success', data }));
@@ -298,6 +355,13 @@ async function main() {
     await fs.appendFile(path.join(runtimeDirectory, 'background.js'), `
 // Private acceptance probes, with no URLs/tokens retained from messages.
 globalThis.__fixtureWhenIdle = whenIdle;
+globalThis.__fixtureDryRunCandidate = async origin => {
+  const state = generations.get(origin);
+  const pending = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[origin];
+  if (!state || !pending || state.kind !== 'candidate') throw new Error('fixture_document_state_missing');
+  return syncCandidate(origin, pending, controlFor({ origin, state, generation: state.generation, documentKey: state.documentKey,
+    documentNonce: state.documentNonce, tabId: state.tabId, candidateUrl: pending.candidateUrl }), true, true);
+};
 globalThis.__fixtureRefreshAccess = () => siteAccess.refresh();
 globalThis.__fixtureEvents = {};
 globalThis.__fixtureTabLifecycle = { created: 0, removed: 0 };
@@ -336,7 +400,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     const apis = new Map(cases.filter(fixture => fixture.api).map(fixture => [fixture.api, fixture]));
     for (const fixture of cases.filter(fixture => fixture.secondAPI)) apis.set(fixture.secondAPI, { ...fixture, candidate: fixture.second });
     const cloudOperations = [];
-    const cloudSubs = new Map(cases.filter(item => item.dual).map(item => ['Cloud ' + item.name, subscription('Cloud ' + item.name, item.old)]));
+    const cloudSubs = new Map();
+    for (const fixture of cases.filter(item => item.dual)) {
+      const name = cloudNameFor(fixture);
+      if (!cloudSubs.has(name)) cloudSubs.set(name, fixture.durableSnapshot ? durableSubscription(name) : subscription(name, fixture.old));
+    }
     const cloudSnapshots = new Map();
     let blocked = 0;
     await context.route(/^https?:\/\//, async route => {
@@ -346,8 +414,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         const relative = url.href.slice(CLOUD_BASE.length);
         const method = request.method();
         const snapshotRoute = relative.match(/^\/api\/source-snapshot\/([^/?]+)$/);
+        const durableRoute = relative.match(/^\/api\/local-snapshot\/([^/?]+)$/);
         const kind = relative === '/api/subs' ? 'catalog' : relative === '/api/preview/sub?target=JSON' ? 'preview' :
-          snapshotRoute ? method === 'GET' ? 'snapshot-policy' : 'snapshot-upload' : 'sub';
+          snapshotRoute ? method === 'GET' ? 'snapshot-policy' : 'snapshot-upload' :
+          durableRoute ? method === 'GET' ? 'durable-policy' : 'durable-upload' : 'sub';
         const operation = { method, kind, order: ++services.state.sequence };
         cloudOperations.push(operation);
         services.state.timeline.push({ source: 'cloud', method, kind, order: operation.order });
@@ -355,9 +425,38 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           check(url.href.startsWith(CLOUD_BASE + '/'), 'cloud_prefix_failed');
           let data;
           if (method === 'GET' && relative === '/api/subs') data = [...cloudSubs.values()];
+          else if (durableRoute && method === 'GET') {
+            const durableName = decodeURIComponent(durableRoute[1]);
+            const fixture = cloudFixtureFor(cases, durableName);
+            const before = cloudSubs.get(durableName);
+            operation.name = durableName;
+            check(fixture?.durableSnapshot && before?.source === 'local' && before.url === '', 'durable_cloud_policy_scope_failed');
+            data = { allowed: true, name: durableName, minNodes: 18, revision: revision(before), originalNodes: 18, processedNodes: 18 };
+          } else if (durableRoute && method === 'POST') {
+            const durableName = decodeURIComponent(durableRoute[1]);
+            const body = request.postDataJSON(), before = cloudSubs.get(durableName);
+            const fixture = cloudFixtureFor(cases, durableName);
+            operation.name = durableName;
+            check(fixture?.durableSnapshot && !fixture.providerFailure && before?.source === 'local' && before.url === '', 'durable_cloud_upload_scope_failed');
+            const dryRun = body.dryRun === true;
+            check(equal(Object.keys(body).sort(), dryRun ? ['dryRun', 'expectedRevision', 'original'] : ['expectedRevision', 'original']) &&
+              (!dryRun || body.dryRun === true) && body.expectedRevision === revision(before), 'durable_cloud_upload_contract_failed');
+            check((equal(body.original, DURABLE_NODES) || equal(body.original, DURABLE_DRYRUN_NODES)) && body.original.length === 18, 'durable_cloud_upload_nodes_failed');
+            const processed = body.original;
+            services.state.timeline.push({ source: 'cloud', method: 'INTERNAL', kind: 'durable-provider-preview', order: ++services.state.sequence });
+            if (dryRun) {
+              services.state.durableDryRuns ||= [];
+              services.state.durableDryRuns.push({ name: durableName, expectedRevision: body.expectedRevision });
+              data = { status: 'dry_run', name: durableName, revision: body.expectedRevision, originalNodes: body.original.length, processedNodes: processed.length };
+            } else {
+              const updated = { ...before, content: JSON.stringify({ proxies: body.original }) };
+              cloudSubs.set(durableName, updated);
+              data = { status: 'updated', name: durableName, revision: revision(updated), originalNodes: body.original.length, processedNodes: processed.length };
+            }
+          }
           else if (snapshotRoute && method === 'GET') {
             const cloudName = decodeURIComponent(snapshotRoute[1]);
-            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === cloudName);
+            const fixture = cloudFixtureFor(cases, cloudName);
             operation.name = cloudName;
             check(fixture, 'cloud_snapshot_policy_scope_failed');
             if (fixture.legacySnapshotRoute) {
@@ -371,7 +470,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             const cloudName = decodeURIComponent(snapshotRoute[1]);
             const body = request.postDataJSON();
             const previous = cloudSubs.get(cloudName);
-            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === cloudName);
+            const fixture = cloudFixtureFor(cases, cloudName);
             operation.name = cloudName;
             check(previous && fixture && !fixture.legacySnapshotRoute, 'cloud_snapshot_upload_scope_failed');
             check(body.url === fixture.candidate + FRAGMENT && body.expectedUrl === previous.url, 'cloud_snapshot_url_scope_failed');
@@ -388,9 +487,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           }
           else if (method === 'POST' && relative === '/api/preview/sub?target=JSON') {
             const body = request.postDataJSON(), previous = cloudSubs.get(body.name);
-            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === body.name);
+            const fixture = cloudFixtureFor(cases, body.name);
             operation.name = body.name;
             check(previous && fixture && body.url === fixture.candidate + PREVIEW_FRAGMENT, 'cloud_preview_scope_failed');
+            check(body.source !== 'local', 'cloud_generic_preview_rejected_source_local');
             if (!fixture.legacySnapshotRoute) {
               const uploaded = cloudSnapshots.has(body.name) && services.state.timeline.some(event => event.source === 'cloud' && event.kind === 'snapshot-upload' && event.order < operation.order);
               check(uploaded, 'cloud_preview_skipped_after_local_snapshot_upload');
@@ -402,7 +502,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             data = { original: nodes, processed: nodes };
           } else if (relative.startsWith('/api/sub/')) {
             const name = decodeURIComponent(relative.slice('/api/sub/'.length)), previous = cloudSubs.get(name);
-            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === name);
+            const fixture = cloudFixtureFor(cases, name);
             operation.name = name;
             check(previous && fixture, 'cloud_sub_scope_failed');
             if (method === 'GET') data = previous;
@@ -442,6 +542,15 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
     for (const fixture of executionCases) {
       label = fixture.label;
+      services.state.activeFixture = fixture;
+      // Several isolated fixtures intentionally share the allowlisted Dream
+      // origin. Do not let that origin's previous fixture result satisfy the
+      // next fixture's result poll before its new candidate is processed.
+      await worker.evaluate(async origin => {
+        const { sites = {} } = await chrome.storage.local.get('sites');
+        if (sites[origin]) sites[origin] = { ...sites[origin], lastResult: null };
+        await chrome.storage.local.set({ sites });
+      }, fixture.origin);
       await worker.evaluate(async ({ enabled, backend }) => {
         const current = (await chrome.storage.local.get('settings')).settings;
         await chrome.storage.local.set({ settings: { ...current, cloudEnabled: enabled, cloudBackendUrl: enabled ? backend : '' } });
@@ -450,6 +559,9 @@ chrome.runtime.onMessage.addListener((message, sender) => {
       }, { enabled: Boolean(fixture.dual), backend: CLOUD_BASE });
       const cloudCallsBefore = cloudOperations.length;
       const originals = new Map([...services.state.subs].map(([name, sub]) => [name, clone(sub)]));
+      const cloudOriginals = new Map([...cloudSubs].map(([name, sub]) => [name, clone(sub)]));
+      const durableBurnsBefore = services.state.durableBurns?.length || 0;
+      const durableDryRunsBefore = services.state.durableDryRuns?.length || 0;
       const callsBefore = services.state.operations.length;
       const backupsBefore = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
       const page = await context.newPage();
@@ -561,23 +673,97 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         for (const [name, before] of originals) {
           const after = services.state.subs.get(name);
           const changed = (fixture.expectedLocalStatus || fixture.expectedStatus) === 'updated' && name === fixture.name;
-          check(equal(after, changed ? { ...before, url: fixture.candidate + FRAGMENT } : before), 'stored_subscription_preservation_failed');
+          const expectedAfter = changed ? fixture.durableSnapshot ? { ...before, content: JSON.stringify({ proxies: DURABLE_NODES }) } : { ...before, url: fixture.candidate + FRAGMENT } : before;
+          check(equal(after, expectedAfter), 'stored_subscription_preservation_failed');
         }
         if ((fixture.expectedLocalStatus || fixture.expectedStatus) === 'updated') {
           check(result.subscriptionName === fixture.name, 'automatic_name_match_failed');
           if (fixture.expectedMatchMethod) check(result.matchMethod === fixture.expectedMatchMethod, 'automatic_match_method_failed');
-          check(result.originalNodes === 2 && result.processedNodes === 2, 'preview_node_count_failed');
+          check(result.originalNodes === (fixture.durableSnapshot ? 18 : 2) && result.processedNodes === (fixture.durableSnapshot ? 18 : 2), 'preview_node_count_failed');
           check(operations.filter(operation => operation.kind !== 'catalog').every(operation => operation.name === fixture.name), 'wrong_subscription_requested');
           const backup = await worker.evaluate(async name => (await chrome.storage.local.get('backups')).backups?.find(item => item.subscriptionName === name), fixture.name);
-          check(backup?.previousURL === originals.get(fixture.name).url, 'backup_preservation_failed');
+          if (fixture.durableSnapshot) check(backup?.previousContent === originals.get(fixture.name).content && backup?.kind === 'content', 'durable_backup_preservation_failed');
+          else check(backup?.previousURL === originals.get(fixture.name).url, 'backup_preservation_failed');
         } else {
           const backupsAfter = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
           check(backupsAfter === backupsBefore, 'error_backup_changed');
         }
         if (fixture.dual) {
-          check(result.targets?.local?.status === 'updated', 'dual_local_result_failed');
+          check(result.targets?.local?.status === (fixture.providerFailure ? 'error' : 'updated'), 'dual_local_result_failed');
           const cloudResult = result.targets?.cloud;
-          check(cloudResult?.status === (fixture.cloudWarning ? 'error' : 'updated'), 'dual_cloud_result_failed');
+          check(cloudResult?.status === (fixture.providerFailure || fixture.cloudWarning ? 'error' : 'updated'), 'dual_cloud_result_failed');
+          if (fixture.durableSnapshot) {
+            check((services.state.durableBurns?.length || 0) - durableBurnsBefore === 1, 'durable_candidate_burned_more_than_once');
+            check(services.state.durableBurns.at(-1).name === fixture.name && services.state.durableBurns.at(-1).url === fixture.candidate,
+              'durable_burn_candidate_mismatch');
+            if (fixture.providerFailure) {
+              check(result.status === 'error' && result.targets.local.code === 'snapshot_nodes_invalid', 'durable_provider_failure_not_reported');
+              check(!services.state.operations.slice(callsBefore).some(operation => operation.method === 'PATCH'), 'durable_provider_failure_wrote_local');
+              check(!cloudOperations.slice(cloudCallsBefore).some(operation => operation.kind === 'durable-upload'), 'durable_provider_failure_wrote_cloud');
+              check(equal(services.state.subs.get(fixture.name), originals.get(fixture.name)), 'durable_provider_failure_changed_local_snapshot');
+              check(equal(cloudSubs.get(cloudNameFor(fixture)), cloudOriginals.get(cloudNameFor(fixture))), 'durable_provider_failure_changed_cloud_snapshot');
+              const backupsAfter = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups || []);
+              check(backupsAfter.length === backupsBefore, 'durable_provider_failure_changed_backups');
+            } else {
+              check(result.targets.local.mode === 'local_snapshot' && cloudResult.mode === 'local_snapshot', 'durable_snapshot_mode_missing');
+              check(!JSON.stringify(result).includes(fixture.candidate), 'durable_burn_url_leaked');
+              check(result.originalNodes === 18 && result.processedNodes === 18, 'durable_aggregate_node_count_failed');
+              const cloudName = cloudNameFor(fixture), cloudAfter = cloudSubs.get(cloudName), cloudBefore = cloudOriginals.get(cloudName);
+              check(equal(cloudAfter, { ...cloudBefore, content: JSON.stringify({ proxies: DURABLE_NODES }) }), 'durable_cloud_content_readback_failed');
+              check(cloudAfter.url === '' && cloudAfter.source === 'local' && equal(cloudAfter.process, cloudBefore.process), 'durable_cloud_configuration_changed');
+              const cloudBackup = await worker.evaluate(async name => (await chrome.storage.local.get('backups')).backups?.find(item => item.subscriptionName === name && item.targetId === 'cloud'), fixture.name);
+              check(cloudBackup?.previousContent === cloudBefore.content && cloudBackup.targetId === 'cloud', 'durable_cloud_backup_missing');
+            }
+            const expectedCloud = fixture.providerFailure
+              ? ['GET:catalog', 'GET:sub', 'GET:durable-policy']
+              : ['GET:catalog', 'GET:sub', 'GET:durable-policy', 'GET:sub', 'POST:durable-upload', 'GET:sub'];
+            check(equal(cloudOperations.slice(cloudCallsBefore).map(item => item.method + ':' + item.kind), expectedCloud), 'durable_cloud_sequence_failed');
+            if (fixture.durableSnapshot && !fixture.providerFailure) {
+              const localAfter = services.state.operations.length, cloudAfter = cloudOperations.length;
+              const burnsAfter = services.state.durableBurns?.length || 0;
+              const beforeCachedBackups = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
+              await worker.evaluate(async origin => {
+                const { sites = {} } = await chrome.storage.local.get('sites');
+                if (sites[origin]) sites[origin] = { ...sites[origin], lastResult: null };
+                await chrome.storage.local.set({ sites });
+              }, fixture.origin);
+              await page.reload({ waitUntil: 'domcontentloaded', timeout: caseTimeout });
+              const cachedVerified = await poll(async () => worker.evaluate(async origin => {
+                const { sites = {} } = await chrome.storage.local.get('sites');
+                return sites[origin]?.lastResult?.status === 'unchanged' && sites[origin]?.lastResult?.mode === 'local_snapshot';
+              }, fixture.origin), caseTimeout);
+              check(cachedVerified, 'durable_cached_candidate_not_revalidated');
+              check(equal(services.state.operations.slice(localAfter).map(item => item.method + ':' + item.kind), ['GET:sub', 'POST:preview', 'GET:sub']),
+                'durable_cached_local_verification_sequence_failed');
+              check(equal(cloudOperations.slice(cloudAfter).map(item => item.method + ':' + item.kind), ['GET:sub', 'GET:durable-policy', 'GET:sub']),
+                'durable_cached_cloud_verification_sequence_failed');
+              check((services.state.durableBurns?.length || 0) === burnsAfter, 'durable_cached_candidate_burned_again');
+              const cachedResult = await worker.evaluate(async origin => (await chrome.storage.local.get('sites')).sites?.[origin]?.lastResult, fixture.origin);
+              check(cachedResult.originalNodes === 18 && cachedResult.processedNodes === 18, 'durable_cached_verification_counts_failed');
+              check((await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0)) === beforeCachedBackups,
+                'durable_cached_verification_changed_backups');
+
+              // Run the real background dry-run path through an isolated harness hook.
+              services.state.durableDryRunMode = true;
+              let durableDryRun;
+              try { durableDryRun = await worker.evaluate(origin => globalThis.__fixtureDryRunCandidate(origin), fixture.origin); }
+              finally { services.state.durableDryRunMode = false; }
+              check(durableDryRun?.status === 'dry_run' && durableDryRun.targets?.local?.status === 'dry_run' &&
+                durableDryRun.targets?.cloud?.status === 'dry_run' && durableDryRun.targets.local.originalNodes === 18 &&
+                durableDryRun.targets.local.processedNodes === 18 && durableDryRun.targets.cloud.originalNodes === 18 &&
+                durableDryRun.targets.cloud.processedNodes === 18, 'durable_dry_run_contract_failed');
+              check((services.state.durableBurns?.length || 0) === burnsAfter + 1 &&
+                services.state.durableBurns.at(-1)?.url === fixture.candidate, 'durable_dry_run_burn_count_failed');
+              check((services.state.durableDryRuns?.length || 0) === durableDryRunsBefore + 1, 'durable_cloud_dry_run_not_observed');
+              check(!durableDryRun.targets.cloud.writeState &&
+                (await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0)) === beforeCachedBackups,
+                'durable_dry_run_write_marker_or_backup_seen');
+              check(equal(services.state.subs.get(fixture.name), { ...originals.get(fixture.name), content: JSON.stringify({ proxies: DURABLE_NODES }) }) &&
+                equal(cloudSubs.get(fixture.name), { ...cloudOriginals.get(fixture.name), content: JSON.stringify({ proxies: DURABLE_NODES }) }),
+                'durable_dry_run_changed_subscription');
+              check(!services.state.operations.slice(localAfter).some(item => item.method === 'PATCH'), 'durable_dry_run_local_write_seen');
+            }
+          } else {
           if (fixture.cloudWarning) check(cloudResult.code === 'candidate_has_no_real_nodes', 'dual_cloud_failure_code_failed');
           if (fixture.legacySnapshotRoute) {
             check(!cloudSnapshots.has('Cloud ' + fixture.name), 'legacy_snapshot_404_did_not_fallback');
@@ -598,11 +784,12 @@ chrome.runtime.onMessage.addListener((message, sender) => {
               ? ['GET:catalog', 'GET:snapshot-policy', 'GET:sub', 'POST:snapshot-upload', 'GET:sub', 'POST:preview']
             : ['GET:catalog', 'GET:snapshot-policy', 'GET:sub', 'POST:snapshot-upload', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
           check(equal(ownCloudOperations.map(item => item.method + ':' + item.kind), expectedCloud), 'dual_cloud_sequence_failed');
-          const cloudName = 'Cloud ' + fixture.name;
+          const cloudName = cloudNameFor(fixture);
           check(cloudSubs.get(cloudName).url === (fixture.cloudWarning ? fixture.old : fixture.candidate) + FRAGMENT, 'dual_cloud_saved_url_failed');
           const backups = await worker.evaluate(async origin => (await chrome.storage.local.get('backups')).backups.filter(item => item.origin === origin), fixture.origin);
           check(backups.length === (fixture.cloudWarning ? 1 : 2), 'dual_independent_backups_failed');
           check(!JSON.stringify(result).includes('/private-fixture-prefix'), 'dual_private_prefix_leaked');
+          }
         }
         if (fixture.navigation) {
           const pending = await worker.evaluate(async origin => Boolean((await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[origin]), fixture.origin);

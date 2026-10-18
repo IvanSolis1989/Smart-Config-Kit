@@ -2,6 +2,12 @@
 
 > SubStore 是辅助脚本目录，不参与 14 类客户端正式分流产物的生成。
 
+## 浏览器扩展 v1.8.0 / 受控持久 local 内容快照 (2026-10-18)
+
+- 为显式允许的本地空 URL 条目提供一次性抓取、双端各自 local 预览、content 单字段写入/读回及条件恢复；不将一次性链接持久化为远程来源。Cloudflare 专用策略和 revision 限制独立于既有 remote 限期快照。
+- 配套 `local-snapshot.mjs` / `patch-local-snapshot-worker.mjs` v1.0.0，以 `SUB_STORE_LOCAL_SNAPSHOT_POLICIES` 和专用 `/api/local-snapshot/:name` GET/POST 约束受限入口；完整 revision 检查、原生预览与 content 单字段提交置于同一 DO 串行操作内，不开放通用内容管理权限。
+- 旧内容备份属于敏感本机数据；关闭本机不影响云端输出已存 local 内容，但刷新下一份一次性来源仍需本机。原发布者、Gist 和手机副本不会自动切换；详见[扩展日志](./edge-extension/CHANGELOG.md)。仅辅助订阅管理，不修改分流产物。
+
 ## 浏览器扩展 v1.7.0 / 受阻源原始快照 (2026-10-18)
 
 - 增加策略限定的单源原始快照链路：本机严格 `noCache` 的 `original` 节点经私密入口上传，Cloudflare 校验来源、最低数量、精确 URL 与配置绑定后限期保存，并执行云端原有处理器。24 小时有效期与 120 秒候选预览窗口分离；仅直连确证 403 challenge 或网关 530 后直连得到的确证 403 challenge 回退，不覆盖网关 200 包装上游 403。

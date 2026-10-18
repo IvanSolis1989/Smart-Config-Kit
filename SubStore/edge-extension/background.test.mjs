@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { sha256 } from './core.mjs';
 const ID='fixture-extension';
 const ORIGIN='http://192.0.2.8:8443';
 const CANDIDATE='http://198.51.100.20/sub?token=NEW-PRIVATE-FIXTURE';
@@ -42,7 +43,19 @@ test('automatic authorized-site matching and local relay',async t=>{
   state.cloudCalls.push({path,method:request.method,body});
   if(state.cloudOffline)throw Error('PRIVATE-CLOUD-OFFLINE');
   let data;
-  if(path.startsWith('/api/source-snapshot/')){
+  if(path.startsWith('/api/local-snapshot/')){
+    const sub=state.cloudSubs.get(decodeURIComponent(path.slice('/api/local-snapshot/'.length)));
+    assert.ok(sub);const revision=await sha256(sub);
+    if(request.method==='GET')data={allowed:true,name:sub.name,minNodes:18,revision,originalNodes:18,processedNodes:18};
+    else{
+      assert.equal(body.expectedRevision,revision);
+      assert.ok(body.original||typeof body.restoreContent==='string');
+      if(!body.dryRun)sub.content=body.original?JSON.stringify({proxies:body.original}):body.restoreContent;
+      data={status:body.dryRun?'dry_run':'updated',name:sub.name,revision:await sha256(sub),originalNodes:18,processedNodes:18};
+      if(state.durableLostResponse)throw Error('LOST-DURABLE-RESPONSE');
+    }
+  }
+  else if(path.startsWith('/api/source-snapshot/')){
     if(request.method==='GET'){
       if(state.cloudSnapshotLegacyStatus)return new Response('{}',{status:state.cloudSnapshotLegacyStatus});
       data=state.cloudSnapshotPolicy||{allowed:false};
@@ -55,7 +68,7 @@ test('automatic authorized-site matching and local relay',async t=>{
     }
   }
   else if(path==='/api/subs')data=[...state.cloudSubs.values()];
-  else if(request.method==='POST')data=state.cloudPreview||state.preview;
+  else if(request.method==='POST'){assert.equal(body.source,'remote','general cloud preview must never accept local snapshot bodies');data=state.cloudPreview||state.preview;}
   else{
    const sub=state.cloudSubs.get(decodeURIComponent(path.slice('/api/sub/'.length)));
    assert.ok(sub);
@@ -89,10 +102,10 @@ test('automatic authorized-site matching and local relay',async t=>{
   if(!state.paused&&((state.pauseStage==='catalog'&&m.path==='/api/subs')||(state.pauseStage==='preview'&&m.method==='POST')||(state.pauseStage==='restore_read'&&m.method==='GET'&&m.path!=='/api/subs'))){state.paused=true;state.entered.resolve();await state.release.promise}
   let data;
   if(m.method==='GET'&&m.path==='/api/subs')data=state.catalog===undefined?[...state.subs.values()]:state.catalog;
-  else if(m.method==='POST'&&m.path==='/api/preview/sub?target=JSON'){assert.equal(body.name,m.subscriptionName);data=state.preview;}
+  else if(m.method==='POST'&&m.path==='/api/preview/sub?target=JSON'){assert.equal(body.name,m.subscriptionName);data=state.failLocalSnapshot&&body.source==='local'?{original:state.preview.original,processed:[]}:state.preview;}
   else if(m.path==='/api/sub/'+encodeURIComponent(m.subscriptionName)&&state.subs.has(m.subscriptionName)){
     if(m.method==='GET')data=state.subs.get(m.subscriptionName);
-    else if(m.method==='PATCH'){assert.deepEqual(Object.keys(body),['url']);state.subs.get(m.subscriptionName).url=body.url;data={};}
+    else if(m.method==='PATCH'){if(m.subscriptionName==='都是梦'&&Object.hasOwn(body,'content')){assert.deepEqual(Object.keys(body),['content']);state.subs.get(m.subscriptionName).content=body.content;if(state.localDurableLostResponse)throw Error('LOST-LOCAL-DURABLE');}else{assert.deepEqual(Object.keys(body),['url']);state.subs.get(m.subscriptionName).url=body.url;}data={};}
     else assert.fail('Unexpected mutation');
   }else assert.fail('Unexpected API route');
   if(state.pauseStage==='patch_response'&&m.method==='PATCH'&&!state.paused){state.paused=true;state.entered.resolve();await state.release.promise}
@@ -125,6 +138,89 @@ test('automatic authorized-site matching and local relay',async t=>{
     state.local.settings={...state.local.settings,cloudEnabled:true,cloudBackendUrl:'https://worker.example/private-prefix'};
     state.cloudSubs=new Map([['cloud-internal', {...source('cloud-internal'),displayName:'星海'}]]);state.cloudCalls=[];
   }
+  const SNAP_ORIGIN='https://therun.6128888.xyz', SNAP_NAME='都是梦';
+  function setupDurable(extra={}){
+    reset(extra);enableCloud();
+    const sub={...source(SNAP_NAME),source:'local',url:'',content:'OLD-SNAPSHOT-CONTENT'};
+    state.subs=new Map([[SNAP_NAME,clone(sub)]]);state.cloudSubs=new Map([[SNAP_NAME,clone(sub)]]);
+    state.preview={original:Array.from({length:18},(_,i)=>({...NODE,name:'Node '+i})),processed:Array.from({length:18},(_,i)=>({...NODE,name:'Processed '+i}))};
+    state.local.trustedOrigins.origins.push(SNAP_ORIGIN);
+    const sender={...PAGE,url:SNAP_ORIGIN+'/dashboard',origin:SNAP_ORIGIN,tab:{id:PAGE.tab.id,url:SNAP_ORIGIN+'/dashboard'},documentId:PAGE.documentId+'snapshot'};
+    return sender;
+  }
+  await t.test('bound local snapshots share one burn capture, preserve configuration and restore old content on both targets',async()=>{
+    const sender=setupDurable();const before=clone(state.subs.get(SNAP_NAME));
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    const result=state.local.sites[SNAP_ORIGIN].lastResult;
+    assert.equal(result.status,'updated');assert.equal(result.targets.cloud.mode,'local_snapshot');
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+    for(const current of [state.subs.get(SNAP_NAME),state.cloudSubs.get(SNAP_NAME)])assert.deepEqual({...current,content:before.content},before);
+    assert.equal(state.local.backups.length,2);assert.ok(state.local.backups.every(b=>b.kind==='content'&&b.previousContent===before.content));
+    assert.ok(!JSON.stringify(state.session.targetAttempts).includes('NODE-PRIVATE'));
+    for(const targetId of ['local','cloud']){const reply=(await send({type:'RESTORE_LATEST',origin:SNAP_ORIGIN,targetId},POPUP)).reply;assert.equal(reply.status,'restored',targetId+':'+reply.code);}
+    assert.equal(state.subs.get(SNAP_NAME).content,before.content);assert.equal(state.cloudSubs.get(SNAP_NAME).content,before.content);
+  });
+  await t.test('local processing failure preserves its old snapshot while cloud independently validates the same single capture',async()=>{
+    const sender=setupDurable({failLocalSnapshot:true});await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    const result=state.local.sites[SNAP_ORIGIN].lastResult;
+    assert.equal(result.status,'partial');assert.equal(result.targets.local.code,'snapshot_nodes_invalid');assert.equal(result.targets.cloud.status,'updated');
+    assert.equal(state.subs.get(SNAP_NAME).content,'OLD-SNAPSHOT-CONTENT');
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+  });
+  await t.test('unknown durable cloud write is not automatically replayed or recaptured',async()=>{
+    const sender=setupDurable({durableLostResponse:true});await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.cloud.writeState,'unknown');
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.cloudCalls.filter(c=>c.path.startsWith('/api/local-snapshot/')&&c.method==='POST').length,1);
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+  });
+  await t.test('an unknown local content PATCH cannot replay while cloud can finish from the captured raw nodes',async()=>{
+    const sender=setupDurable({localDurableLostResponse:true});await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.local.writeState,'unknown');
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.cloud.status,'updated');
+    state.session.pendingByOrigin[SNAP_ORIGIN].finishedAt=0;
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.calls.filter(c=>c.method==='PATCH').length,1);
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+  });
+  await t.test('a failed one-use capture cannot automatically burn again after worker restart',async()=>{
+    const sender=setupDurable();state.preview={original:[],processed:[]};
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+    background=await import('./background.js?burnRestart='+Date.now());
+    state.session.pendingByOrigin[SNAP_ORIGIN].finishedAt=0;
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.local.code,'snapshot_capture_retry_blocked');
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+    assert.equal(state.subs.get(SNAP_NAME).content,'OLD-SNAPSHOT-CONTENT');
+  });
+  await t.test('cached snapshot success revalidates stored configuration and never hides a later manual edit',async()=>{
+    const sender=setupDurable();await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    state.subs.get(SNAP_NAME).process.push({type:'New Operator'});
+    state.session.pendingByOrigin[SNAP_ORIGIN].finishedAt=0;
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.local.code,'snapshot_capture_retry_blocked');
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+  });
+  await t.test('an initially identical local snapshot records its revision and revalidates without burning again',async()=>{
+    const sender=setupDurable();const content=JSON.stringify({proxies:state.preview.original});
+    state.subs.get(SNAP_NAME).content=content;state.cloudSubs.get(SNAP_NAME).content=content;
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.local.status,'unchanged');
+    state.session.pendingByOrigin[SNAP_ORIGIN].finishedAt=0;
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.local.status,'unchanged');
+    assert.equal(state.local.sites[SNAP_ORIGIN].lastResult.targets.cloud.status,'unchanged');
+    assert.equal(state.calls.filter(c=>c.method==='POST'&&c.body.source==='remote').length,1);
+  });
+  await t.test('revoking the bound site during capture retains both old snapshots without content writes',async()=>{
+    const sender=setupDurable({pauseStage:'preview',entered:deferred(),release:deferred()});
+    const running=send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:[SNAP_NAME]},sender);
+    await state.entered.promise;await send({type:'UNTRUST_SITE',origin:SNAP_ORIGIN},POPUP);state.release.resolve();await running;
+    assert.equal(state.calls.filter(c=>c.method==='PATCH').length,0);
+    assert.equal(state.cloudCalls.filter(c=>c.path.startsWith('/api/local-snapshot/')&&c.method==='POST').length,0);
+    assert.equal(state.subs.get(SNAP_NAME).content,'OLD-SNAPSHOT-CONTENT');assert.equal(state.cloudSubs.get(SNAP_NAME).content,'OLD-SNAPSHOT-CONTENT');
+  });
   await t.test('two targets independently match different internal names, preserve processing and retain separate backups',async()=>{
     reset();enableCloud();await observe();
     const result=state.local.sites[ORIGIN].lastResult;

@@ -1,4 +1,4 @@
-// Subscription matching v1.3.1. This module never performs IO or returns source URLs.
+// Subscription matching v1.8.0. This module never performs IO or returns source URLs.
 const CONTROLS = /[\u0000-\u001f\u007f-\u009f]/;
 const FORMAT_KEYS = new Set(['format', 'target', 'type', 'client', 'flag']);
 const FORMAT_VALUES = new Set(['clash', 'clashmeta', 'clash-meta', 'meta', 'mihomo', 'singbox', 'sing-box',
@@ -76,6 +76,8 @@ function pageNameKeys(names) {
   }
   return keys;
 }
+
+export function exactBrandName(name, names) { return pageNameKeys(names).has(normalizeName(name)); }
 
 function namedCandidates(records, keys) {
   if (!keys.size) return [];

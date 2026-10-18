@@ -1,4 +1,4 @@
-// Hidden local Sub-Store iframe transport v1.6.0 — 2026-10-18.
+// Hidden local Sub-Store iframe transport v1.8.0 — 2026-10-18.
 // ISOLATED world: the browser supplies the frontend Origin naturally.
 (() => {
   'use strict';
@@ -51,9 +51,11 @@
       let parsed;
       try { parsed = JSON.parse(body); }
       catch { throw new TransportError('local_transport_invalid_request'); }
-      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) || !validURL(parsed.url)) throw new TransportError('local_transport_invalid_request');
-      if (patch && (Object.keys(parsed).length !== 1 || !Object.prototype.hasOwnProperty.call(parsed, 'url'))) throw new TransportError('local_transport_invalid_request');
-      if (preview && (parsed.name !== name || parsed.source !== 'remote')) throw new TransportError('local_transport_invalid_request');
+      const contentPatch = patch && name === '都是梦' && Object.keys(parsed || {}).length === 1 && typeof parsed?.content === 'string' && !!parsed.content.trim() && new TextEncoder().encode(parsed.content).length <= MAX_BODY;
+      const localPreview = preview && name === '都是梦' && parsed?.source === 'local' && parsed.url === '' && typeof parsed.content === 'string' && !!parsed.content.trim();
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) || (!contentPatch && !localPreview && !validURL(parsed.url))) throw new TransportError('local_transport_invalid_request');
+      if (patch && !contentPatch && (Object.keys(parsed).length !== 1 || !Object.prototype.hasOwnProperty.call(parsed, 'url'))) throw new TransportError('local_transport_invalid_request');
+      if (preview && (parsed.name !== name || (parsed.source !== 'remote' && !localPreview))) throw new TransportError('local_transport_invalid_request');
     }
     const target = new URL(backend + path);
     // Dot-segment subscription names must not normalize into a global API path.

@@ -1,4 +1,4 @@
-// Sub-Store dual-target transport v1.7.0 (2026-10-18). See CHANGELOG.md.
+// Sub-Store dual-target transport v1.8.0 (2026-10-18). See CHANGELOG.md.
 import { candidateURL, normalizeCloudBackendUrl, realNodeCount } from './core.mjs';
 
 function failure(code) { return Object.assign(new Error(code), { code }); }
@@ -19,28 +19,38 @@ export function createCloudFetcher(chromeApi, settings, {
   }
   const subPath = '/api/sub/' + encodeURIComponent(name);
   const snapshotPath = '/api/source-snapshot/' + encodeURIComponent(name);
+  const durablePath = '/api/local-snapshot/' + encodeURIComponent(name);
   const origin = new URL(backendUrl).origin;
 
   return async function cloudFetch(input, request = {}) {
     checkAbort(request.signal);
-    let path, method;
+    let path, method, durableReadOnly = false;
     try {
       if (typeof input !== 'string' || !input.startsWith(backendUrl + '/')) throw new Error();
       const parsed = new URL(input);
       if (parsed.href !== input || parsed.origin !== origin || parsed.username || parsed.password || parsed.hash) throw new Error();
       path = input.slice(backendUrl.length);
       method = request.method || 'GET';
-      const read = method === 'GET' && (path === '/api/subs' || path === subPath || path === snapshotPath);
+      const durable = name === '都是梦' && path === durablePath;
+      const read = method === 'GET' && (path === '/api/subs' || path === subPath || path === snapshotPath || durable);
       const preview = method === 'POST' && path === '/api/preview/sub?target=JSON';
       const patch = method === 'PATCH' && path === subPath;
       const snapshot = method === 'POST' && path === snapshotPath;
-      if (!read && !preview && !patch && !snapshot) throw new Error();
+      const durableWrite = durable && method === 'POST';
+      if (!read && !preview && !patch && !snapshot && !durableWrite) throw new Error();
       if (read && request.body !== undefined && request.body !== null) throw new Error();
-      if (preview || patch || snapshot) {
+      if (preview || patch || snapshot || durableWrite) {
         if (typeof request.body !== 'string' || new TextEncoder().encode(request.body).length > 4 * 1024 * 1024) throw new Error();
         const body = JSON.parse(request.body);
         if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error();
-        if (snapshot) {
+        if (durableWrite) {
+          if (!/^[a-f0-9]{64}$/.test(body.expectedRevision)) throw new Error();
+          const keys=Object.keys(body).sort().join(',');
+          durableReadOnly = keys === 'dryRun,expectedRevision,original' && body.dryRun === true;
+          if (keys === 'expectedRevision,original' || durableReadOnly) {
+            if (!Array.isArray(body.original) || body.original.length < 18 || body.original.length > 10000 || realNodeCount(body.original) !== body.original.length || body.original.some(n=>typeof n.name!=='string'||!n.name.trim())) throw new Error();
+          } else if (Object.keys(body).sort().join(',') !== 'expectedRevision,restoreContent' || typeof body.restoreContent !== 'string' || !body.restoreContent.trim()) throw new Error();
+        } else if (snapshot) {
           if (Object.keys(body).sort().join(',') !== 'expectedUrl,original,url' || !Array.isArray(body.original) ||
               !body.original.length || body.original.length > 10000 || realNodeCount(body.original) !== body.original.length ||
               body.original.some(node => typeof node.name !== 'string' || !node.name.trim())) throw new Error();
@@ -61,7 +71,7 @@ export function createCloudFetcher(chromeApi, settings, {
     // again immediately before the real request, including its write marker.
     await assertCurrent();
     checkAbort(request.signal);
-    if (method === 'PATCH') onWriteSent();
+    if (method === 'PATCH' || (method === 'POST' && path === durablePath && !durableReadOnly)) onWriteSent();
     try {
       return await fetcher(input, { ...request, method, credentials: 'omit', redirect: 'error', cache: 'no-store' });
     } catch (error) {
