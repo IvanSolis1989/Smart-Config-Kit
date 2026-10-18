@@ -314,6 +314,8 @@ Sub-Store 是客户端导入前的订阅聚合层，**不是第 15 个正式客�
 
 部署、脚本顺序、生成单一 URL、FlClash 导入和排障见 [Sub-Store 多机场聚合与部署教程](./SubStore/README.md)；脚本清单见 [SubStore/scripts](./SubStore/scripts/README.md)，FlClash 导入见 [FlClash 教程](./FlClash/README.md)。
 
+机场重置订阅后，可用 [Edge / Chrome 自动订阅同步助手](./SubStore/edge-extension/README.md)：在浏览器已授权的域名或 IP 面板人工登录，扩展自动识别机场与 Sub-Store 名称、验证并更新对应链接，无需复制、选择名称或点同步按钮。实际覆盖和验收边界见扩展说明。
+
 ---
 
 ## 📌 适用人群

@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.1
+
+- 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](./SubStore/CHANGELOG.md)及[扩展说明](./SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。
+- 六家真实自动流程、158 项 Node 测试及 15 项独立浏览器流程通过，证据与 Chrome 待验边界见[验收记录](./docs/research/2026-10-18-substore-auto-sync-acceptance.md)。
+
 ## v6.0.20 — 微信连接端点精确例外 (2026-10-16)
 
 - Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](./docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)。

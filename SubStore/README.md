@@ -32,6 +32,8 @@ FlClash 的覆写运行在当前选中的单份配置上：它会处理这份配
 
 ## 方式一：使用客户端内置 Sub-Store（最省事）
 
+机场重置链接后，可配合 [Edge / Chrome 自动订阅同步助手](./edge-extension/README.md)：打开已登录的授权域名或 IP 面板，扩展自动提取链接、识别机场与 Sub-Store 名称、验证节点并只替换对应 URL，保留处理步骤和组合关系。正常流程无需选名称、复制链接或点按钮；覆盖和安装步骤见扩展说明。
+
 如果你已有 Clash Party 或 Mihomo Party 的内置 Sub-Store，不需要额外部署服务：
 
 1. 在内置 Sub-Store 中把每个机场作为一条独立订阅加入。
