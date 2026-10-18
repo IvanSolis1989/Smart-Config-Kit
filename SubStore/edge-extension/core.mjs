@@ -1,4 +1,4 @@
-// Sub-Store Link Sync v1.3.1 (2026-10-18). See README.md.
+// Sub-Store Link Sync v1.3.2 (2026-10-18). See README.md.
 export const DEFAULT_SETTINGS = Object.freeze({
   enabled: true,
   backendUrl: 'http://127.0.0.1:38324',
@@ -72,15 +72,33 @@ export function withoutCacheKey(value) {
   return url.href;
 }
 
+function normalizedNodeHost(value) {
+  if (!value || /[\\/@?#%\s\p{Cc}\p{Cf}]/u.test(value)) return null;
+  const bracketed = value.startsWith('[');
+  if ((bracketed && !value.endsWith(']')) || (!bracketed && /[\[\]]/.test(value))) return null;
+  try {
+    // WHATWG URL canonicalizes IPv4 alternate spellings, expanded IPv6 and
+    // dotted IPv4-mapped IPv6 identically in browsers, without a Node IP parser.
+    const authority = value.includes(':') && !bracketed ? '[' + value + ']' : value;
+    const parsed = new URL('http://' + authority + '/');
+    if (parsed.username || parsed.password || parsed.port || parsed.pathname !== '/' || parsed.search || parsed.hash) return null;
+    return parsed.hostname.toLowerCase().replace(/^\[|\]$/g, '').replace(/\.+$/, '') || null;
+  } catch { return null; }
+}
+
+function placeholderHost(host) {
+  if (!host || host === '::' || host === '::1' || host === 'localhost' || host.endsWith('.localhost') || /^(?:0|127)\./.test(host)) return true;
+  const mapped = /^::ffff:([a-f0-9]{1,4}):([a-f0-9]{1,4})$/.exec(host);
+  return Boolean(mapped && [0, 127].includes(parseInt(mapped[1], 16) >>> 8));
+}
+
 export function realNodeCount(nodes) {
   if (!Array.isArray(nodes)) throw new SyncError('preview_invalid');
   return nodes.filter(node => {
     if (!node || typeof node !== 'object' || typeof node.server !== 'string' ||
         typeof node.type !== 'string' || /^(direct|reject|block|selector|urltest)$/i.test(node.type) ||
         !Number.isInteger(Number(node.port)) || Number(node.port) <= 0 || Number(node.port) > 65535) return false;
-    const host = node.server.toLowerCase().replace(/^\[|\]$/g, '');
-    return host && !/^(127\.|0\.|::1$|::$|localhost$)/.test(host) &&
-      !host.endsWith('.localhost') && !WARNING.test(String(node.name || ''));
+    return !placeholderHost(normalizedNodeHost(node.server)) && !WARNING.test(String(node.name || ''));
   }).length;
 }
 
@@ -149,32 +167,44 @@ export class SubStoreClient {
   patchURL(url) { return this.request('/api/sub/' + encodeURIComponent(this.settings.subscriptionName), 'PATCH', { url }); }
 }
 
-export async function syncSubscription({ settings, candidateUrl, fetcher = fetch, saveBackup = async () => {}, dryRun = false, allowOriginChange = false, expectedBeforeURL }) {
+export async function syncSubscription({ settings, candidateUrl, fetcher = fetch, saveBackup = async () => {}, dryRun = false, allowOriginChange = false, expectedBeforeURL, assertCurrent = () => {} }) {
   const safeSettings = settingsFrom(settings);
   if (!safeSettings.enabled) return { status: 'disabled' };
+  assertCurrent();
   candidateURL(candidateUrl);
   const client = new SubStoreClient(safeSettings, fetcher);
   const before = await client.getSub();
+  assertCurrent();
   if (expectedBeforeURL !== undefined && expectedBeforeURL !== before.url) throw new SyncError('concurrent_change');
   const url = mergeURL(candidateUrl, before.url, allowOriginChange);
   const preview = await client.preview(before, url);
+  assertCurrent();
   const originalNodes = realNodeCount(preview?.original);
   const processedNodes = realNodeCount(preview?.processed);
   if (!originalNodes || !processedNodes) throw new SyncError('candidate_has_no_real_nodes');
   const metadata = { subscriptionName: safeSettings.subscriptionName, originalNodes, processedNodes, candidateHost: new URL(url).host };
-  if (url === before.url) return { status: 'unchanged', ...metadata };
-  if (dryRun) return { status: 'dry_run', ...metadata };
+  if (url === before.url) { assertCurrent(); return { status: 'unchanged', ...metadata }; }
+  if (dryRun) { assertCurrent(); return { status: 'dry_run', ...metadata }; }
   const current = await client.getSub();
+  assertCurrent();
   if (canonical(current) !== canonical(before)) throw new SyncError('concurrent_change');
+  const expectedURLHash = await sha256(url);
+  assertCurrent();
+  const otherFieldsHash = await sha256(withoutURL(before));
+  assertCurrent();
   const backup = {
     at: new Date().toISOString(), subscriptionName: safeSettings.subscriptionName,
     backendUrl: safeSettings.backendUrl, previousURL: before.url,
-    expectedURLHash: await sha256(url), otherFieldsHash: await sha256(withoutURL(before)),
+    expectedURLHash, otherFieldsHash,
   };
+  assertCurrent();
   await saveBackup(backup);
+  assertCurrent();
   // Sub-Store has no atomic conditional PATCH; keep this window short and read back.
   await client.patchURL(url);
+  assertCurrent();
   const after = await client.getSub();
+  assertCurrent();
   if (after.url !== url || canonical(withoutURL(after)) !== canonical(withoutURL(before))) throw new SyncError('writeback_verification_failed');
   return { status: 'updated', ...metadata };
 }

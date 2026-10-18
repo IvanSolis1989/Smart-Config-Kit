@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.3.2
+
+- 修复自动同步期间候选变化、账户参数、相对链接和回环占位节点边界；仍只更新对应单条 URL，保留处理步骤及其他字段。详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未改动覆写或分流产物，无需全端重生成。
+
 ## 2026-10-18 — 内置 Sub-Store 链接同步辅助扩展
 
 - 新增 [Edge / Chrome 链接同步助手](../SubStore/edge-extension/README.md)，在人工登录后验证并更新内置 Sub-Store 的单条远程 URL，保留原处理步骤和组合订阅。实际覆盖及待验站点见扩展说明。

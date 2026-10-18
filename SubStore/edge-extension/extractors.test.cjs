@@ -45,10 +45,10 @@ function brandDocument({ title = '', metas = [], brands = [] } = {}) {
   return doc;
 }
 
-function document(controls, labels = {}, { hosts = [] } = {}) {
+function document(controls, labels = {}, { hosts = [], baseURI } = {}) {
   const queries = [];
   const doc = {
-    queries,
+    queries, baseURI,
     querySelectorAll(selector) {
       queries.push(selector);
       if (selector === CONTROL_SELECTOR) return controls;
@@ -286,6 +286,55 @@ test('anchor imports need no label, while plain HTTP(S) anchors need explicit su
   assert.deepEqual(normalize(api.domCandidates(doc)).map(item => item.signal), ['dom:client-import', 'dom:client-import', 'dom:subscription-link', 'dom:subscription-link', 'dom:subscription-link', 'dom:subscription-link']);
 });
 
+test('subscription anchors resolve relative, root-relative and protocol-relative hrefs against document.baseURI', () => {
+  const { api } = fixture();
+  for (const [href, baseURI, expected] of [
+    ['subscribe?token=a+b%2Bc#noCache', 'https://panel.example.com/account/', 'https://panel.example.com/account/subscribe?token=a+b%2Bc#noCache'],
+    ['/subscribe?token=FIXTURE', 'https://panel.example.com/account/dashboard', 'https://panel.example.com/subscribe?token=FIXTURE'],
+    ['//sub.example.com/sub?token=FIXTURE', 'http://panel.example.com/dashboard', 'http://sub.example.com/sub?token=FIXTURE'],
+    // Browsers expose a <base href> override through document.baseURI.
+    ['../subscribe?token=FIXTURE', 'https://cdn.example.com/panel/account/', 'https://cdn.example.com/panel/subscribe?token=FIXTURE'],
+  ]) {
+    const doc = document([element('a', { href }, { text: '复制订阅' })], {}, { baseURI });
+    assert.deepEqual(normalize(api.domCandidates(doc)), [candidate(expected, 'dom:subscription-link')]);
+  }
+  const shadow = document([element('a', { href: '/sub?token=FIXTURE', title: 'Subscription' })]);
+  const doc = document([], {}, { hosts: [element('app-shell', {}, { shadowRoot: shadow })], baseURI: 'https://panel.example.com/dashboard' });
+  assert.deepEqual(normalize(api.domCandidates(doc)), [candidate('https://panel.example.com/sub?token=FIXTURE', 'dom:subscription-link')]);
+});
+
+test('relative extraction remains limited to labeled subscription anchors with a usable HTTP(S) base', () => {
+  const { api } = fixture();
+  const baseURI = 'https://panel.example.com/dashboard';
+  const doc = document([
+    element('a', { href: '/subscribe?token=FIXTURE' }, { text: 'Random website' }),
+    element('a', { href: '/help' }, { text: 'Subscription' }),
+    element('a', { href: '/invite?token=FIXTURE' }, { text: 'Subscription' }),
+    element('a', { href: '/sub?token=FIXTURE' }, { text: 'Subscription payment' }),
+    element('button', { 'data-subscribe-url': '/subscribe?token=FIXTURE' }, { text: 'Subscription' }),
+    element('button', { 'data-clipboard-text': '/subscribe?token=FIXTURE' }, { text: 'Subscription' }),
+    element('input', { placeholder: 'Subscription URL' }, { value: '/subscribe?token=FIXTURE' }),
+  ], {}, { baseURI });
+  assert.deepEqual(normalize(api.domCandidates(doc)), []);
+  for (const invalidBase of [undefined, '', 'not a URL', 'file:///tmp/dashboard', 'javascript:alert(1)', 'https://user:pass@panel.example.com/']) {
+    assert.deepEqual(normalize(api.domCandidates(document([
+      element('a', { href: '/subscribe?token=FIXTURE' }, { text: 'Subscription' }),
+      element('a', { href: '//sub.example.com/subscribe?token=FIXTURE' }, { text: 'Subscription' }),
+    ], {}, { baseURI: invalidBase }))), []);
+  }
+});
+
+test('relative anchor resolution rejects dangerous schemes, credentials and normalization tricks', () => {
+  const { api } = fixture();
+  const hrefs = ['javascript:alert(1)', 'data:text/plain,/subscribe?token=FIXTURE', 'ftp://sub.example.com/subscribe?token=FIXTURE',
+    'https:sub.example.com/subscribe?token=FIXTURE', '//user:pass@sub.example.com/subscribe?token=FIXTURE',
+    '//user@sub.example.com/subscribe?token=FIXTURE', '//@sub.example.com/subscribe?token=FIXTURE',
+    '/subscribe?token=FIXTURE\n', ' /subscribe?token=FIXTURE', '/\\sub.example.com/subscribe?token=FIXTURE',
+    '/subscribe?token=FIXTURE%0a', ''];
+  const doc = document(hrefs.map(href => element('a', { href }, { text: 'Subscription' })), {}, { baseURI: 'https://panel.example.com/dashboard' });
+  assert.deepEqual(normalize(api.domCandidates(doc)), []);
+});
+
 test('ordinary invitation/payment URLs and whole-page/script URLs are never selected', () => {
   const { api } = fixture();
   const doc = document([
@@ -328,6 +377,40 @@ test('different account tokens, hosts, paths, fragments and unknown query format
   const reverse = 'https://sub.example.com/sub?token=b&token=a';
   assert.deepEqual(normalize(api.selectCandidates([candidate(first), candidate(reverse)])), { status: 'ambiguous', count: 2 });
   assert.equal(api.selectCandidates([candidate(LINK + '&foo=bar'), candidate(LINK.replace('?token=', '?foo=bar&token='))]).status, 'one');
+});
+
+test('candidate identity preserves literal plus and distinguishes it from encoded spaces in keys and values', () => {
+  const { api } = fixture();
+  for (const [left, right] of [['token=a+b', 'token=a%20b'], ['account+key=value', 'account%20key=value']]) {
+    const list = [candidate('https://sub.example.com/sub?' + left), candidate('https://sub.example.com/sub?' + right)];
+    assert.deepEqual(normalize(api.selectCandidates(list)), { status: 'ambiguous', count: 2 });
+    assert.deepEqual(normalize(api.selectCandidates([...list].reverse())), { status: 'ambiguous', count: 2 });
+  }
+  for (const [left, right] of [['token=a+b', 'token=a%2Bb'], ['account+key=value', 'account%2Bkey=value']]) {
+    const list = [candidate('https://sub.example.com/sub?' + left), candidate('https://sub.example.com/sub?' + right + '&format=clash')];
+    assert.deepEqual(normalize(api.selectCandidates(list)), { status: 'one', candidate: list[0] });
+  }
+});
+
+test('candidate identity ignores key order and known formats while preserving duplicate order and bare flags', () => {
+  const { api } = fixture();
+  const generic = candidate('https://sub.example.com/sub?token=a+b&account&token=c');
+  const reordered = candidate('https://sub.example.com/sub?account&token=a%2Bb&format=clash&token=c');
+  assert.deepEqual(normalize(api.selectCandidates([generic, reordered])), { status: 'one', candidate: generic });
+  for (const query of ['token=c&account&token=a+b', 'token=a+b&account=&token=c', 'token=a+b&account&token=c&clash']) {
+    assert.deepEqual(normalize(api.selectCandidates([generic, candidate('https://sub.example.com/sub?' + query)])), { status: 'ambiguous', count: 2 });
+  }
+  assert.deepEqual(normalize(api.selectCandidates([generic, candidate(generic.url + '&clash=1')])), { status: 'one', candidate: generic });
+});
+
+test('malformed percent encodings fail candidate selection closed without choosing the valid remainder', () => {
+  const { api } = fixture();
+  for (const suffix of ['?token=%', '?token=%2', '?token=%ZZ', '?token=%C3%28', '?%C3%28=value', '?format=%ZZ', '/%ZZ?token=FIXTURE', '#%ZZ']) {
+    const invalid = candidate('https://sub.example.com/sub' + suffix);
+    assert.deepEqual(normalize(api.selectCandidates([invalid])), { status: 'none', count: 0 });
+    assert.deepEqual(normalize(api.selectCandidates([candidate(LINK), invalid])), { status: 'none', count: 0 });
+    assert.deepEqual(normalize(api.selectCandidates([invalid, candidate(LINK)])), { status: 'none', count: 0 });
+  }
 });
 
 test('none/invalid candidates stay empty and untrusted signal text is never reflected', () => {

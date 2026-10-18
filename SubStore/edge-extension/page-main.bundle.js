@@ -236,6 +236,20 @@
     } catch { return false; }
   }
 
+  function relativeAnchorURL(href, document) {
+    // Only anchors get browser-style base resolution. Do not reinterpret a bad
+    // absolute URL, client scheme or normalized whitespace/backslash as relative.
+    if (!href || href.length >= 8192 || /^[a-z][a-z0-9+.-]*:/i.test(href) || /[\\\s\p{Cc}\p{Cf}]/u.test(href)) return null;
+    // URL serialization removes empty userinfo, so check its raw authority too.
+    if (href.startsWith('//') && href.slice(2).split(/[/?#]/, 1)[0].includes('@')) return null;
+    try {
+      const base = document.baseURI;
+      if (!validCandidate(base)) return null;
+      const resolved = new URL(href, base).href;
+      return validCandidate(resolved) ? resolved : null;
+    } catch { return null; }
+  }
+
   function domCandidates(document) {
     const found = [];
     try {
@@ -273,9 +287,10 @@
           }
           if (tag(element) !== 'a') continue;
           const href = attribute(element, 'href');
-          const url = unwrapImportLink(href);
+          const imported = unwrapImportLink(href);
+          const url = imported || relativeAnchorURL(href, document);
           if (!url || unrelated || obviousOtherURL(url)) continue;
-          if (!/^https?:\/\//i.test(href) || /^https:\/\/www\.nsloon\.com\/openloon\/import\?/i.test(href)) found.push({ url, signal: 'dom:client-import' });
+          if (imported && (!/^https?:\/\//i.test(href) || /^https:\/\/www\.nsloon\.com\/openloon\/import\?/i.test(href))) found.push({ url, signal: 'dom:client-import' });
           else if (LINK_LABEL.test(label) && subscriptionURL(url)) found.push({ url, signal: 'dom:subscription-link' });
         }
         // Element structure alone discovers open roots. Never inspect page-wide
@@ -303,13 +318,22 @@
   }
 
   function identity(value) {
+    // Match auto-match.mjs sourceURL semantics and reject malformed escapes in
+    // every URL component before considering a subset of the candidates.
+    decodeURIComponent(value);
     const parsed = new URL(value);
     const remaining = new Map();
     let formats = 0;
-    for (const [key, value] of parsed.searchParams) {
+    for (const part of parsed.search.slice(1).split('&')) {
+      if (!part) continue;
+      const separator = part.indexOf('=');
+      const key = decodeURIComponent(separator < 0 ? part : part.slice(0, separator));
+      const value = decodeURIComponent(separator < 0 ? '' : part.slice(separator + 1));
       if (formatParameter(key, value)) { formats++; continue; }
       if (!remaining.has(key)) remaining.set(key, []);
-      remaining.get(key).push(value);
+      // Percent-decode once without form decoding literal '+' into a space.
+      // Bare account flags remain distinct from explicitly empty values.
+      remaining.get(key).push([value, separator >= 0]);
     }
     // Query key order is immaterial; duplicate values retain order because
     // servers may select the first/last token. Fragments remain part of identity.

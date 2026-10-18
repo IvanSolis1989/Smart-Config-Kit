@@ -17,6 +17,7 @@
 
 - 在明确的订阅接口中识别 `subscribe_url` / `subscription_url` / `sub_url`；支持 V2Board/XBoard v1、Kitty v3 等路径，但不主动请求机场 API。
 - 从订阅复制控件、带订阅标签的输入框及 Clash / sing-box / Hiddify / Surge / Loon 导入链接提取候选。支持有限 open shadow DOM；可见页面控件每三秒检查一次，以捕获延迟赋值，收到明确接口候选后停止。
+- 相对订阅锚点按页面 base URI 解析，仍须通过订阅语义与 HTTP(S) 地址检查。账户参数保留字面加号、空格和重复参数差异，不将不同账户静默合并。
 - 从站点品牌 meta、标题和有限品牌控件识别机场名，过滤邮箱、URL、长 token 及账号敏感内容。
 - 通过本机只读 `GET /api/subs` 获取现有订阅目录。先比对订阅 URL 的账户参数（忽略 fragment 和明确的客户端格式参数），再比对相同 origin/path；若路径发生变化，则要求同 origin 且名称唯一匹配。
 - 多个条目或副本共享地址时，用网页品牌与 Sub-Store 内部名称 / 显示名精确归一匹配。保留 `copy`、个人、工作等账户区分后缀，不做模糊猜测。没有匹配或存在歧义时停止写入，弹窗说明原因。
@@ -32,9 +33,13 @@
 
 写前重新比较配置，仅 `PATCH {url}`，写后独立 GET 核对链接及所有其他字段。每条订阅保留最近三次本机旧链接；撤销要求当前链接与其他字段仍匹配上次写入结果。Sub-Store 不提供原子条件更新接口，比较与 PATCH 间仍有窄并发窗口，应避免同时编辑同一条订阅。
 
+验证期间出现新的候选或歧义，会使旧验证失效；写入发送前再次检查，歧义不会排在旧写入之后才生效。已发送的请求不能由后来的页面变化撤回。
+
 不读取密码、Cookie、登录 token、浏览器保存的账号、剪贴板或整页脚本。现有订阅目录仅在扩展内部内存中用于匹配。待办链接、未确认页面观察状态保存在会话存储；成功/失败诊断只保留安全名称、origin、时间和计数。旧链接备份在本机扩展存储中含私密订阅 URL，勿导出或公开；不使用云同步或上传服务。
 
-插件不自动登录、重置机场订阅、解除超限或增加设备额度。页面关闭后不巡检机场；后端离线时会话候选保留30分钟，期间重开页面可自动重试。目录读取前的本机通信初始化失败会有限自动重试，不对可能已经执行的 PATCH 自动重试。
+插件不自动登录、重置机场订阅、解除超限或增加设备额度。页面关闭后不巡检机场；页面存活且后端离线时，会话候选最多保留30分钟。目录读取前的本机通信初始化失败会有限自动重试，不对可能已经执行的 PATCH 自动重试。
+
+关闭或替换文档会使该文档尚未写入的候选失效；再次正常打开仪表盘时重新捕获。已发送的写入若遇到后续页面变化，保留条件备份并停止旧结果覆盖新的页面状态。
 
 ## 开发与验证
 
@@ -62,5 +67,7 @@ node SubStore/edge-extension/browser-e2e.mjs
 ## 官方接口依据
 
 [Chrome content scripts 的两个 world](https://developer.chrome.com/docs/extensions/reference/manifest/content-scripts)、[内容脚本与页面通信](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)、[站点权限](https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions)、[Edge 扩展兼容](https://learn.microsoft.com/en-us/microsoft-edge/extensions/developer-guide/port-chrome-extension)。
+
+[MessageSender.documentId](https://developer.chrome.com/docs/extensions/reference/api/runtime#type-MessageSender) 用于区分文档；[tabs.onRemoved](https://developer.chrome.com/docs/extensions/reference/api/tabs#event-onRemoved) 使已关闭页面的候选失效。[URL 表单解码](https://url.spec.whatwg.org/#urlencoded-parsing)会将字面 `+` 转为空格，账户身份比较使用保留此差异的查询解析；[文档基准地址](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#document-base-url)用于相对锚点解析。
 
 [Sub-Store 单条 PATCH](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/restful/subscriptions.js#L296-L349)、[original / processed 预览](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/restful/preview.js#L79-L174)、[fragment 和缓存](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/utils/download.js#L133-L289)。

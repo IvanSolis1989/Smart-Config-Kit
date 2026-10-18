@@ -4,6 +4,9 @@ import { chooseSubscription } from './auto-match.mjs';
 
 let queue = Promise.resolve();
 function serial(action) { const task = queue.then(action, action); queue = task.catch(() => {}); return task; }
+// Admission is intentionally independent of the work queue: an authorized new
+// observation must invalidate an older preview before that preview can write.
+const generations = new Map(), admissions = new Map(), tabAdmissions = new Map(), observedTabs = new Map(), tabEpochs = new Map();
 function version() { return chrome.runtime.getManifest().version; }
 function siteOrigin(value) {
   try { const url = new URL(value); return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password ? url.origin : null; }
@@ -12,6 +15,8 @@ function siteOrigin(value) {
 function pageOrigin(sender) {
   const origin = siteOrigin(sender?.url);
   return origin && sender.id === chrome.runtime.id && sender.frameId === 0 && Number.isInteger(sender.tab?.id) && sender.tab.id >= 0 &&
+    (sender.documentId === undefined || (typeof sender.documentId === 'string' && sender.documentId.length > 0)) &&
+    (sender.documentLifecycle === undefined || sender.documentLifecycle === 'active') &&
     (sender.origin === undefined || sender.origin === origin) &&
     (sender.tab.url === undefined || siteOrigin(sender.tab.url) === origin) ? origin : null;
 }
@@ -32,16 +37,129 @@ async function allowed(origin, settings) {
   try { return await chrome.permissions.contains({ origins: [url.protocol + '//' + url.hostname + '/*'] }); }
   catch { return false; }
 }
+function invalidateDocument(origin, documentKey) {
+  const state = generations.get(origin);
+  if (!state || state.documentKey !== documentKey) return;
+  state.retired.add(documentKey);
+  state.generation += 1;
+  state.kind = 'invalid';
+  state.candidateUrl = null;
+}
+function invalidateTab(tabId) {
+  const previous = observedTabs.get(tabId);
+  if (previous) {
+    invalidateDocument(previous.origin, previous.documentKey);
+    const state = generations.get(previous.origin);
+    const control = observationControl({ ...previous, state, generation: state.generation, tabId });
+    serial(async () => {
+      await control.checkpoint();
+      if (state.kind === 'invalid') await clearPending(previous.origin, control);
+    }).catch(() => {});
+  }
+  observedTabs.delete(tabId);
+}
+function tabClosed(tabId) {
+  if (!observedTabs.has(tabId) && !tabAdmissions.has(tabId)) return;
+  tabEpochs.set(tabId, (tabEpochs.get(tabId) || 0) + 1);
+  invalidateTab(tabId);
+}
+function admit(event) {
+  const previous = admissions.get(event.origin) || Promise.resolve();
+  const previousTab = tabAdmissions.get(event.tabId) || Promise.resolve();
+  // Begin authorization at receipt, but apply observations in their arrival order.
+  const verification = (async () => { const settings = await getSettings(); return await allowed(event.origin, settings); })().catch(() => false);
+  const admission = Promise.all([previous.catch(() => {}), previousTab.catch(() => {})]).then(async () => {
+    if (!await verification) return null;
+    if ((tabEpochs.get(event.tabId) || 0) !== event.tabEpoch) return null;
+    let state = generations.get(event.origin);
+    if (state?.retired.has(event.documentKey)) return null;
+    const previousDocument = observedTabs.get(event.tabId);
+    if (previousDocument && previousDocument.documentKey !== event.documentKey) invalidateTab(event.tabId);
+    if (!state) {
+      state = { generation: 0, documentKey: null, kind: 'empty', candidateUrl: null, retired: new Set() };
+      generations.set(event.origin, state);
+    }
+    const documentChanged = state.documentKey !== event.documentKey;
+    if (documentChanged) {
+      if (state.documentKey) state.retired.add(state.documentKey);
+      state.documentKey = event.documentKey;
+      state.tabId = event.tabId;
+      state.generation += 1;
+      state.kind = 'empty'; state.candidateUrl = null;
+    }
+    if (event.type === 'OBSERVATION_AMBIGUOUS') {
+      state.generation += 1; state.kind = 'ambiguous'; state.candidateUrl = null;
+    } else if (event.type === 'OBSERVED_SUBSCRIPTION' && (state.kind !== 'candidate' || state.candidateUrl !== event.candidateUrl)) {
+      state.generation += 1; state.kind = 'candidate'; state.candidateUrl = event.candidateUrl;
+    }
+    observedTabs.set(event.tabId, { origin: event.origin, documentKey: event.documentKey });
+    return { ...event, state, generation: state.generation, documentChanged };
+  }).catch(() => null);
+  admissions.set(event.origin, admission);
+  tabAdmissions.set(event.tabId, admission);
+  return admission;
+}
+async function settledAdmissions(origin, tabId) {
+  for (;;) {
+    const pending = admissions.get(origin), tabPending = tabAdmissions.get(tabId);
+    await Promise.all([pending, tabPending]);
+    if (admissions.get(origin) === pending && tabAdmissions.get(tabId) === tabPending) return;
+  }
+}
+function controlFor(ticket) {
+  const control = {
+    writeSent: false,
+    assertCurrent() {
+      if (generations.get(ticket.origin) !== ticket.state || ticket.state.generation !== ticket.generation ||
+          ticket.state.documentKey !== ticket.documentKey || ['ambiguous', 'invalid'].includes(ticket.state.kind)) {
+        throw new SyncError('candidate_superseded');
+      }
+    },
+    async checkpoint() { await settledAdmissions(ticket.origin, ticket.tabId ?? ticket.state.tabId); control.assertCurrent(); },
+  };
+  return control;
+}
+function observationControl(ticket) {
+  const control = controlFor(ticket);
+  control.assertCurrent = () => {
+    if (generations.get(ticket.origin) !== ticket.state || ticket.state.generation !== ticket.generation ||
+        ticket.state.documentKey !== ticket.documentKey) throw new SyncError('candidate_superseded');
+  };
+  return control;
+}
+function currentFetcher(settings, control) {
+  return async (input, request = {}) => {
+    await control.checkpoint();
+    // Guard the actual send as well as core's PATCH call. The transport's tab
+    // readiness awaits must not reopen an authorization/generation race.
+    const scopedChrome = { storage: chrome.storage, tabs: {
+      create: options => chrome.tabs.create(options),
+      async sendMessage(id, message) {
+        if (message.type === 'LOCAL_BACKEND_REQUEST') {
+          await control.checkpoint();
+          if (request.signal?.aborted) throw new DOMException('The operation was aborted.', 'AbortError');
+          if (message.method === 'PATCH') control.writeSent = true;
+        }
+        return chrome.tabs.sendMessage(id, message);
+      },
+    } };
+    return createLocalFetcher(scopedChrome, settings)(input, request);
+  };
+}
 function capped(map, maximum = 128) { return Object.fromEntries(Object.entries(map).slice(-maximum)); }
-async function observe(origin, stage, names) {
+async function observe(origin, stage, names, control) {
+  await control?.checkpoint();
   const pages = (await chrome.storage.session.get('pageObservations')).pageObservations || {};
+  await control?.checkpoint();
   delete pages[origin];
   pages[origin] = { origin, ...(names?.[0] ? { siteName: names[0] } : {}),
     observation: { stage, at: new Date().toISOString(), extensionVersion: version() } };
   await chrome.storage.session.set({ pageObservations: capped(pages) });
 }
-async function record(origin, result, names) {
+async function record(origin, result, names, control) {
+  await control?.checkpoint();
   const sites = (await chrome.storage.local.get('sites')).sites || {};
+  await control?.checkpoint();
   const safe = { ...result, origin, at: new Date().toISOString(), extensionVersion: version() };
   const previous = sites[origin] || {};
   delete sites[origin];
@@ -53,31 +171,44 @@ async function record(origin, result, names) {
   await chrome.action.setBadgeBackgroundColor({ color: ok ? '#16734c' : '#a73a2a' });
   return safe;
 }
-async function savePending(origin, value) {
+async function savePending(origin, value, control) {
+  await control?.checkpoint();
   const pendingByOrigin = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin || {};
+  await control?.checkpoint();
   delete pendingByOrigin[origin];
   pendingByOrigin[origin] = value;
   await chrome.storage.session.set({ pendingByOrigin: capped(pendingByOrigin) });
 }
-async function readCatalog(settings) {
+async function clearPending(origin, control) {
+  const pending = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin || {};
+  await control.checkpoint();
+  delete pending[origin]; await chrome.storage.session.set({ pendingByOrigin: pending });
+}
+async function readCatalog(settings, control) {
   const catalogSettings = { ...settings, subscriptionName: 'auto' };
   for (let attempt = 0; ; attempt++) {
-    try { return await new SubStoreClient(catalogSettings, createLocalFetcher(chrome, catalogSettings)).request('/api/subs'); }
+    try {
+      const catalog = await new SubStoreClient(catalogSettings, currentFetcher(catalogSettings, control)).request('/api/subs');
+      await control.checkpoint(); return catalog;
+    }
     catch (error) {
       // This is read-only and precedes matching, preview, backup and PATCH.
       // A failed or ambiguous write is never retried by this loop.
       if (attempt >= 2 || !['local_transport_unavailable', 'local_transport_not_ready', 'local_backend_request_failed',
         'backend_unavailable', 'backend_timeout'].includes(error?.code)) throw error;
       await new Promise(resolve => setTimeout(resolve, attempt === 0 ? 400 : 1200));
+      await control.checkpoint();
     }
   }
 }
-async function syncCandidate(origin, pending, dryRun = false) {
-  let matchedName;
+async function syncCandidate(origin, pending, control, dryRun = false) {
+  let matchedName, backupBefore, backupWritten;
   try {
+    await control.checkpoint();
     const settings = await getSettings();
-    if (!await allowed(origin, settings)) return record(origin, { status: 'disabled' }, pending.siteNames);
-    const catalog = await readCatalog(settings);
+    if (!await allowed(origin, settings)) return record(origin, { status: 'disabled' }, pending.siteNames, control);
+    await control.checkpoint();
+    const catalog = await readCatalog(settings, control);
     if (!Array.isArray(catalog) || catalog.length > 1000) throw new SyncError('catalog_unavailable');
     const match = chooseSubscription({ candidateUrl: pending.candidateUrl, siteNames: pending.siteNames, catalog });
     if (match.status !== 'matched') throw new SyncError(match.status === 'ambiguous' ? 'auto_match_ambiguous' : 'auto_match_none');
@@ -86,15 +217,33 @@ async function syncCandidate(origin, pending, dryRun = false) {
     const chosen = { ...settings, subscriptionName: match.subscriptionName };
     const result = await syncSubscription({ settings: chosen, candidateUrl: pending.candidateUrl, dryRun,
       expectedBeforeURL: selected.url, allowOriginChange: match.method === 'unique_name_new_origin',
-      fetcher: createLocalFetcher(chrome, chosen), saveBackup: async backup => {
+      assertCurrent: control.assertCurrent, fetcher: currentFetcher(chosen, control), saveBackup: async backup => {
+        await control.checkpoint();
         const previous = (await chrome.storage.local.get('backups')).backups || [];
+        await control.checkpoint();
         const own = previous.filter(item => item.subscriptionName === chosen.subscriptionName && item.backendUrl === settings.backendUrl).slice(0, 2);
         const other = previous.filter(item => item.subscriptionName !== chosen.subscriptionName || item.backendUrl !== settings.backendUrl);
-        await chrome.storage.local.set({ backups: [{ ...backup, origin }, ...own, ...other].slice(0, 64) });
+        backupBefore = previous; backupWritten = [{ ...backup, origin }, ...own, ...other].slice(0, 64);
+        await chrome.storage.local.set({ backups: backupWritten });
+        await control.checkpoint();
       } });
-    return record(origin, { ...result, matchMethod: match.method }, pending.siteNames);
-  } catch (error) { return record(origin, { status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
-    candidateHost: new URL(pending.candidateUrl).host, ...(matchedName ? { subscriptionName: matchedName } : {}) }, pending.siteNames); }
+    await control.checkpoint();
+    return await record(origin, { ...result, matchMethod: match.method }, pending.siteNames, control);
+  } catch (error) {
+    try { await control.checkpoint(); }
+    catch (currentError) { error = currentError; }
+    if (error?.code === 'candidate_superseded') {
+      // Keep a backup once a PATCH may have been dispatched. Before dispatch,
+      // undo only our exact backup snapshot; never overwrite another writer.
+      if (backupWritten && !control.writeSent) {
+        const current = (await chrome.storage.local.get('backups')).backups || [];
+        if (JSON.stringify(current) === JSON.stringify(backupWritten)) await chrome.storage.local.set({ backups: backupBefore });
+      }
+      return { status: 'error', code: 'candidate_superseded' };
+    }
+    return record(origin, { status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
+      candidateHost: new URL(pending.candidateUrl).host, ...(matchedName ? { subscriptionName: matchedName } : {}) }, pending.siteNames, control);
+  }
 }
 async function status() {
   const settings = await getSettings();
@@ -112,31 +261,42 @@ async function status() {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const origin = pageOrigin(sender);
   if (origin && ['PAGE_CONTEXT', 'PAGE_OBSERVER_STATUS', 'OBSERVED_SUBSCRIPTION', 'OBSERVATION_AMBIGUOUS'].includes(message?.type)) {
+    if (message.type === 'PAGE_OBSERVER_STATUS' && message.stage !== 'observer_ready') { sendResponse({ received: false }); return true; }
+    let candidateUrl;
+    try { if (message.type === 'OBSERVED_SUBSCRIPTION') candidateUrl = candidateURL(message.candidateUrl).href; }
+    catch { sendResponse({ received: false }); return true; }
+    const documentKey = sender.tab.id + ':' + (sender.documentId || sender.url);
+    const admission = admit({ origin, type: message.type, names: cleanNames(message.siteNames), candidateUrl, documentKey,
+      tabId: sender.tab.id, tabEpoch: tabEpochs.get(sender.tab.id) || 0 });
     serial(async () => {
-      const settings = await getSettings();
-      if (!await allowed(origin, settings)) return { allowed: false, received: false };
-      const names = cleanNames(message.siteNames);
-      if (message.type === 'PAGE_CONTEXT') { await observe(origin, 'bridge_ready', names); return { allowed: true }; }
-      if (message.type === 'PAGE_OBSERVER_STATUS') {
-        if (message.stage !== 'observer_ready') return { received: false };
-        await observe(origin, 'observer_ready', names); return { received: true };
+      const ticket = await admission;
+      if (!ticket) return { allowed: false, received: false };
+      const control = observationControl(ticket), names = ticket.names;
+      await control.checkpoint();
+      if (ticket.type === 'PAGE_CONTEXT') {
+        if (ticket.documentChanged) await clearPending(origin, control);
+        await observe(origin, 'bridge_ready', names, control); return { allowed: true };
       }
-      if (message.type === 'OBSERVATION_AMBIGUOUS') {
-        await observe(origin, 'candidate_ambiguous', names);
-        const pending = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin || {};
-        delete pending[origin]; await chrome.storage.session.set({ pendingByOrigin: pending });
-        await record(origin, { status: 'error', code: 'candidate_ambiguous' }, names); return { received: true };
+      if (ticket.type === 'PAGE_OBSERVER_STATUS') {
+        await observe(origin, 'observer_ready', names, control); return { received: true };
       }
-      const candidateUrl = candidateURL(message.candidateUrl).href;
+      if (ticket.type === 'OBSERVATION_AMBIGUOUS') {
+        await clearPending(origin, control);
+        await observe(origin, 'candidate_ambiguous', names, control);
+        await record(origin, { status: 'error', code: 'candidate_ambiguous' }, names, control); return { received: true };
+      }
       const previous = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[origin];
-      if (previous?.candidateUrl === candidateUrl && Date.now() - (previous.finishedAt || previous.at) < 10000) return { received: true };
-      const pending = { candidateUrl, siteNames: names, at: Date.now() };
-      await observe(origin, 'candidate_received', names);
-      await savePending(origin, pending);
-      await syncCandidate(origin, pending);
-      await savePending(origin, { ...pending, finishedAt: Date.now() });
+      await control.checkpoint();
+      const completedAgo = Date.now() - previous?.finishedAt;
+      if (previous?.candidateUrl === candidateUrl && previous.generation === ticket.generation && previous.documentKey === ticket.documentKey &&
+          Number.isFinite(previous.finishedAt) && completedAgo >= 0 && completedAgo < 10000) return { received: true };
+      const pending = { candidateUrl, siteNames: names, at: Date.now(), generation: ticket.generation, documentKey: ticket.documentKey };
+      await observe(origin, 'candidate_received', names, control);
+      await savePending(origin, pending, control);
+      const result = await syncCandidate(origin, pending, controlFor(ticket));
+      if (result.code !== 'candidate_superseded') await savePending(origin, { ...pending, finishedAt: Date.now() }, control);
       return { received: true };
-    }).then(sendResponse, () => sendResponse({ received: false }));
+    }).then(sendResponse, error => sendResponse({ received: error?.code === 'candidate_superseded' }));
     return true;
   }
   if (!fromPopup(sender)) return false;
@@ -153,9 +313,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const selectedOrigin = siteOrigin(message?.origin);
     if (!selectedOrigin) throw new SyncError('open_dashboard_first');
     if (message.type === 'SYNC_PENDING') {
+      await settledAdmissions(selectedOrigin);
       const pending = (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[selectedOrigin];
       if (!pending || Date.now() - pending.at > 30 * 60 * 1000) throw new SyncError('open_dashboard_first');
-      return syncCandidate(selectedOrigin, pending, message.dryRun === true);
+      let state = generations.get(selectedOrigin);
+      if (!state) {
+        // A service-worker restart may keep an unexpired session candidate.
+        state = { generation: 1, documentKey: null, kind: 'candidate', candidateUrl: pending.candidateUrl, retired: new Set() };
+        generations.set(selectedOrigin, state);
+      }
+      if (state.kind !== 'candidate' || state.candidateUrl !== pending.candidateUrl) throw new SyncError('candidate_superseded');
+      return syncCandidate(selectedOrigin, pending, controlFor({ origin: selectedOrigin, state, generation: state.generation, documentKey: state.documentKey }), message.dryRun === true);
     }
     if (message.type === 'RESTORE_LATEST') {
       const settings = await getSettings();
@@ -174,3 +342,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function initialize() { await chrome.storage.local.set({ settings: await getSettings() }); }
 chrome.runtime.onInstalled.addListener(() => initialize());
 chrome.runtime.onStartup?.addListener(() => initialize());
+// onUpdated(status=loading) has no documentId and can arrive after the new
+// document's PAGE_CONTEXT. Document admissions identify navigation instead.
+chrome.tabs.onRemoved?.addListener(tabId => tabClosed(tabId));
+
+// Internal deterministic test barrier. No runtime message or page API exposes it.
+export async function whenIdle() {
+  for (;;) {
+    const work = queue, checks = [...admissions.entries()], tabs = [...tabAdmissions.entries()];
+    await Promise.allSettled([work, ...checks.map(([, pending]) => pending), ...tabs.map(([, pending]) => pending)]);
+    if (queue === work && checks.length === admissions.size && tabs.length === tabAdmissions.size &&
+        checks.every(([origin, pending]) => admissions.get(origin) === pending) && tabs.every(([id, pending]) => tabAdmissions.get(id) === pending)) return;
+  }
+}

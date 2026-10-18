@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.2
+
+- 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)与[修复验证](./docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。
+
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.1
 
 - 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](./SubStore/CHANGELOG.md)及[扩展说明](./SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。

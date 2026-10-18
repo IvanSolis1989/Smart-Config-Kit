@@ -9,6 +9,9 @@ import { fileURLToPath } from 'node:url';
 import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
+const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'local-fetch.mjs',
+  'local-transport.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
+  'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
 const FRAGMENT = '#flowDedup=account&ua=fixture%20ua&cacheKey=fixture-cache';
 const PREVIEW_FRAGMENT = '#flowDedup=account&ua=fixture%20ua';
@@ -23,6 +26,11 @@ function check(condition, code) { if (!condition) { const error = new Error(code
 function withoutURL(sub) { const copy = { ...sub }; delete copy.url; return copy; }
 function safeCode(error) { return /^[a-z0-9_]+$/.test(error?.code || '') ? error.code : 'unexpected_error'; }
 function escapeHTML(value) { return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]); }
+async function within(promise, code) {
+  let timer;
+  try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => { const error = new Error(code); error.code = code; reject(error); }, CASE_TIMEOUT_MS); })]); }
+  finally { clearTimeout(timer); }
+}
 
 function subscription(name, url) {
   return { name, displayName: name, source: 'remote', url: url + FRAGMENT, ua: 'fixture-ua', proxy: 'PROXY',
@@ -47,6 +55,8 @@ function fixtures() {
       old: 'https://kitty-old-cdn.example.com/subscribe?token=OLD-KITTY-FIXTURE', candidate: 'https://kitty-new-cdn.example.com/new-subscribe?token=NEW-KITTY-FIXTURE', expectedMatchMethod: 'unique_name_new_origin' },
     { id: 'peiqian_cdn', label: 'Unique Peiqian brand CDN rotation', origin: 'https://peiqian-cdn-page.example.com', brand: '赔钱机场', name: '赔钱', mode: 'attribute',
       old: 'https://peiqian-old-cdn.example.com/subscribe?token=OLD-PEIQIAN-FIXTURE', candidate: 'https://peiqian-new-cdn.example.com/subscribe?token=NEW-PEIQIAN-FIXTURE', expectedMatchMethod: 'unique_name_new_origin' },
+    { id: 'relative_anchor', label: 'Relative subscription anchor', origin: 'https://relative-panel.example.com', brand: 'Relative fixture', name: 'Relative fixture', mode: 'relative',
+      old: 'https://relative-panel.example.com/subscribe?token=OLD-RELATIVE-FIXTURE', candidate: 'https://relative-panel.example.com/subscribe?token=NEW-RELATIVE-FIXTURE' },
   ].map(fixture => ({ ...sources(fixture.id), ...fixture, expectedStatus: 'updated' }));
   const bad = [
     { id: 'catalog_ambiguous', label: 'Catalog ambiguity stops', origin: 'https://catalog-ambiguous.example.com', brand: 'Unknown account', mode: 'attribute',
@@ -61,6 +71,14 @@ function fixtures() {
       expectedStatus: 'error', expectedCode: 'auto_match_none', operations: ['GET:catalog'] },
     { ...sources('warning'), id: 'warning', label: 'Invalid warning nodes stop', origin: 'https://warning.example.com', brand: 'Warning fixture', name: 'Invalid preview fixture', mode: 'attribute',
       expectedStatus: 'error', expectedCode: 'candidate_has_no_real_nodes', operations: ['GET:catalog', 'GET:sub', 'POST:preview'], warning: true },
+    { id: 'query_bytes', label: 'Distinct plus and space accounts stop', origin: 'https://query-bytes.example.com', brand: 'Query fixture', mode: 'ambiguous',
+      candidate: 'https://query-source.example.com/subscribe?token=ACCOUNT+ONE', second: 'https://query-source.example.com/subscribe?token=ACCOUNT%20ONE',
+      expectedStatus: 'error', expectedCode: 'candidate_ambiguous', operations: [] },
+    { ...sources('mapped_loopback'), id: 'mapped_loopback', label: 'Mapped and expanded loopback nodes stop', origin: 'https://mapped-loopback.example.com', brand: 'Loopback fixture', name: 'Loopback fixture', mode: 'attribute',
+      expectedStatus: 'error', expectedCode: 'candidate_has_no_real_nodes', operations: ['GET:catalog', 'GET:sub', 'POST:preview'], loopback: true },
+    { ...sources('late_ambiguity'), id: 'late_ambiguity', label: 'Late ambiguity cancels a held preview', origin: 'https://late-ambiguity.example.com', brand: 'Late fixture', name: 'Late fixture', mode: 'attribute',
+      second: 'https://late_ambiguity-source.example.com/subscribe?token=SECOND-ACCOUNT-FIXTURE', lateAmbiguity: true,
+      expectedStatus: 'error', expectedCode: 'candidate_ambiguous', operations: ['GET:catalog', 'GET:sub', 'POST:preview'] },
   ];
   const cases = [...good, ...bad].map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
   const catalog = cases.filter(fixture => fixture.name).map(fixture => subscription(fixture.name, fixture.old));
@@ -78,6 +96,7 @@ function pageHTML(fixture) {
   if (fixture.mode === 'attribute') body = `<button data-subscribe-url="${url}">订阅链接</button>`;
   if (fixture.mode === 'input') body = `<label for="subscription-link">订阅链接</label><input id="subscription-link" type="url" readonly value="${url}">`;
   if (fixture.mode === 'import') body = `<a href="${escapeHTML('clash://install-config?url=' + encodeURIComponent(fixture.candidate))}">一键导入订阅</a>`;
+  if (fixture.mode === 'relative') body = `<a href="${escapeHTML(new URL(fixture.candidate).pathname + new URL(fixture.candidate).search)}">复制订阅链接</a>`;
   if (fixture.mode === 'ambiguous') body = `<button data-subscribe-url="${url}">订阅一</button><button data-subscribe-url="${escapeHTML(fixture.second)}">订阅二</button>`;
   if (fixture.mode === 'fetch') body = `<script>fetch(${JSON.stringify(fixture.api)}).then(response => response.json()).catch(() => {});</script>`;
   if (fixture.mode === 'xhr') body = `<script>{const request = new XMLHttpRequest();request.open('GET', ${JSON.stringify(fixture.api)});request.responseType='json';request.send();}</script>`;
@@ -113,7 +132,7 @@ async function readJSON(request) {
 }
 
 async function mockServices(cases, catalog) {
-  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], corsRejected: 0, failure: null };
+  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], corsRejected: 0, failure: null, previewGates: new Map() };
   const byName = new Map(cases.filter(fixture => fixture.name).map(fixture => [fixture.name, fixture]));
   const frontend = await startServer((_request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -146,7 +165,11 @@ async function mockServices(cases, catalog) {
           check(body.url === fixture.candidate + PREVIEW_FRAGMENT, 'preview_fragment_failed');
           const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
           check(equal(originalFields, withoutURL(before)), 'preview_process_preservation_failed');
-          const nodes = fixture.warning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : NODES;
+          if (fixture.lateAmbiguity) await new Promise(resolve => state.previewGates.set(body.name, resolve));
+          const nodes = fixture.loopback ? [
+            { ...NODES[0], server: '0:0:0:0:0:0:0:1' }, { ...NODES[1], server: '::ffff:127.0.0.1' },
+            { ...NODES[0], server: 'localhost.' },
+          ] : fixture.warning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : NODES;
           data = { original: nodes, processed: nodes };
         } else if (url.pathname.startsWith('/api/sub/')) {
           const name = decodeURIComponent(url.pathname.slice('/api/sub/'.length));
@@ -185,7 +208,7 @@ async function poll(checkValue, timeout = CASE_TIMEOUT_MS) {
 }
 
 async function main() {
-  let context, services, profileDirectory, temporaryRoot;
+  let context, services, profileDirectory, temporaryRoot, worker;
   let label = 'bootstrap', passed = 0;
   try {
     temporaryRoot = await fs.realpath(os.tmpdir());
@@ -196,10 +219,16 @@ async function main() {
     const { cases, catalog } = fixtures();
     services = await mockServices(cases, catalog);
     profileDirectory = await fs.mkdtemp(path.join(temporaryRoot, 'scki-browser-e2e-'));
+    const runtimeDirectory = path.join(profileDirectory, 'extension-under-test');
+    await fs.mkdir(runtimeDirectory);
+    await Promise.all(RUNTIME_FILES.map(file => fs.copyFile(path.join(extensionDirectory, file), path.join(runtimeDirectory, file))));
+    // Only this disposable copy exposes the read-only completion barrier in the
+    // worker realm. Production has no global probe or added runtime message.
+    await fs.appendFile(path.join(runtimeDirectory, 'background.js'), '\n// Private acceptance completion probe.\nglobalThis.__fixtureWhenIdle = whenIdle;\n');
     context = await chromium.launchPersistentContext(profileDirectory, { executablePath, ...(executablePath ? {} : { channel: 'chromium' }), headless: true,
-      args: ['--disable-extensions-except=' + extensionDirectory, '--load-extension=' + extensionDirectory,
+      args: ['--disable-extensions-except=' + runtimeDirectory, '--load-extension=' + runtimeDirectory,
         '--no-first-run', '--no-default-browser-check', '--no-proxy-server', '--disable-background-networking', '--disable-component-update', '--disable-sync'] });
-    const worker = context.serviceWorkers().find(item => item.url().endsWith('/background.js')) ||
+    worker = context.serviceWorkers().find(item => item.url().endsWith('/background.js')) ||
       await context.waitForEvent('serviceworker', { predicate: item => item.url().endsWith('/background.js'), timeout: 10000 });
     const initialized = await poll(() => worker.evaluate(async () => Boolean((await chrome.storage.local.get('settings')).settings)));
     check(initialized, 'initialization_timeout');
@@ -239,8 +268,27 @@ async function main() {
       const page = await context.newPage();
       try {
         const startedAt = Date.now();
+        if (fixture.lateAmbiguity) await worker.evaluate(origin => {
+          globalThis.__fixtureAmbiguitySeen = false;
+          chrome.runtime.onMessage.addListener((message, sender) => {
+            if (message.type === 'OBSERVATION_AMBIGUOUS' && new URL(sender.url).origin === origin) globalThis.__fixtureAmbiguitySeen = true;
+          });
+        }, fixture.origin);
         await page.goto(fixture.pageURL, { waitUntil: 'domcontentloaded', timeout: CASE_TIMEOUT_MS });
-        const result = await poll(() => worker.evaluate(async origin => (await chrome.storage.local.get('sites')).sites?.[origin]?.lastResult || null, fixture.origin),
+        if (fixture.lateAmbiguity) {
+          check(await poll(() => services.state.previewGates.has(fixture.name)), 'held_preview_not_started');
+          await page.evaluate(second => {
+            const control = document.createElement('button'); control.dataset.subscribeUrl = second;
+            control.textContent = '订阅二'; document.body.append(control);
+          }, fixture.second);
+          check(await poll(() => worker.evaluate(() => globalThis.__fixtureAmbiguitySeen)), 'late_ambiguity_not_delivered');
+          services.state.previewGates.get(fixture.name)();
+          await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'idle_barrier_timeout');
+        }
+        const result = await poll(() => worker.evaluate(async ({origin, expectedCode, lateAmbiguity}) => {
+          const result = (await chrome.storage.local.get('sites')).sites?.[origin]?.lastResult || null;
+          return lateAmbiguity && result?.code !== expectedCode ? null : result;
+        }, fixture),
           Math.max(100, CASE_TIMEOUT_MS - (Date.now() - startedAt)));
         check(!services.state.failure, services.state.failure || 'mock_contract_failed');
         check(result, 'automatic_result_timeout');
@@ -248,6 +296,7 @@ async function main() {
         if (fixture.expectedCode) check(result.code === fixture.expectedCode, 'result_error_code_failed');
         check(!/token=|OLD-.+-FIXTURE|NEW-.+-FIXTURE|fixture-keep-script/.test(JSON.stringify(result)), 'result_privacy_failed');
         const operations = services.state.operations.slice(callsBefore);
+        if (fixture.lateAmbiguity) check(!operations.some(operation => operation.method === 'PATCH'), 'late_ambiguity_wrote_subscription');
         const expected = fixture.operations || ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
         check(equal(operations.map(operation => operation.method + ':' + operation.kind), expected), 'request_sequence_failed');
         for (const [name, before] of originals) {
@@ -276,8 +325,19 @@ async function main() {
     console.log(`Browser automatic flow: PASS count=${passed}`);
   } catch (error) {
     console.error(`${label}: FAIL status=${safeCode(error)} count=${passed}`);
+    if (worker) {
+      const diagnosis = await worker.evaluate(async () => {
+        const local = await chrome.storage.local.get(['sites']);
+        const session = await chrome.storage.session.get(['pageObservations', 'pendingByOrigin']);
+        return { stages: Object.values(session.pageObservations || {}).map(site => site.observation?.stage),
+          pending: Object.keys(session.pendingByOrigin || {}).length,
+          results: Object.values(local.sites || {}).map(site => ({ status: site.lastResult?.status, code: site.lastResult?.code })) };
+      }).catch(() => ({ unavailable: true }));
+      console.error('Safe browser diagnosis: ' + JSON.stringify(diagnosis));
+    }
     process.exitCode = 1;
   } finally {
+    for (const release of services?.state.previewGates.values() || []) release();
     await context?.close().catch(() => {});
     if (services) await Promise.all([closeServer(services.frontend.server), closeServer(services.backend.server)]);
     if (profileDirectory) {

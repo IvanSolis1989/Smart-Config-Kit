@@ -4,6 +4,7 @@ const errors = {
   invalid_settings: '请使用 http://127.0.0.1:端口作为本机前后端地址。',
   invalid_candidate: '页面返回的链接格式不符合要求。',
   candidate_ambiguous: '检测到多个不同订阅链接，已停止自动写入，请核对网页内容。',
+    candidate_superseded: '页面候选已变化，本次验证已取消，等待最新结果。',
   candidate_origin_changed: '新旧链接的域名或端口不同，已保留原链接，请人工核对。',
   fragment_conflict: '新旧链接包含冲突的附加参数，已保留原链接。',
   invalid_fragment: '附加参数无法安全解析，已保留原链接。',
