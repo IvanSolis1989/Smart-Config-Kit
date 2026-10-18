@@ -9,7 +9,7 @@
 1. 启动 Clash Party，确保已有相应机场的单条远程订阅。
 2. 解压扩展包。在 `edge://extensions` / `chrome://extensions` 开启开发人员模式，加载包含 `manifest.json` 的扩展文件夹。
 3. 正常打开机场仪表盘并人工登录。首次在该网站打开扩展弹窗，点“允许此网站自动同步”，按浏览器提示允许访问。后台会刷新当前页面开始监听；以后新标签页正常加载即可触发，不需额外按 F5。未曾明确许可的网站仍需这一次允许，原有许可随同目录升级保留。
-4. 插件自动识别候选，在各启用目标独立匹配现有条目、验证原始及处理后节点、备份旧链接并只更新 URL。弹窗分别显示本机与 Cloudflare 结果；部分成功时保留已成功端的结果，核对另一端后再决定是否手动重试。
+4. 插件自动识别候选，在各启用目标独立匹配现有条目、验证原始及处理后节点、备份旧链接并更新 URL。云端策略允许的受阻源可使用下节的单源原始快照；其他源仍由云端正常下载。弹窗分别显示本机与 Cloudflare 结果；部分成功时保留已成功端的结果，核对另一端后再决定是否手动重试。
 
 弹窗用于查看自动进度。端口和手动排查工具在默认折叠的高级选项中，不属于日常使用步骤。默认本机后端 `http://127.0.0.1:38324`，前端 `http://127.0.0.1:14122`；本机端口不同才需修改。
 
@@ -39,6 +39,27 @@
 
 **链接更新不等于订阅发布或手机立即刷新。** 扩展只修改两个后端已有记录的源 URL；云端集合重新生成、完整性校验、Gist / Artifact 发布是后端的独立流程，手机仍按自身订阅刷新时机取回已发布内容。若客户端使用 Gist 或 Worker 保存副本，请分别检查该发布路径；不能用扩展的“已更新”代替发布验收。高级选项提供本机和 Cloudflare 各自的条件恢复按钮，恢复一端不回滚另一端。
 
+### Cloudflare 下载受阻源的原始快照
+
+部分机场对 Cloudflare 出口返回带 challenge 标记的 HTTP 403，下载网关也可能不可用。若本机可以获取该源，部署者可只为已确认受阻的来源启用原始快照策略，不需要 VPS。它不是修复机场对 Cloudflare 的访问限制，也不让受阻来源获得完全独立的云端刷新能力。
+
+```text
+本机单订阅严格 noCache 预览的 original 原始节点
+  → 私密受限入口上传该源快照
+  → Cloudflare 按原 URL / 配置核对并限期保存
+  → 确认 403 challenge 时使用该源原始节点
+  → 云端执行自己保存的原 process，再参与集合生成
+```
+
+- 云端策略控制来源 allowlist 和每源最低节点数；没有获准的源不能上传或借此降级。上传对象必须是单机场的 `original` 未处理节点，不是本机 `processed` 结果，也不是最终 Fusion 配置。
+- 单源 `original` 若混有套餐说明，只剔除名称以 `剩余流量:` / `剩余流量：` 或 `套餐到期:` / `套餐到期：` 开头、且不属于真实节点的记录；全部真实原始节点保留。其他无效记录、设备超限或订阅错误占位仍拒绝，不降低服务端最低节点数；服务端只接收全部由真实节点组成的 `original`。
+- 扩展在当前已许可网站的同步流程中，从运行中的本机 Sub-Store 取得严格 `noCache` 原始预览，经既有节点校验后上传。原始节点只在传输期间使用，不写入扩展永久 `storage.local` 或浏览器云同步。
+- 快照绑定精确 URL 和订阅配置，有效期为 **24 小时**。新候选 URL 尚未成为云端持久 URL 时，只能在上传后的 **120 秒**候选预览窗口内使用；不能拿某个候选的旧数据验证另一个 URL，或绕过正常预览、PATCH 与写后读回。
+- 仅**直连得到已确认的 HTTP 403 challenge**，或**网关 HTTP 530 触发一次直连后又得到确证的 403 challenge**，才回退到有效快照。网关以 HTTP 200 包装上游 403 的情况不在支持范围；普通 403、其他网关错误、其他 HTTP 错误或解析失败不因此变成成功。快照缺失、过期、绑定不一致、节点不足或含错误占位节点时失败关闭，不用残缺结果补齐。
+- Cloudflare 独立保存和处理快照；取得有效快照后，云端不需要在每次消费时访问本机。受阻源要刷新到新数据，仍需在本机服务运行时再次执行这一流程。没有受阻且保持健康的来源继续由 Cloudflare 自行拉取，不依赖本机快照。
+
+启用前应分别核对本机原始预览、云端保存后的单源处理结果及过期拒绝行为。云端原有 Gist / Fusion 发布者与客户端已发布副本是另一条链路，快照上传成功不会自行改写发布者或促使手机立即拉取。私密入口、来源策略和节点内容不得写入公共仓库、安装包或诊断截图。
+
 ### 已审查 Worker 的专用受限入口
 
 对于本仓库已审查的 Worker wrapper，可使用 [`extension-sync-route.mjs`](../scripts/extension-sync-route.mjs) 与纯源码补丁 [`patch-extension-sync-worker.mjs`](../scripts/patch-extension-sync-worker.mjs) 增加独立扩展连接。部署者通过 secret `SUB_STORE_EXTENSION_BACKEND_PATH` 配置 `/ext-` 后接 64 位小写十六进制随机值的专用前缀；用户导入的 `cloudBackendUrl` 使用 Worker HTTPS origin 加此前缀，不复用客户端 download 链接。旧管理前缀不能通过现有 API 读回时，也不应猜测或公开它。
@@ -51,6 +72,8 @@
 | `GET /api/sub/:name` | 读取单条订阅及写后核对 |
 | `POST /api/preview/sub?target=JSON` | 原始与处理后节点预览，JSON 请求须含有效名称与订阅 URL |
 | `PATCH /api/sub/:name` | 请求体只能有 `url` 字段；不允许修改处理器等其他字段 |
+| `GET /api/source-snapshot/:name` | 仅启用快照模块时提供；查询该源策略及快照可用性、计数和有效期，不返回原始节点或私密订阅 URL |
+| `POST /api/source-snapshot/:name` | 请求体仅含 `url`、`expectedUrl`、`original`；按服务端来源策略校验全部真实的单源原始节点、URL、配置绑定、数量与有效期，不修改订阅处理器 |
 
 此前缀下的其他路径、方法或 query 被拒绝，不能借此调用删除、设置、集合修改或 Gist 发布接口；Worker 原有入口保留原路由。route 模块按界限检查请求并交给原后端，patcher 只改审查匹配的源码，不生成 secret、不部署或写配置。部署与连接配置须由部署者另行准备；这两个模块不是任意第三方 Worker 的通用安装器。
 
@@ -72,7 +95,7 @@
 
 隐藏传输使用 [`offscreen` / `IFRAME_SCRIPTING`](https://developer.chrome.com/docs/extensions/reference/api/offscreen) 和 runtime Port，权限只增加包内隐藏文档能力，iframe 限于 `127.0.0.1`。帧身份和每轮随机值共同绑定连接；自身本机前后端与已配置云端主机页面均不会作为机场处理。保持 Chrome 111+；恢复优先使用 `runtime.getContexts`，较早版本使用官方 `clients.matchAll` 分支。
 
-只更新现有的一条远程 HTTP(S) URL。同 origin 地址匹配或唯一品牌名称匹配通过后才允许写入；跨域必须由唯一品牌名称证据放行。非空本地合并、多源、fragment 冲突、空节点或设备超限回环告警节点均停止。临时预览保留 UA、代理和处理步骤，仅移除 `cacheKey` 并强制新鲜下载。
+订阅配置仍只更新现有的一条远程 HTTP(S) URL；受阻源原始快照走单独的策略受限上传入口，不修改处理器。同 origin 地址匹配或唯一品牌名称匹配通过后才允许写入；跨域必须由唯一品牌名称证据放行。非空本地合并、多源、fragment 冲突、空节点或设备超限回环告警节点均停止。临时预览保留 UA、代理和处理步骤，仅移除 `cacheKey` 并强制新鲜下载。
 
 写前重新比较配置，仅 `PATCH {url}`，写后独立 GET 核对链接及所有其他字段。两端分别保存旧链接备份；撤销要求当前链接与其他字段仍匹配对应目标上次写入结果。Sub-Store 不提供原子条件更新接口，比较与 PATCH 间仍有窄并发窗口，应避免同时编辑同一条订阅。
 
@@ -107,7 +130,7 @@ node SubStore/edge-extension/package.mjs --out "C:\Extensions\SubStore-AutoSync"
 node SubStore/edge-extension/package.mjs --out "C:\Extensions\SubStore-AutoSync" --check
 ```
 
-当前最小安装目录包含 15 个运行文件（含 `offscreen.html` / `offscreen.js`），不需要 Node、测试、构建源码或私人连接 JSON。`--check` 只读检查输出 manifest、运行依赖和文件集合；它不重新打包，也不证明目录与指定 Git 提交逐字节一致。更新现有同名扩展目录时会备份被替换文件，再逐文件替换；完成检查后由用户在扩展管理页手动 Reload，必要时刷新机场页面。使用固定、不含版本号的目录，避免每次升级另建加载位置；不要将私人连接配置放入该目录。打包命令不会自动安装扩展或修改浏览器 profile。
+当前最小安装目录包含 16 个运行文件（含 `offscreen.html` / `offscreen.js` 与单源快照准备模块），不需要 Node、测试、构建源码或私人连接 JSON。`--check` 只读检查输出 manifest、运行依赖和文件集合；它不重新打包，也不证明目录与指定 Git 提交逐字节一致。更新现有同名扩展目录时会备份被替换文件，再逐文件替换；完成检查后由用户在扩展管理页手动 Reload，必要时刷新机场页面。使用固定、不含版本号的目录，避免每次升级另建加载位置；不要将私人连接配置放入该目录。打包命令不会自动安装扩展或修改浏览器 profile。
 
 ### 隔离浏览器验证
 
@@ -131,6 +154,8 @@ node SubStore/edge-extension/browser-e2e.mjs
 [permissions.request / contains / onRemoved](https://developer.chrome.com/docs/extensions/reference/api/permissions) 分别用于点击时申请、发送前检查和撤销处理；[scripting.registerContentScripts](https://developer.chrome.com/docs/extensions/reference/api/scripting#method-registerContentScripts) 只为明确允许的站点注册监听。[Chrome match patterns](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns) 的主机权限范围与扩展按完整 origin 保存的站点信任分开检查。
 
 [扩展跨源网络请求](https://developer.chrome.com/docs/extensions/develop/concepts/network-requests)说明扩展 service worker 使用主机权限访问远程后端；后端访问许可不等于机场页面信任。[Edge 解压安装与 Reload](https://learn.microsoft.com/en-us/microsoft-edge/extensions/getting-started/extension-sideloading)用于手动安装和原目录升级。
+
+[Chrome 扩展存储](https://developer.chrome.com/docs/extensions/reference/api/storage)区分本机持久设置与会话数据；原始快照不属于扩展永久设置。[Cloudflare KV 过期键](https://developers.cloudflare.com/kv/api/write-key-value-pairs/#expiring-keys)提供服务端限期保存，应用仍须按快照时间与绑定条件决定是否允许使用，不能把“KV 中尚有数据”当作新鲜性证明。
 
 [Chrome 预渲染激活](https://developer.chrome.com/docs/web-platform/prerender-pages#detect-prerender-in-javascript)使用 document 的 `prerenderingchange` 事件；后台仍只接纳 active 的顶层文档。
 

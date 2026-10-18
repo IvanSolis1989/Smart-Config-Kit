@@ -29,6 +29,29 @@ test('cloud transport permits only the matched subscription and JSON preview', a
   assert.equal(h.calls.length, 2);
 });
 
+test('snapshot policy and raw upload are scoped to the selected name and do not mark a subscription PATCH', async () => {
+  let writes = 0; const h = await harness({ onWriteSent: () => writes++ });
+  const url = backendUrl + '/api/source-snapshot/Airport%20A';
+  await h.fetch(url);
+  await h.fetch(url, { method: 'POST', body: JSON.stringify({ url: 'https://airport.example/new', expectedUrl: 'https://airport.example/old',
+    original: [{ name: 'Raw', type: 'trojan', server: 'raw.example', port: 443, password: 'PRIVATE' }] }) });
+  assert.equal(h.calls.length, 2); assert.equal(writes, 0); assert.equal(h.permissions.length, 2);
+  for (const body of [{ url: 'https://airport.example/new', original: [] }, { url: 'https://airport.example/new', expectedUrl: 'https://airport.example/old', original: [], process: [] }])
+    await assert.rejects(h.fetch(url, { method: 'POST', body: JSON.stringify(body) }), { code: 'cloud_transport_invalid_request' });
+  await assert.rejects(h.fetch(backendUrl + '/api/source-snapshot/Other'), { code: 'cloud_transport_invalid_request' });
+});
+
+test('snapshot upload still requires current candidate and host permission immediately before raw dispatch', async () => {
+  const body = JSON.stringify({ url: 'https://airport.example/new', expectedUrl: 'https://airport.example/old',
+    original: [{ name: 'Raw', type: 'trojan', server: 'raw.example', port: 443, password: 'PRIVATE' }] });
+  const path = backendUrl + '/api/source-snapshot/Airport%20A';
+  let checks = 0;
+  const h = await harness({ assertCurrent: async () => { if (++checks === 2) throw Object.assign(Error('candidate_superseded'), { code: 'candidate_superseded' }); } });
+  await assert.rejects(h.fetch(path, { method: 'POST', body }), { code: 'candidate_superseded' }); assert.equal(h.calls.length, 0);
+  const denied = await harness({ permitted: false });
+  await assert.rejects(denied.fetch(path, { method: 'POST', body }), { code: 'cloud_permission_required' }); assert.equal(denied.calls.length, 0);
+});
+
 test('cloud transport rejects foreign hosts, prefix escape, unrelated names and methods without dispatch', async () => {
   const h = await harness();
   for (const [url, method] of [

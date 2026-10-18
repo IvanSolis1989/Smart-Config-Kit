@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
-const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs',
+const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs', 'source-snapshot.mjs',
   'local-transport.js', 'offscreen.html', 'offscreen.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
   'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
@@ -112,11 +112,21 @@ function fixtures() {
   const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline hidden transport leaves no documents or tabs',
     origin: 'https://offline-relay.example.com', brand: 'Offline fixture', name: 'Offline fixture', mode: 'attribute', offlineRelay: true,
     expectedStatus: 'error', expectedCode: 'local_transport_not_ready', operations: [], timeout: 20000 };
-  const dual = [false, true].map(cloudWarning => {
-    const id = cloudWarning ? 'dual_cloud_warning' : 'dual_success';
-    return { ...sources(id), id, label: cloudWarning ? 'Dual target keeps local success when cloud preview fails' : 'Dual target updates independent local and cloud names',
+  const dual = [
+    { id: 'dual_success', cloudWarning: false, legacySnapshotRoute: false, infoNodes: [
+      { name: '剩余流量：29.8 GB' }, { name: '套餐到期: 2026-12-31' },
+    ] },
+    { id: 'dual_cloud_warning', cloudWarning: true, legacySnapshotRoute: true },
+    { id: 'dual_snapshot_cloud_warning', cloudWarning: true, legacySnapshotRoute: false },
+  ].map(({ id, cloudWarning, legacySnapshotRoute }) => {
+    const legacySuffix = legacySnapshotRoute ? ' and legacy snapshot route returns 404' : '';
+    return { ...sources(id), id, label: cloudWarning ? 'Dual target keeps local success when cloud preview fails' + legacySuffix :
+        'Dual target uploads local preview and updates independent cloud subscription',
       origin: 'https://' + id.replaceAll('_', '-') + '.example.com', brand: id, name: id, mode: 'attribute',
-      dual: true, cloudWarning, expectedStatus: cloudWarning ? 'partial' : 'updated', expectedLocalStatus: 'updated' };
+      dual: true, cloudWarning, legacySnapshotRoute,
+      operations: legacySnapshotRoute ? ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'] :
+        ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub', 'GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub'],
+      expectedStatus: cloudWarning ? 'partial' : 'updated', expectedLocalStatus: 'updated' };
   });
   const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, ...dual, offline]
     .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
@@ -171,7 +181,8 @@ async function readJSON(request) {
 }
 
 async function mockServices(cases, catalog) {
-  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], corsRejected: 0, failure: null, previewGates: new Map(), previewHeld: new Set() };
+  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], timeline: [], sequence: 0,
+    corsRejected: 0, failure: null, previewGates: new Map(), previewHeld: new Set() };
   const byName = new Map(cases.filter(fixture => fixture.name).map(fixture => [fixture.name, fixture]));
   const frontend = await startServer((_request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -191,6 +202,7 @@ async function mockServices(cases, catalog) {
       const kind = url.pathname === '/api/subs' ? 'catalog' : url.pathname === '/api/preview/sub' ? 'preview' : 'sub';
       const operation = { method: request.method, kind };
       state.operations.push(operation);
+      state.timeline.push({ source: 'local', method: operation.method, kind: operation.kind, order: ++state.sequence });
       try {
         let data;
         if (request.method === 'GET' && url.pathname === '/api/subs') data = [...state.subs.values()];
@@ -211,7 +223,7 @@ async function mockServices(cases, catalog) {
           const nodes = fixture.loopback ? [
             { ...NODES[0], server: '0:0:0:0:0:0:0:1' }, { ...NODES[1], server: '::ffff:127.0.0.1' },
             { ...NODES[0], server: 'localhost.' },
-          ] : fixture.warning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : NODES;
+          ] : fixture.warning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : [...NODES, ...(fixture.infoNodes || [])];
           data = { original: nodes, processed: nodes };
         } else if (url.pathname.startsWith('/api/sub/')) {
           const name = decodeURIComponent(url.pathname.slice('/api/sub/'.length));
@@ -257,7 +269,10 @@ async function main() {
   try {
     temporaryRoot = await fs.realpath(process.env.SCKI_E2E_ARTIFACT_DIRECTORY || os.tmpdir());
     const moduleName = process.env.PLAYWRIGHT_MODULE_PATH || 'playwright';
-    const { chromium } = createRequire(import.meta.url)(moduleName);
+    const playwright = moduleName.startsWith('file:')
+      ? await import(moduleName)
+      : createRequire(import.meta.url)(moduleName);
+    const { chromium } = playwright;
     const executablePath = process.env.BROWSER_EXECUTABLE || (process.platform === 'win32' ? 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe' : undefined);
     const { cases, catalog } = fixtures();
     const executionCases = process.env.SCKI_E2E_CASE_ID ? cases.filter(fixture => fixture.id === process.env.SCKI_E2E_CASE_ID) : cases;
@@ -322,6 +337,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     for (const fixture of cases.filter(fixture => fixture.secondAPI)) apis.set(fixture.secondAPI, { ...fixture, candidate: fixture.second });
     const cloudOperations = [];
     const cloudSubs = new Map(cases.filter(item => item.dual).map(item => ['Cloud ' + item.name, subscription('Cloud ' + item.name, item.old)]));
+    const cloudSnapshots = new Map();
     let blocked = 0;
     await context.route(/^https?:\/\//, async route => {
       const request = route.request();
@@ -329,18 +345,56 @@ chrome.runtime.onMessage.addListener((message, sender) => {
       if (url.origin === new URL(CLOUD_BASE).origin) {
         const relative = url.href.slice(CLOUD_BASE.length);
         const method = request.method();
-        const kind = relative === '/api/subs' ? 'catalog' : relative === '/api/preview/sub?target=JSON' ? 'preview' : 'sub';
-        const operation = { method, kind };
+        const snapshotRoute = relative.match(/^\/api\/source-snapshot\/([^/?]+)$/);
+        const kind = relative === '/api/subs' ? 'catalog' : relative === '/api/preview/sub?target=JSON' ? 'preview' :
+          snapshotRoute ? method === 'GET' ? 'snapshot-policy' : 'snapshot-upload' : 'sub';
+        const operation = { method, kind, order: ++services.state.sequence };
         cloudOperations.push(operation);
+        services.state.timeline.push({ source: 'cloud', method, kind, order: operation.order });
         try {
           check(url.href.startsWith(CLOUD_BASE + '/'), 'cloud_prefix_failed');
           let data;
           if (method === 'GET' && relative === '/api/subs') data = [...cloudSubs.values()];
+          else if (snapshotRoute && method === 'GET') {
+            const cloudName = decodeURIComponent(snapshotRoute[1]);
+            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === cloudName);
+            operation.name = cloudName;
+            check(fixture, 'cloud_snapshot_policy_scope_failed');
+            if (fixture.legacySnapshotRoute) {
+              operation.responseStatus = 404;
+              await route.fulfill({ status: 404, contentType: 'application/json', body: JSON.stringify({ status: 'failed', error: { code: 'not_found' } }) });
+              return;
+            }
+            operation.responseStatus = 200;
+            data = { allowed: true, minNodes: 2, ttlSeconds: 86400, available: false };
+          } else if (snapshotRoute && method === 'POST') {
+            const cloudName = decodeURIComponent(snapshotRoute[1]);
+            const body = request.postDataJSON();
+            const previous = cloudSubs.get(cloudName);
+            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === cloudName);
+            operation.name = cloudName;
+            check(previous && fixture && !fixture.legacySnapshotRoute, 'cloud_snapshot_upload_scope_failed');
+            check(body.url === fixture.candidate + FRAGMENT && body.expectedUrl === previous.url, 'cloud_snapshot_url_scope_failed');
+            check(equal(body.original, NODES), 'cloud_snapshot_local_strict_preview_failed');
+            const policy = cloudOperations.find(item => item.name === cloudName && item.kind === 'snapshot-policy' && item.responseStatus === 200);
+            const localProofs = services.state.timeline.filter(event => event.source === 'local' && event.method === 'POST' && event.kind === 'preview' &&
+              event.order > policy?.order && event.order < operation.order);
+            check(policy && localProofs.length > 0, 'cloud_snapshot_uploaded_without_policy_and_local_preview');
+            operation.responseStatus = 200;
+            cloudSnapshots.set(cloudName, { url: body.url, expectedUrl: body.expectedUrl, original: clone(body.original) });
+            const capturedAt = new Date().toISOString();
+            const expiresAt = new Date(Date.now() + 86400000).toISOString();
+            data = { stored: true, nodeCount: body.original.length, capturedAt, expiresAt, sha256: 'a'.repeat(64) };
+          }
           else if (method === 'POST' && relative === '/api/preview/sub?target=JSON') {
             const body = request.postDataJSON(), previous = cloudSubs.get(body.name);
             const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === body.name);
             operation.name = body.name;
             check(previous && fixture && body.url === fixture.candidate + PREVIEW_FRAGMENT, 'cloud_preview_scope_failed');
+            if (!fixture.legacySnapshotRoute) {
+              const uploaded = cloudSnapshots.has(body.name) && services.state.timeline.some(event => event.source === 'cloud' && event.kind === 'snapshot-upload' && event.order < operation.order);
+              check(uploaded, 'cloud_preview_skipped_after_local_snapshot_upload');
+            }
             check(body.noCache === true && body.ignoreFailedRemoteSub === false, 'cloud_preview_options_failed');
             const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
             check(equal(originalFields, withoutURL(previous)), 'cloud_preview_fields_failed');
@@ -525,8 +579,24 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           const cloudResult = result.targets?.cloud;
           check(cloudResult?.status === (fixture.cloudWarning ? 'error' : 'updated'), 'dual_cloud_result_failed');
           if (fixture.cloudWarning) check(cloudResult.code === 'candidate_has_no_real_nodes', 'dual_cloud_failure_code_failed');
+          if (fixture.legacySnapshotRoute) {
+            check(!cloudSnapshots.has('Cloud ' + fixture.name), 'legacy_snapshot_404_did_not_fallback');
+            check(!cloudResult.sourceSnapshot, 'legacy_snapshot_404_reported_snapshot_metadata');
+          } else {
+            check(cloudResult.sourceSnapshot?.kind === 'validated_local_snapshot', 'dual_local_snapshot_proof_missing');
+            const policyOrder = services.state.timeline.find(event => event.source === 'cloud' && event.kind === 'snapshot-policy' && event.order > 0)?.order;
+            const uploadOrder = services.state.timeline.find(event => event.source === 'cloud' && event.kind === 'snapshot-upload' && event.order > policyOrder)?.order;
+            const localPreviewOrder = services.state.timeline.find(event => event.source === 'local' && event.method === 'POST' && event.kind === 'preview' && event.order > policyOrder)?.order;
+            const cloudPreviewOrder = services.state.timeline.find(event => event.source === 'cloud' && event.kind === 'preview' && event.order > uploadOrder)?.order;
+            check(policyOrder && localPreviewOrder > policyOrder && uploadOrder > localPreviewOrder && cloudPreviewOrder > uploadOrder,
+              'dual_snapshot_policy_local_preview_upload_cloud_preview_order_failed');
+          }
           const ownCloudOperations = cloudOperations.slice(cloudCallsBefore);
-          const expectedCloud = fixture.cloudWarning ? ['GET:catalog', 'GET:sub', 'POST:preview'] : ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
+          const expectedCloud = fixture.legacySnapshotRoute
+            ? ['GET:catalog', 'GET:snapshot-policy', 'GET:sub', 'POST:preview']
+            : fixture.cloudWarning
+              ? ['GET:catalog', 'GET:snapshot-policy', 'GET:sub', 'POST:snapshot-upload', 'GET:sub', 'POST:preview']
+            : ['GET:catalog', 'GET:snapshot-policy', 'GET:sub', 'POST:snapshot-upload', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
           check(equal(ownCloudOperations.map(item => item.method + ':' + item.kind), expectedCloud), 'dual_cloud_sequence_failed');
           const cloudName = 'Cloud ' + fixture.name;
           check(cloudSubs.get(cloudName).url === (fixture.cloudWarning ? fixture.old : fixture.candidate) + FRAGMENT, 'dual_cloud_saved_url_failed');

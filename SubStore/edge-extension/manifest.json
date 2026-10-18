@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sub-Store 自动订阅同步助手",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "minimum_chrome_version": "111",
   "description": "在浏览器授权的网站或IP面板自动识别订阅，独立验证并更新本机与可选Cloudflare Sub-Store的已有链接。",
   "permissions": [

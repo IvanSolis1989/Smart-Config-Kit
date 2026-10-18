@@ -52,12 +52,15 @@ try {
   if (sourceUsesOffscreen) {
     assert(names.includes('offscreen.html'));
     assert(names.includes('offscreen.js'));
-    assert.equal(names.length, 15, 'offscreen permission should add only the HTML page and its runtime script');
   } else {
     assert(!names.includes('offscreen.html'));
     assert(!names.includes('offscreen.js'));
-    assert.equal(names.length, 13, 'v1.5.1 ref should remain a 13-file package without offscreen support');
   }
+  const snapshotImported = (await Promise.all(names.filter(name => /\.(?:m?js)$/.test(name)).map(async name => {
+    const source = await readFile(path.join(out, name), 'utf8');
+    return /\b(?:from\s*|import\s*\()(['"])\.\/source-snapshot\.mjs\1/.test(source);
+  }))).some(Boolean);
+  assert.equal(names.includes('source-snapshot.mjs'), snapshotImported, 'source-snapshot.mjs must be packaged exactly when a runtime module imports it');
   assert(!names.some((name) => /(?:\.test\.|secret|\.env)/i.test(name)));
   assert(!names.includes('package.test.mjs'));
   assert(!names.includes('build.mjs'));

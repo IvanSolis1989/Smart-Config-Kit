@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.7.0
+
+- 为已确认的云端受阻来源提供本机原始预览快照，由 Cloudflare 按自身处理器限期使用；不上传本机 Fusion，受阻源刷新仍需本机服务运行。详见[SubStore 日志](../SubStore/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。
+
 ## 2026-10-18 — Sub-Store 辅助扩展 v1.6.0
 
 - 本机辅助通信改用隐藏 iframe，同步无需保留可见前端标签；详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。Clash Party 本机服务仍需运行，未修改客户端二进制、路由图、DNS 或正式产物，无需全端重生成。

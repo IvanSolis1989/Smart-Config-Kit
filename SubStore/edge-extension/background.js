@@ -3,6 +3,7 @@ import { createLocalFetcher } from './local-fetch.mjs';
 import { createCloudFetcher } from './cloud-fetch.mjs';
 import { chooseSubscription } from './auto-match.mjs';
 import { createSiteAccess } from './site-access.mjs';
+import { prepareSourceSnapshot } from './source-snapshot.mjs';
 
 let queue = Promise.resolve();
 function serial(action) { const task = queue.then(action, action); queue = task.catch(() => {}); return task; }
@@ -273,7 +274,7 @@ async function readCatalog(settings, control) {
   }
 }
 async function syncOneTarget(origin, pending, control, settings, dryRun = false, manual = false) {
-  let matchedName, backupBefore, backupWritten, ledgerKey, previousAttempt, targetKey, attemptWritten = false;
+  let matchedName, backupBefore, backupWritten, ledgerKey, previousAttempt, targetKey, sourceSnapshot, attemptWritten = false;
   const targetId = settings.targetId;
   try {
     await control.checkpoint();
@@ -293,6 +294,16 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
     matchedName = match.subscriptionName;
     const selected = catalog.find(item => item?.name === matchedName);
     const chosen = { ...settings, subscriptionName: match.subscriptionName };
+    if (targetId === 'cloud') {
+      const global = await siteAccess.require(origin);
+      await control.checkpoint();
+      const localSettings = targetSettingsFrom(global, 'local');
+      sourceSnapshot = await prepareSourceSnapshot({ cloudSettings: chosen, localSettings,
+        candidateUrl: pending.candidateUrl, expectedBeforeURL: selected.url, siteNames: pending.siteNames,
+        allowOriginChange: match.method === 'unique_name_new_origin', dryRun,
+        cloudFetcher: currentFetcher(chosen, control), localFetcherFor: value => currentFetcher(value, control),
+        readLocalCatalog: () => readCatalog(localSettings, control), checkpoint: () => control.checkpoint() });
+    }
     const result = await syncSubscription({ settings: chosen, candidateUrl: pending.candidateUrl, dryRun,
       expectedBeforeURL: selected.url, allowOriginChange: match.method === 'unique_name_new_origin',
       assertCurrent: control.assertCurrent, fetcher: currentFetcher(chosen, control), saveBackup: async backup => {
@@ -316,7 +327,7 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
         }
       } });
     await control.checkpoint();
-    const safe = { ...result, targetId, targetKey, matchMethod: match.method };
+    const safe = { ...result, targetId, targetKey, matchMethod: match.method, ...(sourceSnapshot ? { sourceSnapshot } : {}) };
     if (!dryRun && (control.writeSent || (manual && previousAttempt))) {
       const attempts = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
       attempts[ledgerKey] = { at: Date.now(), result: safe };
@@ -342,6 +353,7 @@ async function syncOneTarget(origin, pending, control, settings, dryRun = false,
       return { status: 'error', code: 'candidate_superseded' };
     }
     return { targetId, targetKey, status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
+      ...(sourceSnapshot ? { sourceSnapshot } : {}),
       ...(control.writeSent ? { writeState: 'unknown' } : {}),
       ...(error?.cleanupFailed === true ? { cleanupFailed: true } : {}),
       candidateHost: new URL(pending.candidateUrl).host, ...(matchedName ? { subscriptionName: matchedName } : {}) };

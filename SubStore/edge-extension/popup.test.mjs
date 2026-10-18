@@ -571,6 +571,18 @@ test('partial results show both target outcomes without private backend or raw e
   assert.ok(!f.$('cloudResult').textContent.includes('private'));
 });
 
+test('snapshot metadata describes local validation and upload without claiming remote fallback or leaking raw fields', async () => {
+  const f = await fixture();
+  f.state.settings = { ...SETTINGS, cloudEnabled: true, cloudBackendUrl: 'https://sync.example.net/private' };
+  f.state.sites[ORIGIN].lastResult = { status: 'unchanged', at: '2026-10-18T12:01:00Z', extensionVersion: VERSION,
+    targets: { cloud: { status: 'unchanged', sourceSnapshot: { kind: 'validated_local_snapshot', capturedAt: '2026-10-18T12:00:00Z',
+      url: 'https://never-display.example/private', original: [{ password: 'NEVER-DISPLAY' }] } } } };
+  await f.popup.load();
+  assert.match(f.$('cloudResult').textContent, /已上传本机严格验证/);
+  assert.match(f.$('cloudResult').textContent, /不代表云端已使用/);
+  assert.ok(!f.$('cloudResult').textContent.includes('private')); assert.ok(!f.$('cloudResult').textContent.includes('NEVER-DISPLAY'));
+});
+
 test('cloud restore uses its own backup count and explicit target ID', async () => {
   const f = await fixture();
   assert.ok(f.$('restoreCloud'));

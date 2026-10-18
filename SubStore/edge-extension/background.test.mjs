@@ -42,7 +42,19 @@ test('automatic authorized-site matching and local relay',async t=>{
   state.cloudCalls.push({path,method:request.method,body});
   if(state.cloudOffline)throw Error('PRIVATE-CLOUD-OFFLINE');
   let data;
-  if(path==='/api/subs')data=[...state.cloudSubs.values()];
+  if(path.startsWith('/api/source-snapshot/')){
+    if(request.method==='GET'){
+      if(state.cloudSnapshotLegacyStatus)return new Response('{}',{status:state.cloudSnapshotLegacyStatus});
+      data=state.cloudSnapshotPolicy||{allowed:false};
+    }
+    else{
+      assert.deepEqual(Object.keys(body).sort(),['expectedUrl','original','url']);
+      const sub=state.cloudSubs.get(decodeURIComponent(path.slice('/api/source-snapshot/'.length)));
+      assert.equal(body.expectedUrl,sub.url);state.cloudSnapshotUploads=(state.cloudSnapshotUploads||[]).concat([body]);
+      data={stored:true,nodeCount:body.original.length,capturedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()};
+    }
+  }
+  else if(path==='/api/subs')data=[...state.cloudSubs.values()];
   else if(request.method==='POST')data=state.cloudPreview||state.preview;
   else{
    const sub=state.cloudSubs.get(decodeURIComponent(path.slice('/api/sub/'.length)));
@@ -124,6 +136,39 @@ test('automatic authorized-site matching and local relay',async t=>{
     assert.equal(status.sites[ORIGIN].targets.cloud.backupCount,1);
     assert.ok(!JSON.stringify(status.sites).includes('private-prefix'));
   });
+  await t.test('allowed cloud sources upload only locally validated raw nodes before normal cloud preview and PATCH',async()=>{
+    reset();enableCloud();state.cloudSnapshotPolicy={allowed:true,minNodes:1,ttlSeconds:86400};await observe();
+    const result=state.local.sites[ORIGIN].lastResult;
+    assert.equal(result.status,'updated');assert.equal(state.cloudSnapshotUploads.length,1);
+    assert.deepEqual(state.cloudSnapshotUploads[0].original,[NODE]);
+    assert.equal(state.cloudSnapshotUploads[0].url,CANDIDATE+'#flowDedup=fixture');
+    const upload=state.cloudCalls.findIndex(call=>call.path.startsWith('/api/source-snapshot/')&&call.method==='POST');
+    const preview=state.cloudCalls.findIndex(call=>call.path==='/api/preview/sub?target=JSON');
+    assert.ok(upload>=0&&preview>upload);assert.equal(state.cloudCalls.filter(call=>call.method==='PATCH').length,1);
+    assert.equal(result.targets.cloud.sourceSnapshot.kind,'validated_local_snapshot');
+    assert.ok(!JSON.stringify(state.local).includes(NODE.password));assert.ok(!JSON.stringify(state.session).includes(NODE.password));
+  });
+  await t.test('local snapshot preview failure stops only the cloud target and never uploads or PATCHes cloud',async()=>{
+    reset();enableCloud();state.cloudSnapshotPolicy={allowed:true,minNodes:2,ttlSeconds:86400};await observe();
+    const result=state.local.sites[ORIGIN].lastResult;
+    assert.equal(result.status,'partial');assert.equal(result.targets.local.status,'updated');assert.equal(result.targets.cloud.code,'source_snapshot_insufficient_nodes');
+    assert.equal(state.cloudSnapshotUploads,undefined);assert.equal(state.cloudCalls.filter(call=>call.method==='PATCH').length,0);
+  });
+  await t.test('uploaded local proof cannot bypass an empty cloud processed preview',async()=>{
+    reset();enableCloud();state.cloudSnapshotPolicy={allowed:true,minNodes:1,ttlSeconds:86400};state.cloudPreview={original:[NODE],processed:[]};await observe();
+    const result=state.local.sites[ORIGIN].lastResult;
+    assert.equal(result.status,'partial');assert.equal(result.targets.cloud.code,'candidate_has_no_real_nodes');
+    assert.equal(result.targets.cloud.sourceSnapshot.kind,'validated_local_snapshot');assert.equal(state.cloudSnapshotUploads.length,1);
+    assert.equal(state.cloudCalls.filter(call=>call.method==='PATCH').length,0);assert.equal(result.targets.local.status,'updated');
+  });
+  await t.test('legacy cloud policy route is optional and a dry run never refreshes the snapshot',async()=>{
+    reset();enableCloud();state.cloudSnapshotLegacyStatus=404;await observe();
+    assert.equal(state.local.sites[ORIGIN].lastResult.targets.cloud.status,'updated');assert.equal(state.cloudSnapshotUploads,undefined);
+    delete state.cloudSnapshotLegacyStatus;state.cloudSnapshotPolicy={allowed:true,minNodes:1,ttlSeconds:86400};state.cloudCalls=[];
+    const result=(await send({type:'SYNC_PENDING',origin:ORIGIN,targetId:'cloud',dryRun:true},POPUP)).reply;
+    assert.equal(result.targets.cloud.status,'unchanged');assert.equal(state.cloudSnapshotUploads,undefined);
+    assert.equal(state.cloudCalls.filter(call=>call.path.startsWith('/api/source-snapshot/')&&call.method==='POST').length,0);
+  });
   await t.test('a cloud preview failure leaves local independently verified and reports partial success',async()=>{
     reset();enableCloud();state.cloudPreview={original:[],processed:[]};await observe();
     const result=state.local.sites[ORIGIN].lastResult;
@@ -140,7 +185,7 @@ test('automatic authorized-site matching and local relay',async t=>{
     assert.equal(status.sites[ORIGIN].lastResult.targets.local.status,'updated');
   });
   await t.test('a cloud PATCH with lost response cannot be automatically replayed but explicit retry verifies unchanged',async()=>{
-    reset();enableCloud();state.cloudLostPatch=true;await observe();
+    reset();enableCloud();state.cloudSnapshotPolicy={allowed:true,minNodes:1,ttlSeconds:86400};state.cloudLostPatch=true;await observe();
     assert.equal(state.local.sites[ORIGIN].lastResult.status,'partial');
     assert.equal(state.local.sites[ORIGIN].lastResult.targets.cloud.writeState,'unknown');
     state.session.pendingByOrigin[ORIGIN].finishedAt=0;
@@ -150,9 +195,11 @@ test('automatic authorized-site matching and local relay',async t=>{
     await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:['星海']},{...PAGE,url:other+'/',origin:other,documentId:'cloud-other-document',tab:{id:21,url:other+'/'}});
     assert.equal(state.local.sites[other].lastResult.targets.cloud.code,'automatic_retry_blocked');
     assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);
+    assert.equal(state.cloudSnapshotUploads.length,1,'an unknown subscription PATCH must also block automatic snapshot preparation');
     state.cloudLostPatch=false;
     const retry=(await send({type:'SYNC_PENDING',origin:ORIGIN,targetId:'cloud'},POPUP)).reply;
     assert.equal(retry.targets.cloud.status,'unchanged');assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);
+    assert.equal(state.cloudSnapshotUploads.length,2,'explicit retry obtains a fresh locally validated snapshot before readback confirmation');
   });
   await t.test('cloud permission is separate from airport consent and blocks cloud only',async()=>{
     reset();enableCloud();

@@ -50,6 +50,9 @@ const errors = {
   local_transport_invalid_response: '本机前端通信返回异常，已停止。',
   local_backend_request_failed: '本机 Sub-Store 前端无法完成请求，请核对端口后重试。',
   unexpected_error: '操作未完成，请重新检查。',
+  source_snapshot_policy_invalid: '云端原始节点快照策略无效，已停止。',
+  source_snapshot_insufficient_nodes: '本机验证的原始节点未达到云端要求，未上传快照。',
+  source_snapshot_invalid_response: '云端快照保存结果不完整，已停止后续更新。',
 };
 const GLOBAL_FIELDS = ['enabled', 'backendUrl', 'frontendUrl', 'cloudEnabled', 'cloudBackendUrl'];
 const PAGE_STAGES = {
@@ -222,6 +225,9 @@ export function createPopup(document, chromeApi) {
       else if (targetResult?.status === 'error') text += '。' + (errors[targetResult.code] || errors.unexpected_error);
       else if (Number.isInteger(targetResult?.originalNodes) && Number.isInteger(targetResult?.processedNodes)) {
         text += `。有效节点：原始 ${targetResult.originalNodes}，处理后 ${targetResult.processedNodes}。`;
+      }
+      if (targetResult?.sourceSnapshot?.kind === 'validated_local_snapshot' && dateText(targetResult.sourceSnapshot.capturedAt)) {
+        text += ' 已上传本机严格验证的原始节点快照（' + dateText(targetResult.sourceSnapshot.capturedAt) + '）；这不代表云端已使用回退。';
       }
       if (targetResult) {
         const targetView = resultView({ ...targetResult, at: targetResult.at || result?.at,
