@@ -37,6 +37,8 @@
 
 同一文档不同 fetch / XHR 响应中的候选会累计判断；不同账户形成持续歧义，只有新文档才重新开始。验证期间出现新的候选或歧义，会使旧验证失效；写入发送前再次检查，歧义不会排在旧写入之后才生效。已经发送的请求不能由后来才出现的候选或页面变化撤回。
 
+DOM 控件是唯一来源时，页面撤下全部订阅控件会取消尚未发送的写入并清除重试待办；相同链接重新出现后也需重新验证。预渲染页面在真正激活时重新检查站点许可并重放已观察的候选，不需手动刷新。
+
 不读取密码、Cookie、登录 token、浏览器保存的账号、剪贴板或整页脚本。现有订阅目录仅在扩展内部内存中用于匹配。待办链接、未确认页面观察状态保存在会话存储；成功/失败诊断只保留安全名称、origin、时间和计数。旧链接备份在本机扩展存储中含私密订阅 URL，勿导出或公开；不使用云同步或上传服务。
 
 插件不自动登录、重置机场订阅、解除超限或增加设备额度。页面关闭后不巡检机场；页面存活且后端离线时，会话候选最多保留30分钟。目录读取前的本机通信初始化失败会有限自动重试，不对可能已经执行的 PATCH 自动重试。
@@ -73,5 +75,7 @@ node SubStore/edge-extension/browser-e2e.mjs
 [MessageSender.documentId](https://developer.chrome.com/docs/extensions/reference/api/runtime#type-MessageSender) 用于区分文档；[tabs.onRemoved](https://developer.chrome.com/docs/extensions/reference/api/tabs#event-onRemoved) 使已关闭页面的候选失效。[URL 表单解码](https://url.spec.whatwg.org/#urlencoded-parsing)会将字面 `+` 转为空格，账户身份比较使用保留此差异的查询解析；[文档基准地址](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#document-base-url)用于相对锚点解析。
 
 [permissions.request / contains / onRemoved](https://developer.chrome.com/docs/extensions/reference/api/permissions) 分别用于点击时申请、发送前检查和撤销处理；[scripting.registerContentScripts](https://developer.chrome.com/docs/extensions/reference/api/scripting#method-registerContentScripts) 只为明确允许的站点注册监听。[Chrome match patterns](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns) 的主机权限范围与扩展按完整 origin 保存的站点信任分开检查。
+
+[Chrome 预渲染激活](https://developer.chrome.com/docs/web-platform/prerender-pages#detect-prerender-in-javascript)使用 document 的 `prerenderingchange` 事件；后台仍只接纳 active 的顶层文档。
 
 [Sub-Store 单条 PATCH](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/restful/subscriptions.js#L296-L349)、[original / processed 预览](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/restful/preview.js#L79-L174)、[fragment 和缓存](https://github.com/sub-store-org/Sub-Store/blob/832d3a0412bf92e79b46d6610217117010c589ec/backend/src/utils/download.js#L133-L289)。

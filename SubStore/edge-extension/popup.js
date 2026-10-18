@@ -47,6 +47,7 @@ const PAGE_STAGES = {
   observer_ready: '页面监听已就绪',
   candidate_received: '已收到订阅链接',
   candidate_ambiguous: '检测到多个订阅链接，请人工核对',
+  candidate_withdrawn: '网页已撤下订阅链接，等待新链接',
 };
 const WAITING_TITLES = { ...PAGE_STAGES,
   bridge_ready: PAGE_STAGES.bridge_ready + '，等待自动识别',
@@ -95,7 +96,8 @@ export function resultView(result, settings, { extensionVersion, observation, su
   const currentPage = hasStage && (!extensionVersion || observation.extensionVersion === extensionVersion);
   const staleVersion = !!result && !!extensionVersion && result.extensionVersion !== extensionVersion;
   const resultAt = Date.parse(result?.at), pageAt = Date.parse(observation?.at);
-  const awaitingResult = currentPage && (!result || staleVersion || !Number.isFinite(resultAt) || pageAt > resultAt);
+  const withdrawn = currentPage && observation.stage === 'candidate_withdrawn';
+  const awaitingResult = currentPage && (withdrawn || !result || staleVersion || !Number.isFinite(resultAt) || pageAt > resultAt);
   const history = !!result && (staleVersion || awaitingResult);
   if (history) {
     title = staleVersion ? '上次同步记录，当前版本待验证' : '等待本轮网页的同步结果';
@@ -107,6 +109,7 @@ export function resultView(result, settings, { extensionVersion, observation, su
     if (!history) detail = observation.stage === 'candidate_ambiguous' ? errors.candidate_ambiguous :
       observation.stage === 'candidate_received' ? '正在自动匹配 Sub-Store 条目，等待节点验证及同步结果。' : '网页已被检测到，等待自动识别机场与订阅链接。';
   }
+  if (withdrawn) detail = '网页已撤下订阅链接，待办已清除，等待页面提供新链接。' + (history ? detail : '');
   if (status === 'error' && result.cleanupFailed === true) detail += '临时本机标签页清理未完成，请人工关闭该失败标签页后重试。';
   if (!settings.enabled) title = '全局自动同步已关闭';
   const pageStage = !hasStage ? '本轮阶段：尚未检测到网页，等待已授权的仪表盘加载。' :

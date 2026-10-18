@@ -100,10 +100,18 @@ function fixtures() {
   const untrusted = { id: 'untrusted_brand', label: 'Broad browser grant cannot trust a spoofed brand', origin: 'https://untrusted-spoof.example.com',
     brand: 'Kitty Network', candidate: 'https://kitty-new-cdn.example.com/new-subscribe?token=FORGED-UNTRUSTED-FIXTURE', mode: 'attribute',
     untrusted: true, expectedStatus: null, operations: [] };
+  const withdrawn = [false, true].map(reappear => {
+    const id = reappear ? 'dom_reappears' : 'dom_withdrawn';
+    return { ...sources(id), id, label: reappear ? 'Withdrawn same DOM URL revalidates without retiring document' : 'DOM withdrawal cancels a held preview',
+      origin: 'https://' + id.replaceAll('_', '-') + '.example.com', brand: id, name: id, mode: 'attribute', holdPreview: true,
+      domWithdrawal: true, reappear, expectedStatus: reappear ? 'updated' : null,
+      operations: reappear ? ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'] :
+        ['GET:catalog', 'GET:sub', 'POST:preview'] };
+  });
   const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline relay retries leave no owned tabs',
     origin: 'https://offline-relay.example.com', brand: 'Offline fixture', name: 'Offline fixture', mode: 'attribute', offlineRelay: true,
     expectedStatus: 'error', expectedCode: 'local_transport_not_ready', operations: [], timeout: 20000 };
-  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, offline]
+  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, offline]
     .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
   const catalog = cases.filter(fixture => fixture.name).map(fixture => subscription(fixture.name, fixture.old));
   const base = catalog.find(sub => sub.name === 'SSONE');
@@ -156,7 +164,7 @@ async function readJSON(request) {
 }
 
 async function mockServices(cases, catalog) {
-  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], corsRejected: 0, failure: null, previewGates: new Map() };
+  const state = { subs: new Map(catalog.map(sub => [sub.name, clone(sub)])), operations: [], corsRejected: 0, failure: null, previewGates: new Map(), previewHeld: new Set() };
   const byName = new Map(cases.filter(fixture => fixture.name).map(fixture => [fixture.name, fixture]));
   const frontend = await startServer((_request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -189,7 +197,10 @@ async function mockServices(cases, catalog) {
           check(body.url === fixture.candidate + PREVIEW_FRAGMENT, 'preview_fragment_failed');
           const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
           check(equal(originalFields, withoutURL(before)), 'preview_process_preservation_failed');
-          if (fixture.lateAmbiguity || fixture.holdPreview) await new Promise(resolve => state.previewGates.set(body.name, resolve));
+          if ((fixture.lateAmbiguity || fixture.holdPreview) && !state.previewHeld.has(body.name)) {
+            state.previewHeld.add(body.name);
+            await new Promise(resolve => state.previewGates.set(body.name, resolve));
+          }
           const nodes = fixture.loopback ? [
             { ...NODES[0], server: '0:0:0:0:0:0:0:1' }, { ...NODES[1], server: '::ffff:127.0.0.1' },
             { ...NODES[0], server: 'localhost.' },
@@ -271,7 +282,7 @@ globalThis.__fixtureTabLifecycle = { created: 0, removed: 0 };
 chrome.tabs.onCreated.addListener(() => { globalThis.__fixtureTabLifecycle.created += 1; });
 chrome.tabs.onRemoved.addListener(() => { globalThis.__fixtureTabLifecycle.removed += 1; });
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (!['PAGE_CONTEXT','OBSERVED_SUBSCRIPTION','OBSERVATION_AMBIGUOUS','DOCUMENT_RETIRED'].includes(message?.type)) return;
+  if (!['PAGE_CONTEXT','OBSERVED_SUBSCRIPTION','OBSERVATION_AMBIGUOUS','OBSERVATION_INVALIDATED','DOCUMENT_RETIRED'].includes(message?.type)) return;
   try {
     const origin = new URL(sender.url).origin;
     const counts = globalThis.__fixtureEvents[origin] ||= {};
@@ -333,6 +344,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         const caseTimeout = fixture.timeout || CASE_TIMEOUT_MS;
         let offlineTabsBefore;
         let relayRetries;
+        let withdrawalProof;
         if (fixture.offlineRelay) {
           offlineTabsBefore = await worker.evaluate(async () => {
             const saved = (await chrome.storage.session.get('transportTab')).transportTab;
@@ -353,7 +365,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         await page.goto(fixture.pageURL, { waitUntil: 'domcontentloaded', timeout: caseTimeout });
         if (fixture.lateAmbiguity || fixture.holdPreview) {
           check(await poll(() => services.state.previewGates.has(fixture.name)), 'held_preview_not_started');
-          const eventType = fixture.expectedCode === 'candidate_ambiguous' ? 'OBSERVATION_AMBIGUOUS' : 'OBSERVED_SUBSCRIPTION';
+          const eventType = fixture.domWithdrawal ? 'OBSERVATION_INVALIDATED' : fixture.expectedCode === 'candidate_ambiguous' ? 'OBSERVATION_AMBIGUOUS' : 'OBSERVED_SUBSCRIPTION';
           const countBefore = await worker.evaluate(({ origin, type }) => globalThis.__fixtureEvents[origin]?.[type] || 0,
             { origin: fixture.origin, type: eventType });
           if (fixture.lateAmbiguity) await page.evaluate(second => {
@@ -367,6 +379,9 @@ chrome.runtime.onMessage.addListener((message, sender) => {
               request.onload = resolve; request.onerror = () => reject(new Error('fixture_xhr_failed')); request.send();
             });
           }, { method: fixture.lateNetwork, url: fixture.secondAPI });
+          if (fixture.domWithdrawal) await page.evaluate(() => {
+            for (const control of document.querySelectorAll('[data-subscribe-url], [data-clipboard-text], [data-clipboard], input, textarea, a[href]')) control.remove();
+          });
           if (fixture.navigation) {
             const destination = fixture.navigation === 'blank' ? 'about:blank' : fixture.navigation === 'frontend' ? services.frontend.origin :
               'https://unobserved-destination.example.com/__fixture__/';
@@ -378,6 +393,32 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           services.state.previewGates.get(fixture.name)();
           services.state.previewGates.delete(fixture.name);
           await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'idle_barrier_timeout', caseTimeout);
+          if (fixture.domWithdrawal) {
+            const state = await worker.evaluate(async origin => {
+              const session = await chrome.storage.session.get(['pendingByOrigin', 'pageObservations']);
+              const local = await chrome.storage.local.get(['sites', 'backups']);
+              return { pending: Boolean(session.pendingByOrigin?.[origin]), stage: session.pageObservations?.[origin]?.observation?.stage,
+                status: local.sites?.[origin]?.lastResult?.status || null, backups: local.backups?.length || 0,
+                retired: globalThis.__fixtureEvents[origin]?.DOCUMENT_RETIRED || 0 };
+            }, fixture.origin);
+            check(!services.state.operations.slice(callsBefore).some(operation => operation.method === 'PATCH'), 'withdrawn_candidate_wrote_subscription');
+            check(!state.pending && state.stage === 'candidate_withdrawn' && state.status === null && state.backups === backupsBefore,
+              'withdrawn_candidate_state_survived');
+            check(state.retired === 0, 'withdrawal_retired_document');
+            withdrawalProof = { received: true, patches: 0, pending: false, stage: state.stage, unappliedBackups: 0, retired: false };
+            if (fixture.reappear) {
+              await page.evaluate(url => {
+                const control = document.createElement('button'); control.dataset.subscribeUrl = url;
+                control.textContent = '订阅链接'; document.body.append(control);
+              }, fixture.candidate);
+              check(await poll(() => worker.evaluate(async origin => (await chrome.storage.local.get('sites')).sites?.[origin]?.lastResult?.status === 'updated', fixture.origin)),
+                'reappeared_candidate_not_revalidated');
+              await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'reappearance_idle_timeout', caseTimeout);
+              const retired = await worker.evaluate(origin => globalThis.__fixtureEvents[origin]?.DOCUMENT_RETIRED || 0, fixture.origin);
+              check(retired === 0, 'reappearance_retired_document');
+              check(services.state.operations.slice(callsBefore).filter(operation => operation.kind === 'preview').length === 2, 'reappearance_skipped_fresh_validation');
+            }
+          }
         }
         if (fixture.untrusted) {
           await page.evaluate(url => window.postMessage({ source: 'scki-substore-link-v2', kind: 'subscription', url }, location.origin), fixture.candidate);
@@ -399,7 +440,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         if (fixture.expectedCode) check(result.code === fixture.expectedCode, 'result_error_code_failed');
         check(!/token=|OLD-.+-FIXTURE|NEW-.+-FIXTURE|fixture-keep-script/.test(JSON.stringify(result)), 'result_privacy_failed');
         const operations = services.state.operations.slice(callsBefore);
-        if (fixture.lateAmbiguity || fixture.navigation || fixture.untrusted || fixture.expectedCode === 'candidate_ambiguous') {
+        if (fixture.lateAmbiguity || fixture.navigation || fixture.untrusted || fixture.expectedCode === 'candidate_ambiguous' || (fixture.domWithdrawal && !fixture.reappear)) {
           check(!operations.some(operation => operation.method === 'PATCH'), 'late_ambiguity_wrote_subscription');
         }
         const expected = fixture.operations || ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
@@ -439,9 +480,13 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         }
         check(services.state.corsRejected === 0, 'frontend_origin_required');
         passed += 1;
-        report.cases.push({ id: fixture.id, label, status: 'passed', operations: operations.length, ...(relayRetries ? { relayAttempts: relayRetries, ownedTabsLeaked: 0 } : {}) });
+        report.cases.push({ id: fixture.id, label, status: 'passed', operations: operations.length, ...(relayRetries ? { relayAttempts: relayRetries, ownedTabsLeaked: 0 } : {}),
+          ...(withdrawalProof ? { withdrawal: withdrawalProof, ...(fixture.reappear ? { validations: 2, patches: 1 } : {}) } : {}) });
         console.log(`${label}: PASS count=${operations.length}${relayRetries ? ' attempts=' + relayRetries : ''}`);
       } catch (error) {
+        report.failureOperations = services.state.operations.slice(callsBefore).map(operation => operation.method + ':' + operation.kind);
+        report.mockFailure = services.state.failure;
+        console.error('Safe fixture operations: ' + JSON.stringify({ operations: report.failureOperations, code: report.mockFailure }));
         const probe = await worker.evaluate(async pageURL => {
           const tab = (await chrome.tabs.query({})).find(item => item.url === pageURL);
           if (!tab) return { unavailable: true };

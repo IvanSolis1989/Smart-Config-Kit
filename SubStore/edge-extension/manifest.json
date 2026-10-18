@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sub-Store 自动订阅同步助手",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "minimum_chrome_version": "111",
   "description": "在浏览器授权的网站或IP面板自动识别订阅，匹配本机Sub-Store现有名称，验证后自动更新链接。",
   "permissions": [

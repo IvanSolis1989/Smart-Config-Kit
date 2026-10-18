@@ -400,6 +400,18 @@ test('new readiness and received candidate supersede old success until this roun
   }
 });
 
+test('withdrawn DOM candidates show waiting and treat same-timestamp success as history', () => {
+  const at='2026-10-18T08:00:00Z';
+  const observation={stage:'candidate_withdrawn',at,extensionVersion:VERSION};
+  for(const result of [null,{status:'updated',at,extensionVersion:VERSION,originalNodes:53,processedNodes:53}]){
+    const view=resultView(result,SETTINGS,{extensionVersion:VERSION,observation});
+    assert.equal(view.title,'网页已撤下订阅链接，等待新链接');
+    assert.match(view.detail,/待办已清除/);
+    assert.match(view.pageStage,/已撤下/);
+    if(result)assert.match(view.time,/上次同步时间/);
+  }
+});
+
 test('matching errors stay safe, with fixed text for unknown errors and no subscription URL leakage', async () => {
   for (const code of ['auto_match_none', 'auto_match_ambiguous', 'catalog_unavailable', 'secret=https://example.com/token']) {
     const view = resultView({ status: 'error', code, extensionVersion: VERSION }, SETTINGS, { extensionVersion: VERSION });

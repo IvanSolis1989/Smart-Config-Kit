@@ -422,6 +422,7 @@ test('PAGE_CONTEXT must explicitly allow the page before candidates or ambiguity
     await flush();
     f.ready();
     f.window.dispatchMessage({ data: { source: SOURCE, kind: 'ambiguous', count: 2 }, source: f.window, origin });
+    f.window.dispatchMessage({ data: { source: SOURCE, kind: 'invalidated', reason: 'dom_none' }, source: f.window, origin });
     let acknowledgement;
     f.runtimeListeners[0]({ type: 'REQUEST_REPLAY' }, {}, value => { acknowledgement = normalized(value); });
     assert.deepEqual(acknowledgement, { ok: true });
@@ -645,13 +646,16 @@ test('DOM-only panels synchronize semantic controls and refuse distinct account 
 
 test('network subscription responses supersede stale format controls, and ambiguity replaces the replay cache', async () => {
   const domURL = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'OLD-DOM');
-  const f = fixture({ document: clipboardDocument([domURL]), response: mockResponse() });
+  const urls = [domURL];
+  const f = fixture({ document: clipboardDocument(urls), response: mockResponse() });
   f.hook(); f.bridge();
   await flush();
   assert.equal(f.backgroundMessages.at(-1).candidateUrl, domURL);
   await f.window.fetch(TARGET); await flush();
+  urls.splice(0);
   f.ready();
   assert.equal(f.backgroundMessages.at(-1).candidateUrl, CANDIDATE);
+  assert.ok(f.backgroundMessages.every(message => message.type !== 'OBSERVATION_INVALIDATED'), 'empty DOM controls cannot withdraw a network candidate');
   const xhr = new f.window.XMLHttpRequest();
   xhr.finish({ type: 'json', payload: { data: [{ subscribe_url: CANDIDATE }, { subscribe_url: domURL }] } });
   assert.equal(f.backgroundMessages.at(-1).type, 'OBSERVATION_AMBIGUOUS');
@@ -676,11 +680,13 @@ test('visible DOM property-only updates are discovered after the initial handsha
   f.intervals[0].callback();
   const before = f.backgroundMessages.length;
   f.ready();
-  assert.equal(f.backgroundMessages.length, before, 'disappeared DOM controls must not replay a stale URL');
+  assert.equal(f.backgroundMessages.length, before + 1, 'disappeared DOM controls replay withdrawal instead of a stale URL');
+  assert.deepEqual(f.backgroundMessages.at(-1), { type: 'OBSERVATION_INVALIDATED', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  const afterWithdrawal = f.backgroundMessages.length;
   document.visibilityState = 'hidden';
   urls.push(CANDIDATE);
   f.intervals[0].callback();
-  assert.equal(f.backgroundMessages.length, before, 'inactive panels do not scan controls');
+  assert.equal(f.backgroundMessages.length, afterWithdrawal, 'inactive panels do not scan controls');
   await f.window.fetch(TARGET); await flush();
   assert.equal(f.intervals[0].cleared, true, 'a definitive API result stops DOM polling');
   assert.equal(f.backgroundMessages.at(-1).candidateUrl, CANDIDATE);
@@ -713,7 +719,7 @@ test('VERIFY_DOCUMENT answers only the owning extension with the exact document 
   }
   let reply;
   f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
-  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
   assert.equal(f.messages.length, beforeMessages, 'a native document probe does not enter the page message channel');
   assert.equal(f.statusMessages.length, beforeStatuses, 'a read-only probe does not reactivate the page');
   assert.deepEqual(f.backgroundMessages, []);
@@ -740,14 +746,14 @@ test('pagehide retires the document and BFcache restore reauthorizes without cle
   let reply;
   const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
   probe();
-  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
   new f.window.XMLHttpRequest().finish({ type: 'json' });
   f.ready();
   for (const timer of f.handshakeTimers()) timer.callback();
   assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired], 'a retired bridge forwards neither observations nor timer replays');
   f.window.dispatchEvent({ type: 'pageshow', persisted: false });
   probe();
-  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
   assert.equal(contextCalls, 1, 'ordinary pageshow does not reuse a retired activation');
 
   f.window.dispatchEvent({ type: 'pageshow', persisted: true });
@@ -761,7 +767,13 @@ test('pagehide retires the document and BFcache restore reauthorizes without cle
   assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired], 'BFcache restoration waits for a fresh PAGE_CONTEXT allowance');
   approveRestore({ allowed: true }); await flush();
   probe();
-  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
+  assert.deepEqual(f.statusMessages, [
+    { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+  ], 'a BFcache activation reports readiness under its fresh authorization');
   assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired, ambiguous], 'the restored document replays its existing sticky ambiguity');
   new f.window.XMLHttpRequest().finish({ type: 'json' });
   f.ready();
@@ -791,6 +803,8 @@ test('native document nonces accompany complete runtime messages and never appea
     assert.ok(f.messages.length > 0);
     for (const message of f.messages) {
       assert.equal(Object.hasOwn(message.data, 'documentNonce'), false);
+      assert.equal(Object.hasOwn(message.data, 'candidateAvailable'), false);
+      assert.equal(Object.hasOwn(message.data, 'candidateUrl'), false);
       assert.equal(JSON.stringify(message).includes(documentNonce), false);
     }
     assert.equal(Object.hasOwn(f.window, 'documentNonce'), false);
@@ -815,13 +829,175 @@ test('non-secure HTTP and IP bridges generate document nonces when randomUUID is
     f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: 'another-extension-id' }, () => assert.fail('an unowned HTTP sender received the nonce'));
     let reply;
     f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
-    assert.deepEqual(reply, { present: true, origin, documentNonce: DOCUMENT_NONCE });
+    assert.deepEqual(reply, { present: true, origin, documentNonce: DOCUMENT_NONCE, candidateAvailable: true, candidateUrl });
     assert.equal(f.nonceCalls, 1);
     for (const message of f.messages) {
       assert.equal(Object.hasOwn(message.data, 'documentNonce'), false);
+      assert.equal(Object.hasOwn(message.data, 'candidateAvailable'), false);
+      assert.equal(Object.hasOwn(message.data, 'candidateUrl'), false);
       assert.equal(JSON.stringify(message).includes(DOCUMENT_NONCE), false);
     }
     assert.equal(f.fetchCalls.length, 0);
     assert.equal(f.consoleCalls.length, 0);
   }
+});
+
+test('prerender activation freshly authorizes the bridge and replays a previously observed candidate once', async () => {
+  const document = emptyDocument();
+  const listeners = new Map();
+  document.prerendering = true;
+  document.visibilityState = 'hidden';
+  document.addEventListener = (type, callback, options = {}) => {
+    const records = listeners.get(type) || [];
+    records.push({ callback, once: options.once === true });
+    listeners.set(type, records);
+  };
+  const activate = () => {
+    document.prerendering = false;
+    document.visibilityState = 'visible';
+    for (const record of [...(listeners.get('prerenderingchange') || [])]) {
+      if (record.once) listeners.set('prerenderingchange', listeners.get('prerenderingchange').filter(item => item !== record));
+      record.callback({ type: 'prerenderingchange' });
+    }
+  };
+  const f = fixture({ document, sendMessage(message) {
+    return Promise.resolve(message.type === 'PAGE_CONTEXT' ? { allowed: !document.prerendering } : { ok: true });
+  } });
+  f.hook(); f.bridge(); f.bridge(); await flush();
+  new f.window.XMLHttpRequest().finish({ type: 'json' });
+  assert.deepEqual(f.backgroundMessages, [], 'a non-active prerender cannot forward an observed subscription');
+  assert.equal(f.handshakeTimers().length, 0);
+  let reply;
+  const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  probe();
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
+  const before = f.statusMessages.filter(message => message.type === 'PAGE_CONTEXT').length;
+  activate(); await flush();
+  assert.equal(f.statusMessages.filter(message => message.type === 'PAGE_CONTEXT').length, before + 1, 'activation must perform a fresh native authorization');
+  assert.deepEqual(f.statusMessages.at(-2), { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  assert.deepEqual(f.statusMessages.at(-1), { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  assert.deepEqual(f.backgroundMessages, [observed()], 'activation replays MAIN memory without a new account request');
+  probe();
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: true, candidateUrl: CANDIDATE });
+  activate(); await flush();
+  assert.equal(f.statusMessages.filter(message => message.type === 'PAGE_CONTEXT').length, before + 1, 'reinjection and repeat events cannot add activation listeners');
+  assert.deepEqual(f.backgroundMessages, [observed()]);
+  assert.equal(f.nonceCalls, 1);
+  assert.equal(f.fetchCalls.length, 0);
+});
+
+test('bridge validates DOM withdrawal schema and exposes candidate availability only to its owning extension', async () => {
+  const f = fixture();
+  f.bridge(); await flush();
+  const emit = data => f.window.dispatchMessage({ data, source: f.window, origin: PAGE_ORIGIN });
+  let reply;
+  const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  const assertAvailable = (candidateAvailable, candidateUrl = candidateAvailable ? CANDIDATE : null) => {
+    probe();
+    assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable, candidateUrl });
+  };
+  const withdrawal = { source: SOURCE, kind: 'invalidated', reason: 'dom_none' };
+  const withdrawn = { type: 'OBSERVATION_INVALIDATED', documentNonce: DOCUMENT_NONCE, siteNames: [] };
+  assertAvailable(false);
+  emit({ source: SOURCE, kind: 'subscription', url: CANDIDATE });
+  assertAvailable(true);
+  for (const data of [null, [], { source: SOURCE, kind: 'invalidated' }, { ...withdrawal, reason: 'other' },
+    { ...withdrawal, extra: true }, { ...withdrawal, source: 'other' }, { source: SOURCE, kind: 'ambiguous', count: 1 },
+    { source: SOURCE, kind: 'subscription', url: 'ftp://invalid.example/sub' }]) emit(data);
+  f.window.dispatchMessage({ data: withdrawal, source: {}, origin: PAGE_ORIGIN });
+  f.window.dispatchMessage({ data: withdrawal, source: f.window, origin: 'https://evil.example' });
+  assert.deepEqual(f.backgroundMessages, [observed()]);
+  assertAvailable(true);
+  emit(withdrawal);
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn]);
+  assertAvailable(false);
+  emit({ source: SOURCE, kind: 'subscription', url: CANDIDATE });
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn, observed()], 'the same candidate can become available after withdrawal');
+  assertAvailable(true);
+  const replacement = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'REPLACEMENT-ACCOUNT');
+  emit({ source: SOURCE, kind: 'subscription', url: replacement });
+  assertAvailable(true, replacement);
+  assert.deepEqual(f.backgroundMessages.at(-1), observed(replacement));
+  emit({ source: SOURCE, kind: 'ambiguous', count: 2 });
+  assertAvailable(false);
+  assert.deepEqual(f.backgroundMessages.at(-1), { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: 'other-extension' }, () => assert.fail('candidate availability escaped to an unowned sender'));
+  for (const message of f.messages) {
+    assert.equal(Object.hasOwn(message.data, 'documentNonce'), false);
+    assert.equal(Object.hasOwn(message.data, 'candidateAvailable'), false);
+    assert.equal(Object.hasOwn(message.data, 'candidateUrl'), false);
+  }
+});
+
+test('DOM one-none-same-one and replacement update the native candidate probe without retiring the document', async () => {
+  const urls = [];
+  const document = clipboardDocument(urls);
+  document.visibilityState = 'visible';
+  const f = fixture({ document });
+  f.hook(); f.bridge(); await flush();
+  let reply;
+  const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  const assertAvailable = (candidateAvailable, candidateUrl = candidateAvailable ? CANDIDATE : null) => {
+    probe();
+    assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable, candidateUrl });
+  };
+  const withdrawn = { type: 'OBSERVATION_INVALIDATED', documentNonce: DOCUMENT_NONCE, siteNames: [] };
+  assert.deepEqual(f.backgroundMessages, [], 'an initially empty document has no prior candidate to withdraw');
+  assertAvailable(false);
+  urls.push(CANDIDATE);
+  f.intervals[0].callback();
+  assert.deepEqual(f.backgroundMessages, [observed()]);
+  assertAvailable(true);
+  urls.splice(0);
+  f.intervals[0].callback();
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn]);
+  assertAvailable(false);
+  f.ready();
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn, withdrawn]);
+  assertAvailable(false);
+  urls.push(CANDIDATE);
+  f.intervals[0].callback();
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn, withdrawn, observed()]);
+  assertAvailable(true);
+  const replacement = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'REPLACEMENT-ACCOUNT');
+  urls[0] = replacement;
+  f.intervals[0].callback();
+  assert.deepEqual(f.backgroundMessages, [observed(), withdrawn, withdrawn, observed(), observed(replacement)]);
+  assertAvailable(true, replacement);
+  const invalidations = f.messages.filter(message => message.data.kind === 'invalidated');
+  assert.ok(invalidations.length > 0);
+  for (const message of invalidations) assert.deepEqual(message.data, { source: SOURCE, kind: 'invalidated', reason: 'dom_none' });
+  assert.equal(f.fetchCalls.length, 0);
+});
+
+test('late bridge authorization replays a DOM withdrawal and allows the same candidate to reappear', async () => {
+  const urls = [CANDIDATE];
+  const document = clipboardDocument(urls);
+  document.visibilityState = 'visible';
+  let approve;
+  const permission = new Promise(resolve => { approve = resolve; });
+  const f = fixture({ document, sendMessage(message) {
+    return message.type === 'PAGE_CONTEXT' ? permission : Promise.resolve({ ok: true });
+  } });
+  f.hook(); f.bridge();
+  for (const timer of f.timers.filter(timer => timer.delay === 250)) timer.callback();
+  assert.ok(f.subscriptions().some(message => message.data.url === CANDIDATE));
+  urls.splice(0);
+  f.ready();
+  assert.ok(f.messages.some(message => message.data.kind === 'invalidated'));
+  assert.deepEqual(f.backgroundMessages, [], 'pending authorization cannot publish either stale candidates or withdrawals');
+  approve({ allowed: true }); await flush();
+  const withdrawn = { type: 'OBSERVATION_INVALIDATED', documentNonce: DOCUMENT_NONCE, siteNames: [] };
+  assert.deepEqual(f.backgroundMessages, [withdrawn]);
+  let reply;
+  const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  probe();
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: false, candidateUrl: null });
+  urls.push(CANDIDATE);
+  f.intervals[0].callback();
+  assert.deepEqual(f.backgroundMessages, [withdrawn, observed()]);
+  probe();
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE, candidateAvailable: true, candidateUrl: CANDIDATE });
+  assert.equal(f.nonceCalls, 1);
+  assert.equal(f.fetchCalls.length, 0);
 });

@@ -82,6 +82,16 @@ test('removing cacheKey preserves raw encoded headers, spaces, plus and flag sem
   const header = 'headers=%7B%22X-Test%22%3A%22a%20b%2Bc%22%7D';
   assert.equal(withoutCacheKey(candidate + '#' + header + '&cacheKey=stale&noCache'), candidate + '#' + header + '&noCache');
 });
+
+test('encoded option names remain literal under the documented Sub-Store fragment parser', () => {
+  // download.js at 832d3a0 decodes parameter values, not their names.
+  // These literal options therefore cannot select a custom cache entry.
+  for (const name of ['cache%4Bey','%63acheKey','cache%254Bey']) {
+    const suffix='#'+name+'=stale&headers=a+b%20c&flowDedup=account';
+    assert.equal(withoutCacheKey(candidate+suffix),candidate+suffix);
+    assert.equal(withoutCacheKey(candidate+'#cacheKey=real&'+suffix.slice(1)),candidate+suffix);
+  }
+});
 test('cacheKey JSON and encoded JSON fragments preserve all other options', () => {
   for (const encode of [value => value, encodeURIComponent]) {
     const url = withoutCacheKey(candidate + '#' + encode(JSON.stringify({ cacheKey: 'stale', headers: { 'X-Test': 'keep' }, flowDedup: 'account' })));

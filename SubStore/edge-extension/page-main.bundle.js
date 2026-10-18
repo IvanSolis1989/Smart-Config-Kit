@@ -374,7 +374,7 @@
 
   Object.defineProperty(globalThis, EXPORT, { value: Object.freeze({ validCandidate, unwrapImportLink, subscriptionResponse, networkCandidates, domCandidates, siteNames, selectCandidates }), enumerable: true });
 })();
-// Subscription response and semantic-control observer v1.4.0 — 2026-10-18.
+// Subscription response and semantic-control observer v1.4.1 — 2026-10-18.
 // MAIN world. Registration determines the site; this observer never logs in.
 (() => {
   'use strict';
@@ -398,11 +398,11 @@
   }
 
   function publish(selection) {
-    if (selection.status === 'none') return;
     latest = selection;
     try {
       const data = selection.status === 'one' ? { source: SOURCE, kind: 'subscription', url: selection.candidate.url } :
-        { source: SOURCE, kind: 'ambiguous', count: selection.count };
+        selection.status === 'none' ? { source: SOURCE, kind: 'invalidated', reason: 'dom_none' } :
+          { source: SOURCE, kind: 'ambiguous', count: selection.count };
       window.postMessage(data, window.location.origin);
     } catch { /* Closing documents must not affect the page. */ }
   }
@@ -448,7 +448,10 @@
       const signature = selection.status === 'one' ? selection.candidate.url : selection.status + ':' + (selection.count || 0);
       if (signature === domSignature) return;
       domSignature = signature;
-      if (selection.status === 'none') { latest = null; return; }
+      // Keep withdrawal replayable: the bridge may still be waiting for native
+      // authorization when the old control disappears. An initially empty page
+      // has no candidate to withdraw.
+      if (selection.status === 'none' && latest === null) return;
       publish(selection);
     } catch { /* A page without a usable DOM simply has no DOM candidates. */ }
   }

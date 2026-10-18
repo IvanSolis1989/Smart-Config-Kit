@@ -44,18 +44,20 @@ function invalidateAccess(origin) {
     else { delete pending[origin]; await chrome.storage.session.set({ pendingByOrigin: pending }); }
   }).catch(() => {});
 }
-async function documentPresent(ticket) {
+async function documentPresent(ticket, requiresCandidate = false) {
   if (!Number.isInteger(ticket.tabId) || !validNonce(ticket.documentNonce)) return false;
   try {
     const tab = await chrome.tabs.get(ticket.tabId);
     if (siteOrigin(tab?.url) !== ticket.origin) return false;
     const reply = await chrome.tabs.sendMessage(ticket.tabId, { type: 'VERIFY_DOCUMENT' }, { frameId: 0 });
+    if (requiresCandidate && (reply?.candidateAvailable !== true || candidateURL(reply.candidateUrl).href !== ticket.candidateUrl)) return false;
     return reply?.present === true && reply.origin === ticket.origin && reply.documentNonce === ticket.documentNonce;
   } catch { return false; }
 }
 function invalidateCurrentDocument(ticket) {
   const state = generations.get(ticket.origin);
-  if (state !== ticket.state || state.documentKey !== ticket.documentKey || state.documentNonce !== ticket.documentNonce) return;
+  if (state !== ticket.state || state.documentKey !== ticket.documentKey || state.documentNonce !== ticket.documentNonce ||
+      (ticket.generation !== undefined && state.generation !== ticket.generation)) return;
   invalidateAccess(ticket.origin);
 }
 function invalidateDocument(origin, documentKey) {
@@ -126,6 +128,8 @@ function admit(event) {
     if (state.documentNonce !== event.documentNonce) return null;
     if (event.type === 'OBSERVATION_AMBIGUOUS') {
       state.generation += 1; state.kind = 'ambiguous'; state.candidateUrl = null;
+    } else if (event.type === 'OBSERVATION_INVALIDATED' && state.kind !== 'withdrawn') {
+      state.generation += 1; state.kind = 'withdrawn'; state.candidateUrl = null;
     } else if (event.type === 'OBSERVED_SUBSCRIPTION' && (state.kind !== 'candidate' || state.candidateUrl !== event.candidateUrl)) {
       state.generation += 1; state.kind = 'candidate'; state.candidateUrl = event.candidateUrl;
     }
@@ -145,11 +149,12 @@ async function settledAdmissions(origin, tabId) {
 }
 function controlFor(ticket) {
   const control = {
-    ticket,
+    ticket: { ...ticket, candidateUrl: ticket.candidateUrl ?? ticket.state.candidateUrl },
+    requiresCandidate: true,
     writeSent: false,
     assertCurrent() {
       if (generations.get(ticket.origin) !== ticket.state || ticket.state.generation !== ticket.generation ||
-          ticket.state.documentKey !== ticket.documentKey || ['ambiguous', 'invalid'].includes(ticket.state.kind)) {
+          ticket.state.documentKey !== ticket.documentKey || ['ambiguous', 'invalid', 'withdrawn'].includes(ticket.state.kind)) {
         throw new SyncError('candidate_superseded');
       }
     },
@@ -159,6 +164,7 @@ function controlFor(ticket) {
 }
 function observationControl(ticket) {
   const control = controlFor(ticket);
+  control.requiresCandidate = false;
   control.assertCurrent = () => {
     if (generations.get(ticket.origin) !== ticket.state || ticket.state.generation !== ticket.generation ||
         ticket.state.documentKey !== ticket.documentKey) throw new SyncError('candidate_superseded');
@@ -186,7 +192,7 @@ function currentFetcher(settings, control) {
         if (message.type === 'LOCAL_BACKEND_REQUEST') {
           await control.checkpoint();
           await siteAccess.require(control.ticket.origin);
-          if (!await documentPresent(control.ticket)) {
+          if (!await documentPresent(control.ticket, control.requiresCandidate)) {
             invalidateCurrentDocument(control.ticket);
             throw new SyncError('candidate_superseded');
           }
@@ -326,7 +332,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ received: true }); return true;
   }
   const origin = pageOrigin(sender);
-  if (origin && ['PAGE_CONTEXT', 'PAGE_OBSERVER_STATUS', 'OBSERVED_SUBSCRIPTION', 'OBSERVATION_AMBIGUOUS'].includes(message?.type)) {
+  if (origin && ['PAGE_CONTEXT', 'PAGE_OBSERVER_STATUS', 'OBSERVED_SUBSCRIPTION', 'OBSERVATION_AMBIGUOUS', 'OBSERVATION_INVALIDATED'].includes(message?.type)) {
     if (!validNonce(message.documentNonce)) { sendResponse({ allowed: false, received: false }); return true; }
     if (message.type === 'PAGE_OBSERVER_STATUS' && message.stage !== 'observer_ready') { sendResponse({ received: false }); return true; }
     let candidateUrl;
@@ -346,6 +352,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       if (ticket.type === 'PAGE_OBSERVER_STATUS') {
         await observe(origin, 'observer_ready', names, control); return { received: true };
+      }
+      if (ticket.type === 'OBSERVATION_INVALIDATED') {
+        await clearPending(origin, control);
+        await observe(origin, 'candidate_withdrawn', names, control);
+        await control.checkpoint();
+        await chrome.action.setBadgeText({ text: '' });
+        return { received: true };
       }
       if (ticket.type === 'OBSERVATION_AMBIGUOUS') {
         await clearPending(origin, control);

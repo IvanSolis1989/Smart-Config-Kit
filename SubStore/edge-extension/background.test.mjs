@@ -45,7 +45,7 @@ test('automatic authorized-site matching and local relay',async t=>{
   async remove(id){state.removedTabs.push(id);state.liveTabs.delete(id)},
   async create(options){if(state.createFailures){state.createFailures--;throw Error('PRIVATE-CREATE-FAILURE')}const id=++state.documentOrder+100;state.liveTabs.set(id,{id,url:options.url});return{id}},
   async sendMessage(id,m,options){
-  if(m.type==='VERIFY_DOCUMENT'){assert.deepEqual(options,{frameId:0});const tab=state.liveTabs.get(id);return{present:!!tab?.present&&!state.detachedDocument,origin:tab?new URL(tab.url).origin:null,documentNonce:tab?.documentNonce}}
+  if(m.type==='VERIFY_DOCUMENT'){assert.deepEqual(options,{frameId:0});if(state.pauseStage==='verify_candidate'&&!state.paused){state.paused=true;state.entered.resolve();await state.release.promise}const tab=state.liveTabs.get(id);return{present:!!tab?.present&&!state.detachedDocument,origin:tab?new URL(tab.url).origin:null,documentNonce:tab?.documentNonce,candidateAvailable:tab?.candidateAvailable===true,candidateUrl:tab?.candidateUrl||null}}
   if(m.type==='LOCAL_TRANSPORT_PING'){if(state.pauseStage==='patch_transport'&&!state.paused&&state.calls.at(-1)?.method==='GET'&&state.calls.some(call=>call.method==='POST')){state.paused=true;state.entered.resolve();await state.release.promise}return{ready:true,origin:m.frontendUrl}}
   assert.equal(m.type,'LOCAL_BACKEND_REQUEST');
   const body=m.body===undefined?undefined:JSON.parse(m.body);
@@ -72,6 +72,11 @@ test('automatic authorized-site matching and local relay',async t=>{
    // Delivery of a stale old document cannot navigate the simulated browser backwards.
    if(m.type!=='DOCUMENT_RETIRED'&&(!current||document.order>current.order))activate(s,m.documentNonce);
    if(!Object.hasOwn(m,'documentNonce'))m.documentNonce=document.documentNonce;
+   const live=state.liveTabs.get(s.tab.id);
+   if(live?.documentNonce===m.documentNonce){
+    if(m.type==='OBSERVED_SUBSCRIPTION'&&/^https?:\/\//.test(m.candidateUrl)){live.candidateAvailable=true;live.candidateUrl=m.candidateUrl}
+    if(['OBSERVATION_AMBIGUOUS','OBSERVATION_INVALIDATED'].includes(m.type)){live.candidateAvailable=false;live.candidateUrl=null}
+   }
    if(m.type==='DOCUMENT_RETIRED'&&current?.documentNonce===m.documentNonce)current.present=false;
   }
   return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('callback timeout')),5000);const accepted=listener(m,s,r=>{clearTimeout(timer);resolve({accepted:true,reply:clone(r)})});if(accepted!==true){clearTimeout(timer);resolve({accepted:false})}});
@@ -162,7 +167,7 @@ test('automatic authorized-site matching and local relay',async t=>{
     assert.ok(Number.isInteger(state.session.pendingByOrigin[ORIGIN].generation));
     assert.equal(state.session.pendingByOrigin[ORIGIN].documentKey,PAGE.tab.id+':'+PAGE.documentId);
   });
-  await t.test('a pending permission check blocks the old write and only granted ambiguity supersedes it',async()=>{
+  await t.test('a pending permission check and live ambiguous document each prevent the old write',async()=>{
     for(const granted of [true,false]){
       const entered=deferred(),release=deferred();reset({pauseStage:'preview',entered,release});
       const initial=observe();await entered.promise;
@@ -171,8 +176,9 @@ test('automatic authorized-site matching and local relay',async t=>{
       release.resolve();await new Promise(resolve=>setImmediate(resolve));
       assert.equal(state.calls.filter(call=>call.method==='PATCH').length,0,'no PATCH may race a permission decision');
       permissionGate.release.resolve();await Promise.all([initial,ambiguous]);await background.whenIdle();
-      assert.equal(state.calls.filter(call=>call.method==='PATCH').length,granted?0:1);
-      assert.equal(state.local.sites[ORIGIN].lastResult[granted?'code':'status'],granted?'candidate_ambiguous':'updated');
+      assert.equal(state.calls.filter(call=>call.method==='PATCH').length,0);
+      if(granted)assert.equal(state.local.sites[ORIGIN].lastResult.code,'candidate_ambiguous');
+      else assert.equal(state.local.sites?.[ORIGIN]?.lastResult,undefined,'denied admission cannot resurrect a candidate the live bridge reports absent');
     }
   });
   await t.test('another origin and rejected senders cannot cancel an unrelated paused candidate',async()=>{
@@ -529,6 +535,78 @@ test('automatic authorized-site matching and local relay',async t=>{
     assert.equal(state.session.pageObservations[ORIGIN].observation.stage,'bridge_ready');
     assert.equal(state.scripts.size,2);
     await observe();assert.equal(state.calls.filter(call=>call.method==='PATCH').length,1);
+  });
+  await t.test('DOM withdrawal immediately cancels catalog, preview, backup and final transport and removes manual retry',async()=>{
+    for(const pauseStage of ['catalog','preview','backup','patch_transport']){
+      const entered=deferred(),release=deferred();reset({pauseStage,entered,release});
+      const initial=observe();await entered.promise;
+      const withdrawn=send({type:'OBSERVATION_INVALIDATED'});release.resolve();
+      await Promise.all([initial,withdrawn]);await background.whenIdle();
+      assert.equal(state.calls.filter(call=>call.method==='PATCH').length,0,pauseStage);
+      assert.equal(state.subs.get('星海').url,OLD);
+      assert.equal(state.session.pendingByOrigin?.[ORIGIN],undefined);
+      assert.equal((state.local.backups||[]).length,0);
+      assert.equal(state.local.sites?.[ORIGIN]?.lastResult,undefined,'withdrawal must not report an obsolete result');
+      assert.equal(state.session.pageObservations[ORIGIN].observation.stage,'candidate_withdrawn');
+      assert.equal((await send({type:'SYNC_PENDING',origin:ORIGIN},POPUP)).reply.code,'open_dashboard_first');
+    }
+  });
+  await t.test('the same DOM URL reappearing after withdrawal is fresh work and supersedes older queued withdrawal',async()=>{
+    const entered=deferred(),release=deferred();reset({pauseStage:'preview',entered,release});
+    const initial=observe();await entered.promise;
+    const withdrawn=send({type:'OBSERVATION_INVALIDATED'}), replacement=observe();release.resolve();
+    await Promise.all([initial,withdrawn,replacement]);await background.whenIdle();
+    assert.equal(state.calls.filter(call=>call.method==='PATCH').length,1);
+    assert.equal(state.local.sites[ORIGIN].lastResult.status,'updated');
+    assert.equal(state.session.pendingByOrigin[ORIGIN].candidateUrl,CANDIDATE);
+    assert.equal(state.session.pageObservations[ORIGIN].observation.stage,'candidate_received');
+  });
+  await t.test('withdrawal after a completed sync clears only that site and cannot be replayed manually',async()=>{
+    reset();await observe();
+    const other='https://other-fixture.example.com';state.session.pendingByOrigin[other]={candidateUrl:CANDIDATE,at:Date.now()};
+    await send({type:'OBSERVATION_INVALIDATED'});state.calls=[];
+    assert.equal(state.session.pendingByOrigin[ORIGIN],undefined);assert.ok(state.session.pendingByOrigin[other]);
+    assert.equal((await send({type:'SYNC_PENDING',origin:ORIGIN},POPUP)).reply.code,'open_dashboard_first');
+    assert.equal(state.calls.length,0);
+    await observe();assert.equal(state.local.sites[ORIGIN].lastResult.status,'unchanged');
+    assert.ok(state.calls.some(call=>call.method==='POST'),'reappearing URL must be revalidated instead of deduplicating stale completion');
+  });
+  await t.test('worker restart cannot replay session pending while DOM withdrawal cleanup waits behind old preview',async()=>{
+    const entered=deferred(),release=deferred();reset({pauseStage:'preview',entered,release});
+    const initial=observe();await entered.promise;
+    const withdrawn=send({type:'OBSERVATION_INVALIDATED'});await new Promise(resolve=>setImmediate(resolve));
+    assert.ok(state.session.pendingByOrigin[ORIGIN],'the old worker has not yet reached queued cleanup');
+    background=await import('./background.js?withdrawalRestart='+Date.now());
+    const reply=(await send({type:'SYNC_PENDING',origin:ORIGIN},POPUP)).reply;
+    release.resolve();await Promise.all([initial,withdrawn]);await background.whenIdle();
+    assert.equal(state.calls.filter(call=>call.method==='PATCH').length,0);
+    assert.equal(reply.code,'candidate_superseded');
+    assert.equal(state.subs.get('星海').url,OLD);
+    assert.equal(state.session.pendingByOrigin?.[ORIGIN],undefined);
+  });
+  await t.test('a different live candidate cannot authorize the old saved candidate after worker restart',async()=>{
+    reset();await observe();state.subs.get('星海').url=OLD;state.calls=[];
+    // The bridge has seen replacement B; its notification is still in transit.
+    const live=state.liveTabs.get(PAGE.tab.id);live.candidateAvailable=true;
+    live.candidateUrl=CANDIDATE.replace('NEW-','DIFFERENT-');
+    background=await import('./background.js?differentLive='+Date.now());
+    const reply=(await send({type:'SYNC_PENDING',origin:ORIGIN},POPUP)).reply;
+    assert.equal(state.calls.filter(call=>call.method==='PATCH').length,0);
+    assert.equal(reply.code,'candidate_superseded');
+    assert.equal(state.subs.get('星海').url,OLD);
+  });
+  await t.test('an old candidate probe cannot invalidate a newer admitted candidate in the same document',async()=>{
+    const entered=deferred(),release=deferred();reset({pauseStage:'verify_candidate',entered,release});
+    const initial=observe();await entered.promise;
+    const candidateUrl=CANDIDATE.replace('NEW-','LATEST-');
+    const next=send({type:'OBSERVED_SUBSCRIPTION',candidateUrl,siteNames:['星海']});
+    await new Promise(resolve=>setImmediate(resolve));release.resolve();
+    await Promise.all([initial,next]);await background.whenIdle();
+    const patches=state.calls.filter(call=>call.method==='PATCH');
+    assert.equal(patches.length,1);
+    assert.equal(patches[0].body.url,candidateUrl+'#flowDedup=fixture');
+    assert.equal(state.local.sites[ORIGIN].lastResult.status,'updated');
+    assert.equal(state.session.pendingByOrigin[ORIGIN].candidateUrl,candidateUrl);
   });
   await t.test('restoring after worker restart uses a saved document identity and still verifies the live document',async()=>{
     for(const detachedDocument of [false,true]){
