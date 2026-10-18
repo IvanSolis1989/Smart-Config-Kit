@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.5.1
+
+- 修复 Cloudflare 管理通信的重定向参数和空 GET JSON 兼容问题；详见[SubStore 日志](../SubStore/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。
+
 ## 2026-10-18 — Sub-Store 辅助扩展 v1.5.0
 
 - 链接同步助手可分别更新本机与独立 Cloudflare Sub-Store，增加连接配置导入、部分成功诊断和分目标恢复；详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。

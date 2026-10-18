@@ -2,6 +2,11 @@
 
 > SubStore 是辅助脚本目录，不参与 14 类客户端正式分流产物的生成。
 
+## 浏览器扩展 v1.5.1 / 受限同步入口 v1.0.1 (2026-10-18)
+
+- 修复云端真实请求暴露的运行时兼容问题：无 body GET 不声明 JSON Content-Type，Worker 内部转发和预览条目查询使用 `redirect: manual`，保留 3xx 非成功响应检查。依据 [Cloudflare workerd Request 实现](https://github.com/cloudflare/workerd/blob/main/src/workerd/api/http.c%2B%2B) 及实际 Worker 调用日志，补充拒绝 `redirect: error` 的回归。
+- 仅涉及辅助订阅管理通信，不更改规则图、DNS、客户端分流产物或 Gist 发布者。
+
 ## 扩展受限同步入口模块 v1.0.0 (2026-10-18)
 
 - 新增 `extension-sync-route.mjs` 与 `patch-extension-sync-worker.mjs`：为已审查的 Worker wrapper 提供独立 secret `SUB_STORE_EXTENSION_BACKEND_PATH` 前缀，仅允许订阅目录/单条 GET、JSON 预览和仅含 `url` 的单条 PATCH，保留旧路由；拒绝专用前缀下其他业务接口与参数。

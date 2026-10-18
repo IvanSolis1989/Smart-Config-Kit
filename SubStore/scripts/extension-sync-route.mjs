@@ -1,6 +1,6 @@
-// Extension sync route v1.0.0 — Build 2026-10-18.
+// Extension sync route v1.0.1 — Build 2026-10-18.
 // Independent backend path; change history: SubStore/CHANGELOG.md.
-export const VERSION = '1.0.0';
+export const VERSION = '1.0.1';
 
 const MAX_BODY_BYTES = 4 * 1024 * 1024;
 const cors = {
@@ -134,7 +134,7 @@ export async function routeExtensionSyncRequest(request, env, readSubscription) 
 
   url.pathname = path;
   url.searchParams.set('share', 'true');
-  const init = { method: request.method, headers: request.headers, signal: request.signal, redirect: 'error' };
+  const init = { method: request.method, headers: request.headers, signal: request.signal, redirect: 'manual' };
   if (request.method === 'POST' || request.method === 'PATCH') {
     init.body = request.body;
     init.duplex = 'half';

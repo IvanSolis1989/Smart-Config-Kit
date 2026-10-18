@@ -4,6 +4,8 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const vm = require('node:vm');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const routeModule = import('../../SubStore/scripts/extension-sync-route.mjs');
 const patchModule = import('../../SubStore/scripts/patch-extension-sync-worker.mjs');
@@ -11,6 +13,25 @@ const prefix = '/ext-' + 'a'.repeat(64);
 const env = { SUB_STORE_EXTENSION_BACKEND_PATH: prefix };
 const base = 'https://worker.example.invalid';
 const limit = 4 * 1024 * 1024;
+const NativeRequest = Request;
+// workerd accepts follow/manual, and explicitly rejects error. Runtime source:
+// https://github.com/cloudflare/workerd/blob/main/src/workerd/api/http.c%2B%2B
+// Request redirect validation, lines 446-450 and 571-578 (verified 2026-10-18).
+class WorkersRequest extends NativeRequest {
+  constructor(input, init) {
+    if ((init?.redirect ?? (input instanceof NativeRequest ? input.redirect : undefined)) === 'error') {
+      throw new TypeError('Invalid redirect value, must be one of "follow" or "manual" ("error" won\'t be implemented since it does not make sense at the edge; use "manual" and check the response status code).');
+    }
+    super(input, init);
+  }
+}
+
+function strictWorkersRoute() {
+  const source = fs.readFileSync(path.join(__dirname, '../../SubStore/scripts/extension-sync-route.mjs'), 'utf8');
+  const context = vm.createContext({ Request: WorkersRequest, Response, URL, TextDecoder });
+  vm.runInContext(source.replace(/^export /gm, '') + '\nglobalThis.route = routeExtensionSyncRequest;', context);
+  return context.route;
+}
 const persistedSubscription = { name: '机场 A', source: 'remote', url: 'https://old.example.invalid/feed',
   process: [{ type: 'Script Operator', args: { content: 'original code', stage: 'node' } }],
   ua: 'example-agent', proxy: 'DIRECT', content: 'existing', remark: '原备注' };
@@ -59,7 +80,7 @@ test('GET collection is forwarded without the dedicated prefix and with share=tr
   assert.equal(result.response, undefined);
   assert.equal(result.request.url, base + '/api/subs?share=true');
   assert.equal(result.request.method, 'GET');
-  assert.equal(result.request.redirect, 'error');
+  assert.equal(result.request.redirect, 'manual');
 });
 
 test('GET named subscription supports encoded Unicode and spaces', async () => {
@@ -75,7 +96,7 @@ test('preview preserves the complete original JSON body and headers', async () =
   assert.equal(req.bodyUsed, false);
   assert.equal(result.request.url, base + '/api/preview/sub?target=JSON&share=true');
   assert.equal(result.request.method, 'POST');
-  assert.equal(result.request.redirect, 'error');
+  assert.equal(result.request.redirect, 'manual');
   assert.equal(result.request.headers.get('X-Example'), 'kept');
   assert.equal(await result.request.text(), body);
 });
@@ -127,7 +148,7 @@ test('PATCH forwards only a valid subscription URL with its original body', asyn
   const body = '{ "url": "https://sub.example.invalid/feed?token=private-token" }';
   const result = await route(request('/api/sub/' + encodeURIComponent('机场 A'), 'PATCH', body));
   assert.equal(result.request.method, 'PATCH');
-  assert.equal(result.request.redirect, 'error');
+  assert.equal(result.request.redirect, 'manual');
   assert.equal(await result.request.text(), body);
 });
 
@@ -218,14 +239,14 @@ test('streamed body cannot bypass the byte limit', async () => {
   await rejected(req, 413);
 });
 
-const workerFixture = 'import existing from "existing-module";\nconst legacyWorkers = { async fetch(request, env2) {\n  const route = routeLegacyRequest(request, env2);\n  if (route.response) return route.response;\n  return route.request;\n} };\n';
+const workerFixture = 'import existing from "existing-module";\nconst legacyWorkers = { async fetch(request, env2) {\n  const route = routeLegacyRequest(request, env2);\n  if (route.response) return route.response;\n  const response2 = await owner(env2).fetch(route.request);\n  return response2;\n} };\n';
 const extensionImport = 'import { routeExtensionSyncRequest } from "./scki-extension-sync-route.mjs";';
 
 test('Worker patch preserves unrelated source and CRLF while adding the dedicated route', async () => {
   const { patchExtensionSyncWorker } = await patchModule;
   const patched = patchExtensionSyncWorker(workerFixture);
   assert.ok(patched.startsWith(extensionImport + '\nimport existing from "existing-module";\nconst legacyWorkers'));
-  assert.ok(patched.endsWith('  if (route.response) return route.response;\n  return route.request;\n} };\n'));
+  assert.ok(patched.endsWith('  return response2;\n} };\n'));
   const crlf = patchExtensionSyncWorker(workerFixture.replace(/\n/g, '\r\n'));
   assert.doesNotMatch(crlf.replace(/\r\n/g, ''), /\n/);
 });
@@ -236,6 +257,7 @@ test('patched handler uses extension results and calls legacy only for a nonmatc
   const context = vm.createContext({
     routeExtensionSyncRequest: async (req) => req === 'special' ? { request: 'extension-forward' } : null,
     routeLegacyRequest: () => { legacyCalls += 1; return { request: 'legacy-forward' }; },
+    owner: () => ({ fetch: async (req) => req }),
   });
   vm.runInContext(patchExtensionSyncWorker(workerFixture).replace(/^import .*;\n/gm, '') + '\nglobalThis.handler = legacyWorkers;', context);
   assert.equal(await context.handler.fetch('special', {}), 'extension-forward');
@@ -248,23 +270,28 @@ test('patched preview callback synchronizes and reads the same owner before vali
   const { patchExtensionSyncWorker } = await patchModule;
   const { routeExtensionSyncRequest } = await routeModule;
   const operations = [];
-  const context = vm.createContext({ routeExtensionSyncRequest, Request, URL,
+  const context = vm.createContext({ routeExtensionSyncRequest, Request: WorkersRequest, URL,
+    json: (body, status) => new Response(JSON.stringify(body), { status }),
     routeLegacyRequest: () => { throw new Error('Legacy must not process a matched extension request'); },
     owner: () => ({
       syncLocalReplica: async () => { operations.push('sync'); },
       fetch: async (req) => {
+        if (new URL(req.url).pathname === '/api/preview/sub') {
+          operations.push('forward');
+          return new Response('preview success');
+        }
         operations.push('lookup');
         assert.equal(req.url, base + '/api/sub/' + encodeURIComponent('机场 A') + '?share=true');
         assert.equal(req.method, 'GET');
-        assert.equal(req.redirect, 'error');
+        assert.equal(req.redirect, 'manual');
         return new Response(JSON.stringify({ status: 'success', data: persistedSubscription }));
       },
     }),
   });
   vm.runInContext(patchExtensionSyncWorker(workerFixture).replace(/^import .*;\n/gm, '') + '\nglobalThis.handler = legacyWorkers;', context);
   const result = await context.handler.fetch(request('/api/preview/sub?target=JSON', 'POST', previewBody()), env);
-  assert.ok(result instanceof Request);
-  assert.deepEqual(operations, ['sync', 'lookup']);
+  assert.equal(await result.text(), 'preview success');
+  assert.deepEqual(operations, ['sync', 'lookup', 'forward']);
   operations.length = 0;
   const denied = await context.handler.fetch(request('/api/admin'), env);
   assert.equal(denied.status, 403);
@@ -274,7 +301,8 @@ test('patched preview callback synchronizes and reads the same owner before vali
 test('patched callback fails closed on owner HTTP and application-level lookup failures', async () => {
   const { patchExtensionSyncWorker } = await patchModule;
   const { routeExtensionSyncRequest } = await routeModule;
-  for (const failure of [new Response('{}', { status: 500 }), new Response('{"status":"failed","message":"private-state"}')]) {
+  for (const failure of [new Response('{}', { status: 500 }), new Response('{"status":"failed","message":"private-state"}'),
+    new Response(null, { status: 302, headers: { Location: 'https://external.example.invalid' } })]) {
     const context = vm.createContext({ routeExtensionSyncRequest, Request, URL,
       routeLegacyRequest: () => { throw new Error('Unexpected legacy route'); },
       owner: () => ({ syncLocalReplica: async () => {}, fetch: async () => failure }),
@@ -284,6 +312,35 @@ test('patched callback fails closed on owner HTTP and application-level lookup f
     assert.equal(result.status, 503);
     assert.doesNotMatch(await result.text(), /private-state/);
   }
+});
+
+test('all extension forwarding methods work with the strict Workers Request redirect contract', async () => {
+  const handler = strictWorkersRoute();
+  for (const req of [request('/api/subs'), request('/api/sub/Example'),
+    request('/api/sub/Example', 'PATCH', { url: 'https://sub.example.invalid' }),
+    request('/api/preview/sub?target=JSON', 'POST', previewBody())]) {
+    let result;
+    await assert.doesNotReject(async () => { result = await handler(req, env, async () => persistedSubscription); });
+    assert.ok(result.request instanceof NativeRequest);
+    assert.equal(result.request.redirect, 'manual');
+  }
+});
+
+test('dedicated route redirects are rejected without Location while legacy redirects remain unchanged', async () => {
+  const { patchExtensionSyncWorker } = await patchModule;
+  const { routeExtensionSyncRequest } = await routeModule;
+  const context = vm.createContext({ routeExtensionSyncRequest, Request: WorkersRequest, URL,
+    json: (body, status) => new Response(JSON.stringify(body), { status }),
+    routeLegacyRequest: (req) => ({ request: req }),
+    owner: () => ({ fetch: async () => new Response(null, { status: 302, headers: { Location: 'https://external.example.invalid' } }) }),
+  });
+  vm.runInContext(patchExtensionSyncWorker(workerFixture).replace(/^import .*;\n/gm, '') + '\nglobalThis.handler = legacyWorkers;', context);
+  const rejected = await context.handler.fetch(request('/api/subs'), env);
+  assert.equal(rejected.status, 502);
+  assert.equal(rejected.headers.get('Location'), null);
+  const legacy = await context.handler.fetch(new NativeRequest(base + '/legacy/api/subs'), env);
+  assert.equal(legacy.status, 302);
+  assert.equal(legacy.headers.get('Location'), 'https://external.example.invalid');
 });
 
 test('Worker patch rejects missing, changed, duplicate and already patched baselines', async () => {

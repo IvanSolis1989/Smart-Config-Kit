@@ -8,7 +8,7 @@ const root=new URL('.',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url),'utf8'));
 
 test('dual-target release advertises both destinations without adding static cloud access',()=>{
- assert.equal(manifest.version,'1.5.0');
+ assert.equal(manifest.version,'1.5.1');
  assert.match(manifest.description,/本机/);
  assert.match(manifest.description,/Cloudflare/);
  assert.deepEqual(manifest.host_permissions,['http://127.0.0.1/*']);

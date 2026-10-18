@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.1
+
+- 修复 Cloudflare Worker 请求参数与空 GET JSON 解析的兼容问题；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.0
 
 - 支持本机与可选独立 Cloudflare Sub-Store 分别验证更新、分目标恢复及私密连接配置导入；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。

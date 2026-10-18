@@ -67,6 +67,26 @@ test('cloud synchronization uses its complete prefix for preview, URL-only PATCH
   assert.equal(f.backups[0].targetId, 'cloud');
 });
 
+test('bodyless GET omits JSON Content-Type while preview and URL-only PATCH declare JSON', async () => {
+  const f = fixture();
+  const client = new SubStoreClient(DEFAULT_SETTINGS, f.fetcher);
+  await client.request('/api/subs');
+  await syncSubscription(f.input());
+  const reads = f.calls.filter(call => call.method === 'GET');
+  assert.ok(reads.length >= 4, 'covers catalog, source checks and writeback GET');
+  for (const call of reads) {
+    assert.equal(new Headers(call.headers).has('Content-Type'), false);
+    assert.equal(call.body, undefined);
+  }
+  for (const method of ['POST', 'PATCH']) {
+    const writes = f.calls.filter(call => call.method === method);
+    assert.equal(writes.length, 1);
+    assert.equal(new Headers(writes[0].headers).get('Content-Type'), 'application/json');
+    assert.ok(JSON.parse(writes[0].body));
+  }
+  assert.deepEqual(Object.keys(JSON.parse(f.calls.find(call => call.method === 'PATCH').body)), ['url']);
+});
+
 test('fixed local-only settings reject remote hosts, credentials and paths', () => {
   for (const backendUrl of ['https://127.0.0.1:38324', 'http://example.com:38324', 'http://user:pw@127.0.0.1:38324',
     'http://127.0.0.1:38324/api', 'http://127.0.0.1:38324?x=1', 'http://localhost:38324']) {

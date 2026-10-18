@@ -155,8 +155,7 @@ export class SubStoreClient {
     try {
       const response = await this.fetcher(this.settings.backendUrl + path, {
         method, redirect: 'error', credentials: 'omit', cache: 'no-store', signal: controller.signal,
-        headers: { 'Content-Type': 'application/json' },
-        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+        ...(body === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
       });
       if (!response.ok) throw new SyncError('backend_http_error');
       const declaredLength = Number(response.headers.get('content-length') || 0);
