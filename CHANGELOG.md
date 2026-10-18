@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store Fusion 发布完整性模块 v1.0.0
+
+- 新增订阅数量/来源/错误占位校验与已审查 Worker 的合同补丁，补充严格发布文档和 CI；详见 [SubStore 日志](./SubStore/CHANGELOG.md)。仅属辅助订阅发布保护，不改路由或客户端产物版本。
+
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.1
 
 - 修复 DOM 候选撤下后的旧写入与预渲染激活握手，缓存编码审查项依据实际后端验证后保持不改；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。

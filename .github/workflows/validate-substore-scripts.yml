@@ -4,13 +4,19 @@ on:
   pull_request:
     paths:
       - 'SubStore/**/*.js'
+      - 'SubStore/**/*.mjs'
       - 'SubStore/edge-extension/**'
+      - 'tools/tests/fusion-publication-guard.test.js'
+      - 'tools/tests/fusion-worker-patch.test.js'
       - '.github/workflows/validate-substore-scripts.yml'
   push:
     branches: [main]
     paths:
       - 'SubStore/**/*.js'
+      - 'SubStore/**/*.mjs'
       - 'SubStore/edge-extension/**'
+      - 'tools/tests/fusion-publication-guard.test.js'
+      - 'tools/tests/fusion-worker-patch.test.js'
       - '.github/workflows/validate-substore-scripts.yml'
   workflow_dispatch:
 
@@ -39,6 +45,11 @@ jobs:
         run: |
           node SubStore/edge-extension/build.mjs --check
           node --test SubStore/edge-extension/*.test.mjs SubStore/edge-extension/*.test.cjs
+      - name: Validate fusion publication completeness
+        run: |
+          node --check SubStore/scripts/fusion-publication-guard.mjs
+          node --check SubStore/scripts/patch-fusion-worker.mjs
+          node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-worker-patch.test.js
 
   browser-e2e:
     runs-on: windows-latest

@@ -213,7 +213,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SubStore/s
 
 ### 第 3 步：创建组合订阅并按顺序处理
 
-将所有单订阅加入一个组合订阅，然后按下面顺序添加脚本。前三项是常规清洗；名称样式不一致时再规范化，最后才处理重复名称与可选流量头。
+将所有单订阅加入一个组合订阅，然后按下面顺序添加脚本。前三项是常规清洗；名称样式不一致时再规范化，随后处理重复名称与可选流量头。需要自动发布到 Gist / Artifact 时，再添加下节的最终完整性检查。
 
 | 顺序 | 脚本 | 作用 |
 |---|---|---|
@@ -222,7 +222,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SubStore/s
 | 3 | [`drop-info-nodes.js`](./scripts/common/drop-info-nodes.js) | 移除“剩余流量 / 到期 / 官网”等伪节点 |
 | 4（可选） | [`normalize-node-names.js`](./scripts/common/normalize-node-names.js) | 统一常见命名样式；保留默认参数即可，只有明确需要时再启用附加改写 |
 | 5（名称仍有重复时） | [`dedupe-node-names.js`](./scripts/common/dedupe-node-names.js) | 为仍然重名的节点追加稳定序号，避免客户端覆盖 |
-| 6（可选，最后） | [`merge-subscription-userinfo.js`](./scripts/local/merge-subscription-userinfo.js) | 汇总独立机场的流量头，并防止镜像订阅重复计量 |
+| 6（可选） | [`merge-subscription-userinfo.js`](./scripts/local/merge-subscription-userinfo.js) | 汇总独立机场的流量头，并防止镜像订阅重复计量 |
 
 从 GitHub 打开脚本后复制 **Raw** 地址填入 Sub-Store。不要直接修改仓库脚本来写入机场 URL 或 token。
 
@@ -237,6 +237,41 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SubStore/s
 3. Clash Party：导入组合订阅后，使用对应 Smart / Normal 覆写脚本。
 4. 刷新订阅并查看节点：每个机场都应能通过前缀追溯来源，区域组应同时看到各机场符合地区条件的节点。
 
+## 自动发布前的完整性保护
+
+HTTP 200、YAML 合法、节点总数非零，都不能证明所有机场已成功聚合。下载失败可能被忽略，机场也可能返回语法正确的“设备过多 / 更新订阅链接”占位节点。完整性检查应处于生成完成、上传 Gist / Artifact 之前；失败时保留已验证的上一份完整发布物。
+
+### 本地 Sub-Store：严格下载并在最后检查
+
+1. 对所有参与聚合的单订阅和组合订阅显式保存 `ignoreFailedRemoteSub: "disabled"`。只改组合不足以阻止子订阅吞掉失败；`quiet` 和 `fallbackQuiet` 也不能代替严格失败处理，后者可能返回空结果，并非自动复用上次完整数据。
+2. 为需要代理下载的源固定保存其 `proxy`，并在自动同步环境验证该代理可用。不要依赖预览请求临时追加的 `proxy` / `noCache`：当前核验的原版 artifact 同步入口不会将这些 query 传给生成器，其他版本应核对实际实现。
+3. 在来源重命名、清洗、去重和可选流量头处理之后，设置**最终 ScriptOperator**，调用 [`validateFusionPublication`](./scripts/fusion-publication-guard.mjs)。部署者需要将校验函数及私有合同适配进该操作器，并确认抛错确实使本次 artifact 生成失败、停止上传。这个 ESM `.mjs` 不是可直接粘贴 Raw URL 的 Sub-Store 操作器；接入示意见[脚本说明](./scripts/README.md#fusion-发布完整性模块)。
+4. 合同同时设置合理的最低节点数与每个必需逻辑来源的稳定名称前缀。镜像链接可属于同一逻辑来源；多条输入记录不等于覆盖全部来源。节点下限应根据已验收基线制定，不能通过调低门槛掩盖缺失来源。
+
+合同只接受这三个字段，以下数值和来源均为通用演示：
+
+```json
+{
+  "schemaVersion": 1,
+  "minimumNodes": 10,
+  "requiredNamePrefixes": ["SOURCE-A-", "SOURCE-B-"]
+}
+```
+
+前缀按字面量、区分大小写、从名称起始位置匹配，不是正则；本地合同须与最终处理后的名称一致。模块还拒绝名称中包含以下五种已确认的 HTTP 200 错误占位提示：`在线设备数量超过套餐允许值`、`打开官网获取新订阅链接`、`请复制新订阅链接重新导入更新`、`使用的设备过多`、`请去官网获取新订阅链接`。普通流量与到期信息不会仅因这些通用词被该检查误判。若前置清洗已移除错误节点，最终检查仍须依靠必需来源覆盖发现缺口；它不证明节点实际可连接，也不能识别所有未知错误文案。
+
+**恢复与新发布分开验收。** 某个源仍返回 403 时，可保留其订阅记录并检查已验证旧数据的恢复路径；恢复物即使暂时可供客户端使用，也不能声明满足仍包含该源的完整合同。严格新发布须覆盖全部必需逻辑来源。改变必需来源集合属于单独的明确决定，不应在重试时自动删除缺失项或放宽门槛。配置中的节点数、客户端当前内存节点数与发布文件应分别核对，避免把旧活动配置当成新发布验收。
+
+### 已审查的 Gist → KV Worker wrapper
+
+[`patch-fusion-worker.mjs`](./scripts/patch-fusion-worker.mjs) 只对已审查、精确匹配的 `sckiValidFusion` / `sckiPublishedFusion` wrapper 做纯源码变换。它不是通用 Workers 安装器，也不自行部署、写 KV 或同步 Gist；上游 wrapper 改动、重复匹配或已打补丁时会拒绝处理。标准 Sub-Store、上述不同 Workers 项目不能未经审查直接套用。
+
+接入方须提供同目录模块 `scki-fusion-publication-guard.mjs`，并在 `SUB_STORE_DATA` KV 的 `static:fusion:contract:v1` 存入上述**严格发布合同**。wrapper 先用 `validateFusionContract` 验证它；缺失、读取失败或非法时，在请求 Gist 前直接返回 503，即使存在恢复合同也不能回退。新 Gist 内容只有同时通过原有 YAML / 节点字段校验和严格发布合同，才能更新 `static:fusion:clashmeta`；坏 Gist 不覆盖好缓存。
+
+上游不可用或不符合严格发布合同时，wrapper 才尝试读取保存副本。可选 KV `static:fusion:recovery-contract:v1` 专用于验收这份缓存；缺省或读取失败时回用严格发布合同，显式提供非法恢复合同时拒绝缓存。缓存通过相应恢复检查才可返回，否则返回 503。恢复合同须基于已验证旧数据单独审阅与验收，可以与严格发布合同相同；若为恢复旧数据设置不同要求，它也只允许读取缓存，不能放行缺源的新 Gist、写入新缓存或降低新发布标准。提高合同要求前应分别验收候选与回退数据，避免误把旧缓存当成符合新发布要求的产物。
+
+Worker 仅为来源覆盖检查移除名称开头的一枚国旗、白旗或地球符号及其后空白，原始输出保持不变；其他 emoji 不会被任意去除。此保护只覆盖该 wrapper 的发布读取路径；本地 artifact 上传和绕过 wrapper 的原生下载路径仍需各自校验。使用与测试入口见[脚本说明](./scripts/README.md#fusion-发布完整性模块)。
+
 ## 验证清单
 
 - 组合订阅只有一条客户端导入 URL，且输出格式为 `Clash.Meta(mihomo)`。
@@ -245,6 +280,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SubStore/s
 - 区域组和业务组正常出现；FlClash 使用覆写脚本时应看到最多 22 个区域组和 33 个业务组。
 - 同名节点没有被静默覆盖；必要时检查 `dedupe-node-names.js` 的日志。
 - 流量统计仅在使用可选脚本后检查：独立机场应相加，镜像订阅应只计一次。
+- 自动发布时，必需源故障、来源缺失、低于节点下限或错误占位节点均应阻止新发布；Worker 的坏上游不得覆盖已验收缓存。
 
 ## 镜像订阅流量去重
 
