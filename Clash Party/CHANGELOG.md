@@ -7,6 +7,24 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.4.1
+
+- 修复同页撤下订阅控件后的旧写入及预渲染激活握手；详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未修改客户端覆写和分流产物。
+
+## 2026-10-18 — Sub-Store 辅助扩展 v1.4.0
+
+- 自动写回仅用于首次明确允许的网站；撤销权限或离开当前文档会取消尚未发送的写入，跨响应候选持续判断歧义并清理失败中转页。详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未改动覆写或分流产物，无需全端重生成。
+
+## 2026-10-18 — Sub-Store 辅助扩展 v1.3.2
+
+- 修复自动同步期间候选变化、账户参数、相对链接和回环占位节点边界；仍只更新对应单条 URL，保留处理步骤及其他字段。详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未改动覆写或分流产物，无需全端重生成。
+
+## 2026-10-18 — 内置 Sub-Store 链接同步辅助扩展
+
+- 新增 [Edge / Chrome 链接同步助手](../SubStore/edge-extension/README.md)，在人工登录后验证并更新内置 Sub-Store 的单条远程 URL，保留原处理步骤和组合订阅。实际覆盖及待验站点见扩展说明。
+- 本次仅增加独立辅助工具及文档，未修改 Clash Party 覆写、源规则图、DNS 或客户端产物版本，无需全端重生成。
+- 扩展 v1.3.1 的六家自动流程及配置读回通过，另有158项 Node、15项真实 Edge独立流程回归；[验收记录](../docs/research/2026-10-18-substore-auto-sync-acceptance.md)注明版本复用与 Chrome待验范围。
+
 ## v6.0.20-dns.19 / v6.0.20-normal.20 (2026-10-16)
 
 - Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。

@@ -1,0 +1,16 @@
+:root{font-family:"Microsoft YaHei UI",system-ui,sans-serif;color:#202c3c;background:#f6f8fb;font-size:13px}
+body{width:360px;padding:18px;margin:0;box-sizing:border-box}h1{font-size:20px;margin:0 0 8px}
+.intro,.foot,.hint,.site{color:#617085;line-height:1.6;font-size:12px}.intro{margin:0 0 12px}.site{overflow-wrap:anywhere;margin:10px 0}.hint{margin:6px 0}.foot{font-size:11px;margin-bottom:0}
+label{display:block;font-size:12px;margin:12px 0 6px}.toggle{display:flex;gap:7px;align-items:center;margin:12px 0}.toggle input{margin:0}
+input:not([type=checkbox]),select{box-sizing:border-box;width:100%;border:1px solid #cbd6e4;border-radius:7px;padding:9px;background:#fff;color:inherit;font:inherit}
+input[type=checkbox]{accent-color:#176fd5}input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #176fd5;outline-offset:2px}
+button{width:100%;padding:10px;border:0;border-radius:7px;background:#176fd5;color:#fff;font:inherit;font-size:12px;cursor:pointer;margin-top:9px}.secondary{color:#24558a;background:#e6eef8}.text{color:#65748a;background:none;padding:6px}
+button:disabled{opacity:.5;cursor:default}body[aria-busy=true] button:disabled{cursor:wait}input:disabled,select:disabled{opacity:.7}
+section{margin-top:13px;background:#fff;border:1px solid #dee5ee;border-radius:9px;padding:12px;font-size:13px}section p{line-height:1.6;margin:7px 0;color:#536578;font-size:12px}small{color:#758398;font-size:11px}
+details{border-top:1px solid #dee5ee;margin-top:14px;padding-top:11px}summary{cursor:pointer;color:#426181;font-size:12px}.actions{display:flex;gap:8px}.actions button{flex:1}
+#notice{margin:10px 0 0;padding:9px;border-radius:7px;background:#e7f3ec;color:#22653e;font-size:12px;line-height:1.6}#notice.error{background:#fff0ec;color:#a53c2c}#dirty{color:#926119}
+.diagnostic{border-left:2px solid #b6cbe2;padding-left:7px}#pageTime:empty{display:none}#time{display:block;margin-top:6px}
+.automatic{font-size:12px;line-height:1.6;margin:8px 0;color:#426181}.intro{font-weight:600;color:#24558a}
+.identity{font-size:12px;line-height:1.6;margin:10px 0}.identity dt{color:#758398;margin-top:7px}.identity dd{margin:2px 0 0;overflow-wrap:anywhere}
+#trustPanel{border-color:#b9cfe8;background:#f0f6fd}#trustTarget{overflow-wrap:anywhere}#untrust{color:#a53c2c}
+[hidden]{display:none!important}

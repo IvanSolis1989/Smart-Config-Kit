@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - 'SubStore/**/*.js'
+      - 'SubStore/edge-extension/**'
       - '.github/workflows/validate-substore-scripts.yml'
   push:
     branches: [main]
     paths:
       - 'SubStore/**/*.js'
+      - 'SubStore/edge-extension/**'
       - '.github/workflows/validate-substore-scripts.yml'
   workflow_dispatch:
 
@@ -33,3 +35,24 @@ jobs:
         run: |
           node --check SubStore/scripts/local/merge-subscription-userinfo.js
           node --test SubStore/scripts/local/merge-subscription-userinfo.test.js
+      - name: Validate browser link sync
+        run: |
+          node SubStore/edge-extension/build.mjs --check
+          node --test SubStore/edge-extension/*.test.mjs SubStore/edge-extension/*.test.cjs
+
+  browser-e2e:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Install pinned browser harness
+        run: npm install --ignore-scripts --no-save --no-package-lock playwright@1.62.1
+      - name: Verify automatic browser flow in an isolated profile
+        env:
+          BROWSER_EXECUTABLE: 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+        run: |
+          node SubStore/edge-extension/build.mjs --check
+          node SubStore/edge-extension/browser-e2e.mjs

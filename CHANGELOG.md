@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.1
+
+- 修复 DOM 候选撤下后的旧写入与预渲染激活握手，缓存编码审查项依据实际后端验证后保持不改；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。
+
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.0
+
+- 为站点自动写入增加首次明确许可，修复跨响应歧义、离开未监听页面的旧写入及失败中转页泄漏；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。辅助扩展不改变分流产物。
+
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.2
+
+- 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)与[修复验证](./docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。
+
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.1
+
+- 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](./SubStore/CHANGELOG.md)及[扩展说明](./SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。
+- 六家真实自动流程、158 项 Node 测试及 15 项独立浏览器流程通过，证据与 Chrome 待验边界见[验收记录](./docs/research/2026-10-18-substore-auto-sync-acceptance.md)。
+
 ## v6.0.20 — 微信连接端点精确例外 (2026-10-16)
 
 - Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](./docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)。
