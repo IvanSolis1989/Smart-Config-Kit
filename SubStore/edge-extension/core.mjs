@@ -1,15 +1,44 @@
-// Sub-Store Link Sync v1.4.0 (2026-10-18). See README.md.
+// Sub-Store Link Sync v1.5.0 (2026-10-18). See CHANGELOG.md.
 export const DEFAULT_SETTINGS = Object.freeze({
   enabled: true,
   backendUrl: 'http://127.0.0.1:38324',
   frontendUrl: 'http://127.0.0.1:14122',
   subscriptionName: 'auto',
+  cloudEnabled: false,
+  cloudBackendUrl: '',
 });
 const MAX_BODY = 4 * 1024 * 1024;
 const WARNING = /设备.{0,20}(超过|超限|上限|允许|限制)|订阅.{0,12}(失效|无效|过期|错误)|打开官网|重新导入|复制新订阅|剩余流量|流量重置|套餐到期|device.{0,12}(limit|exceed)|invalid.{0,12}subscription/i;
 
 export class SyncError extends Error {
   constructor(code) { super(code); this.code = code; }
+}
+
+export function cloudBackendFrom(value) {
+  try {
+    if (typeof value !== 'string' || !/^https:\/\//i.test(value) || value.length > 2048 || /[\\\s?#\x00-\x1f\x7f]|%(?:25|2e|2f|5c)/i.test(value)) throw new Error();
+    const rawPath = value.slice(value.indexOf('/', 8));
+    if (rawPath.split('/').some(part => part === '.' || part === '..')) throw new Error();
+    const url = new URL(value);
+    if (url.protocol !== 'https:' || !url.hostname || url.username || url.password || url.search || url.hash) throw new Error();
+    return url.origin + url.pathname.replace(/\/+$/, '');
+  } catch { throw new SyncError('invalid_settings'); }
+}
+export const normalizeCloudBackendUrl = cloudBackendFrom;
+
+export function targetSettingsFrom(value = {}, targetId = 'local') {
+  if (!['local', 'cloud'].includes(targetId)) throw new SyncError('invalid_settings');
+  const checked = settingsFrom(value);
+  return targetId === 'local' ? { ...checked, targetId } : {
+    ...checked, enabled: checked.enabled && checked.cloudEnabled,
+    backendUrl: checked.cloudBackendUrl, targetId: 'cloud',
+  };
+}
+
+function singleSettings(value) {
+  if (value?.targetId !== 'cloud') return settingsFrom(value);
+  const local = settingsFrom({ ...value, backendUrl: DEFAULT_SETTINGS.backendUrl });
+  return { ...local, targetId: 'cloud', backendUrl: cloudBackendFrom(value.backendUrl) };
 }
 
 export function settingsFrom(value = {}) {
@@ -25,7 +54,10 @@ export function settingsFrom(value = {}) {
         !settings.subscriptionName.trim() || settings.subscriptionName.length > 100 || /[\r\n\x00-\x1f]/.test(settings.subscriptionName)) {
       throw new Error();
     }
-    return { enabled: settings.enabled, backendUrl: url.origin, frontendUrl: frontend.origin, subscriptionName: settings.subscriptionName };
+    if (typeof settings.cloudEnabled !== 'boolean' || typeof settings.cloudBackendUrl !== 'string' || (settings.cloudEnabled && !settings.cloudBackendUrl)) throw new Error();
+    const cloudBackendUrl = settings.cloudBackendUrl ? cloudBackendFrom(settings.cloudBackendUrl) : '';
+    return { enabled: settings.enabled, backendUrl: url.origin, frontendUrl: frontend.origin, subscriptionName: settings.subscriptionName,
+      cloudEnabled: settings.cloudEnabled, cloudBackendUrl };
   } catch { throw new SyncError('invalid_settings'); }
 }
 
@@ -116,7 +148,7 @@ export async function sha256(value) {
 function withoutURL(sub) { const copy = { ...sub }; delete copy.url; return copy; }
 
 export class SubStoreClient {
-  constructor(settings, fetcher = fetch) { this.settings = settingsFrom(settings); this.fetcher = fetcher; }
+  constructor(settings, fetcher = fetch) { this.settings = singleSettings(settings); this.fetcher = fetcher; }
   async request(path, method = 'GET', body) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 25000);
@@ -148,7 +180,8 @@ export class SubStoreClient {
       if (error instanceof SyncError) throw error;
       if (['local_transport_invalid_settings', 'local_transport_invalid_request', 'local_transport_storage_failed',
         'local_transport_unavailable', 'local_transport_not_ready', 'local_transport_invalid_response',
-        'local_backend_request_failed'].includes(error?.code)) {
+        'local_backend_request_failed', 'cloud_transport_invalid_settings', 'cloud_transport_invalid_request',
+        'cloud_permission_required', 'cloud_backend_request_failed'].includes(error?.code)) {
         const safe = new SyncError(error.code);
         if (error.cleanupFailed === true) safe.cleanupFailed = true;
         throw safe;
@@ -172,7 +205,7 @@ export class SubStoreClient {
 }
 
 export async function syncSubscription({ settings, candidateUrl, fetcher = fetch, saveBackup = async () => {}, dryRun = false, allowOriginChange = false, expectedBeforeURL, assertCurrent = () => {} }) {
-  const safeSettings = settingsFrom(settings);
+  const safeSettings = singleSettings(settings);
   if (!safeSettings.enabled) return { status: 'disabled' };
   assertCurrent();
   candidateURL(candidateUrl);
@@ -199,6 +232,7 @@ export async function syncSubscription({ settings, candidateUrl, fetcher = fetch
   const backup = {
     at: new Date().toISOString(), subscriptionName: safeSettings.subscriptionName,
     backendUrl: safeSettings.backendUrl, previousURL: before.url,
+    targetId: safeSettings.targetId || 'local',
     expectedURLHash, otherFieldsHash,
   };
   assertCurrent();
@@ -214,8 +248,9 @@ export async function syncSubscription({ settings, candidateUrl, fetcher = fetch
 }
 
 export async function restoreBackup({ settings, backup, fetcher = fetch }) {
-  const safeSettings = settingsFrom(settings);
-  if (!backup || backup.backendUrl !== safeSettings.backendUrl || backup.subscriptionName !== safeSettings.subscriptionName) throw new SyncError('backup_not_found');
+  const safeSettings = singleSettings(settings);
+  if (!backup || backup.backendUrl !== safeSettings.backendUrl || backup.subscriptionName !== safeSettings.subscriptionName ||
+      (backup.targetId || 'local') !== (safeSettings.targetId || 'local')) throw new SyncError('backup_not_found');
   const client = new SubStoreClient(safeSettings, fetcher);
   const current = await client.getSub();
   if (await sha256(current.url) !== backup.expectedURLHash || await sha256(withoutURL(current)) !== backup.otherFieldsHash) throw new SyncError('concurrent_change');

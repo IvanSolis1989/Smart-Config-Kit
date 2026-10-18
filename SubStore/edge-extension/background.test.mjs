@@ -33,7 +33,23 @@ test('automatic authorized-site matching and local relay',async t=>{
   activate(PAGE);return state;
  };
  reset();
- globalThis.fetch=()=>{throw Error('Native extension fetch is forbidden');};
+ globalThis.fetch=async(url,request)=>{
+  assert.ok(state.cloudSubs,'Native extension fetch requires an explicit synthetic cloud fixture');
+  assert.ok(url.startsWith('https://worker.example/private-prefix/api/'));
+  const path=url.slice('https://worker.example/private-prefix'.length),body=request.body?JSON.parse(request.body):undefined;
+  state.cloudCalls.push({path,method:request.method,body});
+  if(state.cloudOffline)throw Error('PRIVATE-CLOUD-OFFLINE');
+  let data;
+  if(path==='/api/subs')data=[...state.cloudSubs.values()];
+  else if(request.method==='POST')data=state.cloudPreview||state.preview;
+  else{
+   const sub=state.cloudSubs.get(decodeURIComponent(path.slice('/api/sub/'.length)));
+   assert.ok(sub);
+   if(request.method==='PATCH'){assert.deepEqual(Object.keys(body),['url']);sub.url=body.url;data={};if(state.cloudLostPatch)throw Error('PRIVATE-LOST-PATCH');}
+   else data=sub;
+  }
+  return new Response(JSON.stringify({status:'success',data}),{status:200,headers:{'content-type':'application/json'}});
+ };
  globalThis.chrome={runtime:{id:ID,getManifest:()=>({version:'1.3.0'}),getURL:p=>'chrome-extension://'+ID+'/'+p,onMessage:{addListener(fn){listener=fn}},onInstalled:{addListener(fn){installed=fn}},onStartup:{addListener(fn){startup=fn}}},permissions:{onRemoved:{addListener(fn){permissionRemoved=fn}},async contains(){if(state.permissionGate&&!state.permissionPaused){state.permissionPaused=true;state.permissionGate.entered.resolve();await state.permissionGate.release.promise;return state.permissionGate.granted}return state.allowed}},storage:{local:area('local'),session:area('session')},action:{async setBadgeText(){},async setBadgeBackgroundColor(){}},scripting:{
   async getRegisteredContentScripts({ids}={}){return[...state.scripts.values()].filter(script=>!ids||ids.includes(script.id)).map(clone)},
   async unregisterContentScripts({ids}){for(const id of ids)state.scripts.delete(id)},
@@ -85,6 +101,67 @@ test('automatic authorized-site matching and local relay',async t=>{
  try{
   background=await import('./background.js?auto='+Date.now());
   t.afterEach(async()=>{await background.whenIdle()});
+  function enableCloud(){
+    state.local.settings={...state.local.settings,cloudEnabled:true,cloudBackendUrl:'https://worker.example/private-prefix'};
+    state.cloudSubs=new Map([['cloud-internal', {...source('cloud-internal'),displayName:'星海'}]]);state.cloudCalls=[];
+  }
+  await t.test('two targets independently match different internal names, preserve processing and retain separate backups',async()=>{
+    reset();enableCloud();await observe();
+    const result=state.local.sites[ORIGIN].lastResult;
+    assert.equal(result.status,'updated');assert.equal(result.targets.local.subscriptionName,'星海');assert.equal(result.targets.cloud.subscriptionName,'cloud-internal');
+    assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);assert.equal(state.calls.filter(c=>c.method==='PATCH').length,1);
+    assert.equal(state.local.backups.length,2);assert.deepEqual(new Set(state.local.backups.map(b=>b.targetId)),new Set(['local','cloud']));
+    assert.deepEqual(state.cloudSubs.get('cloud-internal').process,source().process);
+    const status=(await send({type:'GET_STATUS'},POPUP)).reply;
+    assert.equal(status.sites[ORIGIN].targets.cloud.backupCount,1);
+    assert.ok(!JSON.stringify(status.sites).includes('private-prefix'));
+  });
+  await t.test('a cloud preview failure leaves local independently verified and reports partial success',async()=>{
+    reset();enableCloud();state.cloudPreview={original:[],processed:[]};await observe();
+    const result=state.local.sites[ORIGIN].lastResult;
+    assert.equal(result.status,'partial');assert.equal(result.targets.local.status,'updated');assert.equal(result.targets.cloud.code,'candidate_has_no_real_nodes');
+    assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,0);assert.equal(state.local.backups.length,1);
+  });
+  await t.test('changing the cloud endpoint never advertises its former successful result or backup as current',async()=>{
+    reset();enableCloud();await observe();
+    state.local.settings.cloudBackendUrl='https://other-worker.example/new-prefix';
+    const status=(await send({type:'GET_STATUS'},POPUP)).reply;
+    assert.equal(status.sites[ORIGIN].targets.cloud.lastResult.code,'target_settings_changed');
+    assert.equal(status.sites[ORIGIN].targets.cloud.backupCount,0);
+    assert.equal(status.sites[ORIGIN].lastResult.status,'partial');
+    assert.equal(status.sites[ORIGIN].lastResult.targets.local.status,'updated');
+  });
+  await t.test('a cloud PATCH with lost response cannot be automatically replayed but explicit retry verifies unchanged',async()=>{
+    reset();enableCloud();state.cloudLostPatch=true;await observe();
+    assert.equal(state.local.sites[ORIGIN].lastResult.status,'partial');
+    assert.equal(state.local.sites[ORIGIN].lastResult.targets.cloud.writeState,'unknown');
+    state.session.pendingByOrigin[ORIGIN].finishedAt=0;
+    await observe();assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);
+    assert.equal(state.local.sites[ORIGIN].lastResult.targets.cloud.code,'automatic_retry_blocked');
+    const other='https://never-hardcoded.example.com';
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:['星海']},{...PAGE,url:other+'/',origin:other,documentId:'cloud-other-document',tab:{id:21,url:other+'/'}});
+    assert.equal(state.local.sites[other].lastResult.targets.cloud.code,'automatic_retry_blocked');
+    assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);
+    state.cloudLostPatch=false;
+    const retry=(await send({type:'SYNC_PENDING',origin:ORIGIN,targetId:'cloud'},POPUP)).reply;
+    assert.equal(retry.targets.cloud.status,'unchanged');assert.equal(state.cloudCalls.filter(c=>c.method==='PATCH').length,1);
+  });
+  await t.test('cloud permission is separate from airport consent and blocks cloud only',async()=>{
+    reset();enableCloud();
+    const contains=globalThis.chrome.permissions.contains;
+    globalThis.chrome.permissions.contains=async request=>request.origins.includes('https://worker.example/*')?false:contains(request);
+    try{
+      await observe();const result=state.local.sites[ORIGIN].lastResult;
+      assert.equal(result.status,'partial');assert.equal(result.targets.local.status,'updated');assert.equal(result.targets.cloud.code,'cloud_permission_required');assert.equal(state.cloudCalls.length,0);
+    }finally{globalThis.chrome.permissions.contains=contains;}
+  });
+  await t.test('cloud restore targets its own name and endpoint without touching the local source',async()=>{
+    reset();enableCloud();await observe();
+    const localURL=state.subs.get('星海').url;
+    const reply=(await send({type:'RESTORE_LATEST',origin:ORIGIN,targetId:'cloud'},POPUP)).reply;
+    assert.equal(reply.status,'restored');assert.equal(state.cloudSubs.get('cloud-internal').url,OLD);assert.equal(state.subs.get('星海').url,localURL);
+    assert.equal(state.local.backups.length,1);assert.equal(state.local.backups[0].targetId,'local');
+  });
   await t.test('a browser-wide grant and a forged brand cannot rewrite from an explicitly untrusted origin',async()=>{
     reset();state.local.trustedOrigins={version:1,origins:[]};
     state.local.sites={[ORIGIN]:{origin:ORIGIN,subscriptionName:'星海'}};
@@ -329,7 +406,7 @@ test('automatic authorized-site matching and local relay',async t=>{
     reset();await observe();assert.equal((await send({type:'GET_STATUS'})).accepted,false);
     assert.equal((await send({type:'SAVE_SETTINGS',settings:{enabled:false}}, {...POPUP,url:POPUP.url+'?fake'})).accepted,false);
     const restore=(await send({type:'RESTORE_LATEST',origin:ORIGIN},POPUP)).reply;assert.equal(restore.status,'restored');assert.equal(state.subs.get('星海').url,OLD);assert.equal(state.local.backups.length,0);
-    const save=(await send({type:'SAVE_SETTINGS',settings:{enabled:false,backendUrl:'http://127.0.0.1:38324',frontendUrl:'http://127.0.0.1:14122',subscriptionName:'attacker'}},POPUP)).reply;assert.deepEqual(Object.keys(save.settings).sort(),['backendUrl','enabled','frontendUrl']);
+    const save=(await send({type:'SAVE_SETTINGS',settings:{enabled:false,backendUrl:'http://127.0.0.1:38324',frontendUrl:'http://127.0.0.1:14122',subscriptionName:'attacker'}},POPUP)).reply;assert.deepEqual(Object.keys(save.settings).sort(),['backendUrl','cloudBackendUrl','cloudEnabled','enabled','frontendUrl']);
     state.calls=[];await observe();assert.equal(state.calls.length,0);
   });
   await t.test('legacy trust arrays and historical site records cannot authorize automatic, manual or restore writes',async()=>{
@@ -527,6 +604,23 @@ test('automatic authorized-site matching and local relay',async t=>{
       assert.equal(state.scripts.size,0);
       assert.equal(state.calls.length,0);
     }
+  });
+  await t.test('one same-origin grant persists after closing its tab, opening a fresh document and restarting the worker',async()=>{
+    reset();state.local.trustedOrigins={version:1,origins:[]};
+    assert.equal((await send({type:'TRUST_CURRENT_SITE',origin:ORIGIN,tabId:20},POPUP)).reply.status,'site_trusted');
+    assert.deepEqual(state.local.trustedOrigins,{version:1,origins:[ORIGIN]});
+    await send({type:'PAGE_CONTEXT'});tabRemoved(20);state.liveTabs.delete(20);await background.whenIdle();
+    const reopened={...clone(PAGE),url:ORIGIN+'/another-dashboard',documentId:PAGE.documentId+'-reopened',tab:{id:41,url:ORIGIN+'/another-dashboard'}};
+    activate(reopened);state.activeTabId=41;
+    background=await import('./background.js?sameOriginGrantRestart='+Date.now());
+    startup();await background.whenIdle();
+    const status=(await send({type:'GET_STATUS'},POPUP)).reply;
+    assert.deepEqual(status.trustedOrigins,[ORIGIN]);
+    assert.equal((await send({type:'PAGE_CONTEXT'},reopened)).reply.allowed,true);
+    await send({type:'OBSERVED_SUBSCRIPTION',candidateUrl:CANDIDATE,siteNames:['星海']},reopened);
+    assert.equal(state.local.sites[ORIGIN].lastResult.status,'updated');
+    assert.equal(state.calls.filter(call=>call.method==='PATCH').length,1);
+    assert.equal(state.reloads.length,1,'only the original explicit grant reloads the page');
   });
   await t.test('startup reconciliation does not lose a simultaneous initial handshake from a trusted live page',async()=>{
     reset();startup();

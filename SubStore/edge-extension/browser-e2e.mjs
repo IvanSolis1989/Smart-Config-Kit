@@ -9,12 +9,13 @@ import { fileURLToPath } from 'node:url';
 import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
-const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs',
+const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs', 'cloud-fetch.mjs',
   'local-transport.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
   'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
 const FRAGMENT = '#flowDedup=account&ua=fixture%20ua&cacheKey=fixture-cache';
 const PREVIEW_FRAGMENT = '#flowDedup=account&ua=fixture%20ua';
+const CLOUD_BASE = 'https://cloud-fixture.example.invalid/private-fixture-prefix';
 const NODES = [
   { name: 'Fixture HK', type: 'trojan', server: 'node-one.example.com', port: 443, password: 'fixture-node-one' },
   { name: 'Fixture JP', type: 'ss', server: 'node-two.example.com', port: 443, cipher: 'aes-128-gcm', password: 'fixture-node-two' },
@@ -111,7 +112,13 @@ function fixtures() {
   const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline relay retries leave no owned tabs',
     origin: 'https://offline-relay.example.com', brand: 'Offline fixture', name: 'Offline fixture', mode: 'attribute', offlineRelay: true,
     expectedStatus: 'error', expectedCode: 'local_transport_not_ready', operations: [], timeout: 20000 };
-  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, offline]
+  const dual = [false, true].map(cloudWarning => {
+    const id = cloudWarning ? 'dual_cloud_warning' : 'dual_success';
+    return { ...sources(id), id, label: cloudWarning ? 'Dual target keeps local success when cloud preview fails' : 'Dual target updates independent local and cloud names',
+      origin: 'https://' + id.replaceAll('_', '-') + '.example.com', brand: id, name: id, mode: 'attribute',
+      dual: true, cloudWarning, expectedStatus: cloudWarning ? 'partial' : 'updated', expectedLocalStatus: 'updated' };
+  });
+  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, ...dual, offline]
     .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
   const catalog = cases.filter(fixture => fixture.name).map(fixture => subscription(fixture.name, fixture.old));
   const base = catalog.find(sub => sub.name === 'SSONE');
@@ -308,10 +315,51 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     const documents = new Map(cases.map(fixture => [fixture.pageURL, fixture]));
     const apis = new Map(cases.filter(fixture => fixture.api).map(fixture => [fixture.api, fixture]));
     for (const fixture of cases.filter(fixture => fixture.secondAPI)) apis.set(fixture.secondAPI, { ...fixture, candidate: fixture.second });
+    const cloudOperations = [];
+    const cloudSubs = new Map(cases.filter(item => item.dual).map(item => ['Cloud ' + item.name, subscription('Cloud ' + item.name, item.old)]));
     let blocked = 0;
     await context.route(/^https?:\/\//, async route => {
       const request = route.request();
       const url = new URL(request.url());
+      if (url.origin === new URL(CLOUD_BASE).origin) {
+        const relative = url.href.slice(CLOUD_BASE.length);
+        const method = request.method();
+        const kind = relative === '/api/subs' ? 'catalog' : relative === '/api/preview/sub?target=JSON' ? 'preview' : 'sub';
+        const operation = { method, kind };
+        cloudOperations.push(operation);
+        try {
+          check(url.href.startsWith(CLOUD_BASE + '/'), 'cloud_prefix_failed');
+          let data;
+          if (method === 'GET' && relative === '/api/subs') data = [...cloudSubs.values()];
+          else if (method === 'POST' && relative === '/api/preview/sub?target=JSON') {
+            const body = request.postDataJSON(), previous = cloudSubs.get(body.name);
+            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === body.name);
+            operation.name = body.name;
+            check(previous && fixture && body.url === fixture.candidate + PREVIEW_FRAGMENT, 'cloud_preview_scope_failed');
+            check(body.noCache === true && body.ignoreFailedRemoteSub === false, 'cloud_preview_options_failed');
+            const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
+            check(equal(originalFields, withoutURL(previous)), 'cloud_preview_fields_failed');
+            const nodes = fixture.cloudWarning ? [{ ...NODES[0], name: '订阅无效，请打开官网重新导入' }] : NODES;
+            data = { original: nodes, processed: nodes };
+          } else if (relative.startsWith('/api/sub/')) {
+            const name = decodeURIComponent(relative.slice('/api/sub/'.length)), previous = cloudSubs.get(name);
+            const fixture = cases.find(item => item.dual && 'Cloud ' + item.name === name);
+            operation.name = name;
+            check(previous && fixture, 'cloud_sub_scope_failed');
+            if (method === 'GET') data = previous;
+            else {
+              const body = request.postDataJSON();
+              check(method === 'PATCH' && equal(Object.keys(body), ['url']) && body.url === fixture.candidate + FRAGMENT, 'cloud_patch_fields_failed');
+              cloudSubs.set(name, { ...previous, url: body.url }); data = {};
+            }
+          } else check(false, 'cloud_path_failed');
+          await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ status: 'success', data }) });
+        } catch (error) {
+          services.state.failure = safeCode(error);
+          await route.fulfill({ status: 500, contentType: 'application/json', body: '{"status":"failed"}' });
+        }
+        return;
+      }
       if ([services.backend.origin, services.frontend.origin].includes(url.origin)) { await route.continue(); return; }
       if (url.href === 'https://unobserved-destination.example.com/__fixture__/') {
         await route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: '<!doctype html><title>Unobserved destination</title>' }); return;
@@ -335,6 +383,13 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
     for (const fixture of executionCases) {
       label = fixture.label;
+      await worker.evaluate(async ({ enabled, backend }) => {
+        const current = (await chrome.storage.local.get('settings')).settings;
+        await chrome.storage.local.set({ settings: { ...current, cloudEnabled: enabled, cloudBackendUrl: enabled ? backend : '' } });
+        await globalThis.__fixtureRefreshAccess();
+        await globalThis.__fixtureWhenIdle();
+      }, { enabled: Boolean(fixture.dual), backend: CLOUD_BASE });
+      const cloudCallsBefore = cloudOperations.length;
       const originals = new Map([...services.state.subs].map(([name, sub]) => [name, clone(sub)]));
       const callsBefore = services.state.operations.length;
       const backupsBefore = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
@@ -447,10 +502,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         check(equal(operations.map(operation => operation.method + ':' + operation.kind), expected), 'request_sequence_failed');
         for (const [name, before] of originals) {
           const after = services.state.subs.get(name);
-          const changed = fixture.expectedStatus === 'updated' && name === fixture.name;
+          const changed = (fixture.expectedLocalStatus || fixture.expectedStatus) === 'updated' && name === fixture.name;
           check(equal(after, changed ? { ...before, url: fixture.candidate + FRAGMENT } : before), 'stored_subscription_preservation_failed');
         }
-        if (fixture.expectedStatus === 'updated') {
+        if ((fixture.expectedLocalStatus || fixture.expectedStatus) === 'updated') {
           check(result.subscriptionName === fixture.name, 'automatic_name_match_failed');
           if (fixture.expectedMatchMethod) check(result.matchMethod === fixture.expectedMatchMethod, 'automatic_match_method_failed');
           check(result.originalNodes === 2 && result.processedNodes === 2, 'preview_node_count_failed');
@@ -460,6 +515,20 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         } else {
           const backupsAfter = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
           check(backupsAfter === backupsBefore, 'error_backup_changed');
+        }
+        if (fixture.dual) {
+          check(result.targets?.local?.status === 'updated', 'dual_local_result_failed');
+          const cloudResult = result.targets?.cloud;
+          check(cloudResult?.status === (fixture.cloudWarning ? 'error' : 'updated'), 'dual_cloud_result_failed');
+          if (fixture.cloudWarning) check(cloudResult.code === 'candidate_has_no_real_nodes', 'dual_cloud_failure_code_failed');
+          const ownCloudOperations = cloudOperations.slice(cloudCallsBefore);
+          const expectedCloud = fixture.cloudWarning ? ['GET:catalog', 'GET:sub', 'POST:preview'] : ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
+          check(equal(ownCloudOperations.map(item => item.method + ':' + item.kind), expectedCloud), 'dual_cloud_sequence_failed');
+          const cloudName = 'Cloud ' + fixture.name;
+          check(cloudSubs.get(cloudName).url === (fixture.cloudWarning ? fixture.old : fixture.candidate) + FRAGMENT, 'dual_cloud_saved_url_failed');
+          const backups = await worker.evaluate(async origin => (await chrome.storage.local.get('backups')).backups.filter(item => item.origin === origin), fixture.origin);
+          check(backups.length === (fixture.cloudWarning ? 1 : 2), 'dual_independent_backups_failed');
+          check(!JSON.stringify(result).includes('/private-fixture-prefix'), 'dual_private_prefix_leaked');
         }
         if (fixture.navigation) {
           const pending = await worker.evaluate(async origin => Boolean((await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[origin]), fixture.origin);

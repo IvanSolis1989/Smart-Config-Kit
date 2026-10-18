@@ -4,7 +4,7 @@ import { createSiteAccess, permissionPattern } from './site-access.mjs';
 
 const A = 'https://panel.example';
 const B = 'http://192.0.2.19:8080';
-const SETTINGS = { enabled: true, backendUrl: 'http://127.0.0.1:38324', frontendUrl: 'http://127.0.0.1:14122' };
+const SETTINGS = { enabled: true, backendUrl: 'http://127.0.0.1:38324', frontendUrl: 'http://127.0.0.1:14122', cloudEnabled: false, cloudBackendUrl: '' };
 const OWNED = ['scki-site-main', 'scki-site-bridge'];
 const copy = value => value === undefined ? undefined : structuredClone(value);
 function deferred() { let resolve; const promise = new Promise(done => { resolve = done; }); return { promise, resolve }; }
@@ -48,6 +48,16 @@ function fixture({ registry, permissions = [], enabled = true } = {}) {
   return { state, api, access, ownScripts: () => OWNED.map(id => state.scripts.get(id)).filter(Boolean) };
 }
 const registry = (...origins) => ({ version: 1, origins });
+
+test('cloud endpoint remains configuration only and is never an airport despite a browser-wide grant', async () => {
+  const f = fixture({ registry: registry(A, 'https://worker.example'), permissions: ['https://*/*'] });
+  await f.access.saveSettings({ ...SETTINGS, cloudEnabled: true, cloudBackendUrl: 'https://worker.example/private-prefix/' });
+  assert.equal(f.state.local.settings.cloudBackendUrl, 'https://worker.example/private-prefix');
+  assert.deepEqual(await f.access.trustedOrigins(), [A]);
+  assert.equal(await f.access.allowed('https://worker.example'), false);
+  assert.ok(f.ownScripts().every(script => !script.matches.includes('https://worker.example/*')));
+  assert.equal((await f.access.require(A)).cloudEnabled, true);
+});
 
 test('permission patterns accept arbitrary canonical HTTP(S) origins without granting sibling ports business trust', () => {
   assert.equal(permissionPattern(A), 'https://panel.example/*');
@@ -129,7 +139,7 @@ test('saving disabled settings invalidates in flight immediately, stores only gl
   release.resolve();
   await assert.rejects(request, { code: 'site_access_changed' });
   await operation;
-  assert.deepEqual(f.state.local.settings, { ...SETTINGS, enabled: false });
+  assert.deepEqual(f.state.local.settings, { ...SETTINGS, enabled: false, cloudEnabled: false, cloudBackendUrl: '' });
   assert.equal(f.ownScripts().length, 0);
   await assert.rejects(f.access.require(A), { code: 'disabled' });
 });
@@ -168,6 +178,28 @@ test('fresh capability is required after worker recreation and browser-only regr
   f.state.permissions.add('https://*/*');
   assert.equal(await f.access.allowed(A), false);
   assert.deepEqual(await f.access.trustedOrigins(), []);
+});
+
+test('one explicit grant survives a fresh access controller and startup reconciliation when browser permission is retained', async () => {
+  const f = fixture({ permissions: [permissionPattern(A)] });
+  await f.access.grant(A);
+  const restarted = createSiteAccess(f.api, { getSettings: async () => copy(f.state.local.settings) });
+  await restarted.refresh();
+  assert.deepEqual(await restarted.trustedOrigins(), [A]);
+  assert.deepEqual(await restarted.require(A), SETTINGS);
+  assert.equal(await restarted.allowed('https://another-panel.example'), false);
+  assert.deepEqual(f.ownScripts().map(script => script.matches), [[permissionPattern(A)], [permissionPattern(A)]]);
+});
+
+test('a transient permission lookup exception denies reconciliation without deleting previously granted consent', async () => {
+  const f = fixture({ registry: registry(A), permissions: [permissionPattern(A)] });
+  f.state.fail = 'permissions';
+  await assert.rejects(f.access.refresh(), { code: 'site_access_changed' });
+  assert.deepEqual(f.state.local.trustedOrigins, registry(A));
+  assert.equal(await f.access.allowed(A), false, 'unknown browser permission must fail closed for this run');
+  f.state.fail = '';
+  await f.access.refresh();
+  assert.equal(await f.access.allowed(A), true, 'recovery uses the original explicit grant, without granting anew');
 });
 
 test('granting own Sub-Store origins is refused and max 256 never silently evicts a trusted airport', async () => {

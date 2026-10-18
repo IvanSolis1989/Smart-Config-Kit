@@ -27,7 +27,8 @@ function registryOrigins(value) {
 
 function globalSettings(value) {
   const checked = settingsFrom({ ...value, subscriptionName: 'auto' });
-  return { enabled: checked.enabled, backendUrl: checked.backendUrl, frontendUrl: checked.frontendUrl };
+  return { enabled: checked.enabled, backendUrl: checked.backendUrl, frontendUrl: checked.frontendUrl,
+    cloudEnabled: checked.cloudEnabled, cloudBackendUrl: checked.cloudBackendUrl };
 }
 
 export function createSiteAccess(chromeApi, { getSettings, onInvalidate = () => {} }) {
@@ -99,16 +100,27 @@ export function createSiteAccess(chromeApi, { getSettings, onInvalidate = () => 
     catch { throw new SyncError('site_access_changed'); }
   }
 
-  async function hasPermission(origin) {
-    try { return await chromeApi.permissions.contains({ origins: [permissionPattern(origin)] }) === true; }
-    catch { return false; }
+  async function hasPermission(origin, requireKnown = false) {
+    try {
+      const result = await chromeApi.permissions.contains({ origins: [permissionPattern(origin)] });
+      if (requireKnown && typeof result !== 'boolean') throw new Error();
+      return result === true;
+    } catch {
+      // A browser API failure is not evidence of revocation. Reconciliation
+      // must deny this run without destroying the user's stored consent.
+      if (requireKnown) throw new SyncError('site_access_changed');
+      return false;
+    }
   }
 
-  function ownPage(origin, settings) { return origin === settings.frontendUrl || origin === settings.backendUrl; }
+  function ownPage(origin, settings) {
+    return [settings.frontendUrl, settings.backendUrl, settings.cloudBackendUrl].filter(Boolean)
+      .some(value => new URL(value).origin === origin);
+  }
 
   async function permittedOrigins(origins, settings) {
     const kept = [];
-    for (const origin of origins) if (!ownPage(origin, settings) && await hasPermission(origin)) kept.push(origin);
+    for (const origin of origins) if (!ownPage(origin, settings) && await hasPermission(origin, true)) kept.push(origin);
     return kept;
   }
 

@@ -5,10 +5,10 @@ import { readFile } from 'node:fs/promises';
 // Execute the actual browser module while preserving the repository's existing Node package type.
 const source = (await readFile(new URL('./popup.js', import.meta.url), 'utf8'))
   .replace(/from '\.\/([^']+)'/g, (_, file) => `from '${new URL(file, import.meta.url).href}'`);
-const { createPopup, pageOrigin, globalSettingsFrom, resultView } =
+const { createPopup, pageOrigin, globalSettingsFrom, resultView, parseConnectionConfig } =
   await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
 const clone = value => structuredClone(value);
-const SETTINGS = Object.freeze({ enabled: true, backendUrl: 'http://127.0.0.1:38324', frontendUrl: 'http://127.0.0.1:14122' });
+const SETTINGS = Object.freeze({ enabled: true, backendUrl: 'http://127.0.0.1:38324', frontendUrl: 'http://127.0.0.1:14122', cloudEnabled: false, cloudBackendUrl: '' });
 const VERSION = '1.3.0', ORIGIN = 'https://airport.example.com';
 
 class Element {
@@ -18,6 +18,7 @@ class Element {
   replaceChildren(...children) { this.children = children; }
   setAttribute(name, value) { this.attributes.set(name, value); }
   emit(type) { return this.listeners.get(type)?.({ target: this }); }
+  click() { return this.emit('click'); }
 }
 
 async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites, saveError,
@@ -68,7 +69,8 @@ async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites,
           return result;
         }
         if (message.type === 'RESTORE_LATEST') {
-          state.sites[message.origin].backupCount--;
+          if (message.targetId === 'cloud') state.sites[message.origin].targets.cloud.backupCount--;
+          else state.sites[message.origin].backupCount--;
           return { status: 'restored', at: '2026-10-18T05:00:00Z', extensionVersion: VERSION };
         }
         throw new Error('Unexpected message');
@@ -291,15 +293,15 @@ test('extension and own local Sub-Store pages wait for a website instead of show
   }
 });
 
-test('settings are exactly three global fields and preserve other-window changes on save', async () => {
+test('five global settings preserve other-window changes without saving per-site identity', async () => {
   assert.deepEqual(Object.keys(globalSettingsFrom({ ...SETTINGS, profiles: [], subscriptionName: 'ignored' })).sort(),
-    ['backendUrl', 'enabled', 'frontendUrl']);
+    ['backendUrl', 'cloudBackendUrl', 'cloudEnabled', 'enabled', 'frontendUrl']);
   const f = await fixture();
   f.input('backend', 'http://127.0.0.1:3001');
   f.state.settings.frontendUrl = 'http://127.0.0.1:3002';
   await f.click('save');
   assert.deepEqual(f.messages.find(message => message.type === 'SAVE_SETTINGS').settings,
-    { enabled: true, backendUrl: 'http://127.0.0.1:3001', frontendUrl: 'http://127.0.0.1:3002' });
+    { enabled: true, backendUrl: 'http://127.0.0.1:3001', frontendUrl: 'http://127.0.0.1:3002', cloudEnabled: false, cloudBackendUrl: '' });
   assert.equal(f.$('dirty').hidden, true);
 });
 
@@ -338,7 +340,7 @@ test('restoring the last backup keeps restore disabled after busy completion', a
   f.state.sites[ORIGIN].backupCount = 1;
   await f.popup.load();
   await f.click('restore');
-  assert.deepEqual(f.messages.find(message => message.type === 'RESTORE_LATEST'), { type: 'RESTORE_LATEST', origin: ORIGIN });
+  assert.deepEqual(f.messages.find(message => message.type === 'RESTORE_LATEST'), { type: 'RESTORE_LATEST', origin: ORIGIN, targetId: 'local' });
   assert.equal(f.$('restore').disabled, true);
   f.state.sites[ORIGIN].backupCount = '1';
   await f.popup.load();
@@ -481,4 +483,149 @@ test('manual controls stay in collapsed advanced details; dynamic identity and s
   assert.ok(!html.includes('association'));
   assert.ok(!html.includes('profile'));
   assert.ok(!html.includes('六家'));
+});
+
+test('cloud save requests host permission inside the click before any backend message', async () => {
+  const f = await fixture();
+  assert.ok(f.$('cloudEnabled'), 'cloud enable control exists');
+  assert.ok(f.$('cloudBackend'), 'private cloud address control exists');
+  f.input('cloudEnabled', true);
+  f.input('cloudBackend', 'https://sync.example.net/private-prefix/');
+  f.messages.length = 0;
+  const action = f.click('save');
+  assert.deepEqual(f.permissionRequests, [{ origins: ['https://sync.example.net/*'] }]);
+  assert.deepEqual(f.permissionEvents, [{ userGesture: true, messages: 0 }]);
+  await action;
+  assert.equal(f.state.settings.cloudBackendUrl, 'https://sync.example.net/private-prefix');
+  assert.equal(f.state.settings.cloudEnabled, true);
+  assert.ok(!f.messages.some(message => message.type === 'TRUST_CURRENT_SITE'));
+  assert.ok(!f.$('notice').textContent.includes('private-prefix'));
+});
+
+test('cloud permission denial keeps settings and drafts and never writes or trusts a host', async () => {
+  const f = await fixture({ permissionGranted: false });
+  assert.ok(f.$('cloudEnabled'));
+  f.input('cloudEnabled', true);
+  f.input('cloudBackend', 'https://sync.example.net/private-prefix');
+  await f.click('save');
+  assert.equal(f.state.settings.cloudEnabled, false);
+  assert.equal(f.$('cloudEnabled').checked, true);
+  assert.equal(f.messages.filter(message => message.type === 'SAVE_SETTINGS' || message.type === 'TRUST_CURRENT_SITE').length, 0);
+  assert.match(f.$('notice').textContent, /Cloudflare.*许可/);
+});
+
+test('connection import accepts only the cloud connection fields and rejects unrelated or unsafe input', () => {
+  assert.equal(typeof parseConnectionConfig, 'function');
+  assert.deepEqual(parseConnectionConfig('{"cloudEnabled":true,"cloudBackendUrl":"https://sync.example.net/private/"}'),
+    { cloudEnabled: true, cloudBackendUrl: 'https://sync.example.net/private' });
+  for (const invalid of ['{}', '[]', 'null', 'not json',
+    '{"cloudEnabled":false,"cloudBackendUrl":"https://sync.example.net/private"}',
+    '{"cloudEnabled":true,"cloudBackendUrl":"http://sync.example.net/private"}',
+    '{"cloudEnabled":true,"cloudBackendUrl":"https://sync.example.net/private?token=secret"}',
+    '{"cloudEnabled":true,"cloudBackendUrl":"https://sync.example.net/private","enabled":true}']) {
+    assert.throws(() => parseConnectionConfig(invalid), error => {
+      assert.equal(error.code, 'invalid_connection_config');
+      assert.ok(!error.message.includes('secret'));
+      return true;
+    });
+  }
+});
+
+test('import reads a selected local file into a draft and waits for explicit save before permission or writing', async () => {
+  const f = await fixture();
+  assert.ok(f.$('connectionFile'));
+  f.$('connectionFile').files = [{ size: 100, text: async () => '{"cloudEnabled":true,"cloudBackendUrl":"https://sync.example.net/private"}' }];
+  await f.$('connectionFile').emit('change');
+  assert.equal(f.$('cloudEnabled').checked, true);
+  assert.equal(f.$('cloudBackend').value, 'https://sync.example.net/private');
+  assert.equal(f.permissionRequests.length, 0);
+  assert.equal(f.messages.filter(message => message.type === 'SAVE_SETTINGS').length, 0);
+  assert.match(f.$('notice').textContent, /保存/);
+  assert.ok(!f.$('notice').textContent.includes('private'));
+  await f.click('save');
+  assert.equal(f.state.settings.cloudEnabled, true);
+});
+
+test('cloud origin is never offered as an airport trust target even when disabled', async () => {
+  const settings = { ...SETTINGS, cloudBackendUrl: 'https://sync.example.net/private' };
+  assert.equal(pageOrigin('https://sync.example.net/another-private-path', settings), null);
+  const f = await fixture({ url: 'https://sync.example.net/private' });
+  f.state.settings = settings;
+  await f.popup.load();
+  assert.equal(f.$('trust').disabled, true);
+  assert.ok(!f.$('trustTarget').textContent.includes('private'));
+});
+
+test('partial results show both target outcomes without private backend or raw error values', async () => {
+  const f = await fixture();
+  assert.ok(f.$('localResult'));
+  assert.ok(f.$('cloudResult'));
+  f.state.settings = { ...SETTINGS, cloudEnabled: true, cloudBackendUrl: 'https://sync.example.net/private' };
+  f.state.sites[ORIGIN].lastResult = { status: 'partial', at: '2026-10-18T05:00:00Z', extensionVersion: VERSION,
+    targets: { local: { targetId: 'local', status: 'updated', subscriptionName: '本机条目', originalNodes: 4, processedNodes: 3 },
+      cloud: { targetId: 'cloud', status: 'error', code: 'cloud_permission_required', message: 'https://sync.example.net/private' } } };
+  await f.popup.load();
+  assert.match(f.$('status').textContent, /部分成功/);
+  assert.match(f.$('localResult').textContent, /本机.*已更新/);
+  assert.match(f.$('cloudResult').textContent, /Cloudflare.*许可/);
+  assert.ok(!f.$('cloudResult').textContent.includes('private'));
+});
+
+test('cloud restore uses its own backup count and explicit target ID', async () => {
+  const f = await fixture();
+  assert.ok(f.$('restoreCloud'));
+  f.state.settings = { ...SETTINGS, cloudEnabled: true, cloudBackendUrl: 'https://sync.example.net/private' };
+  f.state.sites[ORIGIN].targets = { cloud: { subscriptionName: '云条目', backupCount: 1 } };
+  await f.popup.load();
+  assert.equal(f.$('restore').disabled, true);
+  assert.equal(f.$('restoreCloud').disabled, false);
+  await f.click('restoreCloud');
+  assert.deepEqual(f.messages.find(message => message.type === 'RESTORE_LATEST'), { type: 'RESTORE_LATEST', origin: ORIGIN, targetId: 'cloud' });
+  assert.equal(f.$('restoreCloud').disabled, true);
+});
+
+test('cloud controls are advanced-only and private URL uses password presentation', async () => {
+  const html = await readFile(new URL('./popup.html', import.meta.url), 'utf8');
+  assert.match(html, /<input[^>]*id="cloudBackend"[^>]*type="password"/);
+  const advanced = html.match(/<details\b[^>]*id="advanced"[\s\S]*?<\/details>/)[0];
+  for (const id of ['cloudEnabled', 'cloudBackend', 'importConnection', 'connectionFile', 'restoreCloud']) assert.ok(advanced.includes(`id="${id}"`));
+  assert.match(html, /<input[^>]*id="connectionFile"[^>]*type="file"/);
+});
+
+test('new page observations mark older per-target success as historical', async () => {
+  const f = await fixture();
+  f.state.sites[ORIGIN].lastResult = { status: 'updated', at: '2026-10-18T05:00:00Z', extensionVersion: VERSION,
+    targets: { local: { targetId: 'local', status: 'updated', subscriptionName: '本机条目', originalNodes: 4, processedNodes: 3 } } };
+  f.state.sites[ORIGIN].observation = { stage: 'candidate_received', at: '2026-10-18T05:01:00Z', extensionVersion: VERSION };
+  await f.popup.load();
+  assert.match(f.$('localResult').textContent, /上次|历史/);
+});
+
+test('oversized or malformed imported files cannot alter settings or request permission', async () => {
+  const f = await fixture();
+  let read = false;
+  f.$('connectionFile').files = [{ size: 16385, text: async () => { read = true; return '{}'; } }];
+  await f.$('connectionFile').emit('change');
+  assert.equal(read, false);
+  f.$('connectionFile').files = [{ size: 10, text: async () => '{"private":"never-display"}' }];
+  await f.$('connectionFile').emit('change');
+  assert.equal(f.$('cloudBackend').value, '');
+  assert.equal(f.$('cloudEnabled').checked, false);
+  assert.equal(f.permissionRequests.length, 0);
+  assert.equal(f.messages.filter(message => message.type === 'SAVE_SETTINGS').length, 0);
+  assert.ok(!f.$('notice').textContent.includes('never-display'));
+});
+
+test('changed cloud destinations and transport failures use fixed safe diagnoses', () => {
+  const expected = {
+    target_settings_changed: /目标地址已变化.*旧结果仅供参考/,
+    cloud_transport_invalid_settings: /Cloudflare.*地址/,
+    cloud_transport_invalid_request: /Cloudflare.*请求/,
+    cloud_backend_request_failed: /Cloudflare.*请求/,
+  };
+  for (const [code, message] of Object.entries(expected)) {
+    const view = resultView({ status: 'error', code, message: 'https://sync.example.net/private-prefix', extensionVersion: VERSION }, SETTINGS, { extensionVersion: VERSION });
+    assert.match(view.detail, message);
+    assert.ok(!JSON.stringify(view).includes('private-prefix'));
+  }
 });

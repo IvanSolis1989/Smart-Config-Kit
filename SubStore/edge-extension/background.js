@@ -1,5 +1,6 @@
-import { SyncError, settingsFrom, candidateURL, syncSubscription, restoreBackup, SubStoreClient } from './core.mjs';
+import { SyncError, settingsFrom, targetSettingsFrom, sha256, candidateURL, syncSubscription, restoreBackup, SubStoreClient } from './core.mjs';
 import { createLocalFetcher } from './local-fetch.mjs';
+import { createCloudFetcher } from './cloud-fetch.mjs';
 import { chooseSubscription } from './auto-match.mjs';
 import { createSiteAccess } from './site-access.mjs';
 
@@ -24,7 +25,8 @@ function pageOrigin(sender) {
 function fromPopup(sender) { return sender?.id === chrome.runtime.id && sender.url === chrome.runtime.getURL('popup.html') && !sender.tab; }
 function rootSettings(value = {}) {
   const checked = settingsFrom({ ...value, subscriptionName: 'auto' });
-  return { enabled: checked.enabled, backendUrl: checked.backendUrl, frontendUrl: checked.frontendUrl };
+  return { enabled: checked.enabled, backendUrl: checked.backendUrl, frontendUrl: checked.frontendUrl,
+    cloudEnabled: checked.cloudEnabled, cloudBackendUrl: checked.cloudBackendUrl };
 }
 async function getSettings() { return rootSettings((await chrome.storage.local.get('settings')).settings); }
 const siteAccess = createSiteAccess(chrome, { getSettings, onInvalidate: invalidateAccess });
@@ -181,6 +183,16 @@ function recoverPendingDocument(origin, pending, candidate = false) {
   return state;
 }
 function currentFetcher(settings, control) {
+  if (settings.targetId === 'cloud') return createCloudFetcher(chrome, settings, {
+    assertCurrent: async () => {
+      await control.checkpoint();
+      await siteAccess.require(control.ticket.origin);
+      if (!await documentPresent(control.ticket, control.requiresCandidate)) {
+        invalidateCurrentDocument(control.ticket); throw new SyncError('candidate_superseded');
+      }
+      await control.checkpoint();
+    }, onWriteSent: () => { control.writeSent = true; },
+  });
   return async (input, request = {}) => {
     await control.checkpoint();
     // Guard the actual send as well as core's PATCH call. The transport's tab
@@ -222,9 +234,15 @@ async function record(origin, result, names, control) {
   await control?.checkpoint();
   const safe = { ...result, origin, at: new Date().toISOString(), extensionVersion: version() };
   const previous = sites[origin] || {};
+  const targets = { ...previous.targets };
+  for (const [targetId, result] of Object.entries(safe.targets || {})) targets[targetId] = {
+    ...targets[targetId], subscriptionName: result.subscriptionName || targets[targetId]?.subscriptionName,
+    lastResult: { ...result, at: safe.at, extensionVersion: safe.extensionVersion },
+  };
   delete sites[origin];
+  const localName = safe.targets ? safe.targets.local?.subscriptionName : result.subscriptionName;
   sites[origin] = { ...previous, origin, ...(names?.[0] ? { siteName: names[0] } : {}),
-    ...(result.subscriptionName ? { subscriptionName: result.subscriptionName } : {}), lastResult: safe };
+    ...(localName ? { subscriptionName: localName } : {}), targets, lastResult: safe };
   await chrome.storage.local.set({ sites: capped(sites), lastResult: safe });
   const ok = ['updated', 'unchanged', 'restored'].includes(safe.status);
   await chrome.action.setBadgeText({ text: ok ? 'OK' : safe.status === 'disabled' ? '' : '!' });
@@ -255,18 +273,26 @@ async function readCatalog(settings, control) {
       // This is read-only and precedes matching, preview, backup and PATCH.
       // A failed or ambiguous write is never retried by this loop.
       if (attempt >= 2 || !['local_transport_unavailable', 'local_transport_not_ready', 'local_backend_request_failed',
-        'backend_unavailable', 'backend_timeout'].includes(error?.code)) throw error;
+        'backend_unavailable', 'backend_timeout', 'cloud_backend_request_failed'].includes(error?.code)) throw error;
       await new Promise(resolve => setTimeout(resolve, attempt === 0 ? 400 : 1200));
       await control.checkpoint();
     }
   }
 }
-async function syncCandidate(origin, pending, control, dryRun = false) {
-  let matchedName, backupBefore, backupWritten;
+async function syncOneTarget(origin, pending, control, settings, dryRun = false, manual = false) {
+  let matchedName, backupBefore, backupWritten, ledgerKey, previousAttempt, targetKey, attemptWritten = false;
+  const targetId = settings.targetId;
   try {
     await control.checkpoint();
-    const settings = await siteAccess.require(origin);
+    await siteAccess.require(origin);
     await control.checkpoint();
+    targetKey = await sha256([targetId, settings.backendUrl]);
+    ledgerKey = await sha256([targetId, settings.backendUrl, pending.candidateUrl]);
+    const ledger = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
+    previousAttempt = ledger[ledgerKey];
+    if (!dryRun && !manual && ledger[ledgerKey] && !ledger[ledgerKey].result) return {
+      targetId, targetKey, status: 'error', code: 'automatic_retry_blocked', writeState: 'unknown',
+    };
     const catalog = await readCatalog(settings, control);
     if (!Array.isArray(catalog) || catalog.length > 1000) throw new SyncError('catalog_unavailable');
     const match = chooseSubscription({ candidateUrl: pending.candidateUrl, siteNames: pending.siteNames, catalog });
@@ -280,17 +306,39 @@ async function syncCandidate(origin, pending, control, dryRun = false) {
         await control.checkpoint();
         const previous = (await chrome.storage.local.get('backups')).backups || [];
         await control.checkpoint();
-        const own = previous.filter(item => item.subscriptionName === chosen.subscriptionName && item.backendUrl === settings.backendUrl).slice(0, 2);
-        const other = previous.filter(item => item.subscriptionName !== chosen.subscriptionName || item.backendUrl !== settings.backendUrl);
-        backupBefore = previous; backupWritten = [{ ...backup, origin }, ...own, ...other].slice(0, 64);
+        const sameTarget = item => item.subscriptionName === chosen.subscriptionName && item.backendUrl === settings.backendUrl && (item.targetId || 'local') === targetId;
+        const own = previous.filter(sameTarget).slice(0, 2);
+        const other = previous.filter(item => !sameTarget(item));
+        backupBefore = previous; backupWritten = [{ ...backup, origin, targetId }, ...own, ...other].slice(0, 64);
         await chrome.storage.local.set({ backups: backupWritten });
         await control.checkpoint();
+        // Persist before dispatch. A worker crash in this narrow window must
+        // require explicit review rather than silently replaying a PATCH.
+        if (!dryRun) {
+          const attempts = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
+          await control.checkpoint();
+          attempts[ledgerKey] = { at: Date.now() };
+          await chrome.storage.session.set({ targetAttempts: attempts });
+          attemptWritten = true;
+        }
       } });
     await control.checkpoint();
-    return await record(origin, { ...result, matchMethod: match.method }, pending.siteNames, control);
+    const safe = { ...result, targetId, targetKey, matchMethod: match.method };
+    if (!dryRun && (control.writeSent || (manual && previousAttempt))) {
+      const attempts = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
+      attempts[ledgerKey] = { at: Date.now(), result: safe };
+      await chrome.storage.session.set({ targetAttempts: attempts });
+    }
+    return safe;
   } catch (error) {
     try { await control.checkpoint(); }
     catch (currentError) { error = currentError; }
+    if (ledgerKey && attemptWritten && !control.writeSent) {
+      const attempts = (await chrome.storage.session.get('targetAttempts')).targetAttempts || {};
+      if (previousAttempt) attempts[ledgerKey] = previousAttempt;
+      else delete attempts[ledgerKey];
+      await chrome.storage.session.set({ targetAttempts: attempts });
+    }
     if (error?.code === 'candidate_superseded') {
       // Keep a backup once a PATCH may have been dispatched. Before dispatch,
       // undo only our exact backup snapshot; never overwrite another writer.
@@ -300,10 +348,31 @@ async function syncCandidate(origin, pending, control, dryRun = false) {
       }
       return { status: 'error', code: 'candidate_superseded' };
     }
-    return record(origin, { status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
+    return { targetId, targetKey, status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error',
+      ...(control.writeSent ? { writeState: 'unknown' } : {}),
       ...(error?.cleanupFailed === true ? { cleanupFailed: true } : {}),
-      candidateHost: new URL(pending.candidateUrl).host, ...(matchedName ? { subscriptionName: matchedName } : {}) }, pending.siteNames, control);
+      candidateHost: new URL(pending.candidateUrl).host, ...(matchedName ? { subscriptionName: matchedName } : {}) };
   }
+}
+
+async function syncCandidate(origin, pending, control, dryRun = false, manual = false, selectedTarget) {
+  const settings = await siteAccess.require(origin);
+  if (selectedTarget !== undefined && !['local', 'cloud'].includes(selectedTarget)) throw new SyncError('invalid_settings');
+  if (selectedTarget === 'cloud' && !settings.cloudEnabled) throw new SyncError('disabled');
+  const targets = {};
+  for (const targetId of ['local', 'cloud']) {
+    if (selectedTarget && targetId !== selectedTarget) continue;
+    if (targetId === 'cloud' && !settings.cloudEnabled) continue;
+    await control.checkpoint();
+    const targetControl = { ...control, writeSent: false };
+    targets[targetId] = await syncOneTarget(origin, pending, targetControl, targetSettingsFrom(settings, targetId), dryRun, manual);
+    if (targets[targetId].code === 'candidate_superseded') return targets[targetId];
+  }
+  await control.checkpoint();
+  const values = Object.values(targets), success = values.filter(item => ['updated', 'unchanged', 'dry_run'].includes(item.status));
+  const status = success.length && success.length < values.length ? 'partial' : !success.length ? 'error' :
+    values.some(item => item.status === 'updated') ? 'updated' : dryRun ? 'dry_run' : 'unchanged';
+  return record(origin, { ...(targets.local || values[0]), status, targets }, pending.siteNames, control);
 }
 async function status() {
   const settings = await getSettings();
@@ -314,6 +383,22 @@ async function status() {
   for (const [origin, site] of Object.entries(sites)) {
     site.hasPending = !!session.pendingByOrigin?.[origin] && Date.now() - session.pendingByOrigin[origin].at <= 30 * 60 * 1000;
     site.backupCount = (local.backups || []).filter(item => item.origin === origin && item.subscriptionName === site.subscriptionName && item.backendUrl === settings.backendUrl).length;
+    site.targets = { ...site.targets };
+    for (const targetId of ['local', 'cloud']) {
+      const target = site.targets[targetId] || {};
+      const backendUrl = targetId === 'local' ? settings.backendUrl : settings.cloudBackendUrl;
+      const stale = target.lastResult && target.lastResult.targetKey !== await sha256([targetId, backendUrl]);
+      const lastResult = stale ? { ...target.lastResult, status: 'error', code: 'target_settings_changed' } : target.lastResult;
+      site.targets[targetId] = { ...target, ...(lastResult ? { lastResult } : {}), backupCount: (local.backups || []).filter(item => item.origin === origin &&
+        item.subscriptionName === target.subscriptionName && item.backendUrl === backendUrl && (item.targetId || 'local') === targetId).length };
+      if (stale && site.lastResult?.targets?.[targetId]) {
+        site.lastResult = { ...site.lastResult, targets: { ...site.lastResult.targets, [targetId]: lastResult } };
+      }
+    }
+    if (site.lastResult?.targets) {
+      const results = Object.values(site.lastResult.targets);
+      if (results.some(item => item.code === 'target_settings_changed')) site.lastResult.status = results.some(item => ['updated', 'unchanged', 'restored', 'dry_run'].includes(item.status)) ? 'partial' : 'error';
+    }
   }
   return { settings, extensionVersion: version(), sites, trustedOrigins: await siteAccess.trustedOrigins(), lastResult: local.lastResult || null };
 }
@@ -422,13 +507,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       if (state.kind !== 'candidate' || state.candidateUrl !== pending.candidateUrl) throw new SyncError('candidate_superseded');
       return syncCandidate(selectedOrigin, pending, controlFor({ origin: selectedOrigin, state, generation: state.generation,
-        documentKey: state.documentKey, documentNonce: state.documentNonce, tabId: state.tabId }), message.dryRun === true);
+        documentKey: state.documentKey, documentNonce: state.documentNonce, tabId: state.tabId }), message.dryRun === true, true, message.targetId);
     }
     if (message.type === 'RESTORE_LATEST') {
+      const targetId = message.targetId || 'local';
+      if (!['local', 'cloud'].includes(targetId) || (targetId === 'cloud' && !settings.cloudEnabled)) throw new SyncError('backup_not_found');
       const site = (await chrome.storage.local.get('sites')).sites?.[selectedOrigin];
       const backups = (await chrome.storage.local.get('backups')).backups || [];
-      const backup = backups.find(item => item.origin === selectedOrigin && item.subscriptionName === site?.subscriptionName && item.backendUrl === settings.backendUrl);
-      const chosen = { ...settings, subscriptionName: site?.subscriptionName || 'auto' };
+      const selected = targetSettingsFrom(settings, targetId);
+      const name = site?.targets?.[targetId]?.subscriptionName || (targetId === 'local' ? site?.subscriptionName : undefined);
+      const backup = backups.find(item => item.origin === selectedOrigin && item.subscriptionName === name && item.backendUrl === selected.backendUrl && (item.targetId || 'local') === targetId);
+      const chosen = { ...selected, subscriptionName: name || 'auto' };
       const state = generations.get(selectedOrigin) || recoverPendingDocument(selectedOrigin,
         (await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[selectedOrigin]);
       if (!state || !validNonce(state.documentNonce)) throw new SyncError('open_dashboard_first');
@@ -436,7 +525,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         documentKey: state.documentKey, documentNonce: state.documentNonce, tabId: state.tabId });
       const result = await restoreBackup({ settings: chosen, backup, fetcher: currentFetcher(chosen, control) });
       await chrome.storage.local.set({ backups: backups.filter(item => item !== backup) });
-      return record(selectedOrigin, result, undefined, control);
+      return record(selectedOrigin, { ...result, targets: { [targetId]: { ...result, targetId, targetKey: await sha256([targetId, selected.backendUrl]) } } }, undefined, control);
     }
     throw new SyncError('unsupported_action');
   }).then(sendResponse, error => sendResponse({ status: 'error', code: error instanceof SyncError ? error.code : 'unexpected_error' }));

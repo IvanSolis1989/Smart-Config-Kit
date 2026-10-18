@@ -7,6 +7,15 @@ import {buildEntries} from './build.mjs';
 const root=new URL('.',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url),'utf8'));
 
+test('dual-target release advertises both destinations without adding static cloud access',()=>{
+ assert.equal(manifest.version,'1.5.0');
+ assert.match(manifest.description,/本机/);
+ assert.match(manifest.description,/Cloudflare/);
+ assert.deepEqual(manifest.host_permissions,['http://127.0.0.1/*']);
+ assert.equal(manifest.key,undefined);
+ assert.equal(manifest.update_url,undefined);
+});
+
 test('fresh installation cannot inject or obtain external site access without an optional grant',()=>{
  assert.deepEqual(manifest.content_scripts,[{
    matches:['http://127.0.0.1/*'],js:['local-transport.js'],run_at:'document_start',all_frames:false,world:'ISOLATED',

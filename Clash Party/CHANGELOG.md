@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 辅助扩展 v1.5.0
+
+- 链接同步助手可分别更新本机与独立 Cloudflare Sub-Store，增加连接配置导入、部分成功诊断和分目标恢复；详见[扩展日志](../SubStore/edge-extension/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。
+
 ## 2026-10-18 — Sub-Store Fusion 发布完整性模块 v1.0.0
 
 - 增加独立订阅发布保护、Worker 合同补丁和 CI，防止缺源或错误占位聚合物覆盖已验收数据；详见 [SubStore 日志](../SubStore/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。

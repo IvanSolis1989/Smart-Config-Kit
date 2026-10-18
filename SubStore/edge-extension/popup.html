@@ -30,6 +30,10 @@
     <p id="pageStage" class="diagnostic"></p>
     <small id="pageTime"></small>
     <p id="detail"></p>
+    <div class="targetResults" aria-label="同步目标结果">
+      <p id="localResult">本机：等待同步</p>
+      <p id="cloudResult">Cloudflare：未启用</p>
+    </div>
     <small id="time"></small>
     <p id="pending" class="hint"></p>
     <p id="backup" class="hint"></p>
@@ -43,16 +47,23 @@
     <label for="frontend">本机 Sub-Store 前端</label>
     <input id="frontend" type="url" spellcheck="false" autocomplete="off" disabled>
     <p class="hint">前后端均使用 http://127.0.0.1:端口。</p>
+    <label class="toggle"><input id="cloudEnabled" type="checkbox" disabled> 同时同步独立 Cloudflare Sub-Store</label>
+    <label for="cloudBackend">Cloudflare 完整 HTTPS 后端地址</label>
+    <input id="cloudBackend" type="password" spellcheck="false" autocomplete="off" autocapitalize="off" disabled>
+    <p class="hint">填写含私密管理前缀的后端地址，无需云端前端。地址仅保存在本机扩展中；保存时另行申请后端访问权限，不会将其设为机场信任网站。</p>
+    <button id="importConnection" class="secondary" type="button" disabled>导入连接配置</button>
+    <input id="connectionFile" type="file" accept=".json,application/json" hidden disabled>
     <p id="dirty" class="hint" hidden></p>
     <button id="save" class="secondary" type="button" disabled>保存全局设置</button>
     <div class="actions">
       <button id="sync" type="button" disabled>手动重试当前网站</button>
       <button id="check" class="secondary" type="button" disabled>只验证，不写入</button>
     </div>
-    <button id="restore" class="text" type="button" disabled>撤销当前网站上次替换</button>
+    <button id="restore" class="text" type="button" disabled>撤销本机上次替换</button>
+    <button id="restoreCloud" class="text" type="button" disabled>撤销 Cloudflare 上次替换</button>
     <button id="untrust" class="text" type="button" disabled>撤销所选网站信任</button>
   </details>
-  <p class="foot">弹窗只显示识别结果、节点数与时间，不显示订阅链接；扩展不读取密码、Cookie 或登录 Token。</p>
+  <p class="foot">两端独立验证与写入；部分成功请分别核对。链接更新不代表 Gist 已发布或手机已刷新。扩展不读取机场密码、Cookie 或登录 Token。</p>
   <script type="module" src="popup.js"></script>
 </body>
 </html>

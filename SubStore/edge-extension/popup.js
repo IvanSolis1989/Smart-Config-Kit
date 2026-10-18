@@ -1,7 +1,17 @@
-import { settingsFrom, SyncError } from './core.mjs';
+import { settingsFrom, SyncError, normalizeCloudBackendUrl } from './core.mjs';
 
 const errors = {
-  invalid_settings: '请使用 http://127.0.0.1:端口作为本机前后端地址。',
+  invalid_settings: '请核对本机端口和 Cloudflare HTTPS 后端地址，云端地址不得含查询参数或片段。',
+  invalid_connection_config: '连接配置格式不正确；只接受 Cloudflare 开关和完整 HTTPS 后端地址。',
+  cloud_permission_required: '尚未获得 Cloudflare 后端访问许可，请在高级设置重新保存并允许。',
+  cloud_request_invalid: 'Cloudflare 请求不符合允许范围，已停止。',
+  cloud_backend_unavailable: '无法连接 Cloudflare Sub-Store，请检查云端服务和网络。',
+  cloud_backend_timeout: 'Cloudflare Sub-Store 验证超时，请稍后检查。',
+  cloud_transport_invalid_settings: 'Cloudflare 后端地址设置不正确，请核对完整 HTTPS 地址。',
+  cloud_transport_invalid_request: 'Cloudflare 请求不符合允许范围，已停止。',
+  cloud_backend_request_failed: 'Cloudflare 后端请求失败，请核对服务和网络后检查实际结果。',
+  target_settings_changed: '目标地址已变化，等待本轮验证；旧结果仅供参考。',
+  automatic_retry_blocked: '上次写入已发送或结果尚未确认，请先人工核对，再决定是否手动重试。',
   invalid_candidate: '页面返回的链接格式不符合要求。',
   candidate_ambiguous: '检测到多个不同订阅链接，已停止自动写入，请核对网页内容。',
     candidate_superseded: '页面候选已变化，本次验证已取消，等待最新结果。',
@@ -41,7 +51,7 @@ const errors = {
   local_backend_request_failed: '本机 Sub-Store 前端无法完成请求，请核对端口后重试。',
   unexpected_error: '操作未完成，请重新检查。',
 };
-const GLOBAL_FIELDS = ['enabled', 'backendUrl', 'frontendUrl'];
+const GLOBAL_FIELDS = ['enabled', 'backendUrl', 'frontendUrl', 'cloudEnabled', 'cloudBackendUrl'];
 const PAGE_STAGES = {
   bridge_ready: '已检测到网页',
   observer_ready: '页面监听已就绪',
@@ -60,12 +70,23 @@ export function globalSettingsFrom(value) {
   return Object.fromEntries(GLOBAL_FIELDS.map(key => [key, validated[key]]));
 }
 
+export function parseConnectionConfig(text) {
+  try {
+    if (typeof text !== 'string' || text.length > 16384) throw new Error();
+    const value = JSON.parse(text);
+    if (!value || typeof value !== 'object' || Array.isArray(value)
+      || Object.keys(value).length !== 2 || value.cloudEnabled !== true
+      || !Object.hasOwn(value, 'cloudBackendUrl')) throw new Error();
+    return { cloudEnabled: true, cloudBackendUrl: normalizeCloudBackendUrl(value.cloudBackendUrl) };
+  } catch { throw new SyncError('invalid_connection_config'); }
+}
+
 // Domain names, IPv4 and IPv6 are all valid. Paths, queries and credentials never enter UI state.
 export function pageOrigin(tabUrl, settings = {}) {
   try {
     const url = new URL(tabUrl);
     if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) return null;
-    if ([settings.backendUrl, settings.frontendUrl].some(value => value && new URL(value).origin === url.origin)) return null;
+    if ([settings.backendUrl, settings.frontendUrl, settings.cloudBackendUrl].some(value => value && new URL(value).origin === url.origin)) return null;
     return url.origin;
   } catch { return null; }
 }
@@ -85,9 +106,10 @@ export function resultView(result, settings, { extensionVersion, observation, su
   if (subscriptionName && result?.subscriptionName && result.subscriptionName !== subscriptionName) result = null;
   const status = result?.status;
   const outcome = ({ updated: '已更新并读回验证', unchanged: '当前链接已一致', dry_run: '验证通过，未写入',
-    restored: '已恢复上次链接', disabled: '自动同步已关闭', error: '暂未同步' })[status];
+    restored: '已恢复上次链接', disabled: '自动同步已关闭', partial: '部分成功，请核对未完成目标', error: '暂未同步' })[status];
   let title = outcome || '等待网站自动返回订阅';
   let detail = status === 'error' ? errors[result.code] || errors.unexpected_error : '打开已登录的机场仪表盘，扩展会自动识别并匹配已有订阅。';
+  if (status === 'partial') detail = '两端结果分别列在下方；一端失败不会撤销另一端已完成的更新，请先核对再手动重试。';
   if (status !== 'error' && Number.isInteger(result?.originalNodes) && Number.isInteger(result?.processedNodes)) {
     detail = `有效节点：原始 ${result.originalNodes}，处理后 ${result.processedNodes}。` +
       (status === 'updated' ? '客户端下次刷新订阅时生效。' : '');
@@ -134,12 +156,16 @@ export function createPopup(document, chromeApi) {
     $('notice').className = error ? 'error' : '';
   }
   function errorNotice(result, prefix = '') { notice(prefix + (errors[result?.code] || errors.unexpected_error), true); }
-  function globals() { return { enabled: $('enabled').checked, backendUrl: $('backend').value.trim(), frontendUrl: $('frontend').value.trim() }; }
+  function globals() { return { enabled: $('enabled').checked, backendUrl: $('backend').value.trim(), frontendUrl: $('frontend').value.trim(),
+    cloudEnabled: $('cloudEnabled').checked, cloudBackendUrl: $('cloudBackend').value.trim() }; }
   function dirty() { return !!saved && GLOBAL_FIELDS.some(key => globals()[key] !== saved[key]); }
   function site() { return selectedOrigin ? state.sites?.[selectedOrigin] : null; }
   function trusted(origin) { return trustKnown && !!origin && Array.isArray(state.trustedOrigins) && state.trustedOrigins.includes(origin); }
   function validActiveTab() { return !!activeOrigin && Number.isInteger(activeTabId) && activeTabId >= 0; }
-  function backupCount() { const count = site()?.backupCount; return Number.isInteger(count) && count > 0 ? count : 0; }
+  function backupCount(targetId = 'local') {
+    const count = site()?.targets?.[targetId]?.backupCount ?? (targetId === 'local' ? site()?.backupCount : 0);
+    return Number.isInteger(count) && count > 0 ? count : 0;
+  }
   function origins() {
     return [...new Set([activeOrigin, ...Object.keys(state.sites || {})].filter(origin => origin && pageOrigin(origin, saved) === origin))];
   }
@@ -182,14 +208,39 @@ export function createPopup(document, chromeApi) {
         '历史识别记录不代表已信任；请打开该网站，在其当前标签页首次允许。') + (result ? '历史结果仅供参考。' + view.detail : '');
     }
     for (const key of ['title', 'detail', 'time', 'pageStage', 'pageTime']) $(key === 'title' ? 'status' : key).textContent = view[key];
+    for (const targetId of ['local', 'cloud']) {
+      const label = targetId === 'local' ? '本机' : 'Cloudflare';
+      const record = current?.targets?.[targetId];
+      const targetResult = result?.targets?.[targetId] || record?.lastResult ||
+        (targetId === 'local' && !result?.targets ? result : null);
+      const outcome = { updated: '已更新并读回验证', unchanged: '当前链接已一致', dry_run: '验证通过，未写入',
+        restored: '已恢复上次链接', disabled: '已关闭', error: '暂未同步' }[targetResult?.status] || '等待同步';
+      const name = safeName(targetResult?.subscriptionName || targetResult?.name || record?.subscriptionName, '');
+      let text = label + '：' + outcome + (name ? ' · ' + name : '');
+      if (targetId === 'cloud' && !saved?.cloudEnabled) text = label + '：未启用';
+      else if (!saved?.enabled) text = label + '：全局自动同步已关闭';
+      else if (targetResult?.status === 'error') text += '。' + (errors[targetResult.code] || errors.unexpected_error);
+      else if (Number.isInteger(targetResult?.originalNodes) && Number.isInteger(targetResult?.processedNodes)) {
+        text += `。有效节点：原始 ${targetResult.originalNodes}，处理后 ${targetResult.processedNodes}。`;
+      }
+      if (targetResult) {
+        const targetView = resultView({ ...targetResult, at: targetResult.at || result?.at,
+          extensionVersion: targetResult.extensionVersion || result?.extensionVersion }, saved || { enabled: true }, {
+          extensionVersion: state.extensionVersion || chromeApi.runtime.getManifest?.()?.version,
+          observation: current?.observation,
+        });
+        if (targetView.time.startsWith('上次同步时间：') || targetView.title === '上次同步记录，当前版本待验证') text += '（上次记录，仅供参考）';
+      }
+      $(targetId + 'Result').textContent = text;
+    }
     $('pending').textContent = selectedOrigin && !trusted(selectedOrigin) ? '此网站尚未许可，当前不会自动同步。' :
       current?.hasPending ? '已捕获此网站的订阅链接，扩展自动处理。' : '等待此网站自动返回订阅链接。';
     const count = backupCount();
-    $('backup').textContent = count ? `此网站可用备份：${count} 份。` : '此网站暂无可用备份。';
+    $('backup').textContent = `此网站可用备份：本机 ${count} 份，Cloudflare ${backupCount('cloud')} 份。`;
   }
   function renderControls() {
     document.body.setAttribute('aria-busy', String(working || refreshing));
-    for (const id of ['site', 'enabled', 'backend', 'frontend', 'save']) $(id).disabled = working || !saved;
+    for (const id of ['site', 'enabled', 'backend', 'frontend', 'cloudEnabled', 'cloudBackend', 'connectionFile', 'importConnection', 'save']) $(id).disabled = working || !saved;
     const currentTrusted = trusted(activeOrigin);
     $('trustStatus').textContent = !validActiveTab() ? '请先打开要允许的机场网站' :
       !trustKnown ? '暂无法确认网站许可，请重新打开弹窗' : currentTrusted ? '已允许此网站自动同步' : '首次使用：此网站尚未获准自动同步';
@@ -201,6 +252,7 @@ export function createPopup(document, chromeApi) {
     $('sync').disabled = !canSync;
     $('check').disabled = !canSync;
     $('restore').disabled = working || refreshing || !saved?.enabled || !currentAllowed || dirty() || !backupCount();
+    $('restoreCloud').disabled = working || refreshing || !saved?.enabled || !saved?.cloudEnabled || !currentAllowed || dirty() || !backupCount('cloud');
     $('untrust').disabled = working || refreshing || !saved || !trusted(selectedOrigin);
     $('dirty').hidden = !dirty();
     $('dirty').textContent = '全局设置尚未保存；网站切换会保留这些编辑。';
@@ -212,6 +264,8 @@ export function createPopup(document, chromeApi) {
     $('enabled').checked = saved.enabled;
     $('backend').value = saved.backendUrl;
     $('frontend').value = saved.frontendUrl;
+    $('cloudEnabled').checked = saved.cloudEnabled;
+    $('cloudBackend').value = saved.cloudBackendUrl;
     render();
   }
   async function freshState() {
@@ -228,9 +282,7 @@ export function createPopup(document, chromeApi) {
     catch (error) { errorNotice(error); }
     finally { working = false; renderControls(); }
   }
-  async function save() {
-    const baseline = saved, draft = globals();
-    globalSettingsFrom(draft);
+  async function save(baseline, draft) {
     const latest = await freshState();
     const settings = globalSettingsFrom(latest.settings);
     for (const key of GLOBAL_FIELDS) if (draft[key] !== baseline[key]) settings[key] = draft[key];
@@ -241,13 +293,46 @@ export function createPopup(document, chromeApi) {
     acceptSettings(result.settings);
     notice('全局设置已保存，扩展继续自动识别与同步。');
   }
-  async function run(type, dryRun) {
+  function saveFromClick() {
+    if (working || !saved) return;
+    let draft, permission;
+    const baseline = saved;
+    try {
+      draft = globalSettingsFrom(globals());
+      if (draft.cloudEnabled) {
+        const url = new URL(draft.cloudBackendUrl);
+        // Request in the original click before any asynchronous file/message work.
+        permission = chromeApi.permissions.request({ origins: [url.protocol + '//' + url.hostname + '/*'] });
+      }
+    } catch (error) { errorNotice(error); return; }
+    return busy(async () => {
+      if (permission) {
+        try { if (!await permission) throw new Error(); }
+        catch { errorNotice({ code: 'cloud_permission_required' }); return; }
+      }
+      await save(baseline, draft);
+    });
+  }
+  async function importConnection() {
+    try {
+      const files = $('connectionFile').files;
+      if (!files || files.length !== 1 || files[0].size > 16384) throw new SyncError('invalid_connection_config');
+      const connection = parseConnectionConfig(await files[0].text());
+      $('cloudEnabled').checked = connection.cloudEnabled;
+      $('cloudBackend').value = connection.cloudBackendUrl;
+      notice('连接配置已读入，尚未保存。点击“保存全局设置”并允许 Cloudflare 访问后生效。');
+    } catch { errorNotice({ code: 'invalid_connection_config' }); }
+    finally { $('connectionFile').value = ''; }
+  }
+  async function run(type, dryRun, targetId) {
     const origin = selectedOrigin;
-    const result = await send({ type, origin, ...(type === 'SYNC_PENDING' ? { dryRun } : {}) });
+    const result = await send({ type, origin, ...(type === 'SYNC_PENDING' ? { dryRun } : { targetId }) });
     try { state = await freshState(); trustKnown = true; }
     catch {
       trustKnown = false;
-      state.sites = { ...state.sites, [origin]: { ...state.sites?.[origin], origin, backupCount: 0 } };
+      const previous = state.sites?.[origin];
+      state.sites = { ...state.sites, [origin]: { ...previous, origin, backupCount: 0,
+        targets: Object.fromEntries(['local', 'cloud'].map(id => [id, { ...previous?.targets?.[id], backupCount: 0 }])) } };
       notice('操作已返回，但状态刷新失败，请重新打开弹窗确认。', true);
     }
     state.sites = { ...state.sites, [origin]: { ...state.sites?.[origin], origin, lastResult: result } };
@@ -305,11 +390,14 @@ export function createPopup(document, chromeApi) {
   $('trust').addEventListener('click', trustCurrentSite);
   $('untrust').addEventListener('click', () => busy(untrustSite));
   $('site').addEventListener('change', () => { selectedOrigin = $('site').value; notice(); renderStatus(); renderControls(); });
-  for (const id of ['enabled', 'backend', 'frontend']) $(id).addEventListener('input', renderControls);
-  $('save').addEventListener('click', () => busy(save));
+  for (const id of ['enabled', 'backend', 'frontend', 'cloudEnabled', 'cloudBackend']) $(id).addEventListener('input', renderControls);
+  $('save').addEventListener('click', saveFromClick);
+  $('importConnection').addEventListener('click', () => $('connectionFile').click());
+  $('connectionFile').addEventListener('change', () => busy(importConnection));
   $('sync').addEventListener('click', () => busy(() => run('SYNC_PENDING', false)));
   $('check').addEventListener('click', () => busy(() => run('SYNC_PENDING', true)));
-  $('restore').addEventListener('click', () => busy(() => run('RESTORE_LATEST')));
+  $('restore').addEventListener('click', () => busy(() => run('RESTORE_LATEST', undefined, 'local')));
+  $('restoreCloud').addEventListener('click', () => busy(() => run('RESTORE_LATEST', undefined, 'cloud')));
   // Recheck trust and diagnostics through GET_STATUS, never consume raw stored candidates/backups.
   chromeApi.storage?.onChanged?.addListener((changes, area) => {
     if (area === 'local' && Object.keys(changes).length) return refreshDiagnostics();

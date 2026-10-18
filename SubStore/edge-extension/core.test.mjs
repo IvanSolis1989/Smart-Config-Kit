@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import { DEFAULT_SETTINGS as CORE_DEFAULT_SETTINGS, SyncError, settingsFrom, candidateURL, mergeURL, withoutCacheKey, realNodeCount,
-  canonical, sha256, syncSubscription, restoreBackup, SubStoreClient } from './core.mjs';
+  canonical, sha256, syncSubscription, restoreBackup, SubStoreClient, targetSettingsFrom } from './core.mjs';
 const DEFAULT_SETTINGS = { ...CORE_DEFAULT_SETTINGS, subscriptionName: '良心云' };
 
 const oldURL = 'https://sub.example.com/api/v1/client/subscribe?token=old-secret#flowDedup=account';
@@ -43,6 +43,29 @@ function fixture(options = {}) {
     fetcher, saveBackup: async value => backups.push(value) }) };
 }
 const code = expected => error => error instanceof SyncError && error.code === expected;
+
+test('cloud settings preserve HTTPS backend prefix while local settings remain strict', () => {
+  const global = settingsFrom({ cloudEnabled: true, cloudBackendUrl: 'https://worker.example/private-prefix/' });
+  assert.equal(global.cloudBackendUrl, 'https://worker.example/private-prefix');
+  assert.equal(targetSettingsFrom(global, 'cloud').backendUrl, global.cloudBackendUrl);
+  assert.equal(targetSettingsFrom(global, 'cloud').targetId, 'cloud');
+  for (const cloudBackendUrl of ['http://worker.example/key', 'https://user:pw@worker.example/key',
+    'https://worker.example/key?x=1', 'https://worker.example/key#x', 'https://worker.example/a/../key',
+    'https://worker.example/a/%2e%2e/key', 'https://worker.example/a/%252e%252e/key', 'https://worker.example/a%2fkey']) {
+    assert.throws(() => settingsFrom({ cloudEnabled: true, cloudBackendUrl }), code('invalid_settings'));
+  }
+  assert.equal(settingsFrom().cloudEnabled, false);
+});
+
+test('cloud synchronization uses its complete prefix for preview, URL-only PATCH and readback', async () => {
+  const f = fixture();
+  const settings = targetSettingsFrom({ ...DEFAULT_SETTINGS, cloudEnabled: true, cloudBackendUrl: 'https://worker.example/private-prefix' }, 'cloud');
+  settings.subscriptionName = DEFAULT_SETTINGS.subscriptionName;
+  const result = await syncSubscription({ ...f.input(), settings });
+  assert.equal(result.status, 'updated');
+  assert.ok(f.calls.every(call => call.url.startsWith('https://worker.example/private-prefix/api/')));
+  assert.equal(f.backups[0].targetId, 'cloud');
+});
 
 test('fixed local-only settings reject remote hosts, credentials and paths', () => {
   for (const backendUrl of ['https://127.0.0.1:38324', 'http://example.com:38324', 'http://user:pw@127.0.0.1:38324',

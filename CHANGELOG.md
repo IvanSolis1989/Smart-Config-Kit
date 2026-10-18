@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.0
+
+- 支持本机与可选独立 Cloudflare Sub-Store 分别验证更新、分目标恢复及私密连接配置导入；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+
 ## 2026-10-18 — Sub-Store Fusion 发布完整性模块 v1.0.0
 
 - 新增订阅数量/来源/错误占位校验与已审查 Worker 的合同补丁，补充严格发布文档和 CI；详见 [SubStore 日志](./SubStore/CHANGELOG.md)。仅属辅助订阅发布保护，不改路由或客户端产物版本。
