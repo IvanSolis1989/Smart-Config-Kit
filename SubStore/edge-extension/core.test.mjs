@@ -358,6 +358,22 @@ test('restoration is conditional on the written URL and unchanged other fields',
   assert.equal(f.sub().url, oldURL);
   await assert.rejects(restoreBackup({ settings: DEFAULT_SETTINGS, backup: f.backups[0], fetcher: f.fetcher }), code('concurrent_change'));
 });
+
+test('transport cleanup failures retain only safe receipt metadata through the API client', async () => {
+  for (const cleanupFailed of [true, false, 'true']) {
+    const transportError = Object.assign(new Error('PRIVATE-CHROME-ERROR'), {
+      code: 'local_transport_not_ready', cleanupFailed, cleanupErrors: ['PRIVATE-CHROME-ERROR'],
+    });
+    const client = new SubStoreClient(DEFAULT_SETTINGS, async () => { throw transportError; });
+    await assert.rejects(client.getSub(), error => {
+      assert.equal(error.code, 'local_transport_not_ready');
+      assert.equal(error.message, 'local_transport_not_ready');
+      assert.equal(error.cleanupFailed, cleanupFailed === true ? true : undefined);
+      assert.equal(error.cleanupErrors, undefined);
+      return true;
+    });
+  }
+});
 test('canonical hashes ignore property order while preserving array order', async () => {
   assert.equal(canonical({ a: 1, b: [2, 3] }), canonical({ b: [2, 3], a: 1 }));
   assert.equal(await sha256({ a: 1, b: 2 }), await sha256({ b: 2, a: 1 }));

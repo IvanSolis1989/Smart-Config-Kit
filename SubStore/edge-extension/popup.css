@@ -12,4 +12,5 @@ details{border-top:1px solid #dee5ee;margin-top:14px;padding-top:11px}summary{cu
 .diagnostic{border-left:2px solid #b6cbe2;padding-left:7px}#pageTime:empty{display:none}#time{display:block;margin-top:6px}
 .automatic{font-size:12px;line-height:1.6;margin:8px 0;color:#426181}.intro{font-weight:600;color:#24558a}
 .identity{font-size:12px;line-height:1.6;margin:10px 0}.identity dt{color:#758398;margin-top:7px}.identity dd{margin:2px 0 0;overflow-wrap:anywhere}
+#trustPanel{border-color:#b9cfe8;background:#f0f6fd}#trustTarget{overflow-wrap:anywhere}#untrust{color:#a53c2c}
 [hidden]{display:none!important}

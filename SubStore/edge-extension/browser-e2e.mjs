@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { buildEntries } from './build.mjs';
 
 const extensionDirectory = path.dirname(fileURLToPath(import.meta.url));
-const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'local-fetch.mjs',
+const RUNTIME_FILES = ['manifest.json', 'background.js', 'core.mjs', 'auto-match.mjs', 'site-access.mjs', 'local-fetch.mjs',
   'local-transport.js', 'page-main.bundle.js', 'page-bridge.bundle.js', 'popup.html', 'popup.js', 'popup.css',
   'README.md', 'CHANGELOG.md', 'build.mjs', 'extractors.js', 'page-hook.js', 'bridge.js'];
 const CASE_TIMEOUT_MS = 8000;
@@ -26,9 +26,9 @@ function check(condition, code) { if (!condition) { const error = new Error(code
 function withoutURL(sub) { const copy = { ...sub }; delete copy.url; return copy; }
 function safeCode(error) { return /^[a-z0-9_]+$/.test(error?.code || '') ? error.code : 'unexpected_error'; }
 function escapeHTML(value) { return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]); }
-async function within(promise, code) {
+async function within(promise, code, timeout = CASE_TIMEOUT_MS) {
   let timer;
-  try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => { const error = new Error(code); error.code = code; reject(error); }, CASE_TIMEOUT_MS); })]); }
+  try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => { const error = new Error(code); error.code = code; reject(error); }, timeout); })]); }
   finally { clearTimeout(timer); }
 }
 
@@ -57,6 +57,7 @@ function fixtures() {
       old: 'https://peiqian-old-cdn.example.com/subscribe?token=OLD-PEIQIAN-FIXTURE', candidate: 'https://peiqian-new-cdn.example.com/subscribe?token=NEW-PEIQIAN-FIXTURE', expectedMatchMethod: 'unique_name_new_origin' },
     { id: 'relative_anchor', label: 'Relative subscription anchor', origin: 'https://relative-panel.example.com', brand: 'Relative fixture', name: 'Relative fixture', mode: 'relative',
       old: 'https://relative-panel.example.com/subscribe?token=OLD-RELATIVE-FIXTURE', candidate: 'https://relative-panel.example.com/subscribe?token=NEW-RELATIVE-FIXTURE' },
+    { id: 'ipv6_panel', label: 'Native IPv6 registration and DOM capture', origin: 'https://[2001:db8::99]:8443', brand: 'IPv6 演示机场', name: 'IPv6 fixture', mode: 'attribute' },
   ].map(fixture => ({ ...sources(fixture.id), ...fixture, expectedStatus: 'updated' }));
   const bad = [
     { id: 'catalog_ambiguous', label: 'Catalog ambiguity stops', origin: 'https://catalog-ambiguous.example.com', brand: 'Unknown account', mode: 'attribute',
@@ -80,7 +81,30 @@ function fixtures() {
       second: 'https://late_ambiguity-source.example.com/subscribe?token=SECOND-ACCOUNT-FIXTURE', lateAmbiguity: true,
       expectedStatus: 'error', expectedCode: 'candidate_ambiguous', operations: ['GET:catalog', 'GET:sub', 'POST:preview'] },
   ];
-  const cases = [...good, ...bad].map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
+  const crossResponse = [
+    ['fetch_xhr_distinct', 'fetch', 'xhr', false], ['xhr_fetch_distinct', 'xhr', 'fetch', false],
+    ['fetch_xhr_same', 'fetch', 'xhr', true], ['xhr_fetch_same', 'xhr', 'fetch', true],
+  ].map(([id, mode, lateNetwork, same]) => {
+    const urls = sources(id), origin = 'https://' + id.replaceAll('_', '-') + '.example.com';
+    return { ...urls, id, label: `${mode} then ${lateNetwork} ${same ? 'same candidate continues' : 'distinct candidates stop'}`,
+      origin, brand: id, name: id, mode, api: origin + '/api/v1/user/getSubscribe?response=one', secondAPI: origin + '/api/v1/user/getSubscribe?response=two',
+      second: same ? urls.candidate : urls.candidate.replace('NEW-', 'SECOND-'), lateNetwork, holdPreview: true,
+      expectedStatus: same ? 'updated' : 'error', ...(same ? {} : { expectedCode: 'candidate_ambiguous', operations: ['GET:catalog', 'GET:sub', 'POST:preview'] }) };
+  });
+  const leaving = ['blank', 'frontend', 'unobserved'].map(destination => {
+    const id = 'leave_' + destination;
+    return { ...sources(id), id, label: 'Held preview leaves for ' + destination, origin: 'https://leave-' + destination + '.example.com',
+      brand: id, name: id, mode: 'attribute', holdPreview: true, navigation: destination, expectedStatus: null,
+      operations: ['GET:catalog', 'GET:sub', 'POST:preview'] };
+  });
+  const untrusted = { id: 'untrusted_brand', label: 'Broad browser grant cannot trust a spoofed brand', origin: 'https://untrusted-spoof.example.com',
+    brand: 'Kitty Network', candidate: 'https://kitty-new-cdn.example.com/new-subscribe?token=FORGED-UNTRUSTED-FIXTURE', mode: 'attribute',
+    untrusted: true, expectedStatus: null, operations: [] };
+  const offline = { ...sources('offline_relay'), id: 'offline_relay', label: 'Offline relay retries leave no owned tabs',
+    origin: 'https://offline-relay.example.com', brand: 'Offline fixture', name: 'Offline fixture', mode: 'attribute', offlineRelay: true,
+    expectedStatus: 'error', expectedCode: 'local_transport_not_ready', operations: [], timeout: 20000 };
+  const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, offline]
+    .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
   const catalog = cases.filter(fixture => fixture.name).map(fixture => subscription(fixture.name, fixture.old));
   const base = catalog.find(sub => sub.name === 'SSONE');
   catalog.push({ ...clone(base), name: 'SSONE-copy5806' }, { ...clone(base), name: 'SSONE-copy9268' });
@@ -165,7 +189,7 @@ async function mockServices(cases, catalog) {
           check(body.url === fixture.candidate + PREVIEW_FRAGMENT, 'preview_fragment_failed');
           const originalFields = { ...body }; delete originalFields.url; delete originalFields.noCache; delete originalFields.ignoreFailedRemoteSub;
           check(equal(originalFields, withoutURL(before)), 'preview_process_preservation_failed');
-          if (fixture.lateAmbiguity) await new Promise(resolve => state.previewGates.set(body.name, resolve));
+          if (fixture.lateAmbiguity || fixture.holdPreview) await new Promise(resolve => state.previewGates.set(body.name, resolve));
           const nodes = fixture.loopback ? [
             { ...NODES[0], server: '0:0:0:0:0:0:0:1' }, { ...NODES[1], server: '::ffff:127.0.0.1' },
             { ...NODES[0], server: 'localhost.' },
@@ -196,6 +220,7 @@ async function mockServices(cases, catalog) {
 }
 
 async function closeServer(server) {
+  if (!server.listening) return;
   server.closeIdleConnections?.();
   server.closeAllConnections?.();
   await new Promise(resolve => server.close(resolve));
@@ -210,21 +235,50 @@ async function poll(checkValue, timeout = CASE_TIMEOUT_MS) {
 async function main() {
   let context, services, profileDirectory, temporaryRoot, worker;
   let label = 'bootstrap', passed = 0;
+  const report = { status: 'running', cases: [] };
   try {
-    temporaryRoot = await fs.realpath(os.tmpdir());
-    buildEntries(extensionDirectory, { check: true });
+    temporaryRoot = await fs.realpath(process.env.SCKI_E2E_ARTIFACT_DIRECTORY || os.tmpdir());
     const moduleName = process.env.PLAYWRIGHT_MODULE_PATH || 'playwright';
     const { chromium } = createRequire(import.meta.url)(moduleName);
     const executablePath = process.env.BROWSER_EXECUTABLE || (process.platform === 'win32' ? 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe' : undefined);
     const { cases, catalog } = fixtures();
+    const executionCases = process.env.SCKI_E2E_CASE_ID ? cases.filter(fixture => fixture.id === process.env.SCKI_E2E_CASE_ID) : cases;
+    check(executionCases.length > 0, 'fixture_case_not_found');
+    report.total = executionCases.length;
     services = await mockServices(cases, catalog);
     profileDirectory = await fs.mkdtemp(path.join(temporaryRoot, 'scki-browser-e2e-'));
+    if (process.env.SCKI_E2E_KEEP_ARTIFACTS === '1') console.log('Private fixture artifacts: ' + profileDirectory);
     const runtimeDirectory = path.join(profileDirectory, 'extension-under-test');
     await fs.mkdir(runtimeDirectory);
     await Promise.all(RUNTIME_FILES.map(file => fs.copyFile(path.join(extensionDirectory, file), path.join(runtimeDirectory, file))));
-    // Only this disposable copy exposes the read-only completion barrier in the
-    // worker realm. Production has no global probe or added runtime message.
-    await fs.appendFile(path.join(runtimeDirectory, 'background.js'), '\n// Private acceptance completion probe.\nglobalThis.__fixtureWhenIdle = whenIdle;\n');
+    // Build only the disposable runtime, never the checked-out source bundles.
+    buildEntries(runtimeDirectory);
+    const manifestPath = path.join(runtimeDirectory, 'manifest.json');
+    const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+    check(manifest.permissions.includes('scripting'), 'fixture_manifest_scripting_missing');
+    check(manifest.content_scripts.every(script => script.js.includes('local-transport.js')), 'external_static_scripts_present');
+    // Browser capability is deliberately wider than website consent. This copy
+    // must prove an untrusted page remains harmless despite the broad grant.
+    manifest.host_permissions = ['http://*/*', 'https://*/*'];
+    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+    // Fixture probes exist only in this private copy, never in production.
+    await fs.appendFile(path.join(runtimeDirectory, 'background.js'), `
+// Private acceptance probes, with no URLs/tokens retained from messages.
+globalThis.__fixtureWhenIdle = whenIdle;
+globalThis.__fixtureRefreshAccess = () => siteAccess.refresh();
+globalThis.__fixtureEvents = {};
+globalThis.__fixtureTabLifecycle = { created: 0, removed: 0 };
+chrome.tabs.onCreated.addListener(() => { globalThis.__fixtureTabLifecycle.created += 1; });
+chrome.tabs.onRemoved.addListener(() => { globalThis.__fixtureTabLifecycle.removed += 1; });
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (!['PAGE_CONTEXT','OBSERVED_SUBSCRIPTION','OBSERVATION_AMBIGUOUS','DOCUMENT_RETIRED'].includes(message?.type)) return;
+  try {
+    const origin = new URL(sender.url).origin;
+    const counts = globalThis.__fixtureEvents[origin] ||= {};
+    counts[message.type] = (counts[message.type] || 0) + 1;
+  } catch {}
+});
+`);
     context = await chromium.launchPersistentContext(profileDirectory, { executablePath, ...(executablePath ? {} : { channel: 'chromium' }), headless: true,
       args: ['--disable-extensions-except=' + runtimeDirectory, '--load-extension=' + runtimeDirectory,
         '--no-first-run', '--no-default-browser-check', '--no-proxy-server', '--disable-background-networking', '--disable-component-update', '--disable-sync'] });
@@ -232,17 +286,25 @@ async function main() {
       await context.waitForEvent('serviceworker', { predicate: item => item.url().endsWith('/background.js'), timeout: 10000 });
     const initialized = await poll(() => worker.evaluate(async () => Boolean((await chrome.storage.local.get('settings')).settings)));
     check(initialized, 'initialization_timeout');
-    await worker.evaluate(async settings => {
-      await chrome.storage.local.clear(); await chrome.storage.session.clear(); await chrome.storage.local.set({ settings });
-    }, { enabled: true, backendUrl: services.backend.origin, frontendUrl: services.frontend.origin });
+    await worker.evaluate(async ({ settings, origins }) => {
+      await chrome.storage.local.clear(); await chrome.storage.session.clear();
+      await chrome.storage.local.set({ settings, trustedOrigins: { version: 1, origins } });
+      await globalThis.__fixtureRefreshAccess();
+      await globalThis.__fixtureWhenIdle();
+    }, { settings: { enabled: true, backendUrl: services.backend.origin, frontendUrl: services.frontend.origin },
+      origins: [...new Set(cases.filter(fixture => !fixture.untrusted).map(fixture => fixture.origin))] });
 
     const documents = new Map(cases.map(fixture => [fixture.pageURL, fixture]));
     const apis = new Map(cases.filter(fixture => fixture.api).map(fixture => [fixture.api, fixture]));
+    for (const fixture of cases.filter(fixture => fixture.secondAPI)) apis.set(fixture.secondAPI, { ...fixture, candidate: fixture.second });
     let blocked = 0;
     await context.route(/^https?:\/\//, async route => {
       const request = route.request();
       const url = new URL(request.url());
       if ([services.backend.origin, services.frontend.origin].includes(url.origin)) { await route.continue(); return; }
+      if (url.href === 'https://unobserved-destination.example.com/__fixture__/') {
+        await route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: '<!doctype html><title>Unobserved destination</title>' }); return;
+      }
       const fixture = documents.get(url.href);
       if (fixture && request.resourceType() === 'document') {
         await route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: pageHTML(fixture) }); return;
@@ -254,13 +316,13 @@ async function main() {
         else await route.fulfill({ status: 200, contentType: 'application/json', headers, body: JSON.stringify({ data: { subscribe_url: api.candidate } }) });
         return;
       }
-      if (url.pathname === '/favicon.ico' && cases.some(item => item.origin === url.origin)) {
+      if (url.pathname === '/favicon.ico' && (cases.some(item => item.origin === url.origin) || url.origin === 'https://unobserved-destination.example.com')) {
         await route.fulfill({ status: 204 }); return;
       }
       blocked += 1; await route.abort('blockedbyclient');
     });
 
-    for (const fixture of cases) {
+    for (const fixture of executionCases) {
       label = fixture.label;
       const originals = new Map([...services.state.subs].map(([name, sub]) => [name, clone(sub)]));
       const callsBefore = services.state.operations.length;
@@ -268,35 +330,78 @@ async function main() {
       const page = await context.newPage();
       try {
         const startedAt = Date.now();
-        if (fixture.lateAmbiguity) await worker.evaluate(origin => {
-          globalThis.__fixtureAmbiguitySeen = false;
-          chrome.runtime.onMessage.addListener((message, sender) => {
-            if (message.type === 'OBSERVATION_AMBIGUOUS' && new URL(sender.url).origin === origin) globalThis.__fixtureAmbiguitySeen = true;
+        const caseTimeout = fixture.timeout || CASE_TIMEOUT_MS;
+        let offlineTabsBefore;
+        let relayRetries;
+        if (fixture.offlineRelay) {
+          offlineTabsBefore = await worker.evaluate(async () => {
+            const saved = (await chrome.storage.session.get('transportTab')).transportTab;
+            if (saved && Number.isInteger(saved.id)) await chrome.tabs.remove(saved.id);
+            await chrome.storage.session.set({ transportTab: null });
+            return { ids: (await chrome.tabs.query({})).map(tab => tab.id).sort((left, right) => left - right),
+              lifecycle: { ...globalThis.__fixtureTabLifecycle } };
           });
-        }, fixture.origin);
-        await page.goto(fixture.pageURL, { waitUntil: 'domcontentloaded', timeout: CASE_TIMEOUT_MS });
-        if (fixture.lateAmbiguity) {
+          await closeServer(services.frontend.server);
+        }
+        if (fixture.untrusted) {
+          const access = await worker.evaluate(async origin => ({
+            capable: await chrome.permissions.contains({ origins: [new URL(origin).protocol + '//' + new URL(origin).hostname + '/*'] }),
+            trusted: (await chrome.storage.local.get('trustedOrigins')).trustedOrigins.origins.includes(origin),
+          }), fixture.origin);
+          check(access.capable === true && access.trusted === false, 'untrusted_capability_setup_failed');
+        }
+        await page.goto(fixture.pageURL, { waitUntil: 'domcontentloaded', timeout: caseTimeout });
+        if (fixture.lateAmbiguity || fixture.holdPreview) {
           check(await poll(() => services.state.previewGates.has(fixture.name)), 'held_preview_not_started');
-          await page.evaluate(second => {
-            const control = document.createElement('button'); control.dataset.subscribeUrl = second;
-            control.textContent = '订阅二'; document.body.append(control);
-          }, fixture.second);
-          check(await poll(() => worker.evaluate(() => globalThis.__fixtureAmbiguitySeen)), 'late_ambiguity_not_delivered');
+          const eventType = fixture.expectedCode === 'candidate_ambiguous' ? 'OBSERVATION_AMBIGUOUS' : 'OBSERVED_SUBSCRIPTION';
+          const countBefore = await worker.evaluate(({ origin, type }) => globalThis.__fixtureEvents[origin]?.[type] || 0,
+            { origin: fixture.origin, type: eventType });
+          if (fixture.lateAmbiguity) await page.evaluate(second => {
+              const control = document.createElement('button'); control.dataset.subscribeUrl = second;
+              control.textContent = '订阅二'; document.body.append(control);
+            }, fixture.second);
+          if (fixture.lateNetwork) await page.evaluate(async ({ method, url }) => {
+            if (method === 'fetch') { await fetch(url).then(response => response.json()); return; }
+            await new Promise((resolve, reject) => {
+              const request = new XMLHttpRequest(); request.open('GET', url); request.responseType = 'json';
+              request.onload = resolve; request.onerror = () => reject(new Error('fixture_xhr_failed')); request.send();
+            });
+          }, { method: fixture.lateNetwork, url: fixture.secondAPI });
+          if (fixture.navigation) {
+            const destination = fixture.navigation === 'blank' ? 'about:blank' : fixture.navigation === 'frontend' ? services.frontend.origin :
+              'https://unobserved-destination.example.com/__fixture__/';
+            await page.goto(destination, { waitUntil: 'domcontentloaded', timeout: caseTimeout });
+          } else {
+            check(await poll(() => worker.evaluate(({ origin, type, before }) => (globalThis.__fixtureEvents[origin]?.[type] || 0) > before,
+              { origin: fixture.origin, type: eventType, before: countBefore })), 'late_observation_not_delivered');
+          }
           services.state.previewGates.get(fixture.name)();
+          services.state.previewGates.delete(fixture.name);
+          await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'idle_barrier_timeout', caseTimeout);
+        }
+        if (fixture.untrusted) {
+          await page.evaluate(url => window.postMessage({ source: 'scki-substore-link-v2', kind: 'subscription', url }, location.origin), fixture.candidate);
+          await delay(3500);
           await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'idle_barrier_timeout');
         }
-        const result = await poll(() => worker.evaluate(async ({origin, expectedCode, lateAmbiguity}) => {
+        const readResult = () => worker.evaluate(async ({origin, expectedCode, lateAmbiguity, lateNetwork}) => {
           const result = (await chrome.storage.local.get('sites')).sites?.[origin]?.lastResult || null;
-          return lateAmbiguity && result?.code !== expectedCode ? null : result;
-        }, fixture),
-          Math.max(100, CASE_TIMEOUT_MS - (Date.now() - startedAt)));
+          return (lateAmbiguity || lateNetwork) && expectedCode && result?.code !== expectedCode ? null : result;
+        }, fixture);
+        const result = fixture.expectedStatus === null ? await readResult() : await poll(readResult,
+          Math.max(100, caseTimeout - (Date.now() - startedAt)));
         check(!services.state.failure, services.state.failure || 'mock_contract_failed');
-        check(result, 'automatic_result_timeout');
-        check(result.status === fixture.expectedStatus, 'result_status_failed');
+        if (fixture.expectedStatus === null) check(result === null, 'retired_or_untrusted_result_recorded');
+        else {
+          check(result, 'automatic_result_timeout');
+          check(result.status === fixture.expectedStatus, 'result_status_failed');
+        }
         if (fixture.expectedCode) check(result.code === fixture.expectedCode, 'result_error_code_failed');
         check(!/token=|OLD-.+-FIXTURE|NEW-.+-FIXTURE|fixture-keep-script/.test(JSON.stringify(result)), 'result_privacy_failed');
         const operations = services.state.operations.slice(callsBefore);
-        if (fixture.lateAmbiguity) check(!operations.some(operation => operation.method === 'PATCH'), 'late_ambiguity_wrote_subscription');
+        if (fixture.lateAmbiguity || fixture.navigation || fixture.untrusted || fixture.expectedCode === 'candidate_ambiguous') {
+          check(!operations.some(operation => operation.method === 'PATCH'), 'late_ambiguity_wrote_subscription');
+        }
         const expected = fixture.operations || ['GET:catalog', 'GET:sub', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'];
         check(equal(operations.map(operation => operation.method + ':' + operation.kind), expected), 'request_sequence_failed');
         for (const [name, before] of originals) {
@@ -315,15 +420,48 @@ async function main() {
           const backupsAfter = await worker.evaluate(async () => (await chrome.storage.local.get('backups')).backups?.length || 0);
           check(backupsAfter === backupsBefore, 'error_backup_changed');
         }
+        if (fixture.navigation) {
+          const pending = await worker.evaluate(async origin => Boolean((await chrome.storage.session.get('pendingByOrigin')).pendingByOrigin?.[origin]), fixture.origin);
+          check(!pending, 'retired_document_pending_remained');
+        }
+        if (fixture.untrusted) check(!operations.length, 'untrusted_page_read_catalog');
+        if (fixture.offlineRelay) {
+          await within(worker.evaluate(() => globalThis.__fixtureWhenIdle()), 'offline_idle_timeout', caseTimeout);
+          const clean = await poll(() => worker.evaluate(async before => {
+            const after = (await chrome.tabs.query({})).map(tab => tab.id).sort((left, right) => left - right);
+            const saved = (await chrome.storage.session.get('transportTab')).transportTab;
+            const created = globalThis.__fixtureTabLifecycle.created - before.lifecycle.created;
+            const removed = globalThis.__fixtureTabLifecycle.removed - before.lifecycle.removed;
+            return JSON.stringify(after) === JSON.stringify(before.ids) && !saved && created >= 2 && created === removed ? { created, removed } : null;
+          }, offlineTabsBefore));
+          check(clean, 'offline_relay_owned_tab_leaked');
+          relayRetries = clean.created;
+        }
         check(services.state.corsRejected === 0, 'frontend_origin_required');
         passed += 1;
-        console.log(`${label}: PASS count=${operations.length}`);
+        report.cases.push({ id: fixture.id, label, status: 'passed', operations: operations.length, ...(relayRetries ? { relayAttempts: relayRetries, ownedTabsLeaked: 0 } : {}) });
+        console.log(`${label}: PASS count=${operations.length}${relayRetries ? ' attempts=' + relayRetries : ''}`);
+      } catch (error) {
+        const probe = await worker.evaluate(async pageURL => {
+          const tab = (await chrome.tabs.query({})).find(item => item.url === pageURL);
+          if (!tab) return { unavailable: true };
+          const result = await chrome.scripting.executeScript({ target: { tabId: tab.id, frameIds: [0] }, world: 'ISOLATED', func: () => ({
+            secure: globalThis.isSecureContext, randomUUID: typeof crypto?.randomUUID === 'function',
+            helper: Boolean(globalThis.SCKISubStoreExtractors), bridge: Object.hasOwn(window, '__sckiSubstoreBridgeV2'),
+          }) });
+          return result[0]?.result || { unavailable: true };
+        }, page.url()).catch(() => ({ unavailable: true }));
+        report.pageProbe = probe;
+        console.error('Safe fixture page probe: ' + JSON.stringify(probe));
+        throw error;
       } finally { await page.close(); }
     }
     check(blocked === 0, 'unexpected_network_blocked');
     check(!context.pages().some(page => /chrome-extension:\/\/[^/]+\/popup\.html/.test(page.url())), 'unexpected_popup');
+    report.status = 'passed';
     console.log(`Browser automatic flow: PASS count=${passed}`);
   } catch (error) {
+    report.status = 'failed'; report.failedCase = label; report.code = safeCode(error);
     console.error(`${label}: FAIL status=${safeCode(error)} count=${passed}`);
     if (worker) {
       const diagnosis = await worker.evaluate(async () => {
@@ -337,10 +475,12 @@ async function main() {
     }
     process.exitCode = 1;
   } finally {
+    report.passed = passed;
+    if (profileDirectory) await fs.writeFile(path.join(profileDirectory, 'report.json'), JSON.stringify(report, null, 2) + '\n').catch(() => {});
     for (const release of services?.state.previewGates.values() || []) release();
     await context?.close().catch(() => {});
     if (services) await Promise.all([closeServer(services.frontend.server), closeServer(services.backend.server)]);
-    if (profileDirectory) {
+    if (profileDirectory && process.env.SCKI_E2E_KEEP_ARTIFACTS !== '1') {
       // Delete only the exact private directory created by this invocation.
       const resolved = await fs.realpath(profileDirectory).catch(() => null);
       if (resolved && path.dirname(resolved) === temporaryRoot && path.basename(resolved).startsWith('scki-browser-e2e-')) {

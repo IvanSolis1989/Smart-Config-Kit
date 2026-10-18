@@ -20,16 +20,25 @@ class Element {
   emit(type) { return this.listeners.get(type)?.({ target: this }); }
 }
 
-async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites, saveError } = {}) {
+async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites, saveError,
+  trustedOrigins = [ORIGIN], permissionGranted = true, tabId = 17, trustError } = {}) {
   const html = await readFile(new URL('./popup.html', import.meta.url), 'utf8');
   const elements = new Map([...html.matchAll(/id="([^"]+)"/g)].map(match => [match[1], new Element()]));
   const document = { body: new Element(), getElementById: id => elements.get(id), createElement: () => new Element() };
   const state = { settings: clone(SETTINGS), extensionVersion: VERSION,
+    ...(trustedOrigins === null ? {} : { trustedOrigins: clone(trustedOrigins) }),
     sites: sites || { [ORIGIN]: { origin: ORIGIN, siteName: '自动识别机场', subscriptionName: '已有订阅A', hasPending: true, backupCount: 0 } } };
-  const messages = [], storageListeners = [];
+  const messages = [], storageListeners = [], permissionRequests = [], permissionEvents = [];
+  let userGesture = false;
   const chrome = {
+    permissions: { request: request => {
+      permissionRequests.push(clone(request));
+      permissionEvents.push({ userGesture, messages: messages.length });
+      return Promise.resolve(permissionGranted);
+    } },
     storage: { onChanged: { addListener: listener => storageListeners.push(listener) } },
-    tabs: { query: async query => { assert.deepEqual(query, { active: true, currentWindow: true }); return [{ url }]; } },
+    tabs: { query: async query => { assert.deepEqual(query, { active: true, currentWindow: true }); return [{ url, id: tabId }]; },
+      reload: () => { throw new Error('Popup must not reload tabs'); } },
     runtime: {
       getManifest: () => ({ version: VERSION }),
       sendMessage: async message => {
@@ -39,6 +48,17 @@ async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites,
           if (saveError) return { status: 'error', code: saveError };
           state.settings = clone(message.settings);
           return { settings: clone(state.settings) };
+        }
+        if (message.type === 'TRUST_CURRENT_SITE') {
+          if (trustError) return { status: 'error', code: trustError };
+          assert.equal(message.origin, new URL(url).origin);
+          assert.equal(message.tabId, tabId);
+          state.trustedOrigins = [...new Set([...(state.trustedOrigins || []), message.origin])];
+          return { trusted: true };
+        }
+        if (message.type === 'UNTRUST_SITE') {
+          state.trustedOrigins = (state.trustedOrigins || []).filter(origin => origin !== message.origin);
+          return { trusted: false };
         }
         if (message.type === 'SYNC_PENDING') {
           const result = { status: message.dryRun ? 'dry_run' : 'unchanged', at: '2026-10-18T05:00:00Z',
@@ -58,11 +78,15 @@ async function fixture({ url = ORIGIN + '/dashboard?token=never-display', sites,
   const popup = createPopup(document, chrome);
   await popup.load();
   const $ = id => elements.get(id);
-  return { $, document, popup, state, chrome, messages,
+  return { $, document, popup, state, chrome, messages, permissionRequests, permissionEvents,
     async changed(changes, area = 'local') { await Promise.all(storageListeners.map(listener => listener(changes, area))); },
     input(id, value) { if (typeof value === 'boolean') $(id).checked = value; else $(id).value = value; return $(id).emit('input'); },
     select(origin) { $('site').value = origin; return $('site').emit('change'); },
-    click(id) { assert.equal($(id).disabled, false, `${id} must be enabled`); return $(id).emit('click'); },
+    click(id) {
+      assert.equal($(id).disabled, false, `${id} must be enabled`);
+      userGesture = true;
+      try { return $(id).emit('click'); } finally { userGesture = false; }
+    },
   };
 }
 
@@ -87,8 +111,162 @@ test('current website shows automatically recognized identity and never saves or
   assert.equal(f.$('automatic').textContent, '自动同步：已开启');
   assert.ok(!f.$('currentSite').textContent.includes('never-display'));
   assert.deepEqual(f.messages, [{ type: 'GET_STATUS' }]);
-  assert.ok(!source.includes('permissions.request'));
+  assert.equal(f.permissionRequests.length, 0);
   assert.ok(!source.includes('profiles.mjs'));
+});
+
+test('first trust requests only the current host within the click before messaging and refreshes trusted status', async () => {
+  const f = await fixture({ trustedOrigins: [] });
+  assert.ok(f.$('trust'), 'first-time trust button is present');
+  assert.match(f.$('trustStatus').textContent, /首次|尚未/);
+  assert.equal(f.$('sync').disabled, true);
+  f.messages.length = 0;
+  const action = f.click('trust');
+  assert.deepEqual(f.permissionRequests, [{ origins: ['https://airport.example.com/*'] }]);
+  assert.deepEqual(f.permissionEvents, [{ userGesture: true, messages: 0 }]);
+  assert.equal(f.messages.length, 0, 'no asynchronous work precedes the browser permission request');
+  await action;
+  assert.deepEqual(f.messages.find(message => message.type === 'TRUST_CURRENT_SITE'),
+    { type: 'TRUST_CURRENT_SITE', origin: ORIGIN, tabId: 17 });
+  assert.ok(f.state.trustedOrigins.includes(ORIGIN));
+  assert.equal(f.$('sync').disabled, false);
+  assert.match(f.$('trustStatus').textContent, /已信任|已允许/);
+});
+
+test('denying the browser permission never sends TRUST and leaves automatic actions blocked', async () => {
+  const f = await fixture({ trustedOrigins: [], permissionGranted: false });
+  await f.click('trust');
+  assert.equal(f.messages.filter(message => message.type === 'TRUST_CURRENT_SITE').length, 0);
+  assert.deepEqual(f.state.trustedOrigins, []);
+  assert.match(f.$('notice').textContent, /未获得网站许可/);
+  for (const id of ['sync', 'check', 'restore']) assert.equal(f.$(id).disabled, true);
+});
+
+test('six legacy cached sites and observations never imply trust or current automatic success', async () => {
+  const sites = Object.fromEntries([ORIGIN, ...Array.from({ length: 5 }, (_, index) => `https://legacy-${index}.example.com`)]
+    .map(origin => [origin, { origin, siteName: '旧记录', hasPending: true, backupCount: 1,
+      lastResult: { status: 'unchanged', at: '2026-10-18T05:00:00Z', extensionVersion: VERSION } }]));
+  const f = await fixture({ sites, trustedOrigins: null });
+  assert.equal(f.$('trust').disabled, false);
+  assert.match(f.$('automatic').textContent, /等待首次许可/);
+  assert.match(f.$('status').textContent, /尚未获准/);
+  for (const id of ['sync', 'check', 'restore']) assert.equal(f.$(id).disabled, true);
+  assert.equal(f.permissionRequests.length, 0);
+  assert.deepEqual(f.messages, [{ type: 'GET_STATUS' }]);
+});
+
+test('advanced untrust removes only the selected trusted record and does not grant access to history', async () => {
+  const other = 'https://history.example.net';
+  const f = await fixture({ trustedOrigins: [ORIGIN, other], sites: {
+    [ORIGIN]: { origin: ORIGIN, hasPending: true, backupCount: 1 },
+    [other]: { origin: other, hasPending: true, backupCount: 1 },
+  } });
+  assert.ok(f.$('untrust'), 'revocation is available in advanced settings');
+  f.select(other);
+  for (const id of ['sync', 'check', 'restore']) assert.equal(f.$(id).disabled, true, 'history cannot start current-tab operations');
+  await f.click('untrust');
+  assert.deepEqual(f.messages.find(message => message.type === 'UNTRUST_SITE'), { type: 'UNTRUST_SITE', origin: other });
+  assert.deepEqual(f.state.trustedOrigins, [ORIGIN]);
+  assert.equal(f.$('untrust').disabled, true);
+  assert.equal(f.permissionRequests.length, 0);
+});
+
+test('external trust removal immediately refreshes allowed state from GET_STATUS', async () => {
+  const f = await fixture();
+  assert.equal(f.$('sync').disabled, false);
+  f.state.trustedOrigins = [];
+  await f.changed({ trustedOrigins: { newValue: ['https://untrusted-storage-value.example.com'] } });
+  assert.equal(f.$('trust').hidden, false);
+  assert.match(f.$('status').textContent, /尚未获准/);
+  for (const id of ['sync', 'check', 'restore', 'untrust']) assert.equal(f.$(id).disabled, true);
+});
+
+test('a trust revocation during an in-flight refresh cannot be overwritten by its older snapshot', async () => {
+  const f = await fixture();
+  const original = f.chrome.runtime.sendMessage, oldSnapshot = clone(f.state);
+  let firstRead = true, releaseRead;
+  f.chrome.runtime.sendMessage = message => {
+    if (message.type === 'GET_STATUS' && firstRead) {
+      firstRead = false;
+      return new Promise(resolve => { releaseRead = () => resolve(oldSnapshot); });
+    }
+    return original(message);
+  };
+  const first = f.changed({ sites: { newValue: {} } });
+  assert.equal(typeof releaseRead, 'function');
+  f.state.trustedOrigins = [];
+  await f.changed({ trustedOrigins: { newValue: [] } });
+  releaseRead();
+  await first;
+  assert.equal(f.$('trust').hidden, false);
+  assert.equal(f.$('sync').disabled, true);
+});
+
+test('an unavailable authority refresh leaves manual operations blocked until trust can be confirmed', async () => {
+  const f = await fixture();
+  f.chrome.runtime.sendMessage = () => Promise.reject(new Error('offline'));
+  await f.changed({ trustedOrigins: { newValue: [] } });
+  for (const id of ['sync', 'check', 'restore', 'trust', 'untrust']) assert.equal(f.$(id).disabled, true);
+  assert.match(f.$('trustStatus').textContent, /无法确认/);
+});
+
+test('permissions use canonical HTTP, IPv4 and IPv6 host patterns while trust keeps the exact origin port', async () => {
+  for (const [url, origin, pattern] of [
+    ['https://AIRPORT.example.com:8443/dashboard', 'https://airport.example.com:8443', 'https://airport.example.com/*'],
+    ['http://192.0.2.7:8080/dashboard', 'http://192.0.2.7:8080', 'http://192.0.2.7/*'],
+    ['http://[2001:0DB8:0:0:0:0:0:1]:8080/dashboard', 'http://[2001:db8::1]:8080', 'http://[2001:db8::1]/*'],
+  ]) {
+    const f = await fixture({ url, trustedOrigins: [] });
+    await f.click('trust');
+    assert.deepEqual(f.permissionRequests, [{ origins: [pattern] }]);
+    assert.deepEqual(f.messages.find(message => message.type === 'TRUST_CURRENT_SITE'), { type: 'TRUST_CURRENT_SITE', origin, tabId: 17 });
+    assert.equal(f.permissionEvents[0].userGesture, true);
+  }
+});
+
+test('changing the history selection never changes the browser-current trust target', async () => {
+  const other = 'https://history.example.net';
+  const f = await fixture({ trustedOrigins: [], sites: {
+    [ORIGIN]: { origin: ORIGIN, hasPending: true, backupCount: 0 },
+    [other]: { origin: other, hasPending: true, backupCount: 1 },
+  } });
+  f.select(other);
+  assert.match(f.$('trustTarget').textContent, /airport\.example\.com/);
+  await f.click('trust');
+  assert.deepEqual(f.permissionRequests, [{ origins: ['https://airport.example.com/*'] }]);
+  assert.deepEqual(f.state.trustedOrigins, [ORIGIN]);
+  assert.equal(f.$('sync').disabled, true, 'history remains blocked even after the active website was trusted');
+});
+
+test('invalid current tabs and configured local frontend/backend pages cannot request trust', async () => {
+  for (const options of [
+    { url: 'edge://extensions/' }, { url: SETTINGS.frontendUrl + '/' }, { url: SETTINGS.backendUrl + '/api/subs' },
+    { url: 'https://user:password@example.com/' }, { tabId: null }, { tabId: -1 }, { tabId: '17' },
+  ]) {
+    const f = await fixture({ ...options, trustedOrigins: [] });
+    assert.equal(f.$('trust').disabled, true);
+    await f.$('trust').emit('click');
+    assert.equal(f.permissionRequests.length, 0);
+    assert.equal(f.messages.filter(message => message.type === 'TRUST_CURRENT_SITE').length, 0);
+    for (const id of ['sync', 'check', 'restore']) assert.equal(f.$(id).disabled, true);
+  }
+});
+
+test('permission rejection and changed-document trust errors never enable the website or leak error text', async () => {
+  const rejected = await fixture({ trustedOrigins: [] });
+  rejected.chrome.permissions.request = () => Promise.reject(new Error('https://secret.example/token=private'));
+  await rejected.click('trust');
+  assert.match(rejected.$('notice').textContent, /未获得网站许可/);
+  assert.equal(rejected.messages.filter(message => message.type === 'TRUST_CURRENT_SITE').length, 0);
+  for (const code of ['site_not_trusted', 'site_permission_required', 'site_access_changed', 'document_changed', 'site_trust_limit']) {
+    const f = await fixture({ trustedOrigins: [], trustError: code });
+    await f.click('trust');
+    assert.deepEqual(f.state.trustedOrigins, []);
+    assert.equal(f.$('trust').hidden, false);
+    assert.equal(f.$('sync').disabled, true);
+    assert.ok(!f.$('notice').textContent.includes('https://'));
+    assert.ok(!f.$('notice').textContent.includes(code));
+  }
 });
 
 test('site choices come from observed records and accept an arbitrary new HTTP IP current site', async () => {
@@ -139,6 +317,7 @@ test('switching historical sites preserves global drafts and failed save retains
   assert.equal(f.state.settings.backendUrl, SETTINGS.backendUrl);
   assert.equal(f.$('backend').value, 'http://127.0.0.1:3001');
   assert.match(f.$('notice').textContent, /保存失败/);
+  f.select(ORIGIN);
   f.input('backend', SETTINGS.backendUrl);
   assert.equal(f.$('sync').disabled, false);
 });
@@ -164,6 +343,16 @@ test('restoring the last backup keeps restore disabled after busy completion', a
   f.state.sites[ORIGIN].backupCount = '1';
   await f.popup.load();
   assert.equal(f.$('restore').disabled, true, 'non-numeric backup metadata cannot enable restore');
+});
+
+test('globally disabled automatic sync also disables restore despite a trusted current site and backup', async () => {
+  const f = await fixture();
+  f.state.settings.enabled = false;
+  f.state.sites[ORIGIN].backupCount = 1;
+  await f.popup.load();
+  assert.equal(f.$('restore').disabled, true);
+  assert.equal(f.$('sync').disabled, true);
+  assert.equal(f.messages.filter(message => message.type === 'RESTORE_LATEST').length, 0);
 });
 
 test('failed status refresh after restore clears stale backup availability', async () => {
@@ -226,6 +415,31 @@ test('matching errors stay safe, with fixed text for unknown errors and no subsc
   assert.equal(f.$('subscriptionName').textContent, '等待自动匹配');
 });
 
+test('dynamic site script registration failure has a fixed actionable diagnosis', () => {
+  const result = { status: 'error', code: 'site_script_registration_failed', extensionVersion: VERSION,
+    message: 'https://secret.example/token=private', chromeError: 'raw-private-error' };
+  const view = resultView(result, SETTINGS, { extensionVersion: VERSION });
+  assert.equal(view.detail, '动态站点监听注册失败，请重新加载扩展后重试。');
+  assert.ok(!JSON.stringify(view).includes('private'));
+});
+
+test('only an explicit failed cleanup error appends fixed guidance without exposing raw cleanup exceptions', () => {
+  const base = { status: 'error', code: 'backend_unavailable', extensionVersion: VERSION };
+  const context = { extensionVersion: VERSION };
+  const original = resultView(base, SETTINGS, context).detail;
+  assert.equal(original, '无法连接本机 Sub-Store，请启动客户端并核对端口。');
+  const failed = resultView({ ...base, cleanupFailed: true,
+    cleanupErrors: ['https://secret.example/token=private', { message: 'chrome-private-exception' }] }, SETTINGS, context);
+  assert.equal(failed.detail, original + '临时本机标签页清理未完成，请人工关闭该失败标签页后重试。');
+  assert.ok(!JSON.stringify(failed).includes('private'));
+  for (const cleanupFailed of [undefined, false, 'true']) {
+    assert.equal(resultView({ ...base, cleanupFailed }, SETTINGS, context).detail, original);
+  }
+  const success = { status: 'unchanged', originalNodes: 2, processedNodes: 2, extensionVersion: VERSION };
+  assert.equal(resultView({ ...success, cleanupFailed: true }, SETTINGS, context).detail,
+    resultView(success, SETTINGS, context).detail);
+});
+
 test('storage notifications refresh through sanitized GET_STATUS while retaining global drafts', async () => {
   const f = await fixture();
   f.input('frontend', 'http://127.0.0.1:3003');
@@ -245,11 +459,12 @@ test('manual controls stay in collapsed advanced details; dynamic identity and s
   assert.match(details[0][1], /\bid="advanced"/);
   assert.ok(!/\bopen(?:\s|=|$)/.test(details[0][1]));
   const outside = html.replace(details[0][0], '');
-  for (const id of ['enabled', 'backend', 'frontend', 'save', 'sync', 'check', 'restore']) {
+  for (const id of ['enabled', 'backend', 'frontend', 'save', 'sync', 'check', 'restore', 'untrust']) {
     assert.ok(details[0][2].includes(`id="${id}"`));
     assert.ok(!outside.includes(`id="${id}"`));
   }
   for (const id of ['site', 'automatic', 'siteName', 'subscriptionName', 'status', 'pageStage']) assert.ok(outside.includes(`id="${id}"`));
+  assert.ok(outside.includes('id="trust"'), 'first-time current-site permission is visible outside advanced settings');
   assert.match(outside, /自动识别、自动同步/);
   assert.ok(!html.includes('association'));
   assert.ok(!html.includes('profile'));

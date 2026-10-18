@@ -1,4 +1,4 @@
-// Sub-Store Link Sync v1.3.2 (2026-10-18). See README.md.
+// Sub-Store Link Sync v1.4.0 (2026-10-18). See README.md.
 export const DEFAULT_SETTINGS = Object.freeze({
   enabled: true,
   backendUrl: 'http://127.0.0.1:38324',
@@ -148,7 +148,11 @@ export class SubStoreClient {
       if (error instanceof SyncError) throw error;
       if (['local_transport_invalid_settings', 'local_transport_invalid_request', 'local_transport_storage_failed',
         'local_transport_unavailable', 'local_transport_not_ready', 'local_transport_invalid_response',
-        'local_backend_request_failed'].includes(error?.code)) throw new SyncError(error.code);
+        'local_backend_request_failed'].includes(error?.code)) {
+        const safe = new SyncError(error.code);
+        if (error.cleanupFailed === true) safe.cleanupFailed = true;
+        throw safe;
+      }
       throw new SyncError(error?.name === 'AbortError' ? 'backend_timeout' : 'backend_unavailable');
     } finally { clearTimeout(timer); }
   }

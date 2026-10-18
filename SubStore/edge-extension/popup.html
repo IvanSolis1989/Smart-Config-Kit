@@ -8,9 +8,15 @@
 </head>
 <body>
   <h1>订阅链接同步</h1>
-  <p class="intro">自动识别、自动同步：打开已登录仪表盘即可，无需填写或点按钮。</p>
-  <p class="hint">在浏览器已授权的网站中识别机场名称，并自动匹配 Sub-Store 中已有的订阅。</p>
+  <p class="intro">自动识别、自动同步：首次允许此网站后，日常打开仪表盘即可。</p>
+  <p class="hint">仅在你明确允许的网站中识别机场名称，自动匹配已有订阅，无需填写名称映射。</p>
   <p id="currentSite" class="site">正在识别当前网站…</p>
+  <section id="trustPanel" aria-live="polite" aria-labelledby="trustStatus">
+    <strong id="trustStatus">正在读取网站许可…</strong>
+    <p id="trustTarget"></p>
+    <p>首次许可后，此网站日常自动识别与同步。历史识别记录不代表已获准访问。</p>
+    <button id="trust" type="button" disabled>允许此网站自动同步</button>
+  </section>
   <label for="site">当前网站与已识别记录</label>
   <select id="site" disabled></select>
   <p id="automatic" class="automatic">正在读取自动同步状态…</p>
@@ -44,6 +50,7 @@
       <button id="check" class="secondary" type="button" disabled>只验证，不写入</button>
     </div>
     <button id="restore" class="text" type="button" disabled>撤销当前网站上次替换</button>
+    <button id="untrust" class="text" type="button" disabled>撤销所选网站信任</button>
   </details>
   <p class="foot">弹窗只显示识别结果、节点数与时间，不显示订阅链接；扩展不读取密码、Cookie 或登录 Token。</p>
   <script type="module" src="popup.js"></script>

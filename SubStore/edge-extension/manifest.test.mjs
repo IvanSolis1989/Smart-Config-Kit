@@ -7,14 +7,14 @@ import {buildEntries} from './build.mjs';
 const root=new URL('.',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url),'utf8'));
 
-test('both worlds cover authorized HTTP(S) domains/IPs with disjoint generated script URLs',()=>{
- const worlds=manifest.content_scripts.filter(s=>s.js.some(file=>file.includes('.bundle.')));
- assert.equal(worlds.length,2);assert.deepEqual(worlds.map(s=>s.world).sort(),['ISOLATED','MAIN']);
- for(const entry of worlds){assert.deepEqual(entry.matches,['http://*/*','https://*/*']);assert.equal(entry.run_at,'document_start');assert.equal(entry.all_frames,false);}
- assert.deepEqual(worlds[0].js.filter(file=>worlds[1].js.includes(file)),[],'Edge deduplicates reused file URLs across worlds');
+test('fresh installation cannot inject or obtain external site access without an optional grant',()=>{
+ assert.deepEqual(manifest.content_scripts,[{
+   matches:['http://127.0.0.1/*'],js:['local-transport.js'],run_at:'document_start',all_frames:false,world:'ISOLATED',
+ }]);
  buildEntries(undefined,{check:true});
- for(const file of [manifest.background.service_worker,manifest.action.default_popup,...manifest.content_scripts.flatMap(s=>s.js)])assert.ok(fs.existsSync(new URL(file,root)),file);
- assert.deepEqual(manifest.permissions,['storage','activeTab']);assert.deepEqual(manifest.host_permissions,['http://*/*','https://*/*']);
+ for(const file of [manifest.background.service_worker,manifest.action.default_popup,'site-access.mjs','page-main.bundle.js','page-bridge.bundle.js',...manifest.content_scripts.flatMap(s=>s.js)])assert.ok(fs.existsSync(new URL(file,root)),file);
+ assert.deepEqual(manifest.permissions,['storage','activeTab','scripting']);assert.deepEqual(manifest.host_permissions,['http://127.0.0.1/*']);
+ assert.deepEqual(manifest.optional_host_permissions,['http://*/*','https://*/*']);
  assert.equal(manifest.externally_connectable,undefined);assert.equal(manifest.web_accessible_resources,undefined);
 });
 test('a single helper source feeds both entries and stale generated artifacts fail the build check',()=>{

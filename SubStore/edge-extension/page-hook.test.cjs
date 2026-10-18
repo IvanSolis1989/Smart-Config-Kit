@@ -12,9 +12,11 @@ const bridgeSource = fs.readFileSync(path.join(__dirname, 'bridge.js'), 'utf8');
 const PAGE_ORIGIN = 'https://xn--9kqz23b19z.com';
 const TARGET = 'https://apiweb.liangxin.xyz/api/v1/user/getSubscribe';
 const SOURCE = 'scki-substore-link-v2';
+const EXTENSION_ID = 'abcdefghijklmnopabcdefghijklmnop';
+const DOCUMENT_NONCE = '00112233445566778899aabbccddeeff';
 const CANDIDATE = 'https://subscription.example.com/api/v1/client/subscribe?token=PRIVATE-FIXTURE-TOKEN#udp=true';
 const CONTROL_SELECTOR = '[data-clipboard-text], [data-clipboard], [data-subscribe-url], input, textarea, rb-text-field, a[href]';
-const observed = (candidateUrl = CANDIDATE, siteNames = []) => ({ type: 'OBSERVED_SUBSCRIPTION', candidateUrl, siteNames });
+const observed = (candidateUrl = CANDIDATE, siteNames = [], documentNonce = DOCUMENT_NONCE) => ({ type: 'OBSERVED_SUBSCRIPTION', candidateUrl, documentNonce, siteNames });
 
 function normalized(value) {
   return JSON.parse(JSON.stringify(value));
@@ -46,7 +48,7 @@ function emptyDocument() {
 
 // This shared context covers response and message contracts only. Real MAIN /
 // ISOLATED injection is covered by the separate browser end-to-end fixture.
-function fixture({ response = mockResponse(), fetchImpl = null, origin = PAGE_ORIGIN, sendMessage = null, document = emptyDocument(), contextReply = { allowed: true } } = {}) {
+function fixture({ response = mockResponse(), fetchImpl = null, origin = PAGE_ORIGIN, sendMessage = null, document = emptyDocument(), contextReply = { allowed: true }, documentNonce = DOCUMENT_NONCE } = {}) {
   const eventHandlers = new Map();
   const messages = [];
   const backgroundMessages = [];
@@ -56,6 +58,7 @@ function fixture({ response = mockResponse(), fetchImpl = null, origin = PAGE_OR
   const intervals = [];
   const consoleCalls = [];
   const fetchCalls = [];
+  let nonceCalls = 0;
   const promise = Promise.resolve(response);
   const originalFetch = fetchImpl || function (...args) { fetchCalls.push({ receiver: this, args }); return promise; };
 
@@ -101,12 +104,16 @@ function fixture({ response = mockResponse(), fetchImpl = null, origin = PAGE_OR
     dispatchMessage(event) {
       for (const listener of eventHandlers.get('message') || []) listener(event);
     },
+    dispatchEvent(event) {
+      for (const listener of eventHandlers.get(event.type) || []) listener(event);
+    },
     setTimeout(callback, delay) { timers.push({ callback, delay }); return timers.length; },
     setInterval(callback, delay) { intervals.push({ callback, delay, cleared: false }); return intervals.length; },
     clearInterval(id) { intervals[id - 1].cleared = true; },
   };
   const chrome = {
     runtime: {
+      id: EXTENSION_ID,
       sendMessage(message) {
         (['PAGE_CONTEXT', 'PAGE_OBSERVER_STATUS'].includes(message.type) ? statusMessages : backgroundMessages).push(normalized(message));
         return sendMessage ? sendMessage(message) : Promise.resolve(message.type === 'PAGE_CONTEXT' ? contextReply : { ok: true });
@@ -114,9 +121,20 @@ function fixture({ response = mockResponse(), fetchImpl = null, origin = PAGE_OR
       onMessage: { addListener(listener) { runtimeListeners.push(listener); } },
     },
   };
-  const context = vm.createContext({ window, chrome, URL, document, console: Object.fromEntries(['log', 'info', 'warn', 'error', 'debug'].map((name) => [name, (...args) => consoleCalls.push({ name, args })])) });
+  assert.match(documentNonce, /^[a-f0-9]{32}$/);
+  const nonceBytes = Buffer.from(documentNonce, 'hex');
+  // getRandomValues is available on non-secure HTTP pages; randomUUID is absent.
+  const crypto = { getRandomValues(bytes) {
+    nonceCalls++;
+    assert.equal(Object.prototype.toString.call(bytes), '[object Uint8Array]');
+    assert.equal(bytes.length, 16);
+    bytes.set(nonceBytes);
+    return bytes;
+  } };
+  const context = vm.createContext({ window, chrome, crypto, URL, document, console: Object.fromEntries(['log', 'info', 'warn', 'error', 'debug'].map((name) => [name, (...args) => consoleCalls.push({ name, args })])) });
   return {
     window, chrome, context, messages, backgroundMessages, statusMessages, runtimeListeners, timers, intervals, consoleCalls, fetchCalls, promise, response, FakeXHR, eventHandlers,
+    get nonceCalls() { return nonceCalls; },
     hook() { vm.runInContext(extractorSource, context); vm.runInContext(hookSource, context, { filename: 'page-hook.js' }); },
     bridge() { vm.runInContext(extractorSource, context); vm.runInContext(bridgeSource, context, { filename: 'bridge.js' }); },
     ready(extra = {}) { window.dispatchMessage({ data: { source: SOURCE, kind: 'ready', ...extra }, source: window, origin: window.location.origin }); },
@@ -249,7 +267,7 @@ test('XHR ignores unsuccessful, wrong endpoint, binary, and malformed responses'
   assert.equal(f.subscriptions().length, 0);
 });
 
-test('MAIN caches only the latest candidate and replays for a valid ready handshake', async () => {
+test('MAIN caches the document selection and replays ambiguity after observing a second account', async () => {
   const f = fixture();
   f.hook();
   f.ready();
@@ -261,12 +279,88 @@ test('MAIN caches only the latest candidate and replays for a valid ready handsh
   const newer = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'NEW-FIXTURE-TOKEN');
   new f.window.XMLHttpRequest().finish({ type: 'json', payload: { data: { subscribe_url: newer } } });
   f.ready();
-  assert.equal(f.subscriptions().at(-1).data.url, newer);
+  assert.equal(f.subscriptions().length, 2, 'a later account must never replace the first candidate');
+  assert.deepEqual(f.messages.at(-1).data, { source: SOURCE, kind: 'ambiguous', count: 2 });
   const before = f.subscriptions().length;
   f.window.dispatchMessage({ data: { source: SOURCE, kind: 'ready' }, source: {}, origin: PAGE_ORIGIN });
   f.window.dispatchMessage({ data: { source: SOURCE, kind: 'ready' }, source: f.window, origin: 'https://evil.example' });
   f.ready({ extra: true });
   assert.equal(f.subscriptions().length, before);
+});
+
+test('distinct accounts across fetch and XHR stay ambiguous through later responses, replay and reinjection', async () => {
+  const second = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'SECOND-ACCOUNT');
+  for (const xhrFirst of [false, true]) {
+    const f = fixture();
+    f.hook(); f.bridge();
+    await flush();
+    if (xhrFirst) new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: second } });
+    await f.window.fetch(TARGET); await flush();
+    if (!xhrFirst) new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: second } });
+    assert.deepEqual(f.backgroundMessages.slice(0, 2), [observed(xhrFirst ? second : CANDIDATE), { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] }]);
+    for (const url of [CANDIDATE, second]) new f.window.XMLHttpRequest().finish({ type: 'json', payload: { sub_url: url } });
+    await f.window.fetch(TARGET); await flush();
+    f.hook(); f.ready();
+    assert.equal(f.subscriptions().length, 1, 'ambiguity is sticky for this document, including the initially selected account');
+    for (const message of f.backgroundMessages.slice(1)) assert.deepEqual(message, { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+    assert.ok(f.messages.filter(message => message.data.kind === 'ambiguous').every(message => message.data.count === 2));
+    assert.equal(f.fetchCalls.length, 2, 'observing and replaying candidates never initiates requests');
+    assert.equal(f.response.bodyUsed, false);
+    assert.equal(f.consoleCalls.length, 0);
+  }
+  const fresh = fixture();
+  fresh.hook(); fresh.bridge(); await flush();
+  new fresh.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: second } });
+  assert.deepEqual(fresh.backgroundMessages, [observed(second)], 'a new document starts a new observation set');
+});
+
+test('same-account API format variants and duplicate URLs accumulate without creating ambiguity', async () => {
+  const clash = CANDIDATE.replace('#', '&format=clash#');
+  const singbox = CANDIDATE.replace('#', '&format=sing-box#');
+  const f = fixture({ response: mockResponse({ payload: { subscribe_url: clash } }) });
+  f.hook(); f.bridge(); await flush();
+  await f.window.fetch(TARGET); await flush();
+  assert.deepEqual(f.backgroundMessages, [observed(clash)]);
+  new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscription_url: CANDIDATE } });
+  new f.window.XMLHttpRequest().finish({ type: 'json', payload: { data: [{ sub_url: singbox }, { subscribe_url: clash }] } });
+  for (let index = 0; index < 100; index++) new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: clash } });
+  await f.window.fetch(TARGET); await flush();
+  f.ready();
+  assert.ok(f.backgroundMessages.every(message => message.type === 'OBSERVED_SUBSCRIPTION'));
+  assert.ok(f.backgroundMessages.slice(1).every(message => message.candidateUrl === CANDIDATE), 'the generic URL remains preferred across later format-only responses');
+});
+
+test('invalid, malformed and extraction-budget payloads do not erase an existing document candidate', async () => {
+  const f = fixture();
+  f.hook(); f.bridge(); await flush();
+  await f.window.fetch(TARGET); await flush();
+  const second = CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'SECOND-ACCOUNT');
+  for (const payload of [null, {}, { subscribe_url: 'ftp://invalid.example/sub' }, { subscribe_url: 'https://sub.example.com/sub?token=%ZZ' },
+    { data: [{ subscribe_url: second }, { subscribe_url: 'https://sub.example.com/sub?token=%' }] },
+    { subscribe_url: second, data: Array.from({ length: 1100 }, () => ({ subscribe_url: second })) }]) {
+    const before = f.backgroundMessages.length;
+    new f.window.XMLHttpRequest().finish({ type: 'json', payload });
+    assert.equal(f.backgroundMessages.length, before, 'an unusable payload cannot replace or clear known candidates');
+    f.ready();
+    assert.deepEqual(f.backgroundMessages.at(-1), observed());
+  }
+});
+
+test('document network URL budget overflows fail closed and cannot be reset by one later candidate', async () => {
+  const f = fixture();
+  f.hook(); f.bridge(); await flush();
+  const formatURL = count => CANDIDATE.replace('#', '&format=clash'.repeat(count) + '#');
+  for (let index = 0; index < 64; index++) new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: formatURL(index) } });
+  assert.equal(f.subscriptions().length, 64, '64 bounded distinct format URLs remain the same account');
+  assert.equal(f.backgroundMessages.at(-1).candidateUrl, CANDIDATE);
+  new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: formatURL(64) } });
+  assert.deepEqual(f.backgroundMessages.at(-1), { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  assert.deepEqual(f.messages.at(-1).data, { source: SOURCE, kind: 'ambiguous', count: 65 });
+  new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: CANDIDATE } });
+  f.ready();
+  assert.equal(f.subscriptions().length, 64, 'overflow never returns to an automatically writable candidate');
+  assert.deepEqual(f.backgroundMessages.at(-1), { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] });
+  assert.deepEqual(f.messages.at(-1).data, { source: SOURCE, kind: 'ambiguous', count: 65 });
 });
 
 test('MAIN repeated injection is idempotent and sends every real successful response', async () => {
@@ -332,7 +426,7 @@ test('PAGE_CONTEXT must explicitly allow the page before candidates or ambiguity
     f.runtimeListeners[0]({ type: 'REQUEST_REPLAY' }, {}, value => { acknowledgement = normalized(value); });
     assert.deepEqual(acknowledgement, { ok: true });
     assert.deepEqual(f.backgroundMessages, [], 'local frontend/backend and permission-denied contexts cannot forward links');
-    assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', siteNames: [] }]);
+    assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] }]);
     assert.equal(f.handshakeTimers().length, 0, 'denied pages never schedule replay requests');
     assert.equal(f.messages.filter(message => message.data.kind === 'ready').length, 0);
     assert.equal(f.fetchCalls.length, 0);
@@ -356,11 +450,11 @@ test('a response arriving before asynchronous PAGE_CONTEXT approval is replayed 
   await flush();
   assert.deepEqual(f.backgroundMessages, []);
   assert.equal(f.handshakeTimers().length, 0);
-  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', siteNames: [] }]);
+  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] }]);
   approve({ allowed: true });
   await flush();
   assert.deepEqual(f.backgroundMessages, [observed()]);
-  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', siteNames: [] }, { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', siteNames: [] }]);
+  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] }, { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] }]);
   assert.equal(f.handshakeTimers().length, 2);
   assert.equal(f.fetchCalls.length, 0, 'approval replays memory rather than fetching the account');
 });
@@ -391,8 +485,8 @@ test('brand metadata reaches PAGE_CONTEXT, status and candidate messages without
   f.bridge();
   await flush();
   new f.window.XMLHttpRequest().finish({ type: 'json' });
-  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', siteNames: ['自托管新品牌'] },
-    { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', siteNames: ['自托管新品牌'] }]);
+  assert.deepEqual(f.statusMessages, [{ type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: ['自托管新品牌'] },
+    { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: ['自托管新品牌'] }]);
   assert.deepEqual(f.backgroundMessages, [observed(CANDIDATE, ['自托管新品牌'])]);
   assert.equal(f.consoleCalls.length, 0);
 });
@@ -477,7 +571,7 @@ test('scripts never read credential storage, cookies, or initiate a request', as
   assert.equal(f.consoleCalls.length, 0);
   assert.equal(credentialReads, 0);
   assert.ok(titleReads > 0, 'semantic title metadata is allowed');
-  assert.deepEqual(f.statusMessages[0], { type: 'PAGE_CONTEXT', siteNames: ['Safe fixture brand'] });
+  assert.deepEqual(f.statusMessages[0], { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: ['Safe fixture brand'] });
   f.runtimeListeners[0]({ type: 'REQUEST_REPLAY' }, {}, () => {});
   assert.equal(f.fetchCalls.length, 0);
   assert.equal(credentialReads, 0);
@@ -598,13 +692,136 @@ test('bridge and MAIN report safe readiness once per document in either injectio
     if (bridgeFirst) { f.bridge(); f.hook(); } else { f.hook(); f.bridge(); }
     await flush();
     assert.deepEqual(f.statusMessages, [
-      { type: 'PAGE_CONTEXT', siteNames: [] },
-      { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', siteNames: [] },
+      { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+      { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] },
     ]);
     for (const timer of f.timers) timer.callback();
     f.ready();
     assert.equal(f.statusMessages.length, 2, 'replays cannot make finished results look pending again');
     assert.equal(f.fetchCalls.length, 0);
     assert.equal(f.backgroundMessages.length, 0);
+  }
+});
+
+test('VERIFY_DOCUMENT answers only the owning extension with the exact document identity', async () => {
+  const f = fixture();
+  f.bridge(); await flush();
+  const beforeMessages = f.messages.length;
+  const beforeStatuses = f.statusMessages.length;
+  for (const sender of [undefined, null, {}, { id: 'another-extension-id' }, { url: PAGE_ORIGIN }, { id: 'another-extension-id', url: PAGE_ORIGIN }]) {
+    f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, sender, () => assert.fail('an unowned sender received the document identity'));
+  }
+  let reply;
+  f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.equal(f.messages.length, beforeMessages, 'a native document probe does not enter the page message channel');
+  assert.equal(f.statusMessages.length, beforeStatuses, 'a read-only probe does not reactivate the page');
+  assert.deepEqual(f.backgroundMessages, []);
+  assert.equal(f.nonceCalls, 1);
+});
+
+test('pagehide retires the document and BFcache restore reauthorizes without clearing network ambiguity', async () => {
+  let contextCalls = 0;
+  let approveRestore;
+  const restorePermission = new Promise(resolve => { approveRestore = resolve; });
+  const f = fixture({ sendMessage(message) {
+    if (message.type === 'PAGE_CONTEXT') return contextCalls++ === 0 ? Promise.resolve({ allowed: true }) : restorePermission;
+    return Promise.resolve({ ok: true });
+  } });
+  f.hook(); f.bridge(); await flush();
+  new f.window.XMLHttpRequest().finish({ type: 'json' });
+  new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'SECOND-ACCOUNT') } });
+  const ambiguous = { type: 'OBSERVATION_AMBIGUOUS', documentNonce: DOCUMENT_NONCE, siteNames: [] };
+  const retired = { type: 'DOCUMENT_RETIRED', documentNonce: DOCUMENT_NONCE, siteNames: [] };
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous]);
+
+  f.window.dispatchEvent({ type: 'pagehide', persisted: true });
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired]);
+  let reply;
+  const probe = () => f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+  probe();
+  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  new f.window.XMLHttpRequest().finish({ type: 'json' });
+  f.ready();
+  for (const timer of f.handshakeTimers()) timer.callback();
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired], 'a retired bridge forwards neither observations nor timer replays');
+  f.window.dispatchEvent({ type: 'pageshow', persisted: false });
+  probe();
+  assert.deepEqual(reply, { present: false, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.equal(contextCalls, 1, 'ordinary pageshow does not reuse a retired activation');
+
+  f.window.dispatchEvent({ type: 'pageshow', persisted: true });
+  assert.deepEqual(f.statusMessages, [
+    { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+  ]);
+  new f.window.XMLHttpRequest().finish({ type: 'json' });
+  f.ready();
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired], 'BFcache restoration waits for a fresh PAGE_CONTEXT allowance');
+  approveRestore({ allowed: true }); await flush();
+  probe();
+  assert.deepEqual(reply, { present: true, origin: PAGE_ORIGIN, documentNonce: DOCUMENT_NONCE });
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired, ambiguous], 'the restored document replays its existing sticky ambiguity');
+  new f.window.XMLHttpRequest().finish({ type: 'json' });
+  f.ready();
+  assert.deepEqual(f.backgroundMessages, [observed(), ambiguous, retired, ambiguous, ambiguous, ambiguous]);
+  assert.equal(f.nonceCalls, 1, 'BFcache restores the same native document identity');
+  assert.equal(f.fetchCalls.length, 0);
+  assert.equal(f.consoleCalls.length, 0);
+});
+
+test('native document nonces accompany complete runtime messages and never appear in window postMessages', async () => {
+  for (const documentNonce of [DOCUMENT_NONCE, 'ffeeddbbccaa99887766554433221100']) {
+    const f = fixture({ documentNonce });
+    f.hook(); f.bridge(); f.bridge(); await flush();
+    new f.window.XMLHttpRequest().finish({ type: 'json' });
+    new f.window.XMLHttpRequest().finish({ type: 'json', payload: { subscribe_url: CANDIDATE.replace('PRIVATE-FIXTURE-TOKEN', 'SECOND-ACCOUNT') } });
+    f.ready();
+    assert.deepEqual(f.statusMessages, [
+      { type: 'PAGE_CONTEXT', documentNonce, siteNames: [] },
+      { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce, siteNames: [] },
+    ]);
+    assert.deepEqual(f.backgroundMessages, [
+      observed(CANDIDATE, [], documentNonce),
+      { type: 'OBSERVATION_AMBIGUOUS', documentNonce, siteNames: [] },
+      { type: 'OBSERVATION_AMBIGUOUS', documentNonce, siteNames: [] },
+    ]);
+    assert.equal(f.nonceCalls, 1, 'reinjection cannot rotate a live document nonce');
+    assert.ok(f.messages.length > 0);
+    for (const message of f.messages) {
+      assert.equal(Object.hasOwn(message.data, 'documentNonce'), false);
+      assert.equal(JSON.stringify(message).includes(documentNonce), false);
+    }
+    assert.equal(Object.hasOwn(f.window, 'documentNonce'), false);
+  }
+});
+
+test('non-secure HTTP and IP bridges generate document nonces when randomUUID is unavailable', async () => {
+  const candidateUrl = 'http://10.0.0.20:8080/sub?token=PRIVATE-FIXTURE';
+  for (const origin of ['http://custom.example.com', 'http://192.168.1.50:8080', 'http://[fd00::1]:8080']) {
+    const f = fixture({ origin });
+    f.window.isSecureContext = false;
+    f.context.isSecureContext = false;
+    assert.equal(f.context.crypto.randomUUID, undefined);
+    assert.equal(typeof f.context.crypto.getRandomValues, 'function');
+    f.hook(); f.bridge(); await flush();
+    new f.window.XMLHttpRequest().finish({ url: 'http://10.0.0.20:8080/api/v3/user/getSubscribe', type: 'json', payload: { subscribe_url: candidateUrl } });
+    assert.deepEqual(f.statusMessages, [
+      { type: 'PAGE_CONTEXT', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+      { type: 'PAGE_OBSERVER_STATUS', stage: 'observer_ready', documentNonce: DOCUMENT_NONCE, siteNames: [] },
+    ]);
+    assert.deepEqual(f.backgroundMessages, [observed(candidateUrl)]);
+    f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: 'another-extension-id' }, () => assert.fail('an unowned HTTP sender received the nonce'));
+    let reply;
+    f.runtimeListeners[0]({ type: 'VERIFY_DOCUMENT' }, { id: EXTENSION_ID }, value => { reply = normalized(value); });
+    assert.deepEqual(reply, { present: true, origin, documentNonce: DOCUMENT_NONCE });
+    assert.equal(f.nonceCalls, 1);
+    for (const message of f.messages) {
+      assert.equal(Object.hasOwn(message.data, 'documentNonce'), false);
+      assert.equal(JSON.stringify(message).includes(DOCUMENT_NONCE), false);
+    }
+    assert.equal(f.fetchCalls.length, 0);
+    assert.equal(f.consoleCalls.length, 0);
   }
 });

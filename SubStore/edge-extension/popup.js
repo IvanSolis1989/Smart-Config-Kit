@@ -25,7 +25,13 @@ const errors = {
   open_dashboard_first: '该网站尚无可重试的订阅链接，请打开已登录的仪表盘。',
   backup_not_found: '当前网站没有可用备份。',
   settings_unavailable: '无法读取扩展设置，请重新打开弹窗。',
+  site_not_trusted: '此网站尚未获准自动同步，请在该网站首次允许。',
   site_permission_required: '浏览器尚未允许扩展访问该网站，请检查扩展的站点访问权限。',
+  site_script_registration_failed: '动态站点监听注册失败，请重新加载扩展后重试。',
+  site_access_changed: '当前网站的访问许可已变化，请在目标网站重新打开弹窗确认。',
+  document_changed: '当前标签页或网页已变化，请在目标网站重新打开弹窗。',
+  site_trust_limit: '已达到可信网站数量上限，请在高级设置撤销不再使用的网站后重试。',
+  permission_denied: '未获得网站许可，尚未启用此网站自动同步。',
   local_transport_invalid_settings: '本机前端或后端地址设置不正确。',
   local_transport_invalid_request: '本机通信请求不符合允许范围，已停止。',
   local_transport_storage_failed: '无法保存本机通信标签页状态。',
@@ -101,6 +107,7 @@ export function resultView(result, settings, { extensionVersion, observation, su
     if (!history) detail = observation.stage === 'candidate_ambiguous' ? errors.candidate_ambiguous :
       observation.stage === 'candidate_received' ? '正在自动匹配 Sub-Store 条目，等待节点验证及同步结果。' : '网页已被检测到，等待自动识别机场与订阅链接。';
   }
+  if (status === 'error' && result.cleanupFailed === true) detail += '临时本机标签页清理未完成，请人工关闭该失败标签页后重试。';
   if (!settings.enabled) title = '全局自动同步已关闭';
   const pageStage = !hasStage ? '本轮阶段：尚未检测到网页，等待已授权的仪表盘加载。' :
     currentPage ? '本轮阶段：' + PAGE_STAGES[observation.stage] : '本轮阶段：上次网页记录来自旧版本，本版尚未就绪。';
@@ -111,7 +118,8 @@ export function resultView(result, settings, { extensionVersion, observation, su
 
 export function createPopup(document, chromeApi) {
   const $ = id => document.getElementById(id);
-  let saved = null, state = {}, activeOrigin = null, selectedOrigin = '', working = false, refreshing = false;
+  let saved = null, state = {}, activeOrigin = null, activeTabId = null, selectedOrigin = '', working = false, refreshing = false, refreshAgain = false;
+  let trustKnown = false;
 
   async function send(message) {
     try { return await chromeApi.runtime.sendMessage(message); }
@@ -126,6 +134,8 @@ export function createPopup(document, chromeApi) {
   function globals() { return { enabled: $('enabled').checked, backendUrl: $('backend').value.trim(), frontendUrl: $('frontend').value.trim() }; }
   function dirty() { return !!saved && GLOBAL_FIELDS.some(key => globals()[key] !== saved[key]); }
   function site() { return selectedOrigin ? state.sites?.[selectedOrigin] : null; }
+  function trusted(origin) { return trustKnown && !!origin && Array.isArray(state.trustedOrigins) && state.trustedOrigins.includes(origin); }
+  function validActiveTab() { return !!activeOrigin && Number.isInteger(activeTabId) && activeTabId >= 0; }
   function backupCount() { const count = site()?.backupCount; return Number.isInteger(count) && count > 0 ? count : 0; }
   function origins() {
     return [...new Set([activeOrigin, ...Object.keys(state.sites || {})].filter(origin => origin && pageOrigin(origin, saved) === origin))];
@@ -146,7 +156,8 @@ export function createPopup(document, chromeApi) {
   }
   function renderStatus() {
     $('currentSite').textContent = activeOrigin ? '当前网站：' + activeOrigin : '当前网站：等待打开已授权的机场网页。';
-    $('automatic').textContent = saved?.enabled ? '自动同步：已开启' : '自动同步：已关闭';
+    $('automatic').textContent = !saved?.enabled ? '自动同步：已关闭' :
+      !trustKnown ? '自动同步：许可状态待确认' : selectedOrigin && !trusted(selectedOrigin) ? '自动同步：等待首次许可' : '自动同步：已开启';
     const current = site();
     $('siteName').textContent = safeName(current?.siteName, selectedOrigin ? '等待自动识别' : '等待打开网站');
     $('subscriptionName').textContent = safeName(current?.subscriptionName, '等待自动匹配');
@@ -158,20 +169,36 @@ export function createPopup(document, chromeApi) {
     });
     if (!selectedOrigin) {
       view.title = saved?.enabled ? '等待打开机场网站' : '全局自动同步已关闭';
-      view.detail = '打开浏览器已授权的机场仪表盘，扩展将自动识别名称并匹配 Sub-Store 订阅。';
+      view.detail = '打开机场仪表盘，首次明确允许此网站后，扩展将自动识别与同步。';
+    } else if (!trustKnown) {
+      view.title = '暂无法确认此网站许可';
+      view.detail = '请重新打开弹窗确认网站许可状态，当前手动操作已停用。';
+    } else if (!trusted(selectedOrigin)) {
+      view.title = '此网站尚未获准自动同步';
+      view.detail = (selectedOrigin === activeOrigin ? '首次点击上方“允许此网站自动同步”后，日常无需再手动操作。' :
+        '历史识别记录不代表已信任；请打开该网站，在其当前标签页首次允许。') + (result ? '历史结果仅供参考。' + view.detail : '');
     }
     for (const key of ['title', 'detail', 'time', 'pageStage', 'pageTime']) $(key === 'title' ? 'status' : key).textContent = view[key];
-    $('pending').textContent = current?.hasPending ? '已捕获此网站的订阅链接，扩展自动处理。' : '等待此网站自动返回订阅链接。';
+    $('pending').textContent = selectedOrigin && !trusted(selectedOrigin) ? '此网站尚未许可，当前不会自动同步。' :
+      current?.hasPending ? '已捕获此网站的订阅链接，扩展自动处理。' : '等待此网站自动返回订阅链接。';
     const count = backupCount();
     $('backup').textContent = count ? `此网站可用备份：${count} 份。` : '此网站暂无可用备份。';
   }
   function renderControls() {
-    document.body.setAttribute('aria-busy', String(working));
+    document.body.setAttribute('aria-busy', String(working || refreshing));
     for (const id of ['site', 'enabled', 'backend', 'frontend', 'save']) $(id).disabled = working || !saved;
-    const canSync = !!saved?.enabled && !!selectedOrigin && !!site()?.hasPending && !dirty() && !working;
+    const currentTrusted = trusted(activeOrigin);
+    $('trustStatus').textContent = !validActiveTab() ? '请先打开要允许的机场网站' :
+      !trustKnown ? '暂无法确认网站许可，请重新打开弹窗' : currentTrusted ? '已允许此网站自动同步' : '首次使用：此网站尚未获准自动同步';
+    $('trustTarget').textContent = validActiveTab() ? '许可目标（当前标签页）：' + activeOrigin : '需要一个有效的 HTTP 或 HTTPS 标签页，本机 Sub-Store 页面不作为机场。';
+    $('trust').hidden = currentTrusted;
+    $('trust').disabled = working || refreshing || !saved || !trustKnown || !validActiveTab() || currentTrusted;
+    const currentAllowed = validActiveTab() && selectedOrigin === activeOrigin && trusted(selectedOrigin);
+    const canSync = !!saved?.enabled && currentAllowed && !!site()?.hasPending && !dirty() && !working && !refreshing;
     $('sync').disabled = !canSync;
     $('check').disabled = !canSync;
-    $('restore').disabled = working || !selectedOrigin || dirty() || !backupCount();
+    $('restore').disabled = working || refreshing || !saved?.enabled || !currentAllowed || dirty() || !backupCount();
+    $('untrust').disabled = working || refreshing || !saved || !trusted(selectedOrigin);
     $('dirty').hidden = !dirty();
     $('dirty').textContent = '全局设置尚未保存；网站切换会保留这些编辑。';
   }
@@ -207,14 +234,16 @@ export function createPopup(document, chromeApi) {
     const result = await send({ type: 'SAVE_SETTINGS', settings: globalSettingsFrom(settings) });
     if (!result?.settings) { errorNotice(result, '保存失败：'); return; }
     state = latest;
+    trustKnown = true;
     acceptSettings(result.settings);
     notice('全局设置已保存，扩展继续自动识别与同步。');
   }
   async function run(type, dryRun) {
     const origin = selectedOrigin;
     const result = await send({ type, origin, ...(type === 'SYNC_PENDING' ? { dryRun } : {}) });
-    try { state = await freshState(); }
+    try { state = await freshState(); trustKnown = true; }
     catch {
+      trustKnown = false;
       state.sites = { ...state.sites, [origin]: { ...state.sites?.[origin], origin, backupCount: 0 } };
       notice('操作已返回，但状态刷新失败，请重新打开弹窗确认。', true);
     }
@@ -222,22 +251,65 @@ export function createPopup(document, chromeApi) {
     render();
   }
   async function refreshDiagnostics() {
-    if (!saved || refreshing) return;
+    if (!saved) return;
+    if (refreshing) { refreshAgain = true; return; }
     refreshing = true;
-    try { state = await freshState(); render(); }
-    catch { notice('状态更新暂不可用，请重新打开弹窗确认。', true); }
-    finally { refreshing = false; }
+    renderControls();
+    try {
+      do {
+        refreshAgain = false;
+        state = await freshState();
+        trustKnown = true;
+        render();
+      } while (refreshAgain);
+    }
+    catch { trustKnown = false; render(); notice('状态更新暂不可用，请重新打开弹窗确认。', true); }
+    finally { refreshing = false; renderControls(); }
+  }
+  function trustCurrentSite() {
+    if (working || !saved || !trustKnown || !validActiveTab() || trusted(activeOrigin)) return;
+    const origin = activeOrigin, tabId = activeTabId, url = new URL(origin);
+    let permission;
+    try {
+      // The browser request must run synchronously within this click, before any await/message.
+      permission = chromeApi.permissions.request({ origins: [url.protocol + '//' + url.hostname + '/*'] });
+    } catch { errorNotice({ code: 'permission_denied' }); return; }
+    return busy(async () => {
+      try {
+        if (!await permission) { errorNotice({ code: 'permission_denied' }); return; }
+      } catch { errorNotice({ code: 'permission_denied' }); return; }
+      const result = await send({ type: 'TRUST_CURRENT_SITE', origin, tabId });
+      if (!result || result.status === 'error') { errorNotice(result); return; }
+      state = await freshState();
+      trustKnown = true;
+      if (!trusted(origin)) { errorNotice({ code: 'site_not_trusted' }); return; }
+      render();
+      notice('已允许此网站，后台正在刷新当前标签页；之后自动识别与同步。');
+    });
+  }
+  async function untrustSite() {
+    const origin = selectedOrigin;
+    if (!trusted(origin)) return;
+    const result = await send({ type: 'UNTRUST_SITE', origin });
+    if (!result || result.status === 'error') { errorNotice(result); return; }
+    state = await freshState();
+    trustKnown = true;
+    if (trusted(origin)) { errorNotice({ code: 'site_access_changed' }); return; }
+    render();
+    notice('已撤销所选网站信任，此网站不会继续自动同步。');
   }
 
+  $('trust').addEventListener('click', trustCurrentSite);
+  $('untrust').addEventListener('click', () => busy(untrustSite));
   $('site').addEventListener('change', () => { selectedOrigin = $('site').value; notice(); renderStatus(); renderControls(); });
   for (const id of ['enabled', 'backend', 'frontend']) $(id).addEventListener('input', renderControls);
   $('save').addEventListener('click', () => busy(save));
   $('sync').addEventListener('click', () => busy(() => run('SYNC_PENDING', false)));
   $('check').addEventListener('click', () => busy(() => run('SYNC_PENDING', true)));
   $('restore').addEventListener('click', () => busy(() => run('RESTORE_LATEST')));
-  // Read diagnostic changes through the sanitized GET_STATUS contract, not raw stored candidates/backups.
+  // Recheck trust and diagnostics through GET_STATUS, never consume raw stored candidates/backups.
   chromeApi.storage?.onChanged?.addListener((changes, area) => {
-    if (area === 'local' && ['sites', 'lastResult', 'observations', 'lastResults'].some(key => Object.hasOwn(changes, key))) return refreshDiagnostics();
+    if (area === 'local' && Object.keys(changes).length) return refreshDiagnostics();
   });
 
   return {
@@ -245,8 +317,10 @@ export function createPopup(document, chromeApi) {
       try {
         const [latest, tabs] = await Promise.all([freshState(), chromeApi.tabs.query({ active: true, currentWindow: true }).catch(() => [])]);
         state = latest;
+        trustKnown = true;
         const settings = globalSettingsFrom(latest.settings);
         activeOrigin = pageOrigin(tabs?.[0]?.url, settings);
+        activeTabId = Number.isInteger(tabs?.[0]?.id) && tabs[0].id >= 0 ? tabs[0].id : null;
         selectedOrigin = activeOrigin || '';
         acceptSettings(settings);
       } catch (error) {

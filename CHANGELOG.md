@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.0
+
+- 为站点自动写入增加首次明确许可，修复跨响应歧义、离开未监听页面的旧写入及失败中转页泄漏；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。辅助扩展不改变分流产物。
+
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.2
 
 - 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)与[修复验证](./docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。

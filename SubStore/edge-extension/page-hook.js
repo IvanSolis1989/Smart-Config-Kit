@@ -1,4 +1,4 @@
-// Subscription response and semantic-control observer v1.3.0 — 2026-10-18.
+// Subscription response and semantic-control observer v1.4.0 — 2026-10-18.
 // MAIN world. Registration determines the site; this observer never logs in.
 (() => {
   'use strict';
@@ -9,6 +9,11 @@
   Object.defineProperty(window, INSTALLED, { value: true });
   let latest = null;
   let networkObserved = false;
+  // Each URL is already bounded below 8192 characters by the extractors.
+  // Repeated responses do not grow this document-scoped candidate set.
+  const NETWORK_CANDIDATE_LIMIT = 64;
+  const networkCandidates = new Map();
+  let networkAmbiguity = null;
   let domSignature = '';
   let domObserver = null;
   let domPoll = null;
@@ -28,13 +33,36 @@
   function targetResponse(responseUrl, status) {
     return status >= 200 && status < 300 && extractors.subscriptionResponse(responseUrl);
   }
+  function publishNetwork(selection) {
+    if (selection.status === 'ambiguous') {
+      networkAmbiguity = selection;
+      networkCandidates.clear();
+    }
+    publish(selection);
+  }
   function observePayload(payload, responseURL) {
-    const selection = extractors.selectCandidates(extractors.networkCandidates(payload, responseURL));
+    const incoming = extractors.networkCandidates(payload, responseURL);
+    const selection = extractors.selectCandidates(incoming);
+    // Unusable responses cannot erase previously observed accounts or ambiguity.
     if (selection.status === 'none') return;
     networkObserved = true;
     domObserver?.disconnect();
     if (domPoll !== null) window.clearInterval(domPoll);
-    publish(selection);
+    if (networkAmbiguity) { publish(networkAmbiguity); return; }
+    if (selection.status === 'ambiguous') { publishNetwork(selection); return; }
+    for (const candidate of incoming) {
+      if (networkCandidates.has(candidate.url)) continue;
+      if (networkCandidates.size >= NETWORK_CANDIDATE_LIMIT) {
+        // This count is the observed URL count at overflow; the unretained set
+        // cannot safely establish one account. Stay closed for this document.
+        publishNetwork({ status: 'ambiguous', count: NETWORK_CANDIDATE_LIMIT + 1 });
+        return;
+      }
+      networkCandidates.set(candidate.url, candidate);
+    }
+    // Fetch and XHR share one account identity decision. Once ambiguous, no
+    // later single response or ready handshake can make this document writable.
+    publishNetwork(extractors.selectCandidates([...networkCandidates.values()]));
   }
   function scanDOM() {
     // A subscription API response takes precedence over client-format controls.
