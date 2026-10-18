@@ -7,6 +7,14 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 网页管理别名模块 v1.0.0
+
+- 为已审查 Worker 增加独立授权的完整管理前缀；详见[SubStore 日志](../SubStore/CHANGELOG.md)。原入口与扩展权限不变，辅助通信改动无需全端重生成。
+
+## 2026-10-18 — Sub-Store 下载网关 530 恢复模块 v1.0.0
+
+- 为已审查 Worker 增加网关 530 后的单次同目标 GET/HEAD 直连恢复；详见[SubStore 日志](../SubStore/CHANGELOG.md)。仅修改辅助下载通信，无需全端重生成。
+
 ## 2026-10-18 — Sub-Store 辅助扩展 v1.5.1
 
 - 修复 Cloudflare 管理通信的重定向参数和空 GET JSON 兼容问题；详见[SubStore 日志](../SubStore/CHANGELOG.md)。未修改 Clash Party 覆写、路由图、DNS 或客户端产物版本，无需全端重生成。

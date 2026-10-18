@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-10-18 — Sub-Store 独立网页管理别名模块 v1.0.0
+
+- 为已审查 Worker 增加独立授权的完整管理前缀，保留旧入口与扩展受限入口；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物。
+
+## 2026-10-18 — Sub-Store 下载网关 530 恢复模块 v1.0.0
+
+- 增加限定 GET/HEAD 的网关 530 单次直连恢复与精确 Worker 补丁；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.1
 
 - 修复 Cloudflare Worker 请求参数与空 GET JSON 解析的兼容问题；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
