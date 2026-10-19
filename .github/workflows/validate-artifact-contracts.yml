@@ -74,6 +74,7 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
       - 'tools/runtime/**'
@@ -163,6 +164,7 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
       - 'tools/runtime/**'
@@ -274,6 +276,9 @@ jobs:
 
       - name: Validate rule asset delivery regressions
         run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js
+
+      - name: Validate Surge Fake IP VIF capture
+        run: node --test tools/tests/surge-tun-capture.test.js
 
       - name: Validate source receipts, ordered semantics and governed exceptions
         env:

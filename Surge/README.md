@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Surge/Surg
 
 规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-> 配置：`Surge.conf` · **v6.0.20-Surge.11**（Build 2026-10-19）
+> 配置：`Surge.conf` · **v6.0.20-Surge.12**（Build 2026-10-20）
 > 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.20 分流基线。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
@@ -225,7 +225,7 @@ DNS 位于 `[General]`。多个加密 DNS **并发查询，采用首个有效响
 
 ## 九、验证
 
-1. 确认启用 `Surge Smart v6.0.20-Surge.11`，策略面板有 55 个组且区域组含节点。
+1. 确认启用 `Surge Smart v6.0.20-Surge.12`，策略面板有 55 个组且区域组含节点。
 2. 检查所有 RULE-SET 下载完成。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在 **活动（Activity）** 中核对 AI、Netflix、国内流媒体规则及实际出口。
 4. 继续完成根 README 的[导入后验证清单](../README.md#-导入后-60-秒验证清单)。
@@ -233,6 +233,12 @@ DNS 位于 `[General]`。多个加密 DNS **并发查询，采用首个有效响
 ---
 
 ## 十、常见问题
+
+### VPN 已启动，但所有网站超时、Recent Requests 没有记录？
+
+先检查最终配置的 `[General]`：`tun-excluded-routes` 不得包含或覆盖 `198.18.0.0/15`。这是 Surge 自身的 Fake IP 与 DNS 地址池，排除后流量会绕过 VIF，无法还原域名并进入分流。官方说明见 [Fake IP DNS](https://manual.nssurge.com/dns/advanced.html) 与 [TUN 排除路由](https://manual.nssurge.com/profile/general.html#tun-excluded-routes)。
+
+刷新托管配置；手工维护配置时只删除冲突网段，保留所需局域网旁路。检查模块或本地覆写是否再次加入该网段，然后停止并重新启动 Surge，重新打开网页，在 Recent Requests 确认直连和代理请求均有记录。真机结果以此复测为准。
 
 ### Q1：规则集下载失败，配置里显示 `rule-set unavailable`？
 

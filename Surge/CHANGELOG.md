@@ -4,6 +4,12 @@
 
 ---
 
+## v6.0.20-Surge.12 (2026-10-20)
+
+- FIX#190：从 `[General].tun-excluded-routes` 移除 `198.18.0.0/15`，避免 Surge 自身 Fake IP 和 DNS 响应器被排除在 VIF 外；保留其他旁路路由、DNS 服务器与业务规则。
+- 新增完整 Fake IP 池与两种流量选项渲染的回归检查；合同验证禁止与该池重叠的排除路由（包含超网和子网），并接入 CI。
+- 已复查 [Advanced DNS](https://manual.nssurge.com/dns/advanced.html) 与 [General](https://manual.nssurge.com/profile/general.html#tun-excluded-routes)；跨端静态审计及 Loon/Shadowrocket 保留原因见 [REFERENCE](./REFERENCE-surge-manual.md#vif-与-fake-ip-接管约束)。这是 Surge 原生 VIF 配置修复，不修改源规则图或融合资产，无需其他产物重生成。未执行 App 真机验收，恢复结果需在报告者设备复测。
+
 ## v6.0.20-Surge.11 (2026-10-19)
 
 - 删除未被 Surge 识别的 `[DNS]` 节及其中两个无效键；保留 `[General]` 的 DNS 服务器、次序和出站模式。多个加密 DNS 并发首答，普通 DNS 不承担普通域名的超时兜底，也不提供失败后自动转代理。

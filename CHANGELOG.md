@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-10-20 — Surge Fake IP 接管修复
+
+- FIX#190：Surge `v6.0.20-Surge.12` 移除覆盖自身 Fake IP 池的 TUN 排除路由，增加 CIDR 交集门禁与回归；规则源及其他客户端保持原基线。详见 [Surge 日志](./Surge/CHANGELOG.md)。
+
 ## 2026-10-19 — 官方版本研究与必要兼容适配
 
 - 缓存全客户端相关官方发布、配置文档与固定源码；修复 Smart 失效参数、Surge/QX DNS 写法、Passwall SRS 后端门禁和 sing-box 两版 schema。保持源规则图与业务规则载荷；版本、采用决策、原文收据和验证见[研究总览](./docs/upstream/2026-10-19/README.md)，各端细节见对应目录 CHANGELOG。

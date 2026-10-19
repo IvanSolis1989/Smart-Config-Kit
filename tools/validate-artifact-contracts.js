@@ -15,6 +15,7 @@ const {
   validateGeneratedRemoteAssetSizes,
 } = require('./validate-generated-remote-asset-size');
 const { validateEgernGenerationManifest } = require('./lib/egern-generation-manifest');
+const { parseCidr } = require('./lib/fused-rule-optimizer');
 const {
   getAssetRevisionFromUrl,
   repositoryAssetUrl,
@@ -1751,6 +1752,21 @@ function validateConfProducts(record, baselineVersion) {
   const surge = readText('Surge/Surge.conf');
   const loon = readText('Loon/Loon.conf');
   const qx = readText('Quantumult X/QuantumultX.conf');
+  // Surge DNS responders and Fake IP destinations must remain inside VIF.
+  // https://manual.nssurge.com/dns/advanced.html (issue #190)
+  const surgeFakeIpPool = parseCidr('198.18.0.0/15');
+  const surgeFakeIpBypass = [...extractConfSection(surge, 'General')
+    .matchAll(/^\s*tun-excluded-routes\s*=\s*([^#\r\n]*)/gmi)]
+    .flatMap(match => match[1].split(',').map(value => value.trim()).filter(Boolean))
+    .filter(value => {
+      const route = parseCidr(value);
+      if (route.family !== surgeFakeIpPool.family) return false;
+      const shift = BigInt(route.bits - Math.min(route.prefix, surgeFakeIpPool.prefix));
+      return (route.network >> shift) === (surgeFakeIpPool.network >> shift);
+    });
+  record.check('surge.tun.fake-ip-captured', surgeFakeIpBypass.length === 0, {
+    message: `tun-excluded-routes must not overlap Surge Fake IP/DNS range 198.18.0.0/15: ${surgeFakeIpBypass.join(', ')}`,
+  });
   const loonRemoteRule = extractConfSection(loon, 'Remote Rule');
   const loonRuleSection = extractConfSection(loon, 'Rule');
   const qxFilterRemote = extractConfSection(qx, 'filter_remote');

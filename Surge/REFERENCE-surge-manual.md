@@ -1,5 +1,14 @@
 # Surge 官方手册参考文档
 
+> 更新于 2026-10-20（上次获取 2026-10-19）：为 Issue #190 重新读取官方 [Advanced DNS](https://manual.nssurge.com/dns/advanced.html) 与 [General](https://manual.nssurge.com/profile/general.html#tun-excluded-routes)，补充 VIF/Fake IP 接管约束。旧 `others/misc-options.html` 已返回 404，相关选项以 General 页面为准。
+
+## VIF 与 Fake IP 接管约束
+
+- Surge 从 `198.18.0.0/15` 分配 IPv4 Fake IP，DNS 响应器使用其中的 `198.18.0.2`（Mac）/ `198.18.0.4`（iOS）；连接必须返回 VIF 才能恢复原域名并进入策略匹配。`tun-excluded-routes` 绕过 VIF，因此不能与该地址池有任何交集；规则层 `DIRECT` 在接管后选择出口，不等同于 TUN 排除。
+- `skip-proxy` 绕过系统 HTTP 代理并交给 VIF，不是 TUN 排除；`always-real-ip` 改变指定域名的 DNS 响应，不需要为本问题设为 `*`。本次仅删除既有 IPv4 CIDR，没有引入新字段或提高最低版本；未执行 Surge App 真机验收。
+- 跨端静态审计：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash 未配置对其 Fake IP 池的 IP 路由排除；Egern 仅旁路本地/私网；QX 未排除此段；SingBox 两版开启 `auto_route` 且无 `route_exclude_address`；v2rayN/Passwall/Passwall2 的规则资产没有 OS TUN 排除配置。因此不改变源规则图、融合资产或这些产物。
+- Loon 与 Shadowrocket 也有相同 `/15` 文本，但不能据此判为同构故障：Loon [官方示例](https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf)本身包含该段，[当前 General](https://nsloon.app/docs/General/#bypass-tun)未公布 Fake IP 地址池；Shadowrocket 帮助站不可达，开发者网站未给出可核实的地址池/覆盖优先级说明。本次保留二者，不能将其视为已完成真机验证。
+
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方正文、版本 metadata、取舍与验证缺口见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)。原文快照及哈希见[来源清单](../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论

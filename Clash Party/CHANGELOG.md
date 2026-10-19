@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-20 — Surge 原生 VIF 修复
+
+- FIX#190：Surge `v6.0.20-Surge.12` 修正自身 Fake IP 池被 TUN 排除的问题，详见 [Surge 日志](../Surge/CHANGELOG.md)。仅涉及 Surge 原生字段与回归门禁，Clash Party 覆写、源规则图、DNS 和融合资产未变，无需全端重生成；跨端审计边界见 Surge REFERENCE。
+
 ## v6.0.20-dns.20 (2026-10-19)
 
 - Smart JS 移除当前 Smart 内核已不接收的 `strategy: sticky-sessions`，保留 `type: smart`、LightGBM、22 区域组和 33 业务组；同步 OpenClash Smart，同构审查中 Normal/FlClash 使用 `url-test`、其他客户端没有该 Smart 字段，无需修改规则生成链路。
