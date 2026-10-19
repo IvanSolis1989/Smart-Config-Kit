@@ -16,22 +16,10 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Surge/Surg
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 目录简介：这里维护 Surge iOS/macOS 配置和导入教程，按 Surge 语法对齐 Clash Party 分流策略。
->
-> 配置文件：`Surge/Surge.conf`
-> 版本：**v6.0.20-Surge.10**（Build 2026-10-16；跟随 Clash Party v6.0.20 基线；81 个源语义段对应 78 个非空远程 RULE-SET）
-> 目标：**Surge 5 / Surge Mac**（付费正版；iOS + macOS 通用）
-> 架构：22 区域 url-test 组（11 全部 + 11 家宽，include-all-proxies + policy-regex-filter 自动按地区聚合）+ 33 业务策略组 + 78 个非空融合 RULE-SET（受聚合预算门禁）
-> 节点命名兼容：policy-regex-filter 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写地区码加编号的名称。
+> 配置：`Surge.conf` · **v6.0.20-Surge.11**（Build 2026-10-19）
+> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.20 分流基线。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -40,152 +28,120 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Surge/Surg
 ## 🚀 零基础快速开始
 
 ### 这是什么？
-**Surge 是 iOS / macOS 上最专业、最贵的付费代理客户端**。它的强项是稳定 + 脚本化 + MITM。本仓库提供一份 Surge `.conf`，让你无需手配 900+ 条规则就能享用 11 区域 + 33 业务分流。
+
+本仓库的 `Surge.conf` 提供国内直连、海外代理和广告拦截规则；节点需另行接入。
 
 ### 我要准备什么？
-1. **iPhone/iPad（iOS 15+）或 Mac**
-2. **非中国区 Apple ID**（Surge 在大陆区下架）
-3. **💸 Surge 5 付费**：iOS 约 **¥648**（约 $90，贵！），macOS 约 $89.99。**许可证一次买 5 台设备共用**。
-4. **一个机场订阅 URL**
-5. **本仓库的 `Surge.conf`**，托管到 URL
+
+准备 Surge、可用的机场订阅 URL，以及上方配置直链。截至 2026-10-19，官方稳定版 Surge 5.23.0 要求 iOS 17+；Surge Mac 6.10.0 要求 macOS 12+。商店地区与版本证据见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ### Surge 值不值这个价？
-- **值**：稳定到离谱（2 年不重启不崩）、脚本生态最强、MITM 最好用、Mac/iOS 配置同步。
-- **不值**：如果你只是临时用代理、不做自动化/MITM，选便宜的 **Shadowrocket（¥20）** 或 **Loon（¥198）** 就够用。
+
+按所需协议、Mac 支持、脚本与 MITM 功能选择；授权与价格以[官方商店](https://nssurge.com/)为准。
 
 ### 术语速查
-- **Surge 配置 `.conf`**：`[General]` / `[Proxy Group]` / `[Rule]` / `[MITM]` 等段落的文本文件
-- **RULE-SET**：外部规则列表的 URL，Surge 启动时从网上拉
-- **MMDB**：GeoIP 数据库。Surge 独有的 `geoip-maxmind-url` 字段已启用，**开机自动下载** Loyalsoldier 加强版，不用手动配
-- **MITM**：中间人解密，用于签到脚本 / 去广告。本配置默认关闭
+
+- `.conf`：分流配置，不含机场节点。
+- `RULE-SET`：需联网下载的规则集。
+- MMDB：GeoIP 数据库，本配置使用 `geoip-maxmind-url` 指定来源。
+- MITM：HTTPS 解密；本配置默认关闭。
 
 ### 3 步走完
-1. **App Store 搜 "Surge 5" → 购买 → 安装 → 允许 VPN 权限**。
-2. **把 `Surge.conf` 托管到 URL**（最简单：GitHub Raw：`https://raw.githubusercontent.com/你用户名/仓库/main/Surge/Surge.conf`）
-3. **导入**：Surge → 配置 → 安装配置 → 粘贴 URL → 下载 → 启用。节点来源：机场订阅作为子配置添加（配置 → 本配置 → 子配置 / External Subscription）。
+
+1. 安装 Surge，首次连接时允许添加 VPN 配置。
+2. 从上方直链导入并启用配置，详见第三节。
+3. 按第四节接入节点，再启动连接。
 
 ### 跑起来验证？
-- 浏览器打开 `https://www.google.com` 能打开
-- Surge「策略组」面板应看到 **55 组**（22 区域 + 33 业务）
-- Surge「活动」面板可看每条请求命中的规则和节点
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+确认策略面板有 **22 区域 + 33 业务 = 55 组**，再按第九节查看实际请求命中的规则与节点。
 
 ### 最常见踩坑
-- ❌ **App Store 提示无法购买**：Apple ID 是中国区，换非中国区。
-- ❌ **规则集下载失败 `rule-set unavailable`**：首次安装**必须先开代理**。用一个简单节点连上再导本配置。
-- ❌ **MMDB 没下载**：Surge 需能访问 GitHub 才能拉 Loyalsoldier 版；失败时回退到内置 GeoIP（规则仍能跑，只是精度稍差）。
-- ❌ **支付宝/银行登不上**：本配置已排除 5 大国行 + 支付宝/微信支付；没覆盖的 App 自行加 `skip-proxy`（`[General]` 段）。
-- ❌ **想要 LightGBM 自动择优**：Surge 不是 mihomo 内核，做不到。要就用桌面端 Clash Verge Rev / Mihomo Party。
 
----
+下载失败先确认 GitHub Raw 可达；节点或支付 App 异常见第十节。Surge 原生 smart 与 Mihomo Smart / LightGBM 不是同一功能，本配置使用 `url-test`。
 
 ## 🔌 协议支持（Surge 5 自家引擎）
 
-Surge 不用开源内核，自己实现协议栈。**追求稳定不追求新**——协议覆盖面偏窄但成熟度极高：
+协议与 iOS / Mac 门槛按 [Surge 官方文档](https://manual.nssurge.com/policies/overview.html)核对：
 
 | 协议 | 支持 | 说明 |
 |---|:-:|---|
 | **Shadowsocks (SS)** | ✅ | AEAD + SS 2022 |
 | **ShadowsocksR (SSR)** | ❌ | Surge 不支持 |
 | **VMess** | ✅ | ws/h2 |
-| **VLESS** | ❌ | 原生不支持；可用 External Proxy 桥接 |
-| **REALITY / XTLS-Vision** | ❌ | 必须 External Proxy 调用 Xray/sing-box |
+| **VLESS** | ❌ | 无原生类型；External Proxy 桥接仅限 Mac |
+| **REALITY / XTLS-Vision** | ❌ | 无原生类型；iOS 不支持运行 External 程序 |
 | **Trojan** | ✅ | |
-| **Hysteria v1** | ❌ | Surge 5.9- 不支持 |
-| **Hysteria 2** | ⚠️ | Surge 5.9+ 开始支持（**近期更新**）|
-| **TUIC v5** | ❌ | 不支持 |
+| **Hysteria v1** | ❌ | 官方协议列表未列此类型 |
+| **Hysteria 2** | ✅ | [iOS 5.8.0+ / Mac 5.4.0+](https://manual.nssurge.com/policies/hysteria2.html) |
+| **TUIC v5** | ✅ | [`tuic-v5`](https://manual.nssurge.com/policies/tuic.html)，使用 UUID + password；官方页未注明最初引入版本 |
+| **AnyTLS** | ✅ | [iOS 5.17.0+ / Mac 6.4.3+](https://manual.nssurge.com/policies/anytls.html)，AnyTLS v2 |
 | **WireGuard** | ✅ | 作为二级代理（完整支持）|
-| **Snell v4** | ✅（**Surge 自家协议的主场**）| Surge 团队设计的协议 |
+| **Snell** | ✅ | [v1–v6](https://manual.nssurge.com/policies/snell.html)；v6 客户端要求 iOS 5.20.0+ / Mac 6.7.0+，官方仍标注 v6 协议为 beta |
 | **HTTP/2 / HTTPS / SOCKS5 / HTTP** | ✅ | |
-| **External Proxy（外部代理桥接）** | ✅ | 可调用 sing-box / v2ray / xray 二进制执行不支持的协议，再注入 Surge 策略组 |
+| **External Proxy（外部代理桥接）** | Mac ✅ / iOS ❌ | [仅 Mac 可启动外部程序；iOS 将 external 策略按 REJECT 处理](https://manual.nssurge.com/policies/external.html) |
 
-**Surge 的定位**：iOS/macOS 上最稳定、脚本生态最强、MITM 最好用；协议覆盖面输给 Shadowrocket（便宜 30 倍）。如果你机场主推 VLESS REALITY / Hysteria 2 / TUIC，Surge 可能需要 External Proxy 绕过去，不如直接用 SR 或 Loon。
-
-### 什么时候选 Surge（不是协议原因）？
-- 家里有很多自动化需求（签到脚本、Telegram Bot、HomeKit 联动）
-- 需要 Mac + iPhone 同步配置（Surge 有 iCloud 同步 + Surge Mac）
-- 长期稳定运行（Surge 的稳定性换 ¥648）
+TUIC 的最初引入版本未由官方页确认；Snell v6 仍标为 beta。完整来源与待核项见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ---
 
+### 什么时候选 Surge（不是协议原因）？
+
+需要 Surge Mac、脚本或 MITM 时，可进一步查看官方功能说明；本配置默认不启用脚本与 MITM。
+
 ## 一、下载 Surge
 
-Surge 是付费软件，无免费版：
-
-- **iOS**：App Store 搜「Surge 5」，价格 ¥648 / 区（约 $90）。
-- **macOS**：https://nssurge.com → Surge Mac 许可证（一次性 $89.99 起）。
-- **许可证可在 5 台设备同步使用**（同一个 Apple ID / Surge 账号）。
+iOS 从 App Store 安装 Surge 5；Mac 从 [Surge 官网](https://nssurge.com/)获取。系统门槛见上方“我要准备什么”，授权条件以官方页面为准。
 
 ---
 
 ## 二、配置托管
 
-Surge 不支持本地文件直接「打开即导入」，必须把配置托管到 URL：
+直接使用上方本仓库 Raw URL。需要修改配置时，可放到自己的 HTTPS 地址：
 
-**A. GitHub Raw**
 ```
 https://raw.githubusercontent.com/<user>/<repo>/main/Surge/Surge.conf
 ```
 
-**B. jsDelivr CDN**（仅当其他仓库符合 jsDelivr package 与单文件大小限制时使用）
+以下 CDN 样例仅适用于符合 jsDelivr 包大小限制的其他仓库；本仓库配置和融合规则请使用 GitHub Raw。
+
 ```
 https://cdn.jsdelivr.net/gh/<user>/<repo>@main/Surge/Surge.conf
 ```
-本仓库自有配置与融合规则请使用上方 GitHub Raw URL；更换 jsDelivr 子域名不能绕过仓库级 package 限制。
-
-**C. 自建 HTTPS**
-任意可通过 HTTPS 访问的 URL 均可。
 
 ---
 
 ## 三、导入配置
 
-1. 打开 Surge → 底部 **配置（Config）** 标签。
-2. 右上角 **➕** → **从 URL 安装**。
-3. 粘贴托管 URL → **下载**。
-4. 下载完成后点击配置 → **启用**。
-
-首次启用时 Surge 会拉取 **63 个本仓库融合 RULE-SET**，根据网络情况约 **1–3 分钟**。**这期间务必保持代理开启**，否则 GitHub 访问不稳定会导致部分 RULE-SET 下载失败。
+1. Surge → **配置** → **➕** → **从 URL 安装**。
+2. 粘贴配置 URL，下载后点击配置并启用。
+3. 检查全部远程 RULE-SET 下载完成；网络无法访问 GitHub Raw 时，先使用可用代理下载。
 
 ---
 
 ## 四、机场订阅 / 节点
 
-Surge 的节点来源有两种方式，任选其一：
+**A. 把机场订阅作为独立子配置**：使用 Surge 支持的订阅格式接入节点，再确认主配置可引用这些节点。具体菜单随版本变化，子配置 UI 流程仍需真机核验。
 
-**A. 把机场订阅作为独立子配置**（推荐）
-1. Surge → **配置** → ➕ → 粘贴机场订阅 URL → **下载**。
-2. 在主配置（本文件）的 **「配置 → 本配置 → 子配置 / External Subscription」** 里把机场订阅选成「节点来源」。
-3. 所有节点会通过 `include-all-proxies=true` 进入 9 个区域组的候选池，再按 `policy-regex-filter` 正则匹配到对应地区。
+**B. 手动节点**：按 `Surge.conf` 内注释，在 `[Proxy]` 中填写 Surge 原生节点定义。
 
-**B. 直接在本文件 `[Proxy]` 段粘贴节点**
-这种方式适合手工维护少量节点，格式参考文件第 126 行附近的注释。**不推荐**，机场订阅 A 更省事。
+区域组通过 `include-all-proxies=true` 和 `policy-regex-filter` 筛选节点；导入后检查组内实际成员。
+
+---
 
 ### 多机场订阅合并
 
-如果你同时买了多家机场，可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具，所有客户端通用。
-
-1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
-2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
-3. 后端选 **Mihomo（Clash.Meta）**
-4. 生成新 URL → 作为独立子配置导入 Surge（「配置 → ➕ → 从 URL 安装」），再在主配置中选为节点来源
-
-> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
-
----
+如需转换或合并订阅，输出必须是 Surge 支持的格式。第三方转换服务可看到含 token 的订阅链接，使用前确认服务可信。
 
 ## 五、11 区域组 × 33 业务组说明
 
 ### 区域组（url-test 自动择优）
-9 个组先用 `include-all-proxies=true` 引入候选节点，再按 `policy-regex-filter` 自动按节点名聚合：
-- 🌍 全球节点（剔除信息/倍率/回国节点，兜底全球最低延迟）
-- 🇭🇰 香港节点、🇹🇼 台湾节点、🇯🇵 日韩节点（JP+KR 合并）、🌏 亚太节点
-- 🇺🇸 美国节点、🇪🇺 欧洲节点、🌎 美洲节点、🌍 非洲节点
 
-测速间隔 **300s**（5 分钟），tolerance **50ms**（防抖动）。
+11 个地区各有全部节点和家宽节点组，共 22 组；按节点名称筛选。组内为空或分类不符时，先检查订阅是否接入及名称是否含地区标识。测速参数以配置文件为准。
 
 ### 业务策略组（select 手动）
-33 个业务组，首次导入后建议为每个组手动指定一个首选区域：
+
+首次导入后，为 33 个业务组选择适用的区域或节点；下表仅作场景参考，服务可用性还取决于实际出口。
 
 | 业务组 | 推荐区域 |
 |--------|----------|
@@ -222,23 +178,18 @@ Surge 的节点来源有两种方式，任选其一：
 | 🐟 漏网之鱼 | 🌍 全球（FINAL）|
 | 🛑 广告拦截 | REJECT |
 
----
+## 六、DNS 配置（Surge 原生行为）
 
-## 六、DNS 配置（与 Clash Party 对齐）
+DNS 位于 `[General]`。多个加密 DNS **并发查询，采用首个有效响应**；配置加密 DNS 后，普通 DNS 仅用于连通性检测与服务器域名自举。
 
-本版本的 DNS 段直接映射 Clash Party `README.md` 第四节的「DNS」基线：
-
-| Surge 字段 | 对应 Clash 字段 | 值 |
+| Surge 字段 | 本配置 | 行为 |
 |------------|-----------------|------|
-| `dns-server` | `default-nameserver` | `223.5.5.5, 119.29.29.29, 1.1.1.1, 8.8.8.8` |
-| `encrypted-dns-server` | `nameserver` + `direct-nameserver` + `fallback` | 国内 DoH + 境外 DoH |
-| `hijack-dns` | `hijack-dns` | `8.8.8.8:53, 8.8.4.4:53` |
-| `geoip-maxmind-url` | `geox-url.mmdb` | Loyalsoldier Country.mmdb（Surge 专属优势：无需 UI 手动导入）|
+| `dns-server` | `223.5.5.5, 119.29.29.29, 1.1.1.1, 8.8.8.8` | 连通性检测与域名自举 |
+| `encrypted-dns-server` | AliDNS 两个 IP-host DoH + Google / Cloudflare DoH | 并发查询，首答生效 |
+| `encrypted-dns-follow-outbound-mode` | `false` | 加密 DNS 直连，不进入出站分流规则 |
+| `hijack-dns` | `8.8.8.8:53, 8.8.4.4:53` | 劫持指定硬编码 DNS 查询 |
 
-**无法迁移的 Clash 字段**（Surge 引擎限制）：
-- `respect-rules: true`（Surge 默认尊重规则，无此开关）
-- `fallback-filter.geoip-code: CN`（Surge DNS 无 GeoIP 过滤层）
-- `proxy-server-nameserver`（Surge 用 `encrypted-dns-follow-outbound-mode` 统一管理）
+当前加密 DNS 均直连；全部失败时，未实现“明文兜底”或“失败再转代理”。Surge 不支持旧 `[DNS]` 节；将 `encrypted-dns-follow-outbound-mode` 改为 `true` 会改变所有加密 DNS 的路由，并可能形成代理域名解析循环。官方依据见[加密 DNS 文档](https://manual.nssurge.com/dns/encrypted-dns.html)与[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ---
 
@@ -253,7 +204,7 @@ Surge 的节点来源有两种方式，任选其一：
 | MITM + JS 脚本（自动化签到/去广告） | ✅ 原生 | ⚠️ 部分支持 |
 | External Controller（Surge Dashboard） | ✅ 支持 | ❌ 无 |
 
-本配置默认关闭 MITM / JS 脚本（量化/交易场景不需要）；如需启用签到脚本，在 `[MITM]` 段加 hostname 并把 `enable = true`。
+本配置默认关闭 MITM 与脚本。上表为功能对照，其他客户端能力与未确认的最小版本以[复核报告](../docs/upstream/2026-10-19/apple/report.md)为准。
 
 ---
 
@@ -268,78 +219,68 @@ Surge 的节点来源有两种方式，任选其一：
 | ⚙️ Meta `.mrs` 二进制 → blackmatrix7 Surge `.list` | 格式兼容性 |
 | ⚙️ rule-provider 独立刷新 → Surge 订阅统一更新 | Surge 引擎设计 |
 
+上表保留历史迁移对照；当前 RULE-SET 使用本仓库发布的融合资产，DNS 行为见第六节，不能视为 Mihomo DNS 的完全等价实现。
+
 ---
 
 ## 九、验证
 
-1. Surge → **首页** → **已启用的配置**：应显示 `Surge Smart v6.0.6-Surge.1`。
-2. **策略组** 面板应出现 22 区域 + 33 业务共 55 组（不得少于 50 组）。
-3. 访问以下网站做功能验证：
-   - `https://chat.openai.com` → 命中「🤖 AI 服务」
-   - `https://www.netflix.com` → 命中「🎥 Netflix」
-   - `https://www.bilibili.com` → DIRECT 或「📺 国内流媒体」
-   - `https://raw.githubusercontent.com` → 「🔧 工具与服务」或「🚫 受限网站」
-4. **活动（Activity）** 面板可查看每条实时请求命中的规则 + 上游节点。
+1. 确认启用 `Surge Smart v6.0.20-Surge.11`，策略面板有 55 个组且区域组含节点。
+2. 检查所有 RULE-SET 下载完成。
+3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在 **活动（Activity）** 中核对 AI、Netflix、国内流媒体规则及实际出口。
+4. 继续完成根 README 的[导入后验证清单](../README.md#-导入后-60-秒验证清单)。
 
 ---
 
 ## 十、常见问题
 
 ### Q1：规则集下载失败，配置里显示 `rule-set unavailable`？
-- 首次安装必须**先开代理**再下载配置，否则 GitHub 不稳定 + GFW 封锁会导致部分 RULE-SET 404。
-- 若已开代理仍失败，检查 **配置 → 常规 → 网络权限** 是否允许 Surge 访问 WiFi + 蜂窝。
+
+确认 URL 可访问、网络权限已允许；必要时先用可用节点连接，再刷新配置与规则集。详见[下载排错](../docs/rule-asset-delivery.md)。
 
 ### Q2：导入时报 `DST-PORT,7680,REJECT` 无效配置？
-- 请更新到 `v5.4.17-Surge.1` 或更新后的 `Surge.conf`。Surge 官方端口规则名是 [`DEST-PORT`](https://manual.nssurge.com/rule/misc-rule.html#dest-port)，不是 Mihomo / Shadowrocket 风格的 `DST-PORT`。
+
+请重新获取本目录配置。Surge 的端口规则名是 [`DEST-PORT`](https://manual.nssurge.com/rule/misc-rule.html#dest-port)，不能混用其他客户端的 `DST-PORT`。
 
 ### Q3：我想要 Mihomo Smart 组 + LightGBM 自动择优，怎么办？
-- Surge 引擎不支持。Windows 上用 **Clash Verge Rev / Mihomo Party + 本仓库的 JS 覆写**。
-- macOS 上可以 Surge + Clash Verge Rev 并存（前者用于跨 APP 策略，后者用于 AI/流媒体细分 + LightGBM）。
+
+需使用支持该能力的 Mihomo Smart 客户端；Surge 原生 smart 不等同于 LightGBM。
 
 ### Q4：iOS 支付 / 银行 App 异常？
-- 检查 `skip-proxy` 是否已包含对应域名。本配置已包含：建行 / 农行 / 邮储 / 工行 / 交行 / 支付宝 / 微信支付 / 财付通。
-- 若你用的国内银行域名未列出，在 Surge UI 的 **配置 → 当前配置 → 编辑** → `[General]` 段 `skip-proxy` 追加。
+
+先在活动面板确认目标域名、命中规则与出口，再检查节点和 DNS。`skip-proxy` 不能作为“保证直连”的同义配置；不要仅凭 App 名称追加通配域名。
 
 ### Q4：我想启用 MITM / JS 脚本（签到、去广告）？
-- 本配置默认 `[MITM] enable = false`（量化交易场景不需要）。
-- 启用步骤：
-  1. Surge → **设置 → 证书 → 生成新 CA 证书 → 信任**（iOS 需在系统「设置 → 通用 → VPN 与设备管理」里信任）。
-  2. `[MITM]` 段改为 `enable = true` + `hostname = 你要 MITM 的域名`。
-  3. 在 `[Script]` 段或 `[URL Rewrite]` 段加入具体规则。
+
+在 Surge 中生成并按系统要求信任证书，仅为所需域名开启 MITM，再添加对应脚本或重写；先检查其与现有规则是否冲突。
 
 ### Q5：节点名里有地区 emoji 但没被正确聚合？
-- `policy-regex-filter` 是 Unicode 正则。如果机场的节点名用了特殊 emoji 序列（如 `🇭🇰` 的 RGI 旗帜序列），建议保留原生 emoji + 加中文国名（「香港」）做兜底，已在 regex 里兼容。
+
+检查节点是否已接入候选池，并保留中文地区名或 HK / JP / US 等地区标识；以组内实际成员确认匹配结果。
 
 ### Q6：跨境场景（中国 ⇄ 海外）怎么切换？
+
+在策略面板切换对应业务组；下表按所在网络作参考。
+
 | 组 | 在中国 | 在海外 |
 |---|---|---|
 | 🚫 受限网站 | 选代理节点 | DIRECT |
 | 🌐 国外网站（jsDelivr） | 代理 | DIRECT |
 | 📺 国内流媒体 | DIRECT | 🇭🇰 香港回国节点 |
 
-Surge 支持 **按 SSID 自动切换配置**（`[Proxy Group]` 的 `ssid` 类型）；有需要可自行改造本文件加入 SSID 组。
-
----
-
 ## 十一、规则更新与维护
 
 ### Surge 自动更新
-Surge 订阅默认**每次启动轮询更新**规则集。可在 **配置 → 常规 → 订阅更新周期** 里调整：
-- **每次启动**（默认）
-- 每 6 / 12 / 24 / 48 小时
-- 手动
+
+在客户端确认配置与规则集的更新设置；更新后检查下载状态，不以启动成功代替规则已更新。
 
 ### 本仓库升级时同步
-本 `Surge.conf` 跟随 Clash Party 主线升级；订阅的 URL 会自动拉最新版，无需手工重新导入。
 
----
+远程配置需在客户端刷新；本地修改应先备份，避免更新覆盖。变更记录见 [CHANGELOG](./CHANGELOG.md)。
 
 ## 十二、致谢
 
-- [Surge](https://nssurge.com/) - 付费、稳定、专业的 iOS/macOS 代理客户端
-- [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) - Surge `.list` 规则源
-- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip) - GeoIP MMDB
-- 原版 Clash Party v5.2.6 所有参考作者
+[Surge](https://nssurge.com/) · [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
 
 ---
 

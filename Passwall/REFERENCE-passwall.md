@@ -1,5 +1,17 @@
 # Passwall 配置参考文档
 
+> 更新于 2026-10-19：本次官方稳定标签源码核验见[完整报告与原文缓存](../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)。下方为历史摘要，未整篇当前化；“UI 接受规则”不能替代后端兼容证明。
+
+## 2026-10-19 现行核验
+
+- 官方稳定版 [26.10.16-2](https://github.com/Openwrt-Passwall/openwrt-passwall/releases/tag/26.10.16-2) 发布于 2026-10-16；本次 API 返回的最近 30 条记录未见预发布，不据此证明全部历史不存在预发布。
+- 分流节点 `protocol='_shunt'`，实际后端为 `type='sing-box'` 或 `type='Xray'`。当前全局节点从 `@global[0].node` 读取，另有 ACL 的独立节点入口。
+- `.srs` 的 `rule-set:remote:` / `rule-set:local:` **仅获 sing-box 后端支持**。稳定标签的 `util_xray.lua` 对两前缀显式跳过；旧摘要把两种核心的能力合并描述不准确。
+- `shunt_rules.lua` 是 UI 验证器；实际生成逻辑在 `luasrc/passwall/util_sing-box.lua` 与 `util_xray.lua`。必须沿调用链检查，不能仅因 UI 保存成功认定 Xray 能消费 `.srs`。
+- 本仓库 fused `.srs` 安装路径应在任何 UCI 写入前核对实际分流节点后端并拒绝 Xray；设备服务与真实路由流量仍需 OpenWrt 验收。官方稳定源码与复现原因均已缓存。
+
+## 历史摘要（未整篇复核）
+
 > 2026-10-15 URL 兼容性复核：继续使用本文件已记录的 `rule-set:remote:https://.../*.srs` 原生语法，来源为 Passwall/Passwall2 官方解析器源码；本次仅换 URL 主机，没有重新确认解析器对 scheme 的限制。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 更新于 2026-07-09：复核当前 `shunt_rules.lua` 解析器。Passwall 的 `domain_list` 与 `ip_list` 仍接受 `rule-set:remote:` / `rule-set:local:`，因此本仓库的 Passwall fallback 直接引用 `rulesets/generated/fused/sing-box/*.srs`，不再维护手写域名/IP 展平列表。

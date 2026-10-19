@@ -11770,7 +11770,7 @@
     "schema_version": 1,
     "source_ledger": {
       "path": "rulesets/generated/source-ledger.json",
-      "sha256": "685de8b18091af76693bb91595510b3c349f0750b92a6d3551c156805183b45b",
+      "sha256": "3ae6d6ac3d271150bb65866781b9cd0e49d7fcdbc949d2dce8d2b1ae7bb6fab6",
       "mode": "partial-sync",
       "raw_provider_count": 401,
       "normalized_provider_count": 525

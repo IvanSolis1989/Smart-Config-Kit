@@ -1,5 +1,20 @@
 # Shadowrocket 配置参考文档
 
+> 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方发布metadata和已取得的正文见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)，下载状态及哈希见[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)。
+
+## 当前复核结论
+
+- US/JP稳定版均2.2.92，2026-09-07 UTC；未取得可确认版本/日期的官方预发布metadata，pending。
+- App Store开发者链接指向[Shadow Launch官方网站](https://shadowlaunch.com/)，该站本次可读但没有配置语法正文。`help.shadowrocket.net`本次无法读取，且未取得当前官方归属链，不将旧“官方帮助站”称谓作本次已验证事实。
+- [官方版本历史](https://apps.apple.com/us/app/shadowrocket/id932747118)提及Sudoku、独立直连域名DNS、TCP/DNSCrypt、多Host服务器、Tailscale、ping排序、远程规则刷新及内存修复，但未给足新字段语法/最低门槛，本次不猜测配置键。
+- 现有RULE-SET、policy-regex-filter与DNS键保持；字段支持仍依赖此前证据和后续官方正文/真机补验，不能以商店概述证明每一条配置已兼容。
+- 下文社区来源保留历史，不用它们替代本次缺失的官方正文；无真实App导入、更新与OOM测量。
+
+## 历史摘要边界
+
+以下旧版本数字、协议门槛及“基于官方”概括可能历史化；未被本次官方正文确认的字段均不能视为新一轮已验证结论。
+
+
 > 2026-10-15 URL 兼容性复核：仓库仍使用 `RULE-SET,<url>,<policy>`。官方帮助站 <https://help.shadowrocket.net/> 本次无法读取，因此没有据此声称重新确认官方 HTTPS 支持；Issue #186 修复只替换既有自有规则 URL 主机，不改规则行语法。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 更新于 2026-05-31（上次获取 2026-04-30）：SR 最新版 v2.2.87（2026-05 下旬）。v2.2.81-2.2.87 新增 compact stream buffers（iOS/tvOS 降低并发内存）、DNS/HTTP/3 修复等客户端侧能力。不涉及分流配置语法变更。RULE-SET/策略组/DNS 语法与当前基线兼容。

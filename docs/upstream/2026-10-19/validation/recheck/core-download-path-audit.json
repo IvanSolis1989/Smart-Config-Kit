@@ -1,0 +1,170 @@
+{
+  "checked_at": "2026-10-19T09:20:00.613Z",
+  "versions": [
+    {
+      "version": "1.14.3",
+      "url": "https://github.com/SagerNet/sing-box/blob/v1.14.3/.github/workflows/build.yml",
+      "file": "singbox-1.14.3-official-build-workflow.stdout.log",
+      "excerpts": [
+        {
+          "line": 337,
+          "text": "          DIR_NAME=\"sing-box-${{ needs.calculate_version.outputs.version }}-${{ matrix.os }}-${{ matrix.arch }}\""
+        },
+        {
+          "line": 339,
+          "text": "            DIR_NAME=\"${DIR_NAME}v${{ matrix.goarm }}\""
+        },
+        {
+          "line": 341,
+          "text": "            DIR_NAME=\"${DIR_NAME}-${{ matrix.go386 }}\""
+        },
+        {
+          "line": 343,
+          "text": "            DIR_NAME=\"${DIR_NAME}-${{ matrix.gomips }}\""
+        },
+        {
+          "line": 345,
+          "text": "            DIR_NAME=\"${DIR_NAME}-legacy-${{ matrix.legacy_name }}\""
+        },
+        {
+          "line": 348,
+          "text": "            DIR_NAME=\"${DIR_NAME}-glibc\""
+        },
+        {
+          "line": 350,
+          "text": "            DIR_NAME=\"${DIR_NAME}-musl\""
+        },
+        {
+          "line": 352,
+          "text": "          echo \"DIR_NAME=${DIR_NAME}\" >> \"${GITHUB_ENV}\""
+        },
+        {
+          "line": 452,
+          "text": "            cp sing-box \"${DIR_NAME}/sing-box.exe\""
+        },
+        {
+          "line": 455,
+          "text": "            cp sing-box \"${DIR_NAME}\""
+        },
+        {
+          "line": 459,
+          "text": "            tar -czvf \"${DIR_NAME}.tar.gz\" \"${DIR_NAME}\""
+        },
+        {
+          "line": 549,
+          "text": "          DIR_NAME=\"sing-box-${{ needs.calculate_version.outputs.version }}-darwin-${{ matrix.arch }}\""
+        },
+        {
+          "line": 551,
+          "text": "            DIR_NAME=\"${DIR_NAME}-legacy-${{ matrix.legacy_name }}\""
+        },
+        {
+          "line": 553,
+          "text": "          echo \"DIR_NAME=${DIR_NAME}\" >> \"${GITHUB_ENV}\""
+        },
+        {
+          "line": 560,
+          "text": "          cp sing-box \"${DIR_NAME}\""
+        },
+        {
+          "line": 561,
+          "text": "          tar -czvf \"${DIR_NAME}.tar.gz\" \"${DIR_NAME}\""
+        }
+      ],
+      "sha256": "c858f4ada1bdada2d8da25aad0775f689ac16c9c6cd67b3ba4ea89c47f0f3978",
+      "expected_archive": "sing-box-1.14.3-linux-amd64.tar.gz",
+      "expected_binary": "sing-box-1.14.3-linux-amd64/sing-box"
+    },
+    {
+      "version": "1.13.14",
+      "url": "https://github.com/SagerNet/sing-box/blob/v1.13.14/.github/workflows/build.yml",
+      "file": "singbox-1.13.14-official-build-workflow.stdout.log",
+      "excerpts": [
+        {
+          "line": 314,
+          "text": "          DIR_NAME=\"sing-box-${{ needs.calculate_version.outputs.version }}-${{ matrix.os }}-${{ matrix.arch }}\""
+        },
+        {
+          "line": 316,
+          "text": "            DIR_NAME=\"${DIR_NAME}v${{ matrix.goarm }}\""
+        },
+        {
+          "line": 318,
+          "text": "            DIR_NAME=\"${DIR_NAME}-${{ matrix.go386 }}\""
+        },
+        {
+          "line": 320,
+          "text": "            DIR_NAME=\"${DIR_NAME}-${{ matrix.gomips }}\""
+        },
+        {
+          "line": 322,
+          "text": "            DIR_NAME=\"${DIR_NAME}-legacy-${{ matrix.legacy_name }}\""
+        },
+        {
+          "line": 325,
+          "text": "            DIR_NAME=\"${DIR_NAME}-glibc\""
+        },
+        {
+          "line": 327,
+          "text": "            DIR_NAME=\"${DIR_NAME}-musl\""
+        },
+        {
+          "line": 329,
+          "text": "          echo \"DIR_NAME=${DIR_NAME}\" >> \"${GITHUB_ENV}\""
+        },
+        {
+          "line": 431,
+          "text": "            cp sing-box \"${DIR_NAME}/sing-box.exe\""
+        },
+        {
+          "line": 434,
+          "text": "            cp sing-box \"${DIR_NAME}\""
+        },
+        {
+          "line": 438,
+          "text": "            tar -czvf \"${DIR_NAME}.tar.gz\" \"${DIR_NAME}\""
+        },
+        {
+          "line": 520,
+          "text": "          DIR_NAME=\"sing-box-${{ needs.calculate_version.outputs.version }}-darwin-${{ matrix.arch }}\""
+        },
+        {
+          "line": 522,
+          "text": "            DIR_NAME=\"${DIR_NAME}-legacy-${{ matrix.legacy_name }}\""
+        },
+        {
+          "line": 524,
+          "text": "          echo \"DIR_NAME=${DIR_NAME}\" >> \"${GITHUB_ENV}\""
+        },
+        {
+          "line": 531,
+          "text": "          cp sing-box \"${DIR_NAME}\""
+        },
+        {
+          "line": 532,
+          "text": "          tar -czvf \"${DIR_NAME}.tar.gz\" \"${DIR_NAME}\""
+        }
+      ],
+      "sha256": "4c32f435474a4ae8cf5110c03797249325dbce93bd2491ecdffa7d71e1c2bac3",
+      "expected_archive": "sing-box-1.13.14-linux-amd64.tar.gz",
+      "expected_binary": "sing-box-1.13.14-linux-amd64/sing-box"
+    }
+  ],
+  "ci_checks": {
+    "bash_syntax_exit_code": 0,
+    "runner": "ubuntu-latest",
+    "shell_features": [
+      "[[ regex ]]",
+      "for loop",
+      "parameter prefix removal"
+    ],
+    "api_auth": "GH_TOKEN explicitly bound to github.token in download step",
+    "checksum": "release asset digest must match sha256 hex; checked before extraction",
+    "environment": {
+      "1.14.3": "SING_BOX_114_BIN",
+      "1.13.14": "SING_BOX_113_BIN"
+    },
+    "schema_test_behavior": "explicit environment path disables skip fallback; missing explicit binary fails",
+    "linux_binaries_downloaded_in_this_review": false
+  }
+}

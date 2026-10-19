@@ -1,0 +1,36 @@
+{
+  "scope": "current public-source manifests; raw bodies inspected only for hash, byte length and gzip integrity",
+  "groups": [
+    {
+      "group": "apple",
+      "total": 57,
+      "ok": 56,
+      "failed": 1
+    },
+    {
+      "group": "consumers",
+      "total": 15,
+      "ok": 15,
+      "failed": 0
+    },
+    {
+      "group": "mihomo",
+      "total": 57,
+      "ok": 57,
+      "failed": 0
+    },
+    {
+      "group": "singbox",
+      "total": 112,
+      "ok": 112,
+      "failed": 0
+    },
+    {
+      "group": "substore",
+      "total": 7,
+      "ok": 7,
+      "failed": 0
+    }
+  ],
+  "issues": []
+}

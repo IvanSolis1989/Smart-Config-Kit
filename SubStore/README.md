@@ -2,7 +2,7 @@
 
 > 这里处理的是**订阅与节点管理**，不是分流规则。Smart-Config-Kit 的规则、策略组、DNS、嗅探、GeoX 与 rule-provider 仍以 `rulesets/source/routing-graph.js` 为唯一基线。
 
-当你想把机场 A、B、C 的节点合成一份节点池，再交给 FlClash / Clash Party 的同一份覆写脚本统一分类时，Sub-Store 是推荐的聚合层。它解决“多订阅 → 一条客户端订阅 URL”；本仓库继续解决“这一条配置里的全部节点 → 区域组、业务组与分流规则”。
+Sub-Store 将多个机场合成一条订阅；本仓库覆写再将合并后的节点分类并应用分流规则。
 
 ```text
 多个机场原生订阅
@@ -20,7 +20,7 @@
 | 多个机场节点进入同一个“香港节点 / 全球节点 / AI 服务”等策略组 | 使用本教程的 Sub-Store 组合订阅 |
 | 想让覆写脚本自行保存 URL、token、拉取并合并节点 | 不推荐；这会把订阅管理、凭据保存和刷新失败处理塞进覆写脚本 |
 
-FlClash 的覆写运行在当前选中的单份配置上：它会处理这份配置的 `proxies`，不会读取其他 Profile 的订阅内容。因此“能添加多条 Profile”不等于“能得到一个合并后的活动节点池”。
+FlClash 覆写只处理当前 Profile 的 `proxies`，多个独立 Profile 不会自动合并。
 
 ## 安全边界（先读）
 
@@ -32,7 +32,7 @@ FlClash 的覆写运行在当前选中的单份配置上：它会处理这份配
 
 ## 方式一：使用客户端内置 Sub-Store（最省事）
 
-机场重置链接后，可配合 [Edge / Chrome 自动订阅同步助手](./edge-extension/README.md)：首次明确允许域名或 IP 后，正常打开已登录面板，扩展自动提取链接、识别机场与 Sub-Store 名称、验证节点并只替换对应 URL，保留处理步骤和组合关系。默认更新本机，也可在高级设置启用独立 Cloudflare Sub-Store；两端分别匹配和验收，部分成功不回滚另一端。日常无需选名称、复制链接或点同步；覆盖、连接配置导入和安装步骤见扩展说明。源 URL 更新、云端集合/Gist 发布与手机订阅刷新是独立步骤。
+链接重置后，可使用 [Edge / Chrome 同步助手](./edge-extension/README.md)：首次允许网站后，正常打开已登录面板即可提取、匹配、验证并更新已有条目，保留处理器和组合关系。默认本机，可选独立 Cloudflare；两端分别验收，部分成功不回滚。源更新、集合/Gist 发布与手机刷新须分开检查。
 
 如果你已有 Clash Party 或 Mihomo Party 的内置 Sub-Store，不需要额外部署服务：
 
@@ -44,7 +44,7 @@ FlClash 的覆写运行在当前选中的单份配置上：它会处理这份配
 
 ## 方式二：自托管 Sub-Store（Docker）
 
-适用于没有内置 Sub-Store、希望控制数据位置，或要让多个客户端共同使用同一条组合订阅的用户。下面采用 [官方 Docker 镜像说明](https://hub.docker.com/r/xream/sub-store) 的本机监听、持久化目录和前后端路径配置；先在可信设备上部署，再决定是否需要受控的远程访问。
+需要自托管时，按 [官方 Docker 说明](https://hub.docker.com/r/xream/sub-store) 在可信设备部署，默认仅监听本机。
 
 ### 1. 准备环境
 
@@ -115,7 +115,7 @@ docker compose up -d
 docker compose stop
 ```
 
-`./data` 中会保存个人配置和订阅数据。升级前把它备份到私有、加密的位置；不要把该目录提交到 Git、同步到公共网盘或贴进排障截图。若确需跨设备使用，不要简单把 `127.0.0.1` 改成 `0.0.0.0`：请使用自己的 HTTPS 反向代理，并加认证或 VPN；官方文档特别提示后端主机设置不应直接暴露，随机路径不能替代访问控制。
+升级前私密备份 `./data`，勿提交 Git 或公开。跨设备访问需配置 HTTPS、认证或 VPN；随机路径不能替代访问控制，也不要直接改成公网监听。
 
 ## 方式三：Cloudflare Workers（无服务器兼容版）
 
@@ -129,11 +129,11 @@ docker compose stop
 
 ### 先理解“不能运行脚本”的准确含义
 
-你记得的限制对应本节的 Cloudflare-native 兼容版：它支持多 Source / Collection、区域或正则过滤、重命名、删除、端点去重、排序、旗帜、域名解析及多客户端输出，但不从网页、D1 或远程 URL 动态执行任意 JavaScript。运行时脚本、远程脚本和脚本市场均不支持；个人 Filter / Operator 必须作为受信任代码在本地打包并重新部署后才可用。[上游兼容矩阵](https://github.com/realchendahuang/sub-store-cloudflare/blob/main/docs/upstream-compatibility.md)
+本节 Cloudflare-native 版支持内置聚合、过滤、重命名、去重等操作，但不从网页、D1 或 URL 动态执行 JavaScript。自定义 Filter / Operator 须作为受信任代码本地构建并重新部署。[兼容矩阵](https://github.com/realchendahuang/sub-store-cloudflare/blob/main/docs/upstream-compatibility.md)
 
 原因不是 Worker 没有 `fetch` 或缓存能力，而是 Cloudflare Workers 在请求期禁止 `eval()` / `new Function()`；原版 Sub-Store 的动态脚本还会注入 `$substore`、`flowUtils`、`$httpClient`、`produceArtifact`、`require` 等宿主能力。[Cloudflare 运行时约束](https://developers.cloudflare.com/workers/runtime-apis/web-standards/) · [原版动态脚本宿主](https://github.com/sub-store-org/Sub-Store/blob/30b9113d3e1d82b7af70cf8f66c79a08b54377bd/backend/src/core/proxy-utils/processors/index.js#L1748-L1832)
 
-所以本仓库的 `flag-airport-rename.js`、`drop-invalid-nodes.js`、`merge-subscription-userinfo.js` 等 **Raw 脚本不能直接填入本节项目**。在它的管理界面中改用内置的“清理信息节点、正则重命名、端点去重、名称排序”等操作；若必须运行这些 Raw 脚本，使用方式一/二。
+本仓库 **Raw 脚本不能直接填入该项目**，请使用其内置操作；需要原版脚本时选方式一/二。
 
 > 不要把“所有 Worker 版都无法运行脚本”写成绝对结论。当前 [`Yu9191/sub-store-workers`](https://github.com/Yu9191/sub-store-workers) 已用 QuickJS WASM 兼容部分 Script Operator / Filter，但仍不是完整 Node 版；本地 MMDB、文件系统、`child_process` / shoutrrr、自定义 HTTP/SOCKS 出站代理等仍受限，且应以其 `worker-status` 能力输出与实际脚本结果为准。
 
@@ -253,7 +253,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SubStore/s
 
 ## 自动发布前的完整性保护
 
-HTTP 200、YAML 合法、节点总数非零，都不能证明所有机场已成功聚合。下载失败可能被忽略，机场也可能返回语法正确的“设备过多 / 更新订阅链接”占位节点。完整性检查应处于生成完成、上传 Gist / Artifact 之前；失败时保留已验证的上一份完整发布物。
+生成后、上传 Gist / Artifact 前须检查来源完整性；HTTP 200、合法 YAML 和非零节点数不能排除缺源或错误占位节点。失败时保留上一份已验收发布物。
 
 ### 本地 Sub-Store：严格下载并在最后检查
 
@@ -316,11 +316,11 @@ https://sub-b.example/mirror/subscribe?token=...#flowDedup=airport-alpha
 
 ### FlClash 里能存多条订阅，为什么还要 Sub-Store？
 
-多条 Profile 用于切换；覆写脚本只处理当前活动 Profile 的配置。Sub-Store 的作用是先把多个机场变为一份 `proxies` 列表，让同一覆写脚本能一次完成分类。
+多条 Profile 用于切换；Sub-Store 先合并为一个节点池，覆写才能一次分类。
 
 ### 组合后策略组为空或只剩一个机场的节点？
 
-确认客户端导入的是组合订阅的一条输出 URL，并且覆写脚本关联在这条 Profile 上。随后刷新该 Profile；不要分别刷新多个原始机场 Profile 后期待客户端自动合并。
+确认导入组合订阅的输出 URL，关联覆写并刷新同一个 Profile。
 
 ### 节点名称重复、来源看不出来怎么办？
 
@@ -328,7 +328,7 @@ https://sub-b.example/mirror/subscribe?token=...#flowDedup=airport-alpha
 
 ### 为什么不把订阅 URL 直接写进 Smart-Config-Kit 的 JS？
 
-订阅管理需要处理凭据、刷新、故障隔离、流量头和节点去重；将私密 URL 放进公开脚本既不安全，也让覆写脚本承担不属于它的职责。仓库只提供脱敏的聚合脚本模板。
+公开覆写不保存私人 URL。订阅凭据、刷新、流量与去重由 Sub-Store 管理；仓库只提供脱敏模板。
 
 ## 目录与参考
 

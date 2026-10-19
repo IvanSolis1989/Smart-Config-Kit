@@ -1,0 +1,1 @@
+PASS generated remote asset size validation: 599 referenced assets <= 18874368 bytes; 13 client aggregate budgets satisfied

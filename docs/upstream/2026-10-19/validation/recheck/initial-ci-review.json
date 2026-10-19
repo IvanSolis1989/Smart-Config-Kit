@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-10-19T09:20:50.884Z",
+  "node": "v24.14.0",
+  "ruby": "3.3.11 x64-mingw-ucrt",
+  "ci_runtime_difference": "Local checks ran on Windows Node 24.14.0; CI is Ubuntu Node 22 / Ruby 3.3",
+  "commands": 20,
+  "passed_commands": 16,
+  "initial_failures": [
+    "10-capability-sync",
+    "11-capability-regression",
+    "13-artifact-contracts",
+    "16-quality"
+  ],
+  "initial_failure_causes": {
+    "10-capability-sync": "v2rayN README exact evidence sentence missing",
+    "11-capability-regression": "same exact evidence sentence missing (2 of 3 tests)",
+    "13-artifact-contracts": "same capability evidence only; 2492 checks across 20 artifacts",
+    "16-quality": "source-ledger/fused-manifest generator source hashes stale"
+  },
+  "domain_projection": {
+    "baseline_ref": "079b5463c206271ade7b563661f49832f18e25c4",
+    "check": {
+      "ok": true,
+      "approved": false,
+      "reason": "ordered structure and provider payloads unchanged; finite probes are supplementary evidence"
+    },
+    "summary": {
+      "hasChanges": false,
+      "changedProviders": 0,
+      "ruleOrderChanged": false,
+      "entryChangeCount": 0,
+      "routeChangeCount": 0,
+      "undecidableCount": 0
+    }
+  },
+  "core_download_audit": "core-download-path-audit.json",
+  "core_digests": "core-digest-receipt.json",
+  "root_reported_followup": "Root restored v2rayN exact evidence and passed capability --check; source receipt refresh pending final generator changes. No repair applied by reviewer."
+}

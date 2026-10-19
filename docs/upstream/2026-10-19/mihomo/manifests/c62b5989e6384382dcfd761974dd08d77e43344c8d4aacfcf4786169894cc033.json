@@ -1,0 +1,1074 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "mihomo",
+  "generated_at": "2026-10-19T08:00:09.545Z",
+  "sources_sha256": "fd46645291b9b23c70389ee7e76a51a39bcdd17f33fe482c7766c7c325913ee5",
+  "counts": {
+    "total": 42,
+    "ok": 14,
+    "failed": 28
+  },
+  "sources": [
+    {
+      "id": "mihomo-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.485Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"bf2848972f370bd1c2a9409fee58530c21287821c13768728a380782fa653af7\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "6"
+      },
+      "file": "bodies/ba8c08eedf1bc210f761d4d25c6152c58d9a6f0bd2a92078b50b366378e440fb.gz",
+      "gzip_sha256": "975ae1efa832b87b4e1b822c192567909d692e06eef72bfe0ab10fc7bfc010d7",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ba8c08eedf1bc210f761d4d25c6152c58d9a6f0bd2a92078b50b366378e440fb",
+          "bytes": 5845868
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "smart-releases",
+      "url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"fc42f1f8cf2a0c8d868e368f4fed643140abfae6222f0f1b514bd1991180d810\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "9"
+      },
+      "file": "bodies/c0626a679fa68abdcb44a30b0c64ef0ace1250f14e307b3742ddfaa20ab1329c.gz",
+      "gzip_sha256": "b6d8923a0d69aa6b1e9c473dbc25be6c421449be12a35bc4000defa6d2659680",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c0626a679fa68abdcb44a30b0c64ef0ace1250f14e307b3742ddfaa20ab1329c",
+          "bytes": 232806
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "party-releases",
+      "url": "https://api.github.com/repos/mihomo-party-org/mihomo-party/releases?per_page=30",
+      "kind": "release",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"71517d0f729976d09baa343b89c3e070323f6089a613136760eb9f69f328dd9d\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "4"
+      },
+      "file": "bodies/74d57e19003d32266527d391818920e364f25dcc3d49e414bb73fd749f8879d1.gz",
+      "gzip_sha256": "c30fcc4154d33c315fe32fafa9a58101b9f3511e6bae325e309546b50e842096",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/mihomo-party-org/mihomo-party/releases?per_page=30",
+        "effective_url": "https://api.github.com/repositories/836976013/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "74d57e19003d32266527d391818920e364f25dcc3d49e414bb73fd749f8879d1",
+          "bytes": 3271769
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "cmfa-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+      "kind": "release",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"de4883e39ab68af83b7c8fbe97dce9913dcde17f5ea82d83d20cc5c1f4e7fd60\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "7"
+      },
+      "file": "bodies/56e3471aea3b79cfd7f15ac097065f255995724bb875bb402f2684c6b27d17bd.gz",
+      "gzip_sha256": "7e59c0d76deaa8b59ffd0478377dc29c20e8218a87b097154b66ac6da04b9844",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "56e3471aea3b79cfd7f15ac097065f255995724bb875bb402f2684c6b27d17bd",
+          "bytes": 386343
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "openclash-releases",
+      "url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+      "kind": "release",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:04.446Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"4e3469a6971fbdd5db0a86897272c3e842b2babc7c6d505759fd192c148c6f7b\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "5"
+      },
+      "file": "bodies/c57ad62e4d879b1bdedddb4e0eb45cde6b1cef700a78807f739eac5b530f3556.gz",
+      "gzip_sha256": "cc89e7dd6bd55f42d90e2f08f6497bad26d1a4d4e8bc964e1e432d2db0c88b86",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c57ad62e4d879b1bdedddb4e0eb45cde6b1cef700a78807f739eac5b530f3556",
+          "bytes": 251380
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "flclash-releases",
+      "url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+      "kind": "release",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:04.633Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"b3d39e6d9c607f5267db52fce0d3b9479dbc25cf6a39481d589a3570f65a0e3a\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "3"
+      },
+      "file": "bodies/9802ecdaa3f8847ef75ea55b10c899dd5e62f9fb447ef7b930d23aeaf0f843d8.gz",
+      "gzip_sha256": "7ccea43065880d8c82530311c19e6ed921b9fcb0c4e7f659003784229d3f764e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "9802ecdaa3f8847ef75ea55b10c899dd5e62f9fb447ef7b930d23aeaf0f843d8",
+          "bytes": 986252
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "clashmi-releases",
+      "url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+      "kind": "release",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:05.026Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"cfad613c20f71b121b4465e1256edc45c9f5a70cbd38efb35ac8d6531cc9ab48\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "2"
+      },
+      "file": "bodies/f129ed0da50fd9725d4a0a959d7044a1f61a6da2e1e10cb1bad21f89d067a37e.gz",
+      "gzip_sha256": "70a0d43b2f2908dc7c7ccae984f756ecbaf61e8402654b12f098cc20e578b1e9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f129ed0da50fd9725d4a0a959d7044a1f61a6da2e1e10cb1bad21f89d067a37e",
+          "bytes": 387133
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-releases",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+      "kind": "release",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:05.604Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"2a06b63d8e849dd476b45e5a0d8330c38cfe782417ff415f7ddfd888cbcb517a\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "1"
+      },
+      "file": "bodies/1d47113c3d4fad4e1fe510bc06239284319496cb7f626260e761264e944abc25.gz",
+      "gzip_sha256": "c7bfeba94e12e9bc22ec9c09ead47a65efe51574d88cf2c282ed5ccf92c3f427",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1d47113c3d4fad4e1fe510bc06239284319496cb7f626260e761264e944abc25",
+          "bytes": 96717
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-dns",
+      "url": "https://wiki.metacubex.one/config/dns/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:05.623Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-groups",
+      "url": "https://wiki.metacubex.one/config/proxy-groups/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:06.116Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-tun",
+      "url": "https://wiki.metacubex.one/config/inbound/tun/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:06.317Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-rules",
+      "url": "https://wiki.metacubex.one/config/rules/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:06.394Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-rule-providers",
+      "url": "https://wiki.metacubex.one/config/rule-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:06.530Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-proxy-providers",
+      "url": "https://wiki.metacubex.one/config/proxy-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:06.598Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    },
+    {
+      "id": "mihomo-sniffer",
+      "url": "https://wiki.metacubex.one/config/sniff/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.705Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-11513\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/8d0a51fb05450decea25689373e9ca6e2af1943636395c18acec0f5fcba9f476.gz",
+      "gzip_sha256": "1e4401d1693e2d7f9a6cdeb412f83898aa7c42d861957657f2b9d25477064b97",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/sniff/",
+        "effective_url": "https://wiki.metacubex.one/config/sniff/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8d0a51fb05450decea25689373e9ca6e2af1943636395c18acec0f5fcba9f476",
+          "bytes": 70931
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-stable-config",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/config/config.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.707Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0a6975d287c680d6283770404b73fa3f6fcc26f1361cca5a1b8faae67099045d\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/a242e1fd06378e01371153122d51b20862af24b4904fdec2a7b54843e70b1203.gz",
+      "gzip_sha256": "cf051e18a8546343e678ed3ca0e65a23b60292aee1f4707c2c73d2db4531f82c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/config/config.go",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/88dcbf7f1614a67c3b36b848ee3592dfa92ada36/config/config.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a242e1fd06378e01371153122d51b20862af24b4904fdec2a7b54843e70b1203",
+          "bytes": 73106
+        },
+        "source": {
+          "id": "MetaCubeX/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/mihomo",
+          "requested_ref": "v1.19.32",
+          "source_path": "config/config.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "88dcbf7f1614a67c3b36b848ee3592dfa92ada36",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "mihomo-stable-groupbase",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/adapter/outboundgroup/groupbase.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.796Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"720d96af63b05ef037aa2b896261f6164cf448c7bc9591a7b112e595d0a69528\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/4f073f75e1deaff8468458adecaaf674e720200f5c056967e5ee7f9dee25fc38.gz",
+      "gzip_sha256": "74d9abe4fe1938abbb50b2f0f6d87549f4a7ca0b6887ba70d5b75445fd92e701",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/adapter/outboundgroup/groupbase.go",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/88dcbf7f1614a67c3b36b848ee3592dfa92ada36/adapter/outboundgroup/groupbase.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4f073f75e1deaff8468458adecaaf674e720200f5c056967e5ee7f9dee25fc38",
+          "bytes": 7779
+        },
+        "source": {
+          "id": "MetaCubeX/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/mihomo",
+          "requested_ref": "v1.19.32",
+          "source_path": "adapter/outboundgroup/groupbase.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "88dcbf7f1614a67c3b36b848ee3592dfa92ada36",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-group-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.914Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"bdaaeadfeb6c56889aa97c0048180fc1dedd13834fe28cfb1961682fc31ec89c\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/a4953d0143eca44ad064af66f7bb259831fe19bbc0049b2639e2d6f6ec0d1566.gz",
+      "gzip_sha256": "75ed82d13e16872c44e972cafa7520475f4935eec56c4f50432220c04b057c44",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a4953d0143eca44ad064af66f7bb259831fe19bbc0049b2639e2d6f6ec0d1566",
+          "bytes": 75768
+        },
+        "source": {
+          "id": "vernesong/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/mihomo",
+          "requested_ref": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "source_path": "adapter/outboundgroup/smart.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-config-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:07.470Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0b2c44852a9a5c8f03fc61941a7c39a2e8019fa36825c724b8f0bcf38a80ba52\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/e69c6226d3fa71f5fcaa385e075b36abc0ff34cc2e8f55ca40631e29acc275c1.gz",
+      "gzip_sha256": "49235294f10878fcd64ca14faa79b357a83d3f1933a44ba21deb7df4fa1aa1b9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e69c6226d3fa71f5fcaa385e075b36abc0ff34cc2e8f55ca40631e29acc275c1",
+          "bytes": 74324
+        },
+        "source": {
+          "id": "vernesong/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/mihomo",
+          "requested_ref": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "source_path": "config/config.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-official-guide",
+      "url": "https://api.github.com/repos/vernesong/OpenClash/releases/tags/mihomo",
+      "kind": "documentation",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.492Z",
+      "http_status": 403,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT",
+        "x-ratelimit-remaining": "0"
+      },
+      "error": "HTTP 403"
+    },
+    {
+      "id": "party-factory",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/v2.0.4/src/main/core/factory.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.620Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin mihomo-party-org/clash-party/v2.0.4: HTTP 403"
+    },
+    {
+      "id": "party-dns-guard",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/v2.0.4/src/main/core/dnsOverrideGuard.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.747Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin mihomo-party-org/clash-party/v2.0.4: HTTP 403"
+    },
+    {
+      "id": "party-controlled-config",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/v2.0.4/src/main/config/controledMihomo.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.747Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin mihomo-party-org/clash-party/v2.0.4: HTTP 403"
+    },
+    {
+      "id": "cmfa-gitmodules",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/v2.11.35/.gitmodules",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.747Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin MetaCubeX/ClashMetaForAndroid/v2.11.35: HTTP 403"
+    },
+    {
+      "id": "cmfa-tree",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/git/trees/v2.11.35?recursive=1",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.867Z",
+      "http_status": 403,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:08 GMT",
+        "x-ratelimit-remaining": "0"
+      },
+      "error": "HTTP 403"
+    },
+    {
+      "id": "cmfa-readme",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/v2.11.35/README.md",
+      "kind": "documentation",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.883Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin MetaCubeX/ClashMetaForAndroid/v2.11.35: HTTP 403"
+    },
+    {
+      "id": "openclash-overwrite",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/v0.48.002/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+      "kind": "source",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:07.998Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin vernesong/OpenClash/v0.48.002: HTTP 403"
+    },
+    {
+      "id": "openclash-user-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/v0.48.002/.github/skills/openclash-user-guide/SKILL.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.181Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin vernesong/OpenClash/v0.48.002: HTTP 403"
+    },
+    {
+      "id": "openclash-overwrite-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/v0.48.002/.github/skills/openclash-user-guide/07-overwrite.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": false,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.181Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin vernesong/OpenClash/v0.48.002: HTTP 403"
+    },
+    {
+      "id": "openclash-traffic-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/v0.48.002/.github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.305Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin vernesong/OpenClash/v0.48.002: HTTP 403"
+    },
+    {
+      "id": "flclash-setup",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/v0.9.1/lib/providers/actions/setup.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.326Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin chen08209/FlClash/v0.9.1: HTTP 403"
+    },
+    {
+      "id": "flclash-task",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/v0.9.1/lib/common/task.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.326Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin chen08209/FlClash/v0.9.1: HTTP 403"
+    },
+    {
+      "id": "flclash-gitmodules",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/v0.9.1/.gitmodules",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.326Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin chen08209/FlClash/v0.9.1: HTTP 403"
+    },
+    {
+      "id": "flclash-tree",
+      "url": "https://api.github.com/repos/chen08209/FlClash/git/trees/v0.9.1?recursive=1",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.327Z",
+      "http_status": 403,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:08 GMT",
+        "x-ratelimit-remaining": "0"
+      },
+      "error": "HTTP 403"
+    },
+    {
+      "id": "flclash-tun-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/v0.9.1/lib/views/config/tun.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.452Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin chen08209/FlClash/v0.9.1: HTTP 403"
+    },
+    {
+      "id": "flclash-dns-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/v0.9.1/lib/views/config/dns.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.455Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin chen08209/FlClash/v0.9.1: HTTP 403"
+    },
+    {
+      "id": "clashmi-readme",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/v1.0.31.1703/README.md",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.455Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin KaringX/clashmi/v1.0.31.1703: HTTP 403"
+    },
+    {
+      "id": "clashmi-faq",
+      "url": "https://clashmi.app/guide/faq",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:08.456Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:09 GMT"
+      },
+      "file": "bodies/9652a5708e3eb8701b5c2d4ee1fc1fa2f2a332b470dd5a1b5c126fcd36055096.gz",
+      "gzip_sha256": "8add0ec735c6f5cf4cef264e2471e213f8ca514de34ca6dd7303b4c4767b984d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://clashmi.app/guide/faq",
+        "effective_url": "https://clashmi.app/guide/faq",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "9652a5708e3eb8701b5c2d4ee1fc1fa2f2a332b470dd5a1b5c126fcd36055096",
+          "bytes": 38381
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "clashmi-config",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/v1.0.31.1703/lib/app/clash/clash_config.dart",
+      "kind": "source",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.456Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin KaringX/clashmi/v1.0.31.1703: HTTP 403"
+    },
+    {
+      "id": "shellcrash-readme",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/1.9.4/README_CN.md",
+      "kind": "documentation",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.461Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin juewuy/ShellCrash/1.9.4: HTTP 403"
+    },
+    {
+      "id": "shellcrash-tree",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/git/trees/1.9.4?recursive=1",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.579Z",
+      "http_status": 403,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:08 GMT",
+        "x-ratelimit-remaining": "0"
+      },
+      "error": "HTTP 403"
+    },
+    {
+      "id": "shellcrash-core-update",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/1.9.4/.github/workflows/update_meta_core.yaml",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:00:08.579Z",
+      "http_status": null,
+      "headers": {},
+      "error": "Cannot pin juewuy/ShellCrash/1.9.4: HTTP 403"
+    }
+  ]
+}

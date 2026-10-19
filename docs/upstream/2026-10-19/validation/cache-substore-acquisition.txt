@@ -1,0 +1,8 @@
+ok substore-latest
+ok substore-releases
+ok substore-readme
+ok substore-config
+ok substore-frontend-latest
+ok substore-frontend-releases
+ok substore-frontend-readme
+{"total":7,"ok":7,"failed":0}

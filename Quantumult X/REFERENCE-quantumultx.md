@@ -1,5 +1,20 @@
 # Quantumult X 配置参考文档
 
+> 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方示例已按Git commit固定并保存实际正文；版本、取舍与验证缺口见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)。
+
+## 当前复核结论
+
+- 稳定版1.8.1，2026-10-07 UTC；1.8.0起要求iOS15。未取得可确认的官方预发布版本/日期，pending。
+- [官方sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)规定多个并发DoH写在同一行、URL逗号分隔。本仓库四URL已合并一行且保留顺序；未声称旧重复键last-wins已实机复现。
+- [官方版本历史](https://apps.apple.com/us/app/quantumult-x/id1443988620)明确VLESS自1.5.0、REALITY自1.5.5（2026-01-14）、AnyTLS自1.6.0（2026-05-21）；REALITY不等同于XTLS-Vision，后者支持仍pending。
+- remote filters、policy及server-tag-regex保持原生示例写法；示例中关于regex适用组的旧注释与具体url-latency-benchmark示例有冲突，真实App验收仍有必要。
+- 正文缓存ID `qx-sample-conf`，固定commit `af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d`；另存server-complete.snippet与URL Scheme。
+
+## 历史摘要边界
+
+以下社区Wiki和旧摘要保留追溯，不升级为本次官方承诺。新语法未自动推导为性能改善，真实App导入及四服务器并发查询仍未验收。
+
+
 > 2026-10-15 URL 兼容性复核：上游官方 [URL Scheme](https://github.com/crossutility/Quantumult-X/blob/master/url-scheme.md)示例在 `filter_remote` 使用 HTTPS raw GitHub URL；远程条目选项参考仍来自本地记录的社区 Wiki，不作为官方文档。Issue #186 只替换既有 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 来源 URL:

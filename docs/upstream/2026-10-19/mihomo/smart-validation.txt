@@ -1,0 +1,1 @@
+PASS Clash Party Smart v6.0.20-dns.20 groups=55 rules=168 providers=149

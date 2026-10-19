@@ -140,14 +140,14 @@
     },
     {
       "id": "sing-box",
-      "name": "sing-box（含 Hiddify / HomeProxy 导入）",
-      "artifacts": ["SingBox/SingBox(sing-box)-full.json"],
+      "name": "sing-box（1.14 / 1.13 静态配置）",
+      "artifacts": ["SingBox/SingBox(sing-box)-full.json", "SingBox/SingBox(sing-box)-1.13.json"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "manual_outbound_wiring",
           "summary": "静态 JSON 需替换或接入节点出站。",
-          "evidence": [{ "file": "SingBox/README.md", "contains": "替换节点" }]
+          "evidence": [{ "file": "SingBox/README.md", "contains": "替换为真实节点" }]
         },
         "dynamic_grouping": {
           "state": "documented_manual",

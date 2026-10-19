@@ -1,0 +1,461 @@
+{
+  "group": "mihomo",
+  "sources": [
+    {
+      "id": "mihomo-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "smart-releases",
+      "url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "party-releases",
+      "url": "https://api.github.com/repos/mihomo-party-org/mihomo-party/releases?per_page=30",
+      "kind": "release",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "cmfa-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+      "kind": "release",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "openclash-releases",
+      "url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+      "kind": "release",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "flclash-releases",
+      "url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+      "kind": "release",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "clashmi-releases",
+      "url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+      "kind": "release",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "shellcrash-releases",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+      "kind": "release",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "mihomo-dns",
+      "url": "https://wiki.metacubex.one/config/dns/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-groups",
+      "url": "https://wiki.metacubex.one/config/proxy-groups/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-tun",
+      "url": "https://wiki.metacubex.one/config/inbound/tun/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-rules",
+      "url": "https://wiki.metacubex.one/config/rules/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-rule-providers",
+      "url": "https://wiki.metacubex.one/config/rule-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-proxy-providers",
+      "url": "https://wiki.metacubex.one/config/proxy-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-sniffer",
+      "url": "https://wiki.metacubex.one/config/sniff/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "mihomo-stable-config",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/config/config.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "mihomo-stable-groupbase",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/adapter/outboundgroup/groupbase.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "smart-group-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "smart-config-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "smart-official-guide",
+      "url": "https://github.com/vernesong/OpenClash/releases/tag/mihomo",
+      "kind": "documentation",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "party-factory",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/factory.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "party-dns-guard",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/dnsOverrideGuard.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "party-controlled-config",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/config/controledMihomo.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "cmfa-gitmodules",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/.gitmodules",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "cmfa-tree",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/git/trees/v2.11.35?recursive=1",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "cmfa-readme",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/README.md",
+      "kind": "documentation",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "openclash-overwrite",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+      "kind": "source",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "openclash-user-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/SKILL.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "openclash-overwrite-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/16-overwrite-module-format.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "openclash-traffic-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "flclash-setup",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/providers/actions/setup.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "flclash-task",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/common/task.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "flclash-gitmodules",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/.gitmodules",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "flclash-tree",
+      "url": "https://api.github.com/repos/chen08209/FlClash/git/trees/v0.9.1?recursive=1",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "flclash-tun-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/tun.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "flclash-dns-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/dns.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "clashmi-readme",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/README.md",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "clashmi-faq",
+      "url": "https://clashmi.app/guide/faq",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "clashmi-config",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/lib/app/clash/clash_config.dart",
+      "kind": "source",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "shellcrash-readme",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/README_CN.md",
+      "kind": "documentation",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "shellcrash-tree",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/git/trees/1.9.4?recursive=1",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "shellcrash-core-update",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/.github/workflows/update_meta_core.yaml",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-releases",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "verge-prereleases",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.4-rc.2",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "verge-readme",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/README.md",
+      "kind": "documentation",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-script-guide",
+      "url": "https://www.clashverge.dev/guide/script.html",
+      "kind": "documentation",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "party-core-prepare",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/scripts/prepare.mjs",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "openclash-init",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/init.d/openclash",
+      "kind": "source",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "shellcrash-config",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/core_config.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-core-prepare",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-dns-source",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/config/dns.rs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-enhance-source",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/enhance/mod.rs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "verge-releases-api",
+      "url": "https://api.github.com/repos/clash-verge-rev/clash-verge-rev/releases?per_page=30",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "shellcrash-modify",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/clash_modify.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "shellcrash-dns",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/menus/dns.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "mihomo-alpha-version",
+      "url": "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt",
+      "kind": "release",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "smart-alpha-version",
+      "url": "https://github.com/vernesong/mihomo/releases/download/Prerelease-Alpha/version.txt",
+      "kind": "release",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text"
+    }
+  ]
+}

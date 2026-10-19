@@ -1,0 +1,25 @@
+✔ generated asset URLs use a release cache key and Mihomo uses an isolated local path (1.3042ms)
+✔ generated asset URLs reject unsafe revisions and local file names (0.4937ms)
+✔ Issue #186 current Shadowrocket uses live repository assets instead of removed fin.txt (778.5253ms)
+✔ all generated client references use raw/main with revision and are covered by asset budgets (868.3619ms)
+✔ generated reference recognizer retains historical CDN and missing-asset URLs (0.1851ms)
+✔ platform consumers exclude the empty work asset while Surge keeps its four process rules (1.4702ms)
+✔ CLI proxy and timeout defaults, validation and option propagation (5.2108ms)
+✔ proxy credentials never enter receipts or transport errors (0.626ms)
+✔ collect only active RULE-SET URLs and deduplicate (0.8395ms)
+✔ HTTP errors, empty and HTTP 200 error bodies never pass (0.4047ms)
+✔ DOMAIN-REGEX is a valid nonempty rule set (0.2098ms)
+✔ local hash evidence distinguishes exact bytes, LF canonical and mismatches (8.131ms)
+✔ finite transient retry, no retries for HTTP 404 or hash/content failures, URL dedup (1.1138ms)
+✔ HTTP 200 partial transport failure is retried, content failure is not (0.5929ms)
+✔ curl performs actual GET and preserves HTTP status and payload on local server (214.3442ms)
+✔ explicit HTTP proxy receives absolute GET target despite NO_PROXY (54.4953ms)
+✔ request timeout rejects a server that starts HTTP 200 but never finishes (1065.1515ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1894.5937

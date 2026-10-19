@@ -1,6 +1,6 @@
 # Sub-Store Scripts
 
-这里放 Sub-Store 的“脚本操作 / 脚本筛选”辅助脚本。
+Sub-Store 的脚本操作、筛选与发布辅助模块。
 
 ## local
 
@@ -26,9 +26,9 @@
 | [`fusion-publication-guard.mjs`](./fusion-publication-guard.mjs) | `validateFusionContract(contract)`：独立验证合同结构和值，非法时抛错；`validateFusionPublication(document, contract)`：先验证合同，再对已解析且通过字段校验的 `document.proxies` 检查最低数量、全部必需名称前缀及五种错误占位提示；失败抛错，成功只返回 `{nodes, coveredPrefixes}`，不修改节点 |
 | [`patch-fusion-worker.mjs`](./patch-fusion-worker.mjs) | `patchFusionWorker(source)`：返回加入合同校验的新源码；只接受已审查的精确 wrapper 基线，拒绝歧义或重复补丁；无文件、网络、部署或凭据操作 |
 
-合同为 `{schemaVersion: 1, minimumNodes: 正整数, requiredNamePrefixes: 非空唯一字符串数组}`，不接受额外字段。来源前缀是区分大小写的字面起始匹配。错误占位提示和本地/云端完整接入要求见[发布保护](../README.md#自动发布前的完整性保护)。这些模块不会推断私人合同，不会证明机场节点连通性。
+合同只接受 `{schemaVersion: 1, minimumNodes: 正整数, requiredNamePrefixes: 非空唯一字符串数组}`；前缀按字面起始、区分大小写匹配。模块不推断私人合同或证明连通性；错误占位及接入要求见[发布保护](../README.md#自动发布前的完整性保护)。
 
-本地 ScriptOperator 要把同一校验函数和私有合同包含在实际脚本执行环境中；ESM 文件的 `export` 或相对 `import` 不应直接粘贴到原版 Sub-Store Raw 脚本框。下面只展示最终操作器的调用位置，`validateFusionPublication` 与 `publicationContract` 必须由接入方先提供：
+本地 ScriptOperator 须包含校验函数与私有合同，不能直接粘贴 ESM `export` / 相对 `import`。以下仅示调用位置，两个引用须由接入方提供：
 
 ```js
 function operator(proxies) {
@@ -51,7 +51,7 @@ node --check SubStore/scripts/patch-fusion-worker.mjs
 node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-worker-patch.test.js
 ```
 
-以上属于辅助订阅发布保护，不修改规则、策略组、DNS 或客户端产物版本，不触发 14 类客户端同步。模块变更记录见 [SubStore CHANGELOG](../CHANGELOG.md)。
+这些辅助模块不改变分流产物，不触发全客户端同步。历史见 [SubStore CHANGELOG](../CHANGELOG.md)。
 
 ## 独立网页管理入口
 

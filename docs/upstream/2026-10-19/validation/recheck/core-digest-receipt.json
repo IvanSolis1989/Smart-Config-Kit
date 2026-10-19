@@ -1,0 +1,44 @@
+{
+  "records": [
+    {
+      "version": "1.14.3",
+      "command": "gh api release metadata (public repository)",
+      "exit_code": 0,
+      "fetched_at": "2026-10-19T09:17:44.471Z",
+      "metadata": {
+        "assets": [
+          {
+            "browser_download_url": "https://github.com/SagerNet/sing-box/releases/download/v1.14.3/sing-box-1.14.3-linux-amd64.tar.gz",
+            "digest": "sha256:e2bdf179c15a3652955dc44867e33ca0965c9c9b91b34267dcc5a5d639a5feee",
+            "name": "sing-box-1.14.3-linux-amd64.tar.gz",
+            "size": 31678266
+          }
+        ],
+        "published_at": "2026-10-09T05:35:00Z",
+        "tag_name": "v1.14.3"
+      },
+      "asset_matches": 1,
+      "digest_valid": true
+    },
+    {
+      "version": "1.13.14",
+      "command": "gh api release metadata (public repository)",
+      "exit_code": 0,
+      "fetched_at": "2026-10-19T09:17:45.300Z",
+      "metadata": {
+        "assets": [
+          {
+            "browser_download_url": "https://github.com/SagerNet/sing-box/releases/download/v1.13.14/sing-box-1.13.14-linux-amd64.tar.gz",
+            "digest": "sha256:f48703461a15476951ac4967cdad339d986f4b8096b4eb3ff0829a500502d697",
+            "name": "sing-box-1.13.14-linux-amd64.tar.gz",
+            "size": 23832905
+          }
+        ],
+        "published_at": "2026-06-25T09:11:52Z",
+        "tag_name": "v1.13.14"
+      },
+      "asset_matches": 1,
+      "digest_valid": true
+    }
+  ]
+}

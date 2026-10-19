@@ -1,0 +1,2882 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "store_fakeip": true
+    }
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "dns_bootstrap",
+        "server": "223.5.5.5",
+        "path": "/dns-query",
+        "tls": {
+          "server_name": "dns.alidns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "dns_bootstrap2",
+        "server": "223.6.6.6",
+        "path": "/dns-query",
+        "tls": {
+          "server_name": "dns.alidns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "dns_bootstrap3",
+        "server": "1.1.1.1",
+        "path": "/dns-query",
+        "tls": {
+          "server_name": "cloudflare-dns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "dns_bootstrap4",
+        "server": "8.8.8.8",
+        "path": "/dns-query",
+        "tls": {
+          "server_name": "dns.google"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "dns_direct",
+        "server": "dns.alidns.com",
+        "path": "/dns-query",
+        "domain_resolver": {
+          "server": "dns_bootstrap",
+          "strategy": "prefer_ipv4"
+        },
+        "detour": "DIRECT"
+      },
+      {
+        "type": "https",
+        "tag": "dns_direct2",
+        "server": "doh.pub",
+        "path": "/dns-query",
+        "domain_resolver": {
+          "server": "dns_bootstrap",
+          "strategy": "prefer_ipv4"
+        },
+        "detour": "DIRECT"
+      },
+      {
+        "type": "https",
+        "tag": "dns_proxy",
+        "server": "cloudflare-dns.com",
+        "path": "/dns-query",
+        "domain_resolver": {
+          "server": "dns_bootstrap",
+          "strategy": "prefer_ipv4"
+        },
+        "detour": "🚀 节点选择"
+      },
+      {
+        "type": "https",
+        "tag": "dns_proxy2",
+        "server": "dns.google",
+        "path": "/dns-query",
+        "domain_resolver": {
+          "server": "dns_bootstrap",
+          "strategy": "prefer_ipv4"
+        },
+        "detour": "🚀 节点选择"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": [
+          "geosite-private",
+          "geosite-cn",
+          "geoip-cn"
+        ],
+        "action": "route",
+        "server": "dns_direct"
+      },
+      {
+        "rule_set": [
+          "scki-fused-010-ad"
+        ],
+        "action": "reject"
+      }
+    ],
+    "final": "dns_proxy",
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.19.0.1/30"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "mixed"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "🚀 节点选择",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "urltest",
+      "tag": "🌍 全球节点",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇯🇵 日韩节点",
+        "🇸🇬 狮城节点",
+        "🌏 亚太节点",
+        "🇺🇸 美国节点",
+        "🇪🇺 欧洲节点",
+        "🌎 美洲节点",
+        "🌍 非洲节点"
+      ],
+      "interval": "5m",
+      "tolerance": 10
+    },
+    {
+      "type": "selector",
+      "tag": "🤖 AI 服务",
+      "outbounds": [
+        "🏡 全球家宽",
+        "🏡 香港家宽",
+        "🏡 台湾家宽",
+        "🏡 日韩家宽",
+        "🏡 狮城家宽",
+        "🏡 亚太家宽",
+        "🏡 美国家宽",
+        "🏡 欧洲家宽",
+        "🏡 美洲家宽",
+        "🏡 非洲家宽",
+        "🌍 全球节点",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇯🇵 日韩节点",
+        "🇸🇬 狮城节点",
+        "🌏 亚太节点",
+        "🇺🇸 美国节点",
+        "🇪🇺 欧洲节点",
+        "🌎 美洲节点",
+        "🌍 非洲节点",
+        "DIRECT"
+      ],
+      "default": "🏡 全球家宽"
+    },
+    {
+      "type": "selector",
+      "tag": "💰 加密货币",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🏦 金融支付",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "💬 即时通讯",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "📱 社交媒体",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🧑‍💼 会议协作",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "📺 国内流媒体",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽"
+      ],
+      "default": "DIRECT"
+    },
+    {
+      "type": "selector",
+      "tag": "🎵 TikTok",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🎥 Netflix",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🎬 Disney+",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "📡 HBO/Max",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "📺 Hulu",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🎬 Prime Video",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "📹 YouTube",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🎵 音乐流媒体",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🇭🇰 香港流媒体",
+      "outbounds": [
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🇭🇰 香港节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🇹🇼 台湾流媒体",
+      "outbounds": [
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🇹🇼 台湾节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🇯🇵 日韩流媒体",
+      "outbounds": [
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🇯🇵 日韩节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🇪🇺 欧洲流媒体",
+      "outbounds": [
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🇪🇺 欧洲节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🌐 其他国外流媒体",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🕹️ 国内游戏",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽"
+      ],
+      "default": "DIRECT"
+    },
+    {
+      "type": "selector",
+      "tag": "🎮 国外游戏",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🔍 Google 服务",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🔧 工具与服务",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "Ⓜ️ 微软服务",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🍎 苹果服务",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽"
+      ],
+      "default": "DIRECT"
+    },
+    {
+      "type": "selector",
+      "tag": "📥 下载更新",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🛰️ BT/PT Tracker",
+      "outbounds": [
+        "REJECT",
+        "DIRECT",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽"
+      ],
+      "default": "REJECT"
+    },
+    {
+      "type": "selector",
+      "tag": "🏠 国内网站",
+      "outbounds": [
+        "DIRECT",
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽"
+      ],
+      "default": "DIRECT"
+    },
+    {
+      "type": "selector",
+      "tag": "🚫 受限网站",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🌐 国外网站",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🐟 漏网之鱼",
+      "outbounds": [
+        "🌍 全球节点",
+        "🏡 全球家宽",
+        "🇭🇰 香港节点",
+        "🏡 香港家宽",
+        "🇹🇼 台湾节点",
+        "🏡 台湾家宽",
+        "🇯🇵 日韩节点",
+        "🏡 日韩家宽",
+        "🇸🇬 狮城节点",
+        "🏡 狮城家宽",
+        "🌏 亚太节点",
+        "🏡 亚太家宽",
+        "🇺🇸 美国节点",
+        "🏡 美国家宽",
+        "🇪🇺 欧洲节点",
+        "🏡 欧洲家宽",
+        "🌎 美洲节点",
+        "🏡 美洲家宽",
+        "🌍 非洲节点",
+        "🏡 非洲家宽",
+        "DIRECT"
+      ],
+      "default": "🌍 全球节点"
+    },
+    {
+      "type": "selector",
+      "tag": "🛑 广告拦截",
+      "outbounds": [
+        "REJECT",
+        "DIRECT"
+      ],
+      "default": "REJECT"
+    },
+    {
+      "type": "urltest",
+      "tag": "🏡 全球家宽",
+      "outbounds": [
+        "🏡 香港家宽",
+        "🏡 台湾家宽",
+        "🏡 日韩家宽",
+        "🏡 狮城家宽",
+        "🏡 亚太家宽",
+        "🏡 美国家宽",
+        "🏡 欧洲家宽",
+        "🏡 美洲家宽",
+        "🏡 非洲家宽"
+      ],
+      "interval": "5m",
+      "tolerance": 10
+    },
+    {
+      "type": "selector",
+      "tag": "🇭🇰 香港节点",
+      "outbounds": [
+        "proxy-hk-1",
+        "proxy-hk-2",
+        "DIRECT"
+      ],
+      "default": "proxy-hk-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 香港家宽",
+      "outbounds": [
+        "proxy-hk-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-hk-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇹🇼 台湾节点",
+      "outbounds": [
+        "proxy-tw-1",
+        "DIRECT"
+      ],
+      "default": "proxy-tw-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 台湾家宽",
+      "outbounds": [
+        "proxy-tw-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-tw-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇯🇵 日韩节点",
+      "outbounds": [
+        "proxy-jp-1",
+        "proxy-kr-1",
+        "DIRECT"
+      ],
+      "default": "proxy-jp-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 日韩家宽",
+      "outbounds": [
+        "proxy-jp-home-1",
+        "proxy-kr-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-jp-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇸🇬 狮城节点",
+      "outbounds": [
+        "proxy-sg-1",
+        "DIRECT"
+      ],
+      "default": "proxy-sg-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 狮城家宽",
+      "outbounds": [
+        "proxy-sg-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-sg-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌏 亚太节点",
+      "outbounds": [
+        "proxy-sg-1",
+        "proxy-id-1",
+        "proxy-hk-1",
+        "proxy-jp-1",
+        "DIRECT"
+      ],
+      "default": "proxy-sg-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 亚太家宽",
+      "outbounds": [
+        "proxy-sg-home-1",
+        "proxy-hk-home-1",
+        "proxy-jp-home-1",
+        "proxy-tw-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-sg-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇺🇸 美国节点",
+      "outbounds": [
+        "proxy-us-1",
+        "proxy-us-2",
+        "DIRECT"
+      ],
+      "default": "proxy-us-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 美国家宽",
+      "outbounds": [
+        "proxy-us-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-us-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🇪🇺 欧洲节点",
+      "outbounds": [
+        "proxy-eu-1",
+        "DIRECT"
+      ],
+      "default": "proxy-eu-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 欧洲家宽",
+      "outbounds": [
+        "proxy-eu-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-eu-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌎 美洲节点",
+      "outbounds": [
+        "proxy-ca-1",
+        "proxy-us-1",
+        "DIRECT"
+      ],
+      "default": "proxy-ca-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 美洲家宽",
+      "outbounds": [
+        "proxy-ca-home-1",
+        "proxy-us-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-ca-home-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🌍 非洲节点",
+      "outbounds": [
+        "proxy-af-1",
+        "DIRECT"
+      ],
+      "default": "proxy-af-1"
+    },
+    {
+      "type": "selector",
+      "tag": "🏡 非洲家宽",
+      "outbounds": [
+        "proxy-af-home-1",
+        "DIRECT"
+      ],
+      "default": "proxy-af-home-1"
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-hk-1",
+      "server": "example-hk-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-hk-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-hk-2",
+      "server": "example-hk-2.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-hk-2.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-hk-home-1",
+      "server": "example-hk-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-hk-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-tw-1",
+      "server": "example-tw-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-tw-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-tw-home-1",
+      "server": "example-tw-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-tw-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-jp-1",
+      "server": "example-jp-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-jp-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-kr-1",
+      "server": "example-kr-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-kr-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-jp-home-1",
+      "server": "example-jp-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-jp-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-kr-home-1",
+      "server": "example-kr-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-kr-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-sg-1",
+      "server": "example-sg-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-sg-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-id-1",
+      "server": "example-id-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-id-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-sg-home-1",
+      "server": "example-sg-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-sg-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-us-1",
+      "server": "example-us-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-us-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-us-2",
+      "server": "example-us-2.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-us-2.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-us-home-1",
+      "server": "example-us-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-us-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-eu-1",
+      "server": "example-eu-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-eu-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-eu-home-1",
+      "server": "example-eu-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-eu-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-ca-1",
+      "server": "example-ca-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-ca-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-ca-home-1",
+      "server": "example-ca-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-ca-home-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-af-1",
+      "server": "example-af-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-af-1.com"
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "proxy-af-home-1",
+      "server": "example-af-home-1.com",
+      "server_port": 443,
+      "password": "REPLACE_ME",
+      "tls": {
+        "enabled": true,
+        "server_name": "example-af-home-1.com"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "DIRECT"
+    },
+    {
+      "type": "block",
+      "tag": "REJECT"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "default_domain_resolver": {
+      "server": "dns_direct",
+      "strategy": "prefer_ipv4"
+    },
+    "final": "🐟 漏网之鱼",
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "scki-fused-001-direct",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-002-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-003-payments",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-004-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-005-cnmedia",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-006-cn-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-007-stream-jpkr",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-008-social",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-009-tiktok",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-010-ad",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-011-tools",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-012-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-013-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-014-game-cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-015-microsoft",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-016-ad",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-017-cn-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-018-direct",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-019-work",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-020-crypto",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-021-gfw",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-022-youtube",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-023-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-024-google",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-025-work",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-026-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-027-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-028-im",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-029-work",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-030-download",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-031-google",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-032-tools",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-033-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-034-google",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-035-ai",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-036-crypto",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-037-payments",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-039-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-040-direct",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-041-im",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-042-social",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-043-cn-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-044-social",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-045-work",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-046-direct",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-047-cnmedia",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-048-tiktok",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-049-youtube",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-050-netflix",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-051-disney",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-052-hbo-max",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-053-hulu",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-054-prime-video",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-055-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-056-music",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-057-stream-hk",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-058-stream-tw",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-059-stream-jpkr",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-060-stream-eu",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-061-stream-other",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-062-tools",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-063-google",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-064-tools",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-065-microsoft",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-066-apple",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-067-download",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-068-tracker",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-069-gfw",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-070-game-cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-071-game-intl",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-072-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-073-payments",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-074-cnmedia",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-075-cn-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-076-direct",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-077-cn-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-078-intl-site",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "scki-fused-080-netflix",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.20",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-private",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-youtube",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-google",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-microsoft",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-apple",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "update_interval": "1d",
+        "download_detour": "🌍 全球节点"
+      }
+    ],
+    "rules": [
+      {
+        "inbound": [
+          "tun-in"
+        ],
+        "action": "sniff"
+      },
+      {
+        "rule_set": [
+          "scki-fused-001-direct"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-002-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-003-payments"
+        ],
+        "action": "route",
+        "outbound": "🏦 金融支付"
+      },
+      {
+        "rule_set": [
+          "scki-fused-004-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-005-cnmedia"
+        ],
+        "action": "route",
+        "outbound": "📺 国内流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-006-cn-site"
+        ],
+        "action": "route",
+        "outbound": "🏠 国内网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-007-stream-jpkr"
+        ],
+        "action": "route",
+        "outbound": "🇯🇵 日韩流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-008-social"
+        ],
+        "action": "route",
+        "outbound": "📱 社交媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-009-tiktok"
+        ],
+        "action": "route",
+        "outbound": "🎵 TikTok"
+      },
+      {
+        "rule_set": [
+          "scki-fused-010-ad"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "scki-fused-011-tools"
+        ],
+        "action": "route",
+        "outbound": "🔧 工具与服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-012-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-013-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-014-game-cn"
+        ],
+        "action": "route",
+        "outbound": "🕹️ 国内游戏"
+      },
+      {
+        "rule_set": [
+          "scki-fused-015-microsoft"
+        ],
+        "action": "route",
+        "outbound": "Ⓜ️ 微软服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-016-ad"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "scki-fused-017-cn-site"
+        ],
+        "action": "route",
+        "outbound": "🏠 国内网站"
+      },
+      {
+        "rule_set": [
+          "geosite-youtube"
+        ],
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "route",
+        "outbound": "📹 YouTube"
+      },
+      {
+        "rule_set": [
+          "geosite-google"
+        ],
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "route",
+        "outbound": "🔍 Google 服务"
+      },
+      {
+        "rule_set": [
+          "geosite-microsoft"
+        ],
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "route",
+        "outbound": "Ⓜ️ 微软服务"
+      },
+      {
+        "rule_set": [
+          "geosite-apple"
+        ],
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "route",
+        "outbound": "🍎 苹果服务"
+      },
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          443
+        ],
+        "network": "udp",
+        "action": "reject"
+      },
+      {
+        "port": [
+          7680
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "scki-fused-018-direct"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-019-work"
+        ],
+        "action": "route",
+        "outbound": "🧑‍💼 会议协作"
+      },
+      {
+        "port": [
+          26880
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          6540
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          33068
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          123
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          3478
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          3479
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          5349
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          19302
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          19305
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "port": [
+          19307
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-020-crypto"
+        ],
+        "action": "route",
+        "outbound": "💰 加密货币"
+      },
+      {
+        "rule_set": [
+          "scki-fused-021-gfw"
+        ],
+        "action": "route",
+        "outbound": "🚫 受限网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-022-youtube"
+        ],
+        "action": "route",
+        "outbound": "📹 YouTube"
+      },
+      {
+        "rule_set": [
+          "scki-fused-023-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-024-google"
+        ],
+        "action": "route",
+        "outbound": "🔍 Google 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-025-work"
+        ],
+        "action": "route",
+        "outbound": "🧑‍💼 会议协作"
+      },
+      {
+        "rule_set": [
+          "scki-fused-026-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-027-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-028-im"
+        ],
+        "action": "route",
+        "outbound": "💬 即时通讯"
+      },
+      {
+        "rule_set": [
+          "scki-fused-029-work"
+        ],
+        "action": "route",
+        "outbound": "🧑‍💼 会议协作"
+      },
+      {
+        "rule_set": [
+          "scki-fused-030-download"
+        ],
+        "action": "route",
+        "outbound": "📥 下载更新"
+      },
+      {
+        "rule_set": [
+          "scki-fused-031-google"
+        ],
+        "action": "route",
+        "outbound": "🔍 Google 服务"
+      },
+      {
+        "process_name": [
+          "Code Helper"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务",
+        "domain": [
+          "api.github.com"
+        ]
+      },
+      {
+        "process_name": [
+          "Code Helper (Plugin)"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务",
+        "domain": [
+          "api.github.com"
+        ]
+      },
+      {
+        "rule_set": [
+          "scki-fused-032-tools"
+        ],
+        "action": "route",
+        "outbound": "🔧 工具与服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-033-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-034-google"
+        ],
+        "action": "route",
+        "outbound": "🔍 Google 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-035-ai"
+        ],
+        "action": "route",
+        "outbound": "🤖 AI 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-036-crypto"
+        ],
+        "action": "route",
+        "outbound": "💰 加密货币"
+      },
+      {
+        "rule_set": [
+          "scki-fused-037-payments"
+        ],
+        "action": "route",
+        "outbound": "🏦 金融支付"
+      },
+      {
+        "rule_set": [
+          "scki-fused-039-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-040-direct"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-041-im"
+        ],
+        "action": "route",
+        "outbound": "💬 即时通讯"
+      },
+      {
+        "rule_set": [
+          "scki-fused-042-social"
+        ],
+        "action": "route",
+        "outbound": "📱 社交媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-043-cn-site"
+        ],
+        "action": "route",
+        "outbound": "🏠 国内网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-044-social"
+        ],
+        "action": "route",
+        "outbound": "📱 社交媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-045-work"
+        ],
+        "action": "route",
+        "outbound": "🧑‍💼 会议协作"
+      },
+      {
+        "rule_set": [
+          "scki-fused-046-direct"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-047-cnmedia"
+        ],
+        "action": "route",
+        "outbound": "📺 国内流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-048-tiktok"
+        ],
+        "action": "route",
+        "outbound": "🎵 TikTok"
+      },
+      {
+        "rule_set": [
+          "scki-fused-049-youtube"
+        ],
+        "action": "route",
+        "outbound": "📹 YouTube"
+      },
+      {
+        "rule_set": [
+          "scki-fused-050-netflix"
+        ],
+        "action": "route",
+        "outbound": "🎥 Netflix"
+      },
+      {
+        "rule_set": [
+          "scki-fused-051-disney"
+        ],
+        "action": "route",
+        "outbound": "🎬 Disney+"
+      },
+      {
+        "rule_set": [
+          "scki-fused-052-hbo-max"
+        ],
+        "action": "route",
+        "outbound": "📡 HBO/Max"
+      },
+      {
+        "rule_set": [
+          "scki-fused-053-hulu"
+        ],
+        "action": "route",
+        "outbound": "📺 Hulu"
+      },
+      {
+        "rule_set": [
+          "scki-fused-054-prime-video"
+        ],
+        "action": "route",
+        "outbound": "🎬 Prime Video"
+      },
+      {
+        "rule_set": [
+          "scki-fused-055-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-056-music"
+        ],
+        "action": "route",
+        "outbound": "🎵 音乐流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-057-stream-hk"
+        ],
+        "action": "route",
+        "outbound": "🇭🇰 香港流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-058-stream-tw"
+        ],
+        "action": "route",
+        "outbound": "🇹🇼 台湾流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-059-stream-jpkr"
+        ],
+        "action": "route",
+        "outbound": "🇯🇵 日韩流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-060-stream-eu"
+        ],
+        "action": "route",
+        "outbound": "🇪🇺 欧洲流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-061-stream-other"
+        ],
+        "action": "route",
+        "outbound": "🌐 其他国外流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-062-tools"
+        ],
+        "action": "route",
+        "outbound": "🔧 工具与服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-063-google"
+        ],
+        "action": "route",
+        "outbound": "🔍 Google 服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-064-tools"
+        ],
+        "action": "route",
+        "outbound": "🔧 工具与服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-065-microsoft"
+        ],
+        "action": "route",
+        "outbound": "Ⓜ️ 微软服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-066-apple"
+        ],
+        "action": "route",
+        "outbound": "🍎 苹果服务"
+      },
+      {
+        "rule_set": [
+          "scki-fused-067-download"
+        ],
+        "action": "route",
+        "outbound": "📥 下载更新"
+      },
+      {
+        "rule_set": [
+          "scki-fused-068-tracker"
+        ],
+        "action": "route",
+        "outbound": "🛰️ BT/PT Tracker"
+      },
+      {
+        "rule_set": [
+          "scki-fused-069-gfw"
+        ],
+        "action": "route",
+        "outbound": "🚫 受限网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-070-game-cn"
+        ],
+        "action": "route",
+        "outbound": "🕹️ 国内游戏"
+      },
+      {
+        "rule_set": [
+          "scki-fused-071-game-intl"
+        ],
+        "action": "route",
+        "outbound": "🎮 国外游戏"
+      },
+      {
+        "rule_set": [
+          "scki-fused-072-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-073-payments"
+        ],
+        "action": "route",
+        "outbound": "🏦 金融支付"
+      },
+      {
+        "rule_set": [
+          "scki-fused-074-cnmedia"
+        ],
+        "action": "route",
+        "outbound": "📺 国内流媒体"
+      },
+      {
+        "rule_set": [
+          "scki-fused-075-cn-site"
+        ],
+        "action": "route",
+        "outbound": "🏠 国内网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-076-direct"
+        ],
+        "action": "route",
+        "outbound": "DIRECT"
+      },
+      {
+        "rule_set": [
+          "scki-fused-077-cn-site"
+        ],
+        "action": "route",
+        "outbound": "🏠 国内网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-078-intl-site"
+        ],
+        "action": "route",
+        "outbound": "🌐 国外网站"
+      },
+      {
+        "rule_set": [
+          "scki-fused-080-netflix"
+        ],
+        "action": "route",
+        "outbound": "🎥 Netflix"
+      }
+    ]
+  }
+}

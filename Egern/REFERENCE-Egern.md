@@ -1,5 +1,20 @@
 # Egern 语法参考与纳入判断
 
+> 更新于 2026-10-19（上次字段复核 2026-09-30）：完整官方正文、版本和验证缺口见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)。
+
+## 当前复核结论
+
+- Apple US/JP 当前稳定版均为2.20.0，2026-07-23 UTC；当前官方可确认的预发布版本/日期未取得，pending。
+- [Policy Groups](https://egernapp.com/docs/configuration/policy_groups/)允许基本组直接挂 `urls` 并混合静态节点；`external` 仍为兼容语法，保留现有 Subscribe/flatten/filter 无需迁移。
+- Egern `smart` 使用自身健康评分和真实失败反馈；现有22个原生smart组会消费客户端改进，不映射成 Mihomo LightGBM。
+- [Rules](https://egernapp.com/docs/configuration/rules/)仍以原生 YAML 集合和远端 `rule_set` 表达；未取得 MRS 或 Clash PROCESS-NAME 支持证据，保持生成转换和进程规则例外。
+- 2.20.0明确加入Snell v1–v5、SSH、SOCKS5-TLS及更多REALITY/gRPC能力；属于节点/订阅能力，本次不增改路由。DNS以[原生forward/upstreams](https://egernapp.com/docs/configuration/dns/)为依据。
+
+## 历史摘要边界
+
+以下保留旧摘要，其中固定规则/资产数量对应旧产物而非当前承诺；当前数量读取 Profile 与生成清单。没有完成真实 App 导入或节点展开验收。
+
+
 > 2026-10-15 URL 兼容性复核：[官方 Rules 文档](https://egernapp.com/docs/configuration/rules/)示例以 HTTPS URL 作为 `rule_set.match`，并配置 `update_interval`。本次仅替换仓库自有规则 URL 主机，不改变 Egern 原生 YAML 结构；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 2026-09-30 复核：[官方代理类型](https://egernapp.com/docs/configuration/proxies/) 不列 Mihomo 具名 direct/reject；未将 Mihomo 类型过滤字段映射为未经确认的 Egern 字段。本次仅从最终 CMFA 刷新派生元信息与哈希清单，原生规则资产与业务组内容不变。

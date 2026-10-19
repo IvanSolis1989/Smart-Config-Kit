@@ -16,51 +16,35 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Egern/Eger
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 版本：**v6.0.20-egern.10**（Build 2026-10-16；正式跟随 Clash Party v6.0.20 / CMFA v6.0.20-cmfa.12 融合规则顺序；当前 140 个 Egern 原生 YAML 资产，使用发布版本缓存键）
-
-CMFA 测速参数通过 Egern 生成清单记录来源；Egern `smart` 组按原生自适应方式探测。
+> 配置：`Egern.yaml` · **v6.0.20-egern.10**（Build 2026-10-16）
+> 22 原生 smart 区域组 + 33 业务组；跟随 Clash Party v6.0.20 分流基线。
 
 ## 定位
 
-Egern 已纳入正式同步产物，但不能直接复制 Mihomo/Clash 的 `rule-providers`。
+`Egern.yaml` 是可导入的 Egern Profile，包含 22 个原生 `smart` 区域组、33 个业务组及本仓库原生 YAML 规则集。
 
-原因很明确：Mihomo 的 `.mrs` 是 Clash Party / CMFA 最小、加载更快的规则集格式，应继续保留；Egern 官方文档没有声明可直接消费 `.mrs`，它的 `rule_set` 使用 Egern 自己的远端规则集结构。所以本目录提供 Egern 正式 Profile，由融合后的 CMFA 规则顺序生成 Egern 可导入语法：
-
-- `Egern.yaml`：Egern Profile，可导入，可接订阅，包含 22 个 `smart` 区域组、33 个业务组；规则、顶层 `rule_set` 和非空资产的实际数量由本次上游输入决定，Profile 头部和生成清单会记录结果。
-- `rulesets/generated/egern/*.yaml`：由融合 rule-provider 生成的 Egern 原生规则集。
-- `rulesets/generated/egern/manifest.json`：无时间戳的生成合同，记录 CMFA / source graph / Profile / 每个原生 YAML 的内容哈希与引用顺序，供全产物 validator 检查陈旧、漏引用和重复资产。
-- `rulesets/generated/egern-traffic-snapshot.json.gz`：随仓库保存的已发布 Egern 原生资产快照。仅切换测速/QUIC 选项时，生成器 `--reuse-assets` 核对源及内容哈希后读取它；默认档复用原资产，`follow-rules` 重算受影响的域名部分并保留非域名部分。
-- 完整规则刷新使用不带 `--reuse-assets` 的 `node tools/generate-egern-from-cmfa.js`：先更新可复用的 `block-foreign` 中立快照，再输出当前 QUIC 选项的 Profile 和原生资产；当前为 `follow-rules` 时无需先切回默认档。
-- `tools/generate-egern-supplemental.js`：保留补充规则集的独立格式转换工具；正式 Profile 以 `tools/generate-egern-from-cmfa.js` 的 generated 输出为准。
-- `tools/generate-egern-from-cmfa.js`：从 `Clash Meta For Android/CMFA(mihomo).yaml` 生成正式 Egern Profile。
+Egern 不能据 Mihomo 兼容性推断支持 `.mrs`；本配置使用 Egern 原生 `rule_set`。字段与生成依据见 [REFERENCE-Egern.md](./REFERENCE-Egern.md)。
 
 ## 快速导入
 
-1. 打开 `Egern/Egern.yaml`。
-2. 把 `policy_groups -> Subscribe -> urls` 里的示例订阅改成你的订阅地址。
-3. 导入 Egern。
-4. 在 Egern 里检查远端 `rule_set` 是否下载成功。
+1. 下载 `Egern.yaml`。
+2. 在本地副本把 `policy_groups -> Subscribe -> urls` 中的示例订阅替换为机场订阅。
+3. 导入 Egern，检查订阅节点与远程 `rule_set` 下载完成。
+4. 确认区域组实际成员，选择业务组上游后测试请求出口；GitHub Raw 不可达时，先使用可用代理下载。
+
+截至 2026-10-19，官方稳定版 2.20.0 要求 iOS 16+；其他设备兼容性以[官方商店](https://apps.apple.com/app/egern/id1616105820)为准。
 
 ## 平台边界
 
-- Egern Profile 按 CMFA 当前 149 个融合 rule-provider / 168 条源规则顺序生成；Egern 渲染与过滤后的实际资产规模以 `rulesets/generated/egern/manifest.json` 为准，不靠固定快照数字判断成功或失败。
-- 国家 GEOIP 使用原生 `geoip_set`，服务型 GEOIP 转换为 CIDR；桌面 `PROCESS-NAME` 及目标为空规则集是明确的平台/优化例外。所有已生成资产必须恰好被 Profile 引用一次。
-- Mihomo `.mrs` 不在 Egern 中直接引用；生成器会映射到 `rulesets/generated/egern/*.yaml` 的 Egern 原生规则集。
+- Egern `smart` 使用原生自适应逻辑，不是 Mihomo Smart / LightGBM。
+- 当前订阅保留兼容的 `external` 写法；2.20.0 支持基本组直接附 `urls`，本配置暂无迁移需要。
+- 进程规则缺少对应的官方字段证据，相关逻辑是平台例外；不把 iOS 限制推断为所有桌面平台能力。
+- 本轮未完成 App 导入与真实订阅展开验收，见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ## 官方依据
 
-- Egern Policy Groups：支持 `select`、`auto_test`、`smart`、`fallback`、`load_balance`、`external`、`conditional`。
-- Egern Rules：规则按顺序首个命中生效，支持 `rule_set` 引用本地或远端规则集。
-- Egern DNS：支持 `bootstrap`、`upstreams`、`forward`、`proxy_nameservers`。
-- MetaCubeX Rule Providers：Mihomo `format` 支持 `yaml` / `text` / `mrs`，其中 `.mrs` 当前支持 `domain` / `ipcidr`。
+[策略组](https://egernapp.com/docs/configuration/policy_groups/) · [规则](https://egernapp.com/docs/configuration/rules/) · [DNS](https://egernapp.com/docs/configuration/dns/)。
 
-详见 [REFERENCE-Egern.md](./REFERENCE-Egern.md)。
+仓库维护通过 `tools/generate-egern-from-cmfa.js` 生成 Profile 与规则资产；不要手工修改仓库生成结果。官方正文缓存、版本证据与待核项见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。

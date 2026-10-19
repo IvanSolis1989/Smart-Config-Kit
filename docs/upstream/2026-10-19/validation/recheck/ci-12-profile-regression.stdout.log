@@ -1,0 +1,10 @@
+✔ subscription adapter profile contract is closed and renders the same enum for JS and Ruby (1.6925ms)
+✔ subscription adapter profile contract rejects routing-affecting expansion (0.4143ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.1582

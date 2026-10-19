@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-19：本次核对 Mihomo v1.19.32、滚动 Alpha、vernesong Smart 与 Clash Party v2.0.4 的发布记录及配置生成源码。当前 SmartOption 不含 `strategy`，MetaCubeX Alpha 与 Smart 分支必须区分。官方原文缓存、具体适配决定与验证范围见[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。以下既有摘要仍保留各自历史日期，本次未逐段重新校验。
+
 > 核对于 2026-10-16（上次 2026-10-15）：[fake-ip-filter-mode 官方定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode) 仍为 `blacklist` / `whitelist` / `rule`，默认 `blacklist`；`whitelist` 仅匹配项返回 fake IP，`rule` 使用规则语法。JS 继承须先检查源模式，不能只清洗条目后改成 blacklist。本次不新增内核字段。
 
 > 2026-10-15 URL 兼容性复核：[官方 rule-provider 文档](https://wiki.metacubex.one/en/config/rule-providers/)要求 `type: http` 配置 `url`，并示例 HTTPS raw URL；本次只更换自有规则集 URL 主机，不增删 Mihomo 字段。Clash Party、CMFA、OpenClash、FlClash 共用此 Mihomo 字段依据。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。

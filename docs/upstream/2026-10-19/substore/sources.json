@@ -1,0 +1,12 @@
+{
+  "group": "substore",
+  "sources": [
+    { "id": "substore-latest", "product": "Sub-Store", "kind": "release", "url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases/latest", "required": true, "expected_content_type": "json" },
+    { "id": "substore-releases", "product": "Sub-Store", "kind": "release", "url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases?per_page=10", "required": true, "expected_content_type": "json" },
+    { "id": "substore-readme", "product": "Sub-Store", "kind": "documentation", "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/README.md", "required": true, "expected_content_type": "text" },
+    { "id": "substore-config", "product": "Sub-Store", "kind": "documentation", "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/config/README.md", "required": true, "expected_content_type": "text" },
+    { "id": "substore-frontend-latest", "product": "Sub-Store Front-End", "kind": "release", "url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases/latest", "required": true, "expected_content_type": "json" },
+    { "id": "substore-frontend-releases", "product": "Sub-Store Front-End", "kind": "release", "url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases?per_page=10", "required": true, "expected_content_type": "json" },
+    { "id": "substore-frontend-readme", "product": "Sub-Store Front-End", "kind": "documentation", "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store-Front-End/8dc19320894a9dbb3569e8bf3e41057491e39b90/README.md", "required": true, "expected_content_type": "text" }
+  ]
+}

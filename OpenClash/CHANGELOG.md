@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.20-oc-smart.15 (2026-10-19)
+
+- Smart shell 移除当前 vernesong/mihomo `SmartOption` 不再包含的 `strategy: sticky-sessions`；头部、`VERSION_TAG` 和内嵌 Ruby 版本同步。
+- 与 Clash Party Smart 同步修复，保持 Smart/LightGBM、55 组和既有规则/DNS；Normal 使用 `url-test`，未使用该 Smart 字段，无需同步。说明明确 MetaCubeX Alpha 与 Smart 分支的区别。
+- 部署说明改用官方仍直接执行的固定自定义脚本入口，保留备份步骤；完整 Shell 脚本不再误注册为需要 INI 段头的普通覆写模块。
+- 官方发布记录、覆写入口源码与验证见[版本核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。
+
 ## v6.0.20-oc-normal.14 / v6.0.20-oc-smart.14 (2026-10-16)
 
 - Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。

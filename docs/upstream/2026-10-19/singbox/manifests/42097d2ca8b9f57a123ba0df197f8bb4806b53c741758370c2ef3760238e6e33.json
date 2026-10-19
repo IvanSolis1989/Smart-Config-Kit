@@ -1,0 +1,4308 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "singbox",
+  "generated_at": "2026-10-19T08:08:25.369Z",
+  "sources_sha256": "60fd35952b71e95a7398ade1c5ca71b220b9728b6d00a1af5152d0f6335e7f70",
+  "counts": {
+    "total": 89,
+    "ok": 89,
+    "failed": 0
+  },
+  "sources": [
+    {
+      "id": "singbox-releases-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=30",
+      "kind": "release",
+      "product": "singbox",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:04.146Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"59b3cea3bdef47d2d2c58e6e7065e317fba9a73a020e865bae335835b4aa30f7\"",
+        "date": "Mon, 19 Oct 2026 08:03:07 GMT",
+        "x-ratelimit-remaining": "4928"
+      },
+      "file": "bodies/dcb748cef63d38b3dcc8b1c28093588f47e128a5d5072cd680a6ff8940c47c87.gz",
+      "gzip_sha256": "d3b3b5f6d548f1c5a2fd3252c665fd5c7360474e91fbeb6ad3087c76ad1465ed",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "dcb748cef63d38b3dcc8b1c28093588f47e128a5d5072cd680a6ff8940c47c87",
+          "bytes": 8533776
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-releases",
+      "url": "https://github.com/SagerNet/sing-box/releases",
+      "kind": "release",
+      "product": "singbox",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:04.147Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"bdca5a58e5a22625ec11e7869dc220af\"",
+        "date": "Mon, 19 Oct 2026 08:03:05 GMT"
+      },
+      "file": "bodies/b3d7849eb2c5d6af48c87e9d9f6d66b352e92d76ba6b13919cba313ef2da7be6.gz",
+      "gzip_sha256": "f736d6d6c6a24fdf9602cb749d7e5336cff54e5ea22a74a570ad19f680d87ec4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/SagerNet/sing-box/releases",
+        "effective_url": "https://github.com/SagerNet/sing-box/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b3d7849eb2c5d6af48c87e9d9f6d66b352e92d76ba6b13919cba313ef2da7be6",
+          "bytes": 560254
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-releases-api",
+      "url": "https://api.github.com/repos/XTLS/Xray-core/releases?per_page=30",
+      "kind": "release",
+      "product": "xray",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:04.147Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"b895ae7111b53bd8a07ffbcce1ce9a994200becefdd163e652ff719c51f769ab\"",
+        "date": "Mon, 19 Oct 2026 08:03:06 GMT",
+        "x-ratelimit-remaining": "4927"
+      },
+      "file": "bodies/e83f19d66388be956b2416acd0e78180b7cba580fd354ad812ec5fb465a98d92.gz",
+      "gzip_sha256": "d2fe7030019d029d9c492c39e6dc4c751d908089da74ed1f71edbdd24127c46a",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/XTLS/Xray-core/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/XTLS/Xray-core/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e83f19d66388be956b2416acd0e78180b7cba580fd354ad812ec5fb465a98d92",
+          "bytes": 3302946
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-releases",
+      "url": "https://github.com/XTLS/Xray-core/releases",
+      "kind": "release",
+      "product": "xray",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:04.147Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"046ce1ad3c95541be3fe2c57586b6679\"",
+        "date": "Mon, 19 Oct 2026 08:03:05 GMT"
+      },
+      "file": "bodies/0d46e5b64e6276224db0907218dcdac32b70fac5b1cda5b517d91232c65060c9.gz",
+      "gzip_sha256": "b0c3d761da993744f39451a858ad6a2ae8b70e029e9314f46757196248570258",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/XTLS/Xray-core/releases",
+        "effective_url": "https://github.com/XTLS/Xray-core/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0d46e5b64e6276224db0907218dcdac32b70fac5b1cda5b517d91232c65060c9",
+          "bytes": 511843
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-releases-api",
+      "url": "https://api.github.com/repos/2dust/v2rayN/releases?per_page=30",
+      "kind": "release",
+      "product": "v2rayn",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:05.900Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"61387fcadf87d18caecfad0e4e226cc84f14c039b8e17debe1d182d8eb9c6899\"",
+        "date": "Mon, 19 Oct 2026 08:03:07 GMT",
+        "x-ratelimit-remaining": "4926"
+      },
+      "file": "bodies/3491d4ed1c748ac0b6448660c4af3e01f58737df5ce8d9d16d0907e0a4f46a72.gz",
+      "gzip_sha256": "f94f1aaa35728bbbdb3d616a19b2685ebde47573a6482eaa8fe8c44279fc2ea6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/2dust/v2rayN/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/2dust/v2rayN/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "3491d4ed1c748ac0b6448660c4af3e01f58737df5ce8d9d16d0907e0a4f46a72",
+          "bytes": 1721941
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-releases",
+      "url": "https://github.com/2dust/v2rayN/releases",
+      "kind": "release",
+      "product": "v2rayn",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:06.020Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"5582c041f0f74f3655fc4060b30bcb72\"",
+        "date": "Mon, 19 Oct 2026 08:03:07 GMT"
+      },
+      "file": "bodies/0f05bf72aae3a75bae77a5d0b6a2ab14141ffee55885bcd124eb8fc84a713f1e.gz",
+      "gzip_sha256": "605498c6c3c89566db18cd31bc37d457e3954745d0820314975e628b5323786f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/2dust/v2rayN/releases",
+        "effective_url": "https://github.com/2dust/v2rayN/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0f05bf72aae3a75bae77a5d0b6a2ab14141ffee55885bcd124eb8fc84a713f1e",
+          "bytes": 538260
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall-releases-api",
+      "url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall/releases?per_page=30",
+      "kind": "release",
+      "product": "passwall",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:06.689Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"6ff42d4323a1343287111516093a75739d8b5bf08182b3c3522484ac0360aa5d\"",
+        "date": "Mon, 19 Oct 2026 08:03:07 GMT",
+        "x-ratelimit-remaining": "4925"
+      },
+      "file": "bodies/11d611d77e4aa063e9dde812a8eb3cd6252325049e503940ac3cff0b45ecfe63.gz",
+      "gzip_sha256": "96dad4714c09eda808dda11c36cb13873c63d63c26a6dccc5772810c5882698d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "11d611d77e4aa063e9dde812a8eb3cd6252325049e503940ac3cff0b45ecfe63",
+          "bytes": 420726
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall-releases",
+      "url": "https://github.com/Openwrt-Passwall/openwrt-passwall/releases",
+      "kind": "release",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:07.652Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"ce18c4f53bc84dd92c7bf08d27c2633a\"",
+        "date": "Mon, 19 Oct 2026 08:03:08 GMT"
+      },
+      "file": "bodies/1bbee1025b14fd5341f9ade61d92a054553538ea7d5b113099526758816f42b4.gz",
+      "gzip_sha256": "b9a72ebaf6c3163cad2219a3323002fe4aec45d5308e2ab2c2595832aac6f3d2",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/Openwrt-Passwall/openwrt-passwall/releases",
+        "effective_url": "https://github.com/Openwrt-Passwall/openwrt-passwall/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1bbee1025b14fd5341f9ade61d92a054553538ea7d5b113099526758816f42b4",
+          "bytes": 415924
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall2-releases-api",
+      "url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall2/releases?per_page=30",
+      "kind": "release",
+      "product": "passwall2",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:07.855Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"5f5656490d3fd88f957d449ffe195aaa2ec75fb280990b055a8ceb16cafb583f\"",
+        "date": "Mon, 19 Oct 2026 08:03:09 GMT",
+        "x-ratelimit-remaining": "4923"
+      },
+      "file": "bodies/8edd5efcb9655b0133eafdba904432256119d585250d1dabb6434e8df62aefcc.gz",
+      "gzip_sha256": "64233f418e51df4af3aca2a877a5f38858b32c6d80aca49abf6f6258a35c3e07",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall2/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall2/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8edd5efcb9655b0133eafdba904432256119d585250d1dabb6434e8df62aefcc",
+          "bytes": 1918407
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall2-releases",
+      "url": "https://github.com/Openwrt-Passwall/openwrt-passwall2/releases",
+      "kind": "release",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:41.770Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"0723dbc396fceaa6570f58b942bcb71a\"",
+        "date": "Mon, 19 Oct 2026 08:01:42 GMT"
+      },
+      "file": "bodies/0af739caf796f489de851a1a21e04414305759d007e1a887881968402fd15437.gz",
+      "gzip_sha256": "9c856a1b69ec9f4691fdf1ac525abe21ae436962f667219a3d506c4b104c15ba",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2/releases",
+        "effective_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0af739caf796f489de851a1a21e04414305759d007e1a887881968402fd15437",
+          "bytes": 460676
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-releases-api",
+      "url": "https://api.github.com/repos/hiddify/hiddify-app/releases?per_page=30",
+      "kind": "release",
+      "product": "hiddify-app",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:08.010Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"71ad0ba142dca29b2b17850f38c06aa644cab272a67735dd58a996e051efd328\"",
+        "date": "Mon, 19 Oct 2026 08:03:09 GMT",
+        "x-ratelimit-remaining": "4924"
+      },
+      "file": "bodies/fbfe391c0805d91f8ae2dd7430e67b0d0b26c7db76bf28af1e2958d961e7c92a.gz",
+      "gzip_sha256": "9d403c8f801d546a29e30887a74f90e44cae845d440b186913722f4358dac7e1",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/hiddify/hiddify-app/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/hiddify/hiddify-app/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "fbfe391c0805d91f8ae2dd7430e67b0d0b26c7db76bf28af1e2958d961e7c92a",
+          "bytes": 844610
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-releases",
+      "url": "https://github.com/hiddify/hiddify-app/releases",
+      "kind": "release",
+      "product": "hiddify-app",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:41.771Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6edd163ff2e12cd674a1222d470d693b\"",
+        "date": "Mon, 19 Oct 2026 08:01:44 GMT"
+      },
+      "file": "bodies/be6ec521f1a25f327570c0bc14eb83c5ba0cb85cf9eafe2a9c4ca87fabe7c593.gz",
+      "gzip_sha256": "64e4d1360e8d01ea6a82701d6bdec0c1f0fa3255c29f7bd1d513d91618172533",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/hiddify/hiddify-app/releases",
+        "effective_url": "https://github.com/hiddify/hiddify-app/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "be6ec521f1a25f327570c0bc14eb83c5ba0cb85cf9eafe2a9c4ca87fabe7c593",
+          "bytes": 581621
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-releases-api",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/releases?per_page=30",
+      "kind": "release",
+      "product": "hiddify-core",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:08.425Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"d74df23c9a1f95ef2db94c54f7e541ad86577de4e2e07226a5dac170fa7cfd22\"",
+        "date": "Mon, 19 Oct 2026 08:03:09 GMT",
+        "x-ratelimit-remaining": "4922"
+      },
+      "file": "bodies/9af518cb30c8a78da939c57ff2a3b6ce2d0a9de468e8edd9ae1e8d1f9afb6236.gz",
+      "gzip_sha256": "16b6c564240e5ec901efb1a7e10928c831c523aebce5b65226c335b4cefb0b25",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/hiddify/hiddify-core/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/hiddify/hiddify-core/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "9af518cb30c8a78da939c57ff2a3b6ce2d0a9de468e8edd9ae1e8d1f9afb6236",
+          "bytes": 1149246
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-releases",
+      "url": "https://github.com/hiddify/hiddify-core/releases",
+      "kind": "release",
+      "product": "hiddify-core",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:41.836Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"9a686a89b8db199750bed37fb9278f2d\"",
+        "date": "Mon, 19 Oct 2026 08:01:44 GMT"
+      },
+      "file": "bodies/cf482495dda93956e5204608816ab983ccb644df4329027f44dda198f8015f33.gz",
+      "gzip_sha256": "03d793d68824119bb70762cf99852762b03d7cb7c50f1398756039694dcf0a22",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/hiddify/hiddify-core/releases",
+        "effective_url": "https://github.com/hiddify/hiddify-core/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "cf482495dda93956e5204608816ab983ccb644df4329027f44dda198f8015f33",
+          "bytes": 413502
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-releases-api",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/releases?per_page=30",
+      "kind": "release",
+      "product": "homeproxy",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:08.492Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "\"bf0a2c84be251372d99e1b4ba551141a88cc7e7187b4ced4547095ff06f5ce6b\"",
+        "date": "Mon, 19 Oct 2026 08:03:09 GMT",
+        "x-ratelimit-remaining": "4921"
+      },
+      "file": "bodies/4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945.gz",
+      "gzip_sha256": "61663fde99b3394d71653f41c19fe91269442622a4a6695f8352a70fbf5ca4c1",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/immortalwrt/homeproxy/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/immortalwrt/homeproxy/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "bytes": 2
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-releases",
+      "url": "https://github.com/immortalwrt/homeproxy/releases",
+      "kind": "release",
+      "product": "homeproxy",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:41.958Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"746a1c63624c85b01cf15d4316ab3b99\"",
+        "date": "Mon, 19 Oct 2026 08:01:43 GMT"
+      },
+      "file": "bodies/65873aeb20699b411b7f7ae2706af33c65f216238c36a5940013c7156807ed51.gz",
+      "gzip_sha256": "431672fde29a7338e6b88b10ef6459347fb4b8387133d39b53749cee2598aa16",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/immortalwrt/homeproxy/releases",
+        "effective_url": "https://github.com/immortalwrt/homeproxy/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "65873aeb20699b411b7f7ae2706af33c65f216238c36a5940013c7156807ed51",
+          "bytes": 174696
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-stable",
+      "url": "https://github.com/SagerNet/sing-box/releases/tag/v1.14.3",
+      "kind": "release",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:43.179Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"d49ea69464504ff4fe43047efed4853b\"",
+        "date": "Mon, 19 Oct 2026 08:01:44 GMT"
+      },
+      "file": "bodies/d6a5efc2e314616c64427bd001fa2b36c968b81903e6e4548c0d4cb51c3198bd.gz",
+      "gzip_sha256": "603a7e244c047f9f8979542d053ef494dc523398b40abc475ef8c80576b614ac",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/SagerNet/sing-box/releases/tag/v1.14.3",
+        "effective_url": "https://github.com/SagerNet/sing-box/releases/tag/v1.14.3",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d6a5efc2e314616c64427bd001fa2b36c968b81903e6e4548c0d4cb51c3198bd",
+          "bytes": 203532
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-prerelease",
+      "url": "https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12",
+      "kind": "release",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:44.172Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"30543e7670cdb088e90a1bb803ff8c24\"",
+        "date": "Mon, 19 Oct 2026 08:01:45 GMT"
+      },
+      "file": "bodies/d96865b659facd2162bf3cf93dfa12416c15b25bdb92f7cdcba0f2f658aeae9b.gz",
+      "gzip_sha256": "d6add0e9163fc7ae7690903a3183026f366fd0cf40e536775d847c5d7408829c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12",
+        "effective_url": "https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d96865b659facd2162bf3cf93dfa12416c15b25bdb92f7cdcba0f2f658aeae9b",
+          "bytes": 203339
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-stable",
+      "url": "https://github.com/XTLS/Xray-core/releases/latest",
+      "kind": "release",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:09.437Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"bce40e23f1a9eb442da0b75f98fba455\"",
+        "date": "Mon, 19 Oct 2026 08:03:10 GMT"
+      },
+      "file": "bodies/ec737b07c6cf233d9d1532a37432beabfa667f940b3a57e108a2a3f0154d9cdf.gz",
+      "gzip_sha256": "25fa0e52addd67c61f8bc094a42550b3f4a1b4e575351a33e9846891b5388de9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/XTLS/Xray-core/releases/latest",
+        "effective_url": "https://github.com/XTLS/Xray-core/releases/tag/v26.3.27",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ec737b07c6cf233d9d1532a37432beabfa667f940b3a57e108a2a3f0154d9cdf",
+          "bytes": 276767
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-prerelease",
+      "url": "https://github.com/XTLS/Xray-core/releases/tag/v26.10.17",
+      "kind": "release",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:45.344Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"893b6c301f7b00f43cb23cb628d4bd33\"",
+        "date": "Mon, 19 Oct 2026 08:01:45 GMT"
+      },
+      "file": "bodies/412f6083e65ff8ec41b73f48654d214b53617d57425646d28924cba22c5b748b.gz",
+      "gzip_sha256": "e39805ece0bc46cc19191fc66c8889611e70f5b2c61086eec5fef7c82ab1876f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/XTLS/Xray-core/releases/tag/v26.10.17",
+        "effective_url": "https://github.com/XTLS/Xray-core/releases/tag/v26.10.17",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "412f6083e65ff8ec41b73f48654d214b53617d57425646d28924cba22c5b748b",
+          "bytes": 210527
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-stable",
+      "url": "https://github.com/2dust/v2rayN/releases/tag/7.25.6",
+      "kind": "release",
+      "product": "v2rayN",
+      "required": false,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:27.621Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"e547c1c6bf8a5afe72683717e46be427\"",
+        "date": "Mon, 19 Oct 2026 08:07:28 GMT"
+      },
+      "file": "bodies/684a03c02b3fc497dcb319f56bebffcb6384f8e3bc43145b2defd910b3ba2120.gz",
+      "gzip_sha256": "49aa2bd67fffe475c076dff528e1ff2e7dd61e0ab7440112b10a7722ec708743",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/2dust/v2rayN/releases/tag/7.25.6",
+        "effective_url": "https://github.com/2dust/v2rayN/releases/tag/7.25.6",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "684a03c02b3fc497dcb319f56bebffcb6384f8e3bc43145b2defd910b3ba2120",
+          "bytes": 205304
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-prerelease",
+      "url": "https://github.com/2dust/v2rayN/releases/tag/7.25.5",
+      "kind": "release",
+      "product": "v2rayN",
+      "required": false,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:27.627Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"0bf06f1822f8335102964f27adc2d8aa\"",
+        "date": "Mon, 19 Oct 2026 08:07:28 GMT"
+      },
+      "file": "bodies/c81f1a6cb575ee0b37cc874b2b39d1e9141c37ef367ca0bd802a6e8a36732707.gz",
+      "gzip_sha256": "7f4bcc48f06205ec27d2f66b9ceddbae7b25fa76178ed552f6222788abd0541d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/2dust/v2rayN/releases/tag/7.25.5",
+        "effective_url": "https://github.com/2dust/v2rayN/releases/tag/7.25.5",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c81f1a6cb575ee0b37cc874b2b39d1e9141c37ef367ca0bd802a6e8a36732707",
+          "bytes": 204878
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-migration",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/migration.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:46.413Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"ed031545bf123e9206b9180fcd8e9a3c538047c159646eee8ae51c2bf8a1b2b8\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/58423b1f14699c0bd3b04d2cb129bdde7068c78bd394199259285fb9725af4f4.gz",
+      "gzip_sha256": "c8c599e947832917fd06aecb1d9aafc8ec4af21fcbec5435dade7a9123c7346a",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/migration.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/migration.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "58423b1f14699c0bd3b04d2cb129bdde7068c78bd394199259285fb9725af4f4",
+          "bytes": 31648
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/migration.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-deprecated",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/deprecated.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:46.472Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"c1cb1a71d34c5e41c316d6b405e462c9bc688dacbf592555d8e5f7897976a731\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/0b4ecd30aa7f46dfde3f51cc0ea93ae81650f65659fbaace86cfff8980057c4b.gz",
+      "gzip_sha256": "87eb91f5e1410b36ab78e1cf31d738cb7b8d6911569f7bffbd33220995bbf057",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/deprecated.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/deprecated.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0b4ecd30aa7f46dfde3f51cc0ea93ae81650f65659fbaace86cfff8980057c4b",
+          "bytes": 6198
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/deprecated.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/rule-set/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:46.475Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"601f38ced8e898e7a160f915448807d39650b225211758438776016f1a6156e4\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/346bd034909c00805634c034173a5d0195821d2d3a811502745e0b59f14888b0.gz",
+      "gzip_sha256": "7cc06c0f2a275d5977ec2c12c852715a91a18d4b8f3c59250270fb87b62a38d5",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/rule-set/index.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/rule-set/index.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "346bd034909c00805634c034173a5d0195821d2d3a811502745e0b59f14888b0",
+          "bytes": 3256
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/rule-set/index.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-dns",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:46.476Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"acfb354399493008969b666439faefa62d2ff19998b7be2b0a03944b4d376bbb\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/e7ecc52e29c8311b1bd405d3791bec2245d55c62eb4b957b463d49c811e53068.gz",
+      "gzip_sha256": "a03d34e1dff1da199ff027ab2bb1d1cb1f22c8a7755775aa0302236008ee4ffc",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/index.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/index.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e7ecc52e29c8311b1bd405d3791bec2245d55c62eb4b957b463d49c811e53068",
+          "bytes": 3325
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/dns/index.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-dns-https",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/server/https.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.311Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"ad5292f69b69c2588b21c8e1dc8e5d8bbb4803cee361adff66c627105c89e4ff\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/be6d01725df99893ac07e1d75870ed2940d99db17b3e6500cabcfaa827a3849e.gz",
+      "gzip_sha256": "79de0f298d1bb7a9f3086ae147569bc46d9969084134251e0668ca7ab5337293",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/server/https.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/server/https.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "be6d01725df99893ac07e1d75870ed2940d99db17b3e6500cabcfaa827a3849e",
+          "bytes": 1389
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/dns/server/https.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-dns-rule",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.357Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"75eee1d3b2b273bfcb841d81568ff2df712c983bf834b182048df35f1631e8cf\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/027ac308588665b9b4ccf250a08391ac2459fa64bc6d477695283f77d361433f.gz",
+      "gzip_sha256": "81e578fd3b48453944d661851fb11f9975c97603083ecbe2438b88d60ebc4ef0",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "027ac308588665b9b4ccf250a08391ac2459fa64bc6d477695283f77d361433f",
+          "bytes": 18971
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/dns/rule.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-route",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.361Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"7e82c1cb241c39d78d628a2c9e845a062b2169c0c2ce9191e481919d4287a72b\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/8c642756a59cd791b2f92c23730d5b7cbdf70cba260f3a53e75486d149af111f.gz",
+      "gzip_sha256": "0df5ea7be7c537ac309ade930edeb78fd55a2b6fa437e4aef9b7c888daf6854a",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/index.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/index.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8c642756a59cd791b2f92c23730d5b7cbdf70cba260f3a53e75486d149af111f",
+          "bytes": 4649
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/route/index.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-route-action",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/rule_action.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.424Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"e7d154ebeb02d58cc0248cfc9ebb1d972a44143b878c2c1eddffcf6c05f17580\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/a46eb8dc2e283ed6989fe769e4a435f14aa1d2b1215af9c1afef2dc621b3f1b4.gz",
+      "gzip_sha256": "75f34b514cb7e3a3993469e435b8184aa151113fde540afcb7087c5d52619ccb",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/rule_action.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/rule_action.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a46eb8dc2e283ed6989fe769e4a435f14aa1d2b1215af9c1afef2dc621b3f1b4",
+          "bytes": 8551
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/route/rule_action.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-tun",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/inbound/tun.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.627Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"d4274da35694b05557928aa200d3047144ac8287f4794becc5cc745b2ef0925c\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/499beb509f35f4b98f1ba56735ffac7dba09c30d1c7f928e28616ccd20683d47.gz",
+      "gzip_sha256": "62dc2bd0fc606c8148a1d9fde366c3ad70f974b572093c5cdb64c0ba48b11102",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/inbound/tun.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/inbound/tun.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "499beb509f35f4b98f1ba56735ffac7dba09c30d1c7f928e28616ccd20683d47",
+          "bytes": 19669
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/inbound/tun.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-http-client",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/shared/http-client.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.714Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"af7bb00151e0c259bc1a537cd0f7d7f7839f7b33c09d9b5d8dc3dcb8db4a3b93\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/fbc84e45653ea3dfe9e07fce6d04f3e6bfec4bd08995011746edda3e8bcbe085.gz",
+      "gzip_sha256": "939ef42d4de9ca4480c4332eb2983d3dc270a1db607c25bebefda790a6950ebd",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/shared/http-client.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/shared/http-client.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "fbc84e45653ea3dfe9e07fce6d04f3e6bfec4bd08995011746edda3e8bcbe085",
+          "bytes": 1976
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/shared/http-client.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-selector",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/selector.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.716Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"fbcccda17b649ce0ac3d61a2d478a43a90807b8e5d3167675cd5b0e34125fbc2\"",
+        "date": "Mon, 19 Oct 2026 08:01:47 GMT"
+      },
+      "file": "bodies/6cd9819545e73948001dc7c7b1be9a5e9965f30164192f64ab92637acf74547b.gz",
+      "gzip_sha256": "88c59f72f9f31673083b1e3df8b39da564970a690a59ea101e22c2d44771e489",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/selector.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/selector.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "6cd9819545e73948001dc7c7b1be9a5e9965f30164192f64ab92637acf74547b",
+          "bytes": 710
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/outbound/selector.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-urltest",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/urltest.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:47.754Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"ff7099ed2e7bf28ef1ef02befd658747a2331fdc59bb4a8290fe3ca2c25dd829\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/4aefede03f4d374d753130997805c30a42bb088e20ae66ef976b6a72d6f1c226.gz",
+      "gzip_sha256": "3751beef65734571fbac20971c392a39554888c2c674452e416f16d09154d74d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/urltest.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/urltest.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4aefede03f4d374d753130997805c30a42bb088e20ae66ef976b6a72d6f1c226",
+          "bytes": 834
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/outbound/urltest.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-cache",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/experimental/cache-file.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.036Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"dff4107c0ffb725b913e0368fc139f96f6b98163c28bed0fd0bb00fcb366a56b\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/3100a7a901bbbca7fcff2804d3e7e5d047e56d986482dfa531545d53708ff021.gz",
+      "gzip_sha256": "7970e5bc2d9a689a08c864e1656847fb1d8c12a74e66b45169c506d29e54e530",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/experimental/cache-file.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/experimental/cache-file.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "3100a7a901bbbca7fcff2804d3e7e5d047e56d986482dfa531545d53708ff021",
+          "bytes": 1340
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/experimental/cache-file.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-option-dns",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/dns.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.077Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b1165150210f7322e12670a0d756377c0c13b5ad81c3377ba7d9eeb1877729f4\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/eebf249cbc4bf6c054bbe5d78b88c894e3c66e1be1c1eea8c618f22603fdaa1d.gz",
+      "gzip_sha256": "f7669dabc15344092ae684168e4159868717701688a0b388e03278bdc895199b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/dns.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/dns.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "eebf249cbc4bf6c054bbe5d78b88c894e3c66e1be1c1eea8c618f22603fdaa1d",
+          "bytes": 7139
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "option/dns.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-option-dns-rule",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_dns.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.330Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"3e34094f775dfacbc52f81c099a2560e79904de7fd8d8e2414ce4d37d5fab73b\"",
+        "date": "Mon, 19 Oct 2026 08:03:10 GMT"
+      },
+      "file": "bodies/1a684ab65151b173d2be6cdb8f60d8a25ccf4e99849ec31b92f4a89a1a83ae42.gz",
+      "gzip_sha256": "2b4ca11c17eb597daaa2a3f610021392227e8151cc5ef15e9e478e0e1fb53279",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_dns.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_dns.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1a684ab65151b173d2be6cdb8f60d8a25ccf4e99849ec31b92f4a89a1a83ae42",
+          "bytes": 12796
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "option/rule_dns.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-option-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_set.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.241Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f7270363cc5c1c1c12cda1986e8221400e25fad71ccebf0b176f7ff33e708928\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/85dee2a4957cfe74c38409253569b9dcc5354209992048a2d3c7e865510149c3.gz",
+      "gzip_sha256": "8a487d2d958a8fe6a831ade18f9f997803dd1362b462ab35044327875a4aee73",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_set.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_set.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "85dee2a4957cfe74c38409253569b9dcc5354209992048a2d3c7e865510149c3",
+          "bytes": 12808
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "option/rule_set.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-option-inbound",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/inbound.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.356Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b169fe76c76b5f5aebc345c818c834e13152dbd12e41626afbf175068132ca84\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/0fb33edaa67b44eaf63017e1077eeae0daa8a8e12a7f007efb16fa631983188d.gz",
+      "gzip_sha256": "fcdb93b6c1c1a3be3988e9fe280b65979563a436c3a675127306cbeac532e9ed",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/inbound.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/inbound.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0fb33edaa67b44eaf63017e1077eeae0daa8a8e12a7f007efb16fa631983188d",
+          "bytes": 6404
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "option/inbound.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-option-outbound",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/outbound.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.434Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"d6e04307c55d434bcd8202371fce42ef7ecd23fbe5490e84b60b05685d8d8ae0\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/811dfffc1f9bbbbc05c3e7e0afcfe291a5706e357558939d87b0a2a600332b12.gz",
+      "gzip_sha256": "8ddbafc08f2647f667fa74d67cb841ff4faa96b3e4573478fedcc2937738c913",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/outbound.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/outbound.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "811dfffc1f9bbbbc05c3e7e0afcfe291a5706e357558939d87b0a2a600332b12",
+          "bytes": 7497
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "option/outbound.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-113-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/option/rule_set.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.462Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"c217f0cd60bc22d58ee97646d0ef07ad1ca9837aab2a12402fa994b5ca3b5b40\"",
+        "date": "Mon, 19 Oct 2026 08:01:48 GMT"
+      },
+      "file": "bodies/93d072adfce14ecd879b2db098b4453d629102462aaf6f4320c46206bc678634.gz",
+      "gzip_sha256": "77f6291190dccdd146e25b8317502271429bc1effdc63223516897a384cdcf3b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/option/rule_set.go",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/option/rule_set.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "93d072adfce14ecd879b2db098b4453d629102462aaf6f4320c46206bc678634",
+          "bytes": 9588
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "25a600db24f7680ad9806ce5427bd0ab8afe1114",
+          "source_path": "option/rule_set.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "25a600db24f7680ad9806ce5427bd0ab8afe1114",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-live-rule-set",
+      "url": "https://sing-box.sagernet.org/configuration/rule-set/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.569Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Sun, 11 Oct 2026 06:27:59 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/71d2a126c9712c17202c55453562933f5264c74c2616bfaf3d65c72468937a00.gz",
+      "gzip_sha256": "b6a21c39d7f992720872c4e06a23f879fc47822aea3504d446f74f2dbebfca20",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://sing-box.sagernet.org/configuration/rule-set/",
+        "effective_url": "https://sing-box.sagernet.org/configuration/rule-set/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "71d2a126c9712c17202c55453562933f5264c74c2616bfaf3d65c72468937a00",
+          "bytes": 135181
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-live-migration",
+      "url": "https://sing-box.sagernet.org/migration/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.670Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Sun, 11 Oct 2026 06:27:59 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/c8ab7defa39be1ee360bc9a184ad9679f1dc9758b026891da34b3a03f39e4ee3.gz",
+      "gzip_sha256": "6037ae0ad80becee4a5fa2c96da9aab65539fcacf133d1d9d5456197ce59aa52",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://sing-box.sagernet.org/migration/",
+        "effective_url": "https://sing-box.sagernet.org/migration/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c8ab7defa39be1ee360bc9a184ad9679f1dc9758b026891da34b3a03f39e4ee3",
+          "bytes": 349502
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "singbox-live-http-client",
+      "url": "https://sing-box.sagernet.org/configuration/shared/http-client/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.809Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Sun, 11 Oct 2026 06:27:59 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/ba0fcb05bff340a5d39cac99a438620b72b3e8861b7a5c42c60ee658bf7273af.gz",
+      "gzip_sha256": "07e10a01965385bb10733d9ff6fb70f0af24df7b1530af29c77b1f5651aea597",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://sing-box.sagernet.org/configuration/shared/http-client/",
+        "effective_url": "https://sing-box.sagernet.org/configuration/shared/http-client/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ba0fcb05bff340a5d39cac99a438620b72b3e8861b7a5c42c60ee658bf7273af",
+          "bytes": 131524
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-routing",
+      "url": "https://xtls.github.io/config/routing.html",
+      "kind": "documentation",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:48.871Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6acaecda-1a90f\"",
+        "last-modified": "Sun, 11 Oct 2026 01:56:42 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/e0fc16026124b8dee15b607cdea1ff1769aea48d11dd1475acd1fcd75fbb43f6.gz",
+      "gzip_sha256": "8ecc760b1e8fdd29c4433eae9bb191d0a098c28fe8b18c7f9ec942b46e72c7a4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://xtls.github.io/config/routing.html",
+        "effective_url": "https://xtls.github.io/config/routing.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e0fc16026124b8dee15b607cdea1ff1769aea48d11dd1475acd1fcd75fbb43f6",
+          "bytes": 108815
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "xray-dns",
+      "url": "https://xtls.github.io/config/dns.html",
+      "kind": "documentation",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.331Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6acaecda-17a99\"",
+        "last-modified": "Sun, 11 Oct 2026 01:56:42 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/5f13557fd9306e4c5b0ce03472b9726b0830f1d41662c50995293803eb7d9b50.gz",
+      "gzip_sha256": "0947a00928d255018589c430bfd808f22449074e62ee7bd943f857226ace8179",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://xtls.github.io/config/dns.html",
+        "effective_url": "https://xtls.github.io/config/dns.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "5f13557fd9306e4c5b0ce03472b9726b0830f1d41662c50995293803eb7d9b50",
+          "bytes": 96921
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-routing-wiki",
+      "url": "https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules",
+      "kind": "documentation",
+      "product": "v2rayN",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.347Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"c4150faed7bbf7f5a2bdabccb1e2e1bb\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/f39e68792cdd847308c59ec4d3a36e46a4099e0f1e7c1bdb09b4da8c491a2504.gz",
+      "gzip_sha256": "4302985a51b74da99b49517aeaaf73dad0935650c377a79ed8af152bd9d0cdc0",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules",
+        "effective_url": "https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f39e68792cdd847308c59ec4d3a36e46a4099e0f1e7c1bdb09b4da8c491a2504",
+          "bytes": 220617
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall-shunt-ui",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.410Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"fe68c391b6c28a0f4fd803ebae17c2adb7ba114cccd748ed503acf6438264c81\"",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/85eaa0ca2c3fe44e42f928464a74ef60028099f9eca5c36d75b9393be6e89595.gz",
+      "gzip_sha256": "2a06d2abcc48d0703ae077c08b033efc36d2bf69e80d3ba2708eceb250f68a89",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "85eaa0ca2c3fe44e42f928464a74ef60028099f9eca5c36d75b9393be6e89595",
+          "bytes": 9148
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_sing-box.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.494Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"e309a86e0337ad3de370b0a98e1ec553573a766fcb67aae19026359f67973878\"",
+        "date": "Mon, 19 Oct 2026 08:01:49 GMT"
+      },
+      "file": "bodies/01ba7d44cbf7b2f74d9879370b08d07518fde715bcd108854286faa7f503a7c7.gz",
+      "gzip_sha256": "b25f25b0cc12ae64d7c783cf892ba7eef736d1c92932d8bd087c1d46ddd06f6e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_sing-box.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_sing-box.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "01ba7d44cbf7b2f74d9879370b08d07518fde715bcd108854286faa7f503a7c7",
+          "bytes": 79284
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/luasrc/passwall/util_sing-box.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_xray.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.815Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"e74d4aeba226c52dc1dfcf3dd74deb6f2e5453bfc81225ee750d9d91fc6383d8\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/553f2fcbbf1b920f4e5a3c35b531da181299994b08172a79d64510987e48c5a2.gz",
+      "gzip_sha256": "0b70674fadaf38c9c9923f72fa76ca0276e770f30665cbf4033359ad8683e2f0",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_xray.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_xray.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "553f2fcbbf1b920f4e5a3c35b531da181299994b08172a79d64510987e48c5a2",
+          "bytes": 73904
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/luasrc/passwall/util_xray.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-type-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/1_sing-box.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.831Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"775d4641e8c7ad47b844903fbe5c16e5dc8270717840e0130986686203ed39a1\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/28a58ee3599c5569cf5940a499da9ece46946c3a66da69f19389fd00ca8e18c8.gz",
+      "gzip_sha256": "d9baad839836b8868f6dbd3bc4e52b4a6fff36d24a544d501f03c99ff66a6061",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/1_sing-box.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/1_sing-box.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "28a58ee3599c5569cf5940a499da9ece46946c3a66da69f19389fd00ca8e18c8",
+          "bytes": 35070
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/luasrc/model/cbi/passwall/client/type/1_sing-box.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-type-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/2_xray.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:49.838Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"bd87b4807d3efcf87b3e35c1220ae5b9aafb85fdae65684404ab07e0e309dce3\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/b0639cde80dfdb6005157a45488cfd106e76a43d23bc110430288c9cf078fb96.gz",
+      "gzip_sha256": "6715f92d320fc73ca45c471aa0be8832a1bff5adbd17b1043a0148f623b66b93",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/2_xray.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/2_xray.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b0639cde80dfdb6005157a45488cfd106e76a43d23bc110430288c9cf078fb96",
+          "bytes": 33531
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/luasrc/model/cbi/passwall/client/type/2_xray.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-makefile",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/Makefile",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.144Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"ed03624af9022cf3806489188609bb734ad3d63a8715ec0da0608cfa5b1531b1\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/a6f9c1f688a1c75d842942ec0af4425bd20659240623134682a973d19be9059d.gz",
+      "gzip_sha256": "1e292d52a94088e89694c9b227b18b686aa08b7ddf434543ab87a7da94d1a1ec",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/Makefile",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/Makefile",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a6f9c1f688a1c75d842942ec0af4425bd20659240623134682a973d19be9059d",
+          "bytes": 5239
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/Makefile",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-init",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/etc/init.d/passwall",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.164Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"ac9ae11dbcf7a6edeb71b8d86f66bdd12bd8ed8562484249cf53c07a3041b8c0\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/052c3f6c8ebf0404b5efac01696ca3772941e3917c492ca8cece15be1fb0b211.gz",
+      "gzip_sha256": "56265e2315b14c65b7f33f872a9db583bdd1c25e54cf20e98e62647b70998a6d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/etc/init.d/passwall",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/etc/init.d/passwall",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "052c3f6c8ebf0404b5efac01696ca3772941e3917c492ca8cece15be1fb0b211",
+          "bytes": 1938
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/root/etc/init.d/passwall",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall-app",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/app.sh",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.184Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"22caae24edf6dc046372f6bc00b9dc3516a7042dc285c14dd3c1e22bb5109ecd\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/11bcdb159ca0071c8e13de5067c2c35768c8903c8fba426c4ad4ede4a997defc.gz",
+      "gzip_sha256": "a01c62816a1f484e9af1d8fde6a9cc2d0d4cd8cfae7a7c48e4d8a48fec329bc8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/app.sh",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/app.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "11bcdb159ca0071c8e13de5067c2c35768c8903c8fba426c4ad4ede4a997defc",
+          "bytes": 84757
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/root/usr/share/passwall/app.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-shunt-ui",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.463Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"6b584da00cb7314b823f779c75c8598264a8b68ba8c89fcdbe540b630a3b09ea\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/a0916bf93321848066ea6b6980424f362ef9b3f5156858ab2bdfb085763b3d02.gz",
+      "gzip_sha256": "1b7de2faf477d111c17f699fbaaf30cb390792d9975edd3ef2af4f494b4197f7",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a0916bf93321848066ea6b6980424f362ef9b3f5156858ab2bdfb085763b3d02",
+          "bytes": 9157
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_sing-box.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.505Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"312e61203d9340de00ea474d8a94ef656eb9f1f0ebac06b2371f54c02176849d\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/ba9c95781d1f080d45e0472033a55936a9a03a01017bc635f6298c004acc94d1.gz",
+      "gzip_sha256": "f49b6d4cac1da70d48293aa9604f0063f85c47c6cbea199f599a757c17d83476",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_sing-box.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_sing-box.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ba9c95781d1f080d45e0472033a55936a9a03a01017bc635f6298c004acc94d1",
+          "bytes": 76809
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/luasrc/passwall2/util_sing-box.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_xray.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.536Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"c50f45b885e6dafd7fe477492da92ebc77d80ead238e05283f12fe5dba75b0fc\"",
+        "date": "Mon, 19 Oct 2026 08:01:50 GMT"
+      },
+      "file": "bodies/d464dbd4c11c11546d14d3a42cdc11ce0638e80044b0ae54de8f1764cef00a0b.gz",
+      "gzip_sha256": "581bb528e6b7d4d92381f90c53b357f7649fd7de0a5ccab6d82e5a65ce1755e3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_xray.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_xray.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d464dbd4c11c11546d14d3a42cdc11ce0638e80044b0ae54de8f1764cef00a0b",
+          "bytes": 71542
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/luasrc/passwall2/util_xray.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-type-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/1_sing-box.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:50.964Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"86821b7e2475a190f9c54ea10f1fe44a15eb476a724dfc8518b0d16cb83898f2\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/01bda189e42de990914a37bb78294fb94215ee72dda1f9cfb8b409cc22de884b.gz",
+      "gzip_sha256": "3279a742fbba6f63ceb7bc55e80d370a5a61fb1e2f1ae0311a028727dd48cf09",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/1_sing-box.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/1_sing-box.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "01bda189e42de990914a37bb78294fb94215ee72dda1f9cfb8b409cc22de884b",
+          "bytes": 35919
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/1_sing-box.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-type-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/2_xray.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.082Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"950a1f1d56582dd19e1a70a6e23fad2ed60936f0da491e885f2a52c629557464\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/2d4821f79c06b784aa13c048c6b92a56a8efd59c43b900ae3631b6e855cd2438.gz",
+      "gzip_sha256": "b21b5e35c2fbe6007acd6f259afb177622dfe4b529d7f5e2d341e020cf5d3559",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/2_xray.lua",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/2_xray.lua",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2d4821f79c06b784aa13c048c6b92a56a8efd59c43b900ae3631b6e855cd2438",
+          "bytes": 31646
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/2_xray.lua",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-makefile",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/Makefile",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.121Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"2c340249152b1a0b404923fd07504124b76d35fd3127f0815e0ed28927de68a5\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/27680327494ec1f664078e036b4b5a507062a9d15086a56e35e9c608531d0724.gz",
+      "gzip_sha256": "fb44dbc5499a8e031bcbaf1d167c585e69159499e5c8c620159033a4cd601c32",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/Makefile",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/Makefile",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "27680327494ec1f664078e036b4b5a507062a9d15086a56e35e9c608531d0724",
+          "bytes": 3959
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/Makefile",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-init",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/etc/init.d/passwall2",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.399Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"cf2ce9430f9a661e85a2482841a94042408f91d43c1dbf91555757f7047dc5c1\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/5f587bb3cf8d1e2fc4f25fd6bef860b10ab84bf796df03e24207a24c40419af6.gz",
+      "gzip_sha256": "a914d63aebbcf6d8d64e3eddaf63faa248cfe4f79f8c351404c904cec520f757",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/etc/init.d/passwall2",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/etc/init.d/passwall2",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "5f587bb3cf8d1e2fc4f25fd6bef860b10ab84bf796df03e24207a24c40419af6",
+          "bytes": 1813
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/root/etc/init.d/passwall2",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "passwall2-app",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/usr/share/passwall2/app.sh",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.422Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"de03ce805675721fc908c93143059adaa31efb47688e380dc9e6aadfd5ec51d9\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/cef24d7a5ed641bf0c7c44bf92280b7574b0f0275bd10046d3a6cf51437cbf75.gz",
+      "gzip_sha256": "564e04f85fd77121a3d12902b542898780ea2e239bc903e3bb47a07160e07536",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/usr/share/passwall2/app.sh",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/usr/share/passwall2/app.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "cef24d7a5ed641bf0c7c44bf92280b7574b0f0275bd10046d3a6cf51437cbf75",
+          "bytes": 45978
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall2",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+          "requested_ref": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "source_path": "luci-app-passwall2/root/usr/share/passwall2/app.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-tree",
+      "url": "https://api.github.com/repos/hiddify/hiddify-app/git/trees/v4.1.1?recursive=1",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.417Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"3ea3144738162520b31a2bc7cdb50802af0cec672463ce47141a7321bdc054be\"",
+        "last-modified": "Mon, 19 Oct 2026 07:25:24 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT",
+        "x-ratelimit-remaining": "4920"
+      },
+      "file": "bodies/46e25adee2b9ab3e46b9b2ec790dfafeb1dd2f66c94f4490390f8d38c91668bd.gz",
+      "gzip_sha256": "21c3e363e2a567a5bafe7bcebbf32fcfe1b089138fd0b0f8c7c42f22dc60fff3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/hiddify/hiddify-app/git/trees/v4.1.1?recursive=1",
+        "effective_url": "https://api.github.com/repos/hiddify/hiddify-app/git/trees/v4.1.1?recursive=1",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "46e25adee2b9ab3e46b9b2ec790dfafeb1dd2f66c94f4490390f8d38c91668bd",
+          "bytes": 241792
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-core-module",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/go.mod",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.482Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"85333863ebe28c0a208b6b1330f9bb80fc9b632e0a137f1870322f2765bccefa\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/7055d7dd75c07988105f5ecc5b20aa72d37a3341179d8204d1c23ede757561c3.gz",
+      "gzip_sha256": "1f4161f47efc8daaaaedc320f4032d55f0842886552492d5c6e3f8bd4358a398",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/go.mod",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/go.mod",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7055d7dd75c07988105f5ecc5b20aa72d37a3341179d8204d1c23ede757561c3",
+          "bytes": 15646
+        },
+        "source": {
+          "id": "hiddify/hiddify-core",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-core",
+          "requested_ref": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "source_path": "go.mod",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-module",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/00a84b00faaed68146ce6a32bf968c5cf7089447/go.mod",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:51.541Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"63986bdb9e2c90e1f7354da4761c7e0769c6d4b77562f3649639b1d93cefda1e\"",
+        "date": "Mon, 19 Oct 2026 08:01:51 GMT"
+      },
+      "file": "bodies/41b08b24b0134bbc77c153eacd05892277967466985117bef085f34633c9b4e2.gz",
+      "gzip_sha256": "f0c86030751e1bbfa673b6733eb95a9a59b9197fdc65fee3c079ed98be34b24d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/00a84b00faaed68146ce6a32bf968c5cf7089447/go.mod",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/00a84b00faaed68146ce6a32bf968c5cf7089447/go.mod",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "41b08b24b0134bbc77c153eacd05892277967466985117bef085f34633c9b4e2",
+          "bytes": 19655
+        },
+        "source": {
+          "id": "hiddify/hiddify-core",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-core",
+          "requested_ref": "00a84b00faaed68146ce6a32bf968c5cf7089447",
+          "source_path": "go.mod",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "00a84b00faaed68146ce6a32bf968c5cf7089447",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-submodule",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.461Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"9f6244153d63198a214029a6cb472a4b744674b710a9b954f596bc7cd24a9655\"",
+        "last-modified": "Sun, 18 Oct 2026 14:17:42 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT",
+        "x-ratelimit-remaining": "4919"
+      },
+      "file": "bodies/d20050e5a388ae97de31f418d53b634659edda3a313315500669aa3787b4ca51.gz",
+      "gzip_sha256": "3c7cb78d07a99fed86b9ee788af588b29b4bc752a454b1ba301a440702a8f234",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+        "effective_url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d20050e5a388ae97de31f418d53b634659edda3a313315500669aa3787b4ca51",
+          "bytes": 7373
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "hiddify-latest-submodule",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/v5.0.3",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.561Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"36ec7a091e56cec14040d0f205b8acb0abddb71bf4ce1014e8b6f267cbe634ba\"",
+        "last-modified": "Sun, 18 Oct 2026 14:17:42 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT",
+        "x-ratelimit-remaining": "4918"
+      },
+      "file": "bodies/3d41f3857bcdb751848fdce086e7011f1f640cb5cc95f72c70601ded8101279b.gz",
+      "gzip_sha256": "d520ec8fce9fcf2b7714fc2920dc28e7440cdd9d2a7b0a5bd27e82a45dbd14ec",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/v5.0.3",
+        "effective_url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/v5.0.3",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "3d41f3857bcdb751848fdce086e7011f1f640cb5cc95f72c70601ded8101279b",
+          "bytes": 7375
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-makefile",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:52.101Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"db67e0ff8336187df77779395284e220181af819c0808f124b65e4e7412ecb90\"",
+        "date": "Mon, 19 Oct 2026 08:01:52 GMT"
+      },
+      "file": "bodies/6700e5b519ca151657f3c8b67d2f067d4f45bb91337a43ca583e6386cb8d0792.gz",
+      "gzip_sha256": "546be652955bd4a4cd45246ac74a71c8ecadc4501a24fd31c7a6237c3beb4aa6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile",
+        "effective_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "6700e5b519ca151657f3c8b67d2f067d4f45bb91337a43ca583e6386cb8d0792",
+          "bytes": 599
+        },
+        "source": {
+          "id": "immortalwrt/homeproxy",
+          "kind": "git",
+          "repository_url": "https://github.com/immortalwrt/homeproxy",
+          "requested_ref": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "source_path": "Makefile",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-readme",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/README",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:52.298Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0b153d852d2204cd3c76930a062a14d1c526af7f2fb4b7d2170080081304af9f\"",
+        "date": "Mon, 19 Oct 2026 08:01:52 GMT"
+      },
+      "file": "bodies/1cd81534c561ab690b5d25ffbadd3c17ad9bc7e6e529492804d7f42a82a6fee2.gz",
+      "gzip_sha256": "b16eb1f644a359274197235cba26c20f8dde947ad9fc7b24ed309220d4cf6186",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/README",
+        "effective_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/README",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1cd81534c561ab690b5d25ffbadd3c17ad9bc7e6e529492804d7f42a82a6fee2",
+          "bytes": 155
+        },
+        "source": {
+          "id": "immortalwrt/homeproxy",
+          "kind": "git",
+          "repository_url": "https://github.com/immortalwrt/homeproxy",
+          "requested_ref": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "source_path": "README",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-scripts",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/generate_client.uc",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:52.345Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"cc29bd3e5957f55389069d2087cfcdbefcd6df11d0e586fc5358c90696dca6c2\"",
+        "date": "Mon, 19 Oct 2026 08:01:52 GMT"
+      },
+      "file": "bodies/f8686dfc508ac3dc3b28bdeb983e654e21975a3ed8bb2e2baba2b0e184f8740a.gz",
+      "gzip_sha256": "38eaee3d2456939a7e192b022c96c94be72096ba09952e62ba88c646a9dc2f4c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/generate_client.uc",
+        "effective_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/generate_client.uc",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f8686dfc508ac3dc3b28bdeb983e654e21975a3ed8bb2e2baba2b0e184f8740a",
+          "bytes": 28635
+        },
+        "source": {
+          "id": "immortalwrt/homeproxy",
+          "kind": "git",
+          "repository_url": "https://github.com/immortalwrt/homeproxy",
+          "requested_ref": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "source_path": "root/etc/homeproxy/scripts/generate_client.uc",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-subscription",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/update_subscriptions.uc",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:52.356Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"c1696e56103fb09601f4dc40191032d546cbe69126688790155dc833ce745996\"",
+        "date": "Mon, 19 Oct 2026 08:01:52 GMT"
+      },
+      "file": "bodies/278030d6077f7941a95bd0e5e7f2847d4b0bd548254448a21139e9ffd951a124.gz",
+      "gzip_sha256": "f7c79b9ad2164ccffc8ef2123fd81ff756a893b22fa7390a483a7e0dcad97ea6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/update_subscriptions.uc",
+        "effective_url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/update_subscriptions.uc",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "278030d6077f7941a95bd0e5e7f2847d4b0bd548254448a21139e9ffd951a124",
+          "bytes": 20240
+        },
+        "source": {
+          "id": "immortalwrt/homeproxy",
+          "kind": "git",
+          "repository_url": "https://github.com/immortalwrt/homeproxy",
+          "requested_ref": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "source_path": "root/etc/homeproxy/scripts/update_subscriptions.uc",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "fadaa676104f59ff6ace480a780a258d846d0aec",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-tree",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/git/trees/fadaa676104f59ff6ace480a780a258d846d0aec?recursive=1",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": false,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.797Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"da6817756d705d990946443857cd7b175abf62247b2e16ff0b66e26fb0dfca85\"",
+        "last-modified": "Mon, 19 Oct 2026 07:54:26 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT",
+        "x-ratelimit-remaining": "4917"
+      },
+      "file": "bodies/34d0cfd6af55af223eea9a1a873297195e520caa45972f1219a137e4fb86a966.gz",
+      "gzip_sha256": "10ff16efaa4cf6200190f59bec3de77f5ce9ca9f595629b099f4a1b74a7be1be",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/immortalwrt/homeproxy/git/trees/fadaa676104f59ff6ace480a780a258d846d0aec?recursive=1",
+        "effective_url": "https://api.github.com/repos/immortalwrt/homeproxy/git/trees/fadaa676104f59ff6ace480a780a258d846d0aec?recursive=1",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "34d0cfd6af55af223eea9a1a873297195e520caa45972f1219a137e4fb86a966",
+          "bytes": 16876
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "passwall-utils",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/utils.sh",
+      "product": "Passwall",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:27.661Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"e48bcc86a649aebe8c1893d04abe9e3f71b1d1997c6297049c2011f5adeb1f67\"",
+        "date": "Mon, 19 Oct 2026 08:07:28 GMT"
+      },
+      "file": "bodies/b89c27d4d4d8be8d012917766a13a8a5aa9577a9cfcc5411d4609d21555f9028.gz",
+      "gzip_sha256": "056d486e6cef647ca22bbcff14feab463dbd5feaee89f0a64399c4b4d668b8a3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/utils.sh",
+        "effective_url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/utils.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b89c27d4d4d8be8d012917766a13a8a5aa9577a9cfcc5411d4609d21555f9028",
+          "bytes": 14378
+        },
+        "source": {
+          "id": "Openwrt-Passwall/openwrt-passwall",
+          "kind": "git",
+          "repository_url": "https://github.com/Openwrt-Passwall/openwrt-passwall",
+          "requested_ref": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "source_path": "luci-app-passwall/root/usr/share/passwall/utils.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "d8ec3c81988d775ba16ade9059cd972d5d5b8bc0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-core-info",
+      "url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Manager/CoreInfoManager.cs",
+      "product": "v2rayN",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:27.661Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f05f41adfc5b1946d0ee24266fbb2c1487f1cfdc0bba962256fd4c689e1123d7\"",
+        "date": "Mon, 19 Oct 2026 08:07:28 GMT"
+      },
+      "file": "bodies/a0707a30255a9bdb4a7c0f5d31a325d7b1535262211a839df3fd7132b97426f0.gz",
+      "gzip_sha256": "ecf5e0359e97310b3838600a2888fc0affdb22a5414366cd0d69075202e602f2",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Manager/CoreInfoManager.cs",
+        "effective_url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Manager/CoreInfoManager.cs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a0707a30255a9bdb4a7c0f5d31a325d7b1535262211a839df3fd7132b97426f0",
+          "bytes": 12996
+        },
+        "source": {
+          "id": "2dust/v2rayN",
+          "kind": "git",
+          "repository_url": "https://github.com/2dust/v2rayN",
+          "requested_ref": "1883178b5f1e222b6c6db2782e7a3d989b7cc18f",
+          "source_path": "v2rayN/ServiceLib/Manager/CoreInfoManager.cs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "1883178b5f1e222b6c6db2782e7a3d989b7cc18f",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "v2rayn-global",
+      "url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Global.cs",
+      "product": "v2rayN",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.082Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"5b61dc290d43d3941aea384a8a99cf89e29a4c4a04a81289305d55a2e056e732\"",
+        "date": "Mon, 19 Oct 2026 08:07:29 GMT"
+      },
+      "file": "bodies/b4209e58893b7d1b8d4c0da6c5798b23ffc184baeba6245de762899db7f41e5b.gz",
+      "gzip_sha256": "cde49865d4e162aca49958b6023b694f27cc7a12d2f2f3a167083e247f45a149",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Global.cs",
+        "effective_url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Global.cs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b4209e58893b7d1b8d4c0da6c5798b23ffc184baeba6245de762899db7f41e5b",
+          "bytes": 26569
+        },
+        "source": {
+          "id": "2dust/v2rayN",
+          "kind": "git",
+          "repository_url": "https://github.com/2dust/v2rayN",
+          "requested_ref": "1883178b5f1e222b6c6db2782e7a3d989b7cc18f",
+          "source_path": "v2rayN/ServiceLib/Global.cs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "1883178b5f1e222b6c6db2782e7a3d989b7cc18f",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-old-sb-version",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/constant/version.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.249Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"a1b9e1dc6ea29117da5ce91b708a8303fd1417afc782b2c857aba235c32d80ec\"",
+        "date": "Mon, 19 Oct 2026 08:07:29 GMT"
+      },
+      "file": "bodies/127973f39452f1160c1f43bd3a7c711f1b0578e834cab543e0bf003f1bedcffc.gz",
+      "gzip_sha256": "674a2bf701357899eb435d69b78eddaf764ec05fde9b5a043bf07ca615b3e70d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/constant/version.go",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/constant/version.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "127973f39452f1160c1f43bd3a7c711f1b0578e834cab543e0bf003f1bedcffc",
+          "bytes": 42
+        },
+        "source": {
+          "id": "hiddify/hiddify-sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-sing-box",
+          "requested_ref": "0a02b7729f6a211436bb8bdcd8696c283eb27767",
+          "source_path": "constant/version.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0a02b7729f6a211436bb8bdcd8696c283eb27767",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-new-sb-version",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/constant/version.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.415Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"a1b9e1dc6ea29117da5ce91b708a8303fd1417afc782b2c857aba235c32d80ec\"",
+        "date": "Mon, 19 Oct 2026 08:07:30 GMT"
+      },
+      "file": "bodies/127973f39452f1160c1f43bd3a7c711f1b0578e834cab543e0bf003f1bedcffc.gz",
+      "gzip_sha256": "674a2bf701357899eb435d69b78eddaf764ec05fde9b5a043bf07ca615b3e70d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/constant/version.go",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/constant/version.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "127973f39452f1160c1f43bd3a7c711f1b0578e834cab543e0bf003f1bedcffc",
+          "bytes": 42
+        },
+        "source": {
+          "id": "hiddify/hiddify-sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-sing-box",
+          "requested_ref": "5e94a4e6acf7907755f3a8588ce619d2c29b3f06",
+          "source_path": "constant/version.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "5e94a4e6acf7907755f3a8588ce619d2c29b3f06",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-build",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/.github/workflows/build.yml",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.533Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"3a3cb71e90760a86c53758fbe5ec8c9062347ebdb0de741d05dd8261ac2e840e\"",
+        "date": "Mon, 19 Oct 2026 08:07:29 GMT"
+      },
+      "file": "bodies/a2eb32f3a0bf0d30f3b31a51ea92a0b32d4fa9973b726eee383caf15656f69e6.gz",
+      "gzip_sha256": "5fd63d38c06f6815258d840116486dcdeda3787005b44229f80558331637c06e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/.github/workflows/build.yml",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/.github/workflows/build.yml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a2eb32f3a0bf0d30f3b31a51ea92a0b32d4fa9973b726eee383caf15656f69e6",
+          "bytes": 19216
+        },
+        "source": {
+          "id": "hiddify/hiddify-app",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-app",
+          "requested_ref": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "source_path": ".github/workflows/build.yml",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-makefile",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/Makefile",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.648Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f729412f1a3057f56777136dabc25baed6e051b1cc43b4d6a0879d5adc6999c6\"",
+        "date": "Mon, 19 Oct 2026 08:07:29 GMT"
+      },
+      "file": "bodies/68d20daba1ccc563bc4b997e651838c41b350dd88e8db391aaf90a94c9295f21.gz",
+      "gzip_sha256": "377d7a82c4a689eb63a03e1a71b082b736e48d4626abc9dc6109b9ceca2c9d4d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/Makefile",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/Makefile",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "68d20daba1ccc563bc4b997e651838c41b350dd88e8db391aaf90a94c9295f21",
+          "bytes": 17757
+        },
+        "source": {
+          "id": "hiddify/hiddify-app",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-app",
+          "requested_ref": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "source_path": "Makefile",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-block",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/block.md",
+      "product": "sing-box",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:29.800Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"80d27765492f7c09a1c2aff300f1dba8c48bd3e340a7b048b1c635c4e595533c\"",
+        "date": "Mon, 19 Oct 2026 08:07:30 GMT"
+      },
+      "file": "bodies/4506db447410b6e71f3700b3995766b3dbcac7fadc33cc3bc3adc3d8eb50fdbe.gz",
+      "gzip_sha256": "64d1e2f6c50fd768dfd047293c3e4735f1431685804b91331493cddc28cb142f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/block.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/block.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4506db447410b6e71f3700b3995766b3dbcac7fadc33cc3bc3adc3d8eb50fdbe",
+          "bytes": 128
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/outbound/block.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-dns-action",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule_action.md",
+      "product": "sing-box",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:30.058Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"fc687d83f2f0e3f4a5584039027d4c2b95f589f67fef5d69e0c64cd75732e875\"",
+        "date": "Mon, 19 Oct 2026 08:07:30 GMT"
+      },
+      "file": "bodies/016135ffaf8b35d5ea6448286fa2e4497b5a8656ec524d6afece11d0bf9e4d59.gz",
+      "gzip_sha256": "bc81b81c15773657c671ab0943d57d2c42efad9f2921daabe6ddddbd404ab755",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule_action.md",
+        "effective_url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule_action.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "016135ffaf8b35d5ea6448286fa2e4497b5a8656ec524d6afece11d0bf9e4d59",
+          "bytes": 8555
+        },
+        "source": {
+          "id": "SagerNet/sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/SagerNet/sing-box",
+          "requested_ref": "7054cac5124465ffdb145870d7c01885566711b1",
+          "source_path": "docs/configuration/dns/rule_action.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "7054cac5124465ffdb145870d7c01885566711b1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "singbox-stable-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box/releases/tags/v1.14.3",
+      "product": "sing-box",
+      "kind": "release",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:30.142Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"7ffa9146bd60e28c346e059d3af0114aea7f5a71ce5b4b1a17b4e020ae2a1624\"",
+        "last-modified": "Fri, 09 Oct 2026 05:35:00 GMT",
+        "date": "Mon, 19 Oct 2026 08:07:31 GMT",
+        "x-ratelimit-remaining": "4887"
+      },
+      "file": "bodies/3c5d7434107b31b2c28ad718668545a9f0ebe47fbd035c532ed9446b1426429b.gz",
+      "gzip_sha256": "962acd1d2ac854e0b21cc98347610198eb352ea5d1fe20bead15e4fdd871407e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/SagerNet/sing-box/releases/tags/v1.14.3",
+        "effective_url": "https://api.github.com/repos/SagerNet/sing-box/releases/tags/v1.14.3",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "3c5d7434107b31b2c28ad718668545a9f0ebe47fbd035c532ed9446b1426429b",
+          "bytes": 285052
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-commit",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/commits/fadaa676104f59ff6ace480a780a258d846d0aec",
+      "product": "HomeProxy",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:30.184Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"527f9211719c1791c646558c1ee59fb715310dc8e9172c0fb17c2ebec6a27f55\"",
+        "last-modified": "Fri, 02 Oct 2026 07:58:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:07:30 GMT",
+        "x-ratelimit-remaining": "4888"
+      },
+      "file": "bodies/dcb705bcdb46155868bc94f9da7f56acfe63384e7baf0bf7065f43a66c271cb6.gz",
+      "gzip_sha256": "bd09a5e6db6f631d9e157d0c5964850b027ec2ea3d965da5a03d41f90933ebde",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/immortalwrt/homeproxy/commits/fadaa676104f59ff6ace480a780a258d846d0aec",
+        "effective_url": "https://api.github.com/repos/immortalwrt/homeproxy/commits/fadaa676104f59ff6ace480a780a258d846d0aec",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "dcb705bcdb46155868bc94f9da7f56acfe63384e7baf0bf7065f43a66c271cb6",
+          "bytes": 29323
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "homeproxy-immortalwrt-singbox",
+      "url": "https://raw.githubusercontent.com/immortalwrt/packages/master/net/sing-box/Makefile",
+      "product": "HomeProxy",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:07:30.501Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"18fcefa344a2cbf3d9590e6c3f05f15771ded261e19d0a0bff6f1b2ff2ce52a5\"",
+        "date": "Mon, 19 Oct 2026 08:07:31 GMT"
+      },
+      "file": "bodies/df4cbe227024c39ffa1bbff92574c7ced4d5bea9f6ee27f2a7fe560dcbd413d5.gz",
+      "gzip_sha256": "37450c83d4363a06e3e7827d6812f68f3e1696472b8d1807893670b7d67ebc29",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/immortalwrt/packages/master/net/sing-box/Makefile",
+        "effective_url": "https://raw.githubusercontent.com/immortalwrt/packages/8d50d4ea3f11eef6f8fcc889cd35ba6fcb530481/net/sing-box/Makefile",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "df4cbe227024c39ffa1bbff92574c7ced4d5bea9f6ee27f2a7fe560dcbd413d5",
+          "bytes": 7103
+        },
+        "source": {
+          "id": "immortalwrt/packages",
+          "kind": "git",
+          "repository_url": "https://github.com/immortalwrt/packages",
+          "requested_ref": "master",
+          "source_path": "net/sing-box/Makefile",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d50d4ea3f11eef6f8fcc889cd35ba6fcb530481",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-app-dependencies",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/dependencies.properties",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:23.214Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"4d06805fe51b3721b7e7cc3b09b43a43f1d98814e2d97a37ef071046b1da2aff\"",
+        "date": "Mon, 19 Oct 2026 08:08:24 GMT"
+      },
+      "file": "bodies/f0cdd9e54bcf871462e5ed3d3c3dbc3b4bf2192cfdda1a17f70061ef769ef7c7.gz",
+      "gzip_sha256": "1b4a840278ba11bb7460680a976061a5a278ff4c3acb682ef9805b4c577d92d1",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/dependencies.properties",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/dependencies.properties",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f0cdd9e54bcf871462e5ed3d3c3dbc3b4bf2192cfdda1a17f70061ef769ef7c7",
+          "bytes": 18
+        },
+        "source": {
+          "id": "hiddify/hiddify-app",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-app",
+          "requested_ref": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "source_path": "dependencies.properties",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "abbd671bf6bf05195acd4158c714bff267cada8f",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-old-rule-set",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/option/rule_set.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:23.217Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b9c830ff48c4d9ea72b99d2cce29884dbdaf744b0066b15fc455e3681d418117\"",
+        "date": "Mon, 19 Oct 2026 08:08:24 GMT"
+      },
+      "file": "bodies/7f7af29a0e090b496bbda71952765e4a8b55be4764f2b19ef311f2ed51130fce.gz",
+      "gzip_sha256": "c3077e3da60661f29faee9381582c28161d41b10c7b4294a53c6508db7531ce3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/option/rule_set.go",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/option/rule_set.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7f7af29a0e090b496bbda71952765e4a8b55be4764f2b19ef311f2ed51130fce",
+          "bytes": 8995
+        },
+        "source": {
+          "id": "hiddify/hiddify-sing-box",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-sing-box",
+          "requested_ref": "0a02b7729f6a211436bb8bdcd8696c283eb27767",
+          "source_path": "option/rule_set.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0a02b7729f6a211436bb8bdcd8696c283eb27767",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-parser",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/parser.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:23.217Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"2a826985e3180d069fffa3e2a278f4b336dc8f19ea9d1dc54d97045f30bad41f\"",
+        "date": "Mon, 19 Oct 2026 08:08:24 GMT"
+      },
+      "file": "bodies/f36fd06447be60764826239c739f4ea9466a537dbc2b8b7e26c81ee46d6b8091.gz",
+      "gzip_sha256": "c32210e63f002a533c2717d87a68af88e84bd0fbfa8dd39c0166ff70067ecf51",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/parser.go",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/parser.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f36fd06447be60764826239c739f4ea9466a537dbc2b8b7e26c81ee46d6b8091",
+          "bytes": 4926
+        },
+        "source": {
+          "id": "hiddify/hiddify-core",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-core",
+          "requested_ref": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "source_path": "v2/config/parser.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "hiddify-core-builder",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/builder.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:23.217Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"35246bdd69cc162eca40ac775249b844df57991b30094fca1eb05aed2a677283\"",
+        "date": "Mon, 19 Oct 2026 08:08:24 GMT"
+      },
+      "file": "bodies/5da8f53070205d159c2c2509920b642261b2ebf5c0fb5035c855fb3eba9c068e.gz",
+      "gzip_sha256": "f1565a01e4294c81cdabe90893d164c795b5f90d37bee871abf75005b058d0f6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/builder.go",
+        "effective_url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/builder.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "5da8f53070205d159c2c2509920b642261b2ebf5c0fb5035c855fb3eba9c068e",
+          "bytes": 33941
+        },
+        "source": {
+          "id": "hiddify/hiddify-core",
+          "kind": "git",
+          "repository_url": "https://github.com/hiddify/hiddify-core",
+          "requested_ref": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "source_path": "v2/config/builder.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+          "version_state": "pinned-commit"
+        }
+      }
+    }
+  ]
+}

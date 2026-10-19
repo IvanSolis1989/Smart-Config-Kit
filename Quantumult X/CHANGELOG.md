@@ -6,6 +6,11 @@
 
 ---
 
+## v6.0.20-QX.11 (2026-10-19)
+
+- 按官方 `sample.conf` 将四个 DoH URL 合并到同一条 `doh-server`，保留服务器、顺序和其他 DNS 设置，符合官方多 DoH 写法；未声称重复键的实机覆盖行为已复现。
+- 更正 AnyTLS / REALITY 协议说明并保存官方正文与版本元数据，详见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)。规则、策略组与远程过滤内容不变；真机并发解析仍待验证。
+
 ## v6.0.20-QX.10 (2026-10-16)
 
 - Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。

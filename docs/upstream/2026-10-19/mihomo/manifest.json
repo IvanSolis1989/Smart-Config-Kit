@@ -1,0 +1,2775 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "mihomo",
+  "generated_at": "2026-10-19T08:19:31.783Z",
+  "inventory_normalization": "LF",
+  "sources_sha256": "21f3d13abe10ffc7dd6d8aef10741cd9084097eaaa56e43487a947c5c6be20c3",
+  "counts": {
+    "total": 57,
+    "ok": 57,
+    "failed": 0
+  },
+  "sources": [
+    {
+      "id": "mihomo-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.485Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"bf2848972f370bd1c2a9409fee58530c21287821c13768728a380782fa653af7\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "6"
+      },
+      "file": "bodies/ba8c08eedf1bc210f761d4d25c6152c58d9a6f0bd2a92078b50b366378e440fb.gz",
+      "gzip_sha256": "975ae1efa832b87b4e1b822c192567909d692e06eef72bfe0ab10fc7bfc010d7",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/MetaCubeX/mihomo/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ba8c08eedf1bc210f761d4d25c6152c58d9a6f0bd2a92078b50b366378e440fb",
+          "bytes": 5845868
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "smart-releases",
+      "url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+      "kind": "release",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"fc42f1f8cf2a0c8d868e368f4fed643140abfae6222f0f1b514bd1991180d810\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "9"
+      },
+      "file": "bodies/c0626a679fa68abdcb44a30b0c64ef0ace1250f14e307b3742ddfaa20ab1329c.gz",
+      "gzip_sha256": "b6d8923a0d69aa6b1e9c473dbc25be6c421449be12a35bc4000defa6d2659680",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/vernesong/mihomo/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c0626a679fa68abdcb44a30b0c64ef0ace1250f14e307b3742ddfaa20ab1329c",
+          "bytes": 232806
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "party-releases",
+      "url": "https://api.github.com/repos/mihomo-party-org/mihomo-party/releases?per_page=30",
+      "kind": "release",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"71517d0f729976d09baa343b89c3e070323f6089a613136760eb9f69f328dd9d\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "4"
+      },
+      "file": "bodies/74d57e19003d32266527d391818920e364f25dcc3d49e414bb73fd749f8879d1.gz",
+      "gzip_sha256": "c30fcc4154d33c315fe32fafa9a58101b9f3511e6bae325e309546b50e842096",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/mihomo-party-org/mihomo-party/releases?per_page=30",
+        "effective_url": "https://api.github.com/repositories/836976013/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "74d57e19003d32266527d391818920e364f25dcc3d49e414bb73fd749f8879d1",
+          "bytes": 3271769
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "cmfa-releases",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+      "kind": "release",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:03.486Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"de4883e39ab68af83b7c8fbe97dce9913dcde17f5ea82d83d20cc5c1f4e7fd60\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "7"
+      },
+      "file": "bodies/56e3471aea3b79cfd7f15ac097065f255995724bb875bb402f2684c6b27d17bd.gz",
+      "gzip_sha256": "7e59c0d76deaa8b59ffd0478377dc29c20e8218a87b097154b66ac6da04b9844",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "56e3471aea3b79cfd7f15ac097065f255995724bb875bb402f2684c6b27d17bd",
+          "bytes": 386343
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "openclash-releases",
+      "url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+      "kind": "release",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:04.446Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"4e3469a6971fbdd5db0a86897272c3e842b2babc7c6d505759fd192c148c6f7b\"",
+        "date": "Mon, 19 Oct 2026 08:00:04 GMT",
+        "x-ratelimit-remaining": "5"
+      },
+      "file": "bodies/c57ad62e4d879b1bdedddb4e0eb45cde6b1cef700a78807f739eac5b530f3556.gz",
+      "gzip_sha256": "cc89e7dd6bd55f42d90e2f08f6497bad26d1a4d4e8bc964e1e432d2db0c88b86",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/vernesong/OpenClash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c57ad62e4d879b1bdedddb4e0eb45cde6b1cef700a78807f739eac5b530f3556",
+          "bytes": 251380
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "flclash-releases",
+      "url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+      "kind": "release",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:04.633Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"b3d39e6d9c607f5267db52fce0d3b9479dbc25cf6a39481d589a3570f65a0e3a\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "3"
+      },
+      "file": "bodies/9802ecdaa3f8847ef75ea55b10c899dd5e62f9fb447ef7b930d23aeaf0f843d8.gz",
+      "gzip_sha256": "7ccea43065880d8c82530311c19e6ed921b9fcb0c4e7f659003784229d3f764e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/chen08209/FlClash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "9802ecdaa3f8847ef75ea55b10c899dd5e62f9fb447ef7b930d23aeaf0f843d8",
+          "bytes": 986252
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "clashmi-releases",
+      "url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+      "kind": "release",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:05.026Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"cfad613c20f71b121b4465e1256edc45c9f5a70cbd38efb35ac8d6531cc9ab48\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "2"
+      },
+      "file": "bodies/f129ed0da50fd9725d4a0a959d7044a1f61a6da2e1e10cb1bad21f89d067a37e.gz",
+      "gzip_sha256": "70a0d43b2f2908dc7c7ccae984f756ecbaf61e8402654b12f098cc20e578b1e9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/KaringX/clashmi/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f129ed0da50fd9725d4a0a959d7044a1f61a6da2e1e10cb1bad21f89d067a37e",
+          "bytes": 387133
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-releases",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+      "kind": "release",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:05.604Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"2a06b63d8e849dd476b45e5a0d8330c38cfe782417ff415f7ddfd888cbcb517a\"",
+        "date": "Mon, 19 Oct 2026 08:00:05 GMT",
+        "x-ratelimit-remaining": "1"
+      },
+      "file": "bodies/1d47113c3d4fad4e1fe510bc06239284319496cb7f626260e761264e944abc25.gz",
+      "gzip_sha256": "c7bfeba94e12e9bc22ec9c09ead47a65efe51574d88cf2c282ed5ccf92c3f427",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/juewuy/ShellCrash/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1d47113c3d4fad4e1fe510bc06239284319496cb7f626260e761264e944abc25",
+          "bytes": 96717
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-dns",
+      "url": "https://wiki.metacubex.one/config/dns/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:01.333Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36f-1774a\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:19 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:01 GMT"
+      },
+      "file": "bodies/88f9186188eefa4226e059c0aaafb87f4dd525100a72cfc39211006b608aa7f0.gz",
+      "gzip_sha256": "a59e45b2c54714be23bc868241b307d6da0199ffcc59d9ce8300c9817125678e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/dns/",
+        "effective_url": "https://wiki.metacubex.one/config/dns/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "88f9186188eefa4226e059c0aaafb87f4dd525100a72cfc39211006b608aa7f0",
+          "bytes": 96074
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-groups",
+      "url": "https://wiki.metacubex.one/config/proxy-groups/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:01.335Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-13c06\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:01 GMT"
+      },
+      "file": "bodies/84b34bb2a97143290d9906e0277da66333af728bd14bd926feb9a44d32a299ff.gz",
+      "gzip_sha256": "afea27a9c4bdfda2bd827b8597fd21a8530e64e5372698227c280527716f6ef5",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/proxy-groups/",
+        "effective_url": "https://wiki.metacubex.one/config/proxy-groups/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "84b34bb2a97143290d9906e0277da66333af728bd14bd926feb9a44d32a299ff",
+          "bytes": 80902
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-tun",
+      "url": "https://wiki.metacubex.one/config/inbound/tun/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:01.335Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36f-19b48\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:19 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:01 GMT"
+      },
+      "file": "bodies/1628c54c5026f90317ce1e91f0fa1d4b4e7caa7097ccd0c9f01f4da3bbf2cc3f.gz",
+      "gzip_sha256": "7d9a9ff9774d83072c9f1456844d15069b400055b73fb140ac49c31520c9c9f8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/inbound/tun/",
+        "effective_url": "https://wiki.metacubex.one/config/inbound/tun/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1628c54c5026f90317ce1e91f0fa1d4b4e7caa7097ccd0c9f01f4da3bbf2cc3f",
+          "bytes": 105288
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-rules",
+      "url": "https://wiki.metacubex.one/config/rules/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:01.335Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-17942\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:01 GMT"
+      },
+      "file": "bodies/f6b835012ca9ddbf06149ea69ab52575226e07da3ac7ac35ea101d549b97e1b7.gz",
+      "gzip_sha256": "f1d86d65866e70f104b07ad82328591f4ac6a5e5e149b472b29d72fbc726af71",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/rules/",
+        "effective_url": "https://wiki.metacubex.one/config/rules/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f6b835012ca9ddbf06149ea69ab52575226e07da3ac7ac35ea101d549b97e1b7",
+          "bytes": 96578
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-rule-providers",
+      "url": "https://wiki.metacubex.one/config/rule-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:01.918Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-10ee0\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/26b4ab3c43d08f53cbd25c45ea2dc958e6d379d26ee742cfe055d4f528442f65.gz",
+      "gzip_sha256": "70a41f9ed2a7d64c351e814a224462b869c3658c490a59c2ad8c4b9747aeb6e6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/rule-providers/",
+        "effective_url": "https://wiki.metacubex.one/config/rule-providers/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "26b4ab3c43d08f53cbd25c45ea2dc958e6d379d26ee742cfe055d4f528442f65",
+          "bytes": 69344
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-proxy-providers",
+      "url": "https://wiki.metacubex.one/config/proxy-providers/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.029Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-172fd\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/ed04b770f07b1693e3ea542abdf1d2a36b61cdc2e2fa6e7cf3f33ff16fabe195.gz",
+      "gzip_sha256": "cf8483a4151126e7d66a7443e2ec8a2ffadebc66207b19ce1b45911eea370fd7",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/proxy-providers/",
+        "effective_url": "https://wiki.metacubex.one/config/proxy-providers/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ed04b770f07b1693e3ea542abdf1d2a36b61cdc2e2fa6e7cf3f33ff16fabe195",
+          "bytes": 94973
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-sniffer",
+      "url": "https://wiki.metacubex.one/config/sniff/",
+      "kind": "documentation",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.705Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ac0c36e-11513\"",
+        "last-modified": "Sat, 03 Oct 2026 08:57:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/8d0a51fb05450decea25689373e9ca6e2af1943636395c18acec0f5fcba9f476.gz",
+      "gzip_sha256": "1e4401d1693e2d7f9a6cdeb412f83898aa7c42d861957657f2b9d25477064b97",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://wiki.metacubex.one/config/sniff/",
+        "effective_url": "https://wiki.metacubex.one/config/sniff/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8d0a51fb05450decea25689373e9ca6e2af1943636395c18acec0f5fcba9f476",
+          "bytes": 70931
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "mihomo-stable-config",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/config/config.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.707Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0a6975d287c680d6283770404b73fa3f6fcc26f1361cca5a1b8faae67099045d\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/a242e1fd06378e01371153122d51b20862af24b4904fdec2a7b54843e70b1203.gz",
+      "gzip_sha256": "cf051e18a8546343e678ed3ca0e65a23b60292aee1f4707c2c73d2db4531f82c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/config/config.go",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/88dcbf7f1614a67c3b36b848ee3592dfa92ada36/config/config.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a242e1fd06378e01371153122d51b20862af24b4904fdec2a7b54843e70b1203",
+          "bytes": 73106
+        },
+        "source": {
+          "id": "MetaCubeX/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/mihomo",
+          "requested_ref": "v1.19.32",
+          "source_path": "config/config.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "88dcbf7f1614a67c3b36b848ee3592dfa92ada36",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "mihomo-stable-groupbase",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/adapter/outboundgroup/groupbase.go",
+      "kind": "source",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.796Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"720d96af63b05ef037aa2b896261f6164cf448c7bc9591a7b112e595d0a69528\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/4f073f75e1deaff8468458adecaaf674e720200f5c056967e5ee7f9dee25fc38.gz",
+      "gzip_sha256": "74d9abe4fe1938abbb50b2f0f6d87549f4a7ca0b6887ba70d5b75445fd92e701",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/v1.19.32/adapter/outboundgroup/groupbase.go",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/mihomo/88dcbf7f1614a67c3b36b848ee3592dfa92ada36/adapter/outboundgroup/groupbase.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4f073f75e1deaff8468458adecaaf674e720200f5c056967e5ee7f9dee25fc38",
+          "bytes": 7779
+        },
+        "source": {
+          "id": "MetaCubeX/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/mihomo",
+          "requested_ref": "v1.19.32",
+          "source_path": "adapter/outboundgroup/groupbase.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "88dcbf7f1614a67c3b36b848ee3592dfa92ada36",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-group-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:06.914Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"bdaaeadfeb6c56889aa97c0048180fc1dedd13834fe28cfb1961682fc31ec89c\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/a4953d0143eca44ad064af66f7bb259831fe19bbc0049b2639e2d6f6ec0d1566.gz",
+      "gzip_sha256": "75ed82d13e16872c44e972cafa7520475f4935eec56c4f50432220c04b057c44",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a4953d0143eca44ad064af66f7bb259831fe19bbc0049b2639e2d6f6ec0d1566",
+          "bytes": 75768
+        },
+        "source": {
+          "id": "vernesong/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/mihomo",
+          "requested_ref": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "source_path": "adapter/outboundgroup/smart.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-config-source",
+      "url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+      "kind": "source",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:07.470Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0b2c44852a9a5c8f03fc61941a7c39a2e8019fa36825c724b8f0bcf38a80ba52\"",
+        "date": "Mon, 19 Oct 2026 08:00:07 GMT"
+      },
+      "file": "bodies/e69c6226d3fa71f5fcaa385e075b36abc0ff34cc2e8f55ca40631e29acc275c1.gz",
+      "gzip_sha256": "49235294f10878fcd64ca14faa79b357a83d3f1933a44ba21deb7df4fa1aa1b9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/mihomo/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e69c6226d3fa71f5fcaa385e075b36abc0ff34cc2e8f55ca40631e29acc275c1",
+          "bytes": 74324
+        },
+        "source": {
+          "id": "vernesong/mihomo",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/mihomo",
+          "requested_ref": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "source_path": "config/config.go",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "83e67d0c4415b1114f9e01d8e9a00133caf89f6c",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "smart-official-guide",
+      "url": "https://github.com/vernesong/OpenClash/releases/tag/mihomo",
+      "kind": "documentation",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:31.026Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"38a6422f32ea1ab193ace34075186e43\"",
+        "date": "Mon, 19 Oct 2026 08:02:31 GMT"
+      },
+      "file": "bodies/124eec09114a10716734790fc3d8d8d0be91588dfa830b1419fc3c2974efb4de.gz",
+      "gzip_sha256": "e247b4fc46a84ce9400dba6a3565c7c14a15274c3f889574b55be5045f6a76ea",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/vernesong/OpenClash/releases/tag/mihomo",
+        "effective_url": "https://github.com/vernesong/OpenClash/releases/tag/mihomo",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "124eec09114a10716734790fc3d8d8d0be91588dfa830b1419fc3c2974efb4de",
+          "bytes": 213938
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "party-factory",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/factory.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.060Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"8a2fdd7aff926c5f3a5273da76696d84be2999997528916cd94084983c1f9f0d\"",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/918f8dfd8a778d4b0aadb0f6f674296d10400f619bb8f70c9d1e62ca72384fa9.gz",
+      "gzip_sha256": "49caa3d065500315f79afa5d23030d37ec6ce7cf11b8740d1b17d2b5ce03a093",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/factory.ts",
+        "effective_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/factory.ts",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "918f8dfd8a778d4b0aadb0f6f674296d10400f619bb8f70c9d1e62ca72384fa9",
+          "bytes": 15030
+        },
+        "source": {
+          "id": "mihomo-party-org/clash-party",
+          "kind": "git",
+          "repository_url": "https://github.com/mihomo-party-org/clash-party",
+          "requested_ref": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "source_path": "src/main/core/factory.ts",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "party-dns-guard",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/dnsOverrideGuard.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.269Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"38b8a9178aef1341387a29b3a59005210dc8df7255b8dd11525e23e92e743659\"",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/cab7fb2c2b545cc4ca7fe648cbf1c2959418c2ae25c3c1c2eddd2cf7f94647e9.gz",
+      "gzip_sha256": "7c90c6cc5c6f510ed5e2357afbaf3d439b2cd9d2c4d922008c7fded69c321fc8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/dnsOverrideGuard.ts",
+        "effective_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/core/dnsOverrideGuard.ts",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "cab7fb2c2b545cc4ca7fe648cbf1c2959418c2ae25c3c1c2eddd2cf7f94647e9",
+          "bytes": 7495
+        },
+        "source": {
+          "id": "mihomo-party-org/clash-party",
+          "kind": "git",
+          "repository_url": "https://github.com/mihomo-party-org/clash-party",
+          "requested_ref": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "source_path": "src/main/core/dnsOverrideGuard.ts",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "party-controlled-config",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/config/controledMihomo.ts",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.329Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"d3ada6d360a56cd4281472a6b959e309932c653bca9094441d727c3cec8c3fce\"",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/5fe1e40f05282315ab26c90b3adac3398a455f4d7d33b1315df4798902aa0356.gz",
+      "gzip_sha256": "b667743f18d63467267ad0c4d0489d21b9b188071feaf2471c4aa289a23291ad",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/config/controledMihomo.ts",
+        "effective_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/src/main/config/controledMihomo.ts",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "5fe1e40f05282315ab26c90b3adac3398a455f4d7d33b1315df4798902aa0356",
+          "bytes": 8147
+        },
+        "source": {
+          "id": "mihomo-party-org/clash-party",
+          "kind": "git",
+          "repository_url": "https://github.com/mihomo-party-org/clash-party",
+          "requested_ref": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "source_path": "src/main/config/controledMihomo.ts",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "cmfa-gitmodules",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/.gitmodules",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.454Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"a002fddf9ad30286dc97da46abac931c68770284610ff8441dc7b07641ec8a82\"",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/a6418c4a3a4e29fbb074198088fed192194b0b6afef98ed513db93e01f0942eb.gz",
+      "gzip_sha256": "36274bb380f99b38920c4b3ca6c9e7e36ba387ed3b7cd882d8f3af704d7e24b8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/.gitmodules",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/.gitmodules",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a6418c4a3a4e29fbb074198088fed192194b0b6afef98ed513db93e01f0942eb",
+          "bytes": 119
+        },
+        "source": {
+          "id": "MetaCubeX/ClashMetaForAndroid",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/ClashMetaForAndroid",
+          "requested_ref": "a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1",
+          "source_path": ".gitmodules",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "cmfa-tree",
+      "url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/git/trees/v2.11.35?recursive=1",
+      "kind": "source",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:31.031Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"021712b5499b1e2eb43a2d9197bb241861447b19052397f2520214fe6d80b138\"",
+        "last-modified": "Mon, 19 Oct 2026 07:43:20 GMT",
+        "date": "Mon, 19 Oct 2026 08:02:31 GMT",
+        "x-ratelimit-remaining": "4936"
+      },
+      "file": "bodies/23b433dea6196589c614d9ff1a57e248287d3d97c42c87a5a7f4fc13a084bded.gz",
+      "gzip_sha256": "d71bf94616ef101c752e19ef9737d37811416a7b1e74c93ad0814ce37dc628d3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/git/trees/v2.11.35?recursive=1",
+        "effective_url": "https://api.github.com/repos/MetaCubeX/ClashMetaForAndroid/git/trees/v2.11.35?recursive=1",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "23b433dea6196589c614d9ff1a57e248287d3d97c42c87a5a7f4fc13a084bded",
+          "bytes": 179120
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "cmfa-readme",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/README.md",
+      "kind": "documentation",
+      "product": "CMFA",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.606Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"6b70842ae475a4bc6137c3937f36eeb1c08d280cfe9f3625fdc9eb5815b92982\"",
+        "date": "Mon, 19 Oct 2026 08:01:02 GMT"
+      },
+      "file": "bodies/a2fd688193620279326858557f3429924813c6842a022f0ec88dfd9d8db9472a.gz",
+      "gzip_sha256": "4082c9f4e82e831e8079e0bebae7f8e8768e580e9029a33fd4fd72d3db040d82",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/README.md",
+        "effective_url": "https://raw.githubusercontent.com/MetaCubeX/ClashMetaForAndroid/a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a2fd688193620279326858557f3429924813c6842a022f0ec88dfd9d8db9472a",
+          "bytes": 3419
+        },
+        "source": {
+          "id": "MetaCubeX/ClashMetaForAndroid",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/ClashMetaForAndroid",
+          "requested_ref": "a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "a55827bfdd79f69ded8cf75c90293d2b7cb7e5a1",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "openclash-overwrite",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+      "kind": "source",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.822Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"64b1672c218af239526f19d208618cb625d9ba9b42c27d6fe195e5b3d8dee119\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/f1d1a48f04665a9815d30b00ba127c43277a21f0931519e70f9be5e4aea3c77f.gz",
+      "gzip_sha256": "288adca06eb76b6bc8dbdf9d05d95b5465cae37252d6c1ec5ecb9b317eb687a2",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f1d1a48f04665a9815d30b00ba127c43277a21f0931519e70f9be5e4aea3c77f",
+          "bytes": 6899
+        },
+        "source": {
+          "id": "vernesong/OpenClash",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/OpenClash",
+          "requested_ref": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "source_path": "luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "openclash-user-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/SKILL.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.885Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"25390e7429820a5c6d46c64607efb9f5d738d461cbad2df47f3aa456b5ba0073\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/7560ed87409c85b4bc7a9016f3bd5f740803ab6b0db87d4c8f83de944866bddb.gz",
+      "gzip_sha256": "36a86c1d722021a327f31ea6cbe71fa6f6f2290b2610a878029506c0081385f4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/SKILL.md",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/SKILL.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7560ed87409c85b4bc7a9016f3bd5f740803ab6b0db87d4c8f83de944866bddb",
+          "bytes": 17458
+        },
+        "source": {
+          "id": "vernesong/OpenClash",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/OpenClash",
+          "requested_ref": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "source_path": ".github/skills/openclash-user-guide/SKILL.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "openclash-overwrite-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/16-overwrite-module-format.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:02.933Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"0b8fab6f7672fb8c3957e949cae4cc3b816d45f1a6bd3ff3d1779edb0edc494a\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/4e39d08265cab3579b17b0d6917175e3d0c140b6c9b37026333e1097806fb1ad.gz",
+      "gzip_sha256": "b9e45694d13ad3dfdb0e010f17988b5f5b89863ba6851043b9ec105a331e24e0",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/16-overwrite-module-format.md",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/16-overwrite-module-format.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4e39d08265cab3579b17b0d6917175e3d0c140b6c9b37026333e1097806fb1ad",
+          "bytes": 29942
+        },
+        "source": {
+          "id": "vernesong/OpenClash",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/OpenClash",
+          "requested_ref": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "source_path": ".github/skills/openclash-user-guide/16-overwrite-module-format.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "openclash-traffic-guide",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+      "kind": "documentation",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.300Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"88c8524008720e711c52a20784c143978ba719e317be1d4957ac93160e5363ac\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/adbf46ca25c0dd95ab50d55d5ec3b538f1c99656e219152cac8f19c18369ff89.gz",
+      "gzip_sha256": "39c17ad146872993a6fbac9760960195eb47d44cf0bc4bbfd5bab7a6cd965f8c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/.github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "adbf46ca25c0dd95ab50d55d5ec3b538f1c99656e219152cac8f19c18369ff89",
+          "bytes": 46952
+        },
+        "source": {
+          "id": "vernesong/OpenClash",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/OpenClash",
+          "requested_ref": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "source_path": ".github/skills/openclash-user-guide/08-settings-mode-traffic.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "flclash-setup",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/providers/actions/setup.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.407Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"cefcc58998051750c95e8d8b88b9ae1cd497bb07420ee37e1734f7215b19e046\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/3707e3cd2d02d04fb13a2db218b145229e449fb09327e1cd72d29e8ca9596b42.gz",
+      "gzip_sha256": "4084f68f0ebd5563de1d06d63313a87fac22b5b73a96e93f84a861ffe218c9a8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/providers/actions/setup.dart",
+        "effective_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/providers/actions/setup.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "3707e3cd2d02d04fb13a2db218b145229e449fb09327e1cd72d29e8ca9596b42",
+          "bytes": 24438
+        },
+        "source": {
+          "id": "chen08209/FlClash",
+          "kind": "git",
+          "repository_url": "https://github.com/chen08209/FlClash",
+          "requested_ref": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "source_path": "lib/providers/actions/setup.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "flclash-task",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/common/task.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.519Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"affe07caefc219aa8efb37ec3b5f6bda48313cdfc0c7f09331ecfdbcec0fd923\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/b0bdef572f3d753ea278a3221e4d083085fa074c6f74fe9e60c97d172a70d7fe.gz",
+      "gzip_sha256": "fe0a78252c7e11c1e8cfe7a97a793165a918e8d3731811fcecda6cdd33063c89",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/common/task.dart",
+        "effective_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/common/task.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b0bdef572f3d753ea278a3221e4d083085fa074c6f74fe9e60c97d172a70d7fe",
+          "bytes": 21549
+        },
+        "source": {
+          "id": "chen08209/FlClash",
+          "kind": "git",
+          "repository_url": "https://github.com/chen08209/FlClash",
+          "requested_ref": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "source_path": "lib/common/task.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "flclash-gitmodules",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/.gitmodules",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.589Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"8d63fdfde7b2ca40e7101fee39d45cdc9d820041b07921f6d02472ee6784f616\"",
+        "date": "Mon, 19 Oct 2026 08:01:03 GMT"
+      },
+      "file": "bodies/2c087b474ee69d89aa7f899a62dbc39a40860b6cb3e7e67aaaac0eb4d751af65.gz",
+      "gzip_sha256": "4204281a41b4a3bf111ca8ca3dd4b1d712ad8503cc7597f2483f6cd8e1ac974c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/.gitmodules",
+        "effective_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/.gitmodules",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2c087b474ee69d89aa7f899a62dbc39a40860b6cb3e7e67aaaac0eb4d751af65",
+          "bytes": 119
+        },
+        "source": {
+          "id": "chen08209/FlClash",
+          "kind": "git",
+          "repository_url": "https://github.com/chen08209/FlClash",
+          "requested_ref": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "source_path": ".gitmodules",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "flclash-tree",
+      "url": "https://api.github.com/repos/chen08209/FlClash/git/trees/v0.9.1?recursive=1",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:31.035Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"049ca015cc34e623d087fdbd5a3ddaff187532e51804e7490940279bc2359b57\"",
+        "last-modified": "Mon, 19 Oct 2026 07:56:26 GMT",
+        "date": "Mon, 19 Oct 2026 08:02:31 GMT",
+        "x-ratelimit-remaining": "4935"
+      },
+      "file": "bodies/4227a6a80bf3077599fca9daf680556fbc52ced5d8b8c4c783fc126e7480676b.gz",
+      "gzip_sha256": "4346a59839b96cbdb6033a4ce7ca14b9833dfc949b8d0eb773c00ce56928e80f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/chen08209/FlClash/git/trees/v0.9.1?recursive=1",
+        "effective_url": "https://api.github.com/repos/chen08209/FlClash/git/trees/v0.9.1?recursive=1",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4227a6a80bf3077599fca9daf680556fbc52ced5d8b8c4c783fc126e7480676b",
+          "bytes": 405069
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "flclash-tun-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/tun.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.844Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"6d50901183cf1ad52e8b07f7772a2294c3f9c9f8206ec5b08384ba23f8a38a48\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/7869dbfec10e7f0edf73689632c7cb032e1e6f4f86cea34e931baf2f41966210.gz",
+      "gzip_sha256": "e283ee0a9d7c398eee6d56101968f50d11329bcefc80dd0a895a0f752d0395bf",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/tun.dart",
+        "effective_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/tun.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7869dbfec10e7f0edf73689632c7cb032e1e6f4f86cea34e931baf2f41966210",
+          "bytes": 8952
+        },
+        "source": {
+          "id": "chen08209/FlClash",
+          "kind": "git",
+          "repository_url": "https://github.com/chen08209/FlClash",
+          "requested_ref": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "source_path": "lib/views/config/tun.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "flclash-dns-ui",
+      "url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/dns.dart",
+      "kind": "source",
+      "product": "FlClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.847Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"de21e643b52d177e2b3f6c02b75d00961aeb8e7d65debe5cb9afcf8838f31c8c\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/b8201696fcedbe862dc56bcc7076e0afd164eee1a62c623bdc4d29fa473c6689.gz",
+      "gzip_sha256": "dd1bf4de04d7b566671d855753c89a755763f50108695c0dc5d41c5cabc80726",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/dns.dart",
+        "effective_url": "https://raw.githubusercontent.com/chen08209/FlClash/8d4f9744948751f1273fe871e1d05276fac09b0e/lib/views/config/dns.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b8201696fcedbe862dc56bcc7076e0afd164eee1a62c623bdc4d29fa473c6689",
+          "bytes": 14705
+        },
+        "source": {
+          "id": "chen08209/FlClash",
+          "kind": "git",
+          "repository_url": "https://github.com/chen08209/FlClash",
+          "requested_ref": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "source_path": "lib/views/config/dns.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8d4f9744948751f1273fe871e1d05276fac09b0e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "clashmi-readme",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/README.md",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.875Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"74d26fb786c0c2a49ae48de6912c8d03819406389f16d984f05f1d58b589b695\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/09aebeb1841c85319ac5ab1e0d0869bd355cd9775cd664b73d396462e50743c4.gz",
+      "gzip_sha256": "2fbc27b67ca67e444c88cc6fbd59cb3cbcda49bd4658cd226e624e8a9f2037cc",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/README.md",
+        "effective_url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "09aebeb1841c85319ac5ab1e0d0869bd355cd9775cd664b73d396462e50743c4",
+          "bytes": 3331
+        },
+        "source": {
+          "id": "KaringX/clashmi",
+          "kind": "git",
+          "repository_url": "https://github.com/KaringX/clashmi",
+          "requested_ref": "daef7be6c40d49a98a174a82c10599e163e71afd",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "daef7be6c40d49a98a174a82c10599e163e71afd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "clashmi-faq",
+      "url": "https://clashmi.app/guide/faq",
+      "kind": "documentation",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:00:08.456Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:00:09 GMT"
+      },
+      "file": "bodies/9652a5708e3eb8701b5c2d4ee1fc1fa2f2a332b470dd5a1b5c126fcd36055096.gz",
+      "gzip_sha256": "8add0ec735c6f5cf4cef264e2471e213f8ca514de34ca6dd7303b4c4767b984d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://clashmi.app/guide/faq",
+        "effective_url": "https://clashmi.app/guide/faq",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "9652a5708e3eb8701b5c2d4ee1fc1fa2f2a332b470dd5a1b5c126fcd36055096",
+          "bytes": 38381
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "clashmi-config",
+      "url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/lib/app/clash/clash_config.dart",
+      "kind": "source",
+      "product": "ClashMi",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:03.965Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"43197ebec62c24e372bdc24551c7e436dcd3fd060a22273640013c5968c8545e\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/b7f91873042cb2cb5d6f5a85c5c906ca794b17169ba442a522b997c23ad97c15.gz",
+      "gzip_sha256": "a1015f44ffcf4d360b79fdfd29105b43eb582dcea64f205a667d18441ea28877",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/lib/app/clash/clash_config.dart",
+        "effective_url": "https://raw.githubusercontent.com/KaringX/clashmi/daef7be6c40d49a98a174a82c10599e163e71afd/lib/app/clash/clash_config.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b7f91873042cb2cb5d6f5a85c5c906ca794b17169ba442a522b997c23ad97c15",
+          "bytes": 38174
+        },
+        "source": {
+          "id": "KaringX/clashmi",
+          "kind": "git",
+          "repository_url": "https://github.com/KaringX/clashmi",
+          "requested_ref": "daef7be6c40d49a98a174a82c10599e163e71afd",
+          "source_path": "lib/app/clash/clash_config.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "daef7be6c40d49a98a174a82c10599e163e71afd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-readme",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/README_CN.md",
+      "kind": "documentation",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.371Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"795b263e7d259a81ac4eb62822d9513ce25d43efa8e5a75d82c3c3faa3252ab3\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/0421610979ac99382fd766c07694c7f353521db1452046f69d9bab0f4f3b6c3b.gz",
+      "gzip_sha256": "e596a9bf1507101c8166ef54a2b406b01a838349bf6bee154bb70d0a2993c073",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/README_CN.md",
+        "effective_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/README_CN.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0421610979ac99382fd766c07694c7f353521db1452046f69d9bab0f4f3b6c3b",
+          "bytes": 5568
+        },
+        "source": {
+          "id": "juewuy/ShellCrash",
+          "kind": "git",
+          "repository_url": "https://github.com/juewuy/ShellCrash",
+          "requested_ref": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "source_path": "README_CN.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-tree",
+      "url": "https://api.github.com/repos/juewuy/ShellCrash/git/trees/1.9.4?recursive=1",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:31.038Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"74edb2568c85388162565d441f445d85ae06ffb31bb944009838f943b21e4abb\"",
+        "last-modified": "Mon, 19 Oct 2026 06:04:17 GMT",
+        "date": "Mon, 19 Oct 2026 08:02:31 GMT",
+        "x-ratelimit-remaining": "4934"
+      },
+      "file": "bodies/2559f332d5e197fa17b895f0771e78a9911b7ab6776059e483fe4d9f8b040ec6.gz",
+      "gzip_sha256": "c91c000efed45cffeaba393ac76276b799f992aa6079190d1b6966500b66ae44",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/juewuy/ShellCrash/git/trees/1.9.4?recursive=1",
+        "effective_url": "https://api.github.com/repos/juewuy/ShellCrash/git/trees/1.9.4?recursive=1",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2559f332d5e197fa17b895f0771e78a9911b7ab6776059e483fe4d9f8b040ec6",
+          "bytes": 53957
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-core-update",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/.github/workflows/update_meta_core.yaml",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.513Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"333daa2ebc8de5c64176894849ee1767db2a395f644e37b040095fa77622528e\"",
+        "date": "Mon, 19 Oct 2026 08:01:04 GMT"
+      },
+      "file": "bodies/1392cb16a5dd80d4296ebcfb3531873d625cf298b31f73edeaad9a9ce8cb202d.gz",
+      "gzip_sha256": "fbe3254a9c09d4e0007861bc5ff273b7e959e0ae70456a32ce3053fb11f1e25b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/.github/workflows/update_meta_core.yaml",
+        "effective_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/.github/workflows/update_meta_core.yaml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1392cb16a5dd80d4296ebcfb3531873d625cf298b31f73edeaad9a9ce8cb202d",
+          "bytes": 9122
+        },
+        "source": {
+          "id": "juewuy/ShellCrash",
+          "kind": "git",
+          "repository_url": "https://github.com/juewuy/ShellCrash",
+          "requested_ref": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "source_path": ".github/workflows/update_meta_core.yaml",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-releases",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.562Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"d055f1713d31750d3a878a8407e290d7\"",
+        "date": "Mon, 19 Oct 2026 08:01:05 GMT"
+      },
+      "file": "bodies/1145ec0a4cf369977ccfca6b99b264f1b2c20baf78780cca39ecacb5c8203620.gz",
+      "gzip_sha256": "f6bf5444baf2c20ce5767f273a5cf29cde55ac0a4a9a2d79c1b131e2b0c7bdf8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/clash-verge-rev/clash-verge-rev/releases",
+        "effective_url": "https://github.com/clash-verge-rev/clash-verge-rev/releases",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1145ec0a4cf369977ccfca6b99b264f1b2c20baf78780cca39ecacb5c8203620",
+          "bytes": 626477
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "verge-prereleases",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.4-rc.2",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.630Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"f30ae8b578a28298b50538c855358a5f\"",
+        "date": "Mon, 19 Oct 2026 08:01:05 GMT"
+      },
+      "file": "bodies/b4f42edd1895176a9973fdc4311c553a4504758d4a3f165bed426fa50efae87d.gz",
+      "gzip_sha256": "499fe37e7aa312e9ab793253443d21095f2535980c4e75a143eeef9d428a9eb3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.4-rc.2",
+        "effective_url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.4-rc.2",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b4f42edd1895176a9973fdc4311c553a4504758d4a3f165bed426fa50efae87d",
+          "bytes": 216546
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "verge-readme",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/README.md",
+      "kind": "documentation",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.714Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"60b8b0912404da0414743e179a69258285508a15e16005146103725cb8b8493e\"",
+        "date": "Mon, 19 Oct 2026 08:01:05 GMT"
+      },
+      "file": "bodies/d2a8171e5c7f7c62efa2d1a6412baff680fefdfa851f945143c5d7fe66fd49d2.gz",
+      "gzip_sha256": "66884917145852163c6c66df2c609f13b559e5ccc5aa318eb0f28aaebb208105",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/README.md",
+        "effective_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d2a8171e5c7f7c62efa2d1a6412baff680fefdfa851f945143c5d7fe66fd49d2",
+          "bytes": 6352
+        },
+        "source": {
+          "id": "clash-verge-rev/clash-verge-rev",
+          "kind": "git",
+          "repository_url": "https://github.com/clash-verge-rev/clash-verge-rev",
+          "requested_ref": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-script-guide",
+      "url": "https://www.clashverge.dev/guide/script.html",
+      "kind": "documentation",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:01:04.839Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6ab8d3be-21a5e\"",
+        "last-modified": "Sun, 27 Sep 2026 08:28:46 GMT",
+        "date": "Mon, 19 Oct 2026 08:01:05 GMT"
+      },
+      "file": "bodies/42d09b92d29315b94f885ab0baa4b1324ec2ef81b939a1c141be616e0c0999db.gz",
+      "gzip_sha256": "2e2dc04269ede0219b40acca29587cc19697c6aff588b6c37a66acf81e96b207",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://www.clashverge.dev/guide/script.html",
+        "effective_url": "https://www.clashverge.dev/guide/script.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "42d09b92d29315b94f885ab0baa4b1324ec2ef81b939a1c141be616e0c0999db",
+          "bytes": 137822
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "party-core-prepare",
+      "url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/scripts/prepare.mjs",
+      "kind": "source",
+      "product": "Clash Party",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.296Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"d6176e321f3be43c7d1ecb395a1ff4302c949dd80638e8f8025c1cd53a37bb30\"",
+        "date": "Mon, 19 Oct 2026 08:05:45 GMT"
+      },
+      "file": "bodies/e86411c76b674cfaf0990b256429dfab2f89f26ad13b6b453e16c18f9ccf555b.gz",
+      "gzip_sha256": "50b8c92c62dc348c338c60cb218ddced237f6c8ca10792d9d3b3d918e78bbdba",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/scripts/prepare.mjs",
+        "effective_url": "https://raw.githubusercontent.com/mihomo-party-org/clash-party/ac294fed972c0c25c641abe603c3a6fe709dfdb3/scripts/prepare.mjs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e86411c76b674cfaf0990b256429dfab2f89f26ad13b6b453e16c18f9ccf555b",
+          "bytes": 18539
+        },
+        "source": {
+          "id": "mihomo-party-org/clash-party",
+          "kind": "git",
+          "repository_url": "https://github.com/mihomo-party-org/clash-party",
+          "requested_ref": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "source_path": "scripts/prepare.mjs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "ac294fed972c0c25c641abe603c3a6fe709dfdb3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "openclash-init",
+      "url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/init.d/openclash",
+      "kind": "source",
+      "product": "OpenClash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.298Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"733e9462a21db4ea0e52adb058a328db63addb6c889a9f50e14cb5aa87f9a59b\"",
+        "date": "Mon, 19 Oct 2026 08:05:45 GMT"
+      },
+      "file": "bodies/f664f3a47a27bc38ff92e26d88fd90c6414d68162d0f4538eadde6f72a01fc44.gz",
+      "gzip_sha256": "eee81d8cc124343ed0f5b8e74e71f7075a63de5bef557b481b9762d0b1b1e759",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/init.d/openclash",
+        "effective_url": "https://raw.githubusercontent.com/vernesong/OpenClash/e553e82e01c697aefbe1555261a503f425e00ccd/luci-app-openclash/root/etc/init.d/openclash",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f664f3a47a27bc38ff92e26d88fd90c6414d68162d0f4538eadde6f72a01fc44",
+          "bytes": 194982
+        },
+        "source": {
+          "id": "vernesong/OpenClash",
+          "kind": "git",
+          "repository_url": "https://github.com/vernesong/OpenClash",
+          "requested_ref": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "source_path": "luci-app-openclash/root/etc/init.d/openclash",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-config",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/core_config.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.298Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"9bad67e1d7bba68d06cf0767df8028cdae082ddadc3de9329db102a176f2ae91\"",
+        "date": "Mon, 19 Oct 2026 08:05:45 GMT"
+      },
+      "file": "bodies/c0b2889c46ae488ee2d93fd71109817019e218d8b2a40fff72d0e64d7cf7b484.gz",
+      "gzip_sha256": "0fe1d48ae1fe30520dba8b8e88991417ca79144ff7be9482f366bf5bb6e071dd",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/core_config.sh",
+        "effective_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/core_config.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c0b2889c46ae488ee2d93fd71109817019e218d8b2a40fff72d0e64d7cf7b484",
+          "bytes": 4655
+        },
+        "source": {
+          "id": "juewuy/ShellCrash",
+          "kind": "git",
+          "repository_url": "https://github.com/juewuy/ShellCrash",
+          "requested_ref": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "source_path": "scripts/starts/core_config.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-core-prepare",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.298Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f4870bc9cf967f4567bec242901ba100b2ff633dff5c87e356b061002bdbc697\"",
+        "date": "Mon, 19 Oct 2026 08:05:49 GMT"
+      },
+      "file": "bodies/20595bbc402c16475a3274abdaa308af8c3dfca2824564e0065aa9f4c8fa5d59.gz",
+      "gzip_sha256": "028b9963ff71f6aef1f5359399aa0932c0d0277286665a7904e70c2aacf8ea3a",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs",
+        "effective_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "20595bbc402c16475a3274abdaa308af8c3dfca2824564e0065aa9f4c8fa5d59",
+          "bytes": 25060
+        },
+        "source": {
+          "id": "clash-verge-rev/clash-verge-rev",
+          "kind": "git",
+          "repository_url": "https://github.com/clash-verge-rev/clash-verge-rev",
+          "requested_ref": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "source_path": "scripts/prebuild.mjs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-dns-source",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/config/dns.rs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.535Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"5ea03838a41386930c75e1f193093b7892fd82d3a808c72bf0ed7e64c80cc175\"",
+        "date": "Mon, 19 Oct 2026 08:05:45 GMT"
+      },
+      "file": "bodies/e905906338c8b30ef526aa6d161aaf606c33c11033f1e25ca0fa8abd1927c1fd.gz",
+      "gzip_sha256": "b95b3cc5e31058dc6f178605ac2ccca89d01f8364d03c85c1cf2948a2e19daa1",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/config/dns.rs",
+        "effective_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/config/dns.rs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e905906338c8b30ef526aa6d161aaf606c33c11033f1e25ca0fa8abd1927c1fd",
+          "bytes": 12171
+        },
+        "source": {
+          "id": "clash-verge-rev/clash-verge-rev",
+          "kind": "git",
+          "repository_url": "https://github.com/clash-verge-rev/clash-verge-rev",
+          "requested_ref": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "source_path": "src-tauri/src/config/dns.rs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-enhance-source",
+      "url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/enhance/mod.rs",
+      "kind": "source",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.547Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b586683ac2a8a4e72be68dd8a67e1e4d912bae3e958d009c7517a4eb659b9495\"",
+        "date": "Mon, 19 Oct 2026 08:05:45 GMT"
+      },
+      "file": "bodies/559e27fde34ddea34dddbc883b88324ba45634b4312316bd503c8fa78822d1fe.gz",
+      "gzip_sha256": "43a3578eaaa2e162129d94d45de479ee298429ba2f4d86c19d1bd4fc0905a529",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/enhance/mod.rs",
+        "effective_url": "https://raw.githubusercontent.com/clash-verge-rev/clash-verge-rev/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/src-tauri/src/enhance/mod.rs",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "559e27fde34ddea34dddbc883b88324ba45634b4312316bd503c8fa78822d1fe",
+          "bytes": 66138
+        },
+        "source": {
+          "id": "clash-verge-rev/clash-verge-rev",
+          "kind": "git",
+          "repository_url": "https://github.com/clash-verge-rev/clash-verge-rev",
+          "requested_ref": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "source_path": "src-tauri/src/enhance/mod.rs",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "4337bd85758d54d7b9044b2da3c9ac1176eae1f3",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "verge-releases-api",
+      "url": "https://api.github.com/repos/clash-verge-rev/clash-verge-rev/releases?per_page=30",
+      "kind": "release",
+      "product": "Clash Verge Rev",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:05:45.596Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"192eca65f6748f8229f2ec4ab005562f1fabf534be45641c2d2fe63bb149b0db\"",
+        "date": "Mon, 19 Oct 2026 08:05:46 GMT",
+        "x-ratelimit-remaining": "4899"
+      },
+      "file": "bodies/08d81be5f502a3218cdbef7b68aaa3f63ed3d9b59f239795f8b6871856570bbe.gz",
+      "gzip_sha256": "62be9ab75b8b0dd207736ef9b154dc0d88e59fee45c131004cfcc871e3b63ff0",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/clash-verge-rev/clash-verge-rev/releases?per_page=30",
+        "effective_url": "https://api.github.com/repos/clash-verge-rev/clash-verge-rev/releases?per_page=30",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "08d81be5f502a3218cdbef7b68aaa3f63ed3d9b59f239795f8b6871856570bbe",
+          "bytes": 1271117
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-modify",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/clash_modify.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:06:40.731Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"35dfbbe1d63ab891da11385e1feb46f55c900d53a2708145c15a6801ebeadb50\"",
+        "date": "Mon, 19 Oct 2026 08:06:41 GMT"
+      },
+      "file": "bodies/fdda79e26a9df32de9e6d9d5a65761400cc5a1476685b411ba04ca7f1f664d8b.gz",
+      "gzip_sha256": "027b872e8f52a40579590fdceeaa925eb54d6e40f6a693ae5c142737724819b4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/clash_modify.sh",
+        "effective_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/starts/clash_modify.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "fdda79e26a9df32de9e6d9d5a65761400cc5a1476685b411ba04ca7f1f664d8b",
+          "bytes": 13255
+        },
+        "source": {
+          "id": "juewuy/ShellCrash",
+          "kind": "git",
+          "repository_url": "https://github.com/juewuy/ShellCrash",
+          "requested_ref": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "source_path": "scripts/starts/clash_modify.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "shellcrash-dns",
+      "url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/menus/dns.sh",
+      "kind": "source",
+      "product": "ShellCrash",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:06:40.737Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f7f2dccbdb9487eb9c32e8d465a93a26563706d69e23816a79a3ba560f5a1a0c\"",
+        "date": "Mon, 19 Oct 2026 08:06:41 GMT"
+      },
+      "file": "bodies/0a1be4f0676d8daa566c4ceee5c97940f9889ac3e542cd51aa49060e0fa6847f.gz",
+      "gzip_sha256": "8f3456daac34e04bd04bf26a237174799febd089481c17f1dc37401800f416b5",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/menus/dns.sh",
+        "effective_url": "https://raw.githubusercontent.com/juewuy/ShellCrash/0b7f7161b0e71d9930c43190f46325bfa4aa426e/scripts/menus/dns.sh",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0a1be4f0676d8daa566c4ceee5c97940f9889ac3e542cd51aa49060e0fa6847f",
+          "bytes": 9178
+        },
+        "source": {
+          "id": "juewuy/ShellCrash",
+          "kind": "git",
+          "repository_url": "https://github.com/juewuy/ShellCrash",
+          "requested_ref": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "source_path": "scripts/menus/dns.sh",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0b7f7161b0e71d9930c43190f46325bfa4aa426e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "mihomo-alpha-version",
+      "url": "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt",
+      "kind": "release",
+      "product": "Mihomo",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:06:40.737Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "etag": "\"0x8DF29360B185BBF\"",
+        "last-modified": "Tue, 13 Oct 2026 14:27:00 GMT",
+        "date": "Mon, 19 Oct 2026 08:06:42 GMT"
+      },
+      "file": "bodies/626396ca8415820a64c5c72c5de83c06e4ebca81eec9dafe49e24d3948fb2be8.gz",
+      "gzip_sha256": "0d6aee25da775973e65760c7e58ec9aa33e752522a8043cc25f2fdd94607521c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt",
+        "effective_url": "https://release-assets.githubusercontent.com/github-production-release-asset/369178935/c1dea185-fc78-481b-b167-ad739d908a84?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-19T08%3A45%3A14Z&rscd=attachment%3B+filename%3Dversion.txt&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-19T07%3A44%3A38Z&ske=2026-10-19T08%3A45%3A14Z&sks=b&skv=2018-11-09&sig=cL%2BK%2FpZdLYADjomqMN2DY4HwjH2ysZxaC4GYsbFeYLw%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MjM5NzUwMSwibmJmIjoxNzkyMzk3MjAxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.nc0onQqZ7oVGuxYCGYpGMsIwYhd3oF7JwFU_t3cqzf4&response-content-disposition=attachment%3B%20filename%3Dversion.txt&response-content-type=application%2Foctet-stream",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "626396ca8415820a64c5c72c5de83c06e4ebca81eec9dafe49e24d3948fb2be8",
+          "bytes": 14
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "smart-alpha-version",
+      "url": "https://github.com/vernesong/mihomo/releases/download/Prerelease-Alpha/version.txt",
+      "kind": "release",
+      "product": "Mihomo Smart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:06:40.737Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "etag": "\"0x8DF298A0B9778DD\"",
+        "last-modified": "Wed, 14 Oct 2026 00:28:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:06:42 GMT"
+      },
+      "file": "bodies/de319eccfe5be7ab2fcaac893c6698e762a8a3ab0d1f051f6a9e383ce5a2febc.gz",
+      "gzip_sha256": "dbe2f7f88128c8d2fc77155446bd9172d2851c60175a148a29bd7763999afa11",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://github.com/vernesong/mihomo/releases/download/Prerelease-Alpha/version.txt",
+        "effective_url": "https://release-assets.githubusercontent.com/github-production-release-asset/990979505/d5511960-39a5-4a86-9dd5-9485f2d36279?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-19T08%3A41%3A47Z&rscd=attachment%3B+filename%3Dversion.txt&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-19T07%3A41%3A44Z&ske=2026-10-19T08%3A41%3A47Z&sks=b&skv=2018-11-09&sig=n%2BDs3mALcEQV8nrBodYXWXKwNgl9kr5yFRbuU7QhY0s%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MjM5NzUwMSwibmJmIjoxNzkyMzk3MjAxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.nc0onQqZ7oVGuxYCGYpGMsIwYhd3oF7JwFU_t3cqzf4&response-content-disposition=attachment%3B%20filename%3Dversion.txt&response-content-type=application%2Foctet-stream",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "de319eccfe5be7ab2fcaac893c6698e762a8a3ab0d1f051f6a9e383ce5a2febc",
+          "bytes": 20
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    }
+  ]
+}

@@ -2,24 +2,12 @@
 
 **📥 [规则下载链接：直达各 APP 下载按钮](#-规则下载链接)**
 
-> 一套以 `rulesets/source/routing-graph.js` 为唯一规则源、同步产出 14 种客户端配置的跨端智能分流体系，覆盖 Windows / macOS / Linux / Android / iOS / OpenWrt。
+> 以 `rulesets/source/routing-graph.js` 为唯一规则源，经 MRS → fused 编译为 14 种客户端配置，覆盖桌面、移动端和 OpenWrt。
 >
-> - 🧭 同一 source graph 经 `MRS -> fused -> 原生产物` 生成各端配置，统一规则顺序与分流目标。
-> - 🧾 来源语义与 ADFP 例外审计见[规则质量台账](./docs/rule-quality.md)；Claude Desktop 必需主机说明见[服务依赖台账](./docs/claude-service-dependencies.md)，文件级发布流程见[发布批次检查](./docs/release-batch.md)。
-> - 🎯 Claude Desktop 官方要求的 `a-api.anthropic.com` 与 `a-cdn.anthropic.com` 由现有 AI 规则集精确保护；各客户端沿用原生格式。官方依据：[Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)。
-> - 💬 微信连接端点 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 使用精确 DIRECT 例外；范围与验收边界见[微信连接排障](./docs/research/2026-10-16-wechat-issue-187.md)。Android 按包名排除应用沿用客户端的[应用访问控制](./FlClash/README.md#android-网络设置)。
-> - 🧩 22 个区域组 + 33 个业务组，提供 Smart / Normal 两种内核。
-> - 🧹 订阅覆写入口提供节点预检、inline payload 展平和可选倍率上限；具名直连依赖保留并排除测速，详见 [节点筛选指南](./docs/subscription-node-filter.md)。
-> - ⚙️ Mihomo/Stash 默认测速组 300 秒并启用 `lazy`，可选 900 秒；海外 UDP/443 的 QUIC 策略也可切换。命令、平台差异与验证方法见[测速与 QUIC 策略选项](./docs/traffic-options.md)。
-> - 🛰️ JS 本地覆写提供默认关闭的 [ZeroTier 根节点 UDP 代理](./docs/zerotier-planet-proxy.md)，更新入口保留设备的明确选择，并提供真实 UDP 回包验收。
-> - 🔎 设计依据见 [GitHub 分流脚本横向研究](./docs/research/2026-09-30-github-routing-script-comparison.md)，包含按 star 排序的搜索快照、源码对比和采用边界。
-> - 🛡️ 分层 DoH 负责业务 DNS；支持订阅覆写的 Mihomo 入口只投影活动节点所需的 DNS 提示，静态端边界见 [DNS 指南](./docs/private-node-dns.md)。
-> - JS fake-ip 仅继承缺省或 `blacklist` 模式的合法豁免项；`whitelist`、`rule` 和非法模式的原列表不会转换成真实 IP 豁免。
-> - 📦 自有规则通过 GitHub raw 下载；网络前提与刷新步骤见[规则下载说明](./docs/rule-asset-delivery.md)。
-> - 📊 当前同步规模：source graph 525 providers / 984 rules → fused 149 providers / 168 rules；生成 Mihomo MRS 107 个，sing-box SRS 78 个，覆盖 81 个语义段。
-> - 🔄 GitHub Actions 自动重建、校验和发布产物，减少跨端配置漂移。
->
-> ⚠️ Mihomo 内核由本人实测，其他内核请自行验证后使用
+> - 22 个区域组 + 33 个业务组；支持节点预检、inline payload 展平和[倍率筛选](./docs/subscription-node-filter.md)。
+> - 分层 DoH 与[私有节点 DNS 适配](./docs/private-node-dns.md)；[测速/QUIC](./docs/traffic-options.md)可选，[ZeroTier UDP 代理](./docs/zerotier-planet-proxy.md)默认关闭。
+> - 当前规模：525 源 providers / 984 rules → 149 fused providers / 168 主规则；107 MRS、78 SRS、81 个语义段。
+> - [官方版本与缓存](./docs/upstream/2026-10-19/README.md)记录兼容门槛及未验收项；导入后仍需核对实际配置与流量。
 
 <sub>💖 [支持本项目](./docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues) · 🤖 [自动回复说明](./docs/ai-issue-responder.md)</sub>
 
@@ -27,7 +15,7 @@
 
 ## 📥 规则下载链接
 
-**找到自己的 APP，点击绿色或蓝色按钮即可打开真实配置／覆写脚本。** 所有按钮均直接指向 `raw.githubusercontent.com` 上的 `main` 分支原始文件。右键按钮选择“复制链接地址”，即可取得可粘贴到 APP 的完整 URL；各端教程顶部也提供可直接复制的直链代码框。
+点击对应按钮打开 `main` 的 Raw 文件；右键可复制链接，各端教程另有直链和导入步骤。
 
 | APP / 客户端 | 原始文件下载 | 导入教程 |
 | --- | --- | --- |
@@ -46,7 +34,9 @@
 | Passwall2 | [![下载规则：Passwall2 SH](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Passwall2%20SH-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh) | [使用说明](./Passwall2/README.md) |
 | FlClash | [![下载规则：FlClash JS](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-FlClash%20JS-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/FlClash/FlClash%28mihomo%29.js) [![下载规则：备选 CMFA YAML](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-%E5%A4%87%E9%80%89%20CMFA%20YAML-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) | [使用说明](./FlClash/README.md) |
 
-Clash Party / FlClash 的 JS 需要关联到节点订阅；OpenClash 的 SH 与 UI CONF 按教程上传；Passwall / Passwall2 的 SH 在路由器上通过 SSH 执行。v2rayN 请按当前核心选择文件，Xray JSON 用于路由设置导入。
+Clash Party / FlClash 的 JS 需要关联到节点订阅；Clash Verge Rev 默认使用 Normal JS；OpenClash 的 SH 按教程放到固定自定义脚本入口。Passwall / Passwall2 的 SRS 规则要求 sing-box 分流后端，脚本写入前会检查。v2rayN 的 Xray JSON 用于路由设置导入。
+
+sing-box Full 要求 **1.14.3+**。仍绑定 1.13 的客户端可用[1.13 兼容配置](./SingBox/SingBox%28sing-box%29-1.13.json)，并按[导入边界](./SingBox/README.md)核对最终路由；Hiddify、HomeProxy 等 GUI 不能仅凭内核名称保证完整 JSON 原样生效。
 
 ---
 
@@ -76,20 +66,20 @@ Clash Party / FlClash 的 JS 需要关联到节点订阅；OpenClash 的 SH 与 
 | **REALITY + Vision** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ | ✅ | ✅ |
 | **Trojan** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Hysteria 1** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **Hysteria 2** | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️² | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **TUIC v5** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ |
+| **Hysteria 2** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅² | ✅ | ❌ | ✅ | ❌ | ✅ |
+| **TUIC v5** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 | **WireGuard** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ |
-| **AnyTLS** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ⚠️ | ✅ | ✅ | ❌ | ✅ |
+| **AnyTLS** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅⁵ | ✅⁶ | ✅⁷ | ✅ | ❌ | ✅ |
 | **ShadowTLS** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ⚠️ | ❌ | ✅ | ❌ | ✅ |
 | **Snell v4** | ✅ | ✅ | ⚠️⁴ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅¹ |
 | **Mieru** | ✅ | ✅ | ❌ | ✅ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅¹ |
-| **SSH 出站** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ |
+| **SSH 出站** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ |
 | **HTTP / SOCKS5** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **LightGBM 自动择优** | ✅³ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **📖 子目录** | [Clash Party](./Clash%20Party/) | [CMFA](./Clash%20Meta%20For%20Android/) | [Stash](./Stash/) | [OpenClash](./OpenClash/) | [Shadow<br>rocket](./Shadowrocket/) | [Surge](./Surge/) | [Loon](./Loon/) | [QX](./Quantumult%20X/) | [SingBox](./SingBox/) | [v2rayN](./v2rayN/) | [v2rayN](./v2rayN/) |
 
 > ✅ 原生支持 · ⚠️ 部分 / 新版本才有 · ❌ 不支持
-> ¹ 需 v2rayN 切到 mihomo 核心 · ² Surge 5.9+ 才有 · ³ 需 mihomo Smart Alpha + JS 覆写 · ⁴ Stash Wiki 当前 Snell 示例为 v3；v4 需以 App 实测为准
+> ¹ 需 v2rayN 切到 mihomo 核心 · ² Surge iOS 5.8.0+ / Mac 5.4.0+ · ³ 需 vernesong Smart 分支 + JS 覆写，MetaCubeX Alpha 不等于 Smart · ⁴ Stash Wiki 当前 Snell 示例为 v3；v4 需以 App 实测为准 · ⁵ Surge iOS 5.17.0+ / Mac 6.4.3+ · ⁶ Loon 3.3.9+ · ⁷ QX 1.6.0+。官方证据与未验证项见[客户端能力复核](./docs/upstream/2026-10-19/apple/report.md)。
 
 **🏷️ 缩写速查**：Clash Party = Clash Party / Clash Verge Rev / Mihomo Party · CMFA = Clash Meta For Android（含 [ClashMi](https://github.com/KaringX/clashmi)）· Stash = Clash Premium 兼容 iOS / macOS / tvOS 客户端 · FlClash = 跨平台 Flutter GUI · QX = Quantumult X · sing-box = SFA / SFM / SFI / Hiddify / Karing / HomeProxy · v2rayN Xray = v2rayN 默认核 · v2rayN mihomo = v2rayN 切 mihomo/sing-box 核
 
@@ -97,7 +87,7 @@ Clash Party / FlClash 的 JS 需要关联到节点订阅；OpenClash 的 SH 与 
 
 **💡 选客户端**：常用协议（SS / VMess / Trojan）→ 按设备挑；VLESS + REALITY → Mihomo / sing-box / SR / Loon / v2rayN；Hysteria 2 / TUIC → 避开 Surge 旧版 / QX / Xray；想要 **LightGBM 自动择优** → 只能走 Clash Party / OpenClash + Smart Alpha 内核。
 
-**🔌 软路由 / Apple 端**：ShellClash（mihomo 核）→ 用 CMFA YAML · HomeProxy（sing-box 核）→ 用 SingBox JSON · Stash → 用 Stash YAML · Egern → 用 `Egern/Egern.yaml` · Passwall / Passwall2（无 mihomo）→ 首选迁移到 OpenClash，或用 `Passwall/` / `Passwall2/` fused shunt rule fallback · SSR Plus+（已停更）→ 换 OpenClash · Happ（Xray 核）→ 用 v2rayN Xray JSON。详见各子目录 `README.md`。
+**🔌 软路由 / Apple 端**：ShellCrash（原 ShellClash，mihomo 模式）可用 CMFA YAML，但需检查启动后的覆写；HomeProxy 由 UCI 生成配置，尚未验证完整 JSON 导入；Stash / Egern 使用各自 YAML；Passwall / Passwall2 的 fused SRS fallback 仅适用于 sing-box 分流节点。Happ 的路由 Profile 与 v2rayN RuleObject 数组格式不同，不能直接导入本仓库 Xray JSON。详见[额外消费者核对](./docs/upstream/2026-10-19/consumers/report.md)与各端说明。
 
 ---
 
@@ -128,13 +118,13 @@ flowchart TB
     style G fill:#FFEFF0,stroke:#E74C3C,stroke-width:2px,color:#000
 ```
 
-每一层只做一件事，上层稳定下层就稳定——订阅换了、机场改了、规则上游变了，只影响**对应那一层**，不会全链路翻车。
+节点、业务策略、规则和 DNS 分层维护，具体客户端差异以对应教程为准。
 
 ---
 
 ## 🧩 Smart 分流规则：33 业务组速览（含 14 流媒体平台组）
 
-为了让结构更清晰，下面用”**分层卡片 + 关系图**”展示 33 个业务代理组，而不是单一大表。
+业务组关系与主要输入如下。
 
 ```mermaid
 flowchart LR
@@ -152,10 +142,9 @@ flowchart LR
 
 ### 🗂️ 代理组与主要 Rule-Providers 对照（source graph 输入）
 
-> 这张表不是最终配置中的 `rule-providers` 清单。最终产物不再直接调用这些上游规则集；它们只作为 `rulesets/source/routing-graph.js` 的源图输入，经 `tools/build-fused-rule-sets.js` 按最终分流目标、规则顺序和平台能力编译为 `rulesets/generated/fused/**/scki-fused-*`。
-> 只列“主要/高频命中”输入项，并标明来源仓库；节点组（HK/US/全球节点等）不混入本表。
+> 表中仅列主要源图输入及来源，不是最终 provider 清单；编译器按策略、顺序和平台能力生成 `rulesets/generated/fused/**/scki-fused-*`。
 
-编译器必须同时满足四个不变量：不透明 `.mrs` 只能映射到同源文本（例如 HaGeZi Ultimate 不能替换成完整 TIF）；去重不得跨策略段；国家 GEOIP 优先原生查询；任何远程源解析失败、非法残余规则或客户端聚合预算超限都直接让构建失败，禁止静默回退生成部分产物。
+编译保留同源语义、段内去重和原生 GEOIP；解析失败、非法残余或预算超限即停止。审计依据见[规则质量台账](./docs/rule-quality.md)。
 
 | 代理组（最终目标） | source graph 主要输入（示例，非最终调用） | 主要来源仓库 / 来源类型 |
 |---|---|---|
@@ -197,18 +186,16 @@ flowchart LR
 
 - Mihomo / CMFA / OpenClash / FlClash / Stash：`scki-fused-*-domain.mrs`、`scki-fused-*-ipcidr.mrs`、`scki-fused-*-residual.yaml`
 - Shadowrocket / Surge / Loon / Quantumult X / Egern：`rulesets/generated/fused/<platform>/scki-fused-*`
-- sing-box / Hiddify / HomeProxy：`rulesets/generated/fused/sing-box/scki-fused-*.srs`
+- sing-box：`rulesets/generated/fused/sing-box/scki-fused-*.srs`；GUI 导入边界见对应教程
 - v2rayN Xray：由 fused sing-box JSON 展平成 Xray `RuleObject`
-- Passwall / Passwall2：65 条 `rule-set:remote` fused `.srs` shunt rule
+- Passwall / Passwall2：78 条 `rule-set:remote` fused `.srs`，仅用于 sing-box 分流后端
 
 
 ---
 
 ## 🎯 差异化价值：source graph + fused compiler，而不是堆上游
 
-> GeoIP / GeoSite / MMDB / ASN 仍是底层数据库和少量运行时原语，但不再是最终分流框架主干。普通业务分类可以作为 source graph 输入；最终客户端产物应消费 `scki-fused-*`，只保留端口、逻辑组合、`MATCH/FINAL`、DNS policy、private/geo 兜底等无法安全折叠的少量内联规则。
->
-> 覆盖审查流程见 [docs/GEOSITE_COVERAGE_LEDGER.md](./docs/GEOSITE_COVERAGE_LEDGER.md)。
+> 最终配置消费 fused 产物；仅端口、逻辑组合、兜底及 DNS/geo 等必要规则保留内联。覆盖审查见[台账](./docs/GEOSITE_COVERAGE_LEDGER.md)。
 
 | 类型 | 原生 geosite / geoip 的边界 | 本仓库的补法 | 典型例子 |
 |---|---|---|---|
@@ -224,17 +211,17 @@ flowchart LR
 
 ## 🛡️ DNS 净化
 
-> 分流规则配得再好，DNS 漏了照样白搭。仓库用分层 DNS 管理 bootstrap、国内域名、机场节点和海外域名查询，业务请求优先走加密 DoH。
+仓库区分 bootstrap、业务域名和节点域名解析，业务查询优先使用 DoH。
 
 ### 私有节点 DNS：受限适配边界
 
-Clash Party Smart/Normal、FlClash 覆写和 OpenClash Normal/Smart 在订阅导入时，只投影**活动代理节点 FQDN**所需的 private resolver、精确 node policy 与 bootstrap hosts；默认 `adaptive`，受信任本地可选 `off / policy / adaptive`。三档都不改变 55 组、规则或全局业务 DNS，`fake-ip`、`nameserver` / `fallback` 和仓库 hosts 仍由本仓库基线管理。
+Clash Party、FlClash 和 OpenClash 覆写只投影**活动代理节点 FQDN**所需的 DNS 提示。默认 `adaptive`，本地可选 `off / policy / adaptive`，均不改变策略组、规则或业务 DNS 基线。fake-ip 仅继承缺省/`blacklist` 的合法豁免，不转换 `whitelist` 或规则模式列表。
 
 CMFA、Stash、Egern、Apple 配置、sing-box、v2rayN Xray、Passwall / Passwall2 是静态或路由产物，不自动读取机场 DNS。IPv6 bootstrap、通配符物化、静态端 Mixin、验证方法和“不保证零泄漏”的边界见 [私有节点 DNS 指南](./docs/private-node-dns.md)；各端能力见[跨客户端能力矩阵](./docs/client-capability-matrix.md)。
 
 **FlClash 用户：关联脚本后关闭应用层「DNS 覆写」和「追加系统 DNS」；Android 使用应用排除名单时关闭 VPN「系统代理」。** UI 二次覆盖与 VPN HTTP 代理可能破坏预期行为，完整设置和国内 APP 无法联网排查见 [FlClash 教程](./FlClash/README.md#应用层设置与-dns-所有权)。
 
-**Clash Party v2.0.3+ 用户：** 客户端新增订阅 DNS 覆写保护，会在 JS 执行前检查原始订阅的 `proxy-server-nameserver`、`proxy-server-nameserver-policy`、`nameserver-policy`。提示“已自动关闭 DNS 覆写”时，关闭的是客户端内置 `controlDns`，不是本仓库脚本；本仓库脚本随后仍写入自己的 DNS 基线。请保持客户端内置 DNS 覆写关闭，详见 [Clash Party 使用教程](./Clash%20Party/README.md)。
+**Clash Party v2.0.3+：** “已自动关闭 DNS 覆写”指客户端内置 `controlDns`；本仓库 JS 仍会写入 DNS。保持内置 DNS 覆写关闭，详见[教程](./Clash%20Party/README.md)。
 
 ### 本仓库的 DNS 四层分工
 
@@ -284,7 +271,7 @@ flowchart TB
 
 ## ✅ 导入后 60 秒验证清单
 
-导入任一端产物后，先看这 7 件事，能快速判断是配置问题、规则下载问题，还是节点质量问题。
+导入后检查节点、规则下载、命中和 DNS；此清单不能代替实际流量验收。
 
 1. **节点与策略组存在**：Mihomo / Stash / Apple 系客户端应看到 22 区域组 + 33 业务组；sing-box Full 应看到 54 个出站；v2rayN Xray / Passwall 系没有业务策略组是正常限制。
 2. **规则源下载完成**：Clash / OpenClash / CMFA / FlClash / Stash 里 `rule-providers` 不应有大面积 403 / 404；Surge / Loon / QX / Egern 看远程规则列表是否下载成功；sing-box 和 Passwall 系看 fused `.srs` 是否全部可用。
@@ -300,21 +287,18 @@ flowchart TB
 
 ## 📦 多机场合并为一个订阅（Sub-Store）
 
-Sub-Store 是客户端导入前的订阅聚合层，**不是第 15 个正式客户端产物**。如果目标是把多个机场的节点放进**同一个**区域组和业务组，而不是在客户端之间切换多份 Profile，先在 Sub-Store 聚合，再把生成的一条订阅交给本仓库的覆写或配置：
+多个机场需要共用一个活动节点池时，先用 Sub-Store 聚合，再导入单一 Profile；它独立于 14 类分流产物。
 
 ```text
 机场 A / B / C 原生订阅 → Sub-Store 清洗、命名、去重 → 一条 Clash.Meta(mihomo) URL
 → FlClash / Clash Party 的单一 Profile → Smart-Config-Kit 统一节点分类与分流
 ```
 
-- FlClash 的多 Profile 适合切换，不能把它们自动合成同一个活动节点池；覆写脚本只处理当前 Profile 已加载的配置。
-- 聚合层只处理节点与订阅元数据，不修改 `rulesets/source/routing-graph.js`、55 个策略组或仓库 DNS 基线。
-- 每个机场应保留独立来源标识；组合后执行去重，镜像订阅才按需合并流量头。
-- 不要把订阅 URL、token、UUID、密码或完整节点列表提交到仓库、Issue 或覆写脚本。
+FlClash 多 Profile 仅供切换；覆写只处理当前配置。聚合时保留来源标识并去重，不改规则/DNS；订阅 URL、token、密码和节点内容不得公开。
 
 部署、脚本顺序、生成单一 URL、FlClash 导入和排障见 [Sub-Store 多机场聚合与部署教程](./SubStore/README.md)；脚本清单见 [SubStore/scripts](./SubStore/scripts/README.md)，FlClash 导入见 [FlClash 教程](./FlClash/README.md)。
 
-机场重置订阅后，可用 [Edge / Chrome 自动订阅同步助手](./SubStore/edge-extension/README.md)：首次明确允许域名或 IP 后，在面板人工登录，扩展自动识别机场与 Sub-Store 名称、验证并更新对应链接，日常无需复制、选择名称或点同步按钮。实际覆盖和验收边界见扩展说明。
+机场重置订阅后，可用[浏览器同步助手](./SubStore/edge-extension/README.md)；首次允许站点并人工登录后自动匹配、验证和更新，覆盖范围及发布边界见扩展说明。
 
 ---
 
@@ -330,7 +314,7 @@ Sub-Store 是客户端导入前的订阅聚合层，**不是第 15 个正式客�
 
 本仓库做**编排、覆写、适配**，真正的重活靠这些项目：
 
-**🧠 内核**：[mihomo](https://github.com/MetaCubeX/mihomo) / [Smart Alpha](https://github.com/MetaCubeX/mihomo/tree/Alpha) / [LightGBM](https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin) / [sing-box](https://github.com/SagerNet/sing-box) / [Xray](https://github.com/XTLS/Xray-core) / [hiddify-sing-box](https://github.com/hiddify/hiddify-sing-box)
+**🧠 内核**：[mihomo](https://github.com/MetaCubeX/mihomo) / [Smart Alpha](https://github.com/vernesong/mihomo) / [LightGBM](https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin) / [sing-box](https://github.com/SagerNet/sing-box) / [Xray](https://github.com/XTLS/Xray-core) / [hiddify-sing-box](https://github.com/hiddify/hiddify-sing-box)
 
 **📱 客户端**：[mihomo-party](https://github.com/mihomo-party-org/mihomo-party) / [Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev) / [CMFA](https://github.com/MetaCubeX/ClashMetaForAndroid) / [Stash](https://stash.wiki/) / [FlClash](https://github.com/chen08209/FlClash) / [OpenClash](https://github.com/vernesong/OpenClash) / [HomeProxy](https://github.com/immortalwrt/homeproxy) / [ShellCrash](https://github.com/juewuy/ShellCrash) / [Passwall2](https://github.com/Openwrt-Passwall/openwrt-passwall2) / [v2rayN](https://github.com/2dust/v2rayN) / [Hiddify](https://github.com/hiddify/hiddify-app)
 

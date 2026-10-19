@@ -4,6 +4,12 @@
 
 ---
 
+## v6.0.20-Surge.11 (2026-10-19)
+
+- 删除未被 Surge 识别的 `[DNS]` 节及其中两个无效键；保留 `[General]` 的 DNS 服务器、次序和出站模式。多个加密 DNS 并发首答，普通 DNS 不承担普通域名的超时兜底，也不提供失败后自动转代理。
+- 官方协议文档更正 TUIC v5、Hysteria 2、AnyTLS 与 Mac 专用 External 支持说明；保存官方正文、稳定版及预发布元数据，详见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)。
+- 本次仅修正 Surge 原生配置与文档；其他客户端没有该 `[DNS]` 节。静态验证不能替代 Surge App 内 DNS 故障与流量验证。
+
 ## v6.0.20-Surge.10 (2026-10-16)
 
 - Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。

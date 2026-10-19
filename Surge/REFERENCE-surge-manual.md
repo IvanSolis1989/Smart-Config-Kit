@@ -1,5 +1,20 @@
 # Surge 官方手册参考文档
 
+> 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方正文、版本 metadata、取舍与验证缺口见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)。原文快照及哈希见[来源清单](../docs/upstream/2026-10-19/apple/manifest.json)。
+
+## 当前复核结论
+
+- Surge iOS 稳定版 5.23.0（2026-10-12 UTC）；Mac 稳定版 6.10.0/12500（2026-10-12 UTC）。Mac beta feed 为 6.11.0/12560（2026-10-16 UTC），enclosure 与旧 title 冲突已原样保留，不混入稳定版结论。
+- 官方 [Profile Format](https://manual.nssurge.com/profile/format.html)不识别 `[DNS]`；DNS 全局键位于 `[General]`。旧文的独立 DNS 节、`fallback-dns-server` 和 `dns-direct-fallback-proxy` 说明错误，已纠正。
+- [加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html)并发首答；普通 DNS 仅连通性检测/加密服务器域名自举。保持 `encrypted-dns-follow-outbound-mode=false` 时加密 DNS 直连；没有“直连失败再转代理”的等价开关。
+- [TUIC v5](https://manual.nssurge.com/policies/tuic.html)原生支持；[Hysteria 2](https://manual.nssurge.com/policies/hysteria2.html)为 iOS5.8.0+/Mac5.4.0+；[AnyTLS](https://manual.nssurge.com/policies/anytls.html)为 iOS5.17.0+/Mac6.4.3+。External 程序仅 Mac，iOS 按 REJECT 处理。
+- Surge 有原生 [smart](https://manual.nssurge.com/policy-groups/smart.html)（iOS5.11.0+/Mac5.7.0+）；本仓库仍用 url-test，不把它与 Mihomo LightGBM 等同。category/HTTPS测速及 beta adaptive QUIC 仅列候选。
+
+## 历史摘要边界
+
+以下保留旧摘要以便追溯；未被本次逐项确认的跨客户端比较和样例不能视为最新官方承诺。以本节及缓存官方正文为准，本次未完成真实 App 验收。
+
+
 > 2026-10-15 URL 兼容性复核：[官方 Rule Set 手册](https://manual.nssurge.com/rules/ruleset.html)明确允许外部 `http://` / `https://` 资源，并示例 `RULE-SET,<URL>,<policy>`；Issue #186 只替换仓库自有规则 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 来源: https://manual.nssurge.com/
@@ -32,7 +47,7 @@
 ### DNS 配置（[General] 段基础字段）
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| `dns-server` | 逗号分隔 | DNS 服务器列表（支持 system, IP, DoH URL） |
+| `dns-server` | 逗号分隔 | 普通服务器 IP / system；遗留加密 URL 会在加载时迁入 encrypted-dns-server，不作为推荐写法 |
 | `encrypted-dns-server` | 逗号分隔 | 加密 DNS 服务器列表（DoH/DoT URL） |
 | `encrypted-dns-follow-outbound-mode` | bool | 加密 DNS 是否跟随出站模式 |
 | `hijack-dns` | 逗号分隔 | 劫持 DNS 查询的目标地址（如 8.8.8.8:53） |
@@ -62,20 +77,11 @@
 
 ---
 
-## 2. [DNS] 配置段（Surge 特有）
+## 2. DNS 节误述更正（2026-10-19）
 
-Surge 支持使用单独的 `[DNS]` 段进行更精细的 DNS 配置。
+Surge 不识别独立 `[DNS]` 节。旧摘要曾列出 `fallback-dns-server`、`proxy-dns-server`、`dns-direct-fallback-proxy`、`private-ip-answer`、`local-name-mapping`；这些不能作为 Surge 的配置依据。官方 [General](https://manual.nssurge.com/profile/general.html)与[加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html)列出实际可用字段。
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `dns-server` | 逗号分隔 | DNS 服务器列表 |
-| `fallback-dns-server` | 逗号分隔 | 回退 DNS 服务器 |
-| `proxy-dns-server` | 逗号分隔 | 代理 DNS 服务器 |
-| `dns-direct-fallback-proxy` | bool | DNS 直连失败后回退到代理 |
-| `private-ip-answer` | bool | 允许私有 IP 应答 |
-| `local-name-mapping` | 映射表 | 本地域名映射 |
-
-注意: Shadowrocket 的 DNS 配置完全在 [General] 段中，而 Surge 同时支持 [General] 和 [DNS] 段配置。
+本仓库使用 `[General] dns-server/encrypted-dns-server/encrypted-dns-follow-outbound-mode/hijack-dns` 与 `[Host]` 映射。多个加密服务器并发首答，无普通域名明文超时兜底；也无已确认的失败才转代理开关。
 
 ---
 
@@ -89,14 +95,13 @@ Surge 支持使用单独的 `[DNS]` 段进行更精细的 DNS 配置。
 # VMess
 节点名 = vmess,地址,端口,password=UUID,obfs=websocket,path=/xxx
 
-# VLESS
-节点名 = vless,地址,端口,password=UUID,tls=true,peer=xxx.com,flow=xtls-rprx-vision
+# VLESS / REALITY / XTLS-Vision 无原生类型；External 程序仅限 Mac
 
 # Trojan
 节点名 = trojan,地址,端口,password=密码,peer=xxx.com
 
 # Hysteria2
-节点名 = hysteria2,地址,端口,auth=密码,peer=xxx.com,alpn=h3
+节点名 = hysteria2,地址,端口,password=密码,download-bandwidth=100
 ```
 
 ---
@@ -256,7 +261,7 @@ enable = true/false
 5. **policy-path** 参数 — 从 URL 或文件加载策略组
 6. **persistent** / **evaluate-before-use** url-test 参数
 7. **外部控制器 (external-controller-access)**
-8. 单独的 **[DNS]** 配置段
+8. DNS 相关独立节说法已撤回；使用 **[General]** / **[Host]**
 9. **encrypted-dns-server** + **encrypted-dns-follow-outbound-mode**
 10. **geoip-maxmind-url** 直接在配置文件中配置（SR 需要在 UI 中手动设置）
 
@@ -264,7 +269,7 @@ enable = true/false
 
 ## 10. Shadowrocket 特有但 Surge 不支持的特性
 
-1. **dns-direct-fallback-proxy** — 在 [General] 段直接配置（Surge 通过 [DNS] 段配置类似功能）
+1. **dns-direct-fallback-proxy** — 未找到 Surge 官方等价开关，不能写入不存在的 [DNS] 节
 2. **private-ip-answer** — 仅 Shadowrocket 支持
 3. **allow-dns-svcb** — 允许 DNS SVCB 查询
 4. **compatibility-mode** — 网络兼容模式（TUN Only 等）

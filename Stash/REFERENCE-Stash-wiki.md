@@ -1,5 +1,20 @@
 # REFERENCE — Stash Wiki
 
+> 更新于 2026-10-19（原字段摘要 2026-08-08）：官方实际正文、版本和采用边界见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)，[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)可独立读回。
+
+## 当前复核结论
+
+- iOS/tvOS 商店稳定版 3.6.4（2026-10-19 UTC）；Mac 官方 feed 稳定版 4.3.3/564（2026-10-14 UTC），beta 4.4.0/569（2026-10-16 UTC）。Wiki release-notes 的3.4.0/4.2.0是历史页面，不能当最新版本。
+- [Rule Set](https://stash.wiki/en/rules/rule-set)确认 domain/ipcidr MRS；现有 fused MRS 保持。inline provider 是 iOS/tvOS3.6+/Mac4.3+ 可选能力，不替代大型远程集合。
+- [DNS](https://stash.wiki/en/features/dns-server)现明确 iOS/tvOS3.6+/Mac4.3+ 可用加密 `default-nameserver`（除system外使用IP）、`proxy-server-nameserver`、`rule-set:` DNS引用。旧文“只能明文IP/没有proxy-server”的概括已经过时；当前生成器尚未启用这些字段，本次保持原有保守输出。
+- [策略组](https://stash.wiki/en/proxy-protocols/proxy-groups)已明确 `tolerance` 单位毫秒；CMFA值10ms可表达，但官方最初引入版本未取得，本次不修改受保护生成器。旧“未确认tolerance”的原因仅能解释历史裁剪。
+- `lazy`、`interval`、空组DIRECT按 Stash 原生文档判断；不从 Mihomo 推导 Smart/LightGBM、empty-fallback、exclude-type。
+
+## 历史摘要边界
+
+以下保留此前依据和裁剪行为；与本节冲突的“未支持/未确认”是历史结论。新能力采用需另行确定最低版本、生成器授权和真实 App 导入验证。
+
+
 > 2026-10-15 URL 兼容性复核：[官方 Rule Sets 文档](https://stash.wiki/en/rules/rule-set)示范 remote provider 的 HTTPS `url` 与名称式 `RULE-SET` 引用。本次只替换仓库自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 2026-10-07 复核：官方 [协议类型](https://stash.wiki/en/proxy-protocols/proxy-types#direct-with-specified-interface) 支持具名 direct；[策略组](https://stash.wiki/en/proxy-protocols/proxy-groups) 明确支持 `interval` 与 `lazy`，空池按 DIRECT 处理；策略组与[远程集合](https://stash.wiki/en/proxy-protocols/proxy-providers)未公开 `exclude-type` / `empty-fallback` 等价字段。延续兼容裁剪，测速 provider 与具名支持出站应在聚合层分开，并核对拨号依赖。

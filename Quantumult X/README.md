@@ -16,22 +16,10 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Quantumult
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 目录简介：这里维护 Quantumult X iOS 配置和导入教程，按 QX 的 policy/filter 语法对齐 Clash Party 基线。
->
-> 配置文件：`Quantumult X/QuantumultX.conf`
-> 版本：**v6.0.20-QX.10**（Build 2026-10-16；跟随 Clash Party v6.0.20 基线；81 个源语义段对应 77 个非空 remote filter）
-> 目标：**Quantumult X iOS（App Store 付费正版）**
-> 架构：22 区域 `url-latency-benchmark` 组（11 全部 + 11 家宽）+ 33 业务 `static` 组 + 64 个 `filter_remote` + 12 条必要 `filter_local`
-> 节点命名兼容：当订阅解析器把名称写入节点 tag 时，server-tag-regex 已兼容 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01。
+> 配置：`QuantumultX.conf` · **v6.0.20-QX.11**（Build 2026-10-19）
+> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.20 分流基线。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -40,192 +28,159 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Quantumult
 ## 🚀 零基础快速开始
 
 ### 这是什么？
-**Quantumult X（QX / 圈 X）** 是 iOS 上的付费代理客户端。最大卖点是 **`resource_parser_url`（通用订阅解析器）+ 脚本化重写生态**——几乎任何奇葩订阅格式它都能吃下，签到/VIP 破解/去广告插件社区最丰富。价位介于 Shadowrocket 和 Loon 之间（**¥68**）。
+
+本仓库的 `QuantumultX.conf` 提供 QX 原生分流配置；机场节点需另行接入。订阅解析器用于格式转换，不能增加客户端本身不支持的协议。
 
 ### 我要准备什么？
-1. **iPhone / iPad（仅 iOS，无 macOS 版）**
-2. **非中国区 Apple ID**
-3. **💸 QX 付费**：约 **¥68 / 区**（~$10）
-4. **一个机场订阅 URL**
-5. **本仓库的 `QuantumultX.conf`**，托管到 URL
+
+准备 Quantumult X、机场订阅 URL 和上方配置直链。截至 2026-10-19，官方稳定版 1.8.1 要求 iOS 15+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/quantumult-x/id1443988620)为准。
 
 ### QX 适合谁？
-- **适合**：折腾脚本、签到自动化、想导入非标准订阅格式的用户
-- **不适合**：只要稳定转发、不做自动化 → Shadowrocket 就够；或者你在 Mac 上也要用 → Surge（有 Mac 版）
+
+需要 QX 的资源解析、重写或定时任务时，可按所需功能选择；本配置主要提供分流规则。
 
 ### 术语速查
-- **QX 配置 `.conf`**：结构和 Surge / Loon 完全不同。关键段落：
-  - `[general]` / `[dns]` / `[policy]`（策略组）/ `[server_remote]`（机场订阅）/ `[server_local]`（手动节点）/ `[filter_remote]`（远程规则集 URL）/ `[filter_local]`（内联规则）/ `[rewrite_remote]`（脚本）/ `[mitm]`
-- **policy 类型**：`url-latency-benchmark=` ≈ Surge 的 `url-test`；`static=` ≈ Surge 的 `select`
-- **server-tag-regex**：QX 按节点的 **tag** 字段（不是 name）做正则匹配
+
+- `[server_remote]` / `[server_local]`：订阅 / 手动节点。
+- `[policy]`：策略组，`url-latency-benchmark` 自动测速，`static` 手动选择。
+- `[filter_remote]` / `[filter_local]`：远程 / 本地规则。
+- `server-tag-regex`：按节点 `tag` 筛选地区。
 
 ### 3 步走完（+ 一个 QX 特有的第 4 步）
-1. **App Store 搜 "Quantumult X" → 购买 → 安装 → 允许 VPN 权限**。
-2. **把 `QuantumultX.conf` 托管到 URL**（GitHub Raw 最简单）→ QX → 设置 → 配置 → 下载配置 → 粘贴 URL → 下载。
-3. **⚠️ QX 特有：加节点要改配置文件**！QX 不会像 SR/Surge 那样自动识别 `[server_local]` 里的节点。打开 `QuantumultX.conf` 的 `[server_remote]` 段，加：
-   ```
-   https://your-subscription.example.com/sub, tag=YOUR_AIRPORT, update-interval=86400, opt-parser=true, enabled=true
-   ```
-   然后重新下载本配置即可。**或者**在 QX 首页手动扫码/添加节点。
-4. **启用** ：QX 首页 → 按下圆形开关。
+
+1. 安装 QX，首次连接时允许添加 VPN 配置。
+2. 按第二节从上方直链导入配置。
+3. 按第三节填写订阅或添加节点。
+4. 检查规则与组内节点，再开启首页连接开关。
 
 ### 跑起来验证？
-- 浏览器打开 `https://www.google.com` 能打开
-- QX「策略」面板应看到 55 组（22 url-latency-benchmark + 33 static）
-- QX「日志」面板看 filter_remote 下载成功无 404
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+确认 **22 区域 + 33 业务 = 55 组**，远程规则已下载，再按第八节查看实际请求的规则与出口。
 
 ### 最常见踩坑
-- ❌ **加了节点但不被 11 区域组识别**：QX 用节点的 **tag 字段**做正则匹配（不是 name！）。确认订阅返回的节点 tag 含 HK / JP / US 等地区关键字；hk01 / jp01 / us01 这种小写地区码加编号也支持。机场的订阅链接加 &flag=quanx 后缀通常能让 tag 含地区标识。
-- ❌ **filter_remote 下载一半 404**：先开代理再下配置。
-- ❌ **想导入非标准订阅（vless:// 分享链接列表等）**：`resource_parser_url` 已在 `[general]` 预置 KOP-XIAO 的解析脚本，能吃 vmess/vless/trojan/ss/hysteria base64 订阅。
-- ❌ **想用 MITM 签到脚本**：本配置默认 `[mitm]` 留空。启用步骤：QX → 证书 → 生成 → 信任 → 在 `[rewrite_remote]` 加社区插件（例如 BoxJs），hostname 自动追加到 `[mitm]`。
-- ❌ **想要 LightGBM**：QX 不是 mihomo 内核，不支持。要就用桌面端 Clash Verge Rev / Mihomo Party。
 
----
+节点分类依赖 `tag` 中的地区标识；格式转换不代表协议可用。下载、解析器及 MITM 问题见第九节；QX 不提供 Mihomo Smart / LightGBM。
 
 ## 🔌 协议支持（Quantumult X 自家引擎）
 
-QX 的协议栈**是四大 iOS 付费客户端里最窄的**，换来的是脚本化 / resource_parser 生态最强：
+按[官方版本历史](https://apps.apple.com/us/app/quantumult-x/id1443988620)与[官方示例](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)核对：
 
 | 协议 | 支持 | 说明 |
 |---|:-:|---|
 | **Shadowsocks (SS)** | ✅ | 含 AEAD |
 | **ShadowsocksR (SSR)** | ✅ | 兼容老机场 |
 | **VMess** | ✅ | ws/grpc 传输层 |
-| **VLESS** | ⚠️ | 基础支持，REALITY 兼容性随版本变化 |
-| **REALITY / XTLS-Vision** | ⚠️ | 实际效果有限，不如 SR/Loon |
+| **VLESS** | ✅ | 官方版本历史：1.5.0 引入 |
+| **REALITY** | ✅ | 官方版本历史：1.5.5 引入；不等同于 XTLS-Vision |
+| **XTLS-Vision** | ⚠️ | 本次未取得可确认的官方支持证据 |
 | **Trojan** | ✅ | |
 | **Hysteria v1** | ❌ | 不支持 |
 | **Hysteria 2** | ❌ | 不支持 |
 | **TUIC v5** | ❌ | 不支持 |
 | **WireGuard** | ❌ | 不支持 |
 | **Snell** | ❌ | 不支持 |
-| **AnyTLS / ShadowTLS / Mieru** | ❌ | 不支持 |
+| **AnyTLS** | ✅ | 官方版本历史：1.6.0（2026-05-21）引入 |
+| **ShadowTLS / Mieru** | ⚠️ | 本次未取得可确认的官方支持证据 |
 | **HTTP/2 / HTTPS / SOCKS5 / HTTP** | ✅ | |
 
-**QX 的定位**：专注 SS/VMess/Trojan 这三类最主流协议 + 把脚本生态做到极致。如果你的机场只给这三类协议，QX 完全够用；如果主推 Hysteria 2 / TUIC / REALITY 类新协议，**建议改用 Shadowrocket 或 Loon**。
+REALITY 支持不能推导为 XTLS-Vision 支持，后者及 ShadowTLS / Mieru 仍待官方证据确认。完整来源见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
+
+---
 
 ### 什么时候选 QX（不是协议原因）？
-- 你有大量需要脚本化签到的订阅（BoxJs 生态、VIP 破解、去广告）
-- 你订阅的机场是非标准格式，需要 `resource_parser_url` 解析
-- 你不在乎新协议（Hysteria 2 / TUIC）
+
+除协议外，按资源解析、重写和定时任务需求选择；自动化脚本需自行配置。
 
 ### iOS 四大付费客户端协议最终对比
+
 | 协议 | SR (¥20) | Loon (¥198) | Surge (¥648) | **QX (¥68)** |
 |---|:-:|:-:|:-:|:-:|
-| Hysteria 2 | ✅ | ✅ | ⚠️ 5.9+ | **❌** |
-| TUIC v5 | ✅ | ✅ | ❌ | **❌** |
-| VLESS REALITY | ✅ | ✅ | ❌ | **⚠️** |
+| Hysteria 2 | ✅ | ✅ | ✅ iOS 5.8.0+ | **❌** |
+| TUIC v5 | ✅ | ✅ | ✅ | **❌** |
+| VLESS REALITY | ✅ | ✅ | ❌ | **✅ REALITY** |
 | WireGuard | ✅ | ✅ | ✅ | **❌** |
 | Snell v4 | ✅ | ✅ | ✅ | **❌** |
 | 脚本化 / 自动化 | 一般 | 好 | **极好** | **极好** |
 | resource_parser 生态 | ❌ | ❌ | ❌ | **✅ 独有** |
 
----
+表中价格与主观评分保留为历史比较，实际报价和设备兼容性以官方商店为准。
 
 ## 一、下载 Quantumult X
 
-- **iOS**：App Store 搜「Quantumult X」，约 ¥68 / 区。需要非中国区 Apple ID。
-- **仅 iOS**，没有 macOS 版本。
-- 安装后首次启动授权 VPN 配置权限。
+从 [App Store](https://apps.apple.com/app/quantumult-x/id1443988620)安装。此教程面向 iPhone / iPad；其他设备请核对商店兼容列表。
 
 ---
 
 ## 二、配置托管 & 导入
 
-QX 从 URL 导入配置（不支持本地文件直接打开）：
-
-1. 把 `QuantumultX.conf` 托管到可访问 URL（本仓库请使用 GitHub Raw HTTPS；也可使用你自己的 HTTPS 主机）。
-2. 打开 QX → 底部「**设置**（Setting）」→ **配置** → **下载配置**。
-3. 粘贴 URL → 点击 **下载**。
-4. 下载完成后 QX 会自动切换到新配置。
-
-首次启用时 QX 会拉取 **280 个 filter_remote**（blackmatrix7 QX 专用 `.list` 格式），根据网络情况约 **2–5 分钟**。**务必先开代理再下载**。
+1. 复制上方 Raw URL；需要自定义时，放到自己的 HTTPS 地址。
+2. QX → **设置** → **配置** → **下载配置**，粘贴 URL 并应用。
+3. 确认所有 `filter_remote` 下载完成；GitHub Raw 不可达时，先使用可用代理下载。
 
 ---
 
 ## 三、机场订阅 / 节点（⚠️ 必须手动配置）
 
-**QX 不会自动识别 `[server_local]` / `[server_remote]` 的节点**，需要你手动添加：
+模板不含可用节点。任选以下方式接入；订阅内容需符合 QX 支持的格式与协议。
+
+---
 
 ### 方式 A：订阅（推荐）
-编辑 `QuantumultX.conf` 的 `[server_remote]` 段，加入：
+
+编辑 `[server_remote]`，填入机场订阅并重新应用配置：
+
 ```
 https://your-subscription.example.com/sub, tag=YOUR_AIRPORT, update-interval=86400, opt-parser=true, enabled=true
 ```
 
-然后重新下载/应用配置。QX 会拉取订阅节点，按节点名正则匹配到对应的 11 区域组。
+检查订阅节点的 `tag` 是否包含 HK / JP / US 等地区标识。
 
 ### 方式 B：手动粘贴节点
-在 `[server_local]` 段按 QX 格式粘贴：
+
+在 `[server_local]` 中填写 QX 原生节点定义，将示例主机、凭据和 `tag` 换成实际值：
+
 ```
 vmess=example.com:443, method=chacha20-ietf-poly1305, password=UUID, obfs=wss, obfs-host=example.com, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=HK-01
 trojan=example.com:443, password=xxx, over-tls=true, tls-host=example.com, tag=HK-02
 ss=example.com:443, method=aes-256-gcm, password=xxx, tag=JP-01
 ```
 
-tag 里最好含地区标识（HK / JP / US 等；也支持 hk01 / jp01 / us01），让正则能自动归类。
-
 ### 方式 C：QX UI 扫码导入
-QX 首页 → ➕ → 扫描 QR / 手动添加。这种方式节点单独管理，不在配置文件里，重装 QX 会丢。
+
+在 QX 首页通过 ➕ 扫码或手动添加节点，再确认策略组可引用。
 
 ### 方式 D：在线订阅转换站（多机场合并）
 
-如果你同时买了多家机场，可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具，所有客户端通用。
-
-1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
-2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
-3. 后端选 **Mihomo（Clash.Meta）**
-4. 生成新 URL → 填入 QX 配置文件 `[server_remote]` 段
-
-> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
-
----
+如需转换或合并，输出须为 QX 支持的格式。第三方服务可读取含 token 的订阅链接；解析器转换格式后仍需核对协议支持。
 
 ## 四、11 区域 × 33 业务组结构
 
-结构与 Surge / Shadowrocket 一致，但 QX 使用自家的 policy 类型名：
-
-### 11 区域组（QX: `url-latency-benchmark`）
-- 使用 `server-tag-regex=<正则>` 按节点 tag 自动匹配
-- `check-interval=300` 每 5 分钟重测延迟
-- `tolerance=100` ms 防抖
-- 选最低延迟
-
-### 33 业务组（QX: `static`）
-- 手动选择候选项（包含 11 区域组 + direct + reject）
-- 首次导入后建议在 QX UI 里逐组指定偏好区域
-
-业务组推荐配置参考 `Surge/README.md` 第五章，完全通用。
+11 个地区各有全部节点与家宽节点组，共 22 个区域组，另有 33 个业务组。
 
 ---
 
+### 11 区域组（QX: `url-latency-benchmark`）
+
+使用 `server-tag-regex` 匹配节点 `tag`；当前 `check-interval=300`、`tolerance=10`。官方示例中的正则过滤注释与具体示例存在冲突，组内实际展开仍需 App 验收。
+
+### 33 业务组（QX: `static`）
+
+在策略面板手动选择节点或区域组；参考 [Surge 业务组说明](../Surge/README.md#业务策略组select-手动)，服务是否可用仍取决于实际出口。
+
 ## 五、[dns] 配置（与 Clash Party 对齐）
 
-QX 的 DNS 配置区分**普通 DNS** 与 **DoH** 字段——`server=` 仅接受 IP / `IP:port` / `/域名/IP`，DoH URL 必须使用 `doh-server=`（写成 `server=https://...` 会触发 line N 语法错误）：
+普通 DNS 使用 `server=`，DoH 使用 `doh-server=`。当前配置按官方多 DoH 写法放在**同一行，以逗号分隔**：
 
 ```
 server=223.5.5.5
 server=119.29.29.29
 server=1.1.1.1
 server=8.8.8.8
-doh-server=https://dns.alidns.com/dns-query
-doh-server=https://doh.pub/dns-query
-doh-server=https://cloudflare-dns.com/dns-query
-doh-server=https://dns.google/dns-query
-no-ipv6                        # QX 的 IPv6 策略（与 Clash `ipv6: false` 对齐）
+doh-server=https://223.5.5.5/dns-query, https://223.6.6.6/dns-query, https://8.8.8.8/dns-query, https://1.1.1.1/dns-query
+no-ipv6
 ```
 
-**与 Clash Party 对比**：
-- 纯 IP bootstrap 用 `server=`，DoH resolver 用 `doh-server=`（QX 无 Mihomo 四段 DNS 模型）
-- Apple / iCloud 系统 DNS 例外通过 `[general] dns_exclusion_list` 覆盖，不再使用未确认的 `server=/<domain>/system`
-- `doh-server=` 也支持单行逗号分隔多个 URL，等价于多行写法（参考 [crossutility/Quantumult-X sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)）
-
-**QX 不支持的 Clash 字段**：
-- `fallback-filter.geoip-code: CN`（QX 无 DNS GeoIP 过滤层）
-- `respect-rules: true`（QX 设计上默认尊重规则）
-- `proxy-server-nameserver` 作为独立通道（QX 和 nameserver 合并）
+Apple / iCloud 等系统 DNS 例外由 `[general] dns_exclusion_list` 配置。此处不宣称等价实现 Mihomo 的 `fallback-filter`、`respect-rules` 或独立 `proxy-server-nameserver`；官方写法及真实并发查询的待验边界见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ---
 
@@ -242,7 +197,7 @@ no-ipv6                        # QX 的 IPv6 策略（与 Clash `ipv6: false` �
 | macOS 版本 | ❌ 仅 iOS | ✅ Surge Mac | ❌ 仅 iOS |
 | 价格（2026-04） | 约 ¥68 | ¥648 | ¥198 |
 
-QX 的真正优势是 **`resource_parser_url`（通用资源解析器）+ `rewrite_local/remote`（脚本化重写）** 生态，对"签到自动化 / VIP 破解 / 小众订阅格式支持"最强。本仓库默认不启用这些高阶特性（量化/交易场景不需要），用户可在 `[rewrite_remote]` 自行追加社区插件（例如 `https://...boxjs.conf`）。
+上表为历史功能比较：“无 macOS 版本”不等于商店 App 不能在兼容 Mac 上运行；Loon 当前节点筛选使用 `NameRegex`，MMDB 使用 `geoip-url`。重写、任务和 MITM 不由本配置默认启用。
 
 ---
 
@@ -257,74 +212,60 @@ QX 的真正优势是 **`resource_parser_url`（通用资源解析器）+ `rewri
 | ⚙️ GEOSITE → filter_remote URL | QX 只支持 RULE-SET 样的远程 filter |
 | ⚙️ Meta `.mrs` → blackmatrix7 QuantumultX `.list` | 格式兼容性（转换脚本自动改路径） |
 
+当前使用本仓库发布的融合 `filter_remote`；表中旧源路径与“转换脚本”描述不代表现行维护方式。平台边界见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
+
 ---
 
 ## 八、验证
 
-1. QX → **设置** → **配置** → 查看当前配置名称，应显示 `Quantumult X Smart v6.0.20-QX.10`。
-2. **策略（Policy）** 面板应出现 55 组（22 `url-latency-benchmark` + 32 `static`）。
-3. **日志（Log）** 查看 filter_remote 下载状态，无 404 / timeout 即成功。
-4. 访问测试：
-   - `chat.openai.com` → 🤖 AI 服务
-   - `www.netflix.com` → 🇺🇸 美国流媒体
-   - `www.bilibili.com` → direct / 📺 国内流媒体
-   - `raw.githubusercontent.com` → 🔧 工具与服务
+1. 确认启用 `Quantumult X Smart v6.0.20-QX.11`，有 22 个区域组和 33 个 `static` 业务组，区域组含节点。
+2. 检查所有 `filter_remote` 下载成功。
+3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在日志中核对 AI、Netflix、国内流媒体的规则与实际出口。
+4. 继续完成根 README 的[导入后验证清单](../README.md#-导入后-60-秒验证清单)。
 
 ---
 
 ## 九、常见问题
 
 ### Q1：filter_remote 下载失败？
-- 开代理再下配置；若当前网络不能访问 GitHub Raw，需要配置可用代理。
-- 若仍失败，**设置 → 配置 → 一键更新** 强制重新拉取。
+
+确认 GitHub Raw 可达，必要时先使用可用代理，再刷新配置与远程规则。详见[下载排错](../docs/rule-asset-delivery.md)。
 
 ### Q2：节点没被自动聚合到 11 区域组？
-- QX 用 server-tag-regex 匹配节点的 tag 字段（不是 name）。确认你订阅返回的节点 tag 里含 HK / JP / US 等地区关键字 + 中文国名；小写地区码加编号（如 hk01）也兼容。
-- 本仓库的 regex 兼容「中文国名 / ISO 国家代码 / IATA 机场代码 / emoji 旗帜」多种标识，覆盖率 > 95%。
+
+检查节点 `tag` 中是否含中文地区名或 HK / JP / US 等标识；也兼容 hk01 / jp01 / us01 形式。以组内实际成员确认分类，不以节点已下载代替匹配成功。
 
 ### Q3：想用 QX 的 resource_parser_url 解析非标准订阅？
-- 配置里已预置 `resource_parser_url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/resource-parser.js`（KOP-XIAO 的通用解析器）。
-- 它能处理 vmess / vless / trojan / ss / hysteria / base64 订阅，自动转为 QX 格式。
+
+配置已引用 KOP-XIAO 解析器。仅对可信订阅启用 `opt-parser=true`；转换结果仍须符合 QX 协议能力，不能借解析器获得 Hysteria 2 / TUIC 等核心未支持的协议。
 
 ### Q4：我想加入广告净化 / 签到脚本？
-- 编辑 `[rewrite_remote]` 段，加入社区插件，例如：
+
+在 `[rewrite_remote]` 添加所需资源，以下 URL 是占位样例，使用前换为可信来源：
+
   ```
   https://raw.githubusercontent.com/.../BoxJs.conf, tag=BoxJs, update-interval=86400, opt-parser=true, enabled=true
   ```
-- 插件 MITM 的 hostname 会自动追加到 `[mitm]` 段（开启 MITM 需在 QX 生成证书并在 iOS 信任）。
+
+需要 MITM 时，按 QX 官方流程配置并信任证书、核对目标 hostname，同时检查规则冲突。
 
 ### Q5：跨境场景切换？
-参考 Surge 教程第十章「跨境场景」，QX 同样支持 `ssid`-based policy 做 WiFi 自动切换，本仓库未默认启用；有需要可在 `[policy]` 段追加 `ssid=...` 类型组。
+
+在策略面板切换对应业务组；场景参考 [Surge 跨境说明](../Surge/README.md#q6跨境场景中国--海外怎么切换)。
 
 ### Q6：我想 macOS 上用 Quantumult X？
-- QX **没有 macOS 版本**。如需跨设备统一，用 Surge（有 Mac 版）或 Clash Verge Rev。
 
----
+先核对[官方商店兼容列表](https://apps.apple.com/us/app/quantumult-x/id1443988620)；是否有独立原生 Mac 版与能否在兼容 Mac 运行商店 App 是两项不同条件，本教程未完成 Mac 导入验收。
 
 ## 十、维护状态
 
-当前仓库没有提交 `tools/srk_to_qx.py`。`QuantumultX.conf` 作为独立 QX 产物维护，并由 `tools/validate-artifact-contracts.js` 校验组数、DNS 字段、端口规则和基线版本。
-
-如后续恢复 Shadowrocket → QX 自动转换，转换器至少需要覆盖：
-- `[Proxy Group]` url-test → `[policy]` `url-latency-benchmark`
-- `[Proxy Group]` select → `[policy]` `static`
-- `RULE-SET,<URL>,<POLICY>` → `[filter_remote]` 条目（自动改写 `/rule/Shadowrocket/` → `/rule/QuantumultX/`）
-- `DOMAIN-SUFFIX` → `host-suffix`；`DOMAIN-KEYWORD` → `host-keyword`；`DOMAIN` → `host`
-- `IP-CIDR` / `IP6-CIDR` / `GEOIP` → QX 小写形式
-- `FINAL` → `final`；`REJECT` → `reject`；`DIRECT` → `direct`
-- `USER-AGENT` → `user-agent`
-- `PROCESS-NAME` / `URL-REGEX` → 标记为注释（QX filter_local 不支持）
+QX 使用独立原生配置；更新时刷新本仓库 URL，本地定制先备份。版本与配置变更见 [CHANGELOG](./CHANGELOG.md)，官方证据及 App 验证缺口见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ---
 
 ## 十一、致谢
 
-- [Quantumult X](https://apps.apple.com/app/quantumult-x/id1443988620)
-- [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) - QuantumultX `.list` 规则源
-- [KOP-XIAO/QuantumultX](https://github.com/KOP-XIAO/QuantumultX) - resource_parser + IP_API 脚本
-- [Koolson/Qure](https://github.com/Koolson/Qure) - policy 图标库
-- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip) - GeoIP MMDB
-- 原版 Clash Party v5.2.3 所有参考作者
+[Quantumult X](https://apps.apple.com/app/quantumult-x/id1443988620) · [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [KOP-XIAO/QuantumultX](https://github.com/KOP-XIAO/QuantumultX) · [Koolson/Qure](https://github.com/Koolson/Qure)
 
 ---
 

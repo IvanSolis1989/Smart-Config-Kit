@@ -1,5 +1,5 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.20-dns.19 (2026-10-16)
+// 版本：v6.0.20-dns.20 (2026-10-19)
 // 架构：SUB-STORE 多机场融合 + 22 Smart 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.20（同策略规范化与语义去重）
 // 变更历史：见 `Clash Party/CHANGELOG.md`
@@ -8,7 +8,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.20-dns.19'
+const VERSION = 'v6.0.20-dns.20'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -510,7 +510,7 @@ function buildSeaProxies() {
 // ================================================================
 
 function upsertSmartGroup(config, name, proxies) {
-  var group = { name: name, type: 'smart', uselightgbm: true, collectdata: false, strategy: 'sticky-sessions', interval: 300, tolerance: 30, proxies: proxies.slice() }
+  var group = { name: name, type: 'smart', uselightgbm: true, collectdata: false, interval: 300, tolerance: 30, proxies: proxies.slice() }
   var idx = config['proxy-groups'].findIndex(function(g) { return g && g.name === name })
   if (idx !== -1) { config['proxy-groups'][idx] = group } else { config['proxy-groups'].push(group) }
   console.log(`[${VERSION}] Smart: "${name}" -> ${proxies.length} nodes`)

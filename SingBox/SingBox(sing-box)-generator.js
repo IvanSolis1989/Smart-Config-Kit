@@ -5,9 +5,13 @@ const { repositoryAssetUrl } = require('../tools/lib/generated-asset-url');
 const { getTrafficOptions } = require('../rulesets/source/routing-graph');
 const TRAFFIC_OPTIONS = getTrafficOptions();
 
-const VERSION = 'v6.0.20-sing.9';
-const BUILD = '2026-10-16';
+// SingBox Smart Full; minimum core: sing-box 1.14.3.
+// 20 regional + 33 business groups + one node selector; source graph stays authoritative.
+// Change history: SingBox/CHANGELOG.md. Metadata belongs here, outside the core JSON schema.
+const VERSION = 'v6.0.20-sing.10';
+const BUILD = '2026-10-19';
 const BASELINE = 'Clash Party v6.0.20';
+const RULE_SET_HTTP_CLIENT = 'rules-download';
 
 const SMART = {
   GLOBAL: '🌍 全球节点',
@@ -133,13 +137,7 @@ const baseConfig = {
     level: 'info',
     timestamp: true
   },
-  _meta: {
-    name: 'SingBox Smart Full',
-    version: VERSION,
-    build: BUILD,
-    baseline: BASELINE,
-    changelog: '见 SingBox/CHANGELOG.md'
-  },
+  http_clients: [{ tag: RULE_SET_HTTP_CLIENT, detour: SMART.GLOBAL }],
   experimental: {
     cache_file: {
       enabled: true,
@@ -490,7 +488,7 @@ const extraGeoSiteTags = Array.from(new Set(
   tag,
   format: 'binary',
   url: `https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/${tag.replace('geosite-', '')}.srs`,
-  http_client: { detour: SMART.GLOBAL },
+  http_client: RULE_SET_HTTP_CLIENT,
   update_interval: '1d'
 }));
 
@@ -502,7 +500,7 @@ const ruleSet = fusedManifest.segments.filter((segment) => (
     tag: segment.id,
     format: 'binary',
     url: repositoryAssetUrl(`rulesets/generated/fused/sing-box/${segment.files.sing_box.file}`, fusedAssetRevision),
-    http_client: { detour: SMART.GLOBAL },
+    http_client: RULE_SET_HTTP_CLIENT,
     update_interval: '1d'
   };
 });
@@ -513,7 +511,7 @@ function metaGeositeRuleSet(tag, name) {
     tag,
     format: 'binary',
     url: `https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/${name}.srs`,
-    http_client: { detour: SMART.GLOBAL },
+    http_client: RULE_SET_HTTP_CLIENT,
     update_interval: '1d'
   };
 }
@@ -524,7 +522,7 @@ function metaGeoipRuleSet(tag, name) {
     tag,
     format: 'binary',
     url: `https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/${name}.srs`,
-    http_client: { detour: SMART.GLOBAL },
+    http_client: RULE_SET_HTTP_CLIENT,
     update_interval: '1d'
   };
 }
@@ -647,69 +645,40 @@ if (redundantDomainSet.size > 0) {
   }
 }
 
+function httpsDnsServer(tag, server, options = {}) {
+  return { type: 'https', tag, server, path: '/dns-query', ...options };
+}
+
 baseConfig.dns = {
   servers: [
-    // v5.4.21 #4 借鉴 Proxy-override：bootstrap 从 udp://IP:53 升级为 DoH-over-IP（https://IP/dns-query）。
-    // IP host 无需 address_resolver（免 bootstrap 循环）；TLS server_name 覆盖 SNI 以通过证书验证。
-    {
-      tag: 'dns_bootstrap',
-      address: 'https://223.5.5.5/dns-query',
-      strategy: 'prefer_ipv4',
-      tls: { server_name: 'dns.alidns.com' }
-    },
-    {
-      tag: 'dns_bootstrap2',
-      address: 'https://223.6.6.6/dns-query',
-      strategy: 'prefer_ipv4',
-      tls: { server_name: 'dns.alidns.com' }
-    },
-    {
-      tag: 'dns_bootstrap3',
-      address: 'https://1.1.1.1/dns-query',
-      strategy: 'prefer_ipv4',
-      tls: { server_name: 'cloudflare-dns.com' }
-    },
-    {
-      tag: 'dns_bootstrap4',
-      address: 'https://8.8.8.8/dns-query',
-      strategy: 'prefer_ipv4',
-      tls: { server_name: 'dns.google' }
-    },
-    {
-      tag: 'dns_direct',
-      address: 'https://dns.alidns.com/dns-query',
-      address_resolver: 'dns_bootstrap',
-      detour: 'DIRECT',
-      strategy: 'prefer_ipv4'
-    },
-    {
-      tag: 'dns_direct2',
-      address: 'https://doh.pub/dns-query',
-      address_resolver: 'dns_bootstrap',
-      detour: 'DIRECT',
-      strategy: 'prefer_ipv4'
-    },
-    {
-      tag: 'dns_proxy',
-      address: 'https://cloudflare-dns.com/dns-query',
-      address_resolver: 'dns_bootstrap',
-      detour: '🚀 节点选择',
-      strategy: 'prefer_ipv4'
-    },
-    {
-      tag: 'dns_proxy2',
-      address: 'https://dns.google/dns-query',
-      address_resolver: 'dns_bootstrap',
-      detour: '🚀 节点选择',
-      strategy: 'prefer_ipv4'
-    }
+    // IP bootstrap needs no resolver; preserve certificate SNI for DoH over an IP.
+    httpsDnsServer('dns_bootstrap', '223.5.5.5', { tls: { server_name: 'dns.alidns.com' } }),
+    httpsDnsServer('dns_bootstrap2', '223.6.6.6', { tls: { server_name: 'dns.alidns.com' } }),
+    httpsDnsServer('dns_bootstrap3', '1.1.1.1', { tls: { server_name: 'cloudflare-dns.com' } }),
+    httpsDnsServer('dns_bootstrap4', '8.8.8.8', { tls: { server_name: 'dns.google' } }),
+    httpsDnsServer('dns_direct', 'dns.alidns.com', {
+      domain_resolver: { server: 'dns_bootstrap', strategy: 'prefer_ipv4' }, detour: 'DIRECT'
+    }),
+    httpsDnsServer('dns_direct2', 'doh.pub', {
+      domain_resolver: { server: 'dns_bootstrap', strategy: 'prefer_ipv4' }, detour: 'DIRECT'
+    }),
+    httpsDnsServer('dns_proxy', 'cloudflare-dns.com', {
+      domain_resolver: { server: 'dns_bootstrap', strategy: 'prefer_ipv4' }, detour: '🚀 节点选择'
+    }),
+    httpsDnsServer('dns_proxy2', 'dns.google', {
+      domain_resolver: { server: 'dns_bootstrap', strategy: 'prefer_ipv4' }, detour: '🚀 节点选择'
+    })
   ],
   rules: [
     {
-      rule_set: ['geosite-private', 'geosite-cn', 'geoip-cn'],
+      rule_set: ['geosite-private', 'geosite-cn'],
       action: 'route',
       server: 'dns_direct'
     },
+    // Preserve the former GeoIP acceptance filter: evaluate the direct response,
+    // return it only for CN addresses, otherwise continue to the proxy resolver.
+    { action: 'evaluate', server: 'dns_direct' },
+    { match_response: true, rule_set: ['geoip-cn'], action: 'respond' },
     {
       rule_set: [adFusedRuleSet.id],
       action: 'reject'
@@ -727,8 +696,6 @@ baseConfig.inbounds = [
     mtu: 9000,
     auto_route: true,
     strict_route: true,
-    sniff: true,
-    sniff_override_destination: true,
     stack: 'mixed'
   }
 ];
@@ -736,6 +703,8 @@ baseConfig.inbounds = [
 baseConfig.outbounds = buildOutbounds();
 baseConfig.route = {
   auto_detect_interface: true,
+  default_domain_resolver: { server: 'dns_direct', strategy: 'prefer_ipv4' },
+  default_http_client: RULE_SET_HTTP_CLIENT,
   final: BIZ.FINAL
 };
 
@@ -761,8 +730,36 @@ convertedRules = convertedRules.filter((rule) => {
   return true;
 });
 
-baseConfig.route.rules = convertedRules;
+// sniff is non-final and runs before the unchanged source-derived rule sequence.
+baseConfig.route.rules = [{ inbound: ['tun-in'], action: 'sniff' }, ...convertedRules];
 
-fs.writeFileSync('SingBox/SingBox(sing-box)-full.json', JSON.stringify(baseConfig, null, 2) + '\n');
+function buildConfiguration(coreLine) {
+  const config = structuredClone(baseConfig);
+  if (coreLine === '1.13') {
+    // Hiddify 4.1.1 bundles a 1.13-derived core. HTTP clients and explicit DNS
+    // response matching were added in 1.14; keep the equivalent 1.13 schema.
+    delete config.http_clients;
+    delete config.route.default_http_client;
+    for (const ruleSet of config.route.rule_set) {
+      delete ruleSet.http_client;
+      ruleSet.download_detour = SMART.GLOBAL;
+    }
+    config.dns.rules = [
+      { rule_set: ['geosite-private', 'geosite-cn', 'geoip-cn'], action: 'route', server: 'dns_direct' },
+      { rule_set: [adFusedRuleSet.id], action: 'reject' }
+    ];
+  } else if (coreLine !== '1.14') {
+    throw new Error(`Unsupported sing-box schema profile: ${coreLine}`);
+  }
+  return config;
+}
+
+for (const [coreLine, filename] of [
+  ['1.14', 'SingBox(sing-box)-full.json'],
+  ['1.13', 'SingBox(sing-box)-1.13.json']
+]) {
+  fs.writeFileSync(path.join('SingBox', filename), JSON.stringify(buildConfiguration(coreLine), null, 2) + '\n');
+}
 
 console.log(`providers=${ruleSet.length} coalesced_providers=${coalescedProviders} extra_geosite=${extraGeoSiteTags.length} skipped_providers=${skippedProviders} rules=${convertedRules.length} skipped_rules=${skippedRules}`);
+console.log(`generated ${VERSION} | Build ${BUILD} | Baseline ${BASELINE} | minimum sing-box 1.14.3`);

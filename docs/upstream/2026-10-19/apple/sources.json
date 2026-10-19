@@ -1,0 +1,461 @@
+{
+  "group": "apple",
+  "sources": [
+    {
+      "id": "stash-mac-appcast",
+      "url": "https://releases.stash.ws/appcast.xml",
+      "kind": "release",
+      "product": "Stash Mac",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "stash-download",
+      "url": "https://stash.ws/download",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-mac-previous-versions",
+      "url": "https://stash.ws/macos/previous-versions",
+      "kind": "release",
+      "product": "Stash Mac",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "apple-lookup-us",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=us",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "apple-lookup-jp",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=jp",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "apple-lookup-cn",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=cn",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "surge-mac-stable",
+      "url": "https://nssurge.com/mac/latest/appcast-signed.xml",
+      "kind": "release",
+      "product": "Surge Mac",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "surge-mac-beta",
+      "url": "https://nssurge.com/mac/latest/appcast-signed-beta.xml",
+      "kind": "release",
+      "product": "Surge Mac",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "surge-release-app",
+      "url": "https://nssurge.com/static/js/main.367b5fb6.js",
+      "kind": "source",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "surge-profile-format",
+      "url": "https://manual.nssurge.com/profile/format.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-profile-general",
+      "url": "https://manual.nssurge.com/profile/general.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-dns-overview",
+      "url": "https://manual.nssurge.com/dns/overview.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-dns-encrypted-dns",
+      "url": "https://manual.nssurge.com/dns/encrypted-dns.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-dns-local-dns-mapping",
+      "url": "https://manual.nssurge.com/dns/local-dns-mapping.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policy-groups-parameters",
+      "url": "https://manual.nssurge.com/policy-groups/parameters.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policy-groups-url-test",
+      "url": "https://manual.nssurge.com/policy-groups/url-test.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policy-groups-smart",
+      "url": "https://manual.nssurge.com/policy-groups/smart.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-rules-ruleset",
+      "url": "https://manual.nssurge.com/rules/ruleset.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-overview",
+      "url": "https://manual.nssurge.com/policies/overview.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-tuic",
+      "url": "https://manual.nssurge.com/policies/tuic.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-hysteria2",
+      "url": "https://manual.nssurge.com/policies/hysteria2.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-anytls",
+      "url": "https://manual.nssurge.com/policies/anytls.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-snell",
+      "url": "https://manual.nssurge.com/policies/snell.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "surge-policies-external",
+      "url": "https://manual.nssurge.com/policies/external.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-release-notes-ios",
+      "url": "https://stash.wiki/en/release-notes/ios",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-release-notes-macos",
+      "url": "https://stash.wiki/en/release-notes/macos",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-rules-rule-set",
+      "url": "https://stash.wiki/en/rules/rule-set",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-rules-rule-types",
+      "url": "https://stash.wiki/en/rules/rule-types",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-groups",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-groups",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-providers",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-providers",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-types",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-types",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-features-dns-server",
+      "url": "https://stash.wiki/en/features/dns-server",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-configuration-example-config",
+      "url": "https://stash.wiki/en/configuration/example-config",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-faq-testflight",
+      "url": "https://stash.wiki/en/faq/testflight",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-stash-mac",
+      "url": "https://stash.wiki/en/stash-mac",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-appstore-history",
+      "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "stash-mac-home",
+      "url": "https://stash.ws/",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "egern-policy-groups",
+      "url": "https://egernapp.com/docs/configuration/policy_groups/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "egern-rules",
+      "url": "https://egernapp.com/docs/configuration/rules/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "egern-dns",
+      "url": "https://egernapp.com/docs/configuration/dns/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "egern-proxies",
+      "url": "https://egernapp.com/docs/configuration/proxies/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "egern-example",
+      "url": "https://egernapp.com/docs/configuration/example/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-intro",
+      "url": "https://nsloon.app/docs/intro/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-general",
+      "url": "https://nsloon.app/docs/General/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-dns",
+      "url": "https://nsloon.app/docs/DNS/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-policy-policygroup",
+      "url": "https://nsloon.app/docs/Policy/policygroup/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-rule-sub-rule",
+      "url": "https://nsloon.app/docs/Rule/sub_rule/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-rule-process-rule",
+      "url": "https://nsloon.app/docs/Rule/process_rule/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-appstore-history",
+      "url": "https://apps.apple.com/us/app/loon/id1373567447",
+      "kind": "release",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "loon-example",
+      "url": "https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf",
+      "kind": "source",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "qx-sample-conf",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/sample.conf",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "qx-server-complete-snippet",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/server-complete.snippet",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "qx-url-scheme-md",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/url-scheme.md",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "qx-appstore-history",
+      "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
+      "kind": "release",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "shadowrocket-appstore-history",
+      "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+      "kind": "release",
+      "product": "Shadowrocket",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "shadowrocket-official-home",
+      "url": "https://shadowlaunch.com/",
+      "kind": "documentation",
+      "product": "Shadowrocket",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "shadowrocket-help-unverified",
+      "url": "https://help.shadowrocket.net/",
+      "kind": "documentation",
+      "product": "Shadowrocket",
+      "required": false,
+      "expected_content_type": "html"
+    }
+  ]
+}

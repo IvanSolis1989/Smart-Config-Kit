@@ -1,9 +1,18 @@
 # SingBox — 变更日志
 
 > `SingBox/SingBox(sing-box)-full.json`（完整配置，由脚本生成）的变更日志。
-> 本目录只发布 Full 配置。
+> 本目录由同一生成器发布当前稳定版 Full 配置与 1.13 兼容配置。
 
 ---
+
+## v6.0.20-sing.10 (2026-10-19)
+
+- 修复官方稳定核心无法解码原配置的问题：移出非标准 `_meta`；DNS 迁到 typed HTTPS server / `domain_resolver`，TUN 嗅探迁到非终结路由动作，保留源规则目标、相对顺序与 54 个策略组。
+- Full 要求 sing-box 1.14.3，使用命名 `http_clients` 与显式 DNS 响应匹配；同一生成器同时输出 `SingBox(sing-box)-1.13.json`，为 Hiddify 4.1.1 的内核分支保留合法 `download_detour` 与对应 DNS schema。
+- 两变体分别通过官方 1.14.3 / 1.13.14 `check`，无需废弃功能环境变量；路由、出站及规则集 URL 对比一致。App 实际导入与连接尚未验收。
+- 明确上游移除旧目的重写的迁移限制：新嗅探辅助匹配，IP 目的不会自动改为 SNI/Host 域名拨号；不宣称该旧行为等价保留。
+- 更正 Hiddify 完整配置模式、HomeProxy UCI 生成与 Passwall 后端边界说明。官方原文、版本发布时间和原失败日志见[核验报告](../docs/upstream/2026-10-19/singbox/report.md)。
+- 二次复核将 1.13 配置纳入自动刷新产物清单；CI 下载并核对官方核心后实际检查两版 schema，显式错误核心路径必须失败；README 精简且保留图表。
 
 ## v6.0.20-sing.9 (2026-10-16)
 

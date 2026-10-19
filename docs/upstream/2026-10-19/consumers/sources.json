@@ -1,0 +1,20 @@
+{
+  "group": "consumers",
+  "sources": [
+    { "id": "karing-latest", "product": "Karing", "kind": "release", "url": "https://api.github.com/repos/KaringX/karing/releases/latest", "required": true, "expected_content_type": "json" },
+    { "id": "karing-releases", "product": "Karing", "kind": "release", "url": "https://api.github.com/repos/KaringX/karing/releases?per_page=10", "required": true, "expected_content_type": "json" },
+    { "id": "karing-readme", "product": "Karing", "kind": "documentation", "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/README.md", "required": true, "expected_content_type": "text" },
+    { "id": "karing-import-manager", "product": "Karing", "kind": "source", "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/lib/app/modules/remote_config_manager.dart", "required": true, "expected_content_type": "text" },
+    { "id": "karing-pubspec", "product": "Karing", "kind": "source", "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/pubspec.yaml", "required": true, "expected_content_type": "text" },
+    { "id": "karing-appstore-us", "product": "Karing iOS", "kind": "release", "url": "https://itunes.apple.com/lookup?id=6472431552&country=us", "required": true, "expected_content_type": "json" },
+    { "id": "happ-desktop-latest", "product": "Happ Desktop", "kind": "release", "url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases/latest", "required": true, "expected_content_type": "json" },
+    { "id": "happ-desktop-releases", "product": "Happ Desktop", "kind": "release", "url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases?per_page=10", "required": true, "expected_content_type": "json" },
+    { "id": "happ-desktop-readme", "product": "Happ Desktop", "kind": "documentation", "url": "https://raw.githubusercontent.com/Happ-proxy/happ-desktop/ace67fd9085dfdd7571ee9ba18b631245b9d59bc/README.md", "required": true, "expected_content_type": "text" },
+    { "id": "happ-android-latest", "product": "Happ Android", "kind": "release", "url": "https://api.github.com/repos/Happ-proxy/happ-android/releases/latest", "required": true, "expected_content_type": "json" },
+    { "id": "happ-ios-us", "product": "Happ iOS", "kind": "release", "url": "https://itunes.apple.com/lookup?id=6504287215&country=us", "required": true, "expected_content_type": "json" },
+    { "id": "karing-quickstart", "product": "Karing", "kind": "documentation", "url": "https://karing.app/en/quickstart", "required": true, "expected_content_type": "html" },
+    { "id": "happ-routing-manual", "product": "Happ", "kind": "documentation", "url": "https://www.happ.su/main/dev-docs/routing", "required": true, "expected_content_type": "html" },
+    { "id": "happ-routing-source", "product": "Happ", "kind": "documentation", "url": "https://raw.githubusercontent.com/HappDev/happ_su/main/dev-docs/routing.md", "required": true, "expected_content_type": "text" },
+    { "id": "happ-import-source", "product": "Happ", "kind": "documentation", "url": "https://raw.githubusercontent.com/HappDev/happ_su/main/dev-docs/examples-of-links-and-parameters.md", "required": true, "expected_content_type": "text" }
+  ]
+}

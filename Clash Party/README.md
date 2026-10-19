@@ -23,40 +23,13 @@ Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚�
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+本目录提供 Smart / Normal 两份 JS 覆写，二选一关联到节点订阅；规则与 DNS 相同，最多 22 区域组 + 33 业务组。版本与变更见 [CHANGELOG](./CHANGELOG.md)。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> JS fake-ip 列表继承：仅缺省或 `blacklist` 模式的合法条目会合并到仓库豁免列表；`whitelist`、`rule` 和非法模式的原列表会丢弃，最终统一输出 `blacklist`。
-
-> 受限网络下可在本地 JS 副本中选择默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)。只匹配四个根地址的 UDP/9993；本地更新入口保留该设备的明确开关，启用前需实测美国节点的 UDP 回包。
-
-> 目录简介：这里是 Mihomo Smart/Normal 覆写脚本的事实基线，面向 Clash Party、Clash Verge Rev、Mihomo Party 等桌面客户端。
->
-> 覆写脚本：**两份二选一**，规则 100% 等价，仅 22 区域组（11 全部 + 11 家宽）的内核选路算法不同
-> - `ClashParty(mihomo-smart).js`（**v6.0.20-dns.19**，2026-10-16）— Smart 内核 + LightGBM ML 评估
-> - `ClashParty(mihomo).js`（**v6.0.20-normal.20**，2026-10-16）— 普通内核 url-test 延迟选路
->
-> UI 补充配置：已整合到本文「四、粘贴 UI 补充配置」章节
-> 架构：**SUB-STORE 多机场融合** + 22 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + **149 融合 rule-providers / 168 rules**（源 525 providers / 984 rules）
-> 适用客户端：
-> - **Mihomo Party**（桌面端，推荐，原生支持 JS 覆写；内置 Smart 内核）
-> - **Clash Verge Rev**（桌面端，支持 JS/YAML 双覆写）
-> - **Clash Nyanpasu**（桌面端）
-> - 任何支持 Mihomo **JavaScript 覆写引擎**的客户端
-
-> 私有节点 DNS：覆写默认采用 `adaptive` 受限投影；可用 `off / policy / adaptive` 三档控制订阅 DNS 的投影深度，不会改变 55 组、规则或全局业务 DNS。若你另行粘贴 DNS UI 配置，请合并而不要覆盖这些字段。完整边界与静态端示例见 [私有节点 DNS 指南](../docs/private-node-dns.md)。
-
-> **Clash Party v2.0.3+ DNS 保护（Issue #183）**：客户端会在执行 JS 覆写前检查原始订阅是否包含 `proxy-server-nameserver`、`proxy-server-nameserver-policy` 或 `nameserver-policy`。如果客户端内置 DNS 控制处于开启状态，可能提示“检测到当前订阅包含自定义 DNS 配置，已自动关闭 DNS 覆写”。这只表示客户端的 `controlDns` 被保护逻辑关闭，不表示本脚本没有执行；本脚本随后仍会写入仓库 DNS 基线和受限节点 DNS。使用本仓库时请保持客户端内置 DNS 覆写关闭，不要把这条提示当作脚本加载失败。背景见 [Clash Party v2.0.3 发布说明](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.3) 和 [DNS 覆写保护源码](https://github.com/mihomo-party-org/clash-party/blob/v2.0.3/src/main/core/dnsOverrideGuard.ts)。
-
-> 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 这类小写 ISO 两位码加编号可正常归类。仅此形式放宽大小写，普通文本中的 us / in 不会被误判为地区。
-
-> 节点筛选：`SCKI_MAX_NODE_MULTIPLIER = null` 默认保留全部倍率。仅含 `type: inline` 与 `payload` 的集合可直接展平；远程或带额外字段的集合需先通过 Sub-Store 展平。具名直连/拒绝出站保留依赖但不参加测速；预检拒绝时保留原始订阅，日志仅报告原因和计数。参数与引用边界见 [节点筛选指南](../docs/subscription-node-filter.md)。
+- **Smart**：需要 vernesong/mihomo Smart 内核与模型；MetaCubeX Alpha 不提供 Smart 组。
+- **Normal**：适用于普通 Mihomo；Clash Verge Rev 官方发行版使用这一份。
+- **节点筛选**：支持小写地区码加编号（如 hk01）；倍率筛选默认关闭。远程代理集合须先展开为节点，具名直连/拒绝出站仅保留拨号依赖。见[节点筛选指南](../docs/subscription-node-filter.md)。
+- **私有节点 DNS**：默认 adaptive，只投影活动节点的 DNS 提示；UI 合并时保留精确 policy。见[私有节点 DNS](../docs/private-node-dns.md)。
+- **可选功能与排错**：[测速/QUIC](../docs/traffic-options.md)、[默认关闭的 ZeroTier UDP 代理](../docs/zerotier-planet-proxy.md)、[规则下载](../docs/rule-asset-delivery.md)、[微信连接](../docs/research/2026-10-16-wechat-issue-187.md)。规则下载需能访问 GitHub Raw 或使用可用代理。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -69,72 +42,61 @@ Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚�
 | 维度 | `ClashParty(mihomo-smart).js`（Smart 版） | `ClashParty(mihomo).js`（普通版） |
 |------|---------------------------------------|-------------------------------------|
 | 区域组 `type` | `smart` | `url-test` |
-| 选路算法 | **LightGBM ML 模型**（历史延迟 + 丢包 + 抖动 + 粘性会话综合评分） | 纯 **URL 延迟探测**（最低延迟胜出） |
-| 额外字段 | `uselightgbm: true` / `collectdata: false` / `strategy: 'sticky-sessions'` | `url` / `interval` / `tolerance` / `lazy` |
-| 内核要求 | **Mihomo Alpha / Smart 分支**（需 `Model.bin` 模型文件） | **Mihomo 稳定版 / Clash.Meta 任意近期版本** |
+| 选路算法 | **LightGBM ML 模型**与 Smart 内核连接质量评分 | 纯 **URL 延迟探测**（最低延迟胜出） |
+| 额外字段 | `uselightgbm: true` / `collectdata: false` | `url` / `interval` / `tolerance` / `lazy` |
+| 内核要求 | **vernesong/mihomo Smart 分支**（需 `Model.bin` 模型文件） | **Mihomo 稳定版 / Clash.Meta 任意近期版本** |
 | 首次启动 | 需额外下载 `Model.bin`（~1.5MB） | 无额外依赖 |
-| 选路"粘性" | ✅ sticky-sessions：同一连接/会话尽量保留在同一节点 | ❌ 每次 interval 到期可能切换到新最低延迟节点 |
+| 节点切换 | 由 Smart 内核的目标匹配、连接质量与重试机制决定 | 健康检查后可切换到延迟更低的节点 |
 | CPU 占用 | 略高（ML 推理） | 极低 |
 | 适用场景 | 追求智能选路 / 混合机场 / 节点质量差异大 | 机场节点较稳定 / 路由器低 CPU / 不想依赖 Alpha 内核 |
 
-**选择建议：**
-- **有 Mihomo Party / Clash Verge Rev（Alpha 内核可用）** → 首选 **Smart 版**，体验最好
-- **用的是稳定版 Clash.Meta / OpenClash 但又装不了 Alpha / 不想折腾 Model.bin** → 用**普通版**
-- **低配路由器 / NAS 上跑代理** → 用**普通版**，省 CPU 省内存
-- **想对照看两种选路的实际差异** → 先用 Smart 版跑一周，再换普通版跑一周，对比「连接」页的选路命中
+**选择建议：** 已安装 Smart 内核和模型时可选 Smart，否则用 Normal。两份脚本不要同时启用；脚本不设置会话粘性策略。字段与设备验证边界见[官方版本核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。
 
-> 重要提醒：两份脚本**永远同步更新**（规则源 / 代理组 / DNS 改动会同时应用到两份文件）；任何行为差异只由内核算法引起，不由规则差异引起。
 
 ---
 
 ## 🚀 零基础 5 分钟快速开始
 
-> 第一次用？先看这段，看完按顺序做就能上网。
+按下面三步导入；已有订阅的用户可直接看第三章。
 
 ### 这是什么？
-本仓库提供一份 **JS 覆写脚本**（可以理解为"配置模板"），你把它塞给 Clash Party/Verge Rev/Mihomo Party，它会在你每次启动客户端时**自动重写你的配置**，让节点按地区分组、按业务分流、自动选最优节点。你自己不用手动配 300+ 条规则。
+
+JS 覆写在订阅加载后重建节点分组、规则和 DNS；本仓库不提供代理节点。
 
 ### 我要准备什么？
-1. **一个机场订阅 URL**。机场 = 代理服务商，你花几十块一个月订阅一家，他给你一个长长的 URL（`https://xxx.com/subscribe?token=yyy` 这种）。本仓库**不提供订阅**，只提供配置模板。
-2. **本仓库里的 `ClashParty(mihomo-smart).js`**（或 `ClashParty(mihomo).js`，二选一，见本文开头的对比表）。
-3. **三选一的客户端**：Mihomo Party / Clash Verge Rev / Clash Nyanpasu。**推荐 Mihomo Party**（不用你自己下载 mihomo 内核，开箱即用）。
+
+1. 一个返回 Mihomo 格式的节点订阅 URL。
+2. Smart 或 Normal JS 文件。
+3. 支持 JS 覆写的客户端；安装入口见第一章。
 
 ### 术语速查（遇到不懂就回来翻）
-- **订阅 / 机场**：服务商给你的那条 URL。
-- **节点**：海外具体服务器（"美国洛杉矶-01"、"香港-02" 这样）。
-- **代理组 / 策略组**：把一堆节点按地区或用途打包。例如 `🇺🇸 美国节点` = 所有美国节点的集合。
-- **分流**：按规则自动决定每条流量走代理还是直连。访问国内站点直连更快，访问 Google 必须走代理。
-- **Smart 组 + LightGBM**：Mihomo Smart 内核独有的"用机器学习自动选最优节点"功能。本仓库启用了它。
-- **TUN 模式**：让整台电脑的所有流量都过代理（而不只是浏览器）。**建议开启**。
+
+- **订阅**提供节点，**代理组**选择节点，**规则**决定流量进入哪个组。
+- **Smart + LightGBM**是 vernesong Smart 分支能力。
+- **TUN**通过虚拟网卡接管流量，需客户端和系统权限支持。
 
 ### 3 步走完
-1. **下载客户端**（选一个，推荐 Mihomo Party）：
-   - Mihomo Party：https://github.com/mihomo-party-org/mihomo-party/releases （找适合你系统的 `.exe` / `.dmg` / `.deb`）
-   - Clash Verge Rev：https://github.com/clash-verge-rev/clash-verge-rev/releases
-2. **导入订阅**：打开客户端 → 左侧「订阅」→ 输入机场给你的 URL → 保存。
-3. **启用本仓库的覆写脚本**：详细在下面第三章「导入覆写脚本（核心步骤）」。本质就是：左侧「覆写/脚本」→ 新建 → 类型选 JavaScript → 粘贴**所选**的那份 `.js`（Smart 版或普通版）全文 → 保存 → 回到订阅页勾选启用这个脚本 → 点「连接」。**不要同时启用两份脚本**，它们会互相覆盖。
+
+1. 从第一章的官方入口安装客户端，按实际内核选择 Smart / Normal。
+2. 客户端「订阅」中添加节点订阅 URL。
+3. 按第三章创建 JS 覆写、关联到该订阅并启用；只关联一份。
 
 ### 跑起来之后怎么验证成功？
-- 浏览器打开 `https://www.google.com`，能打开说明代理通了。
-- 客户端左侧「代理」页面最多会看到 **55 个代理组**（22 区域 + 33 业务；空区域会自动不建组）。
-- 左侧「连接」页面可以看每条请求走了哪个组/哪个节点。
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+检查代理组和实际连接记录，再按第五章验证规则下载、DNS 与出站；网页能打开不能证明全部规则生效。
 
 ### 最常见的第一次踩坑
-- ❌ **订阅链接格式不对**：有些机场默认给的是 V2ray 格式。换链接时加 `?flag=clash.meta` 或 `?flag=meta` 后缀。
-- ❌ **首次下载 rule-provider 卡住**：脚本从 GitHub raw 下载融合规则。请先连接可用节点，再启用覆写；无法直连时通过 `🚫 受限网站` 组下载。HTTP 404、连接超时和传输中断需分别核实，不能仅凭“卡住”判断原因。
-- ❌ **LightGBM 模型没下载**（仅 Smart 版）：启动后若日志有 `Model.bin not found`，手动下 https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin 放到客户端的 mihomo 工作目录；或直接换成**普通版**脚本，不依赖 `Model.bin`。
-- ❌ **Smart 版提示内核不支持 `type: smart`**：你用的不是 mihomo Alpha。要么换内核（Clash Verge Rev → 设置 → Clash 内核 → Mihomo Alpha），要么直接改用**普通版**脚本。
-- ❌ **找不到业务组 / 区域组**：确认订阅返回的是 Mihomo / Clash.Meta 格式（不是 Surge / Quantumult）。
-- ❌ **RustDesk 仍然超时**：RustDesk 应命中 `🧑‍💼 会议协作`，不要让该组停在 `DIRECT`；DNS 段应采用本文第四章的 split-bootstrap / DoH 配置，并且 `fake-ip-filter` 应包含 `+.rustdesk.com` 真实 IP 回应。
-- ❌ **WebRTC / STUN 测出代理出口或失败**：v5.4.13 后标准 STUN/TURN 端口 `3478 / 3479 / 5349 / 19302 / 19305 / 19307` 应直连；若服务强制走 UDP/443 TURN，仍会受 QUIC 屏蔽策略影响。
-- ⚙️ **QUIC 精细化**：仅放行 YouTube/Google/微软/苹果 的 QUIC（UDP/443）走对应业务组，其余海外 QUIC 一律 `REJECT` 强制回退 HTTP/2（配合 `config.sniffer` 嗅探 SNI 做 GEOSITE 匹配）。**若某海外小众 App 必须用 QUIC 且无法回退 TCP 而断连**：在 `injectRules` 中删除/注释那 5 条 `AND,((DST-PORT,443),(NETWORK,UDP),...)` 规则即可恢复全量 QUIC 透传；只想恢复一部分则保留白名单豁免行、删掉末条 `...,(NOT,((GEOSITE,cn)))),REJECT` 即可。
+
+- **节点为空**：确认订阅返回 Mihomo 节点；不要把网页链接当作 Raw JS 或订阅地址。
+- **规则下载失败**：先用可用节点建立网络，检查具体 HTTP 状态与 [规则下载说明](../docs/rule-asset-delivery.md)。
+- **Smart 无法启动或模型缺失**：按第七章 Q5 检查，未安装 Smart 内核时使用 Normal。
+- **RustDesk、STUN 或必须使用 QUIC 的应用异常**：检查连接记录和[测速/QUIC 选项](../docs/traffic-options.md)，不要直接删除规则。
 
 ---
 
 ## 🔌 协议支持（Mihomo / Clash.Meta / Smart 内核）
 
-Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都是 **Mihomo 内核**，支持的科学上网协议如下：
+协议能力取决于客户端实际安装的 Mihomo 版本；下表用于选型，导入前仍需确认节点协议与核心兼容。
 
 | 协议 | 支持 | 说明 |
 |---|:-:|---|
@@ -154,36 +116,36 @@ Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都
 | **Mieru** | ✅ | 新协议（mihomo Alpha） |
 | **SOCKS5 / HTTP(S)** | ✅ | 基础兜底 |
 
-**Mihomo 是目前协议支持最全面的开源内核**，几乎覆盖所有主流方案。付费的 Surge / Quantumult X 反而不如它全。
-
 ### 如何选协议？一句话建议
-- **首选 VLESS + REALITY + XTLS-Vision**：目前抗审查最强、速度最快的组合
-- **弱网 / 跨运营商 → Hysteria 2 或 TUIC v5**：UDP-based，QUIC 多路复用
-- **老机场只给 SS / VMess → 照样能用**，别追新协议
-- **机场给 Snell（通常是 Surge 机场）→ 也能跑**，但少见
+
+使用服务商提供且当前核心支持的协议；UDP 协议还需验证当前网络与所选节点的 UDP 回包。
 
 ---
 
 ## 一、安装客户端
 
-### Mihomo Party（推荐）
-- 开源地址：https://github.com/mihomo-party-org/mihomo-party/releases
+### Clash Party（原 Mihomo Party）
+
+- 开源地址：https://github.com/mihomo-party-org/clash-party/releases
 - 支持 Windows / macOS (Intel + Apple Silicon) / Linux (deb/rpm/AppImage)
-- 特性：**内置 Smart 内核**，默认开启 TUN，UI 中直接支持 JS 覆写。
+- 支持 stable / Alpha / Smart 内核与 JS 覆写；使用 Smart 脚本前在客户端确认选中 Smart 内核，并检查模型状态。
 
 ### Clash Verge Rev
+
 - 开源地址：https://github.com/clash-verge-rev/clash-verge-rev/releases
-- 需要在「设置 → Clash 内核」中切换到 **Mihomo Alpha**（Smart 内核当前仍在 Alpha 分支）。
+- 官方发行构建下载 MetaCubeX/mihomo 的 stable / Alpha 内核，请使用本仓库**普通版**脚本。切换到 Alpha 不会获得 Smart 组；实际安装 vernesong/mihomo Smart 内核后，才可使用 Smart 版。依据见[官方构建源码](https://github.com/clash-verge-rev/clash-verge-rev/blob/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs)。
 
 ---
 
 ## 二、准备订阅
 
 ### 场景 A：单机场订阅
+
 直接在客户端「订阅（Subscriptions / Profiles）」中添加机场链接即可，脚本会自动识别并分类节点。
 
 ### 场景 B：多机场融合（推荐，脚本原生针对此优化）
-本脚本**针对 Sub-Store 环境做了大量优化**，强烈建议搭配使用：
+
+需要把多个机场合成一个节点池时，可使用 [Sub-Store](../SubStore/README.md)：
 
 1. 自建或使用公共 **Sub-Store**（https://github.com/sub-store-org/Sub-Store）。
 2. 在 Sub-Store 中添加 2–N 个机场作为「单条订阅」。
@@ -191,23 +153,13 @@ Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都
 4. 生成一个 **Clash (Mihomo)** 格式的订阅 URL。
 5. 将该 URL 粘贴到客户端的订阅中。
 
-脚本会自动为所有节点：
-- 剔除信息类节点（导航/流量/到期/官网…）
-- 剔除高倍率节点（10x/20x/100x）
-- 按地区/城市/IATA 代码/ISO 代码**多维度分类**到 22 区域组（11 全部 + 11 家宽）
+输出地址必须能被客户端访问；127.0.0.1 只适用于同一设备。脚本会清理信息节点并分类，倍率筛选默认关闭。
 
 ### 场景 C：在线订阅转换站（备选方案）
 
-如果你同时买了多家机场，也可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具。
+在受信任的转换服务中输入多个订阅 URL，输出格式选 Mihomo，再把结果导入客户端。
 
-1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
-2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
-3. 后端选 **Mihomo（Clash.Meta）**
-4. 生成新 URL → 填入客户端「订阅」输入框
-
-> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
->
-> **Clash Party 的 Sub-Store 是内置方案**：Clash Party / Clash Verge Rev / Mihomo Party 原生集成了 Sub-Store 插件（方式 B），无需额外安装。**优先用场景 B（Sub-Store）**，转换站仅作为没有 Sub-Store 环境时的备选。
+转换服务能看到订阅 token；敏感订阅优先使用本地 Sub-Store。
 
 ---
 
@@ -215,13 +167,9 @@ Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都
 
 ### Mihomo Party
 
-1. 左侧菜单 → **覆写（Override）** → 右上角 ➕。
-2. 类型选择 **JavaScript（.js）**。
-3. 名称：`Clash Smart` 或 `Clash Normal`（根据你粘贴的那份）。
-4. 内容：复制 `Clash Party/ClashParty(mihomo-smart).js` **或** `Clash Party/ClashParty(mihomo).js` 的**全文**粘贴进去（两份脚本都在 2200+ 行左右）。
-5. 保存。
-6. 返回「订阅」页面，右键你的订阅 → **编辑** → **启用覆写** → 勾选刚才的脚本 → 保存（**只勾一份**，不要同时启用）。
-7. 切换到该订阅，点击「**连接**」。
+1. 「覆写」→ 新建 → 类型选 JavaScript，粘贴所选 JS 全文并保存。
+2. 返回「订阅」→ 编辑 → 启用覆写，勾选该脚本并保存。
+3. 切换到该订阅并连接；只启用 Smart / Normal 其中一份。
 
 ### Clash Verge Rev
 
@@ -234,7 +182,7 @@ Clash Party 系列（Mihomo Party / Clash Verge Rev / Clash Nyanpasu）底层都
 
 ## 四、粘贴 UI 补充配置
 
-脚本会写入 **proxies / proxy-groups / rules / DNS** 主体配置；但不同 GUI 仍可能用 UI Mixin 覆盖 DNS / Sniffer / GeoX URL。为避免客户端侧覆盖掉当前 DNS 合同，建议把下方内容同步粘贴到客户端的 **外部数据、DNS、嗅探覆写中**：
+脚本已生成节点、组、规则、DNS 与嗅探。通常关闭客户端的二次 DNS 覆写即可；下方图片和 YAML 供手动核对使用。若使用 UI Mixin，须合并私有节点 policy，并检查最终配置，避免再次覆盖脚本。
 
 GeoX URL：
 
@@ -312,9 +260,6 @@ dns:
   fallback-filter:
     geoip: true
     geoip-code: CN
-    geosite:
-      - gfw
-      - geolocation-!cn
     ipcidr:
       - 240.0.0.0/4
       - 0.0.0.0/32
@@ -370,25 +315,10 @@ sniffer:
 
 ## 五、验证配置生效
 
-连接成功后按以下步骤验证：
-
-1. **代理组（Proxies）页面**
-   - 应看到 **22 区域组**（🌍 全球 / 🏡 全球家宽 / 🇭🇰 香港 / 🏡 香港家宽 / 🇹🇼 台湾 / 🏡 台湾家宽 / 🇸🇬 狮城 / 🏡 狮城家宽 / 🇯🇵 日韩 / 🏡 日韩家宽 / 🌏 亚太 / 🏡 亚太家宽 / 🇺🇸 美国 / 🏡 美国家宽 / 🇪🇺 欧洲 / 🏡 欧洲家宽 / 🌎 美洲 / 🏡 美洲家宽 / 🌍 非洲 / 🏡 非洲家宽 / 🌏 其他 / 🏡 其他家宽），Smart 版显示为 `smart`，普通版显示为 `url-test`；
-   - 每个区域组下方有对应地区的所有节点；
-   - **33 个业务策略组**（AI 服务、加密货币、TikTok、Netflix、Disney+、YouTube、Telegram 等）可正常选择。
-
-2. **连接（Connections）页面**
-   - 访问 `https://chat.openai.com`：Rule 应命中「🤖 AI 服务 → 🇺🇸 美国节点 → 某个 US 节点」；
-   - 访问 `https://www.netflix.com`：Rule 应命中「Netflix → 🇺🇸 美国流媒体」；
-   - 访问 `https://www.bilibili.com`：应命中「📺 国内流媒体 / DIRECT」。
-
-3. **规则（Rules）页面**
-   - 总规则数应 ≥ **1000 条**；
-   - `rule-providers` 数量应为 **113**。
-
-4. **日志（Logs）页面**
-   - 无 `parse error` / `list not found`；
-   - 无大量 `DNS resolve failed`（若出现请检查 DNS 段粘贴）。
+1. **代理组**：最多 22 区域组 + 33 业务组；Smart 区域组为 smart，Normal 为 url-test；候选节点与区域相符。
+2. **连接记录**：分别访问 AI、Netflix、国内流媒体，核对实际规则、业务组和出站。下表推荐值仅供选择，以实际组名和可用节点为准。
+3. **规则**：当前基线为 168 条主规则、149 个融合 rule-providers；不要用未融合源规则数判断是否完整。
+4. **日志与 DNS**：无解析错误或规则集加载失败；最终 DNS 包含脚本 DoH 与 blacklist 模式。完整清单见根 README 的[导入后验证](../README.md#-导入后-60-秒验证清单)。
 
 ---
 
@@ -418,23 +348,28 @@ sniffer:
 ## 七、常见问题
 
 ### Q1：启用脚本后节点为空 / 区域组为空？
+
 - 确认订阅返回的是 **Mihomo / Clash.Meta** 格式（不是 Surge / Quantumult）。
 - 确认机场节点名带有地区关键字（香港/HK/🇭🇰/hkg 至少其一；hk01 这类小写地区码加编号也支持）。
 - 打开日志，查看是否有 `No node classified` 提示。
 
 ### Q2：首次连接特别慢？
+
 - 首次需下载 **149 个融合 rule-providers**（Mihomo 优先 `.mrs`），体积显著低于展开源规则；
 - 建议在 WiFi 环境下完成首次下载。
 
 ### Q3：如何升级到新版本？
+
 - 将仓库里的 `.js` 文件更新，客户端会在下次刷新订阅时重新执行；
 - 无需删除旧订阅或重新导入。
 
 ### Q4：能否同时启用多个覆写脚本？
+
 - **不建议**。本脚本会完整重写 `proxy-groups` 与 `rules`，与其他脚本叠加可能导致冲突。
 
 ### Q5：LightGBM 模型未下载（仅 Smart 版）？
-- 检查 `lgbm-custom-url` 字段是否被篡改；
+
+- 检查实际 Smart 内核与模型状态；若手动配置模型下载地址，当前字段为 `lgbm-url`（[官方配置源码](https://github.com/vernesong/mihomo/blob/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go)）；
 - 确认客户端可访问 GitHub Release（可能需要代理）：
   ```
   https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
@@ -442,21 +377,19 @@ sniffer:
 - 或直接改用 **`ClashParty(mihomo).js`**，它用的是 url-test，不需要 LightGBM 模型。
 
 ### Q6：Smart 版与普通版可以切换吗？切换后订阅要不要重新导入？
+
 - **可以任意切换**，两份脚本输出的 `proxy-groups / rules / rule-providers` 完全等价，客户端下次刷新订阅时自动重新生成。
 - **不要同时启用两份脚本**（会互相覆盖，结果不可预期）。切换步骤：覆写列表里关掉旧的那份 → 勾选新的那份 → 刷新订阅。
 
 ### Q7：升级 Clash Party v2.0.3+ 后，每次启动都提示“自动关闭 DNS 覆写”怎么办？
 
-这是客户端新增的**订阅 DNS 覆写保护**，不是本仓库脚本的 DNS 失败。v2.0.3 的主进程会先读取原始订阅中的三个受保护字段，再执行 JS 覆写；JS 无法在这一步之前改变客户端的 `controlDns` 判定。随后本仓库脚本仍会在 `main(config)` 中写入 `dns.enable`、`nameserver`、`proxy-server-nameserver`、`nameserver-policy`、`fake-ip-filter` 等仓库基线字段。
+这是客户端对原始订阅 DNS 的保护，不代表 JS 失败。保护先于 JS 执行；2.0.4 起可由客户端设置控制。官方顺序与版本边界见[核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。
 
-按下面顺序处理：
+1. 保持本仓库 JS 启用，关闭客户端内置 DNS 覆写 / controlDns。
+2. 刷新订阅，检查最终配置有 dns.enable、仓库 DoH 和 fake-ip-filter-mode: blacklist；同时保留私有节点的精确 policy。
+3. 若必须由客户端管理 DNS，先在原始订阅/聚合层处理受保护字段，再核对最终结果。
 
-1. 保持本仓库 Smart / Normal JS 覆写启用；不要因为这条提示删除脚本。
-2. 让 Clash Party 的**内置 DNS 覆写 / controlDns 保持关闭**。本仓库脚本已经拥有最终 DNS 配置权，客户端 UI 再覆盖一次反而会产生竞争。
-3. 刷新订阅后查看最终配置或覆写日志，应能看到 `dns.enable: true`、仓库 DoH `nameserver` 和 `fake-ip-filter-mode: blacklist`；新版本脚本还会输出不含 DNS 地址值的 `Clash Party v2.0.3+ DNS guard detected source fields=...` 诊断行。
-4. 若必须使用客户端内置 DNS 控制，先在原始订阅/订阅聚合层删除上述三个字段，再由客户端单独管理 DNS；不要从本仓库 JS 中删除 DNS 基线。客户端的判断顺序见 [Clash Party v2.0.3 工厂流程](https://github.com/mihomo-party-org/clash-party/blob/v2.0.3/src/main/core/factory.ts)。
-
-如果关闭内置 DNS 覆写后最终配置仍没有上述字段，请在 Issue 中补充客户端完整版本、原始订阅 `dns:` 段（隐藏域名、IP、token）和覆写日志；不要直接公开订阅 URL 或节点密码。
+仍异常时提供客户端版本、脱敏 DNS 配置和覆写日志；不要公开订阅 token 或节点密码。
 
 ### Q8：Windows 11 Microsoft Store 报网络错误，或页面有内容但图标为空？
 
@@ -476,7 +409,7 @@ sniffer:
 
 ## 九、致谢
 
-- [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo) - Smart 内核
+- [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo) / [vernesong/mihomo](https://github.com/vernesong/mihomo) - Mihomo / Smart 内核
 - [mihomo-party-org/mihomo-party](https://github.com/mihomo-party-org/mihomo-party) - 桌面客户端
 - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev) - 桌面客户端
 - [sub-store-org/Sub-Store](https://github.com/sub-store-org/Sub-Store) - 多机场融合工具

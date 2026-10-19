@@ -244,7 +244,7 @@ node tools/generate-egern-from-cmfa.js
 | `OpenClash/OpenClash(mihomo).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-normal"` | `OpenClash/CHANGELOG.md` (Normal 段) |
 | `OpenClash/OpenClash(mihomo-smart).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-smart"` + Ruby 脚本里 `VERSION` | `OpenClash/CHANGELOG.md` (Smart 段) |
 | `Shadowrocket/Shadowrocket.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Shadowrocket Smart vX.Y.Z-SR.N` | `Shadowrocket/CHANGELOG.md` |
-| `SingBox/SingBox(sing-box)-full.json` | 由 `SingBox/SingBox(sing-box)-generator.js` 自动注入 `_meta.version` | 生成脚本版本 | `SingBox/CHANGELOG.md` |
+| `SingBox/SingBox(sing-box)-full.json` / `SingBox(sing-box)-1.13.json` | 严格内核 JSON 不写 `_meta`；元信息在生成器常量及 README | 生成器 `VERSION` / `BUILD` / `BASELINE` | `SingBox/CHANGELOG.md` |
 | `v2rayN/v2rayN(xray).json` | 顶层禁用 meta 规则（`id:"scki-000-meta"` + `remarks` 版本信息）| meta `remarks` | `v2rayN/CHANGELOG.md` |
 | `Surge/Surge.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Surge Smart vX.Y.Z-Surge.N` | `Surge/CHANGELOG.md` |
 | `Loon/Loon.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Loon Smart vX.Y.Z-Loon.N` | `Loon/CHANGELOG.md` |
@@ -391,7 +391,7 @@ Ruby 共 4 份产物都存在同构漏洞（见 v5.2.6 补丁），教训记在�
 
 | 产物 | 必读官方文档 |
 |------|--------------|
-| Clash Party JS | https://wiki.metacubex.one/ · https://wiki.metacubex.one/config/ · Mihomo Smart 内核（`lgbm-custom-url` 字段、`uselightgbm`、`include-all-proxies`） |
+| Clash Party JS | https://wiki.metacubex.one/ · https://wiki.metacubex.one/config/ · vernesong Smart 内核（当前 `lgbm-url`、`uselightgbm`；MetaCubeX Alpha 不等于 Smart） |
 | CMFA YAML | https://wiki.metacubex.one/config/proxy-groups · https://wiki.metacubex.one/config/dns · CMFA README（GitHub `MetaCubeX/ClashMetaForAndroid`） |
 | Stash YAML | https://stash.wiki/en/configuration/example-config · https://stash.wiki/en/proxy-protocols/proxy-groups · https://stash.wiki/en/rules/rule-set · https://stash.wiki/en/rules/rule-types · https://stash.wiki/en/configuration/override |
 | OpenClash（Normal + Smart）| https://github.com/vernesong/OpenClash/wiki · OpenClash 覆写脚本官方模板 · UCI 配置键 |
@@ -509,7 +509,7 @@ done
 - Clash 家族（CMFA / OpenClash Normal / OpenClash Smart）必须全部使用 `proxy: '🚫 受限网站'`。
 - Stash Wiki 未记录 rule-provider 下载代理字段；`Stash/Stash.yaml` 删除该字段并在 `Stash/REFERENCE-Stash-wiki.md` 说明风险，豁免。
 - Shadowrocket 不走 rule-provider，自动由 App 更新，豁免。
-- sing-box 通过 `route.rule_set` 远程拉取，其走的是全局默认出站，豁免。
+- sing-box 通过 `route.rule_set` 远程拉取；1.14 产物引用命名 `http_clients`，1.13 兼容产物使用该版本合法的 `download_detour`，两者下载均经 `🌍 全球节点`，不复制 Mihomo `proxy` 字段。
 
 > 历史债务：OpenClash Normal 之前用 `DIRECT`、CMFA 之前用 `☁️ 云与CDN`，已在本次对齐修复；任何未来改动**禁止回退**。
 
@@ -532,13 +532,13 @@ done
 
 | 产物 | 普通 DNS（IP） | DoH（HTTPS URL） | 域名劫持 / 系统 DNS | 备注 |
 |------|----------------|------------------|-----------------------|------|
-| **Quantumult X** | `server=223.5.5.5` | `doh-server=https://doh.pub/dns-query`（**禁止** `server=https://...`，line N 报语法错误） | `server=/*.apple.com/system` | 多个 DoH 可同行逗号分隔或多行；`dns_exclusion_list` 写在 `[general]` 而非 `[dns]`（且字段名是下划线 `_`，不是连字符） |
+| **Quantumult X** | `server=223.5.5.5` | `doh-server=https://doh.pub/dns-query`（**禁止** `server=https://...`，line N 报语法错误） | `server=/*.apple.com/system` | 官方 sample 要求多个 DoH URL 在同一行逗号分隔，以并发查询；`dns_exclusion_list` 写在 `[general]` 而非 `[dns]` |
 | **Shadowrocket** | `dns-server=223.5.5.5,https://doh.pub/dns-query`（IP+URL 可逗号混排） | 同左（`dns-server=` 字段直接接受 URL，无独立 DoH 字段） | 走规则 / sgmodule | `fallback-dns-server=...` 用于解析失败回退；`hijack-dns=8.8.8.8:53` 用于劫持硬编码 DNS |
 | **Surge** | `dns-server=223.5.5.5, system` | `encrypted-dns-server=https://doh.pub/dns-query`（**独立字段**，禁止混在 `dns-server=` 里） | `[Host]` 段 `*.apple.com = server:system` | DoH 字段与 SR 不同，与 Loon/QX 也不同——三家三种写法 |
 | **Loon** | `dns-server=system, 223.5.5.5` | `doh-server=https://doh.pub/dns-query`（**独立字段**，同 QX） | `[Host]` 段 `*.apple.com = server:system` | DoH 字段名同 QX，但 [Host] 段语法跟 Surge |
 | **Clash 家族（mihomo / CMFA / OpenClash）** | YAML `dns.nameserver: [223.5.5.5, 119.29.29.29]` | YAML `dns.nameserver: [https://doh.pub/dns-query, ...]`（与 IP 同一数组） | `dns.fake-ip-filter` / `hosts:` | 还有 `direct-nameserver` / `proxy-server-nameserver` / `nameserver-policy` 等多层 |
 | **Stash** | YAML `dns.default-nameserver` 只放 IP；`dns.nameserver` 可放 IP/DoH | DoH 放 `dns.nameserver` / `dns.nameserver-policy` | `dns.fake-ip-filter` / `hosts:` | 不复制 Mihomo `proxy-server-nameserver` / `direct-nameserver` / `fallback-filter`；见 `REFERENCE-Stash-wiki.md` |
-| **sing-box** | JSON `dns.servers[].address: "223.5.5.5"` | JSON `dns.servers[].address: "https://doh.pub/dns-query"`（与 IP 同一字段） | `dns.rules[]` 路由 | 1.11+ 引入新结构；老配置 `dns.servers[].address_resolver` 需手动迁移 |
+| **sing-box** | typed server：`type: udp` / `server` | typed server：`type: https` / `server` / `path` | `dns.rules[]`；1.14 响应匹配用 `evaluate` / `match_response` | 1.12 引入 typed DNS；本仓库 Full 验收 1.14.3，兼容变体验收 1.13.14；不输出旧 `address` / `address_resolver` |
 
 历史出处：
 - **FIX#QX-08-P0**（PR #117）：QX `server=https://...` → `doh-server=https://...`
@@ -596,6 +596,10 @@ done
 | **Mihomo `.mrs`** | 规则类型 | 只允许 `domain` / `ipcidr`；混合 classical 必须拆分；部分可转必须生成 `.mrs` + `-classical.yaml` 残余；全量不可转才保留原格式 | `tools/sync-mihomo-mrs-rule-providers.js` + MetaCubeX docs |
 | **Egern** | Mihomo `.mrs` | 官方文档未声明支持，禁止把 `.mrs` URL 直接写进 Egern；必须经 `tools/generate-egern-from-cmfa.js` 输出 Egern 原生 YAML | `Egern/REFERENCE-Egern.md` |
 | **Clash Party v2.0.3+** | 原始订阅 `dns` 中的 `proxy-server-nameserver` / `proxy-server-nameserver-policy` / `nameserver-policy` | 客户端会在 JS 覆写前保护性关闭内置 `controlDns`；不要把“自动关闭 DNS 覆写”误判为脚本未执行，仓库 JS 随后仍写入自身 DNS 基线 | Issue #183；Clash Party `dnsOverrideGuard.ts` / `factory.ts` |
+| **vernesong Smart** | `strategy: sticky-sessions` | 当前 SmartOption 已移除此参数；不等同于普通 load-balance 的合法 `strategy` | [固定 Smart 源码](https://github.com/vernesong/mihomo/blob/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go) |
+| **Surge** | `[DNS]`、`fallback-dns-server`、`dns-direct-fallback-proxy` | 不属于当前官方语法；加密 DNS 放在 `[General]`，多个服务并发首答，不能声称直连失败后转代理 | [官方格式](https://manual.nssurge.com/profile/format.html)、[加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html) |
+| **Passwall / Passwall2** | fused `.srs` 的实际后端 | 仅 `type=sing-box`、`protocol=_shunt`；写前检查所有分流节点，任何读取失败即停止，Xray 不解析 SRS | [后端固定源码缓存与分析](docs/upstream/2026-10-19/singbox/report.md) |
+| **sing-box** | `_meta` / `http_client` / inbound `sniff` | 严格 JSON 不接收 `_meta`；Full 使用命名 HTTP client 和路由 `action: sniff`，1.13 变体单独生成，禁止手改 | [官方迁移文档](https://sing-box.sagernet.org/migration/) |
 
 #### 3.5.5 添加新条目的工作流
 
@@ -692,6 +696,11 @@ node tools/validate-process-name-direct.js
 # 7) 融合规则语义去重 + 客户端聚合预算（禁止靠分片绕过总量限制）
 node --test tools/tests/apply-mihomo-mrs-overrides.test.js tools/tests/egern-generation-manifest.test.js tools/tests/fused-rule-optimizer.test.js tools/tests/fused-artifact-performance.test.js
 node tools/validate-generated-remote-asset-size.js
+
+# 8) 官方文档收据、版本 schema 与 SRS 后端门禁
+node --test tools/tests/official-docs-cache.test.js tools/tests/singbox-current-schema.test.js tools/tests/passwall-backend-guard.test.js
+# 真正的内核 schema 验收另设 SING_BOX_114_BIN / SING_BOX_113_BIN 指向官方内核。
+# 未提供时测试必须明确显示跳过；静态测试通过不代表内核检查或 App 真机验收。
 ```
 
 若任一检查失败，PR 不得合入。
@@ -772,6 +781,10 @@ node tools/validate-generated-remote-asset-size.js
 | 订阅 `fake-ip-filter` 遗留 `rule-set:cn domain` 或 `RULE-SET,...` | Issue #182 | 覆写重建 `rule-providers` 后，旧规则模式项会变成非法或悬空引用 | 按 §3.5.1 固定 `blacklist` 并清理源规则引用 |
 | 把 Clash Party v2.0.3+ 自动关闭 DNS 覆写当作 JS 失效 | Issue #183 | 客户端主进程在 JS 覆写前检查原始订阅 DNS 字段并关闭内置 `controlDns`；本仓库脚本随后仍会写入自己的 DNS | 保持客户端内置 DNS 覆写关闭，检查最终配置和脱敏诊断日志；若必须由客户端接管，先在原始订阅/聚合层移除受保护字段 |
 | 假设单平台 bug 无需联动 | v5.2.5 FIX#24~#26 | 实际可能存在多个语法不同但逻辑同构的漏洞 | 按 §1.5 对全部产物做同构审计 |
+| Smart 仍写 sticky-sessions、把 MetaCubeX Alpha 当 Smart | 2026-10-19 官方版本核对 | 当前 SmartOption 已移除 strategy；两个项目的 Alpha 是不同内核 | 核对 vernesong Smart 实际构建，删除失效字段，不承诺会话粘性 |
+| Surge 未识别的 DNS 节、QX 多行 DoH | 2026-10-19 官方语法核对 | 可导入不等于字段生效 | Surge 仅用官方 General DNS 字段；QX 多 DoH 合成一行并保持顺序 |
+| SRS 分流交给 Xray 或忽略节点读取失败 | 2026-10-19 Passwall 后端核对 | Xray 过滤 SRS，PW2 可能退化成宽匹配 | 所有分流节点先确认 sing-box，任何 protocol/type 读取异常须在 UCI 写入前停止 |
+| sing-box 只验 JSON 语法、把 GUI 名当内核版本 | 2026-10-19 官方内核检查 | `_meta`、旧 DNS 与跨版 HTTP client 会被真实核心拒绝 | 两版生成、匹配内核真实 check；GUI 导入模式与最终配置另验 |
 
 ---
 

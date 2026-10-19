@@ -6,7 +6,7 @@
 [![下载规则：sing-box JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-sing--box%20JSON-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json)
 [![下载规则：Xray 路由 JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-Xray%20%E8%B7%AF%E7%94%B1%20JSON-0969da?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/v2rayN/v2rayN%28xray%29.json)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+按钮打开 Raw 文件，可复制链接或另存为。
 
 **mihomo YAML 直链：**
 
@@ -33,14 +33,6 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/v2rayN/v2r
 规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
 
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 目录简介：这里提供 v2rayN 多核心导入教程和 Xray 路由 JSON fallback 产物说明。
->
 > 路径 C（Xray 核）产物：`v2rayN/v2rayN(xray).json` v6.0.20-v2n.9（Build 2026-10-16；基线：Clash Party v6.0.20；源 525 providers / 984 rules，融合 149 providers / 168 rules）。
 
 ---
@@ -55,16 +47,14 @@ v2rayN 是多核心调度器，不是单一代理内核。Smart-Config-Kit 在 v
 | B | sing-box | `SingBox/SingBox(sing-box)-full.json` | 中高 | 想用 sing-box selector/urltest |
 | C | Xray | `v2rayN/v2rayN(xray).json` | 降级 | 已有 Xray 节点配置、不想换核心 |
 
-想要 Clash Party JS 覆写、Smart 内核和 LightGBM 自动择优，请使用 Clash Party / Mihomo Party / Clash Verge Rev。v2rayN 不能执行 `ClashParty(mihomo-smart).js`。
+v2rayN 不能执行 Clash Party JS；需要 Smart/LightGBM 时使用支持覆写的客户端并安装 vernesong Smart 内核，普通 Mihomo/Alpha 不等同于 Smart。
 
 ---
 
 ## 2. 路径 A：mihomo 核心
 
-1. 打开 v2rayN。
-2. 进入设置里的核心基础设置，切到 mihomo。
-3. 新增 Clash 订阅，URL 填本仓库 `Clash Meta For Android/CMFA(mihomo).yaml`。
-4. 启动后应能看到 22 个区域组和 33 个业务组。
+1. 使用 mihomo 核心的自定义配置入口加载 `Clash Meta For Android/CMFA(mihomo).yaml`。
+2. 先补入真实节点或订阅 provider，再检查最终配置的 22 个区域组、33 个业务组与节点引用。静态规则模板本身不含机场节点，不能作为节点订阅直接连接。
 
 这条路径最接近仓库主线，但 CMFA 是静态 YAML，不执行 Clash Party JS，所以没有 LightGBM Smart 组。
 
@@ -72,9 +62,8 @@ v2rayN 是多核心调度器，不是单一代理内核。Smart-Config-Kit 在 v
 
 ## 3. 路径 B：sing-box 核心
 
-1. 在 v2rayN 里切到 sing-box 核心。
-2. 导入 `SingBox/SingBox(sing-box)-full.json`。
-3. 按你的机场订阅替换或合并节点。
+1. 确认核心版本，通过**自定义配置服务器**加载 [SingBox 对应版本 JSON](../SingBox/README.md)。Full 要求 1.14.3+，另有 1.13 兼容文件。
+2. 替换示例节点并核对组引用，按 SingBox 教程检查最终配置。
 
 SingBox Full 使用 `rulesets/generated/fused/sing-box/*.srs`，是本仓库 fused 规则集的原生消费路径。
 
@@ -84,12 +73,9 @@ SingBox Full 使用 `rulesets/generated/fused/sing-box/*.srs`，是本仓库 fus
 
 `v2rayN/v2rayN(xray).json` 是给 Xray 核心准备的降级路由规则数组。当前文件由 `tools/generate-fused-fallback-artifacts.js` 从 `rulesets/generated/fused/sing-box/*.json` 展平成原生 Xray RuleObject：
 
-- 1 条禁用 meta 规则。
-- 78 条非空 fused 顺序段 + 19 条可表达内联规则 + 1 条元数据，共 98 项 Xray 路由规则，保持源规则图的首匹配顺序。
-- 19 条端口、进程加域名逻辑组合和 `MATCH` 等必要内联规则。
-- 出站只使用 `proxy`、`direct`、`block` 三个标签。
+共 98 项：78 个非空融合段、19 条可表达内联规则和 1 条禁用元数据规则，保持首匹配顺序；出站仅有 `proxy`、`direct`、`block`。
 
-Xray routing 支持 `domain`、`ip`、`port`、`process`、`outboundTag` 等 RuleObject 字段，但没有 sing-box `.srs` 远程 rule-set 字段。因此路径 C 不能像 sing-box 一样引用远程 `.srs`，只能把 fused JSON 展开为 Xray 原生数组。广告段很大，所以 JSON 文件体积明显大于旧手写版。
+Xray 无 sing-box `.srs` 远程规则字段，须展开为原生 RuleObject，文件因此较大。
 
 本机 Windows / Linux 的进程规则会随 fused direct 段导入；`WorkPro.exe` 与 `WorkProWebProcess.exe` 由 `local-process-direct` 的永久回归契约保持为 `direct`。这类规则只对运行 Xray 的本机有效。
 
@@ -102,16 +88,14 @@ Xray routing 支持 `domain`、`ip`、`port`、`process`、`outboundTag` 等 Rul
 
 路径 C 的限制：
 
-- 没有 33 个业务策略组和 22 个区域组。
-- 没有 URLTest、Smart、LightGBM、节点过滤和订阅组重建。
-- 大量规则被压到三出站模型：国内直连、广告屏蔽、其他代理。
-- 端口/逻辑规则只覆盖 Xray 可表达的部分；无法表达的平台能力由生成器和验证器记录为例外。
+- 三出站模型不保留区域/业务策略组。没有 URLTest、Smart、LightGBM、节点过滤和订阅组重建。
+- 端口/逻辑规则只覆盖 Xray 可表达的部分，例外由生成器和验证器记录。
 
 ---
 
 ## 5. Happ 用户
 
-Happ 使用 Xray-core。若使用原始 JSON 导入模式，可复用 `v2rayN/v2rayN(xray).json` 获得同样的 `proxy/direct/block` 三级分流。若更偏好 Happ 原生路由 Profile，请用 Happ 自身工具生成等价路由。
+Happ 使用 Xray-core，但其原生路由 Profile、完整 Xray JSON 与 v2rayN 的 RuleObject 数组是不同格式。**不能将本目录 JSON 直接导入 Happ 并视为同等策略。** Happ 的官方 Profile 由 `happ://routing/...` 传递，JSON 订阅又有独立的路由绑定限制；详见[官方导入文档](https://www.happ.su/main/dev-docs/routing)和[本次核对](../docs/upstream/2026-10-19/consumers/report.md)。本仓库尚未提供经过验收的 Happ 原生产物或转换器。
 
 ---
 
@@ -129,3 +113,5 @@ node tools/validate-artifact-contracts.js --strict-ruby
 
 - v2rayN 自定义路由规则：https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules
 - Xray routing RuleObject：https://xtls.github.io/config/routing.html
+
+补充说明：[Claude 服务依赖](../docs/claude-service-dependencies.md) · [测速与 QUIC](../docs/traffic-options.md) · [微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。

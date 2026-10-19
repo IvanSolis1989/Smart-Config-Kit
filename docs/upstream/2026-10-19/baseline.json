@@ -1,0 +1,92 @@
+{
+  "base_commit": "079b5463c206271ade7b563661f49832f18e25c4",
+  "source_graph_version": "v6.0.20",
+  "content_basis": "Git blob bytes at base_commit before this task",
+  "reference_backup": ".cache/official-docs-20261019/references-before.zip",
+  "references": [
+    {
+      "file": "Clash Meta For Android/REFERENCE-mihomo-wiki.md",
+      "bytes": 14111,
+      "sha256": "0d8da31c331800ee05ded87fa50e883a7a820970be1ca298714996f9960dfb34",
+      "git_blob": "ea15907f5827479d3693b0922692c5bb54f926ee"
+    },
+    {
+      "file": "Clash Party/REFERENCE-mihomo-wiki.md",
+      "bytes": 18123,
+      "sha256": "3d4bfce3e4777e3dad0082d83ca255bcd83d1223558bd0246e1c588844fd28de",
+      "git_blob": "03862e7336d4156a9e0a9dce54bb40f55e4e0532"
+    },
+    {
+      "file": "Egern/REFERENCE-Egern.md",
+      "bytes": 3374,
+      "sha256": "05b8b42a52ac0b6bb5dbdc5634a95a7af929d583c9f326f0fe9c9163d6bf51d4",
+      "git_blob": "8a511e880a29b4c351a9b59524d547f9c48e1246"
+    },
+    {
+      "file": "FlClash/REFERENCE-flclash.md",
+      "bytes": 12143,
+      "sha256": "e2ef4ff7723740bec98acddd7bd7634488222fa3303ac8c0d53c848c8aaef8ef",
+      "git_blob": "de3ae3ac4712a78c59baa7ea9f8cc2699332a610"
+    },
+    {
+      "file": "Loon/REFERENCE-loon-manual.md",
+      "bytes": 12466,
+      "sha256": "da7668e8e503d9890f110ade5075f9a44dbe23e3e4bb5f45641aa475d253b4e1",
+      "git_blob": "4045d1a2d0cb3e992e36e3dbb744f92a43832289"
+    },
+    {
+      "file": "OpenClash/REFERENCE-openclash.md",
+      "bytes": 10217,
+      "sha256": "389fa49552f8fa36d88f6ebeba31de2fd3eb7c6f7e818eb61780ecc8affc6e1f",
+      "git_blob": "4795ee25de345f32e0f4201defa4ddc53cae90b0"
+    },
+    {
+      "file": "Passwall/REFERENCE-passwall.md",
+      "bytes": 6076,
+      "sha256": "d51f09495d823cf29ea485e24966cd93833bd31cb840b2b03b900e259ddbf9ea",
+      "git_blob": "f48e3225ab3d1c4a4d63b7799590ab37bc39cc4c"
+    },
+    {
+      "file": "Passwall2/REFERENCE-passwall2.md",
+      "bytes": 5980,
+      "sha256": "6cc0c6108792f742c706bd8ee2dc48be850c6382cbe47076a192d6b6a4432404",
+      "git_blob": "9c1dce10e0063c91393b10639abaa004dcd7969b"
+    },
+    {
+      "file": "Quantumult X/REFERENCE-quantumultx.md",
+      "bytes": 9780,
+      "sha256": "940e31480dcd3e1185ce4870eea848680d29e73204d31a66065f9a1486e5939a",
+      "git_blob": "5a91f5bb8eda85a68cede0da3f2f3e472b84605a"
+    },
+    {
+      "file": "Shadowrocket/REFERENCE-shadowrocket.md",
+      "bytes": 8669,
+      "sha256": "26931915a6cdc92d34007bb7c7aeb323159166d70dad33bcd83e43cd4dc08a0e",
+      "git_blob": "26748ccaaef96eea52d03648ce920710194a38ef"
+    },
+    {
+      "file": "SingBox/REFERENCE-sing-box.md",
+      "bytes": 10723,
+      "sha256": "a0585ddb926ed5c2c5f8f6b6c7a6625a581911ea470d81959cc466c547820f04",
+      "git_blob": "a60ee853cb3f68ab6ef6d8dec91762bd17da7a9b"
+    },
+    {
+      "file": "Stash/REFERENCE-Stash-wiki.md",
+      "bytes": 5052,
+      "sha256": "ab0b5f076add94c85dd47e3ba0f1f5490c34884385815fc6079c7d603c4677e7",
+      "git_blob": "c5d7307c54f44b35a2ab5de5fb6b711e06a4b87e"
+    },
+    {
+      "file": "Surge/REFERENCE-surge-manual.md",
+      "bytes": 10333,
+      "sha256": "e2cbac48c50176aacb91cf9578cfd63ee0692e02242436c23af0e07173916101",
+      "git_blob": "2592dd65c705d6f46edb2a4e2fb4c135547a3c23"
+    },
+    {
+      "file": "v2rayN/REFERENCE-xray.md",
+      "bytes": 5765,
+      "sha256": "846bc11180d2750804b050b456c984accf02f80f2b5e5c8ee3f2a6b03d8bf7af",
+      "git_blob": "8b7aa7af41f44ae09584caa255dfc38f5019e799"
+    }
+  ]
+}

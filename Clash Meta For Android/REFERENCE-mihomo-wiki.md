@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-19：核对 CMFA stable v2.11.35 / Prerelease-alpha，稳定 App 的核心 gitlink 为 `88dcbf7f1614a67c3b36b848ee3592dfa92ada36`，不将 App 版本当成 Mihomo 版本。已复核 DNS、代理组筛选、MRS、规则及 TUN 官方文档；ClashMi 与 ShellCrash 的覆写边界也列入[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。以下摘要属于各自历史日期，本次未逐段重新校验。
+
 > 2026-10-15 URL 兼容性复核：[官方 rule-provider 文档](https://wiki.metacubex.one/en/config/rule-providers/)要求 `type: http` 配置 `url`，并示例 HTTPS raw URL；本次只更换自有规则集 URL 主机，不增删 Mihomo 字段。Clash Party、CMFA、OpenClash、FlClash 共用此 Mihomo 字段依据。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 2026-09-30 复核：[代理组](https://wiki.metacubex.one/config/proxy-groups/) 的 `exclude-type` / `empty-fallback` 用于过滤 direct/reject 测速候选和显式 REJECT 空池回退。虽文档对“引入”的描述有歧义，[v1.19.31 核心](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) 遍历已合并成员；现有 v1.19.29 实核 controller 已证明对 `use: Subscribe` 生效且 provider 内 dialer 依赖保持，见 [后续验收](../docs/research/2026-09-30-routing-runtime-followup.md)。

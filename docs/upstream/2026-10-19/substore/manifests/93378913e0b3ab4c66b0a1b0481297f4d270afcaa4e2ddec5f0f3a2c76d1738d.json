@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "substore",
+  "generated_at": "2026-10-19T08:02:38.501Z",
+  "sources_sha256": "df9767a1c2888a5f738a8021526f056e0c74c104d4e8a50479884999c5003a07",
+  "counts": {
+    "total": 7,
+    "ok": 7,
+    "failed": 0
+  },
+  "sources": [
+    {
+      "id": "substore-latest",
+      "product": "Sub-Store",
+      "kind": "release",
+      "url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases/latest",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:36.754Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"a494e1bcf39ecc2e34c9b89f92304f832e2f5d69f834d30c3c340b5e56b11eb8\"",
+        "last-modified": "Sun, 18 Oct 2026 04:39:27 GMT",
+        "date": "Mon, 19 Oct 2026 08:02:37 GMT",
+        "x-ratelimit-remaining": "4949"
+      },
+      "file": "bodies/1b0473778ffcc39cf7f6cf20b86750b6d1bb094bfdcae6d7c3df4aa7069b5a33.gz",
+      "gzip_sha256": "7afdcb95d4c9194dc5d1e75d36aa5dabe1f0d905d5ec2206a338d8173a37fc5e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases/latest",
+        "effective_url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases/latest",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1b0473778ffcc39cf7f6cf20b86750b6d1bb094bfdcae6d7c3df4aa7069b5a33",
+          "bytes": 15268
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "substore-releases",
+      "product": "Sub-Store",
+      "kind": "release",
+      "url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases?per_page=10",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:36.755Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"58f9a29e30ae5dd9d4c625d0b1b0a49d96072039e5c47976ca2ccb81a33efa1e\"",
+        "date": "Mon, 19 Oct 2026 08:02:37 GMT",
+        "x-ratelimit-remaining": "4931"
+      },
+      "file": "bodies/d260a6ae89c7889771851967f39eccc86edf89c17b16bcba615cecb8233409ed.gz",
+      "gzip_sha256": "4b349ce412d2f7bec5b7e674d4be11e0b557342510d93731b13c56814e4d0b39",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases?per_page=10",
+        "effective_url": "https://api.github.com/repos/sub-store-org/Sub-Store/releases?per_page=10",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d260a6ae89c7889771851967f39eccc86edf89c17b16bcba615cecb8233409ed",
+          "bytes": 153167
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "substore-readme",
+      "product": "Sub-Store",
+      "kind": "documentation",
+      "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/README.md",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:36.755Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"96ac3a4bc435cea477c8c842cd0ceccdf3e0c1a36551d8dcc81cfb80e9759a00\"",
+        "date": "Mon, 19 Oct 2026 08:02:37 GMT"
+      },
+      "file": "bodies/737a69cc5bf52f10c5e4729396b653e581f98023ad31e2062fc4daf4d072013f.gz",
+      "gzip_sha256": "d79cd763c701342fa2e93558c9ea2590261eb68cea08eb84d61d18f44478f544",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/README.md",
+        "effective_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "737a69cc5bf52f10c5e4729396b653e581f98023ad31e2062fc4daf4d072013f",
+          "bytes": 10863
+        },
+        "source": {
+          "id": "sub-store-org/Sub-Store",
+          "kind": "git",
+          "repository_url": "https://github.com/sub-store-org/Sub-Store",
+          "requested_ref": "1f0318bc6feb46fbe204836f32ca7acab37ea67e",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "1f0318bc6feb46fbe204836f32ca7acab37ea67e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "substore-config",
+      "product": "Sub-Store",
+      "kind": "documentation",
+      "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/config/README.md",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:36.755Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"821c9bff6f7d5aa3d50f348b7c6330e6df312d07a54f360703f74360e7c49f12\"",
+        "date": "Mon, 19 Oct 2026 08:02:37 GMT"
+      },
+      "file": "bodies/adb569786a2e9380fe432ee45ca75a44e90f9341204f0156eb98ba4d724772de.gz",
+      "gzip_sha256": "a52e00a81035f78acbf02e44756486d2574974636231b3e01eb8c3871e1b0dda",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/config/README.md",
+        "effective_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store/1f0318bc6feb46fbe204836f32ca7acab37ea67e/config/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "adb569786a2e9380fe432ee45ca75a44e90f9341204f0156eb98ba4d724772de",
+          "bytes": 5870
+        },
+        "source": {
+          "id": "sub-store-org/Sub-Store",
+          "kind": "git",
+          "repository_url": "https://github.com/sub-store-org/Sub-Store",
+          "requested_ref": "1f0318bc6feb46fbe204836f32ca7acab37ea67e",
+          "source_path": "config/README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "1f0318bc6feb46fbe204836f32ca7acab37ea67e",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "substore-frontend-latest",
+      "product": "Sub-Store Front-End",
+      "kind": "release",
+      "url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases/latest",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:37.317Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"2bffb89f45c6be7a54816d88f335b9c0c849150c82dc1488747fdda2a637d066\"",
+        "last-modified": "Thu, 15 Oct 2026 08:27:03 GMT",
+        "date": "Mon, 19 Oct 2026 08:02:38 GMT",
+        "x-ratelimit-remaining": "4948"
+      },
+      "file": "bodies/571a8f3b8f3ada161423d5dc1b60e598409532f358b0104204fec093110334cd.gz",
+      "gzip_sha256": "563c2cc1e9151d9682d8c4e91632863082084fc84465af8a8523cb1651560b16",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases/latest",
+        "effective_url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases/latest",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "571a8f3b8f3ada161423d5dc1b60e598409532f358b0104204fec093110334cd",
+          "bytes": 3811
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "substore-frontend-releases",
+      "product": "Sub-Store Front-End",
+      "kind": "release",
+      "url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases?per_page=10",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:37.528Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"d10e841a37628e44413f14487a92b9a7d80000bed9d26d3b16508d0eb09bd331\"",
+        "date": "Mon, 19 Oct 2026 08:02:38 GMT",
+        "x-ratelimit-remaining": "4930"
+      },
+      "file": "bodies/71fa90faf0ffbbe74ba1926785659b617fcca07667c462890f01775c2b959aec.gz",
+      "gzip_sha256": "2a4176e4e00fa9d49fecd68a7d329110b5fbef1a7293d8bb8481162886f7d744",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases?per_page=10",
+        "effective_url": "https://api.github.com/repos/sub-store-org/Sub-Store-Front-End/releases?per_page=10",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "71fa90faf0ffbbe74ba1926785659b617fcca07667c462890f01775c2b959aec",
+          "bytes": 37981
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "substore-frontend-readme",
+      "product": "Sub-Store Front-End",
+      "kind": "documentation",
+      "url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store-Front-End/8dc19320894a9dbb3569e8bf3e41057491e39b90/README.md",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:02:37.726Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b40a50581934b72881d5361ccf7c7b6f77322c23371a14dc487597cd2e167568\"",
+        "date": "Mon, 19 Oct 2026 08:02:38 GMT"
+      },
+      "file": "bodies/cf5baae15700c1506b89aa66fc19d17dbcbb3e1f9aba8528dfda4324b761f6a0.gz",
+      "gzip_sha256": "2dee283e469c77f724754e37b93b6e6e3b51567bd0d741f297ed64a090dd2f82",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store-Front-End/8dc19320894a9dbb3569e8bf3e41057491e39b90/README.md",
+        "effective_url": "https://raw.githubusercontent.com/sub-store-org/Sub-Store-Front-End/8dc19320894a9dbb3569e8bf3e41057491e39b90/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "cf5baae15700c1506b89aa66fc19d17dbcbb3e1f9aba8528dfda4324b761f6a0",
+          "bytes": 2233
+        },
+        "source": {
+          "id": "sub-store-org/Sub-Store-Front-End",
+          "kind": "git",
+          "repository_url": "https://github.com/sub-store-org/Sub-Store-Front-End",
+          "requested_ref": "8dc19320894a9dbb3569e8bf3e41057491e39b90",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "8dc19320894a9dbb3569e8bf3e41057491e39b90",
+          "version_state": "pinned-commit"
+        }
+      }
+    }
+  ]
+}

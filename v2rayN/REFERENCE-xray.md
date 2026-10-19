@@ -1,5 +1,16 @@
 # Xray (v2rayN) 配置参考文档
 
+> 更新于 2026-10-19：本次核验见[官方版本、原文缓存及本地适配报告](../docs/upstream/2026-10-19/singbox/report.md)。下方旧摘要保留其获取日期，未整篇当前化。
+
+## 2026-10-19 现行核验
+
+- Xray 的 [GitHub Latest](https://github.com/XTLS/Xray-core/releases/latest) 仍为 v26.3.27（2026-03-27）；最新预发布为 [v26.10.17](https://github.com/XTLS/Xray-core/releases/tag/v26.10.17)（2026-10-17）。后者不能称为最新稳定版。
+- v2rayN 稳定版 [7.25.6](https://github.com/2dust/v2rayN/releases/tag/7.25.6)（2026-10-11）明确支持并锁定 sing-box 1.14 系列，另有较早的 7.25.5 预发布。App 支持多核心，实际安装/更新的核心需分别核对，不能用应用版本替代核心版本。
+- 当前 [RuleObject](https://xtls.github.io/config/routing.html#ruleobject) 使用原生 `domain` / `ip` / `process` / `outboundTag` 等字段；不支持 sing-box 远程 `.srs`。本仓库 Xray 路由继续从融合 source JSON 展平，未引入 `.srs` 到 Xray JSON。
+- 原生 sing-box Full 与 1.13 变体的选择、Hiddify 构建内核和 HomeProxy 导入限制见报告。v2rayN App 导入与实际连接未在本次运行。
+
+## 历史摘要（未整篇复核）
+
 > 更新于 2026-07-09：复核 Xray routing `RuleObject` 与 v2rayN 自定义路由规则格式。Xray 路由支持 `domain` / `ip` / `port` / `process` / `outboundTag` 等原生字段，但没有 sing-box `.srs` 远程 rule-set 字段；本仓库因此把 fused sing-box JSON 展平成原生 Xray RuleObject，而不是在 Xray JSON 中引用远程 `.srs`。
 >
 > 更新于 2026-05-31（上次获取 2026-04-30）：Xray-core 最新稳定版仍为 v26.3.27（2026-03-27），预发布推进至 v26.5.9（2026-05-09）。稳定版无变化，本仓库 v2rayN 配置无需调整。

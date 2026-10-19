@@ -1,0 +1,2 @@
+[31mERROR[0m[0000] legacy DNS servers is deprecated in sing-box 1.12.0 and will be removed in sing-box 1.14.0, checkout documentation for migration: https://sing-box.sagernet.org/migration/#migrate-to-new-dns-server-formats
+[31mFATAL[0m[0000] to continuing using this feature, set environment variable ENABLE_DEPRECATED_LEGACY_DNS_SERVERS=true

@@ -1,10 +1,15 @@
 # Passwall / Passwall2 — 变更日志
 
 > `Passwall2/` 目录的变更日志（目录名保留历史命名，实际产物同时适用 Passwall 全功能版 + Passwall2 精简分流版——两者共用 `shunt_rules.lua` 解析器，同一份 `.list` 互通）。
-> 本目录提供从 `rulesets/generated/fused/sing-box/*.srs` 生成的 69 条非空原生 fused shunt rule 降级参考。
+> 本目录提供从 `rulesets/generated/fused/sing-box/*.srs` 生成的 78 条非空原生 fused shunt rule 降级参考。
 > 主版本号跟随 Clash Party 主线；尾段 `-pw2.N` 独立递增。
 
 ---
+
+## v6.0.20-pw2.10 (2026-10-19)
+
+- 官方 Xray 后端过滤 SRS 引用，可能将只有 SRS 谓词的 shunt 退化成 network 宽匹配。生成脚本现于任何 UCI 写入前检查全部分流节点，仅接收 sing-box；读取失败、Xray、未知或缺失后端、无分流节点均停止。
+- 从现有 SRS 重新生成 helper/conf，保留 78 条规则的 URL、顺序和内容；明确以后切换后端前须移除 SRS，手工导入也受后端限制。依据见[核验报告](../docs/upstream/2026-10-19/singbox/report.md)，24 项真实 shell 夹具测试覆盖两端成功与拒绝分支，尚无路由器运行验收。
 
 ## v6.0.20-pw2.9 (2026-10-16)
 

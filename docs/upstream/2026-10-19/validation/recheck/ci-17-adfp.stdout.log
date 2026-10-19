@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_graph_version": "v6.0.20",
+  "registry_sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
+  "total_records": 38,
+  "coverage": {
+    "scki-adfp-direct": 29,
+    "scki-adfp-intl-site": 3,
+    "scki-adfp-payments": 1,
+    "scki-adfp-ai": 5
+  },
+  "ordered_provider_indices": {
+    "scki-adfp-direct": 0,
+    "scki-adfp-intl-site": 1,
+    "scki-adfp-payments": 2,
+    "scki-adfp-ai": 3
+  },
+  "anti_ad_index": 9
+}

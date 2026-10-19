@@ -23,29 +23,12 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+本目录提供 FlClash 专用 JS，要求 **FlClash ≥ v0.8.85**；使用 url-test，最多 22 区域组 + 33 业务组，**不支持 Smart + LightGBM**。版本见 [CHANGELOG](./CHANGELOG.md)。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> JS fake-ip 列表继承：仅缺省或 `blacklist` 模式的合法条目会合并到仓库豁免列表；`whitelist`、`rule` 和非法模式的原列表会丢弃，最终统一输出 `blacklist`。
-
-> 本地 JS 副本也提供默认关闭的 [ZeroTier 根节点 UDP 代理](../docs/zerotier-planet-proxy.md)，与 Clash Party 共用运行时；本地更新入口保留设备开关，普通手机订阅继续使用关闭的默认值。
-
-> 目录简介：这里提供 FlClash 专用 JS 覆写脚本和导入教程，用动态节点分类复刻 Clash Party Normal 语义。
->
-> 覆写脚本：`FlClash(mihomo).js`
-> 适用客户端：**FlClash**（Android / Windows / macOS / Linux）
-> 内核要求：FlClash >= **v0.8.85**
-> 当前版本：**v6.0.20-flclash.21**（Build 2026-10-16；22 url-test 区域组 + 33 业务策略组 + 149 融合 rule-providers / 168 rules）
->
-> 节点命名兼容：yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号会自动进入区域组；不对普通小写词做宽泛国家码匹配。
-
-> 节点筛选：本地脚本 `SCKI_MAX_NODE_MULTIPLIER = null` 默认关闭倍率筛选；设为正数才启用。仅含 type/payload 的 inline 集合可直接展平；具名直连/拒绝出站保留拨号依赖但不参加测速。预检保持数组引用，遇到重名歧义、异常字段或不支持的集合时保留原订阅并输出脱敏原因。详见 [节点筛选指南](../docs/subscription-node-filter.md)。
+- 创建脚本后须**关联到订阅**；多机场先用 [Sub-Store](../SubStore/README.md)输出一条 Mihomo 节点订阅。
+- 倍率筛选默认关闭；支持小写地区码加编号，inline 节点与拨号依赖边界见[节点筛选](../docs/subscription-node-filter.md)。
+- 关闭 App 二次 DNS 覆写与追加系统 DNS，保留脚本的[私有节点 DNS](../docs/private-node-dns.md)。
+- [规则下载](../docs/rule-asset-delivery.md)需 GitHub Raw 可达或可用代理；另见[测速/QUIC](../docs/traffic-options.md)、[微信排错](../docs/research/2026-10-16-wechat-issue-187.md)及[默认关闭的 ZeroTier UDP 代理](../docs/zerotier-planet-proxy.md)。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -112,34 +95,28 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 **关联本仓库脚本后，关闭「DNS 覆写」，不需要再向 UI 粘贴一份 DNS YAML。** 关闭的是 FlClash 的二次覆盖，不是 Mihomo DNS；脚本仍会设置 `dns.enable: true`、`respect-rules: true` 和国内/海外解析策略。
 
-订阅刷新时，脚本默认以 `adaptive` 模式投影活动节点 FQDN 所需的私有 resolver、精确 node policy 与 bootstrap hosts；`off / policy / adaptive` 只影响这层投影，不影响业务组、规则或全局业务 DNS。应用层重新覆盖 DNS 会破坏这一配置来源边界。完整说明见 [私有节点 DNS 指南](../docs/private-node-dns.md)。
+订阅刷新时以 adaptive 模式投影活动节点所需的 DNS 提示；UI 合并时保留精确 node policy。详见[私有节点 DNS](../docs/private-node-dns.md)。
 
 ### Android 网络设置
 
-- 「VPN」：开启；运行模式使用「规则」。
-- VPN 分组下的「系统代理」：关闭（`vpnProps.systemProxy`）。它是在 VPN 网络上额外发布 HTTP 代理，**不会关闭 TUN，也不是“仅代理”模式**；使用应用访问控制时尤其不应同时开启。
-- Android VPN 的 IPv6：关闭（`vpnProps.ipv6`）。
-- 核心/进阶配置的 IPv6：也关闭（`patchClashConfig.ipv6`）。这是独立位置，App 会在脚本运行后把它写回顶层 `ipv6`，不能只关闭 VPN IPv6 或只依赖脚本。
-- 「DNS 劫持」：开启；「路由模式」选择「使用配置」。
-- 「DNS 覆写」：关闭；保留脚本 DNS 的 `prefer-h3: false`、`ipv6: false`。
-- 「追加系统 DNS」：关闭（备份字段 `networkProps.appendSystemDns`）。它独立于 DNS 覆写，开启后仍会向最终 `nameserver` 加入 `system://`。
+- 开启 VPN，运行模式选「规则」；DNS 劫持开启，路由模式使用配置。
+- VPN 下的「系统代理」关闭：它额外发布 HTTP 代理，关闭它不会关闭 TUN。
+- VPN IPv6 与核心/进阶配置 IPv6 **分别关闭**；只关一个位置不够。
+- DNS 覆写与「追加系统 DNS」都关闭；后者是独立开关，开启仍会追加 system://。
 
-需要按包名排除微信时，使用客户端现有的应用访问控制排除名单；被排除应用的连接与 DNS 不再进入 Mihomo，也不会命中仓库规则。
+需要整个应用绕过 VPN 时使用应用访问控制排除名单；被排除应用的连接和 DNS 不受脚本控制。两种模式如下：
 
-应用访问控制有两种不同用法，请保留自己需要的那一种：
 
 | 目标 | 设置与后果 |
 |---|---|
 | 全部 APP 交给 Mihomo 按域名分流 | 关闭应用访问控制；关闭“允许应用绕过 VPN”。国内组选择 `DIRECT`，国外组选择可用节点。 |
 | 国内 APP 完全不进入 VPN | 启用应用访问控制并排除这些 APP；保留排除名单，关闭 VPN“系统代理”。排除 APP 的连接和 DNS 不受脚本控制，也不应以 Mihomo 日志缺失判定它们无网络请求。 |
 
-[Android 官方说明](https://developer.android.com/reference/android/net/VpnService.Builder#setHttpProxy(android.net.ProxyInfo)) 明确指出：使用 HTTP 代理的 APP 无法区分 VPN 内外的路由，分流 VPN 与 HTTP 代理组合可能无法正常联网。这个风险与广告规则是否误拦是两回事；只有实际连接日志才能确认具体 APP 走了哪条路径。
-
-改完设置应**停止再启动 VPN，并彻底退出后重开受影响 APP**。不要只刷新节点列表；已建立的连接、系统代理设置和 DNS 缓存可能仍沿用旧状态。
+[Android 官方说明](https://developer.android.com/reference/android/net/VpnService.Builder#setHttpProxy(android.net.ProxyInfo))提醒，分流 VPN 与额外 HTTP 代理组合可能影响应用联网。修改后停止再启动 VPN，并彻底重开受影响 App；仅刷新节点不会清除旧连接。
 
 ### 为什么开启「DNS 覆写」会导致脚本失效？
 
-FlClash 在脚本运行后还会合并应用层配置。开启 `overrideDns` 时，UI 的 `patchClashConfig.dns` 会**整体替换**脚本 DNS，并重新构建 `nameserver-policy`。v0.8.96 的 UI DNS 模型还不支持 `proxy-server-nameserver-policy`、`direct-nameserver`、`direct-nameserver-follow-policy`，因此把完整 YAML 粘贴进 UI 也不能保留这些字段。UI 保存值与脚本不一致时，还会重新打开 PreferH3/IPv6、替换解析器与过滤列表。脚本更新或显示正确版本并不能证明最终 DNS 正确。
+FlClash 会在 JS 后应用 App patch。0.9.x 的 DNS/NTP 与桌面 TUN 按选中键覆盖；旧版曾使用整块 DNS 覆盖，不能混用两种说明。保留脚本 DNS 时关闭 App DNS 覆写，并核对最终值；脚本显示正确版本不等于最终配置正确。
 
 检查最终送入核心的配置，而不是只看 UI 中保存的 DNS 表单：
 
@@ -149,21 +126,19 @@ FlClash 在脚本运行后还会合并应用层配置。开启 `overrideDns` 时
 - `direct-nameserver` 保持国内 DoH；不要为了 DNS 检测页面把国内 APP 的解析全部搬到海外。
 - `nameserver` 不含应用层追加的 `system://`；顶层 hosts 的同名 UI 覆写也应检查，不能只看 DNS 开关。
 
-`overrideDns: false` 时，UI 仍可能显示以前保存的 PreferH3/DNS 参数，它们不是当前脚本 DNS 的生效证明。具体合并顺序和版本边界见 [官方源码核对](./REFERENCE-flclash.md)。
+UI 保存的旧值不能证明当前生效状态；合并顺序与版本边界见[官方源码核对](./REFERENCE-flclash.md)。
 
 ### DNS 检测出现 China server 是否就是泄漏？
 
-不能只凭国家标签判断。国内域名使用 AliDNS/DNSPod 是本仓库的默认策略；DNS 检测站的随机域名也可能没有收录在 `geolocation-!cn`，从而落到默认国内 `nameserver`。`fallback` 不代表查询从未发送给国内解析器，DoH 加密也不代表境外出口。
+不能只看国家标签。国内域名默认使用 AliDNS/DNSPod；未分类查询也可能落到国内 nameserver。DoH 加密不等于境外出口，fallback 也不保证国内解析器从未收到查询。
 
-另一方面，不能把这些现象一概当成“没有泄漏”：若你的目标是让所有代理业务域名只向境外解析器查询，当前通用基线并不提供这一保证。排除 VPN 的 APP、浏览器自带安全 DNS、系统 DNS 和节点 bootstrap 还各有独立路径。检测时应记录具体查询域名、命中策略、递归服务器及出站；“页面出现 China”不足以区分这些情况。
-
-需要“未分类域名也只用海外 DoH”的高级用户，可以在**本地脚本的 `overwriteGeneral` 函数**里将 `config.dns.nameserver = domesticDoH.slice()` 改成 `config.dns.nameserver = foreignDoH.slice()`，但保留 `geosite:cn`、国内 `direct-nameserver` 和节点解析器。此选项会让未分类查询依赖海外路径，应单独测试，且仍不承诺整机零泄漏。不要只填字符串 `foreignDoH` 到 UI，也不要删除国内 DNS 策略。
+记录具体域名、命中策略、递归服务器和出站；排除 VPN 的 App、浏览器安全 DNS、系统 DNS、节点解析各有路径。本基线不保证整机零泄漏。
 
 ### 外部资源（GeoX URL）
 
-**本仓库覆写脚本与自有融合规则请使用配置中的 GitHub Raw HTTPS URL。** FlClash 资源下载有独立的应用层路径，脚本中的 rule-provider 下载代理不保证覆盖资源页面；网络无法访问 GitHub Raw 时需配置可用代理。外部上游资源由其各自 URL 决定。
+自有脚本与融合规则使用配置中的 GitHub Raw HTTPS。资源页下载可能走独立 App 路径，不能只凭 rule-provider 下载代理判断是否可达。
 
-需要更换时，在资源页逐项检查完整 URL、HTTP 状态、下载大小和核心加载结果；先保留可用缓存，不要为了排障删除全部 GeoX 文件。`geosite:cn` / `geolocation-!cn` DNS 策略仍依赖 GeoSite 数据，即使路由已使用 fused MRS，也不能认为 GeoSite 完全不用了。当前内核关于 `fallback-filter.geosite` 的迁移 warning 不等于资源加载失败或 APP 被拒绝。
+更换前保留可用缓存，核对完整 URL、HTTP 状态、大小和核心加载结果。DNS 的 geosite policy 仍依赖 GeoSite；fallback-filter.geosite 的迁移提示不等于资源加载失败。
 
 ### 国内 APP 无法联网时的最短排查
 
@@ -177,12 +152,15 @@ FlClash 在脚本运行后还会合并应用层配置。开启 `overrideDns` 时
 ## 常见问题
 
 ### Q: 代理/规则标签消失了？
+
 单机场先试机场的**原生订阅链接**（不经转换器）。若实际需求是多个机场合并为同一节点池，请按 [Sub-Store 多机场聚合教程](../SubStore/README.md) 输出一条 `Clash.Meta(mihomo)` URL，再关联覆写脚本；不要使用来历不明的通用转换器。
 
 ### Q: 区域组为什么是 url-test 不是 smart？
-FlClash 内核是标准 Mihomo，不支持 `type: smart` + LightGBM。
+
+FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart / LightGBM；MetaCubeX Alpha 也不等于 Smart。
 
 ### Q: 换机场后需要重新配置吗？
+
 不需要。覆写脚本换订阅后自动重新执行。
 
 ---
@@ -200,6 +178,7 @@ FlClash 内核是标准 Mihomo，不支持 `type: smart` + LightGBM。
 ---
 
 ## 相关链接
+
 - [FlClash GitHub](https://github.com/chen08209/FlClash)
 - [覆写脚本源码](./FlClash(mihomo).js)
 - [CMFA YAML（备选方案）](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)

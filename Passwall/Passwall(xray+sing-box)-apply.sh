@@ -1,10 +1,11 @@
 #!/bin/sh
 # ═══════════════════════════════════════════════════════════════════════════
 # Smart-Config-Kit for Passwall — fused UCI batch helper
-# Version: v6.0.20-pw.9 | Build 2026-10-16 | Baseline: Clash Party v6.0.20
+# Version: v6.0.20-pw.10 | Build 2026-10-19 | Baseline: Clash Party v6.0.20
 #
 # 用途：一次性在 Passwall 中创建 78 条 fused shunt rule。
 #       每条规则只引用 rulesets/generated/fused/sing-box/*.srs，不再维护手写域名/IP 展平列表。
+#       仅适用于 type=sing-box 的分流节点；Xray 后端不解析 rule-set 引用。
 #       目标节点留空，用户之后到 LuCI 里给每条 rule 选择节点/负载均衡组。
 #
 # 生成：node tools/generate-fused-fallback-artifacts.js
@@ -14,7 +15,7 @@
 set -e
 
 CONFIG_NAME="passwall"
-VERSION_TAG="v6.0.20-pw.9"
+VERSION_TAG="v6.0.20-pw.10"
 MODE="${1:---replace}"
 
 case "${MODE}" in
@@ -95,7 +96,7 @@ add_fused_shunt_rule() {
     uci add_list "${CONFIG_NAME}".${SEC}.ip_list="rule-set:remote:${url}"
   fi
   uci set "${CONFIG_NAME}".${SEC}.network='tcp,udp'
-  # Passwall 全功能版可在 LuCI 中分别设置 tcp_node / udp_node。
+  # 在 type=sing-box、protocol=_shunt 的节点中选择本规则的业务目标。
 }
 
 if ! command -v uci >/dev/null 2>&1; then
@@ -107,6 +108,48 @@ if [ ! -f "/etc/config/${CONFIG_NAME}" ]; then
   echo "ERROR: /etc/config/${CONFIG_NAME} 不存在，请先安装 Passwall" >&2
   exit 1
 fi
+
+# Rule sections are shared by all shunt nodes. Validate every consumer before
+# cleanup/add/commit: Xray can discard an SRS predicate or turn it into a broad
+# network-only rule. Installing a sing-box executable is not a backend check.
+require_sing_box_shunts() {
+  if ! snapshot="$(uci show "${CONFIG_NAME}")"; then
+    echo "ERROR: 无法读取 ${CONFIG_NAME}，未修改任何规则" >&2
+    return 1
+  fi
+  shunts=0
+  sections="$(printf '%s\n' "${snapshot}" | sed -n "s/^${CONFIG_NAME}\.\([^.=]*\)=nodes$/\1/p")"
+  for section in ${sections}; do
+    if ! backend="$(uci -q get "${CONFIG_NAME}.${section}.type")"; then
+      echo "ERROR: 无法读取节点 ${section} 的 type；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+      return 1
+    fi
+    case "${backend}" in
+      sing-box|Xray) ;;
+      Socks|SS-Rust|SSR|Hysteria2|Naiveproxy) continue ;;
+      *)
+        echo "ERROR: 节点 ${section} 类型 ${backend:-未知} 无法核验；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+        return 1
+        ;;
+    esac
+    if ! protocol="$(uci -q get "${CONFIG_NAME}.${section}.protocol")"; then
+      echo "ERROR: 无法读取节点 ${section} 的 protocol，未修改任何规则" >&2
+      return 1
+    fi
+    [ "${protocol}" = "_shunt" ] || continue
+    if [ "${backend}" != "sing-box" ]; then
+      echo "ERROR: 分流节点 ${section} 使用 ${backend:-未知}；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+      return 1
+    fi
+    shunts=$((shunts + 1))
+  done
+  if [ "${shunts}" -eq 0 ]; then
+    echo "ERROR: 请先在 LuCI 创建 type=sing-box、protocol=_shunt 的分流节点，再导入 SRS 规则" >&2
+    return 1
+  fi
+}
+
+require_sing_box_shunts
 
 echo "建议先备份: cp /etc/config/${CONFIG_NAME} /etc/config/${CONFIG_NAME}.$(date +%s).bak"
 echo "运行模式: ${MODE}（--replace 会删除旧 Smart-Config-Kit 规则；--append 会追加）"
@@ -356,4 +399,4 @@ add_fused_shunt_rule 'scki-fused-078-intl-site | 🌐 国外网站' 'https://raw
 add_fused_shunt_rule 'scki-fused-080-netflix | 🎥 Netflix' 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.20' '1'
 
 uci commit "${CONFIG_NAME}"
-echo "完成：已写入 78 条 Smart-Config-Kit fused shunt rule。请到 LuCI 分流控制中为各规则选择目标节点。"
+echo "完成：已写入 78 条 Smart-Config-Kit fused shunt rule。请在 sing-box 分流节点中选择各规则的目标节点；以后改为 Xray 前必须先移除这些 SRS 规则。"

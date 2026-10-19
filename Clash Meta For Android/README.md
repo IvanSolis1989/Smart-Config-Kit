@@ -16,26 +16,11 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+本目录提供静态 Mihomo YAML，包含 22 个 url-test 区域组 + 33 业务组，**不含 Smart + LightGBM**。CMFA 与 ClashMi 复用同一文件；FlClash 推荐使用[专用 JS 覆写](../FlClash/README.md)。版本见 [CHANGELOG](./CHANGELOG.md)。
 
+使用已验收的 Mihomo v1.19.29 或更新核心。空区域组会拒绝连接，请选有节点的地区或全球组；具名 direct/reject 出站仅保留依赖，不参加测速。
 
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。Android 按包名排除应用属于客户端 VPN 访问控制；FlClash 的既有入口见[Android 网络设置](../FlClash/README.md#android-网络设置)。
-
-> 目录简介：这里提供 CMFA/mihomo 原生 YAML 配置和 Android/ClashMi 导入教程，用于复用 Clash Party 基线策略的静态版本。
->
-> 配置文件：`CMFA(mihomo).yaml`
-> 适用客户端：**Clash Meta For Android（CMFA）** / **FlClash** / **mihomo-party-android**（Android 原生）· **[ClashMi](https://github.com/KaringX/clashmi)**（跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux，复用同一 YAML；详见 §九）
-> 内核要求：**Mihomo**（原生 YAML 导入；区域组用 `url-test`，**不含 Smart + LightGBM**——CMFA 的静态 YAML 不支持 JS 覆写）
-> **FlClash 用户**：推荐使用 [FlClash 覆写脚本](../FlClash/FlClash(mihomo).js)（动态节点分类 + 家宽识别 + 订阅清理）。详见 [`FlClash/README.md`](../FlClash/README.md)。
-> 当前版本：**v6.0.20-cmfa.12**（Build 2026-10-16，跟随 Clash Party v6.0.20 主线；149 融合 rule-providers / 168 rules / 107 MRS 资产；融合规则集使用版本化本地缓存路径）
-
-> 测速候选：具名 direct/reject 支持出站留在 provider 中供拨号链引用，22 个测速组按类型排除它们；空组使用 REJECT。业务组中的显式 DIRECT 选择仍可使用。[官方代理组字段](https://wiki.metacubex.one/config/proxy-groups/)与[实核验收](../docs/research/2026-09-30-routing-runtime-followup.md)。
-
-> 使用已验收的 Mihomo v1.19.29 或更新内核。空地区组会拒绝连接，请在业务组选择有节点的地区或全球组；不要依赖空组隐式直连。
+规则下载需能访问 GitHub Raw 或使用可用代理。参见[规则下载](../docs/rule-asset-delivery.md)、[私有节点 DNS 手动 overlay](../docs/private-node-dns.md)、[测速/QUIC 选项](../docs/traffic-options.md)和[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -43,47 +28,43 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 ## 🚀 零基础 5 分钟快速开始
 
-> 第一次在安卓上用代理？先看这段。
+首次使用按三步导入；详细设置见后续章节。
 
 ### 这是什么？
-一份**写死的 Clash 配置 YAML**，用安卓版 Clash 客户端打开就能用。**不需要**你懂 Clash 是什么、也**不需要**手动配任何规则。
+
+这是原生 YAML 配置；填写节点订阅后，由客户端加载规则、DNS 和分组。
 
 ### 我要准备什么？
-1. **一部安卓 8.0+ 手机**（大部分 2018 年后的手机都支持）
-2. **一个机场订阅 URL**（机场 = 代理服务商，你花钱买他们的订阅）
-3. **CMFA 客户端 APK**（下面教你选）
-4. **本仓库的 `CMFA(mihomo).yaml` 文件**（你只需要改里面一行 URL）
+
+准备兼容的 Android 设备、CMFA APK、Mihomo 节点订阅和本目录 YAML。
 
 ### 术语速查
-- **APK**：安卓 App 的安装包文件。不同手机要用不同的 APK。
-- **arm64-v8a / armeabi-v7a**：手机 CPU 架构。下面第一章会教你怎么选。
-- **订阅链接**：机场给你的一串 URL。`http`/`https` 开头，通常还带 `?token=xxx`。
-- **VPN 权限**：安卓系统会弹出窗口问「是否允许 CMFA 建立 VPN 连接」，必须允许。
-- **TUN 模式**：CMFA 接管手机所有流量（包括其它 App）。默认开启，别关。
+
+APK 是安装包；arm64-v8a / armeabi-v7a 是 CPU 架构。首次建立 VPN 连接时须允许系统权限。
 
 ### 3 步走完
-1. **下载 CMFA APK**：打开 https://github.com/MetaCubeX/ClashMetaForAndroid/releases ，下最新版的 **arm64-v8a** 那个（2017 年以后的手机都用这个）。如果不确定就下 `universal`。
-2. **改订阅链接**：用文本编辑器（手机上的「文件管理 → 编辑文本」也行）打开 `CMFA(mihomo).yaml`，找到 `url:` 那行（大约第 31 行），把后面的 URL 换成你机场给你的 URL。保存。
-3. **导入 + 启动**：把修改后的 YAML 传到手机（微信/QQ/AirDroid/U盘都行） → 打开 CMFA → 右下角 ➕ → **从文件导入** → 选这个 YAML → 回到首页 → 点中间那个大按钮「启动」 → 系统弹「允许建立 VPN 连接」→ **允许**。
+
+1. 从第一章官方发布页安装匹配 CPU 的 APK；不确定时用 universal。
+2. 编辑 YAML 中 **proxy-providers.Subscribe.url**，替换为节点订阅；不要误改规则集 URL。
+3. 「配置」→ 从文件导入 YAML → 选中配置并启动 → 允许 VPN。
 
 ### 跑起来之后怎么验证？
-- 浏览器打开 `https://www.google.com` 能打开 = 代理通了。
-- CMFA 点底部「代理」，应看到 **22 区域组（11 全部 + 11 家宽）+ 33 业务组**。
-- 点底部「连接」能看到每次访问走了哪个组/节点。
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+检查 22 区域组 + 33 业务组、规则下载和连接记录，再按根 README 的[导入后验证清单](../README.md#-导入后-60-秒验证清单)核对。
 
 ### 最常见踩坑
-- ❌ **APK 装不上**：没允许"来自未知来源的应用"。设置 → 安全 → 允许安装未知来源。
-- ❌ **导入后节点列表是空的**：订阅链接返回的格式不对。换链接加 `?flag=clash.meta` 后缀；或用 Sub-Store 做格式转换。
-- ❌ **首次启动卡在"加载规则"**：CMFA 要下载 149 个融合规则源。**必须在 WiFi + 已开代理**（可以先用随便一个能用的节点启动，等规则下完再切到本配置）；本仓库规则走 GitHub raw，当前网络无法访问时需要可用代理。
-- ❌ **打开支付宝/银行 App 卡死**：已在配置里把 `+.alipay.com` / 主流银行域名排除了代理。如果你用的银行没排除，在 CMFA 的「应用 → 分应用代理」里把那个银行 App 设为"不走代理"。
-- ❌ **LightGBM 自动择优不生效**：CMFA YAML 用的是 `url-test`（按延迟择优），**不是** Mihomo Smart 组。Smart + LightGBM 需要 Mihomo Smart Alpha 内核，**目前仅桌面端 Clash Verge Rev / Mihomo Party + Clash Party Smart JS 支持**。FlClash 覆写脚本 (`../FlClash/FlClash(mihomo).js`) 也是 url-test（标准 Mihomo 内核限制），但提供动态节点分类/家宽识别/订阅清理等 YAML 没有的能力。
+
+- **安装失败**：检查 CPU 架构及系统的未知来源安装权限。
+- **节点为空**：确认返回 Mihomo 格式；必要时用 Sub-Store 转换。
+- **加载规则失败**：先建立可用网络，检查 GitHub Raw 下载状态。
+- **银行/支付应用异常**：按第六、七章排查；应用排除 VPN 后不再受本 YAML 控制。
+- **LightGBM 不生效**：本 YAML 使用 url-test，无需模型；Smart 需要 vernesong Smart 内核。
 
 ---
 
 ## 🔌 协议支持（Mihomo 内核）
 
-CMFA / FlClash / mihomo-party-android 底层都是 **Mihomo 内核**，所以协议支持和桌面端的 Clash Verge Rev / Mihomo Party 完全一样：
+协议能力取决于实际内置 Mihomo 版本；下表作为选型参考，不能据客户端名称假定所有版本能力相同。
 
 | 协议 | 支持 | 说明 |
 |---|:-:|---|
@@ -98,11 +79,9 @@ CMFA / FlClash / mihomo-party-android 底层都是 **Mihomo 内核**，所以协
 | **AnyTLS / ShadowTLS / Snell v4 / SSH / Mieru** | ✅ | 新协议/小众协议全覆盖 |
 | **SOCKS5 / HTTP(S)** | ✅ | |
 
-**移动端上协议支持最全的组合就是 CMFA + Mihomo**，几乎没有你机场能给但它不能跑的。
-
 ### 提示
-- CMFA YAML 是静态格式，区域组是 `url-test`（按延迟择优），**无 Smart + LightGBM**。LightGBM 需要 JS 覆写运行时注入，Android 目前没有客户端支持 JS 覆写。
-- 想要 Smart + LightGBM 的唯一路径是桌面端 Clash Party / Clash Verge Rev / Mihomo Party。
+
+本 YAML 的区域组为 url-test；CMFA 不执行 JS 覆写。FlClash 支持专用 JS，但同样不提供 vernesong Smart 组。
 
 ---
 
@@ -119,7 +98,7 @@ CMFA / FlClash / mihomo-party-android 底层都是 **Mihomo 内核**，所以协
 
 ## 二、修改订阅链接
 
-打开 `CMFA(mihomo).yaml`，找到 `proxy-providers` 段落（约第 137 行）：
+打开 `CMFA(mihomo).yaml`，修改 proxy-providers.Subscribe.url；其余字段按文件现值保留。结构示例：
 
 ```yaml
 proxy-providers:
@@ -135,49 +114,23 @@ proxy-providers:
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置|10x|20x|100x)'
 ```
 
-**注意事项**：
-- 订阅链接建议选择 `?flag=meta` 或 `?flag=clash.meta` 风格，返回 **Mihomo 兼容格式**的节点。
-- `exclude-filter` 已内置过滤广告节点与高倍率节点，无需改动。
-- 若你使用 **Sub-Store** 做多机场融合，可直接粘贴 Sub-Store 生成的单一 URL。
+订阅须返回 Mihomo 兼容节点；使用 Sub-Store 时填其输出 URL，保留原有过滤与健康检查设置。
 
 ### 多机场订阅：三种方式
 
-如果你同时购买了多家机场（例如一家主打香港、一家主打美国、一家做家宽），需要把它们的节点合并到同一份 CMFA 配置里。
+多机场可先聚合成一个 URL，或为每个来源配置独立 provider。
 
 #### 方式 A：Sub-Store 融合（推荐）
 
-**Sub-Store** 是一个 Mihomo / Surge / Loon 生态的订阅管理工具，可以把你所有机场的订阅链接合并成一个 URL，统一输出。
-
-1. 在桌面端 Mihomo Party / Clash Verge Rev 中安装 Sub-Store 插件
-2. 新建「组合订阅」→ 把多个机场 URL 填进去 → 勾选「输出为 Mihomo 格式」
-3. 生成一个融合后的 URL（形如 `http://127.0.0.1:19500/api/collection/xxx`）
-4. 把这个 URL 填到上面 `proxy-providers.Subscribe.url` 里
-
-**优点**：不需要改 YAML 结构，一个 URL 搞定一切；支持重命名节点、按正则过滤、全平台通用。
+按 [Sub-Store 教程](../SubStore/README.md)聚合订阅，输出 Mihomo 格式，将**手机可访问的 URL**填到 Subscribe.url。127.0.0.1 只指手机自身，不能直接访问电脑上的服务。
 
 #### 方式 B：在线订阅转换站（零门槛，无需安装任何工具）
 
-如果你不想装任何 App 或插件，可以用第三方 **订阅转换站**。你把多个机场的订阅链接粘贴进去，它会输出一个合并后的 URL。
-
-**这个方案与客户端无关**——转换站在网页上完成，输出的 URL 直接用于 Shadowrocket / Surge / Loon / Quantumult X / SingBox / v2rayN 等**所有客户端**。
-
-常见转换站（社区维护，任选其一）：
-- `https://acl4ssr-sub.github.io`（ACL4SSR 官方前端）
-- `https://sub.v1.mk`（Sub-Store 在线版）
-- `https://id9.cc`（备用）
-
-操作步骤：
-1. 打开上述任一网站
-2. 把多家机场的订阅链接粘贴到「订阅链接」输入框（一行一个或用 `|` 分隔）
-3. 后端/输出选 **Mihomo（Clash.Meta）**
-4. 点击「生成订阅链接」→ 复制输出的新 URL
-5. 把新 URL 填到 `proxy-providers.Subscribe.url` 里
-
-> ⚠️ **隐私提醒**：转换站服务端能看到你提交的所有订阅链接（包括 token），理论上也能解密节点流量特征。**不要在转换站上提交包含敏感信息（如专属专线 IP、企业内部 VPN）的订阅链接**。如果你对隐私有要求，优先用方式 A（Sub-Store 跑在本地）或方式 C（手动 YAML）。
+在受信任的转换服务中合并多个 URL，输出选 Mihomo，再填入 Subscribe.url。服务端可看到订阅 token；敏感订阅优先使用本地 Sub-Store 或手动配置。
 
 #### 方式 C：YAML 直接写多个 proxy-providers（无需额外工具）
 
-如果你不想装 Sub-Store，可以直接在 YAML 里写多个 `proxy-providers`，Mihomo 会自动合并所有来源的节点到同一个代理组中。
+每个 provider 使用独立名称和缓存路径，并让区域组 use 引用全部来源。
 
 把单机场的 `proxy-providers` 块：
 
@@ -233,11 +186,10 @@ proxy-providers:
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
 ```
 
-**关键机制**：本配置中所有 `url-test` 区域组（🌍 全球节点、🇭🇰 香港节点等）使用 `use:` 字段引用 proxy-provider 名称来获取节点，并通过 `filter:` 正则按节点名自动归类（例如「香港节点」组的 `filter:` 匹配 "香港/HongKong/HKG/HK"）。
+多个 provider 不会自动加入现有区域组。须把**全部 22 个区域组**的 use 更新为新名称；不要重复定义同名 provider。
 
-**如果你用了上面「方式 C」的多机场写法，必须把每个区域组的 `use:` 也更新**，加上所有新的 provider 名。否则新加的机场节点不会出现在任何组里。
 
-在 YAML 中找到所有 `use:` 行（约第 538 行起），把：
+在 YAML 中找到区域组的 use，把：
 
 ```yaml
   use:
@@ -253,11 +205,7 @@ proxy-providers:
   - Airport3
 ```
 
-每个 `url-test` 区域组（🌍 全球节点、🏡 全球家宽、🇭🇰 香港节点 … 共 18 个组）都要做同样的修改。可以用文本编辑器的「查找替换」功能：把所有 `- Subscribe` 替换为 `- Airport1\n  - Airport2\n  - Airport3`。
-
-> 💡 **更省事的做法**：把所有 proxy-provider 的名字统一为 `Subscribe`，在不同机场之间用注释分隔——这样 `use: [Subscribe]` 不用改。但 Mihomo **不允许**两个 provider 重名（后定义的会覆盖前面的）。所以多机场还是得用不同名字 + 改 `use:`。
-
-**方式 A（Sub-Store）没有这个问题**——因为 Sub-Store 输出的是单一 URL，填到 `Subscribe` 这一个 provider 里即可，`use: [Subscribe]` 完全不用动。
+全部 22 个区域组都须更新；使用 Sub-Store 单一 URL 则保留 Subscribe，无需修改 use。
 
 ---
 
@@ -279,16 +227,9 @@ proxy-providers:
 
 ## 四、首次启动
 
-1. 在 CMFA 首页选择刚导入的配置，点击「**启动**」按钮。
-2. 首次启动 CMFA 会自动完成以下动作（需保持网络畅通）：
-   - 下载机场节点列表（`subscribe.yaml`）
-   - 下载 **149 个融合 rule-providers**（由源规则图编译；上游规则源来自 `blackmatrix7 / MetaCubeX` 等）
-   - 下载 **Loyalsoldier 增强版** `geoip.dat` / `Country.mmdb` / `GeoLite2-ASN.mmdb`
-   - 下载 **MetaCubeX** `geosite.dat`
-   - 下载 **LightGBM 模型** `Model.bin`（用于 Smart 组自动择优）
-3. 初始化时间：视网络情况约 **1–3 分钟**；完成后规则集会缓存到本地。
+选中配置并启动，等待节点列表和融合规则集下载；DNS 所需 GeoSite/GeoIP 资源也须可用。日志应无解析或下载错误，随后检查实际连接记录。
 
-> ⚠️ 首次启动建议在 **WiFi 环境**并开启 VPN 后进行，避免因某些 rule-provider 需代理下载而失败。
+本 YAML 不使用 LightGBM，不下载 Model.bin。下载受阻时先保留可用缓存，按[规则下载说明](../docs/rule-asset-delivery.md)检查代理与 HTTP 状态。
 
 ---
 
@@ -298,17 +239,11 @@ proxy-providers:
 
 ### 区域组（自动择优）
 
-以下 18 个 `url-test` 组会按节点名称自动聚合，**无需手动维护**：
-
-- 🌍 全球节点、🏡 全球家宽、🇭🇰 香港节点、🏡 香港家宽
-- 🇹🇼 台湾节点、🏡 台湾家宽、🇯🇵 日韩节点、🏡 日韩家宽
-- 🌏 亚太节点、🏡 亚太家宽、🇺🇸 美国节点、🏡 美国家宽
-- 🇪🇺 欧洲节点、🏡 欧洲家宽、🌎 美洲节点、🏡 美洲家宽
-- 🌍 非洲节点、🏡 非洲家宽
+22 个 url-test 区域组按节点名筛选，包含各地区及家宽组。新增 provider 时要同步 use；空组会拒绝连接，应切换到有节点的地区或全球组。
 
 ### 业务组（手动选择）
 
-31 个 `select` 业务组，每组默认候选包含所有区域组 + `DIRECT`，首次使用需为每个业务组**手动指定一个首选区域**：
+33 个业务组可手动选择候选。下表供参考，具体候选以实际配置为准：
 
 | 业务组 | 推荐区域 |
 |--------|----------|
@@ -351,12 +286,11 @@ proxy-providers:
 
 ### 1. 启用 TUN 模式（系统级代理）
 
-- CMFA → **设置** → **网络** → 打开 **TUN 模式**。
-- 配合配置中的 `stack: mixed` 可兼容绝大多数 App（包括 UDP / QUIC）。
+在客户端启动 VPN 并允许系统授权。本 YAML 没有 tun 段；Android 网络接管由客户端管理。
 
 ### 2. 启用 Meta SideBar（仪表盘）
 
-- CMFA → **设置** → **界面** → 开启「**显示流量图表 / 仪表盘**」，可实时查看 LightGBM 模型择优效果。
+使用客户端代理、连接或仪表盘查看 url-test 测速与实际出站；这里没有 LightGBM 模型状态。
 
 ### 3. 应用分应用代理（可选）
 
@@ -374,24 +308,24 @@ proxy-providers:
 ## 七、常见问题
 
 ### Q1：导入后提示 `list geosite not found` 或规则解析错误？
-A：本配置已将所有 `GEOSITE` 高级标签替换为等效 `RULE-SET`，理论上不会出现该错误。若仍出现，请检查：
-- 是否使用的是 **Mihomo Smart 内核**（而非旧版 ClashX / Clash Premium）。
-- CMFA 版本是否 ≥ **2.11.x**。
+
+A：使用当前 CMFA 与 Mihomo 核心，核对实际错误、规则集下载和 GeoSite 资源。路由采用融合规则集，但 DNS policy 仍依赖 GeoSite。
 
 ### Q2：节点名称没有被正确分到区域组？
-A：脚本按「中文关键字 + 城市 + IATA 机场代码 + ISO 国家代码」综合匹配，覆盖率 > 95%。若仍漏判，请将节点名贴到 Issue 中反馈。
+
+A：区域 filter 按节点名正则匹配。先确认 provider 已下载且 use 正确，再用脱敏节点名反馈漏判。
 
 ### Q3：LightGBM 自动择优未生效？
-A：确认：
-- `proxy-groups` 中 `uselightgbm: true` 存在；
-- 已下载 `Model.bin`（首次启动日志会显示下载进度）；
-- CMFA 使用的是 **Smart 内核**而非普通 Meta 内核。
+
+A：本 YAML 不使用 Smart/LightGBM。url-test 按延迟择优，不要添加 uselightgbm 或下载模型。
 
 ### Q4：fake-ip 模式下银行/支付 App 异常？
-A：已通过 `sniffer.skip-domain` 排除主要支付域名（支付宝/微信/币安等）。若你使用的银行域名未在名单中，可在 `fake-ip-filter` 追加对应域名。
+
+A：先检查具体失败域名、规则和出站。需要排除整个应用时使用客户端应用过滤；仅确认是 fake-ip 兼容问题后，才在本地副本添加对应域名。
 
 ### Q5：fake-ip 会不会让 STUN/WebRTC 测试失真？
-A：v5.4.13 后 STUN/TURN 域名已进入 `fake-ip-filter`，标准端口 `3478 / 3479 / 5349 / 19302 / 19305 / 19307` 走 `DIRECT`。若测试服务强制使用 UDP/443 TURN，仍会受 QUIC 屏蔽策略影响。
+
+A：STUN/TURN 域名使用真实 IP；标准端口 `3478 / 3479 / 5349 / 19302 / 19305 / 19307` 走 `DIRECT`。若测试服务强制使用 UDP/443 TURN，仍会受 QUIC 屏蔽策略影响。
 
 ---
 
@@ -408,11 +342,11 @@ A：v5.4.13 后 STUN/TURN 域名已进入 `fake-ip-filter`，标准端口 `3478 
 
 ---
 
+MRS 是否启用由 rule-providers 的 format 决定，geodata-mode 不是 MRS 开关；Android 进程匹配还取决于系统与客户端权限。
+
 ## 九、兼容客户端：ClashMi（跨平台）
 
-**[ClashMi](https://github.com/KaringX/clashmi)**（又称 Clash Mi，KaringX 团队维护的 Flutter 跨平台 Mihomo GUI，GPL-3.0）可以**直接加载本 YAML**，无需任何修改；覆盖 **iOS 15+ / macOS 12+ / Android 8+ / Windows 10+ / Linux**。
-
-> 与 CMFA 的关系：ClashMi bundle 的是 **MetaCubeX mihomo mainline**（[README](https://github.com/KaringX/clashmi)），与 CMFA 内核同源；但软件设置逻辑、UI、订阅管理流程和 CMFA 完全不同，因此单独列出使用说明；**配置层面（YAML schema）100% 共享**，本仓库不为 ClashMi 单开产物。
+[ClashMi](https://github.com/KaringX/clashmi) 可复用本 YAML，使用其 Mihomo 核心，不需要独立产物。App 的覆写顺序、核心版本和 VPN 权限仍须单独检查，见[官方核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。
 
 ### 导入方式
 
@@ -422,14 +356,12 @@ ClashMi App 首页菜单 → **我的配置** → 右上角 **＋** → 选择�
 - **从文件导入**（本地 `.yml` / `.yaml`）
 - **扫描二维码**
 
-命名后确定即可启用。TUN / HTTP 代理 / DNS 劫持等开关由 **App UI** 托管（不在 YAML 里手写）。
+保存后启用。本 YAML 未写 tun，需在 App 中提供所需 TUN/VPN 设置；内置 DNS/TUN 覆写可能改变导入配置，须读回最终值。
 
 ### 与 CMFA 行为一致的部分
 
-- ✅ 54 代理组（22 区域 + 33 业务）结构 1:1 加载。
-- ✅ 168 条主规则 + 149 个融合 `rule-providers` 全部由 source graph 顺序编译生成。
-- ✅ fake-ip DNS / sniffer / `proxy-providers.filter` / `exclude-filter` 行为与 CMFA 等价。
-- ✅ 22 区域组使用 `type: url-test`（按延迟择优）—— 与 CMFA 完全相同。
+复用 55 代理组（22 区域 + 33 业务）、168 主规则和 149 个融合 provider；区域组为 url-test。实际 DNS、嗅探和规则加载取决于 App 覆写及内置核心。
+
 
 ### ClashMi 专属差异（官方 [FAQ](https://clashmi.app/guide/faq) 声明；本 YAML 均已规避）
 
@@ -442,9 +374,11 @@ ClashMi App 首页菜单 → **我的配置** → 右上角 **＋** → 选择�
 | **Mihomo Smart 内核 / LightGBM** | bundle 的是 mainline（**非** `vernesong/mihomo` Smart fork），不识别 `type: smart` / `uselightgbm` / `lgbm-custom-url` | 本 YAML 区域组本就是 `url-test`（CMFA 同因），此限制不适用 |
 | **内核版本升级** | 跟随 App 发版，**不可独立更新**（FAQ） | 无影响；本 YAML 使用 mainline 稳定字段 |
 
+表中保留平台差异对照；MRS 与懒加载不保证 iOS 不会超出 VPN 内存上限。GEOIP residual、资源下载和最终内存占用仍需设备验证；当前模型字段是 lgbm-url，本 YAML 不使用该 Smart 字段。
+
 ### 一句话结论
 
-`CMFA(mihomo).yaml` 可在 ClashMi 上**开箱即用**，行为与 CMFA 等价；UI 操作路径不同但产物层无差异。
+ClashMi 复用本 YAML，导入后核对 App 覆写、资源加载和实际连接。
 
 ---
 

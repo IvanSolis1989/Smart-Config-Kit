@@ -1,0 +1,41 @@
+✔ Mihomo MRS override application is idempotent (588.0821ms)
+✔ Egern generation manifest accepts valid upstream-driven count changes and rejects stale output (235.012ms)
+✔ Egern generator uses the fused cache offline and fails closed on a cache miss (6.3432ms)
+✔ Egern source resolution strips the release cache key before converting a fused MRS source (0.6731ms)
+✔ Egern generator preserves existing native rule sets when source preflight fails (5.6971ms)
+✔ Issue #176 CN domain guards precede generic international Geo/CDN fallbacks (229.1334ms)
+✔ iOS fused payload stays within the repository Network Extension budget (333.2011ms)
+✔ runtime GEOIP rules are not amplified into country CIDR payloads (2.3324ms)
+✔ fusion manifest records optimization and has no unresolved source fallback (1.4554ms)
+✔ fusion manifest does not publish empty source or target rule sets (1.644ms)
+✔ Passwall marks every fused SRS containing IP rules as an IP payload (164.2656ms)
+✔ Sing-box uses each non-empty fused SRS exactly once (2.5323ms)
+✔ formal remote-asset validator enforces aggregate client budgets (425.9724ms)
+✔ Egern native rule sets do not silently drop GEOIP rules (41.9101ms)
+✔ Issue #176 keeps native Egern authority segments valid across upstream refreshes (8.7498ms)
+✔ generated Clash and Surge payloads contain no removable duplicate rules (3660.7527ms)
+✔ later fused segments do not repeat an exact rule already matched earlier (242.581ms)
+✔ Mihomo source buckets do not repeat an exact rule across segments (467.4943ms)
+✔ Sing-box target rule sets do not repeat an exact rule across segments (816.1543ms)
+✔ generated Egern payloads contain no removable duplicate rules (1887.2367ms)
+✔ later Egern rule-set assets do not repeat an exact rule already matched earlier (375.526ms)
+✔ opaque MRS source mapping preserves the exact HaGeZi Ultimate identity (2.4862ms)
+✔ classical entries are canonicalized before deduplication (2.723ms)
+✔ same-policy optimization removes exact and safely subsumed rules (2.8636ms)
+✔ GEOIP expansion is target-specific and resolver failures are fatal (1.0169ms)
+✔ IP-ASN expansion is used only by targets without native ASN matching (0.5163ms)
+ok manual
+ok manual
+ok manual
+✔ exact downloaded bytes survive gzip and independent verification; tampering fails (51.8139ms)
+✔ HTTP failure and HTML challenge cannot become a successful JSON cache (7.4099ms)
+✔ incremental snapshots reuse verified evidence without inventing a new fetch time (36.3693ms)
+✔ raw GitHub branch content is fetched from a resolved commit URL (10.7102ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9120.8186

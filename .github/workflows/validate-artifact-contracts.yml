@@ -70,6 +70,11 @@ on:
       - 'tools/tests/client-capability-matrix.test.js'
       - 'tools/tests/subscription-adapter-profiles.test.js'
       - 'tools/validate-artifact-contracts.js'
+      - 'tools/cache-official-docs.js'
+      - 'tools/tests/official-docs-cache.test.js'
+      - 'tools/tests/passwall-backend-guard.test.js'
+      - 'tools/tests/singbox-current-schema.test.js'
+      - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
       - 'tools/runtime/**'
       - 'tools/sync-node-dns-hints-adapters.js'
@@ -154,6 +159,11 @@ on:
       - 'tools/tests/client-capability-matrix.test.js'
       - 'tools/tests/subscription-adapter-profiles.test.js'
       - 'tools/validate-artifact-contracts.js'
+      - 'tools/cache-official-docs.js'
+      - 'tools/tests/official-docs-cache.test.js'
+      - 'tools/tests/passwall-backend-guard.test.js'
+      - 'tools/tests/singbox-current-schema.test.js'
+      - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
       - 'tools/runtime/**'
       - 'tools/sync-node-dns-hints-adapters.js'
@@ -176,7 +186,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
 
     steps:
       - name: Checkout
@@ -226,6 +236,41 @@ jobs:
 
       - name: Validate PROCESS-NAME direct whitelist
         run: node tools/validate-process-name-direct.js
+
+      - name: Verify cached official documentation
+        run: |
+          shopt -s nullglob
+          inventories=(docs/upstream/*/*/sources.json)
+          test "${#inventories[@]}" -gt 0
+          for inventory in "${inventories[@]}"; do
+            node tools/cache-official-docs.js --group "${inventory%/sources.json}" --verify
+          done
+          node --test tools/tests/official-docs-cache.test.js tools/tests/passwall-backend-guard.test.js
+
+      - name: Prepare official sing-box schema check binaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for version in 1.14.3 1.13.14; do
+            asset="sing-box-${version}-linux-amd64.tar.gz"
+            destination="$RUNNER_TEMP/sing-box-$version"
+            mkdir -p "$destination"
+            digest=$(gh api "repos/SagerNet/sing-box/releases/tags/v$version" --jq ".assets[] | select(.name == \"$asset\") | .digest")
+            [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+            gh release download "v$version" --repo SagerNet/sing-box --pattern "$asset" --dir "$destination"
+            printf '%s  %s\n' "${digest#sha256:}" "$destination/$asset" | sha256sum --check --strict
+            tar -xzf "$destination/$asset" -C "$destination"
+            binary="$destination/sing-box-$version-linux-amd64/sing-box"
+            test -x "$binary"
+            if [ "$version" = 1.14.3 ]; then
+              echo "SING_BOX_114_BIN=$binary" >> "$GITHUB_ENV"
+            else
+              echo "SING_BOX_113_BIN=$binary" >> "$GITHUB_ENV"
+            fi
+          done
+
+      - name: Check both sing-box schemas with official cores
+        run: node --test tools/tests/singbox-current-schema.test.js
 
       - name: Validate rule asset delivery regressions
         run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js

@@ -1,0 +1,2 @@
+PASS artifact contracts baseline=v6.0.20
+checks=2493 artifacts=20

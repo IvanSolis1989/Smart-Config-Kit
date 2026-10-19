@@ -1,5 +1,20 @@
 # Sing-Box 配置参考文档
 
+> 更新于 2026-10-19：完成本次涉及字段的官方原文核验，详见[版本、源码、适配与验证报告](../docs/upstream/2026-10-19/singbox/report.md)及其原文缓存。下方旧摘要未整篇当前化；存在冲突时以下列核验结论为准。
+
+## 2026-10-19 现行核验
+
+- 稳定版为 [1.14.3](https://github.com/SagerNet/sing-box/releases/tag/v1.14.3)（2026-10-09），预发布为 [1.15.0-alpha.12](https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12)（2026-10-11）；不将 alpha 能力作为稳定版依据。
+- [`http_client`](https://sing-box.sagernet.org/configuration/rule-set/#http_client) **1.14.0 才引入**；支持命名 HTTP client 或内联对象。旧摘要“迁到 `http_client` 后兼容 1.11–1.13”的说法错误。`download_detour` 从 1.14 废弃，计划 1.16 移除，仍是 1.13 兼容产物的合法字段。
+- [typed DNS server](https://sing-box.sagernet.org/configuration/dns/server/https/) 从 **1.12** 引入；旧 `address` / `address_resolver` 格式在 1.14 移除。旧 inbound `sniff` / `sniff_override_destination` 在 1.13 移除，改用路由 `action: sniff`。
+- 当前 Full 要求 1.14.3；同一生成器另产出 `SingBox(sing-box)-1.13.json`。两者分别通过官方 1.14.3 / 1.13.14 `check`，无废弃功能环境变量。非标准 `_meta` 已移出运行时 JSON。
+- Full 的 CN IP DNS 过滤迁为 `evaluate` → `match_response` → `respond`；1.13 变体保持该系列支持的 GeoIP 接受过滤。二者规则 URL、出站拓扑和业务路由相对次序一致。
+- 当前官方 [Block](https://sing-box.sagernet.org/configuration/outbound/block/) 页面与 1.14.3 实际检查均支持 `type: block`，保留供组成员引用；不照搬旧迁移摘要推断其已移除。
+- Hiddify app 4.1.1 构建固定 core 4.1.0 / 1.13 派生源码；完整配置保留还受 App 解析模式约束。HomeProxy 根据 UCI 生成配置，未证明可直接把本仓库 Full JSON 当订阅完整导入。详见报告相应章节。
+- 嗅探迁移仅保留 SNI/Host 辅助匹配；上游新动作没有等价的动态目的地址重写开关。旧 `sniff_override_destination=true` 的拨号语义无法完整保留，IP 目的仍拨原 IP；不得用未知字段或固定 `override_address` 假装等价。详见[固定源码核对](../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界)。
+
+## 历史摘要（保留原获取日期，未整篇复核）
+
 > 2026-10-15 URL 兼容性复核：[官方 rule-set 文档](https://sing-box.sagernet.org/configuration/rule-set/)定义 `type: remote` 的 `url` 下载字段；官方当前文本没有明确限定 URL scheme。本次只替换远程资产 URL 主机，保留 `.srs`、`format: binary` 与其他字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 更新于 2026-07-14：复核官方 Route Rule 文档。`process_name` 仍为 Linux、Windows、macOS 支持的正式字段，语义为匹配进程名；本仓库将 `WorkPro.exe` / `WorkProWebProcess.exe` 编译至 Windows 桌面直连 rule-set，不下放到移动端。

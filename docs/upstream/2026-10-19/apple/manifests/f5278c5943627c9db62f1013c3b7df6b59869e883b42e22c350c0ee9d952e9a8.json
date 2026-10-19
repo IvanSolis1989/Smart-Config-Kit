@@ -1,0 +1,2718 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "apple",
+  "generated_at": "2026-10-19T08:19:31.919Z",
+  "inventory_normalization": "LF",
+  "sources_sha256": "b1621833775a111f83996fd12a1d0a9e9a1ca80ba47c28a501a25c3b17db7866",
+  "counts": {
+    "total": 57,
+    "ok": 56,
+    "failed": 1
+  },
+  "sources": [
+    {
+      "id": "stash-mac-appcast",
+      "url": "https://releases.stash.ws/appcast.xml",
+      "kind": "release",
+      "product": "Stash Mac",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:04:34.076Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/xml",
+        "etag": "W/\"fc1b5ca78fb814fdd443012b60a54b78\"",
+        "last-modified": "Fri, 16 Oct 2026 21:39:53 GMT",
+        "date": "Mon, 19 Oct 2026 08:04:35 GMT"
+      },
+      "file": "bodies/4aa11af2137bd84393f053b916cfc7cc7d7e5dd6977cacd993409a6a8ca57378.gz",
+      "gzip_sha256": "ad3b0c5856c4f832e55a813f0c7fb95d78e9e579ef5fb968c530120646cb61f9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://releases.stash.ws/appcast.xml",
+        "effective_url": "https://releases.stash.ws/appcast.xml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4aa11af2137bd84393f053b916cfc7cc7d7e5dd6977cacd993409a6a8ca57378",
+          "bytes": 8681
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-download",
+      "url": "https://stash.ws/download",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:04:34.079Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"134v1ddqlq8rbo\"",
+        "date": "Mon, 19 Oct 2026 08:04:34 GMT"
+      },
+      "file": "bodies/ce7292aee45e11e9788fa1e6e0b27117de51fc2a62d0978798703cceada2ef08.gz",
+      "gzip_sha256": "db2ad2bb590a0d5ccb0c2759a65573694f5e71048d69a823dfe2fbe5023bc091",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.ws/download",
+        "effective_url": "https://stash.ws/download",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ce7292aee45e11e9788fa1e6e0b27117de51fc2a62d0978798703cceada2ef08",
+          "bytes": 35464
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-mac-previous-versions",
+      "url": "https://stash.ws/macos/previous-versions",
+      "kind": "release",
+      "product": "Stash Mac",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:04:34.079Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"mm4horzty313u4\"",
+        "date": "Mon, 19 Oct 2026 08:04:34 GMT"
+      },
+      "file": "bodies/ea975d33bc139f9e166fc7182b6312b78af0b5407437caf77adaff71ccc36fb9.gz",
+      "gzip_sha256": "850c445a940b9cf3e394c56008df1beacba81b34761166b35b3d6c47dba58d74",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.ws/macos/previous-versions",
+        "effective_url": "https://stash.ws/macos/previous-versions",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ea975d33bc139f9e166fc7182b6312b78af0b5407437caf77adaff71ccc36fb9",
+          "bytes": 51678
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "apple-lookup-us",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=us",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.353Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT"
+      },
+      "file": "bodies/1799849638991b0c1b4b6f5e9e40ac3f511939b90a1744f742504f29abf4182e.gz",
+      "gzip_sha256": "00c2f2c6686e17e83ec8a96364c16ca2bf9ee936f65765ef9ec3dae6661f977b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=us",
+        "effective_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=us",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1799849638991b0c1b4b6f5e9e40ac3f511939b90a1744f742504f29abf4182e",
+          "bytes": 66162
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "apple-lookup-jp",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=jp",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.354Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT"
+      },
+      "file": "bodies/16f07232e996cea8271b82ffd9ff5d4a77e99e4ef17a955e6002708e7b144750.gz",
+      "gzip_sha256": "fde648eed2a86286ba7472737be491fc86beb78f2f84c3a52aae9bf2b419f9cf",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=jp",
+        "effective_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=jp",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "16f07232e996cea8271b82ffd9ff5d4a77e99e4ef17a955e6002708e7b144750",
+          "bytes": 66231
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "apple-lookup-cn",
+      "url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=cn",
+      "kind": "release",
+      "product": "Apple clients",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.354Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:10 GMT"
+      },
+      "file": "bodies/7f5ce663b726607eae2fde2a6dc438052ac0d1681e636de7cc3377c0bb77e047.gz",
+      "gzip_sha256": "c5a14f962eb91f877ce8802da34caf8fb815ef0435544bb7cc254b488a7ef580",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=cn",
+        "effective_url": "https://itunes.apple.com/lookup?id=1442620678,1596063349,1616105820,1373567447,1443988620,932747118&country=cn",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7f5ce663b726607eae2fde2a6dc438052ac0d1681e636de7cc3377c0bb77e047",
+          "bytes": 42
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-mac-stable",
+      "url": "https://nssurge.com/mac/latest/appcast-signed.xml",
+      "kind": "release",
+      "product": "Surge Mac",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.354Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/xml; charset=utf-8",
+        "etag": "W/\"6ad25282-106bf\"",
+        "last-modified": "Fri, 16 Oct 2026 16:36:18 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT"
+      },
+      "file": "bodies/fcc90dcbd078d3353b9a425c222858684abf2add8667a111681919455486a519.gz",
+      "gzip_sha256": "e43c13ed4197053da52d8d34ceedc523d60b57c10429dd700e1d00c4be76b3a9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nssurge.com/mac/latest/appcast-signed.xml",
+        "effective_url": "https://nssurge.com/mac/latest/appcast-signed.xml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "fcc90dcbd078d3353b9a425c222858684abf2add8667a111681919455486a519",
+          "bytes": 67263
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-mac-beta",
+      "url": "https://nssurge.com/mac/latest/appcast-signed-beta.xml",
+      "kind": "release",
+      "product": "Surge Mac",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:10.961Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/xml; charset=utf-8",
+        "etag": "W/\"6ad25283-11475\"",
+        "last-modified": "Fri, 16 Oct 2026 16:36:19 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT"
+      },
+      "file": "bodies/64257b4e1fe612424330201be412da0eedec9c09758bf1a90b751efb29edaa47.gz",
+      "gzip_sha256": "05c196188f74182cb845544d0c1565316e4e7876ef3a9413630a969a76068d60",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nssurge.com/mac/latest/appcast-signed-beta.xml",
+        "effective_url": "https://nssurge.com/mac/latest/appcast-signed-beta.xml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "64257b4e1fe612424330201be412da0eedec9c09758bf1a90b751efb29edaa47",
+          "bytes": 70773
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-release-app",
+      "url": "https://nssurge.com/static/js/main.367b5fb6.js",
+      "kind": "source",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:11.109Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "etag": "W/\"6abbd499-69a15\"",
+        "last-modified": "Tue, 29 Sep 2026 15:09:13 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:11 GMT"
+      },
+      "file": "bodies/822b2b531fe0f2a0b867c333f5404055b52f093c09401848da70b05889249a8d.gz",
+      "gzip_sha256": "d7e327ac0ab9a2393cbd977335b2bf83b9c12b5274972cd30e24bf0704b05940",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nssurge.com/static/js/main.367b5fb6.js",
+        "effective_url": "https://nssurge.com/static/js/main.367b5fb6.js",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "822b2b531fe0f2a0b867c333f5404055b52f093c09401848da70b05889249a8d",
+          "bytes": 432661
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-profile-format",
+      "url": "https://manual.nssurge.com/profile/format.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:11.141Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:12 GMT"
+      },
+      "file": "bodies/f9b6b39450b27dddf29eb44c790edfa5626e2af36be8abbddb7ad49dae9c80e6.gz",
+      "gzip_sha256": "33ebe295d476fe9f3024a507098b04a83080a4a031fae8bb407fcca7e51f0b84",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/profile/format.html",
+        "effective_url": "https://manual.nssurge.com/profile/format.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f9b6b39450b27dddf29eb44c790edfa5626e2af36be8abbddb7ad49dae9c80e6",
+          "bytes": 52447
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-profile-general",
+      "url": "https://manual.nssurge.com/profile/general.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:11.201Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:13 GMT"
+      },
+      "file": "bodies/562243195d0c74558ff0633039aa47123bcad69e548ec9ee123a58ac852f9e17.gz",
+      "gzip_sha256": "2ee1045e7608106383c4f76ae809a72b51fc9ac235a7db36d0476a039c562407",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/profile/general.html",
+        "effective_url": "https://manual.nssurge.com/profile/general.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "562243195d0c74558ff0633039aa47123bcad69e548ec9ee123a58ac852f9e17",
+          "bytes": 67438
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-dns-overview",
+      "url": "https://manual.nssurge.com/dns/overview.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:11.634Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:13 GMT"
+      },
+      "file": "bodies/77a56ec9d8e3574382daeb48d1707ed858e807111630d4bfe9e4686bac1db6b8.gz",
+      "gzip_sha256": "9fde185942253d579250836de18ebbe31d85bc6e6bc404bcbc652c4adedbb89f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/dns/overview.html",
+        "effective_url": "https://manual.nssurge.com/dns/overview.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "77a56ec9d8e3574382daeb48d1707ed858e807111630d4bfe9e4686bac1db6b8",
+          "bytes": 43993
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-dns-encrypted-dns",
+      "url": "https://manual.nssurge.com/dns/encrypted-dns.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:12.398Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/1fea591eb0c46214b307064392da7aefe144e2f5d66e923241b9c1c947eaa111.gz",
+      "gzip_sha256": "35a383b22b6aa1acbc0c09f637ee44c018f31b72a137de61b253152d18016e2e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/dns/encrypted-dns.html",
+        "effective_url": "https://manual.nssurge.com/dns/encrypted-dns.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1fea591eb0c46214b307064392da7aefe144e2f5d66e923241b9c1c947eaa111",
+          "bytes": 43919
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-dns-local-dns-mapping",
+      "url": "https://manual.nssurge.com/dns/local-dns-mapping.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:12.914Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:13 GMT"
+      },
+      "file": "bodies/33c86a0563205a24278536e2d3d6694e6f59312d226ac241d6ce3dfe7a638037.gz",
+      "gzip_sha256": "61ebd66fec7ca0a1a6807effe7362a894d71d3a149f81f6a81256de60dc9f186",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/dns/local-dns-mapping.html",
+        "effective_url": "https://manual.nssurge.com/dns/local-dns-mapping.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "33c86a0563205a24278536e2d3d6694e6f59312d226ac241d6ce3dfe7a638037",
+          "bytes": 45557
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policy-groups-parameters",
+      "url": "https://manual.nssurge.com/policy-groups/parameters.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:13.235Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:13 GMT"
+      },
+      "file": "bodies/8d50cfc63741d13cc9ff671a7806d9fdf30d32680485fe24efec538c2bfb4d9b.gz",
+      "gzip_sha256": "ca3a773f2a4132b48589585aec592ece4babcec77ad00e3380f7fa4e14ec077f",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policy-groups/parameters.html",
+        "effective_url": "https://manual.nssurge.com/policy-groups/parameters.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8d50cfc63741d13cc9ff671a7806d9fdf30d32680485fe24efec538c2bfb4d9b",
+          "bytes": 47450
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policy-groups-url-test",
+      "url": "https://manual.nssurge.com/policy-groups/url-test.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:13.404Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/38139ef6b27ebb9f1dde2e47c45f87a3c9fa80d8a72142cebc3fbdb9bd08c738.gz",
+      "gzip_sha256": "abdbf6c905bbfcefadc0d20d443637f39588365ceecbbc8cc2ff4b425b8f9f5b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policy-groups/url-test.html",
+        "effective_url": "https://manual.nssurge.com/policy-groups/url-test.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "38139ef6b27ebb9f1dde2e47c45f87a3c9fa80d8a72142cebc3fbdb9bd08c738",
+          "bytes": 43240
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policy-groups-smart",
+      "url": "https://manual.nssurge.com/policy-groups/smart.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:13.785Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/790e2cd7c859577aad930db0f2f77cf7d186dc61080413417511d9c720f5819a.gz",
+      "gzip_sha256": "62d835344d9d7ee1469f2771a432d1de30da4eee3b37ca7d84f89f66887d1361",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policy-groups/smart.html",
+        "effective_url": "https://manual.nssurge.com/policy-groups/smart.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "790e2cd7c859577aad930db0f2f77cf7d186dc61080413417511d9c720f5819a",
+          "bytes": 43103
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-rules-ruleset",
+      "url": "https://manual.nssurge.com/rules/ruleset.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:13.841Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/ae1062354dbf873f929e26565df57ff7c16070f05de66c9af6635b9a3308964e.gz",
+      "gzip_sha256": "84fadcc3a4da1d463f6a2f74e11514ba025f315c9d157dbc0b8c2860b0397614",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/rules/ruleset.html",
+        "effective_url": "https://manual.nssurge.com/rules/ruleset.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ae1062354dbf873f929e26565df57ff7c16070f05de66c9af6635b9a3308964e",
+          "bytes": 46953
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-overview",
+      "url": "https://manual.nssurge.com/policies/overview.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.348Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/61475dda81a22b2384311205b8410a9a54e00f8120ccdad087fbd6443549a479.gz",
+      "gzip_sha256": "e57b4c61611aff2c0864f5c7af47326c8fb1d7ba78ac2983b83d64240a347f33",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/overview.html",
+        "effective_url": "https://manual.nssurge.com/policies/overview.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "61475dda81a22b2384311205b8410a9a54e00f8120ccdad087fbd6443549a479",
+          "bytes": 44591
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-tuic",
+      "url": "https://manual.nssurge.com/policies/tuic.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.363Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/d0c5ff48a05db428aa4654d3ba0dbcbc28fc882fe4aa336fab0653308b2e4a25.gz",
+      "gzip_sha256": "fa4607392d30690e790d9c35dd5c49a88efba6b2f38609c67cd7c178aa489882",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/tuic.html",
+        "effective_url": "https://manual.nssurge.com/policies/tuic.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d0c5ff48a05db428aa4654d3ba0dbcbc28fc882fe4aa336fab0653308b2e4a25",
+          "bytes": 41591
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-hysteria2",
+      "url": "https://manual.nssurge.com/policies/hysteria2.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.408Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:14 GMT"
+      },
+      "file": "bodies/252212104945d9b48d269ae800cb0a2d9e7ad6f6bcc80c272a38892206ec539d.gz",
+      "gzip_sha256": "d50e06c8f97018ee03361ae5038a07d44ce7f9f583a7c0efa785d3377d1f22d2",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/hysteria2.html",
+        "effective_url": "https://manual.nssurge.com/policies/hysteria2.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "252212104945d9b48d269ae800cb0a2d9e7ad6f6bcc80c272a38892206ec539d",
+          "bytes": 41620
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-anytls",
+      "url": "https://manual.nssurge.com/policies/anytls.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.613Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/6ca97b10d3e28e291209d9c2682541578a2c35ed726cb1f1a2c78a5bb4acd38d.gz",
+      "gzip_sha256": "87017dfda59b8bcda460f53704b586db4a8300d4799d50d2d78c3ba1215a4cf4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/anytls.html",
+        "effective_url": "https://manual.nssurge.com/policies/anytls.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "6ca97b10d3e28e291209d9c2682541578a2c35ed726cb1f1a2c78a5bb4acd38d",
+          "bytes": 40209
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-snell",
+      "url": "https://manual.nssurge.com/policies/snell.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.892Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/2429468920a7afa65802a520d78abadf76e19bb85258cc570f56491804bd1e4f.gz",
+      "gzip_sha256": "55b92fb981bccf01cb88f0dee8c902aa2e7324d3ae2e9571fbfb54388a7ffaa4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/snell.html",
+        "effective_url": "https://manual.nssurge.com/policies/snell.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2429468920a7afa65802a520d78abadf76e19bb85258cc570f56491804bd1e4f",
+          "bytes": 44056
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "surge-policies-external",
+      "url": "https://manual.nssurge.com/policies/external.html",
+      "kind": "documentation",
+      "product": "Surge",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:14.988Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "last-modified": "Wed, 14 Oct 2026 14:24:41 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/f30c361315b119390bbe40e4f3e6e1932024508ee552fe8e2fd249292e913c5e.gz",
+      "gzip_sha256": "d62514404860daa14cf51dad4c932a1ccd9470ff33aca5fefe38848a0acc3483",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://manual.nssurge.com/policies/external.html",
+        "effective_url": "https://manual.nssurge.com/policies/external.html",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f30c361315b119390bbe40e4f3e6e1932024508ee552fe8e2fd249292e913c5e",
+          "bytes": 43305
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-release-notes-ios",
+      "url": "https://stash.wiki/en/release-notes/ios",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.099Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"xx7obs2r7e8gg3\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/2db36ab11390f96bdae63a08bc6d99893775b2ecf76025532aed856e3d1d2a4e.gz",
+      "gzip_sha256": "d6121a64fa5ad28df1bb3fd168cefc29e1f26c6ad8665453491429c7db32fa93",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/release-notes/ios",
+        "effective_url": "https://stash.wiki/en/release-notes/ios",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2db36ab11390f96bdae63a08bc6d99893775b2ecf76025532aed856e3d1d2a4e",
+          "bytes": 395126
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-release-notes-macos",
+      "url": "https://stash.wiki/en/release-notes/macos",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.380Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"m9krg168d7atmz\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/00241afabd69ae4df16e545ca6e55f3aaf8e6dd5795a5730d258379a3737dc3d.gz",
+      "gzip_sha256": "7eec6e2da0a4f84b0fa0036fdf9a3653bfb608aaaebde8a2bbbf9a1420d121a3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/release-notes/macos",
+        "effective_url": "https://stash.wiki/en/release-notes/macos",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "00241afabd69ae4df16e545ca6e55f3aaf8e6dd5795a5730d258379a3737dc3d",
+          "bytes": 505731
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-rules-rule-set",
+      "url": "https://stash.wiki/en/rules/rule-set",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.457Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"16mtenur18z4rfw\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/a65445f057cb4014368a3f826ec7f399d8ba4743fce1820fa73c7e049489bb90.gz",
+      "gzip_sha256": "fbee4ed1e68eab097c96d9d5a9ea5b6ae8cb624c9f4fb9387c59cb607ef7acf6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/rules/rule-set",
+        "effective_url": "https://stash.wiki/en/rules/rule-set",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a65445f057cb4014368a3f826ec7f399d8ba4743fce1820fa73c7e049489bb90",
+          "bytes": 222236
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-rules-rule-types",
+      "url": "https://stash.wiki/en/rules/rule-types",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.559Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"6budupmpb36eiy\"",
+        "date": "Sat, 17 Oct 2026 13:58:13 GMT"
+      },
+      "file": "bodies/6715fb3c73e5feee3854e03ba9fecb8180a97294bb17006df16826e21cd8e07d.gz",
+      "gzip_sha256": "c125b6a9bb052139f9cacaf16b9ed1f5644fcd296fbfd5cbbbc4d23381e07ffc",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/rules/rule-types",
+        "effective_url": "https://stash.wiki/en/rules/rule-types",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "6715fb3c73e5feee3854e03ba9fecb8180a97294bb17006df16826e21cd8e07d",
+          "bytes": 298830
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-groups",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-groups",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.677Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"vzgmg6ifgw59ts\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/192c7d37dc76795bb37c438c6472548226093e13b0a69e6944148ca83ea6ac0a.gz",
+      "gzip_sha256": "f5113709d58499c6592d3ffafccdb24f0ac1fb010bfed4a3e7a4c76c4a18a5f8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/proxy-protocols/proxy-groups",
+        "effective_url": "https://stash.wiki/en/proxy-protocols/proxy-groups",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "192c7d37dc76795bb37c438c6472548226093e13b0a69e6944148ca83ea6ac0a",
+          "bytes": 246104
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-providers",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-providers",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.713Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"17zsi8uwggg4ev8\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/92c885c5d3567da374c86068396e388394940af59eae72e0a1984d1ee3fc8e19.gz",
+      "gzip_sha256": "86e151cfe8a44cbbad55609239bc3ac214ca3354cdbeb30960384cbebce3f994",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/proxy-protocols/proxy-providers",
+        "effective_url": "https://stash.wiki/en/proxy-protocols/proxy-providers",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "92c885c5d3567da374c86068396e388394940af59eae72e0a1984d1ee3fc8e19",
+          "bytes": 205928
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-proxy-protocols-proxy-types",
+      "url": "https://stash.wiki/en/proxy-protocols/proxy-types",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.800Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"9cbsopu5iagllc\"",
+        "date": "Mon, 19 Oct 2026 08:03:16 GMT"
+      },
+      "file": "bodies/0f8e503bbb07ae5b2cff17f79ccc481e0058c682b1f621f5165a69df2fa7c2b6.gz",
+      "gzip_sha256": "7597058cf7e212437b6ae8f829113e0844806ef0e15d5881f0b21c92cb1cebbd",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/proxy-protocols/proxy-types",
+        "effective_url": "https://stash.wiki/en/proxy-protocols/proxy-types",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "0f8e503bbb07ae5b2cff17f79ccc481e0058c682b1f621f5165a69df2fa7c2b6",
+          "bytes": 774588
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-features-dns-server",
+      "url": "https://stash.wiki/en/features/dns-server",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.823Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"8nj5ejnlzg518k\"",
+        "date": "Mon, 19 Oct 2026 08:03:16 GMT"
+      },
+      "file": "bodies/c79e75527141ba51e2c1bda660aa39a8f1ff0b1a2efc904d6d2fa7d438ab9817.gz",
+      "gzip_sha256": "04ebef5fc58bb16748445ec47363cacc7aedb80b0b8a616d2c7593171ecea364",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/features/dns-server",
+        "effective_url": "https://stash.wiki/en/features/dns-server",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "c79e75527141ba51e2c1bda660aa39a8f1ff0b1a2efc904d6d2fa7d438ab9817",
+          "bytes": 234942
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-configuration-example-config",
+      "url": "https://stash.wiki/en/configuration/example-config",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:15.852Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"3jg5w8tcxk95ea\"",
+        "date": "Mon, 19 Oct 2026 08:03:15 GMT"
+      },
+      "file": "bodies/1532cc8a5ebc6d995980d7a10328b994ff6982549131b07d550cb1850f839693.gz",
+      "gzip_sha256": "df1b34fec5d2cde00609c69f578b2915f0ee1f542a15c81e9f77f53e43118156",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/configuration/example-config",
+        "effective_url": "https://stash.wiki/en/configuration/example-config",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "1532cc8a5ebc6d995980d7a10328b994ff6982549131b07d550cb1850f839693",
+          "bytes": 426946
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-faq-testflight",
+      "url": "https://stash.wiki/en/faq/testflight",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.009Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"skqh2qqtyo2z39\"",
+        "date": "Mon, 19 Oct 2026 08:03:16 GMT"
+      },
+      "file": "bodies/ec93f878995d28fb7c0053e9d749aa077ecb9080274a9b2e24aa82b761484506.gz",
+      "gzip_sha256": "3411c40e1a84f18afcc5c931831afdea9b1e44ffce4f7c979521c2d886d97f3c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/faq/testflight",
+        "effective_url": "https://stash.wiki/en/faq/testflight",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ec93f878995d28fb7c0053e9d749aa077ecb9080274a9b2e24aa82b761484506",
+          "bytes": 138853
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-stash-mac",
+      "url": "https://stash.wiki/en/stash-mac",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.124Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"izo2kqdepa2zuj\"",
+        "date": "Mon, 19 Oct 2026 08:03:16 GMT"
+      },
+      "file": "bodies/680b48cdbca578ba153c85d77ebd128b9a1e4492ab418e17f3dc58f6e07838b8.gz",
+      "gzip_sha256": "c02f4521d87109dd2dc2b5478cea818710d76e5f1daee76febefe24b60f2cd8b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.wiki/en/stash-mac",
+        "effective_url": "https://stash.wiki/en/stash-mac",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "680b48cdbca578ba153c85d77ebd128b9a1e4492ab418e17f3dc58f6e07838b8",
+          "bytes": 139805
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-appstore-history",
+      "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
+      "kind": "release",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.238Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "etag": "\"ApjzkZfLeAvYKg9bBnu5uI3pW2xU5RZ7bI0hdO1gJI0=\"",
+        "date": "Mon, 19 Oct 2026 08:03:16 GMT"
+      },
+      "file": "bodies/89ad6e85c650593659cbcd246bf82229f2586bb49e44dd22134f5cd1dacbd3c0.gz",
+      "gzip_sha256": "91a252f41630ae63b6d6a542f458302a935b35f7251c52ac1ccfe87a1c50fa3c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
+        "effective_url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "89ad6e85c650593659cbcd246bf82229f2586bb49e44dd22134f5cd1dacbd3c0",
+          "bytes": 636561
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "stash-mac-home",
+      "url": "https://stash.ws/",
+      "kind": "documentation",
+      "product": "Stash",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.271Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"cmoz8uz31f1a91\"",
+        "date": "Thu, 15 Oct 2026 18:05:58 GMT"
+      },
+      "file": "bodies/ac2718e2ddce37fc806550730b089ec630fa78f02d26e60a137a176a975cefbc.gz",
+      "gzip_sha256": "d8f1948001dddd987ddfafc3f21f24f6a175ffe361d04ef455f3ef724ea41b9e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://stash.ws/",
+        "effective_url": "https://stash.ws/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ac2718e2ddce37fc806550730b089ec630fa78f02d26e60a137a176a975cefbc",
+          "bytes": 60001
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "egern-policy-groups",
+      "url": "https://egernapp.com/docs/configuration/policy_groups/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.516Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:17 GMT"
+      },
+      "file": "bodies/7aa15c064ac99321413027f279a8d8c7334460f7ed322e1d0895a41cd4b10851.gz",
+      "gzip_sha256": "505f11c91090d3f40e89dc52cc0d572afb235ce0f90eccbd2ae7bc840960a479",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://egernapp.com/docs/configuration/policy_groups/",
+        "effective_url": "https://egernapp.com/docs/configuration/policy_groups/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7aa15c064ac99321413027f279a8d8c7334460f7ed322e1d0895a41cd4b10851",
+          "bytes": 80623
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "egern-rules",
+      "url": "https://egernapp.com/docs/configuration/rules/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.551Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:17 GMT"
+      },
+      "file": "bodies/f19fcc6ace4ab8eb296fccd60d2d880c12491974014915dda63b7a66c0b0baad.gz",
+      "gzip_sha256": "b79952a9e775dda692a61cd2026fc1c5ec708f289b1cbecbd681eed648c27b11",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://egernapp.com/docs/configuration/rules/",
+        "effective_url": "https://egernapp.com/docs/configuration/rules/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f19fcc6ace4ab8eb296fccd60d2d880c12491974014915dda63b7a66c0b0baad",
+          "bytes": 56832
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "egern-dns",
+      "url": "https://egernapp.com/docs/configuration/dns/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.721Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:17 GMT"
+      },
+      "file": "bodies/399bfeda75c7872ee9ac1f4677bb88688ec3112ce23fbd593466ea833b4f8a4b.gz",
+      "gzip_sha256": "21b741cd31f6f79a4bf999156a9a8fa2709da113b80d28663946e60b2cd49744",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://egernapp.com/docs/configuration/dns/",
+        "effective_url": "https://egernapp.com/docs/configuration/dns/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "399bfeda75c7872ee9ac1f4677bb88688ec3112ce23fbd593466ea833b4f8a4b",
+          "bytes": 59143
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "egern-proxies",
+      "url": "https://egernapp.com/docs/configuration/proxies/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:16.877Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:17 GMT"
+      },
+      "file": "bodies/fa42b19f85d84caa92f5163072c94ab8ee136616501a7b25a3c07f7a1c7c7239.gz",
+      "gzip_sha256": "ed6272e6cd733a609d6d446893c89a6045ae319aae812212366ac0ee61200a07",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://egernapp.com/docs/configuration/proxies/",
+        "effective_url": "https://egernapp.com/docs/configuration/proxies/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "fa42b19f85d84caa92f5163072c94ab8ee136616501a7b25a3c07f7a1c7c7239",
+          "bytes": 146847
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "egern-example",
+      "url": "https://egernapp.com/docs/configuration/example/",
+      "kind": "documentation",
+      "product": "Egern",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:17.434Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:03:17 GMT"
+      },
+      "file": "bodies/15ea5671e6991ddcee30e824087a29443b2ca94390eab2511831bd0c5c386881.gz",
+      "gzip_sha256": "c49d62f7d3ed0cd732aeb31081d7a736c41b31a777712b4324268a46b4603bbf",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://egernapp.com/docs/configuration/example/",
+        "effective_url": "https://egernapp.com/docs/configuration/example/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "15ea5671e6991ddcee30e824087a29443b2ca94390eab2511831bd0c5c386881",
+          "bytes": 142275
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-intro",
+      "url": "https://nsloon.app/docs/intro/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:17.448Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-469f\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/dc1c9e00b4bd054d70168d41c86672ed25dd8f5315220e2258d31dd34e790445.gz",
+      "gzip_sha256": "a24db927fef5b334aaa122f48e357cd349c6c7ceb69300558a8d48571c9f7ce3",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/intro/",
+        "effective_url": "https://nsloon.app/docs/intro/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "dc1c9e00b4bd054d70168d41c86672ed25dd8f5315220e2258d31dd34e790445",
+          "bytes": 18079
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-general",
+      "url": "https://nsloon.app/docs/General/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:17.699Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-10221\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/87927fe887fe598dff2815a0f0f077e549da24707775d7bad64c6d5a72c069c1.gz",
+      "gzip_sha256": "8074e5bc5df4dfefeefda5a97bfa8f9df45c9dd0a6d901016ddb868b3556d3b7",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/General/",
+        "effective_url": "https://nsloon.app/docs/General/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "87927fe887fe598dff2815a0f0f077e549da24707775d7bad64c6d5a72c069c1",
+          "bytes": 66081
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-dns",
+      "url": "https://nsloon.app/docs/DNS/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:17.776Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-5343\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/4f03128a293123c2f3020230f52521623801f75ff0db797701ba5bf3a92e5aa3.gz",
+      "gzip_sha256": "1b59c489415cf4900bdff37ae32f465fe5ef3d6cc554bd27d4b1f75761177ac9",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/DNS/",
+        "effective_url": "https://nsloon.app/docs/DNS/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4f03128a293123c2f3020230f52521623801f75ff0db797701ba5bf3a92e5aa3",
+          "bytes": 21315
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-policy-policygroup",
+      "url": "https://nsloon.app/docs/Policy/policygroup/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:17.848Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-5189\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/bdc8d71de8bfff8791e89c7606c30f0cc2899a44134f69496b160884e7ef7c59.gz",
+      "gzip_sha256": "6c975a6d2fe94813b3b567abf43c6d1035743a6b279f16d4f7d186e901484f4a",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/Policy/policygroup/",
+        "effective_url": "https://nsloon.app/docs/Policy/policygroup/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "bdc8d71de8bfff8791e89c7606c30f0cc2899a44134f69496b160884e7ef7c59",
+          "bytes": 20873
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-rule-sub-rule",
+      "url": "https://nsloon.app/docs/Rule/sub_rule/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.393Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-4e06\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/7994a2709961fa661cb812dcdc8bd09849f2c3285f76aeeb19fe904eafbefd13.gz",
+      "gzip_sha256": "3eed32917f525908e898a8ddc4d90b3b57daff4fba3f60702c7dd1ff28269236",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/Rule/sub_rule/",
+        "effective_url": "https://nsloon.app/docs/Rule/sub_rule/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "7994a2709961fa661cb812dcdc8bd09849f2c3285f76aeeb19fe904eafbefd13",
+          "bytes": 19974
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-rule-process-rule",
+      "url": "https://nsloon.app/docs/Rule/process_rule/",
+      "kind": "documentation",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.453Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"6aceff47-8708\"",
+        "last-modified": "Wed, 14 Oct 2026 04:04:23 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/b8aa4099e2181287899249b6eab3fa38bb6699d2885db6a50135c4a5978e27a1.gz",
+      "gzip_sha256": "dcc9a83173058677f9e437d4d8603d4e5b1860c7ecf7811a3d18b770b3eaf673",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://nsloon.app/docs/Rule/process_rule/",
+        "effective_url": "https://nsloon.app/docs/Rule/process_rule/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b8aa4099e2181287899249b6eab3fa38bb6699d2885db6a50135c4a5978e27a1",
+          "bytes": 34568
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-appstore-history",
+      "url": "https://apps.apple.com/us/app/loon/id1373567447",
+      "kind": "release",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.460Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "etag": "\"XDuCXkm+faOra6+CJoU4pmNylmQB6SxNnzBnqVNPMzo=\"",
+        "date": "Mon, 19 Oct 2026 08:03:18 GMT"
+      },
+      "file": "bodies/27aa8bf8dfcb89c87d39b1e9cab8f0454fbe2785c6ca0878f23d38de3b05e006.gz",
+      "gzip_sha256": "b10d0fab54963141b86ad00cf7b812f8851a683e2f02cf9b63e3843075384631",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://apps.apple.com/us/app/loon/id1373567447",
+        "effective_url": "https://apps.apple.com/us/app/loon/id1373567447",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "27aa8bf8dfcb89c87d39b1e9cab8f0454fbe2785c6ca0878f23d38de3b05e006",
+          "bytes": 632470
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "loon-example",
+      "url": "https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf",
+      "kind": "source",
+      "product": "Loon",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.542Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"dcbe168501fdd588cba289d72961bc16fb11008e0195b12826e8a8f06ffc937d\"",
+        "date": "Mon, 19 Oct 2026 08:03:19 GMT"
+      },
+      "file": "bodies/40aafb79edb7b35e472235574a35bac1544963ffd1396ad06b41aa16c84fa416.gz",
+      "gzip_sha256": "fafc9a29b2d409e651a817de72d7b46428485693370f1f577fe21267b87b546e",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf",
+        "effective_url": "https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/f5b97c72dfe35283678c6da68b21c959ff30126d/example.conf",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "40aafb79edb7b35e472235574a35bac1544963ffd1396ad06b41aa16c84fa416",
+          "bytes": 8831
+        },
+        "source": {
+          "id": "Loon0x00/LoonExampleConfig",
+          "kind": "git",
+          "repository_url": "https://github.com/Loon0x00/LoonExampleConfig",
+          "requested_ref": "master",
+          "source_path": "example.conf",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "f5b97c72dfe35283678c6da68b21c959ff30126d",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "qx-sample-conf",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/sample.conf",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.694Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"dfd2c3a7934e8437e2066c7fead64941624fc3b7cfa904c98742cc8e4308003c\"",
+        "date": "Mon, 19 Oct 2026 08:03:20 GMT"
+      },
+      "file": "bodies/60acd8eac964c012e6278791dc9e22b5ae2c950b04c5ae350eed795ea7d1234b.gz",
+      "gzip_sha256": "04df50aabc9aea7260b8acdac695df7ec060c34581050fa27de9c8d9b1f84768",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/sample.conf",
+        "effective_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/sample.conf",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "60acd8eac964c012e6278791dc9e22b5ae2c950b04c5ae350eed795ea7d1234b",
+          "bytes": 42661
+        },
+        "source": {
+          "id": "crossutility/Quantumult-X",
+          "kind": "git",
+          "repository_url": "https://github.com/crossutility/Quantumult-X",
+          "requested_ref": "master",
+          "source_path": "sample.conf",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "qx-server-complete-snippet",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/server-complete.snippet",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.755Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"b306c018333cf9a1ce081e00e5e747b2ab703b4cd31cac73949ff1d47fbf9c36\"",
+        "date": "Mon, 19 Oct 2026 08:03:20 GMT"
+      },
+      "file": "bodies/f0fad6fe7e137f868fb53776544793b95399abcfcb9d60c7f7f88f18205ca717.gz",
+      "gzip_sha256": "c887a6ebcfaf1ac1a2c979f9f5b3de9537a2c344483a9389b871f099d92856c5",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/server-complete.snippet",
+        "effective_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/server-complete.snippet",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "f0fad6fe7e137f868fb53776544793b95399abcfcb9d60c7f7f88f18205ca717",
+          "bytes": 4179
+        },
+        "source": {
+          "id": "crossutility/Quantumult-X",
+          "kind": "git",
+          "repository_url": "https://github.com/crossutility/Quantumult-X",
+          "requested_ref": "master",
+          "source_path": "server-complete.snippet",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "qx-url-scheme-md",
+      "url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/url-scheme.md",
+      "kind": "source",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:18.832Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"1c64c8b8ba5e36482b06188fa5a9c5f079d747d9af4e8763b5f48a1a860ea005\"",
+        "date": "Mon, 19 Oct 2026 08:03:20 GMT"
+      },
+      "file": "bodies/4590d2df7877a3a1517c9f4bf72e9455d2b9ac59691bb4da446f4f34d227dc43.gz",
+      "gzip_sha256": "23ab8bd6bc6ad9b1af96f77afc56257fb77a9659449840f050b74dc726c5050d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/master/url-scheme.md",
+        "effective_url": "https://raw.githubusercontent.com/crossutility/Quantumult-X/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/url-scheme.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4590d2df7877a3a1517c9f4bf72e9455d2b9ac59691bb4da446f4f34d227dc43",
+          "bytes": 7280
+        },
+        "source": {
+          "id": "crossutility/Quantumult-X",
+          "kind": "git",
+          "repository_url": "https://github.com/crossutility/Quantumult-X",
+          "requested_ref": "master",
+          "source_path": "url-scheme.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "qx-appstore-history",
+      "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
+      "kind": "release",
+      "product": "Quantumult X",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:19.948Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "etag": "\"SqMjV2Suz96hjtbZe4Sy3W16S9L9SPncw5O6h7dCqRs=\"",
+        "date": "Mon, 19 Oct 2026 08:03:20 GMT"
+      },
+      "file": "bodies/ef632239da1a8f371583a8254e9700e0e4520354ce337c0f31636474b291938c.gz",
+      "gzip_sha256": "ce597afa3ff8071ea33ff01e79a912866846cdcd3657ef6ea2fc8c63436a4755",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
+        "effective_url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ef632239da1a8f371583a8254e9700e0e4520354ce337c0f31636474b291938c",
+          "bytes": 578148
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shadowrocket-appstore-history",
+      "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+      "kind": "release",
+      "product": "Shadowrocket",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:20.100Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "etag": "\"ZBp8UzaH79Mtz2vhNKuCB1xfygaP2hvP3PwXUfb/PEE=\"",
+        "date": "Mon, 19 Oct 2026 08:03:20 GMT"
+      },
+      "file": "bodies/5d393006484a1bb25d6e90f99f396685e84567cc39db51128490e7f216c914c5.gz",
+      "gzip_sha256": "5bd714fa6bc2c4c6b2e11102767f54aa8ccc81ead4ffee42d38a520b6573fef8",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+        "effective_url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "5d393006484a1bb25d6e90f99f396685e84567cc39db51128490e7f216c914c5",
+          "bytes": 634033
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shadowrocket-official-home",
+      "url": "https://shadowlaunch.com/",
+      "kind": "documentation",
+      "product": "Shadowrocket",
+      "required": true,
+      "expected_content_type": "html",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:03:20.108Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "last-modified": "Mon, 28 Sep 2026 11:29:12 GMT",
+        "date": "Mon, 19 Oct 2026 08:03:21 GMT"
+      },
+      "file": "bodies/ef2822623d209976c9cc6736e8f278184f49deeb55c37b9f713fcbf950be16a0.gz",
+      "gzip_sha256": "c3d2b37fe42641b816b6057e721af6bc3b6bd5578fdcb61e4a85cbb9fc264e8c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://shadowlaunch.com/",
+        "effective_url": "https://shadowlaunch.com/",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "ef2822623d209976c9cc6736e8f278184f49deeb55c37b9f713fcbf950be16a0",
+          "bytes": 1461
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "shadowrocket-help-unverified",
+      "url": "https://help.shadowrocket.net/",
+      "kind": "documentation",
+      "product": "Shadowrocket",
+      "required": false,
+      "expected_content_type": "html",
+      "status": "failed",
+      "attempted_at": "2026-10-19T08:19:31.772Z",
+      "http_status": null,
+      "headers": {},
+      "error": "fetch failed"
+    }
+  ]
+}

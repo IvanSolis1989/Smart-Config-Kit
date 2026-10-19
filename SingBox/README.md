@@ -1,363 +1,91 @@
-# SingBox 使用教程（对齐 Clash Party v6.0.20 Full 语义）
+# SingBox Full 配置
+
+同源生成 sing-box 1.14 / 1.13 配置，包含 20 个区域组、33 个业务组和 1 个节点选择组；使用前替换示例节点。
+
+> 版本：`v6.0.20-sing.10` · Build：2026-10-19 · 规则基线：`rulesets/source/routing-graph.js` v6.0.20。
+> 变更历史见 [CHANGELOG.md](CHANGELOG.md)。官方字段、内核版本及客户端限制见 [2026-10-19 核验报告](../docs/upstream/2026-10-19/singbox/report.md)。
 
 ## 📥 规则下载链接
 
-[![下载规则：sing-box JSON](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD%E8%A7%84%E5%88%99-sing--box%20JSON-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json)
+| 使用环境 | 配置文件 | 内核要求 |
+| --- | --- | --- |
+| 当前稳定版、v2rayN 自定义 sing-box 配置 | [下载 Full JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json) | sing-box **1.14.3+**；本次验收 1.14.3 |
+| Hiddify 4.1.1 的 1.13 系列内核、仍使用 1.13 的客户端 | [下载 1.13 兼容 JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-1.13.json) | 官方 sing-box **1.13.14** 已通过检查；Hiddify 自家内核需单独核对 |
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+[![下载规则：sing-box Full JSON](https://img.shields.io/badge/下载规则-sing--box%20Full-2ea44f?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json)
+[![下载规则：sing-box 1.13 JSON](https://img.shields.io/badge/下载规则-sing--box%201.13-2874a6?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-1.13.json)
 
-**sing-box JSON 直链：**
+可复制的 Raw 地址：
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-full.json
+https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/SingBox/SingBox%28sing-box%29-1.13.json
 ```
 
-这是 sing-box Full 配置，Hiddify / HomeProxy 复用同一文件；节点接入与导入方式见下文。
+规则更新需要能访问 GitHub Raw 的网络或可用代理，排查见[规则下载说明](../docs/rule-asset-delivery.md)。
 
----
+## 选择配置与接入节点
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+1. 在客户端的内核信息里确认实际 sing-box 版本，再选择上表文件。应用版本与内核版本分别核对。
+2. 编辑 JSON，把 `outbounds` 中 `proxy-hk-1`、`proxy-us-1` 等 `trojan` 示例出站替换为真实节点。节点标签需与区域组引用一致；增加节点时同时修改相应区域组的 `outbounds`。
+3. 通过客户端明确支持的完整自定义配置入口加载。原生 sing-box 可先运行 `sing-box check -c 配置文件.json` 检查。
+4. 启用后核对最终配置保留 54 个 selector/urltest、85 个 remote rule-set，并确认规则下载成功。示例节点本身不能连接。
 
+两个变体共用相同出站拓扑、98 条路由规则（含 1 条非终结嗅探动作）及规则集 URL。业务规则按源规则顺序匹配，最终兜底为 `🐟 漏网之鱼`。
 
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
+节点不会自动按名称填入区域组；转换订阅后仍需核对标签和引用。
 
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
+## DNS、规则下载与嗅探
 
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
+两份配置都使用 typed DNS server：`type: https`、`server`、`path` 和 `domain_resolver`。IP 自举 DoH 保留证书 SNI；国内解析经 `DIRECT`，代理解析经 `🚀 节点选择`。`dns_direct2` / `dns_proxy2` 是预留服务器，存在备用项不代表内核会自动故障切换。
 
-> 目录简介：这里维护 sing-box Full JSON 生成脚本、生成产物和 Hiddify/HomeProxy 等 sing-box 客户端导入教程。
->
-> 配置文件：`SingBox/SingBox(sing-box)-full.json`（v6.0.20-sing.9；Build 2026-10-16；urltest interval：standard 5m / power-save 15m；149 个 Mihomo 融合 provider 编译为 78 个 SRS，覆盖 81 个源语义段，生成资产使用发布版本缓存键）
-> 生成脚本：`SingBox/SingBox(sing-box)-generator.js`
-> 目标：在 **sing-box** 上复刻 Clash Party 的「20 区域组（10 全部 + 10 家宽）+ 33 业务组」静态策略结构，并只使用 sing-box 官方可消费的 SRS 规则集，保持 sing-box 1.12/1.13/1.14 官方配置兼容。
-> 本目录只提供 Full 配置。
+Full 使用 1.14 的命名 `http_clients` 下载规则集，通过 `evaluate` / `match_response` / `respond` 显式处理 CN IP 解析结果。1.13 兼容文件使用该稳定系列支持的 `download_detour` 与 DNS GeoIP 接受过滤。两者均将规则下载交给 `🌍 全球节点`。
 
-<sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
+TUN 使用 `172.19.0.1/30`、`auto_route` 和 `strict_route`。嗅探通过非终结 `action: sniff` 执行。客户端托管 TUN 时，应按其完整配置模式的规则调整入站并核对最终配置。
 
----
+嗅探可辅助 SNI/Host 匹配，但不能恢复旧 `sniff_override_destination=true` 的动态目的地址重写：IP 目的仍拨原 IP。`route-options.override_address` 只支持固定地址。源码与影响见[迁移边界](../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界)。
 
-## 🚀 零基础快速开始
+官方依据：[DNS HTTPS server](https://sing-box.sagernet.org/configuration/dns/server/https/)、[rule-set](https://sing-box.sagernet.org/configuration/rule-set/)、[迁移说明](https://sing-box.sagernet.org/migration/)。
 
-### 这是什么？
-一份 **sing-box 原生 JSON 配置**。sing-box 是一个新一代跨平台代理内核，**比 Clash 内存占用更低、协议支持更新**。任何加载 sing-box 内核的客户端都能用这份配置——包括 **Hiddify**、**SFA**（sing-box for Android）、**SFM**（Mac）、**SFI**（iOS）、**Karing**、以及 **v2rayN 切到 sing-box 核**。
+## Hiddify
 
-> ⚠️ **NekoBox / NekoRay 不支持本配置**：NekoBox 是 GUI 拨动开关式简易分流工具，路由模型（平面规则匹配）与本仓库的 54 组嵌套智能选择体系在架构层面不兼容（出站 tag 命名不同 / 无 rule_set 支持 / DNS 模型冲突）。NekoBox 用户请改用 Hiddify（§2a）。NekoRay Desktop 已于 2024 年末归档停维，建议迁移到 Clash Verge Rev / Mihomo Party / FlClash。详见 §2c。
+[Hiddify app 4.1.1](https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1) 构建文件固定 `core.version=4.1.0`，对应源码使用 1.13 系列派生内核，因此优先选择 **1.13 兼容 JSON**。独立 hiddify-core 的新版本不能证明已安装 App 同步升级了内核。
 
-### 术语速查
-- **sing-box**：一个代理内核（类比 mihomo/Xray）。**不是**一个具体的客户端 App，它是核心引擎，由各种 GUI 客户端调用。
-- **rule_set**：sing-box 的"规则集"概念，等同于 Clash 的 `rule-provider`。
-- **selector / urltest**：sing-box 里的策略组类型。`selector` = 手动选，`urltest` = 按延迟自动选最优。
+Hiddify 仅在完整配置模式下保留全部输入，普通路径可能只提取节点。导入后核对 `route`、`dns`、`rule_set` 和组引用；依据见[核验报告](../docs/upstream/2026-10-19/singbox/report.md#hiddify)。
 
-### 3 步走完（以 Hiddify 为例，最简单）
-1. **下载 Hiddify**：https://hiddify.com（Windows / Mac / Linux / Android / iOS 都有）。
-2. **替换节点**：用文本编辑器打开 `SingBox(sing-box)-full.json`，`outbounds` 数组里找 `"type": "trojan"` / `"vless"` / `"vmess"` / `"hysteria2"` 的占位节点（`proxy-hk-1`、`proxy-us-1`…），换成你机场给的真实节点参数。保存。
-3. **导入**：Hiddify → 添加配置 → 从文件导入 → 选这个 JSON → 启用。
+本次通过的是官方 sing-box 1.13.14 的配置检查，尚未在 Hiddify 4.1.1 App 内进行完整配置导入和连接验收。
 
-### 其它客户端也一样？
-基本一样。所有吃 sing-box JSON 的客户端都是"导入 JSON → 启用"。不同的仅仅是每个客户端按钮位置不同：
-- **SFA**（Android）、**SFM**（Mac）、**SFI**（iOS）：官方客户端，UI 最干净
-- **Karing**：跨平台，UI 更漂亮
-- ~~**NekoBox / NekoRay**~~：**不兼容**（架构差异大，详见 §2c）；NekoRay Desktop 已归档，请改用 Hiddify 或 Mihomo 系客户端
-- **v2rayN**：Windows，需要先在「设置 → 核心基础设置」切到 **sing-box**，然后「自定义配置服务器」导入本 JSON
+## v2rayN
 
-### 跑起来怎么验证？
-- 浏览器打开 `https://www.google.com` 能打开 = 代理通了
-- 客户端的"出站"/"策略"面板应看到 54 个组（1 `🚀 节点选择` + 20 区域 + 33 业务）
-- 首次启动后等 85 个 remote rule_set 下载完（约 1 分钟），日志不报 403/404 即可
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+使用**自定义配置服务器**加载对应 JSON，并核对所用 sing-box 核心版本。v2rayN 7.25.6 声明支持并限制在 sing-box 1.14 系列；1.15 alpha 不在该版本支持范围。[官方发布说明](https://github.com/2dust/v2rayN/releases/tag/7.25.6)
 
-### 最常见踩坑
-- ❌ **客户端说 "config invalid"**：你改节点时漏了逗号/引号。用 `python3 -c 'import json; json.load(open("SingBox(sing-box)-full.json"))'` 校验 JSON 合法性。
-- ❌ **rule_set 下载失败**：本仓库资产使用 GitHub Raw HTTPS。先用任意一个能通的节点连上，再重新启用本配置，让 sing-box 把 85 个远程 rule_set（78 个融合 SRS + 7 个 GEO 辅助集）拉下来缓存。
-- ❌ **Hiddify 提示 TUN 冲突**：Hiddify 会自己管 TUN。把本 JSON 里的 `inbounds.tun` 段删掉就好。
-- ❌ **配置里的节点占位跑不通**：那是示例节点（`proxy-hk-1` 等），需要你替换成真实节点。**不替换直接导入是跑不通的**。
+选择 Xray 核心时使用本仓库 [v2rayN Xray 路由](../v2rayN/README.md)。Xray 原生路由不能直接消费 sing-box `.srs`。
 
----
+## HomeProxy
 
-## 🔌 协议支持（sing-box 核）
+[HomeProxy](https://github.com/immortalwrt/homeproxy) 从节点订阅和 UCI 重建配置，不能据此保证导入 Full JSON 后保留全部规则和组。
 
-sing-box 由 SagerNet 团队开发，是目前**新协议实现最前沿**的代理内核（Hysteria 2 / TUIC v5 / AnyTLS 都最早或同步实现在 sing-box）。
+尚无经验证的 Full JSON → HomeProxy UCI 转换器。请通过其 UI 配置节点、DNS、分流与 rule-set，再检查生成结果；直接运行原生 JSON 则需自行管理服务与防火墙。
 
-| 协议 | 支持 | 说明 |
-|---|:-:|---|
-| **Shadowsocks (SS)** | ✅ | 全套 AEAD + **SS 2022-blake3**（sing-box 是 2022 协议的参考实现）|
-| **ShadowsocksR (SSR)** | ❌ | 已废弃，sing-box 不实现 |
-| **VMess** | ✅ | ws/grpc/h2 |
-| **VLESS** | ✅ | **REALITY** + **XTLS-Vision** |
-| **Trojan** | ✅ | |
-| **Hysteria v1** | ✅ | |
-| **Hysteria 2** | ✅ | 协议最权威实现 |
-| **TUIC v5** | ✅ | 协议最权威实现 |
-| **WireGuard** | ✅ | 作为出站 |
-| **AnyTLS** | ✅ | 较新 |
-| **ShadowTLS v1/v2/v3** | ✅ | 协议原作者也在 sing-box |
-| **Naive** | ⚠️ | 旧协议，保留兼容 |
-| **Tor** | ✅ | 作为特殊出站 |
-| **SSH** | ✅ | 作为出站隧道 |
-| **SOCKS5 / HTTP(S)** | ✅ | |
+Passwall / Passwall2 都支持 sing-box 与 Xray 后端，使用各自目录的受控脚本；本仓库 fused `.srs` 路径要求实际分流后端为 sing-box。
 
-**如果你的机场给的是 Hysteria 2 / TUIC / AnyTLS / ShadowTLS 等新协议，优先选 sing-box**——它往往比 Mihomo 更早实现最新的协议变种。
+## 其他客户端与验证边界
 
-### 和 Mihomo 核对比一张图
-| 维度 | Mihomo | sing-box |
-|---|---|---|
-| SSR 兼容 | ✅ | ❌ |
-| Snell | ✅ | ❌ |
-| Mieru | ✅ | ❌ |
-| LightGBM 自动择优 | ✅（Smart 分支） | ❌ |
-| 新协议首发速度 | 慢一步 | **快，参考实现** |
-| 内存占用 | 较高 | **较低** |
-| JS 覆写（脚本化配置） | ✅（Clash Verge/Mihomo Party）| ❌ |
-| 规则集热更新 | ✅（rule-providers）| ✅（rule_set remote）|
-| Clash API 兼容 | ✅ 原生 | ✅ 兼容 |
+SagerNet 的 1.14.3 官方发布资产包含同版本 SFA APK、SFM 安装包及越狱版 SFI deb；独立 Android/Apple 源码仓库没有自己的 release。官网门槛为 Android 5.0+（低版本需对应 legacy 构建）、iOS 15+ / macOS 13+ / tvOS 17+。Play Store / App Store / TestFlight 的实际版本仍需在所用渠道核对，不能由 GitHub 核心版本直接推定。[Android 官方说明](https://sing-box.sagernet.org/clients/android/)、[Apple 官方说明](https://sing-box.sagernet.org/clients/apple/)
 
-**一句话选核**：有 SSR / 想要 LightGBM → Mihomo；只跑新协议、看重内存/性能 → sing-box。
+完整配置仍需满足实际内核版本与导入条件。Karing、NekoBox 等应用的转换、覆盖和 UI 行为未在本次验证，不能仅凭采用 sing-box 内核认定完整 JSON 可原样导入。
 
----
+本次验收包括官方 1.14.3 / 1.13.14 `check`、两变体结构与 URL 对比，以及生成器回归。未使用真实机场节点启动 VPN，未替用户更改设备网络设置。
 
-## 1. 设计说明（和 Clash Party 的一致性）
-
-该 sing-box 版本与 Clash Party 主线保持以下一致：
-
-- **区域层一致**：
-  - `🌍 全球节点`
-  - `🇭🇰 香港节点`
-  - `🇹🇼 台湾节点`
-  - `🇯🇵 日韩节点`
-  - `🌏 亚太节点`
-  - `🇺🇸 美国节点`
-  - `🇪🇺 欧洲节点`
-  - `🌎 美洲节点`
-  - `🌍 非洲节点`
-
-- **业务层一致（31 组）**：
-  - `🤖 AI 服务`、`💰 加密货币`、`🏦 金融支付`、`💬 即时通讯`、`📱 社交媒体`
-  - `🧑‍💼 会议协作`、`📺 国内流媒体`
-  - `🎥 Netflix`、`🎬 Disney+`、`📡 HBO/Max`、`📺 Hulu`、`🎬 Prime Video`
-  - `📹 YouTube`、`🎵 音乐流媒体`
-  - `🇭🇰 香港流媒体`、`🇹🇼 台湾流媒体`、`🇯🇵 日韩流媒体`、`🇪🇺 欧洲流媒体`
-  - `🌐 其他国外流媒体`、`🕹️ 国内游戏`、`🎮 国外游戏`
-  - `🔧 工具与服务`、`Ⓜ️ 微软服务`、`🍎 苹果服务`、`📥 下载更新`
-  - `🛰️ BT/PT Tracker`、`🏠 国内网站`、`🚫 受限网站`、`🌐 国外网站`
-  - `🐟 漏网之鱼`、`🛑 广告拦截`
-
-- **规则层策略一致**：
-  - AI、支付、加密货币、流媒体、即时通讯、开发者服务等关键域名前置匹配。
-  - 国内/国外流量使用 `cn`、`cn-ip` 与 `proxy` 收口。
-  - 广告使用 `category-ads-all` 统一拦截。
-  - 通过生成脚本从 `Clash Party/ClashParty(mihomo-smart).js` 自动提取 rule-providers 与 rules，确保顺序和策略定义持续跟随 Clash Party 主线。
-
----
-
-## 2. 准备工作
-
-1. 安装 sing-box 或图形客户端（如 sing-box for Android / macOS 图形端等）。
-2. 将 `SingBox/SingBox(sing-box)-full.json` 导入客户端。
-3. 将文件内 `proxy-xxx` 示例节点替换成你自己的真实节点（trojan/vless/vmess/hysteria2 都可以）。
-
-> 说明：`SingBox(sing-box)-full.json` 已内置 85 个 sing-box remote rule_set（78 个 fused SRS + 7 个运行时 GEO 辅助）与 97 条路由规则；你只需要替换节点出站即可。
-
-### 多机场订阅合并
-
-如果你同时买了多家机场，可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具，所有客户端通用。
-
-1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
-2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
-3. 后端选 **Mihomo（Clash.Meta）**
-4. 生成新 URL → 把节点手动填入 JSON 的 `outbounds` 段（sing-box 没有运行时节点分类，需手工替换占位节点）
-
-> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
-
----
-
-## 2a. Hiddify 用户看这里
-
-**Hiddify 的内核就是 sing-box**（实际打包的是 `hiddify-sing-box` 二进制，在官方 sing-box 基础上加了 WARP+、Hiddify Profile Format 等自家扩展）。所以本目录的配置 **不需要单独开一份 Hiddify 版本**——直接把 `SingBox/SingBox(sing-box)-full.json` 喂给 Hiddify 即可。
-
-### 在 Hiddify 里导入
-
-1. 打开 Hiddify → 右上角 **配置 / Profile** → **添加新的配置** → **从剪贴板 / 从文件导入**。
-2. 选择本仓库的 `SingBox/SingBox(sing-box)-full.json`。
-3. Hiddify 会读取文件里的 `outbounds`、`route`、`dns`、`rule_set`，20 区域 + 33 业务组会全部出现在 Hiddify 的「策略」面板。
-
-### 两个小提示
-
-- **TUN 让 Hiddify 自己管**：Hiddify 会在系统层接管 TUN（用自己的 `tun` inbound 配置覆盖），所以本 JSON 里的 `inbounds.tun` 可以保留，也可以删掉——Hiddify 都能正常启动。
-- **节点替换**：和其它 sing-box 客户端一样，把 `outbounds` 里 `"type": "trojan"` / `"vless"` / `"vmess"` / `"hysteria2"` 的占位节点（`proxy-hk-1`、`proxy-us-1`…）改成你机场给的真实节点即可。如果你在 Hiddify 里单独添加了订阅，也可以删掉 JSON 里的占位节点，让 Hiddify 用订阅节点直接填充区域组。
-
-### Hiddify 的自家扩展字段
-
-- Hiddify Profile Format（`.hiddify-json`）是 sing-box JSON 的超集，额外支持 `meta`、`profile` 等字段用于 UI 展示。本仓库保持**纯 sing-box 标准格式**，对 Hiddify 照样生效，只是少了一些 UI 层的美化（如订阅备注、更新周期）。
-- 若你想完整享受 Hiddify 自己的 WARP+ / Fragment / Mux 能力，可以在 Hiddify 客户端里单独开启——这些是运行时设置，和我们的路由/规则不冲突。
-
----
-
-## 2.1 重新生成 Full 规则（跟随 Clash Party 升级）
-
-当 `Clash Party/ClashParty(mihomo-smart).js` 更新后，执行：
+## 维护与生成
 
 ```bash
-# 路径里的 ( ) 是 shell 语法 token，必须加引号
-node 'SingBox/SingBox(sing-box)-generator.js'
+node "SingBox/SingBox(sing-box)-generator.js"
+node --test tools/tests/singbox-current-schema.test.js
 ```
 
-脚本会自动：
+禁止手工修改两个生成 JSON。规则仍从 `rulesets/source/routing-graph.js` 经融合链路进入生成器；完整维护契约见根 [AGENTS.md](../AGENTS.md)。
 
-- 调用 Clash Party 的 `main(config)` 构建完整规则；
-- 同步导出 sing-box `route.rule_set`（39 项，全部为官方 SRS 兼容 remote rule_set）；
-- 同步导出 sing-box `route.rules`（81 条）。
-> 说明：Clash YAML/list 规则源不能直接作为 sing-box `source` rule-set 使用；生成器只保留可验证的 SRS 来源，避免用户导入后才遇到远程规则下载失败。
+Claude Desktop 网络依赖见[依赖台账](../docs/claude-service-dependencies.md)，微信精确域名处理见[连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
 
----
-
-## 2b. HomeProxy（OpenWrt 软路由）用户看这里
-
-**HomeProxy（`immortalwrt/homeproxy`）是 sing-box 团队官方推荐的 OpenWrt LuCI 插件**，内核就是 sing-box。本仓库的 JSON 原生可用，**不需要任何转换**。
-
-### 在 HomeProxy 里导入
-
-1. LuCI → 服务 → HomeProxy → **订阅** 面板（或 Subscriptions 标签）。
-2. 选择 **本地文件导入** 或 **URL 订阅**，指向 `SingBox/SingBox(sing-box)-full.json`。
-3. HomeProxy 会自动读取 JSON 里的 `outbounds`、`route`、`dns`、`rule_set`，然后把 20 区域 + 33 业务组全部展示在"出站组"面板里。
-
-### 小提示
-
-- **TUN 由 HomeProxy 接管**：和 Hiddify 一样，HomeProxy 会用自己的 `tun` inbound 配置覆盖 JSON 里的 `inbounds.tun` 段，保留或删除都能跑。
-- **节点替换**：HomeProxy 支持直接订阅机场 URL，让机场节点自动填充本 JSON 里的占位出站（`proxy-hk-1` / `proxy-us-1` 等）——省去手工改 JSON。
-- **与 Passwall / Passwall2 / SSR+ 的对比**：这三个插件**不能**消费本仓库的 JSON（它们没有 sing-box 核）。HomeProxy 是软路由用户想跑"官方 sing-box + 完整 25+9 架构"的最佳选择；另一个选择是本仓库 `OpenClash/`（mihomo 核 + 功能更全，但内存占用更高）。
-
----
-
-## 2c. NekoBox / NekoRay 用户看这里
-
-**不建议直接导入本仓库的 sing-box JSON 到 NekoBox。** 这不是"语法不同需要翻译"的问题，而是路由模型在哲学层面就不同——NekoBox 是 GUI 拨动开关式简易分流，本仓库是 54 组嵌套智能选择。
-
-### 架构差异（不可调和的 5 个冲突点）
-
-| 维度 | 本仓库 sing-box JSON | NekoBox for Android |
-|------|---------------------|---------------------|
-| **路由模型** | 54 组嵌套 selector/urltest（业务组 → 区域组 → 节点） | 平面规则匹配（几个 GUI 开关：中国域名 / 中国 IP / 屏蔽广告 / 屏蔽跟踪器 / 屏蔽 QUIC） |
-| **出站 tag** | 中文 emoji 名称（`🐟 漏网之鱼` / `🚫 受限网站` / `🤖 AI 服务` …） | 内置 tag 常量（`proxy` / `bypass` / `block` / `direct`），导入完整配置后 GUI 路由失效 |
-| **rule_set** | 85 个 remote rule_set（78 个融合 SRS + 7 个运行时 GEO 辅助） | **不支持** rule_set；规则只能写内联的 domain/ip/geosite |
-| **DNS** | 手动多层 DNS（`dns_direct` IP bootstrap + `dns_proxy` DoH + `dns_final` 兜底） | 自动 split-DNS（"直连 DNS / 远程 DNS"自动切换，由 NB4A 封装而非 sing-box 原生） |
-| **配置入口** | 外部 JSON 文件，用户编辑后导入 | GUI 为主，配置存储在 App 内部；自定义 JSON 仅作补丁合并，不作为主配置 |
-
-### 结论
-
-即使把 `SingBox(sing-box)-full.json` 导入为 NekoBox 的"自定义配置"，也无法正常工作——tag 不匹配导致路由规则全部失效，rule_set 无法加载，DNS 行为不可预期。
-
-### 替代方案
-
-- **Android 用户** → 改用 **Hiddify**（Android + sing-box 核心，可直接导入本 JSON，参见 §2a）
-- **Desktop 用户** → 改用 **Clash Verge Rev** / **Mihomo Party**（mihomo 核心，使用 `Clash Party/` 的 JS 覆写脚本，含 Smart + LightGBM）或 **Hiddify**（sing-box 核心，使用本 JSON）
-- **NekoRay Desktop 已归档**：原作者 MatsuriDayo 于 2024 年末声明"不再维护，自寻替代品"并归档仓库，推荐迁移到 Clash Verge Rev / FlClash / Mihomo Party（均已在本仓库覆盖）
-
----
-
-## 3. 关键兼容性（按 sing-box 官方文档）
-
-为了兼容新版本 sing-box，配置做了以下处理：
-
-- 路由规则使用 `action` + `outbound` 形式（sing-box 1.11+ 变更后推荐）。
-- 使用 `rule_set`（remote/binary）而非老 GeoIP/Geosite 旧写法。
-- 启用 `experimental.cache_file.enabled`，让远程规则和 selector 选择结果可缓存。
-- `selector` / `urltest` 均使用官方结构字段（`outbounds`、`default`、`interval`、`tolerance`）。
-
----
-
-## 3.1 DNS / 嗅探 / GEO 增强版配置（已并入 Full 配置）
-
-为贴近 Clash Party 使用教程中的「DNS + Sniffer + GeoX URL」补充项，`SingBox(sing-box)-full.json` 已对应实现：
-
-- **DNS 增强**：
-  - `dns_bootstrap`（`udp://223.5.5.5:53`）只用于 DoH 域名自举，保持纯 IP；
-  - `dns_direct`（AliDNS DoH）用于 private / CN DNS 规则；
-  - `dns_proxy`（Cloudflare DoH）用于代理解析与默认 DNS，并通过 `🚀 节点选择` 出站以尊重用户主选择器；
-  - 广告 DNS 规则使用 `action: "reject"` 返回拒绝响应。
-- **嗅探增强**：
-  - `inbounds.tun.sniff=true`
-  - `sniff_override_destination=true`
-  - 与 Clash Party 的 Sniffer 覆写语义对齐（提升 SNI/域名识别命中）。
-- **GEO 增强数据库**：
-  - `MetaCubeX/meta-rules-dat@sing` 的 geosite/geoip `.srs` 远程规则集；
-  - 按日更新（`update_interval: 1d`）。
-
----
-
-## 4. 替换节点的推荐方式
-
-在 `outbounds` 中，优先按区域替换：
-
-- `proxy-hk-*` → 香港节点
-- `proxy-tw-*` → 台湾节点
-- `proxy-jp-*` / `proxy-kr-*` → 日韩节点
-- `proxy-sg-*` / `proxy-id-*` → 亚太节点
-- `proxy-us-*` → 美国节点
-- `proxy-eu-*` → 欧洲节点
-- `proxy-ca-*` → 美洲节点
-- `proxy-af-*` → 非洲节点
-
-这样业务组就不需要改动，能保留 Clash Party 的“业务语义 -> 区域出口”逻辑。
-
----
-
-## 5. 首次启动检查清单
-
-启动后请按顺序确认：
-
-1. **出站组是否完整**：能看到 20 区域 + 33 业务组。
-2. **DNS 是否生效**：国内域名走 `dns_direct`，国外域名走 `dns_proxy`。  
-3. **规则集下载是否成功**：应看到 40 个 remote `rule_set` 被加载，且无 403/404。
-4. **关键规则集是否存在**：`cn / cn-ip / proxy / geosite-category-ads-all`。
-5. **典型业务是否命中**：
-   - ChatGPT 命中 `🤖 AI 服务`
-   - Binance 命中 `💰 加密货币`
-   - YouTube/Netflix 命中对应流媒体组
-   - 国内站点命中 `🏠 国内网站`
-
----
-
-## 6. 常见问题
-
-### Q1：为什么不能像 Clash Party 一样“自动按节点名分类”？
-
-Clash Party 当前使用 JS 覆写引擎做节点名称分类；sing-box 原生 JSON 配置没有同等 JS 运行时。这个版本采用“**固定区域组 + 手工节点归位**”实现同语义替代，行为更稳定、可审计。
-
-### Q2：规则集下载失败怎么办？
-
-- 先测试当前配置中实际使用的 GitHub Raw HTTPS 规则 URL 是否可经当前网络或代理访问；
-- 若你所在网络对 CDN 有限制，可替换为你可访问的镜像地址；
-- 保持 `.srs` 二进制格式和 `format: binary` 一致。
-
-### Q3：为什么 Full 版不是 300+ remote rule_set？
-
-sing-box remote rule-set 的 `source` 格式是 sing-box 自己的 JSON `{version,rules}`，`binary` 格式是 `.srs`。Clash / Mihomo 的 `.yaml`、`.list`、`.mrs` 不能靠改后缀变成 sing-box 规则集；当前生成器只保留官方可消费的 SRS 规则源。
-
-### Q4：想继续贴近 Clash Party 规则量（300+ provider）怎么办？
-
-可以继续扩展生成器，把 Clash YAML/list 拉取后转换为 sing-box source JSON 或编译为 `.srs`。当前版本先保证“结构一致 + 主功能一致 + sing-box 官方格式兼容”。
-
----
-
-## 7. 参考文档（官方）
-
-- sing-box Outbound（selector/urltest）  
-  https://sing-box.sagernet.org/configuration/outbound/
-- sing-box Selector  
-  https://sing-box.sagernet.org/configuration/outbound/selector/
-- sing-box URLTest  
-  https://sing-box.sagernet.org/configuration/outbound/urltest/
-- sing-box Route / Route Rule / Rule Action  
-  https://sing-box.sagernet.org/configuration/route/
-  https://sing-box.sagernet.org/configuration/route/rule/
-  https://sing-box.sagernet.org/configuration/route/rule_action/
-- sing-box Rule-set  
-  https://sing-box.sagernet.org/configuration/rule-set/
-- sing-box Cache File  
-  https://sing-box.sagernet.org/configuration/experimental/cache-file/
-
----
-
-## 💖 支持本项目
-
-→ [捐赠 / Star / PR](../docs/donate.md)
+<sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/IvanSolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)</sub>

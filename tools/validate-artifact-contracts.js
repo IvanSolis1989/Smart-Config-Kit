@@ -264,6 +264,7 @@ const ARTIFACT_FILES = [
   'Loon/Loon.conf',
   'Quantumult X/QuantumultX.conf',
   'SingBox/SingBox(sing-box)-full.json',
+  'SingBox/SingBox(sing-box)-1.13.json',
   'Egern/Egern.yaml',
   'v2rayN/v2rayN(xray).json',
   'Passwall/Passwall(xray+sing-box)-apply.sh',
@@ -1268,6 +1269,8 @@ function validateJsProducts(record) {
   const baselineVersion = extractVersionPrefix(runtimeVersion);
   const normalVersion = extractJsVersion(normal);
   const flclashVersion = extractJsVersion(flclash);
+  record.check('js.smart.no-removed-strategy', !/strategy:\s*['"]sticky-sessions['"]/.test(smart));
+  record.check('openclash.smart.no-removed-strategy', !/"strategy"\s*=>\s*"sticky-sessions"/.test(readText('OpenClash/OpenClash(mihomo-smart).sh')));
 
   record.check('js.smart.version', /^v\d+\.\d+\.\d+(?:-[a-z0-9]+(?:\.[a-z0-9]+)*)?$/.test(String(runtimeVersion)), { value: runtimeVersion, message: `got ${runtimeVersion}` });
   record.check('js.smart.routing-baseline', Boolean(baselineVersion), { value: baselineVersion, message: `cannot extract routing baseline from ${runtimeVersion}` });
@@ -1790,13 +1793,17 @@ function validateConfProducts(record, baselineVersion) {
   record.check('shadowrocket.dns.nameserver-doh-over-ip', srNorm(shadowrocket).includes('dns-server = https://223.5.5.5/dns-query,https://223.6.6.6/dns-query,https://8.8.8.8/dns-query,https://1.1.1.1/dns-query'));
   record.check('shadowrocket.dns.proxy-server-doh-over-ip', srNorm(shadowrocket).includes('proxy-dns-server = https://8.8.8.8/dns-query,https://1.1.1.1/dns-query,https://223.5.5.5/dns-query,https://223.6.6.6/dns-query'));
   record.check('shadowrocket.dns.fallback-doh-over-ip', srNorm(shadowrocket).includes('fallback-dns-server = https://8.8.8.8/dns-query,https://1.1.1.1/dns-query'));
-  record.check('surge.dns.bootstrap-plaintext-fallback', surge.includes('dns-server = 223.5.5.5, 119.29.29.29, 1.1.1.1, 8.8.8.8'));
+  record.check('surge.dns.bootstrap-plaintext', surge.includes('dns-server = 223.5.5.5, 119.29.29.29, 1.1.1.1, 8.8.8.8'));
   record.check('surge.dns.encrypted-doh-over-ip', surge.includes('encrypted-dns-server = https://223.5.5.5/dns-query, https://223.6.6.6/dns-query, https://8.8.8.8/dns-query, https://1.1.1.1/dns-query'));
-  record.check('surge.dns.fallback-doh-over-ip', surge.includes('fallback-dns-server = https://8.8.8.8/dns-query, https://1.1.1.1/dns-query'));
+  record.check('surge.dns.no-unsupported-section', !/^\s*\[DNS\]\s*$/mi.test(surge));
+  record.check('surge.dns.no-unsupported-fallback', !/^\s*(?:fallback-dns-server|dns-direct-fallback-proxy)\s*=/mi.test(surge));
   record.check('loon.dns.bootstrap-plaintext-fallback', loon.includes('dns-server = 223.5.5.5, 119.29.29.29, 1.1.1.1, 8.8.8.8'));
   record.check('loon.dns.doh-over-ip', loon.includes('doh-server = https://223.5.5.5/dns-query, https://223.6.6.6/dns-query, https://8.8.8.8/dns-query, https://1.1.1.1/dns-query'));
   for (const server of DNS_BOOTSTRAP_PLAINTEXT) record.check(`qx.dns.server.${server}`, qx.includes(`server=${server}`));
-  for (const server of DNS_BOOTSTRAP_DOH_OVER_IP) record.check(`qx.dns.doh-server.${server}`, qx.includes(`doh-server=${server}`));
+  const qxDohLines = [...qx.matchAll(/^\s*doh-server\s*=([^\r\n]+)$/gm)];
+  record.check('qx.dns.single-concurrent-doh-line', qxDohLines.length === 1, { value: qxDohLines.length });
+  const qxDohServers = qxDohLines.flatMap(match => match[1].split(',').map(value => value.trim()));
+  checkExactList(record, 'qx.dns.concurrent-doh-order', qxDohServers, DNS_BOOTSTRAP_DOH_OVER_IP);
   for (const port of STUN_DIRECT_PORTS) {
     const srHasPortRule = shadowrocket.includes(`DST-PORT,${port},DIRECT`);
     const surgeHasPortRule = surge.includes(`DEST-PORT,${port},DIRECT`);
@@ -1880,6 +1887,7 @@ function validateRuntimeNodeNameProducts(record) {
 
 function validateJsonProducts(record, baselineVersion) {
   const singbox = readJson('SingBox/SingBox(sing-box)-full.json');
+  const singboxCompat = readJson('SingBox/SingBox(sing-box)-1.13.json');
   const singboxGenerator = readText('SingBox/SingBox(sing-box)-generator.js');
   const generatorVersion = (singboxGenerator.match(/const\s+VERSION\s*=\s*'([^']+)'/) || [])[1];
   const generatorBuild = (singboxGenerator.match(/const\s+BUILD(?:_DATE)?\s*=\s*'([^']+)'/) || [])[1];
@@ -1890,20 +1898,32 @@ function validateJsonProducts(record, baselineVersion) {
   const singboxBusinessOrder = outboundTags.filter((tag) => SINGBOX_BUSINESS_ORDER.includes(tag));
   const routeRules = ((singbox.route || {}).rules || []);
   const ruleSetCount = ((singbox.route || {}).rule_set || []).length;
-  const routeRuleCount = routeRules.length;
+  const routeRuleCount = routeRules.filter(rule => rule.action !== 'sniff').length;
   const dnsRules = ((singbox.dns || {}).rules || []);
   const dnsServers = ((singbox.dns || {}).servers || []);
   const dnsServerByTag = Object.fromEntries(dnsServers.filter((server) => server && server.tag).map((server) => [server.tag, server]));
-  record.check('singbox.baseline-meta', singbox._meta && singbox._meta.baseline === `Clash Party ${baselineVersion}`, { value: singbox._meta && singbox._meta.baseline });
-  record.check('singbox.generator-version-meta', singbox._meta && singbox._meta.version === generatorVersion, {
-    value: { meta: singbox._meta && singbox._meta.version, generator: generatorVersion },
-  });
-  record.check('singbox.generator-build-meta', singbox._meta && singbox._meta.build === generatorBuild, {
-    value: { meta: singbox._meta && singbox._meta.build, generator: generatorBuild },
-  });
-  record.check('singbox.generator-baseline-meta', singbox._meta && singbox._meta.baseline === generatorBaseline, {
-    value: { meta: singbox._meta && singbox._meta.baseline, generator: generatorBaseline },
-  });
+  const singboxReadme = readText('SingBox/README.md');
+  record.check('singbox.no-unknown-meta', !Object.hasOwn(singbox, '_meta'));
+  record.check('singbox.generator-version-documented', Boolean(generatorVersion && generatorVersion.startsWith(`${baselineVersion}-sing.`))
+    && singboxReadme.includes(generatorVersion) && readText('SingBox/CHANGELOG.md').includes(`## ${generatorVersion} (${generatorBuild})`));
+  record.check('singbox.generator-build-documented', /^\d{4}-\d{2}-\d{2}$/.test(generatorBuild) && singboxReadme.includes(generatorBuild));
+  record.check('singbox.generator-baseline', generatorBaseline === `Clash Party ${baselineVersion}`, { value: generatorBaseline });
+  const downloadClient = (singbox.http_clients || []).find(client => client.tag === 'rules-download');
+  record.check('singbox.named-rule-download-client', downloadClient && downloadClient.detour === '🌍 全球节点'
+    && singbox.route.rule_set.every(ruleSet => ruleSet.http_client === downloadClient.tag && !Object.hasOwn(ruleSet, 'download_detour')));
+  record.check('singbox.sniff-nonfinal-first', routeRules[0]?.action === 'sniff'
+    && JSON.stringify(routeRules[0].inbound) === JSON.stringify(['tun-in'])
+    && routeRules.filter(rule => rule.action === 'sniff').length === 1
+    && singbox.inbounds.every(inbound => !Object.hasOwn(inbound, 'sniff')));
+  record.check('singbox.compat.outbound-and-route-parity', JSON.stringify(singboxCompat.outbounds) === JSON.stringify(singbox.outbounds)
+    && JSON.stringify(singboxCompat.route.rules) === JSON.stringify(routeRules) && singboxCompat.route.final === singbox.route.final);
+  const ruleSetPayload = ({ http_client, download_detour, ...payload }) => payload;
+  record.check('singbox.compat.rule-set-payload-parity', JSON.stringify(singboxCompat.route.rule_set.map(ruleSetPayload)) === JSON.stringify(singbox.route.rule_set.map(ruleSetPayload)));
+  record.check('singbox.compat.supported-download-schema', !Object.hasOwn(singboxCompat, '_meta') && !Object.hasOwn(singboxCompat, 'http_clients')
+    && singboxCompat.route.rule_set.every(ruleSet => ruleSet.download_detour === downloadClient?.detour && !Object.hasOwn(ruleSet, 'http_client')));
+  record.check('singbox.compat.typed-dns-and-version-boundary', JSON.stringify(singboxCompat.dns.servers) === JSON.stringify(dnsServers)
+    && !singboxCompat.dns.rules.some(rule => rule.match_response || rule.action === 'evaluate')
+    && singboxCompat.dns.rules.some(rule => rule.rule_set?.includes('geoip-cn') && rule.server === 'dns_direct'));
   record.check('singbox.generator-clean-base', !/readFileSync\(['"]SingBox\/SingBox\(sing-box\)-full\.json['"]/.test(singboxGenerator));
   record.check('singbox.selector-urltest-count', selectorCount === EXPECTED_SINGBOX_GROUPS, { value: selectorCount });
   record.check('singbox.urltest-interval-selected', singboxUrltests.length === EXPECTED_SINGBOX_URLTEST_GROUPS && singboxUrltests.every((outbound) => outbound.interval === EXPECTED_SINGBOX_URLTEST_INTERVAL), {
@@ -1953,17 +1973,18 @@ function validateJsonProducts(record, baselineVersion) {
     Array.isArray(rule.rule_set) && rule.rule_set.includes(`${CONTRACT_SEGMENTS["scki-fused-022-google"]}`) && rule.outbound === '🔍 Google 服务'
   ));
   record.check('singbox.scholar-target-google-fused', singboxScholarGoogle, failureMessage(singboxScholarGoogle, 'Google service fused rule_set must include scholar coverage'));
-  record.check('singbox.dns.bootstrap-doh-over-ip', dnsServerByTag.dns_bootstrap && dnsServerByTag.dns_bootstrap.address === 'https://223.5.5.5/dns-query' && dnsServerByTag.dns_bootstrap.tls && dnsServerByTag.dns_bootstrap.tls.server_name === 'dns.alidns.com', {
-    value: dnsServerByTag.dns_bootstrap && dnsServerByTag.dns_bootstrap.address,
+  record.check('singbox.dns.typed-https-only', dnsServers.every(server => server.type === 'https' && !Object.hasOwn(server, 'address') && !Object.hasOwn(server, 'address_resolver')));
+  record.check('singbox.dns.bootstrap-doh-over-ip', dnsServerByTag.dns_bootstrap && dnsServerByTag.dns_bootstrap.server === '223.5.5.5' && dnsServerByTag.dns_bootstrap.path === '/dns-query' && dnsServerByTag.dns_bootstrap.tls && dnsServerByTag.dns_bootstrap.tls.server_name === 'dns.alidns.com', {
+    value: dnsServerByTag.dns_bootstrap && dnsServerByTag.dns_bootstrap.server,
   });
-  record.check('singbox.dns.direct-doh', dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.address === 'https://dns.alidns.com/dns-query', {
-    value: dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.address,
+  record.check('singbox.dns.direct-doh', dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.server === 'dns.alidns.com' && dnsServerByTag.dns_direct.path === '/dns-query', {
+    value: dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.server,
   });
-  record.check('singbox.dns.proxy-doh', dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.address === 'https://cloudflare-dns.com/dns-query', {
-    value: dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.address,
+  record.check('singbox.dns.proxy-doh', dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.server === 'cloudflare-dns.com' && dnsServerByTag.dns_proxy.path === '/dns-query', {
+    value: dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.server,
   });
-  record.check('singbox.dns.direct-bootstrap-resolver', dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.address_resolver === 'dns_bootstrap');
-  record.check('singbox.dns.proxy-bootstrap-resolver', dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.address_resolver === 'dns_bootstrap');
+  record.check('singbox.dns.direct-bootstrap-resolver', dnsServerByTag.dns_direct && dnsServerByTag.dns_direct.domain_resolver?.server === 'dns_bootstrap');
+  record.check('singbox.dns.proxy-bootstrap-resolver', dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.domain_resolver?.server === 'dns_bootstrap');
   record.check('singbox.dns.proxy-detour-main-selector', dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.detour === '🚀 节点选择', {
     value: dnsServerByTag.dns_proxy && dnsServerByTag.dns_proxy.detour,
   });
@@ -1981,13 +2002,13 @@ function validateJsonProducts(record, baselineVersion) {
     Array.isArray(rule.rule_set) && rule.rule_set.includes('geosite-private') && rule.server === 'dns_direct'
   ));
   record.check('singbox.dns.private-direct', singboxPrivateDnsDirect, failureMessage(singboxPrivateDnsDirect, 'geosite-private DNS must use dns_direct'));
-  const singboxCnDnsDirect = dnsRules.some((rule) => (
-    Array.isArray(rule.rule_set)
-      && rule.rule_set.includes('geosite-cn')
-      && rule.rule_set.includes('geoip-cn')
-      && rule.server === 'dns_direct'
-  ));
-  record.check('singbox.dns.cn-direct', singboxCnDnsDirect, failureMessage(singboxCnDnsDirect, 'geosite-cn and geoip-cn DNS must use dns_direct'));
+  const cnQueryRule = dnsRules.findIndex(rule => rule.rule_set?.includes('geosite-cn') && rule.server === 'dns_direct' && rule.action === 'route');
+  const evaluateIndex = dnsRules.findIndex(rule => rule.action === 'evaluate' && rule.server === 'dns_direct');
+  const cnResponseRule = dnsRules[evaluateIndex + 1];
+  record.check('singbox.dns.cn-direct', cnQueryRule >= 0 && evaluateIndex > cnQueryRule && cnResponseRule?.match_response === true
+    && cnResponseRule.action === 'respond' && cnResponseRule.rule_set?.includes('geoip-cn'), {
+    message: 'CN domains route directly; evaluated direct responses are accepted only when geoip-cn matches',
+  });
   record.check('singbox.dns.final-proxy', (singbox.dns || {}).final === 'dns_proxy', { value: (singbox.dns || {}).final });
   for (const port of STUN_DIRECT_PORTS) {
     const hasPortRule = ((singbox.route || {}).rules || []).some((rule) => (
@@ -2275,6 +2296,10 @@ function validatePasswall(record, baselineVersion) {
     record.check(`${spec.id}.apply-script-replace-mode`, source.includes('MODE="${1:---replace}"') && source.includes('cleanup_existing_scki_rules'), {
       message: 'apply script must default to --replace and delete existing Smart-Config-Kit shunt rules before recreating them',
     });
+    record.check(`${spec.id}.singbox-backend-preflight`, source.includes('require_sing_box_shunts()')
+      && source.includes('[ "${backend}" != "sing-box" ]')
+      && source.includes('[ "${protocol}" = "_shunt" ]')
+      && source.indexOf('\nrequire_sing_box_shunts\n') < source.indexOf('\nif [ "${MODE}" = "--replace" ]; then'));
     if (!reference.includes(baselineVersion)) {
       record.warn(`${spec.id}.reference-conf.baseline`, `${spec.reference} does not advertise ${baselineVersion}; apply script plus shunt-rules are authoritative`);
     }

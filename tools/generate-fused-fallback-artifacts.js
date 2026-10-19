@@ -16,10 +16,10 @@ const V2RAYN_FILE = path.join(REPO_ROOT, 'v2rayN/v2rayN(xray).json');
 const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall/shunt-rules');
 const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall2/shunt-rules');
 
-const BUILD_DATE = '2026-10-16';
+const BUILD_DATE = '2026-10-19';
 const V2RAYN_VERSION = 'v6.0.20-v2n.9';
-const PASSWALL_VERSION = 'v6.0.20-pw.9';
-const PASSWALL2_VERSION = 'v6.0.20-pw2.9';
+const PASSWALL_VERSION = 'v6.0.20-pw.10';
+const PASSWALL2_VERSION = 'v6.0.20-pw2.10';
 
 const DIRECT_POLICIES = new Set([
   'DIRECT',
@@ -417,6 +417,11 @@ function renderLegacyRemarkMatcher() {
 
 function renderPasswallScript({ appName, version, title, configName, nodeComment, segments, baselineVersion, assetRevision }) {
   const oldRemarkList = renderLegacyRemarkMatcher();
+  // These standalone backends have no shunt protocol; their official forms may
+  // deliberately remove the protocol field. Only sing-box/Xray can own _shunt.
+  const ordinaryNodeTypes = configName === 'passwall'
+    ? 'Socks|SS-Rust|SSR|Hysteria2|Naiveproxy'
+    : 'Socks|SS-Rust|SSR';
   const addCalls = segments.map((segment, index) => (
     `# [${String(index + 1).padStart(3, '0')}] ${segment.id} | ${segment.policy}\n`
     + `add_fused_shunt_rule '${segment.id} | ${segment.policy}' '${passwallRuleUrl(segment, assetRevision)}' '${hasIpPayload(segment) ? '1' : '0'}'`
@@ -429,6 +434,7 @@ function renderPasswallScript({ appName, version, title, configName, nodeComment
 #
 # 用途：一次性在 ${title} 中创建 ${segments.length} 条 fused shunt rule。
 #       每条规则只引用 rulesets/generated/fused/sing-box/*.srs，不再维护手写域名/IP 展平列表。
+#       仅适用于 type=sing-box 的分流节点；Xray 后端不解析 rule-set 引用。
 #       目标节点留空，用户之后到 LuCI 里给每条 rule 选择节点/负载均衡组。
 #
 # 生成：node tools/generate-fused-fallback-artifacts.js
@@ -500,6 +506,48 @@ if [ ! -f "/etc/config/\${CONFIG_NAME}" ]; then
   exit 1
 fi
 
+# Rule sections are shared by all shunt nodes. Validate every consumer before
+# cleanup/add/commit: Xray can discard an SRS predicate or turn it into a broad
+# network-only rule. Installing a sing-box executable is not a backend check.
+require_sing_box_shunts() {
+  if ! snapshot="$(uci show "\${CONFIG_NAME}")"; then
+    echo "ERROR: 无法读取 \${CONFIG_NAME}，未修改任何规则" >&2
+    return 1
+  fi
+  shunts=0
+  sections="$(printf '%s\\n' "\${snapshot}" | sed -n "s/^\${CONFIG_NAME}\\.\\([^.=]*\\)=nodes$/\\1/p")"
+  for section in \${sections}; do
+    if ! backend="$(uci -q get "\${CONFIG_NAME}.\${section}.type")"; then
+      echo "ERROR: 无法读取节点 \${section} 的 type；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+      return 1
+    fi
+    case "\${backend}" in
+      sing-box|Xray) ;;
+      ${ordinaryNodeTypes}) continue ;;
+      *)
+        echo "ERROR: 节点 \${section} 类型 \${backend:-未知} 无法核验；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+        return 1
+        ;;
+    esac
+    if ! protocol="$(uci -q get "\${CONFIG_NAME}.\${section}.protocol")"; then
+      echo "ERROR: 无法读取节点 \${section} 的 protocol，未修改任何规则" >&2
+      return 1
+    fi
+    [ "\${protocol}" = "_shunt" ] || continue
+    if [ "\${backend}" != "sing-box" ]; then
+      echo "ERROR: 分流节点 \${section} 使用 \${backend:-未知}；SRS 规则仅支持 sing-box，未修改任何规则" >&2
+      return 1
+    fi
+    shunts=$((shunts + 1))
+  done
+  if [ "\${shunts}" -eq 0 ]; then
+    echo "ERROR: 请先在 LuCI 创建 type=sing-box、protocol=_shunt 的分流节点，再导入 SRS 规则" >&2
+    return 1
+  fi
+}
+
+require_sing_box_shunts
+
 echo "建议先备份: cp /etc/config/\${CONFIG_NAME} /etc/config/\${CONFIG_NAME}.$(date +%s).bak"
 echo "运行模式: \${MODE}（--replace 会删除旧 Smart-Config-Kit 规则；--append 会追加）"
 if [ -t 0 ]; then
@@ -516,7 +564,7 @@ echo "开始创建 ${segments.length} 条 fused shunt rule..."
 ${addCalls}
 
 uci commit "\${CONFIG_NAME}"
-echo "完成：已写入 ${segments.length} 条 Smart-Config-Kit fused shunt rule。请到 LuCI 分流控制中为各规则选择目标节点。"
+echo "完成：已写入 ${segments.length} 条 Smart-Config-Kit fused shunt rule。请在 sing-box 分流节点中选择各规则的目标节点；以后改为 Xray 前必须先移除这些 SRS 规则。"
 `;
 }
 
@@ -530,6 +578,7 @@ function renderPasswallConf({ title, version, readmePath, segments, baselineVers
     '#',
     `#  本文件为手工配置参考；推荐使用同目录 apply.sh 自动创建 ${segments.length} 条规则。`,
     '#  规则只调用 rule-set:remote:<srs-url>，不再维护手写域名/IP 展平列表。',
+    '#  仅支持 type=sing-box 的分流节点；Xray 不解析这些 SRS 引用。',
     `#  更多说明见 ${readmePath}`,
     '# ════════════════════════════════════════════════════════════════════════════',
     '',
@@ -559,18 +608,20 @@ function renderPasswallList(segment, assetRevision) {
   ].join('\n');
 }
 
-function writePasswallArtifacts(manifest) {
-  resetDir(FUSED_PASSWALL_DIR);
-  resetDir(PASSWALL_SHUNT_DIR);
-  resetDir(PASSWALL2_SHUNT_DIR);
+function writePasswallArtifacts(manifest, { writeLists = true } = {}) {
   const segments = singBoxBinarySegments(manifest);
   const assetRevision = manifest.asset_revision;
 
-  for (const segment of segments) {
-    const content = renderPasswallList(segment, assetRevision);
-    writeText(path.join(FUSED_PASSWALL_DIR, `${segment.id}.list`), content);
-    writeText(path.join(PASSWALL_SHUNT_DIR, `${segment.id}.list`), content);
-    writeText(path.join(PASSWALL2_SHUNT_DIR, `${segment.id}.list`), content);
+  if (writeLists) {
+    resetDir(FUSED_PASSWALL_DIR);
+    resetDir(PASSWALL_SHUNT_DIR);
+    resetDir(PASSWALL2_SHUNT_DIR);
+    for (const segment of segments) {
+      const content = renderPasswallList(segment, assetRevision);
+      writeText(path.join(FUSED_PASSWALL_DIR, `${segment.id}.list`), content);
+      writeText(path.join(PASSWALL_SHUNT_DIR, `${segment.id}.list`), content);
+      writeText(path.join(PASSWALL2_SHUNT_DIR, `${segment.id}.list`), content);
+    }
   }
 
   writeText(
@@ -580,7 +631,7 @@ function writePasswallArtifacts(manifest) {
       title: 'Passwall',
       version: PASSWALL_VERSION,
       configName: 'passwall',
-      nodeComment: "# Passwall 全功能版可在 LuCI 中分别设置 tcp_node / udp_node。",
+      nodeComment: "# 在 type=sing-box、protocol=_shunt 的节点中选择本规则的业务目标。",
       segments,
       baselineVersion: manifest.baseline_version,
       assetRevision,
@@ -659,11 +710,17 @@ function parseArgs(argv) {
   return {
     updateManifest: !argv.includes('--no-manifest'),
     quiet: argv.includes('--quiet'),
+    passwallOnly: argv.includes('--passwall-only'),
   };
 }
 
 function generateFusedFallbackArtifacts(options = {}) {
   const manifest = readJson(MANIFEST_FILE);
+  if (options.passwallOnly) {
+    const passwall = writePasswallArtifacts(manifest, { writeLists: false });
+    if (!options.quiet) console.log(`Passwall-only generation: ${passwall.passwallFiles} rules; source assets, manifest and Xray unchanged`);
+    return { passwallFiles: passwall.passwallFiles };
+  }
   const fusedRules = parseMihomoFusedRules();
   const xray = writeV2rayNArtifact(manifest, fusedRules);
   const passwall = writePasswallArtifacts(manifest);

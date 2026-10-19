@@ -1,0 +1,11 @@
+✔ client capability matrix covers the 14 semantic products and has verified evidence (15.9952ms)
+✔ client capability matrix rejects missing capability columns and stale evidence markers (12.0486ms)
+✔ generated Markdown is deterministic and checked in (12.7734ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142.8825

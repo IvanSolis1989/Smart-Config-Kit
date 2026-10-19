@@ -1,0 +1,1 @@
+[31mFATAL[0m[0000] decode config at SingBox\SingBox(sing-box)-full.json: _meta: json: unknown field "_meta"

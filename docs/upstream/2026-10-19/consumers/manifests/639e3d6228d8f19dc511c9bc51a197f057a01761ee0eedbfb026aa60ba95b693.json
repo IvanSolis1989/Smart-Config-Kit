@@ -1,0 +1,501 @@
+{
+  "schema_version": 1,
+  "tool_version": "1.0.0",
+  "group": "consumers",
+  "generated_at": "2026-10-19T08:09:24.133Z",
+  "sources_sha256": "6fce381d1c84ba99d5e05cbb3743e6e787d1239d4582fda32d1126785f9414c3",
+  "counts": {
+    "total": 10,
+    "ok": 10,
+    "failed": 0
+  },
+  "sources": [
+    {
+      "id": "karing-latest",
+      "product": "Karing",
+      "kind": "release",
+      "url": "https://api.github.com/repos/KaringX/karing/releases/latest",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:34.472Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"7c10e9b5cdf03b7f31899e03ccb193e8e9f950504c3b4cfb9a0da037e1266938\"",
+        "last-modified": "Tue, 15 Sep 2026 02:28:39 GMT",
+        "date": "Mon, 19 Oct 2026 08:08:35 GMT",
+        "x-ratelimit-remaining": "4944"
+      },
+      "file": "bodies/8501b5f31135a33ea1237c48385775c8f5898ffa31629c5691d6a6d514b670f8.gz",
+      "gzip_sha256": "f4ef6a1e628fd166c227160063247fe013dad883e4600f40af33ee31269f5fb4",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/KaringX/karing/releases/latest",
+        "effective_url": "https://api.github.com/repos/KaringX/karing/releases/latest",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "8501b5f31135a33ea1237c48385775c8f5898ffa31629c5691d6a6d514b670f8",
+          "bytes": 17361
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "karing-releases",
+      "product": "Karing",
+      "kind": "release",
+      "url": "https://api.github.com/repos/KaringX/karing/releases?per_page=10",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:34.472Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"25329fc2aa3227523a5a6d3941302b3832f6057c3a8fa27a9fa9f42df0ad5a88\"",
+        "date": "Mon, 19 Oct 2026 08:08:35 GMT",
+        "x-ratelimit-remaining": "4878"
+      },
+      "file": "bodies/163e3f08fc9a51be4a483bbb517415a5c35b76d3e71c9e3eab4d23a4d80f406f.gz",
+      "gzip_sha256": "46c929eb8ccf02a1871236d950fb6dce8a00fe991794db307ceb7a0c63979518",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/KaringX/karing/releases?per_page=10",
+        "effective_url": "https://api.github.com/repos/KaringX/karing/releases?per_page=10",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "163e3f08fc9a51be4a483bbb517415a5c35b76d3e71c9e3eab4d23a4d80f406f",
+          "bytes": 155134
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "karing-readme",
+      "product": "Karing",
+      "kind": "documentation",
+      "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/README.md",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:09:23.596Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"2d4583f616546ab2e22180808d3601895712e36c54ed7dc35a21717b7132a2a8\"",
+        "date": "Mon, 19 Oct 2026 08:09:24 GMT"
+      },
+      "file": "bodies/2780cd1ee5798f7e9501834d2135790304c5a775dea7bbc21e23564511e2f03c.gz",
+      "gzip_sha256": "e8782f10734880c3738bdc3d1371634e758215c35cb5933c4338fd9edc939df5",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/README.md",
+        "effective_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "2780cd1ee5798f7e9501834d2135790304c5a775dea7bbc21e23564511e2f03c",
+          "bytes": 5514
+        },
+        "source": {
+          "id": "KaringX/karing",
+          "kind": "git",
+          "repository_url": "https://github.com/KaringX/karing",
+          "requested_ref": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "karing-import-manager",
+      "product": "Karing",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/lib/app/modules/remote_config_manager.dart",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:34.472Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"86143c2626df6e79e88891fb591bcf7bd4abf04561fa072aae022647dcd07bb7\"",
+        "date": "Mon, 19 Oct 2026 08:08:36 GMT"
+      },
+      "file": "bodies/e76f6681b7be2976bc81cdda81727f8a60ff8998cb9515e2a0d6cefed7a71b79.gz",
+      "gzip_sha256": "cae37203f06d45be05d4aba6846f8217e952321af796f8e574012030b37f562d",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/lib/app/modules/remote_config_manager.dart",
+        "effective_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/lib/app/modules/remote_config_manager.dart",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "e76f6681b7be2976bc81cdda81727f8a60ff8998cb9515e2a0d6cefed7a71b79",
+          "bytes": 4750
+        },
+        "source": {
+          "id": "KaringX/karing",
+          "kind": "git",
+          "repository_url": "https://github.com/KaringX/karing",
+          "requested_ref": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "source_path": "lib/app/modules/remote_config_manager.dart",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "karing-pubspec",
+      "product": "Karing",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/pubspec.yaml",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:35.275Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"f442521b1fc38bd2d7ac7b49f0c8e7bc90d5997886fe0a50e28550621b93962d\"",
+        "date": "Mon, 19 Oct 2026 08:08:36 GMT"
+      },
+      "file": "bodies/a95e34e189c6ef8383aee648b27a49c03551d9bfea8d4050ea89a0590aaeafa4.gz",
+      "gzip_sha256": "5e8a2b3a20f75710844215d1e34e8ee62a3cc21f1e6ed5d6d30ce02d091d470c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/pubspec.yaml",
+        "effective_url": "https://raw.githubusercontent.com/KaringX/karing/0c320dc182d095ec0d483f852169421e749c2bac/pubspec.yaml",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "a95e34e189c6ef8383aee648b27a49c03551d9bfea8d4050ea89a0590aaeafa4",
+          "bytes": 6793
+        },
+        "source": {
+          "id": "KaringX/karing",
+          "kind": "git",
+          "repository_url": "https://github.com/KaringX/karing",
+          "requested_ref": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "source_path": "pubspec.yaml",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "0c320dc182d095ec0d483f852169421e749c2bac",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "karing-appstore-us",
+      "product": "Karing iOS",
+      "kind": "release",
+      "url": "https://itunes.apple.com/lookup?id=6472431552&country=us",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:35.906Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "date": "Mon, 19 Oct 2026 08:08:36 GMT"
+      },
+      "file": "bodies/d320507f8d79e236ca5419714b4bb8b5263d85a8a5aaf86b61c7579bafa4aa06.gz",
+      "gzip_sha256": "71d1dfb9cc41be50d7a0207525d59b647ac0059bd4e954cf00efa42d04041c35",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://itunes.apple.com/lookup?id=6472431552&country=us",
+        "effective_url": "https://itunes.apple.com/lookup?id=6472431552&country=us",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "d320507f8d79e236ca5419714b4bb8b5263d85a8a5aaf86b61c7579bafa4aa06",
+          "bytes": 8817
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "happ-desktop-latest",
+      "product": "Happ Desktop",
+      "kind": "release",
+      "url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases/latest",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:36.231Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"8f1c759bc9c6c74e0c453a9a5187d51ea0d6324671e4e9de7572607fedcb4dca\"",
+        "last-modified": "Wed, 14 Oct 2026 15:41:06 GMT",
+        "date": "Mon, 19 Oct 2026 08:08:37 GMT",
+        "x-ratelimit-remaining": "4943"
+      },
+      "file": "bodies/cc5a781638a7e4f611618b29bc5d526faf89d51821e1bc436912767113cb81c6.gz",
+      "gzip_sha256": "041e72928fdd45f4d2b563ff8771e640bb66d4a025da70e7db72f70c6394d10b",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases/latest",
+        "effective_url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases/latest",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "cc5a781638a7e4f611618b29bc5d526faf89d51821e1bc436912767113cb81c6",
+          "bytes": 16277
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "happ-desktop-releases",
+      "product": "Happ Desktop",
+      "kind": "release",
+      "url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases?per_page=10",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:37.017Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"1c7e68e11b88d62c1fc8cfd1a06bc363c309a2d172832b034c39cd89b562c9b6\"",
+        "date": "Mon, 19 Oct 2026 08:08:38 GMT",
+        "x-ratelimit-remaining": "4877"
+      },
+      "file": "bodies/20a48c1ab686ff518657bd5de33c3eab251d91b36ca84feb3417cd4554cc0e26.gz",
+      "gzip_sha256": "191200e6d274ec570da318eb11376092efa67ddcc451d53b925f386790c8df6c",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases?per_page=10",
+        "effective_url": "https://api.github.com/repos/Happ-proxy/happ-desktop/releases?per_page=10",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "20a48c1ab686ff518657bd5de33c3eab251d91b36ca84feb3417cd4554cc0e26",
+          "bytes": 167248
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    },
+    {
+      "id": "happ-desktop-readme",
+      "product": "Happ Desktop",
+      "kind": "documentation",
+      "url": "https://raw.githubusercontent.com/Happ-proxy/happ-desktop/ace67fd9085dfdd7571ee9ba18b631245b9d59bc/README.md",
+      "required": true,
+      "expected_content_type": "text",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:37.100Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "etag": "W/\"5e97aa9afdd84b831e3a878583ce5763ca213c67fd7d1d41237ade5815835ec0\"",
+        "date": "Mon, 19 Oct 2026 08:08:37 GMT"
+      },
+      "file": "bodies/b22526deac8a573b34ae5fb500256c79133665c76d49db9b8ea2791692f9e28d.gz",
+      "gzip_sha256": "a5bfa7aeb04e8e7117b1e80422bb3931fd7ab261a03ff77b5150df85b601ebd6",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://raw.githubusercontent.com/Happ-proxy/happ-desktop/ace67fd9085dfdd7571ee9ba18b631245b9d59bc/README.md",
+        "effective_url": "https://raw.githubusercontent.com/Happ-proxy/happ-desktop/ace67fd9085dfdd7571ee9ba18b631245b9d59bc/README.md",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "b22526deac8a573b34ae5fb500256c79133665c76d49db9b8ea2791692f9e28d",
+          "bytes": 4963
+        },
+        "source": {
+          "id": "Happ-proxy/happ-desktop",
+          "kind": "git",
+          "repository_url": "https://github.com/Happ-proxy/happ-desktop",
+          "requested_ref": "ace67fd9085dfdd7571ee9ba18b631245b9d59bc",
+          "source_path": "README.md",
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": "ace67fd9085dfdd7571ee9ba18b631245b9d59bc",
+          "version_state": "pinned-commit"
+        }
+      }
+    },
+    {
+      "id": "happ-android-latest",
+      "product": "Happ Android",
+      "kind": "release",
+      "url": "https://api.github.com/repos/Happ-proxy/happ-android/releases/latest",
+      "required": true,
+      "expected_content_type": "json",
+      "status": "ok",
+      "fetched_at": "2026-10-19T08:08:37.187Z",
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"617dbb9e1a1ac347b64461aef7bc5db1018fab589cd336e229e55ecf34be72d0\"",
+        "last-modified": "Mon, 05 Oct 2026 14:49:13 GMT",
+        "date": "Mon, 19 Oct 2026 08:08:37 GMT",
+        "x-ratelimit-remaining": "4942"
+      },
+      "file": "bodies/4976422edba7c49ed59954c050565f2a6d3e3ebacadebcffd42e654e1e7b892b.gz",
+      "gzip_sha256": "96f4ff31483366820826cdc55c2978c32bf404e4541652672d353150e8979ebe",
+      "receipt": {
+        "schema_version": 1,
+        "requested_url": "https://api.github.com/repos/Happ-proxy/happ-android/releases/latest",
+        "effective_url": "https://api.github.com/repos/Happ-proxy/happ-android/releases/latest",
+        "local_path": null,
+        "input_kind": "original-source",
+        "acquisition": "downloaded",
+        "verification": "content-sha256",
+        "content_normalization": "raw-bytes",
+        "content": {
+          "sha256": "4976422edba7c49ed59954c050565f2a6d3e3ebacadebcffd42e654e1e7b892b",
+          "bytes": 4873
+        },
+        "source": {
+          "id": "unregistered-source",
+          "kind": "non-git",
+          "repository_url": null,
+          "requested_ref": null,
+          "source_path": null,
+          "declaration": null,
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": null,
+            "note": "No license evidence registered."
+          },
+          "resolved_commit": null,
+          "version_state": "content-addressed"
+        }
+      }
+    }
+  ]
+}

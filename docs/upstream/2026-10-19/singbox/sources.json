@@ -1,0 +1,901 @@
+{
+  "group": "singbox",
+  "sources": [
+    {
+      "id": "singbox-releases-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box/releases?per_page=30",
+      "kind": "release",
+      "product": "singbox",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "singbox-releases",
+      "url": "https://github.com/SagerNet/sing-box/releases",
+      "kind": "release",
+      "product": "singbox",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "xray-releases-api",
+      "url": "https://api.github.com/repos/XTLS/Xray-core/releases?per_page=30",
+      "kind": "release",
+      "product": "xray",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "xray-releases",
+      "url": "https://github.com/XTLS/Xray-core/releases",
+      "kind": "release",
+      "product": "xray",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "v2rayn-releases-api",
+      "url": "https://api.github.com/repos/2dust/v2rayN/releases?per_page=30",
+      "kind": "release",
+      "product": "v2rayn",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "v2rayn-releases",
+      "url": "https://github.com/2dust/v2rayN/releases",
+      "kind": "release",
+      "product": "v2rayn",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "passwall-releases-api",
+      "url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall/releases?per_page=30",
+      "kind": "release",
+      "product": "passwall",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "passwall-releases",
+      "url": "https://github.com/Openwrt-Passwall/openwrt-passwall/releases",
+      "kind": "release",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "passwall2-releases-api",
+      "url": "https://api.github.com/repos/Openwrt-Passwall/openwrt-passwall2/releases?per_page=30",
+      "kind": "release",
+      "product": "passwall2",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "passwall2-releases",
+      "url": "https://github.com/Openwrt-Passwall/openwrt-passwall2/releases",
+      "kind": "release",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "hiddify-app-releases-api",
+      "url": "https://api.github.com/repos/hiddify/hiddify-app/releases?per_page=30",
+      "kind": "release",
+      "product": "hiddify-app",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "hiddify-app-releases",
+      "url": "https://github.com/hiddify/hiddify-app/releases",
+      "kind": "release",
+      "product": "hiddify-app",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "hiddify-core-releases-api",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/releases?per_page=30",
+      "kind": "release",
+      "product": "hiddify-core",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "hiddify-core-releases",
+      "url": "https://github.com/hiddify/hiddify-core/releases",
+      "kind": "release",
+      "product": "hiddify-core",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "homeproxy-releases-api",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/releases?per_page=30",
+      "kind": "release",
+      "product": "homeproxy",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "homeproxy-releases",
+      "url": "https://github.com/immortalwrt/homeproxy/releases",
+      "kind": "release",
+      "product": "homeproxy",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-stable",
+      "url": "https://github.com/SagerNet/sing-box/releases/tag/v1.14.3",
+      "kind": "release",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-prerelease",
+      "url": "https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12",
+      "kind": "release",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "xray-stable",
+      "url": "https://github.com/XTLS/Xray-core/releases/latest",
+      "kind": "release",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "xray-prerelease",
+      "url": "https://github.com/XTLS/Xray-core/releases/tag/v26.10.17",
+      "kind": "release",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "v2rayn-stable",
+      "url": "https://github.com/2dust/v2rayN/releases/tag/7.25.6",
+      "kind": "release",
+      "product": "v2rayN",
+      "required": false,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "v2rayn-prerelease",
+      "url": "https://github.com/2dust/v2rayN/releases/tag/7.25.5",
+      "kind": "release",
+      "product": "v2rayN",
+      "required": false,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-migration",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/migration.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-deprecated",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/deprecated.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/rule-set/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-dns",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-dns-https",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/server/https.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-dns-rule",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-route",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/index.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-route-action",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/route/rule_action.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-tun",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/inbound/tun.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-http-client",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/shared/http-client.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-selector",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/selector.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-urltest",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/urltest.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-cache",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/experimental/cache-file.md",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-option-dns",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/dns.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-option-dns-rule",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_dns.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-option-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_set.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-option-inbound",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/inbound.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-option-outbound",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/outbound.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-113-rule-set",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/option/rule_set.go",
+      "kind": "source",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-live-rule-set",
+      "url": "https://sing-box.sagernet.org/configuration/rule-set/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-live-migration",
+      "url": "https://sing-box.sagernet.org/migration/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-live-http-client",
+      "url": "https://sing-box.sagernet.org/configuration/shared/http-client/",
+      "kind": "documentation",
+      "product": "sing-box",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "xray-routing",
+      "url": "https://xtls.github.io/config/routing.html",
+      "kind": "documentation",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "xray-dns",
+      "url": "https://xtls.github.io/config/dns.html",
+      "kind": "documentation",
+      "product": "Xray",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "v2rayn-routing-wiki",
+      "url": "https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules",
+      "kind": "documentation",
+      "product": "v2rayN",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "passwall-shunt-ui",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_sing-box.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/passwall/util_xray.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/1_sing-box.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/2_xray.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-makefile",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/Makefile",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-init",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/etc/init.d/passwall",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-app",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/app.sh",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-shunt-ui",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_sing-box.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/passwall2/util_xray.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-type-singbox",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/1_sing-box.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-type-xray",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/2_xray.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-makefile",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/Makefile",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-init",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/etc/init.d/passwall2",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-app",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/root/usr/share/passwall2/app.sh",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-app-tree",
+      "url": "https://api.github.com/repos/hiddify/hiddify-app/git/trees/v4.1.1?recursive=1",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "hiddify-app-core-module",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/go.mod",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-core-module",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/00a84b00faaed68146ce6a32bf968c5cf7089447/go.mod",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-core-submodule",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "hiddify-latest-submodule",
+      "url": "https://api.github.com/repos/hiddify/hiddify-core/git/trees/v5.0.3",
+      "kind": "source",
+      "product": "Hiddify",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "homeproxy-makefile",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "homeproxy-readme",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/README",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "homeproxy-scripts",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/generate_client.uc",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "homeproxy-subscription",
+      "url": "https://raw.githubusercontent.com/immortalwrt/homeproxy/fadaa676104f59ff6ace480a780a258d846d0aec/root/etc/homeproxy/scripts/update_subscriptions.uc",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "homeproxy-tree",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/git/trees/fadaa676104f59ff6ace480a780a258d846d0aec?recursive=1",
+      "kind": "source",
+      "product": "HomeProxy",
+      "required": false,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "passwall-utils",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/root/usr/share/passwall/utils.sh",
+      "product": "Passwall",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "v2rayn-core-info",
+      "url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Manager/CoreInfoManager.cs",
+      "product": "v2rayN",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "v2rayn-global",
+      "url": "https://raw.githubusercontent.com/2dust/v2rayN/1883178b5f1e222b6c6db2782e7a3d989b7cc18f/v2rayN/ServiceLib/Global.cs",
+      "product": "v2rayN",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-old-sb-version",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/constant/version.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-new-sb-version",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/constant/version.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-app-build",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/.github/workflows/build.yml",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-app-makefile",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/Makefile",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-block",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/outbound/block.md",
+      "product": "sing-box",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-dns-action",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/docs/configuration/dns/rule_action.md",
+      "product": "sing-box",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-stable-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box/releases/tags/v1.14.3",
+      "product": "sing-box",
+      "kind": "release",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "homeproxy-commit",
+      "url": "https://api.github.com/repos/immortalwrt/homeproxy/commits/fadaa676104f59ff6ace480a780a258d846d0aec",
+      "product": "HomeProxy",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "homeproxy-immortalwrt-singbox",
+      "url": "https://raw.githubusercontent.com/immortalwrt/packages/master/net/sing-box/Makefile",
+      "product": "HomeProxy",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-app-dependencies",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/abbd671bf6bf05195acd4158c714bff267cada8f/dependencies.properties",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-old-rule-set",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/0a02b7729f6a211436bb8bdcd8696c283eb27767/option/rule_set.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-core-parser",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/parser.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-core-builder",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-core/c9d6f0f00b2eda34e4fb71863e4e0a62b3e931a0/v2/config/builder.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-new-rule-set",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/option/rule_set.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-new-dns",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-sing-box/5e94a4e6acf7907755f3a8588ce619d2c29b3f06/option/dns.go",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "hiddify-draft-dependencies",
+      "url": "https://raw.githubusercontent.com/hiddify/hiddify-app/draft/dependencies.properties",
+      "product": "Hiddify",
+      "kind": "source",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "sfa-releases-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box-for-android/releases?per_page=10",
+      "product": "SFA",
+      "kind": "release",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "sfa-readme",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box-for-android/dev/README.md",
+      "product": "SFA",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "sfa-client-doc",
+      "url": "https://sing-box.sagernet.org/clients/android/",
+      "product": "SFA",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "apple-releases-api",
+      "url": "https://api.github.com/repos/SagerNet/sing-box-for-apple/releases?per_page=10",
+      "product": "SFI/SFM/SFT",
+      "kind": "release",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "apple-readme",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box-for-apple/dev/README.md",
+      "product": "SFI/SFM/SFT",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "apple-client-doc",
+      "url": "https://sing-box.sagernet.org/clients/apple/",
+      "product": "SFI/SFM/SFT",
+      "kind": "documentation",
+      "required": true,
+      "expected_content_type": "html"
+    },
+    {
+      "id": "singbox-114-sniff-options",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/option/rule_action.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-114-sniff-construction",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/route/rule/rule_action.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-114-sniff-routing",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/7054cac5124465ffdb145870d7c01885566711b1/route/route.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-113-sniff-options",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/option/rule_action.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-113-sniff-construction",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/route/rule/rule_action.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-113-sniff-routing",
+      "product": "sing-box",
+      "kind": "source",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-box/25a600db24f7680ad9806ce5427bd0ab8afe1114/route/route.go",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "singbox-113-release-api",
+      "product": "sing-box",
+      "kind": "release",
+      "url": "https://api.github.com/repos/SagerNet/sing-box/releases/tags/v1.13.14",
+      "required": true,
+      "expected_content_type": "json"
+    },
+    {
+      "id": "passwall-type-0-socks",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/0_socks.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-3-ss-rust",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/3_ss-rust.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-4-ssr",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/4_ssr.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-5-hysteria2",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/5_hysteria2.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall-type-6-naive",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall/d8ec3c81988d775ba16ade9059cd972d5d5b8bc0/luci-app-passwall/luasrc/model/cbi/passwall/client/type/6_naive.lua",
+      "kind": "source",
+      "product": "passwall",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-type-3-ss-rust",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/3_ss-rust.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    },
+    {
+      "id": "passwall2-type-4-ssr",
+      "url": "https://raw.githubusercontent.com/Openwrt-Passwall/openwrt-passwall2/5901e5fea7e19dfd4219cc72513957c266587680/luci-app-passwall2/luasrc/model/cbi/passwall2/client/type/4_ssr.lua",
+      "kind": "source",
+      "product": "passwall2",
+      "required": true,
+      "expected_content_type": "text"
+    }
+  ]
+}

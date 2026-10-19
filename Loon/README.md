@@ -16,21 +16,10 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Loon/Loon.
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 目录简介：这里维护 Loon iOS 配置和使用教程，按 Loon 原生语法对齐 Clash Party 分流策略。
->
-> 配置文件：`Loon/Loon.conf`
-> 版本：**v6.0.20-Loon.9**（Build 2026-10-16；跟随 Clash Party v6.0.20 基线；81 个源语义段对应 77 个非空远程规则）
-> 目标：**Loon iOS（App Store 付费正版）**
-> 架构：22 区域 url-test 组（11 全部 + 11 家宽，[Remote Filter] NameRegex）+ 33 业务策略组 + 77 个非空融合 [Remote Rule]
+> 配置：`Loon.conf` · **v6.0.20-Loon.9**（Build 2026-10-16）
+> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.20 分流基线。
 
 <sub>💖 [支持本项目](../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
 
@@ -39,16 +28,17 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Loon/Loon.
 ## 🚀 零基础快速开始
 
 ### 这是什么？
-**Loon 是 iOS 上的付费代理客户端**，价位比 Surge 低一半（¥198 vs ¥648）。本仓库提供 Loon 专用 `.conf`，11 区域 + 33 业务组全保留。
+
+本仓库的 `Loon.conf` 提供国内直连、海外代理和广告拦截规则；机场节点需另行添加。
 
 ### 我要准备什么？
-1. **iPhone / iPad（仅 iOS，无 macOS 版）**
-2. **非中国区 Apple ID**
-3. **💸 Loon 付费**：约 **¥198 / 区**（~$28）
-4. **一个机场订阅 URL**
-5. **本仓库的 `Loon.conf`**，托管到 URL
+
+准备 Loon、机场订阅 URL 和上方配置直链。截至 2026-10-19，官方稳定版 3.5.2 要求 iOS 15+；官方商店亦允许在 Apple Silicon Mac 上运行 iOS App，这与独立原生 Mac 版本不同。来源见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ### Loon 值不值这个价？替代品对比
+
+按协议、插件与平台需求选择；下表的价格、主观评分和“无 Mac”是历史对照，实际价格与设备兼容性以官方商店为准。
+
 | | Shadowrocket | **Loon** | Surge | QX |
 |---|---|---|---|---|
 | 价格 | ¥20 | **¥198** | ¥648 | ¥68 |
@@ -58,35 +48,29 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Loon/Loon.
 | 插件生态 | ❌ | **✅ Plugin** | ⚠️ Modules | ⚠️ Scripts |
 
 ### 术语速查
-- **Loon 配置 `.conf`**：与 Surge 有几处**关键语法差异**（详见下方第五/六章），**不能**直接喂 Surge 的 `.conf` 给 Loon
-- **RULE-SET**：规则列表 URL，Loon 启动时下载。Loon 只吃 `.list` / `.conf` 纯文本格式，**不认 Clash classical `.yaml`**
-- **[Remote Filter]**：Loon 原生的订阅节点过滤段，用 `NameRegex + FilterKey` 匹配节点名；url-test/select 组通过 Filter 名引用（**Loon 不支持** Surge 的 url-test 内联 `policy-regex-filter=`）
-- **MMDB**：GeoIP 数据库。Loon 支持 `[General]` 里 `geoip-url` 字段自动下载（本配置已预设 Loyalsoldier 加强版）；UI 下载仍然可用作为后备
+
+- `.conf`：分流配置，不含机场节点。
+- `[Remote Rule]`：联网下载的远程规则。
+- `NameRegex`：按节点名筛选地区。
+- MMDB：GeoIP 数据库，本配置通过 `geoip-url` 指定。
 
 ### 3 步走完
-1. **App Store 搜 "Loon" → 购买 → 安装 → 允许 VPN 权限**。
-2. **导入配置**：把 `Loon.conf` 托管到 URL → Loon → 配置 → ⊕ → 从 URL 下载 → 启用。配置里 `geoip-url` 已指向 Loyalsoldier 加强版 MMDB，首次启用会自动下载，**无需**再去 UI 手动填。
-3. **加机场订阅**：底部「节点」→ ⊕ → 粘贴机场订阅 URL → 下载。Loon 会按配置里 `[Remote Filter]` 的 9 条 NameRegex 自动把节点分到 🌍 / 🇭🇰 / 🇹🇼 / 🇯🇵日韩 / 🌏亚太 / 🇺🇸 / 🇪🇺 / 🌎美洲 / 🌍非洲 九个区域组。
+
+1. 安装 Loon，首次连接时允许添加 VPN 配置。
+2. 按第二节从上方直链导入配置。
+3. 按第三节添加机场订阅，检查规则与节点后连接。
 
 ### 跑起来验证？
-- 浏览器打开 `https://www.google.com` 能打开
-- Loon「策略组」面板应看到 55 组（22 区域 + 33 业务）
-- Loon「过滤器」面板应看到 9 个 Filter（GLOBAL / HK / TW / JPKR / APAC / US / EU / AM / AF）
-- Loon「设置 → 运行日志」看规则集 + MMDB 下载状态
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+确认 **22 区域 + 33 业务 = 55 组**，检查远程规则下载完成，再按第九节查看实际请求的命中规则与出口。
 
 ### 最常见踩坑
-- ❌ **导入提示 `https://...` 语法错误**：通常是拿到旧版或手工把远程规则 URL 放进了 `[Rule]`。Loon 远程规则集必须在 `[Remote Rule]`；请使用 v5.4.12-Loon.2 或更新版本。
-- ❌ **规则集下载失败**：首次安装**必须先开代理**（本仓库规则资产使用 GitHub Raw HTTPS；当前网络不可达时需可用代理）；Loon → 设置 → 自动更新配置 调频率。
-- ❌ **区域组里没有节点**：检查 Loon 是否识别了 `[Remote Filter]` 段；如果机场节点命名奇葩（例如纯英文代号），可能没匹配到 FilterKey，打开 Loon → 过滤器 → 手动 Edit 调 regex。
-- ❌ **我把 Surge 的 `Surge.conf` 直接给 Loon 行不行**：**不行**。`bypass-system` / `tun-excluded-routes` / `ipv6-enabled` / `udp-policy-not-supported-behaviour` / `hijack-dns` / `encrypted-dns-server` / url-test 的 `policy-regex-filter=` 这些 Loon 全都不识别，配置会大面积沉默失效。**用本目录的 `Loon.conf`**（v5.2.4-Loon.2 已完整对齐 Loon 官方语法）。
-- ❌ **想要 LightGBM**：Loon 不是 mihomo 内核，不支持。要就用桌面端 Clash Verge Rev / Mihomo Party。
 
----
+不要直接导入其他客户端的配置；Loon 的 DNS、节点过滤和端口语法有差异。下载或节点分类异常见第十节；本配置不提供 Mihomo Smart / LightGBM。
 
 ## 🔌 协议支持（Loon 自家引擎）
 
-Loon 的协议栈自己实现，**覆盖面比 Surge 宽、比 Shadowrocket 稍窄**，综合性价比不错：
+协议与版本证据见[官方文档](https://nsloon.app/docs/intro/)和[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 | 协议 | 支持 | 说明 |
 |---|:-:|---|
@@ -101,17 +85,18 @@ Loon 的协议栈自己实现，**覆盖面比 Surge 宽、比 Shadowrocket 稍�
 | **TUIC v5** | ✅ | |
 | **WireGuard** | ✅ | 作为子代理 |
 | **Snell v3 / v4** | ✅ | 少有的 iOS 客户端支持 Snell |
-| **AnyTLS / ShadowTLS** | ⚠️ | 部分版本支持，以官方更新日志为准 |
+| **AnyTLS / ShadowTLS** | ✅ | [官方版本历史](https://apps.apple.com/us/app/loon/id1373567447)：AnyTLS 3.3.9（2026-03-31）；ShadowTLS 3.2.6（2025-02-03） |
 | **SOCKS5 / HTTP(S)** | ✅ | |
 
-Loon 在 iOS 上的协议覆盖面仅次于 Shadowrocket，**比 Surge 多了 VLESS/REALITY/Hysteria 2/TUIC**。
+---
 
 ### iOS 四大付费客户端协议对比（速决表）
+
 | 协议 | SR (¥20) | **Loon (¥198)** | Surge (¥648) | QX (¥68) |
 |---|:-:|:-:|:-:|:-:|
-| Hysteria 2 | ✅ | **✅** | ⚠️ 5.9+ | ❌ |
-| TUIC v5 | ✅ | **✅** | ❌ | ❌ |
-| VLESS REALITY | ✅ | **✅** | ❌ | ⚠️ |
+| Hysteria 2 | ✅ | **✅** | ✅ iOS 5.8.0+ | ❌ |
+| TUIC v5 | ✅ | **✅** | ✅ | ❌ |
+| VLESS REALITY | ✅ | **✅** | ❌ | ✅ REALITY |
 | XTLS-Vision | ✅ | **✅** | ❌ | ⚠️ |
 | WireGuard | ✅ | **✅** | ✅ | ❌ |
 | Snell v4 | ✅ | **✅** | ✅ | ❌ |
@@ -119,70 +104,43 @@ Loon 在 iOS 上的协议覆盖面仅次于 Shadowrocket，**比 Surge 多了 VL
 | 插件生态 | ❌ | **✅** | ⚠️ Modules | ⚠️ Scripts |
 | macOS 支持 | ✅ | ❌ | ✅ | ❌ |
 
-**选 Loon 的场景**：协议要全 + 需要稳定 + 不差钱但不想买 Surge（¥648 太贵）+ 要插件生态（签到/去广告）。
-
----
+按所需协议及最低版本核对；历史价格与主观比较不代表当前商店报价。
 
 ## 一、下载 Loon
 
-- **iOS**：App Store 搜「Loon」，价格约 ¥198 / 区。需要非中国区 Apple ID。
-- 仅 iOS，**没有 macOS 版本**（这是 Loon 和 Surge 的主要区别）。
-- 安装后首次启动授权 VPN 配置权限。
+从 [App Store](https://apps.apple.com/app/loon/id1373567447)安装 Loon。商店地区、系统要求和 Mac 兼容性以官方页面为准。
 
 ---
 
 ## 二、配置托管 & 导入
 
-Loon 必须从 URL 安装配置（和 Surge 一样）：
-
-1. 把 `Loon.conf` 托管到可访问 URL：
-   - GitHub Raw HTTPS：`https://raw.githubusercontent.com/<user>/<repo>/main/Loon/Loon.conf`
-   - 自建 HTTPS
-2. 打开 Loon → 底部 **配置（Config）** 标签。
-3. 右上角 **⊕** → 粘贴 URL → **下载**。
-4. 点击新下载的配置 → **启用**。
-
-首次启用时 Loon 会拉取 **63 个本仓库融合 RULE-SET**，根据网络情况约 **1–3 分钟**。**务必先开代理再下载**，否则 GitHub 访问不稳定会导致部分 RULE-SET 404。
+1. 复制上方配置直链；需要自定义时，放到自己的 HTTPS 地址。
+2. 在 Loon 的配置管理中从 URL 下载，选择并启用该配置。
+3. 检查远程规则是否下载完成；GitHub Raw 不可达时，先使用可用代理下载。
 
 ---
 
 ## 三、机场订阅 / 节点
 
-Loon 的节点来源：
-1. 底部 **节点（Node）** → ⊕ → 粘贴机场订阅 URL → **下载**。
-2. Loon 会按 `[Remote Filter]` 段里 9 条 NameRegex 自动把节点分到 9 个区域 Filter。
-3. url-test 组（🌍 全球 / 🇭🇰 / 🇹🇼 / 🇯🇵 日韩 / 🌏 亚太 / 🇺🇸 / 🇪🇺 / 🌎 美洲 / 🌍 非洲）各自引用对应 Filter 名，组内自动选最低延迟节点。
-4. 也可以在 `[Proxy]` 段直接粘贴本地节点（不推荐，手工维护麻烦）。
+在 Loon 的订阅管理中添加**机场订阅 URL**，更新后检查节点列表。地区筛选使用 `[Remote Filter]` 的 `NameRegex / FilterKey`；主配置不包含可用节点。
 
-### 多机场订阅合并
-
-如果你同时买了多家机场，可以用**在线订阅转换站**把多个链接合并成一个 URL，无需安装任何工具，所有客户端通用。
-
-1. 打开 https://acl4ssr-sub.github.io （或 https://sub.v1.mk）
-2. 把多家机场订阅链接粘贴进去（一行一个或用 `|` 分隔）
-3. 后端选 **Mihomo（Clash.Meta）**
-4. 生成新 URL → Loon → 节点 ➕ → 粘贴 URL → 下载
-
-> ⚠️ **隐私提醒**：转换站能看到你提交的订阅链接（含 token）。不要提交含专线 IP 等敏感信息的订阅链接。
+机场应提供 Loon 支持的订阅格式；导入后确认各区域组实际成员。
 
 ---
 
+### 多机场订阅合并
+
+可以分别添加订阅；如需转换或合并，输出须为 Loon 支持的格式。第三方转换服务可读取含 token 的订阅链接，使用前确认服务可信。
+
 ## 四、11 区域 × 33 业务组说明
 
-- **11 区域组**：`url-test,<区域Filter>,url=...,interval=300,tolerance=50`
-  - 区域 Filter 在 `[Remote Filter]` 段用 `NameRegex + FilterKey="..."` 定义
-  - 测速间隔 **300s**，tolerance **50ms**（Loon 不支持 `timeout=` / `select=` 参数）
-- **33 业务组**：select 手动选择，候选列表默认为所有区域组 + DIRECT
-
-业务组语义映射与 Surge 版完全一致，参考 `Surge/README.md` 第五章。
-
-> **与 Surge 版最大的结构差异**：Surge 用 url-test 内联 `policy-regex-filter="..."`，
-> Loon 把 filter 拆成独立 `[Remote Filter]` 段并由 url-test 组通过 Filter 名引用。
-> 这是 Loon 引擎层面的设计，不是本配置"特有"写法，所有 Loon 官方示例（YueChan / Loon0x00 / fmz200）均如此。
+11 个地区各有全部节点和家宽节点组，共 22 个 `url-test` 区域组；33 个业务组供手动选择上游。名称需含地区标识，具体测速参数以配置文件为准。
 
 ---
 
 ## 五、DNS 配置（Loon 原生语法，≠ Surge）
+
+本配置使用 Loon 原生 DNS 字段，不能直接复制 Mihomo 或 Surge 的 DNS 配置。
 
 | Loon 字段 | 值 | 说明 |
 |-----------|------|------|
@@ -193,26 +151,19 @@ Loon 的节点来源：
 | `disable-udp-ports` | `443` | 对应 Surge 的 `block-quic`（封 HTTP/3） |
 | `bypass-tun` | 私有网段列表 | Loon 对应 Surge 的 `tun-excluded-routes`；Loon **没有** `bypass-system` |
 
-**Loon 没有以下 Surge 字段**（v5.2.3 错误地用过，v5.2.4-Loon.2 已全部清除）：
-- `bypass-system` / `tun-excluded-routes` / `ipv6-enabled` / `udp-policy-not-supported-behaviour` / `hijack-dns` / `encrypted-dns-server` / `encrypted-dns-follow-outbound-mode` / `block-quic` / `geoip-maxmind-url`
+上表是历史字段对照；当前配置使用 `ip-mode`，不是 `ipv6`。官方注明 `ip-mode` 要求 3.2.3(754)+，`hijack-dns` 要求 3.2.5(789)+。Loon 默认在加密 DNS 失败后回退普通 DNS，可在 App 中关闭；详见[原生字段依据](./REFERENCE-loon-manual.md)。
 
 ---
 
 ## 六、MMDB 数据库（配置文件自动下载，无需 UI 手动操作）
 
-本配置在 `[General]` 里预设了：
+配置已通过 `geoip-url` 指定 MMDB 来源：
 
 ```
 geoip-url = https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
 ```
 
-Loon 启动时会自动下载这份 Loyalsoldier 加强版 MMDB（含 cloudflare / telegram / netflix / google 等精准标签），
-`GEOIP,CN,🏠 国内网站` 以及其他 GEOIP 标签规则开箱即用。
-
-> 早期版本的文档曾说 "Loon 不支持配置文件指定 MMDB"，那是误解。Loon 的 `geoip-url` 字段自 3.x 起一直可用，
-> 在 YueChan/Loon `Default.Conf` 与 fmz200/wool_scripts `Loon.conf` 官方示例里均有使用。
-
-如需回落到 UI 手动下载（例如想换其他 MMDB 源）：Loon → 设置 → GeoLite2 数据库 → 填 URL → 下载。
+导入后检查数据库下载状态；下载失败时先确认 URL 与网络，不以“配置已启用”代替数据库可用。
 
 ---
 
@@ -227,18 +178,7 @@ Loon 启动时会自动下载这份 Loyalsoldier 加强版 MMDB（含 cloudflare
 | 在配置里设置 MMDB URL | ❌ 只能 UI 下载 | ✅ `geoip-maxmind-url` |
 | macOS 版本 | ❌ 仅 iOS | ✅ Surge Mac |
 
-**本配置从 v5.2.4-Loon.4 起把远程 RULE-SET 全部放在 `[Remote Rule]` 段内**（Loon 原生语法；当前 63 条）：
-
-```
-[Remote Rule]
-https://example.com/rule.list, policy=POLICY, tag=rule.list, enabled=true
-```
-
-> **为什么不能用 Surge 风格的 `[Rule] RULE-SET,URL,policy`？**
-> Loon 的 `[Rule]` 段只接受内联规则（DOMAIN / IP-CIDR / GEOIP / FINAL 等），写了 Surge 风格的远程 RULE-SET
-> 会导致 Loon 在每一行都报"语法错误"弹窗。v5.2.3-Loon.1 → v5.2.4-Loon.3 都犯了这个错，直到 v5.2.4-Loon.4 才修。
-
-好处：在 Loon「规则」面板可以看到 63 条按最终分流目标融合的非空订阅规则集，每条都能单独启用/禁用/查看命中数。
+上表保留历史功能对照；“MMDB 只能 UI 下载”不适用于当前配置，见第六节。Mac 兼容性见快速开始；插件与脚本需另行配置，本仓库不依赖它们。
 
 ---
 
@@ -255,63 +195,48 @@ https://example.com/rule.list, policy=POLICY, tag=rule.list, enabled=true
 | ⚙️ Meta `.mrs` → blackmatrix7 Loon `.list` | 格式兼容性 |
 | ⚙️ `policy-regex-filter=` → `[Remote Filter] NameRegex` | Loon 引擎的独立 filter 段 |
 
-### 已接受的规则回归损失（v5.2.4-Loon.2）
-
-以下 Accademia Clash classical 规则集没有 Loon `.list` 等价源，已随 72 条 YAML
-一并移除；关键域名已补 DOMAIN-SUFFIX 兜底（见 [Rule] 段 Monzo / Bank×24 / RustDesk /
-Parsec / Zoom / Pornhub / Wayback）：
-
-- `Bank/Bank<国家>.yaml × 10`（各国本地银行细粒度，用 24 条 DOMAIN-SUFFIX 代替主流国际银行）
-- `FakeLocation × 10`（国内 APP IP 归属地伪装）
-- `GeoRouting × 17 区域`（ccTLD 细分）
-- `HomeIP/HomeIP<JP|US>.yaml`、`eMuleServer`、`MacAppUpgrade`、`Fastly`、`Kwai`、
-  `MicrosoftAPPs`、`AppleNews`、`Alipan/BaiduNetDisk/WeiYun`、`AqaraCN/AqaraGlobal`、
-  `HijackingPlus/BlockHttpDNSPlus/PreRepairEasyPrivacy/UnsupportVPN`、
-  `AppleAI/Grok/Gemini/Copilot`、`Signal`、`RustDesk/Parsec`、`Pornhub`、`WaybackMachine`
-
-**需要完整的 Accademia 覆盖？** 请切到 CMFA / OpenClash / SingBox —— 这些平台原生支持 Clash classical YAML RULE-SET。
+当前远程规则使用本仓库融合资产；上表中的旧上游路径与历史源替换不代表现行下载链路。iOS 不支持进程规则；官方说明含进程条件的整条逻辑规则在 iOS / tvOS 上会被忽略。
 
 ---
 
+### 已接受的规则回归损失（v5.2.4-Loon.2）
+
+历史规则源替换记录见 [CHANGELOG](./CHANGELOG.md)。当前平台边界与官方来源见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
+
 ## 九、验证
 
-1. Loon → **首页** → 应显示 `Loon Smart v6.0.20-Loon.9`，协议已启用。
-2. **策略组** 面板应出现 55 组（22 区域 + 33 业务）。
-3. **过滤器** 面板应出现 9 个 Filter（GLOBAL_Filter / HK_Filter / TW_Filter / JPKR_Filter / APAC_Filter / US_Filter / EU_Filter / AM_Filter / AF_Filter）。
-4. 测试分流：
-   - `chat.openai.com` → 🤖 AI 服务
-   - `www.netflix.com` → 🇺🇸 美国流媒体（需 geoip-url 下载完成后精准命中；否则靠 RULE-SET）
-   - `www.bilibili.com` → DIRECT / 📺 国内流媒体
-   - `raw.githubusercontent.com` → 🔧 工具与服务
+1. 确认启用本目录配置，55 个组已载入，区域组含可用节点。
+2. 检查所有远程规则下载状态。
+3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求日志中核对 AI、Netflix、国内流媒体的规则与实际出口。
+4. 继续完成根 README 的[导入后验证清单](../README.md#-导入后-60-秒验证清单)。
 
 ---
 
 ## 十、常见问题
 
 ### Q1：我能直接导入 Surge 的 `Surge.conf` 到 Loon 吗？
-- **不能**。Surge 的 `bypass-system` / `tun-excluded-routes` / `ipv6-enabled` / `udp-policy-not-supported-behaviour` / `hijack-dns` / `encrypted-dns-server` / `geoip-maxmind-url` 都不是 Loon 字段；url-test 内联 `policy-regex-filter=` / `select=0` / `timeout=5` Loon 也不认；Clash classical `.yaml` RULE-SET Loon 解析不了。本目录的 `Loon.conf` 已经完整对齐 Loon 官方语法。
+
+请使用本目录的 `Loon.conf`。DNS、`NameRegex`、端口及 MMDB 字段应按 Loon 语法填写，不能整份混用其他客户端配置。
 
 ### Q2：想要 Mihomo Smart + LightGBM 怎么办？
-- Loon 做不到，需换客户端。iOS 上目前没有支持 JS 覆写 + LightGBM 的客户端；桌面端用 Clash Verge Rev / Mihomo Party。
+
+需使用支持该能力的 Mihomo Smart 客户端；Loon 的 `url-test` 不提供 LightGBM。
 
 ### Q3：跨境场景切换？
-参考 Surge 教程第十章「跨境场景」——操作完全一致。
+
+在策略面板切换“受限网站”“国外网站”“国内流媒体”等业务组；参考 [Surge 跨境场景](../Surge/README.md#q6跨境场景中国--海外怎么切换)。
 
 ### Q4：Loon 规则集更新周期怎么调？
-- Loon → **设置** → **自动更新配置**。默认每次启动都会轮询。
+
+在 Loon 中检查配置与远程规则的更新设置，刷新后确认下载状态。
 
 ### Q5：我想用 Loon 的插件（Plugin）生态？
-- 本仓库的 `Loon.conf` 不依赖任何插件即可工作。你可以在 Loon 的「插件」面板额外叠加（例如去广告增强、签到脚本），不会冲突。
 
----
+可在插件面板添加所需插件；先检查其规则、重写、脚本与现有配置是否冲突，需要 MITM 时按官方流程配置证书。
 
 ## 十一、致谢
 
-- [Loon](https://apps.apple.com/app/loon/id1373567447)
-- [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) - Loon `.list` 规则源
-- [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip) - GeoIP MMDB
-- Clash Party v5.2.4 主线基线
-- [YueChan/Loon](https://github.com/YueChan/Loon) / [Loon0x00/LoonExampleConfig](https://github.com/Loon0x00/LoonExampleConfig) / [fmz200/wool_scripts](https://github.com/fmz200/wool_scripts) — 三份 Loon 官方/权威示例，v5.2.4-Loon.2 语法对齐的对照来源
+[Loon](https://apps.apple.com/app/loon/id1373567447) · [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
 
 ---
 

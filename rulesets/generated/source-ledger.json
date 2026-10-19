@@ -137161,14 +137161,14 @@
     },
     {
       "path": "SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "17f6df562913ad3de06fae48a4984ef66b827b70b832246543bede6eabca998a",
-      "bytes": 27590,
+      "sha256": "579f7b72a2ad5292529f4432010c08bb203c22af1a1e2ee166806c6799517287",
+      "bytes": 28894,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "ccfa864aceb9ff32c017b2ae09393452316a22f5f83dd331ecd172a4eb82a181",
-      "bytes": 23765,
+      "sha256": "6eb689e836eb7a9923c0e3a83f2ba098cbcddee3c72dc746cdd919ea14b4ee60",
+      "bytes": 26452,
       "text_normalization": "LF"
     },
     {

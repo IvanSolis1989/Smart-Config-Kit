@@ -2,8 +2,8 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.20-oc-smart.14 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
-# Build: 2026-10-16
+# Clash Smart v6.0.20-oc-smart.15 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Build: 2026-10-19
 # ============================================================================
 # 定位：对齐 Clash Party v6.0.20 JS 主线的 OpenClash 全量版本。v5.4.2: P0-FIX#41 小米白名单。
 #       与同目录 OpenClash(mihomo).sh（Normal）互补：
@@ -23,7 +23,7 @@
 
 
 
-VERSION_TAG="v6.0.20-oc-smart.14"
+VERSION_TAG="v6.0.20-oc-smart.15"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_DEFAULT_HEALTH_CHECK_PROFILE="standard"
@@ -1902,7 +1902,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.20-oc-smart.14"
+VERSION = "v6.0.20-oc-smart.15"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
@@ -2807,7 +2807,6 @@ def make_smart_group(name, health_profile:, proxies_filter_mode:, explicit_proxi
     "type"               => "smart",
     "uselightgbm"        => true,
     "collectdata"        => false,
-    "strategy"           => "sticky-sessions",
     "url"                => "https://cp.cloudflare.com/generate_204",
     "interval"           => health_profile == 'power-save' ? 900 : 300,
     "tolerance"          => 10,

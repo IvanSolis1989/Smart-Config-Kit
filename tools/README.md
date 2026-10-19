@@ -1,9 +1,20 @@
 # Maintenance tools
 
-> 目录简介：这里存放仓库维护脚本和一致性校验工具，用于验证覆写脚本与跨客户端产物契约。
+## Official documentation snapshots
 
-This directory contains repository-maintainer generators and checks. Generator
-commands rewrite published client artifacts; validator commands are read-only.
+`cache-official-docs.js` v1.0.0 saves exact official response bodies as content-addressed gzip files. Inventories are explicit; this is a reviewed set of routing/configuration manuals, release metadata and source files, not a full website mirror. Snapshot coverage and decisions are indexed in [the dated report](../docs/upstream/2026-10-19/README.md).
+
+```bash
+node tools/cache-official-docs.js --group docs/upstream/2026-10-19/mihomo --github-cli
+node tools/cache-official-docs.js --group docs/upstream/2026-10-19/mihomo --verify
+node tools/cache-official-docs.js --group docs/upstream/2026-10-19/mihomo --read smart-group-source
+```
+
+Each manifest binds the inventory, requested/effective URLs, HTTP metadata, acquisition time, original SHA-256 and compressed SHA-256. Raw GitHub branches are resolved to commits before acquisition. Optional `--github-cli` uses the existing GitHub CLI login for public API requests without reading or saving credentials. A failed fetch remains a failure; optional failures are listed during verification. Normal reruns reuse independently verified bytes without changing their fetch time; `--refresh` fetches all entries again and archives the previous manifest. Prefer a new dated directory for a new research snapshot. Regression coverage: `node --test tools/tests/official-docs-cache.test.js`.
+
+For a Passwall backend-only helper change, `node tools/generate-fused-fallback-artifacts.js --passwall-only` regenerates the two helpers and reference conf files from existing SRS metadata without rewriting Xray or refreshing source assets. The generated helpers require every configured `_shunt` node to use `type=sing-box` before any UCI mutation. This does not monitor later backend changes. Shell fixture tests execute both published helpers in replace/append modes: `node --test tools/tests/passwall-backend-guard.test.js`.
+
+Generators rewrite published artifacts; validators are read-only. Routing authority and execution order are defined in [AGENTS.md](../AGENTS.md).
 
 ## Subscription node filters
 
@@ -20,16 +31,11 @@ node --test tools/tests/subscription-node-filter.test.js
 node tools/test-openclash-node-filter.js
 ```
 
-The regressions execute the published JS `main()` and extracted Ruby heredocs,
-including malformed fields, name ambiguity, provider-only input, dialer
-dependencies, empty pools and conservative multiplier parsing. These filters
-do not change the source routing graph or rebuild remote rule assets. User
-parameters and input boundaries are documented in the
-[node filter guide](../docs/subscription-node-filter.md).
+Regressions execute published JS `main()` and extracted Ruby heredocs for malformed inputs, ambiguous names, provider-only input, dialer dependencies and empty pools. Filters do not rebuild routing assets. Parameters: [node filter guide](../docs/subscription-node-filter.md).
 
 ## Generated client artifacts
 
-Run:
+Individual generator commands follow; for a full rebuild, first sync/apply MRS, then compile fused rules, then generate clients in the order defined in AGENTS.md.
 
 ```bash
 node tools/generate-stash-from-cmfa.js
@@ -41,41 +47,10 @@ node tools/build-fused-rule-sets.js
 node tools/generate-fused-fallback-artifacts.js
 ```
 
-Scope:
-
-- reads `Clash Meta For Android/CMFA(mihomo).yaml` as the Stash source;
-- writes `Stash/Stash.yaml`;
-- preserves the shared 22 region groups, 33 business groups, rule-providers,
-  and rules;
-- removes Stash-unverified Mihomo-only fields such as GeoX auto-update,
-  sniffer, provider health-check / exclude-filter, provider download `proxy`,
-  and Mihomo-specific DNS fallback keys.
-- reads `rulesets/supplemental/clash/*.list` as the Egern supplemental source;
-- writes `rulesets/supplemental/egern/*.yaml` with Egern-native
-  `domain_suffix_set` / `domain_set` / `ip_cidr_set` fields;
-- skips process rule sets because Egern does not expose Clash-style
-  `PROCESS-NAME` matching.
-- reads `Clash Meta For Android/CMFA(mihomo).yaml` as the formal Egern source;
-- writes `Egern/Egern.yaml` with 22 smart region groups, 33 business groups,
-  CMFA rule order, and Egern-compatible YAML / text `rule_set` URLs;
-- keeps Mihomo `.mrs` in Clash Party / CMFA, but does not emit `.mrs` URLs into
-  Egern because Egern official docs do not document `.mrs` rule-set support.
-- writes `rulesets/generated/mihomo-mrs/*.mrs` and
-  `rulesets/generated/mihomo-mrs/manifest.json` for Mihomo-compatible
-  products; mixed classical providers are split into `-domain` and `-ipcidr`
-  rule providers.
-- reads `rulesets/source/routing-graph.js` as the fused compiler input and
-  writes `rulesets/generated/fused/**`; this is the authority for client
-  fused rule-set consumption.
-- uses `tools/lib/fused-rule-optimizer.js` to canonicalize rules, preserve exact
-  opaque-MRS source identity, and remove only same-policy exact/subsumed domain
-  and CIDR rules; optimization counts are persisted in the fused manifest.
-- keeps ISO country GEOIP rules native for capable clients. Service GEOIP and
-  ASN rules are materialized only for targets such as sing-box headless rule
-  sets that cannot represent them directly; resolution failures are fatal.
-- writes fallback-native fused artifacts for clients that cannot consume
-  Mihomo `.mrs`: v2rayN Xray is flattened into native RuleObject JSON, while
-  Passwall / Passwall2 receive generated `rule-set:remote` `.srs` shunt rules.
+- Stash derives from CMFA, preserving groups/rules while removing unverified Mihomo fields.
+- Egern derives from CMFA and supplemental lists, emits native YAML/text rule sets, and excludes unsupported `.mrs` and process rules.
+- MRS normalization splits mixed providers; the fused compiler consumes `rulesets/source/routing-graph.js`, preserves opaque source identity and only removes proven same-policy redundancy.
+- GEOIP/ASN materialization fails on unresolved sources. Fallback generation emits Xray RuleObject JSON and sing-box-only Passwall SRS shunt rules. Manifests record inventories and optimization counts.
 
 ## JS overwrite smoke contract
 
@@ -85,21 +60,7 @@ Run:
 node tools/validate-js-overwrites.js
 ```
 
-Scope:
-
-- loads `Clash Party/ClashParty(mihomo-smart).js`,
-  `Clash Party/ClashParty(mihomo).js`, and `FlClash/FlClash(mihomo).js`
-  through their real `main(config)` entrypoint;
-- validates alpha-3 node classification, info-node exclusion, home-node
-  classification, empty-region non-fallback behavior, group order and group
-  references;
-- verifies subscription-native groups/rules/providers are removed;
-- checks rule-provider download proxy, rule-provider references, final `MATCH`,
-  TikTok target isolation, DNS fallback, TLS fingerprint handling, and the
-  FlClash in-place mutation contract;
-- verifies the Node-DNS runtime Module embedded in all three JS adapters and
-  exercises exact node-policy projection, wildcard specificity, IPv6 bootstrap
-  hosts, scalar hosts redirects, capacity limits and idempotence.
+Executes all three published `main(config)` entrypoints. Checks node classification/filtering, empty regions, group references, subscription cleanup, provider routing, DNS/TLS behavior, FlClash mutation and embedded Node-DNS projection.
 
 Useful options:
 
@@ -133,13 +94,7 @@ node tools/sync-node-dns-hints-adapters.js --check
 node tools/test-openclash-node-dns-hints.js
 ```
 
-The contracts guarantee that subscription DNS is projected only to exact active
-node FQDN policies; it never replaces the repository global
-`proxy-server-nameserver`, `nameserver`, fallback or fake-ip baseline. They
-exercise all three profiles, profile-mismatch and missing-baseline zero-write
-behavior, scalar domain `hosts` redirects, IPv4/IPv6 bootstrap addresses,
-case-insensitive late exact keys, case-sensitive resolver paths, and atomic
-resolver-host capacity handling.
+Subscription DNS only projects exact active-node FQDN policies and preserves the global DNS/fake-ip baseline. Tests cover all profiles, zero-write failures, hosts redirects, IPv4/IPv6 bootstrap, key/path case handling and atomic capacity limits.
 
 ## Cross-client capability matrix
 
@@ -167,32 +122,7 @@ Run:
 node tools/validate-artifact-contracts.js
 ```
 
-Scope:
-
-- compiles the JS overwrite artifacts and checks that Normal / FlClash follow
-  the Clash Party Smart baseline version;
-- checks static group counts for CMFA, Stash, Shadowrocket, Surge, Loon, and
-  Quantumult X;
-- verifies Stash YAML is a generated CMFA derivative and does not carry
-  unverified Mihomo-only keys;
-- validates Mihomo `.mrs` conversion counts and generated file presence;
-- validates formal Egern metadata, 22 region smart groups, 33 business groups,
-  111 generated rules, 94 top-level rule-set references, 99 non-empty native
-  YAML assets, and the absence of
-  `.mrs` / process rule-set files in Egern;
-- validates SingBox and v2rayN JSON structure, baseline metadata, and fused
-  source mapping;
-- extracts OpenClash heredoc YAML and, when Ruby is available, parses it through
-  Ruby/Psych to catch duplicate top-level `rule-providers` / `rules` keys;
-- checks Passwall / Passwall2 fused shunt-rule counts, generated `.srs` URLs,
-  and rejects Clash-style rule prefixes inside `.list` files;
-- validates the subscription-adapter profile schema plus the 14-product,
-  four-column client capability matrix, including every evidence file/marker
-  and generated Markdown drift;
-- includes legacy reference `.conf` files in the sha256 manifest and warns when
-  they drift from the authoritative `.sh` / shunt-rule artifacts;
-- can emit a sha256 manifest for release review without changing any published
-  artifact.
+Checks versions, groups, generated-source parity, MRS/Egern inventories, both sing-box schemas, Xray mappings, Passwall SRS/backend guards and capability evidence. Ruby/Psych parses OpenClash heredocs for duplicate YAML keys; `--strict-ruby` requires Ruby. Manifest output records artifact SHA-256, including legacy reference conf files. Current counts come from generated manifests rather than this guide.
 
 Useful options:
 

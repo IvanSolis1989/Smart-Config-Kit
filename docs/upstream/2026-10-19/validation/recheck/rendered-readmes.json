@@ -1,0 +1,166 @@
+{
+  "engine": "GitHub official GFM Markdown API",
+  "generated_at": "2026-10-19T09:23:45.603Z",
+  "results": [
+    {
+      "file": "v2rayN/README.md",
+      "status": "rendered",
+      "headings": 8,
+      "tables": 1,
+      "images": 3,
+      "html_bytes": 9686
+    },
+    {
+      "file": "tools/README.md",
+      "status": "rendered",
+      "headings": 11,
+      "tables": 0,
+      "images": 0,
+      "html_bytes": 12142
+    },
+    {
+      "file": "FlClash/README.md",
+      "status": "rendered",
+      "headings": 20,
+      "tables": 4,
+      "images": 9,
+      "html_bytes": 27862
+    },
+    {
+      "file": "Clash Meta For Android/README.md",
+      "status": "rendered",
+      "headings": 43,
+      "tables": 4,
+      "images": 1,
+      "html_bytes": 27578
+    },
+    {
+      "file": "OpenClash/README.md",
+      "status": "rendered",
+      "headings": 23,
+      "tables": 3,
+      "images": 5,
+      "html_bytes": 20544
+    },
+    {
+      "file": "Passwall/README.md",
+      "status": "rendered",
+      "headings": 8,
+      "tables": 2,
+      "images": 1,
+      "html_bytes": 9712
+    },
+    {
+      "file": "Loon/README.md",
+      "status": "rendered",
+      "headings": 31,
+      "tables": 6,
+      "images": 1,
+      "html_bytes": 18824
+    },
+    {
+      "file": "Stash/README.md",
+      "status": "rendered",
+      "headings": 8,
+      "tables": 1,
+      "images": 1,
+      "html_bytes": 5067
+    },
+    {
+      "file": "README.md",
+      "status": "rendered",
+      "headings": 18,
+      "tables": 5,
+      "images": 20,
+      "html_bytes": 76884
+    },
+    {
+      "file": "Egern/README.md",
+      "status": "rendered",
+      "headings": 6,
+      "tables": 0,
+      "images": 1,
+      "html_bytes": 4283
+    },
+    {
+      "file": "Quantumult X/README.md",
+      "status": "rendered",
+      "headings": 37,
+      "tables": 4,
+      "images": 1,
+      "html_bytes": 20139
+    },
+    {
+      "file": "Surge/README.md",
+      "status": "rendered",
+      "headings": 37,
+      "tables": 6,
+      "images": 1,
+      "html_bytes": 20491
+    },
+    {
+      "file": "SubStore/README.md",
+      "status": "rendered",
+      "headings": 37,
+      "tables": 3,
+      "images": 0,
+      "html_bytes": 36888
+    },
+    {
+      "file": "SingBox/README.md",
+      "status": "rendered",
+      "headings": 9,
+      "tables": 1,
+      "images": 2,
+      "html_bytes": 11183
+    },
+    {
+      "file": "SubStore/scripts/README.md",
+      "status": "rendered",
+      "headings": 7,
+      "tables": 1,
+      "images": 0,
+      "html_bytes": 9919
+    },
+    {
+      "file": "Clash Party/README.md",
+      "status": "rendered",
+      "headings": 37,
+      "tables": 4,
+      "images": 6,
+      "html_bytes": 37434
+    },
+    {
+      "file": "Shadowrocket/README.md",
+      "status": "rendered",
+      "headings": 43,
+      "tables": 5,
+      "images": 1,
+      "html_bytes": 17170
+    },
+    {
+      "file": "Passwall2/README.md",
+      "status": "rendered",
+      "headings": 8,
+      "tables": 2,
+      "images": 1,
+      "html_bytes": 9729
+    },
+    {
+      "file": "SubStore/edge-extension/README.md",
+      "status": "rendered",
+      "headings": 12,
+      "tables": 1,
+      "images": 0,
+      "html_bytes": 30791
+    },
+    {
+      "file": "docs/upstream/2026-10-19/README.md",
+      "status": "rendered",
+      "headings": 6,
+      "tables": 4,
+      "images": 0,
+      "html_bytes": 12862
+    }
+  ]
+}

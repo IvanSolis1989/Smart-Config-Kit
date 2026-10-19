@@ -2,10 +2,15 @@
 
 > `Passwall/` 目录的变更日志（Passwall 全功能版专属参考；四列表 + shunt_rules + ACL 三层架构）。
 > 与 `Passwall2/` 目录（精简分流版参考）内容互通——两者共用 `shunt_rules.lua` 解析器，同一份 `.list` 互通。
-> 本目录提供从 `rulesets/generated/fused/sing-box/*.srs` 生成的 69 条非空原生 fused shunt rule 降级参考。
+> 本目录提供从 `rulesets/generated/fused/sing-box/*.srs` 生成的 78 条非空原生 fused shunt rule 降级参考。
 > 主版本号跟随 Clash Party 主线；尾段 `-pw.N` 独立递增。
 
 ---
+
+## v6.0.20-pw.10 (2026-10-19)
+
+- 根据官方稳定后端源码，明确 fused `.srs` 仅适用于 sing-box 分流节点；写入前检查全部 nodes 类型；潜在分流后端严格读取 protocol，合法普通 Socks 等节点允许无 protocol；拒绝 Xray 分流、未知类型、无分流节点及读取失败，避免静默丢失规则。失败时不执行任何 UCI 写入。
+- 从现有 SRS 重新生成 helper/conf，保留 78 条规则的 URL、顺序和内容；文档更正现行全局 node 入口和旧文件名含义。原文、风险路径及设备验收边界见[核验报告](../docs/upstream/2026-10-19/singbox/report.md)，24 项真实 shell 夹具测试覆盖两端成功与拒绝分支。
 
 ## v6.0.20-pw.9 (2026-10-16)
 

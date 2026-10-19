@@ -1,5 +1,7 @@
 # OpenClash 配置参考文档
 
+> 核对于 2026-10-19：当前 stable v0.48.002（2026-10-12），新增模块安全限制、内核校验及 TUN 默认行为调整。已按该 tag 核对固定自定义脚本入口和普通模块的 INI/AST 边界；完整 Shell 脚本仍由固定入口执行。Smart 遗留 `strategy` 已删除。发布记录原文、源码和采用决定见[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。以下旧摘要未在本次逐段重新校验。
+
 > 2026-10-15 URL 兼容性复核：OpenClash rule-providers 使用 Mihomo `type: http` / `url`；[Mihomo 官方文档](https://wiki.metacubex.one/en/config/rule-providers/)给出 HTTPS raw URL 示例。本次只替换自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 2026-09-30 补充：复核 [Mihomo inline 集合](https://wiki.metacubex.one/config/proxy-providers/) 与 [具名直连](https://wiki.metacubex.one/config/proxies/direct/)。Ruby 在写 YAML 前展平受控 payload、检查全部节点与引用；direct/reject 保留为依赖，只把远端代理计入测速候选。参数与 shell/Ruby 入口不变，两份实际 heredoc 回归通过。

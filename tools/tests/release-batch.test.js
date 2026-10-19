@@ -16,7 +16,7 @@ const PROFILE = 'Egern/Egern.yaml';
 const MRS = 'rulesets/generated/mihomo-mrs/manifest.json';
 const FUSED = 'rulesets/generated/fused/manifest.json';
 const EGERN = 'rulesets/generated/egern/manifest.json';
-function fixture(t, { crlf = false } = {}) {
+function fixture(t, { crlf = false, extraStaticOutputs = [] } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-release-batch-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] }).trim();
@@ -27,10 +27,11 @@ function fixture(t, { crlf = false } = {}) {
   git('config', 'core.autocrlf', crlf ? 'true' : 'false');
   write(SOURCE, "const SOURCE_GRAPH_VERSION = 'v1.0.0';\n// BEGIN AUTO-GENERATED MIHOMO MRS OVERRIDES\nconst generated = 1;\n// END AUTO-GENERATED MIHOMO MRS OVERRIDES\n");
   write(CMFA, 'cmfa: original\n'); write(PROFILE, 'egern: original\n');
+  for (const file of extraStaticOutputs) write(file, '{}\n');
   write('source-input.txt', 'frozen\n'); write('fixture-validator.js', "console.log('fixture validator passed');\n");
   const contract = { schemaVersion: 1, version: VERSION, purpose: 'upstream-refresh', sourceGraph: SOURCE,
     generatedSourceBlock: 'MIHOMO MRS OVERRIDES', manifests: { mrs: MRS, fused: FUSED, egern: EGERN },
-    staticOutputs: [CMFA, PROFILE], validators: [['fixture-validator.js']] };
+    staticOutputs: [CMFA, PROFILE, ...extraStaticOutputs], validators: [['fixture-validator.js']] };
   save(CONTRACT_PATH, contract);
   const mrs = { converted: [{ id: 'old', generated: [{ behavior: 'domain', file: 'old.mrs' }] }], split: [], partial: [], failed: [] };
   const fused = { baseline_version: 'v1.0.0', asset_revision: 'v1.0.0', segments: [], unresolved_providers: [], unresolved_sources: [], passthrough_providers: [] };
@@ -55,9 +56,27 @@ test('published repository contract and CLI use the supported release gate versi
   const contract = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../..', CONTRACT_PATH), 'utf8'));
   assert.equal(contract.version, VERSION);
   assert.ok(contract.staticOutputs.includes('rulesets/generated/mihomo-mrs/source-ledger.json'), 'MRS source receipts must be covered by the release batch');
+  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-full.json'));
+  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
   const result = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', windowsHide: true });
   assert.equal(result.status, 0, result.stderr);
   assert.ok(result.stdout.startsWith(`Release batch v${contract.version}:`));
+});
+
+test('automatic refresh freezes and requires both generated sing-box profiles', t => {
+  const profiles = ['SingBox/SingBox(sing-box)-full.json', 'SingBox/SingBox(sing-box)-1.13.json'];
+  const f = fixture(t, { extraStaticOutputs: profiles });
+  for (const file of profiles) f.write(file, '{"revision":"updated-asset"}\n');
+  const receipt = f.prepare();
+  assert.deepEqual(receipt.changedPaths, [...profiles].sort());
+  for (const file of profiles) {
+    assert.ok(receipt.baselineOutputs.some(row => row.path === file));
+    assert.ok(receipt.currentOutputs.some(row => row.path === file));
+  }
+  f.git('add', '--', profiles[0]);
+  assert.throws(() => f.check(receipt), /Unstaged|partial stage|blob\/mode/);
+  f.stage(receipt);
+  assert.equal(f.check(receipt).ok, true);
 });
 
 test('no-op coverage is complete and validation never stages the workset', t => {

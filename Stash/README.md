@@ -16,17 +16,10 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Stash/Stas
 
 ---
 
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../docs/rule-asset-delivery.md)。
+规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-
-> Claude Desktop 精确域名保护：`a-api.anthropic.com`、`a-cdn.anthropic.com` 已纳入现有 AI 规则集，客户端继续使用原生格式。官方依据见 [Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；服务阶段依赖与文件级发布门禁见 [依赖台账](../docs/claude-service-dependencies.md) 和 [发布检查](../docs/release-batch.md)。
-
-> 测速与海外 QUIC 可选策略：参见 [测速与 QUIC 策略选项](../docs/traffic-options.md)。
-
-> 微信连接端点按精确域名直连，广告邻域沿用拒绝策略；适用范围与验证边界见[微信连接排障](../docs/research/2026-10-16-wechat-issue-187.md)。
-
-> 目录简介：这里提供 Stash 专用 YAML 产物。`Stash.yaml` 由 `tools/generate-stash-from-cmfa.js` 从 CMFA 自动裁剪生成，不手工维护。
-> 当前版本：**v6.0.20-stash.12**（Build 2026-10-16，跟随 Clash Party v6.0.20 / CMFA v6.0.20-cmfa.12；149 个融合 rule-providers / 168 条主规则）。
+> 配置：`Stash.yaml` · **v6.0.20-stash.12**（Build 2026-10-16）
+> 由 CMFA 生成，22 区域组 + 33 业务组；不支持 Mihomo Smart / LightGBM。
 
 ## 文件
 
@@ -37,39 +30,39 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Stash/Stas
 
 ## 使用方式
 
-1. 打开 `Stash.yaml`。
-2. 将 `proxy-providers` → `Subscribe` → `url` 替换为你的订阅链接。
-3. 在 Stash 中导入该 YAML。
-4. 首次导入后检查 `proxy-providers` 与 `rule-providers` 是否下载成功。
+1. 下载 `Stash.yaml`，在本地副本把 `proxy-providers` → `Subscribe` → `url` 改为机场订阅。
+2. 在 Stash 导入该 YAML，检查订阅节点与全部远程规则是否下载成功。
+3. 确认 22 个区域组和 33 个业务组，按需要选择上游；GitHub Raw 不可达时，先使用可用代理下载。
 
-测速 provider 应只包含远端代理。Stash 官方支持具名 `type: direct`，但没有公开与 Mihomo `exclude-type` / `empty-fallback` 同等的字段；本生成器会裁剪这些字段。需要 `dialer-proxy` 的具名直连出站可独立放在顶层 `proxies`，在聚合层确认引用完整，避免它混入 `Subscribe` 的地区测速来源。Stash 空 provider 或空组默认直连，使用前应检查各组实际成员。详见 [逐端取舍](../docs/research/2026-09-30-routing-runtime-followup.md)。
+测速订阅只应包含远端代理。Stash 空 provider 或空组会默认直连，使用前检查实际成员；具名直连等特殊出站需另行确认引用。
 
 ## 生成方式
+
+仓库维护者通过生成器更新此产物；不要手工修改仓库中的 `Stash.yaml`：
 
 ```bash
 node tools/generate-stash-from-cmfa.js
 ```
 
-生成器只以 `Clash Meta For Android/CMFA(mihomo).yaml` 为输入，输出 `Stash/Stash.yaml`。任何规则、策略组、rule-provider、补充规则集或 DNS 语义变更，都应先同步 CMFA，再重新生成 Stash。
+字段依据见 [REFERENCE](./REFERENCE-Stash-wiki.md)。
 
 ## 兼容范围
 
-- 保留：22 个区域 `url-test` 组、33 个业务组、149 个融合 rule-provider、`RULE-SET` / `GEOIP` / `DST-PORT` / `PROCESS-NAME` 等规则语义。
-- 保留：`proxy-providers` 远程订阅、`proxy-groups.use`、`nameserver-policy`、`fake-ip-filter`。
-- 不保留：Mihomo Smart + LightGBM、GeoX 自动更新、sniffer、provider `health-check` / `exclude-filter`、rule-provider 下载代理 `proxy`、Mihomo 专用 DNS fallback 字段。
+- 使用 Stash 原生 `url-test`、远程订阅与规则集；MRS 仅用于 domain / ipcidr，混合规则使用兼容格式。
+- 保留 `nameserver-policy` 与 `fake-ip-filter`；本配置不提供 Mihomo Smart / LightGBM。
+- 截至 2026-10-19，当前稳定版 iOS 3.6.4 要求 iOS 16+，Mac 4.3.3 要求 macOS 12.4+；这不代表各配置字段的最初支持版本。
 
 ## 注意事项
 
-- Stash Wiki 未记录 rule-provider 下载代理字段，所以本产物不写 `proxy: 🚫 受限网站`。如果你的网络无法直连配置中的 GitHub Raw 规则 URL，首次规则下载可能需要先让 Stash 自身具备可用代理环境。
-- Stash 的 `default-nameserver` 按官方示例只放明文 IP；DoH 放在 `nameserver` 与 `nameserver-policy` 中。
-- Stash 不支持本仓库的 Smart Alpha / LightGBM 自动择优；区域组使用传统 `url-test`。
-- `Stash.yaml` 是生成产物，手工修改会被下次生成覆盖。
+- 现有输出采用保守 DNS 配置。Stash iOS/tvOS 3.6+、Mac 4.3+ 已官方支持加密 `default-nameserver`、独立 `proxy-server-nameserver` 与 DNS 引用规则集，但本产物尚未启用这些新能力。
+- 官方确认 `tolerance` 单位为毫秒，但最低引入版本未确认；本生成器暂不保留该字段，也不推断支持 Mihomo 的 `empty-fallback` / `exclude-type`。
+- 本轮没有 Stash App 导入与 DNS 故障验收。新能力、版本门槛和待核项见[复核报告](../docs/upstream/2026-10-19/apple/report.md)。
 
 ## 验证
+
+导入后检查规则下载、组内节点与实际请求出口；静态检查不能代替 App 验收。仓库维护检查：
 
 ```bash
 node tools/generate-stash-from-cmfa.js
 node tools/validate-artifact-contracts.js
 ```
-
-CI 中 `validate-artifact-contracts.js --strict-ruby` 会检查 Stash YAML 的组数、provider 数、规则数、关键顺序、DNS 裁剪和 YAML 结构。

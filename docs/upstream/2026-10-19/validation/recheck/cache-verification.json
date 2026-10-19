@@ -1,0 +1,44 @@
+[
+  {
+    "group": "mihomo",
+    "verified": 57,
+    "optional_failures": [],
+    "total": 57,
+    "uncompressed_bytes": 16057545,
+    "gzip_bytes": 1414635
+  },
+  {
+    "group": "singbox",
+    "verified": 112,
+    "optional_failures": [],
+    "total": 112,
+    "uncompressed_bytes": 26155783,
+    "gzip_bytes": 2134342
+  },
+  {
+    "group": "apple",
+    "verified": 56,
+    "optional_failures": [
+      "shadowrocket-help-unverified"
+    ],
+    "total": 57,
+    "uncompressed_bytes": 8349751,
+    "gzip_bytes": 1181280
+  },
+  {
+    "group": "consumers",
+    "verified": 15,
+    "optional_failures": [],
+    "total": 15,
+    "uncompressed_bytes": 1006900,
+    "gzip_bytes": 149742
+  },
+  {
+    "group": "substore",
+    "verified": 7,
+    "optional_failures": [],
+    "total": 7,
+    "uncompressed_bytes": 229193,
+    "gzip_bytes": 21746
+  }
+]

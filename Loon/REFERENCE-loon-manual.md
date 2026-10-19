@@ -1,5 +1,21 @@
 # Loon 配置参考文档
 
+> 更新于 2026-10-19（上次专题摘要 2026-05-31）：当前官方站由 App Store 开发者链接确认，正文及release metadata已缓存；详见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)和[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)。
+
+## 当前复核结论
+
+- 稳定版3.5.2，2026-10-01 UTC；官方预发布版本/日期未取得，pending。3.5.1新Rewrite/Script兼容旧写法，本仓库未启用该类功能，不迁移路由。
+- 当前官方 [Remote Rule](https://nsloon.app/docs/Rule/sub_rule/)、[Policy Group](https://nsloon.app/docs/Policy/policygroup/)、[DNS](https://nsloon.app/docs/DNS/)、[General](https://nsloon.app/docs/General/)实际正文已保存，不再以无法读取的旧页面代替。
+- interval为秒、tolerance为毫秒；`ip-mode`官方门槛为3.2.3(754)，`hijack-dns`为3.2.5(789)，旧文泛称3.2.0+不能作最低版本。
+- [官方商店历史](https://apps.apple.com/us/app/loon/id1373567447)明确AnyTLS自3.3.9（2026-03-31）、ShadowTLS自3.2.6（2025-02-03）。
+- [进程规则](https://nsloon.app/docs/Rule/process_rule/)仅Mac生效，iOS/tvOS忽略包含进程条件的整条逻辑规则；不能沿用旧文“iOS14+部分支持”推断。
+- DNS加密查询失败默认可回落普通DNS，App内可关闭；这与Surge加密DNS行为不同。Build1007+新字段未确认稳定版门槛，不默认采用。
+
+## 历史摘要边界
+
+以下保留旧摘要及当时社区来源，它们不作为本次官方证据；以本节和缓存原文为准。真机导入、规则来源优先级及并发DNS仍待验证。
+
+
 > 2026-10-15 URL 兼容性复核：官方示例配置 [LoonExampleConfig](https://github.com/Loon0x00/LoonExampleConfig/blob/master/example.conf)含 `[Remote Rule]` HTTPS raw GitHub URL。LoonManual 的 Remote Rule 正文本次未能抓取，故证据限于官方示例配置；Issue #186 只替换既有 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
 
 > 来源 URL:

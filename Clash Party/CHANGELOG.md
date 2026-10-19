@@ -7,6 +7,13 @@
 
 ---
 
+## v6.0.20-dns.20 (2026-10-19)
+
+- Smart JS 移除当前 Smart 内核已不接收的 `strategy: sticky-sessions`，保留 `type: smart`、LightGBM、22 区域组和 33 业务组；同步 OpenClash Smart，同构审查中 Normal/FlClash 使用 `url-test`、其他客户端没有该 Smart 字段，无需修改规则生成链路。
+- 使用说明明确区分 MetaCubeX Alpha 与 vernesong Smart 分支，删除会话粘性承诺；规则权威源仍为 v6.0.20。官方源码、原始发布记录缓存和验证见[版本核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。
+- 同次研究还完成所有客户端 REFERENCE 时效核对、sing-box 两版生成、Surge/QX DNS 修正与 Passwall SRS 后端检查；跨端影响和未完成的设备验收见[研究总览](../docs/upstream/2026-10-19/README.md)。
+- 二次复核补齐缓存/内核/后端 CI 与 1.13 刷新清单；README 精简重复正文、保留图表，并纠正失效配置示例。未修改主线业务规则或普通内核行为。
+
 ## 2026-10-18 — Sub-Store 辅助扩展 v1.8.0
 
 - 增加受控 local 内容快照更新/恢复，本机一次临时抓取后由双端各自处理，不把一次性 URL 保存为远程源；详见[SubStore 日志](../SubStore/CHANGELOG.md)。本机关闭后云端仍能输出已存内容，刷新新内容仍需本机；未修改覆写、路由图、DNS 或正式产物，无需全端重生成。
