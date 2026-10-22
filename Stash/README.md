@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Stash/Stas
 
 规则下载需能访问 GitHub Raw；见[下载排错](../docs/rule-asset-delivery.md)。可选[测速与 QUIC 策略](../docs/traffic-options.md)、[微信连接排错](../docs/research/2026-10-16-wechat-issue-187.md)与[Claude Desktop 网络依赖](../docs/claude-service-dependencies.md)另有说明。
 
-> 配置：`Stash.yaml` · **v6.0.20-stash.12**（Build 2026-10-16）
+> 配置：`Stash.yaml` · **v6.0.20-stash.13**（Build 2026-10-20）
 > 由 CMFA 生成，22 区域组 + 33 业务组；不支持 Mihomo Smart / LightGBM。
 
 ## 文件
@@ -35,6 +35,8 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Stash/Stas
 3. 确认 22 个区域组和 33 个业务组，按需要选择上游；GitHub Raw 不可达时，先使用可用代理下载。
 
 测速订阅只应包含远端代理。Stash 空 provider 或空组会默认直连，使用前检查实际成员；具名直连等特殊出站需另行确认引用。
+
+Stash 业务 DNS policy 随 CMFA YAML 由现有生成器继承；源数据见 `../rulesets/source/business-dns-policy.json`。先执行 `node tools/sync-business-dns-policy.js` 更新 CMFA，再运行下方 Stash 生成器。
 
 ## 生成方式
 

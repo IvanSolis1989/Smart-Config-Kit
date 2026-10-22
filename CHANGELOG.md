@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-10-23 — Issue #187 下载分流复核
+
+- 确认 `dldir1.qq.com` 已精确收录，补充跨端载荷、下载组出口及微信进程优先级回归与排障说明；规则行为不变。详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)。
+
+## v6.0.20-dns.21 (2026-10-20)
+
+- 统一业务 DNS policy 源数据并同步 Mihomo 客户端投影；组结构、节点择路及规则/MRS/fused 载荷不变。Egern、两版 SingBox、Shadowrocket、Surge、Loon、Quantumult X 保留原生 DNS；v2rayN、Passwall/Passwall2 仅交付路由/分流资产，不拥有 DNS 配置，不适用该 policy 投影。
+
+
 ## 2026-10-20 — Surge Fake IP 接管修复
 
 - FIX#190：Surge `v6.0.20-Surge.12` 移除覆盖自身 Fake IP 池的 TUN 排除路由，增加 CIDR 交集门禁与回归；规则源及其他客户端保持原基线。详见 [Surge 日志](./Surge/CHANGELOG.md)。

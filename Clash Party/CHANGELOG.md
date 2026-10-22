@@ -7,6 +7,17 @@
 
 ---
 
+## 2026-10-23 — Issue #187 下载域名复核
+
+- `dldir1.qq.com` 在 `v6.0.20-normal.20` 已由精确域名进入下载策略，未发现广告误拦；补充原生载荷、Smart/Normal/FlClash 下载组选项与 Windows 微信进程前置 DIRECT 回归，规则和组行为保持不变。
+- Q9 说明域名分流与最终出口的区别、规则更新和按实际命中排障；完整静态验证不能代替报告者设备下载验收。
+
+## v6.0.20-dns.21 / v6.0.20-normal.21 (2026-10-20)
+
+- 业务 DNS policy 改由 `rulesets/source/business-dns-policy.json` 统一维护，验证来源引用后投影到 Smart/Normal；不修改组结构、节点择路或规则载荷。
+- nameserver-policy 及节点 DNS 仍遵循 Mihomo 原生语义；详见官方 [DNS 文档](https://wiki.metacubex.one/config/dns/)。
+
+
 ## 2026-10-20 — Surge 原生 VIF 修复
 
 - FIX#190：Surge `v6.0.20-Surge.12` 修正自身 Fake IP 池被 TUN 排除的问题，详见 [Surge 日志](../Surge/CHANGELOG.md)。仅涉及 Surge 原生字段与回归门禁，Clash Party 覆写、源规则图、DNS 和融合资产未变，无需全端重生成；跨端审计边界见 Surge REFERENCE。

@@ -1,6 +1,6 @@
 # ================================================================
-# Clash Smart v6.0.20-cmfa.12 - CMFA (Clash Meta for Android) 配置
-# Build: 2026-10-16
+# Clash Smart v6.0.20-cmfa.13 - CMFA (Clash Meta for Android) 配置
+# Build: 2026-10-20
 # 架构：proxy-providers 订阅 + 22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 # 规则源：rulesets/source/routing-graph.js v6.0.20；客户端基线：Clash Party v6.0.20
 # 变更历史：见 `Clash Meta For Android/CHANGELOG.md`
@@ -137,27 +137,29 @@ dns:
   # v5.4.19 #5 借鉴 Proxy-override：让 direct-nameserver 也遵循 nameserver-policy（默认 false 会忽略它）。policy 覆盖境外 CDN 与 geosite 级分流。
   direct-nameserver-follow-policy: true
   nameserver-policy:
+    # >>> SCKI BUSINESS DNS POLICY: BEGIN — generated from rulesets/source/business-dns-policy.json via routing-graph.js; run tools/sync-business-dns-policy.js.
     geosite:cn:
-    - 'https://dns.alidns.com/dns-query'
-    - 'https://doh.pub/dns-query'
+    - "https://dns.alidns.com/dns-query"
+    - "https://doh.pub/dns-query"
     geosite:geolocation-!cn:
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.jsdelivr.net':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.github.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.githubusercontent.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.githubassets.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.fastly.net':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.jsdelivr.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.github.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubusercontent.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubassets.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.fastly.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    # <<< SCKI BUSINESS DNS POLICY: END
   fallback:
   - 'https://cloudflare-dns.com/dns-query'
   - 'https://dns.google/dns-query'

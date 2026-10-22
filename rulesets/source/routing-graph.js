@@ -11,6 +11,7 @@ const SOURCE_GRAPH_VERSION = 'v6.0.20';
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
 const VERSION = SOURCE_GRAPH_VERSION;
 const TRAFFIC_OPTIONS = require('./traffic-options.json');
+const BUSINESS_DNS_POLICY = require('./business-dns-policy.json');
 
 function validateTrafficOptions(options) {
   if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
@@ -24,6 +25,12 @@ function validateTrafficOptions(options) {
 
 function getTrafficOptions() {
   return cloneJson(validateTrafficOptions(TRAFFIC_OPTIONS));
+}
+
+// Business DNS intent is declared once beside the routing graph. Consumers
+// validate its routing references before generating platform-owned policy maps.
+function getBusinessDnsPolicy() {
+  return cloneJson(BUSINESS_DNS_POLICY);
 }
 
 function getHealthCheckSettings(profile = getTrafficOptions().healthCheckProfile) {
@@ -2178,6 +2185,7 @@ module.exports = {
   GENERIC_INTL_FALLBACK_RULES,
   validateTrafficOptions,
   getTrafficOptions,
+  getBusinessDnsPolicy,
   getHealthCheckSettings,
   getZeroTierPlanetProxyPolicy,
   getQuicRules,

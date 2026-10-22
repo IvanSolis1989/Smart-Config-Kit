@@ -16,6 +16,8 @@ const {
 } = require('./validate-generated-remote-asset-size');
 const { validateEgernGenerationManifest } = require('./lib/egern-generation-manifest');
 const { parseCidr } = require('./lib/fused-rule-optimizer');
+const { prepareUpdates: prepareBusinessDnsUpdates, renderBlock: renderBusinessDnsBlock } = require('./sync-business-dns-policy');
+const { compileBusinessDnsPolicy } = require('./lib/business-dns-policy');
 const {
   getAssetRevisionFromUrl,
   repositoryAssetUrl,
@@ -2606,6 +2608,18 @@ function printHuman(result) {
 function main() {
   const options = parseArgs(process.argv.slice(2));
   const record = makeRecorder();
+  try {
+    const stale = prepareBusinessDnsUpdates().filter(item => item.original !== item.updated);
+    record.check('business-dns.source-bound-projections', stale.length === 0, {
+      message: stale.map(item => path.relative(REPO_ROOT, item.file)).join(', '),
+    });
+    const projection = compileBusinessDnsPolicy(require('../rulesets/source/routing-graph').getBusinessDnsPolicy(), getRawRoutingGraph());
+    record.check('stash.dns.business-policy-source', readText('Stash/Stash.yaml').includes(renderBusinessDnsBlock(projection.yaml, 'yaml')), {
+      message: 'Stash must inherit the source-generated business DNS policy from CMFA',
+    });
+  } catch (error) {
+    record.check('business-dns.source-bound-projections', false, { message: error.message });
+  }
   const { baselineVersion } = validateJsProducts(record);
   validateMihomoMrsRuleSets(record);
   validateFusedRuleSets(record);

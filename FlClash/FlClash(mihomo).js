@@ -1,5 +1,5 @@
 // FlClash 覆写脚本 — 标准 Mihomo 内核动态分流版
-// 版本：v6.0.20-flclash.21 (2026-10-16)
+// 版本：v6.0.20-flclash.22 (2026-10-20)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.20（规则等价；区域组为 url-test — FlClash 内核为标准 Mihomo，不支持 smart + LightGBM）
 // 适用：FlClash >= v0.8.85（覆盖脚本功能自该版本引入）；其他使用标准 Mihomo 内核的客户端
@@ -34,7 +34,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.20-flclash.21'
+const VERSION = 'v6.0.20-flclash.22'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -1274,19 +1274,38 @@ function overwriteGeneral(config, nodeDnsHints) {
   config.dns.fallback = foreignDoH.slice()
   // Global DNS policy is repository-owned.  Subscription hints are projected
   // into proxy-server-nameserver-policy only, after exact node-domain filtering.
-  config.dns['nameserver-policy'] = {};
-  ['+.jsdelivr.net', '+.github.com', '+.githubusercontent.com', '+.githubassets.com', '+.fastly.net'].forEach(function(host) {
-    if (!config.dns['nameserver-policy'][host]) config.dns['nameserver-policy'][host] = foreignDoH.slice()
-  })
-  // DNS-POLICY#170：nameserver-policy 优先于 nameserver/fallback。用 geosite 将国内域名固定到国内 DoH，
-  // 非国内域名固定到海外 DoH，避免先向国内递归 resolver 发起 geolocation-!cn 查询后再 fallback。
-  var geositeDnsPolicy = {
-    'geosite:cn': domesticDoH,
-    'geosite:geolocation-!cn': foreignDoH
-  }
-  Object.keys(geositeDnsPolicy).forEach(function(key) {
-    if (!config.dns['nameserver-policy'][key]) config.dns['nameserver-policy'][key] = geositeDnsPolicy[key].slice()
-  })
+  // >>> SCKI BUSINESS DNS POLICY: BEGIN — generated from rulesets/source/business-dns-policy.json via routing-graph.js; run tools/sync-business-dns-policy.js.
+  config.dns['nameserver-policy'] = {
+    "+.jsdelivr.net": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ],
+    "+.github.com": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ],
+    "+.githubusercontent.com": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ],
+    "+.githubassets.com": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ],
+    "+.fastly.net": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ],
+    "geosite:cn": [
+      "https://dns.alidns.com/dns-query",
+      "https://doh.pub/dns-query"
+    ],
+    "geosite:geolocation-!cn": [
+      "https://cloudflare-dns.com/dns-query",
+      "https://dns.google/dns-query"
+    ]
+  };
+  // <<< SCKI BUSINESS DNS POLICY: END
   // Clear any source PSS policy before the adapter projects a profile-scoped snapshot.
   delete config.dns['proxy-server-nameserver-policy']
   if (!config.dns['fallback-filter'] || typeof config.dns['fallback-filter'] !== 'object' || Array.isArray(config.dns['fallback-filter'])) {

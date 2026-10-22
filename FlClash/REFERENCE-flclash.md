@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [FlClash 官方仓库](https://github.com/chen08209/FlClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次沿用 JS 覆写及相同 policy 字段，不改变 App 托管的 TUN/端口。
+
 > 核对于 2026-10-19：当前 stable v0.9.1（2026-10-17），桌面 TUN 改为按键选择覆写；脚本后仍应用 App patch，DNS/NTP 同样有按键边界。该 tag 实际绑定 `chen08209/Clash.Meta` 的 `8380d0e7462f061a964323e9bf3129a236fcc5d5`，不等同于当前 MetaCubeX stable。已保存发布、脚本执行、DNS/TUN patch 及核心 gitlink 原文，见[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)；设备导入未在本次验证。以下历史摘要未逐段重新校验。
 
 > 核对于 2026-10-16（上次 2026-10-15）：官方最新 [v0.9.0](https://github.com/chen08209/FlClash/releases/tag/v0.9.0) 将 DNS/NTP 覆盖开关调整为按键配置，并调整自定义配置界面。fake-ip 的 [Mihomo 模式定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode) 不变；本次只修复脚本执行时的列表继承，不新增内核字段。VM 验证不代替 v0.9.0 的界面或设备导入验收，实际选中的 DNS 键仍须检查最终配置。
@@ -197,3 +199,7 @@ FlClash 使用内置 JS 引擎（推测为 QuickJS，来自 Flutter 集成），
 | DeepWiki 核心引擎 | https://deepwiki.com/chen08209/FlClash/3.1-core-network-engine |
 | 覆写脚本教程 (Issue #1510) | https://github.com/chen08209/FlClash/issues/1510 |
 | 进阶配置教程 (bwgss.org) | https://www.bwgss.org/4226.html |
+
+### 2026-10-20 业务 DNS policy 复核
+
+本次投影遵循 [Mihomo 官方 DNS 文档](https://wiki.metacubex.one/config/dns/)所述 `nameserver-policy` 优先级、独立节点 DNS 与 respect-rules 的 `proxy-server-nameserver` 要求；未改变 FlClash 的 DNS 覆写边界。

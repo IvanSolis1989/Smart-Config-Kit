@@ -22,6 +22,11 @@ on:
       - 'Passwall2/**/*.conf'
       - 'Passwall2/shunt-rules/**/*.list'
       - 'rulesets/source/routing-graph.js'
+      - 'rulesets/source/business-dns-policy.json'
+      - 'tools/lib/business-dns-policy.js'
+      - 'tools/sync-business-dns-policy.js'
+      - 'tools/tests/business-dns-*.test.js'
+      - 'tools/tests/issue-187-wechat-download.test.js'
       - 'rulesets/source/traffic-options.json'
       - 'rulesets/source/upstream-sources.json'
       - 'rulesets/source/adfp-exceptions.json'
@@ -112,6 +117,11 @@ on:
       - 'Passwall2/**/*.conf'
       - 'Passwall2/shunt-rules/**/*.list'
       - 'rulesets/source/routing-graph.js'
+      - 'rulesets/source/business-dns-policy.json'
+      - 'tools/lib/business-dns-policy.js'
+      - 'tools/sync-business-dns-policy.js'
+      - 'tools/tests/business-dns-*.test.js'
+      - 'tools/tests/issue-187-wechat-download.test.js'
       - 'rulesets/source/traffic-options.json'
       - 'rulesets/source/upstream-sources.json'
       - 'rulesets/source/adfp-exceptions.json'
@@ -209,6 +219,11 @@ jobs:
       - name: Validate JS overwrite contracts
         run: node tools/validate-js-overwrites.js
 
+      - name: Check synchronized business DNS policy projections
+        run: |
+          node tools/sync-business-dns-policy.js --check
+          node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js
+
       - name: Check synchronized traffic options and profile regressions
         run: |
           node tools/sync-traffic-options.js --check
@@ -279,6 +294,9 @@ jobs:
 
       - name: Validate Surge Fake IP VIF capture
         run: node --test tools/tests/surge-tun-capture.test.js
+
+      - name: Validate WeChat download routing and native coverage
+        run: node --test tools/tests/issue-187-wechat-download.test.js
 
       - name: Validate source receipts, ordered semantics and governed exceptions
         env:

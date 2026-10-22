@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与[路由规则](https://wiki.metacubex.one/config/rules/)；本次沿用的 policy、精确域名和规则顺序语义无变化，不新增内核字段。
+
 > 核对于 2026-10-19：本次核对 Mihomo v1.19.32、滚动 Alpha、vernesong Smart 与 Clash Party v2.0.4 的发布记录及配置生成源码。当前 SmartOption 不含 `strategy`，MetaCubeX Alpha 与 Smart 分支必须区分。官方原文缓存、具体适配决定与验证范围见[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。以下既有摘要仍保留各自历史日期，本次未逐段重新校验。
 
 > 核对于 2026-10-16（上次 2026-10-15）：[fake-ip-filter-mode 官方定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode) 仍为 `blacklist` / `whitelist` / `rule`，默认 `blacklist`；`whitelist` 仅匹配项返回 fake IP，`rule` 使用规则语法。JS 继承须先检查源模式，不能只清洗条目后改成 blacklist。本次不新增内核字段。
@@ -339,3 +341,7 @@ sniffer:
 
 *最后更新: 2026-04-26*
 *源文档: https://wiki.metacubex.one/config/*
+
+### 2026-10-20 业务 DNS policy 复核
+
+Mihomo 官方 [DNS 文档](https://wiki.metacubex.one/config/dns/)说明 `nameserver-policy` 的查询优先级高于 `nameserver` / `fallback`，节点域名解析使用独立的 proxy-server DNS 配置；启用 `respect-rules` 时需配置 `proxy-server-nameserver`。本次业务 policy 表由同一源数据投影，不改变上述原生 DNS 处理顺序。

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "resolvers": {
+    "domestic": ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"],
+    "foreign": ["https://cloudflare-dns.com/dns-query", "https://dns.google/dns-query"]
+  },
+  "policies": [
+    {
+      "id": "jsdelivr",
+      "match": "+.jsdelivr.net",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "provider-url-suffix", "value": "jsdelivr.net"}]
+    },
+    {
+      "id": "github",
+      "match": "+.github.com",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "provider", "name": "github", "policy": "🔧 工具与服务"}]
+    },
+    {
+      "id": "githubusercontent",
+      "match": "+.githubusercontent.com",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "provider", "name": "github", "policy": "🔧 工具与服务"}]
+    },
+    {
+      "id": "githubassets",
+      "match": "+.githubassets.com",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "provider", "name": "github", "policy": "🔧 工具与服务"}]
+    },
+    {
+      "id": "fastly",
+      "match": "+.fastly.net",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "rule", "value": "DOMAIN-SUFFIX,fastly.net,🌐 国外网站"}]
+    },
+    {
+      "id": "cn",
+      "match": "geosite:cn",
+      "resolver": "domestic",
+      "routingReferences": [{"type": "provider", "name": "cn", "policy": "🏠 国内网站"}]
+    },
+    {
+      "id": "geolocation-not-cn",
+      "match": "geosite:geolocation-!cn",
+      "resolver": "foreign",
+      "routingReferences": [{"type": "provider", "name": "proxy", "policy": "🌐 国外网站"}]
+    }
+  ]
+}

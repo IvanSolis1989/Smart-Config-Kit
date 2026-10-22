@@ -30,6 +30,8 @@ Smart 与 Normal 覆写脚本二选一，UI CONF 为配套 UCI 配置快照；�
 
 ---
 
+业务 DNS policy 由 `../rulesets/source/business-dns-policy.json` 维护，执行 `node tools/sync-business-dns-policy.js` 生成 Normal/Smart 投影；通过该命令的 `--check` 与两个业务 DNS 测试校验。
+
 本目录提供 OpenClash Smart / Normal 完整 Shell 覆写与配套 UCI 快照；两份脚本二选一，规则量相同。版本见 [CHANGELOG](./CHANGELOG.md)。
 
 - Smart 需要 vernesong/mihomo Smart 核心；MetaCubeX stable / Alpha 使用 Normal。

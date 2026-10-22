@@ -23,6 +23,8 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 ---
 
+业务 DNS policy 来自 `../rulesets/source/business-dns-policy.json`，运行 `node tools/sync-business-dns-policy.js` 更新投影，并用 `--check` 与 `node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js` 验收。
+
 本目录提供 FlClash 专用 JS，要求 **FlClash ≥ v0.8.85**；使用 url-test，最多 22 区域组 + 33 业务组，**不支持 Smart + LightGBM**。版本见 [CHANGELOG](./CHANGELOG.md)。
 
 - 创建脚本后须**关联到订阅**；多机场先用 [Sub-Store](../SubStore/README.md)输出一条 Mihomo 节点订阅。

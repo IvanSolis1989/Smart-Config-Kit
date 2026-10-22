@@ -51,6 +51,9 @@ jobs:
           node tools/sync-traffic-options.js
           node --test tools/tests/traffic-asset-reuse.test.js
 
+      - name: Generate business DNS policy projections
+        run: node tools/sync-business-dns-policy.js
+
       - name: Sync Mihomo MRS rule providers
         run: node tools/sync-mihomo-mrs-rule-providers.js --keep-cache
 
@@ -72,6 +75,8 @@ jobs:
         run: |
           node tools/validate-adfp-exceptions.js
           node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
+          node tools/sync-business-dns-policy.js --check
+          node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js
           node tools/sync-traffic-options.js --check
           node tools/validate-js-overwrites.js
           node tools/validate-process-name-direct.js

@@ -4,6 +4,11 @@
 
 ---
 
+## v6.0.20-stash.13 (2026-10-20)
+
+- 从更新后的 CMFA 生成并继承业务 DNS policy；Stash 保留原生 DNS policy 语义，不改组结构、节点择路或规则载荷。参见 [Stash DNS 文档](https://stash.wiki/en/features/dns-server)。
+
+
 ## 2026-10-19 — 官方文档与版本核对
 
 - 缓存当前官方发布记录、配置文档和适用源码，更新 REFERENCE 时效与能力边界；详见[核对报告](../docs/upstream/2026-10-19/apple/report.md)。本次文档核对不改变本产物的规则、策略组或生成载荷。

@@ -137062,8 +137062,8 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "a193e251d1e2911013c25a0bc0b8d45535090a35b649d2ec03c12982a4e2655b",
-    "bytes": 119334,
+    "sha256": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
+    "bytes": 119660,
     "text_normalization": "LF",
     "version": "v6.0.20",
     "semantic_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44"
@@ -137143,7 +137143,7 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "41f754d01aab1d978d523f1dd9f30b5cc744492d940f0cc4248274b826c2bc58",
+      "sha256": "46b276acd24a7058fbff9da764860f5895928d098fe9779d06fb190ddcdadb99",
       "bytes": 8972,
       "text_normalization": "LF"
     },

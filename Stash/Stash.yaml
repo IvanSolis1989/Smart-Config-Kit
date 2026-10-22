@@ -1,8 +1,8 @@
 # ================================================================
-# Stash Smart v6.0.20-stash.12 - Stash (Clash Premium) 配置
-# Build: 2026-10-16
+# Stash Smart v6.0.20-stash.13 - Stash (Clash Premium) 配置
+# Build: 2026-10-20
 # 架构：由 CMFA 自动裁剪生成；22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules（源 525/984）
-# 规则源：rulesets/source/routing-graph.js v6.0.20 / 派生：CMFA v6.0.20-cmfa.12
+# 规则源：rulesets/source/routing-graph.js v6.0.20 / 派生：CMFA v6.0.20-cmfa.13
 # 生成：node tools/generate-stash-from-cmfa.js（禁止手工修改 Stash/Stash.yaml）
 # 变更历史：见 `Stash/CHANGELOG.md`
 # 注意：Stash 不支持 Mihomo Smart + LightGBM；本产物使用 url-test 区域组
@@ -101,27 +101,29 @@ dns:
   - 'https://dns.alidns.com/dns-query'
   - 'https://doh.pub/dns-query'
   nameserver-policy:
+    # >>> SCKI BUSINESS DNS POLICY: BEGIN — generated from rulesets/source/business-dns-policy.json via routing-graph.js; run tools/sync-business-dns-policy.js.
     geosite:cn:
-    - 'https://dns.alidns.com/dns-query'
-    - 'https://doh.pub/dns-query'
+    - "https://dns.alidns.com/dns-query"
+    - "https://doh.pub/dns-query"
     geosite:geolocation-!cn:
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.jsdelivr.net':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.github.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.githubusercontent.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.githubassets.com':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
-    '+.fastly.net':
-    - 'https://cloudflare-dns.com/dns-query'
-    - 'https://dns.google/dns-query'
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.jsdelivr.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.github.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubusercontent.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubassets.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.fastly.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    # <<< SCKI BUSINESS DNS POLICY: END
 proxy-providers:
   Subscribe:
     url: 'https://my.example.com/your-subscription-url'

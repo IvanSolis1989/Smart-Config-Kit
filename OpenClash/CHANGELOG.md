@@ -7,6 +7,11 @@
 
 ---
 
+## v6.0.20-oc-normal.15 / v6.0.20-oc-smart.16 (2026-10-20)
+
+- Normal/Smart DNS policy 现由统一业务 DNS 源数据投影生成；组结构、节点择路和规则载荷不变。
+
+
 ## v6.0.20-oc-smart.15 (2026-10-19)
 
 - Smart shell 移除当前 vernesong/mihomo `SmartOption` 不再包含的 `strategy: sticky-sessions`；头部、`VERSION_TAG` 和内嵌 Ruby 版本同步。

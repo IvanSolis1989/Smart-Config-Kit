@@ -1,5 +1,7 @@
 # REFERENCE — Stash Wiki
 
+> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [DNS](https://stash.wiki/en/features/dns-server#domain-based-custom-dns-service) 与[配置示例](https://stash.wiki/en/configuration/example-config)；既有 nameserver-policy 的域名/geosite 键与服务器数组继续受支持，本次不启用新字段。
+
 > 更新于 2026-10-19（原字段摘要 2026-08-08）：官方实际正文、版本和采用边界见[苹果客户端复核](../docs/upstream/2026-10-19/apple/report.md)，[缓存收据](../docs/upstream/2026-10-19/apple/manifest.json)可独立读回。
 
 ## 当前复核结论
@@ -54,3 +56,7 @@
 - 本仓库尚未在真实 Stash App 内做导入截图级验收；当前验证覆盖 YAML 结构和官方文档字段面对齐。
 - 因删除 rule-provider 下载代理字段，墙内网络首次拉取 GitHub / jsDelivr 规则集可能依赖 Stash 当前网络环境。
 - Stash Wiki 未承诺 Mihomo Smart / LightGBM 能力；本产物不提供 Smart 自动择优。
+
+### 2026-10-20 业务 DNS policy 复核
+
+Stash 保留原生 DNS policy 表达与处理；依据 [Stash DNS server 文档](https://stash.wiki/en/features/dns-server)。本次从 CMFA 派生 policy 投影，不把 Mihomo 源表直接注入其他客户端，也不改变组结构或节点择路。

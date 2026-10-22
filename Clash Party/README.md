@@ -23,6 +23,8 @@ Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚�
 
 ---
 
+业务 DNS policy 来自 `../rulesets/source/business-dns-policy.json`；编辑源数据后运行 `node tools/sync-business-dns-policy.js`，用 `--check` 与两个 `business-dns-*.test.js` 测试核对六份投影。
+
 本目录提供 Smart / Normal 两份 JS 覆写，二选一关联到节点订阅；规则与 DNS 相同，最多 22 区域组 + 33 业务组。版本与变更见 [CHANGELOG](./CHANGELOG.md)。
 
 - **Smart**：需要 vernesong/mihomo Smart 内核与模型；MetaCubeX Alpha 不提供 Smart 组。
@@ -394,6 +396,16 @@ sniffer:
 ### Q8：Windows 11 Microsoft Store 报网络错误，或页面有内容但图标为空？
 
 先核对实际内核 TUN、系统代理及 Store 到本机代理的回环入口，再用失败图片的实际 URL 比较 `Ⓜ️ 微软服务` 组所选出站的 HTTP 结果。按包检查和添加回环豁免、图片 CDN 对照方法见 [Windows 11 Microsoft Store 排障](../docs/microsoft-store-windows.md)。
+
+### Q9：`dldir1.qq.com` 是否已分流？微信下载仍失败怎么排查？
+
+已收录精确域名规则，域名分流指向 `📥 下载更新`，不是广告拒绝。该组为手动选择组，候选以 `🌍 全球节点` 开头且包含 `DIRECT`；实际出口取决于你的组选择及客户端保存的选择。Windows 若识别到 `Weixin.exe`、`WeChat.exe` 或 `WeChatAppEx.exe`，更早的进程规则会先送到 `DIRECT`。因此“域名已收录”不等于所有连接都会经过下载组，也不等于默认直连。
+
+1. 更新当前启用的 JS 覆写、刷新订阅与规则集并重载配置，确认连接记录中的实际域名、进程、命中规则和最终出口。
+2. 若确实命中 `📥 下载更新` 且所选代理下载失败，可临时把该组切到 `DIRECT` 对比同一下载；这会同时影响该组的其他下载，复测后按需恢复原选择。若已命中进程 `DIRECT`，切换下载组不会改变该连接。
+3. 仍失败时提供系统、客户端版本、失败时间及脱敏连接日志；HTTP 状态和域名有助于区分规则未更新、出口故障与服务端错误。
+
+完整证据与静态验证边界见 [Issue #187 下载域名复核](../docs/research/2026-10-16-wechat-issue-187.md#2026-10-23-补充dldir1qqcom)。
 
 ---
 

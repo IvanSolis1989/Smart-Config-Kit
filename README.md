@@ -223,6 +223,20 @@ CMFA、Stash、Egern、Apple 配置、sing-box、v2rayN Xray、Passwall / Passwa
 
 **Clash Party v2.0.3+：** “已自动关闭 DNS 覆写”指客户端内置 `controlDns`；本仓库 JS 仍会写入 DNS。保持内置 DNS 覆写关闭，详见[教程](./Clash%20Party/README.md)。
 
+**微信下载：** `dldir1.qq.com` 已有精确下载分流；下载组的实际出口和 Windows 进程 DIRECT 优先级见 [Clash Party 排障 Q9](./Clash%20Party/README.md#q9dldir1qqcom-是否已分流微信下载仍失败怎么排查)。
+
+### 业务 DNS 策略来源与维护
+
+业务域名 DNS policy 的唯一源数据是 `rulesets/source/business-dns-policy.json`，由 `routing-graph.getBusinessDnsPolicy()` 导出，编译器校验 provider、目标规则及 URL 后缀引用，再由同步器生成 Clash Party Smart/Normal、FlClash、CMFA 和 OpenClash Normal/Smart 六份投影。需要调整时先改源 JSON，并运行：
+
+```bash
+node tools/sync-business-dns-policy.js
+node tools/sync-business-dns-policy.js --check
+node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js
+```
+
+Stash 继续从 CMFA 生成器继承该 DNS policy。`routingReferences` 仅记录来源关联，不代表已证明远程规则集含有对应域名。Egern、SingBox 两个版本、Shadowrocket、Surge、Loon、Quantumult X 保留各自原生 DNS，不注入这份 Mihomo 业务表；v2rayN Xray 与 Passwall/Passwall2 只交付路由/分流资产，不拥有 DNS 配置，不适用此 policy 投影。该变更不调整策略组结构或节点择路。
+
 ### 本仓库的 DNS 四层分工
 
 ```mermaid

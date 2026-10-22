@@ -1,5 +1,7 @@
 # OpenClash 配置参考文档
 
+> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [OpenClash 官方入口](https://github.com/vernesong/OpenClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次仍向既有 heredoc 写入相同 nameserver-policy，不新增 UCI 或内核字段。
+
 > 核对于 2026-10-19：当前 stable v0.48.002（2026-10-12），新增模块安全限制、内核校验及 TUN 默认行为调整。已按该 tag 核对固定自定义脚本入口和普通模块的 INI/AST 边界；完整 Shell 脚本仍由固定入口执行。Smart 遗留 `strategy` 已删除。发布记录原文、源码和采用决定见[本次核对报告](../docs/upstream/2026-10-19/mihomo/report.md)。以下旧摘要未在本次逐段重新校验。
 
 > 2026-10-15 URL 兼容性复核：OpenClash rule-providers 使用 Mihomo `type: http` / `url`；[Mihomo 官方文档](https://wiki.metacubex.one/en/config/rule-providers/)给出 HTTPS raw URL 示例。本次只替换自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../docs/rule-asset-delivery.md)。
@@ -208,3 +210,7 @@ OpenClash 包含四层校验：
 | 区域组创建 | JS `upsertSmartGroup()` | Ruby `make_smart_group()` → url-test | Ruby `make_smart_group()` → smart |
 | Fallback 链 | 区域空 → apacNodes → c.ALL | 同 | 同 |
 | 业务组注入 | `injectBusinessGroups()` | 硬编码 YAML 锚点 | 硬编码 YAML 锚点 |
+
+### 2026-10-20 业务 DNS policy 复核
+
+OpenClash 的 Mihomo DNS policy 投影按 [Mihomo 官方 DNS 文档](https://wiki.metacubex.one/config/dns/)理解：policy 优先于 nameserver/fallback，节点 DNS 独立，respect-rules 需要配置 `proxy-server-nameserver`。本次不改策略组或节点择路。

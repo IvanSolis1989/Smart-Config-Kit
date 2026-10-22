@@ -16,6 +16,8 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Clash%20Me
 
 ---
 
+业务 DNS policy 由 `../rulesets/source/business-dns-policy.json` 维护，执行 `node tools/sync-business-dns-policy.js` 生成 CMFA 投影；使用 `--check` 和 `node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js` 校验。
+
 本目录提供静态 Mihomo YAML，包含 22 个 url-test 区域组 + 33 业务组，**不含 Smart + LightGBM**。CMFA 与 ClashMi 复用同一文件；FlClash 推荐使用[专用 JS 覆写](../FlClash/README.md)。版本见 [CHANGELOG](./CHANGELOG.md)。
 
 使用已验收的 Mihomo v1.19.29 或更新核心。空区域组会拒绝连接，请选有节点的地区或全球组；具名 direct/reject 出站仅保留依赖，不参加测速。

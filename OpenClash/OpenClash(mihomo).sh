@@ -2,8 +2,8 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.20-oc-normal.14 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
-# Build: 2026-10-16
+# Clash Smart v6.0.20-oc-normal.15 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
+# Build: 2026-10-20
 # ============================================================================
 # 定位：与同目录 OpenClash(mihomo-smart).sh 规则 100% 等价的「非 Smart 内核」版本。
 #       两者唯一区别：22 个区域组（11 全部 + 11 家宽）从 type: smart（uselightgbm）换成 type: url-test。
@@ -26,7 +26,7 @@
 
 
 
-VERSION_TAG="v6.0.20-oc-normal.14"
+VERSION_TAG="v6.0.20-oc-normal.15"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_DEFAULT_HEALTH_CHECK_PROFILE="standard"
@@ -162,27 +162,29 @@ dns:
   - 'https://1.1.1.1/dns-query'
   - '223.5.5.5'
   nameserver-policy:
+    # >>> SCKI BUSINESS DNS POLICY: BEGIN — generated from rulesets/source/business-dns-policy.json via routing-graph.js; run tools/sync-business-dns-policy.js.
     geosite:cn:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
+    - "https://dns.alidns.com/dns-query"
+    - "https://doh.pub/dns-query"
     geosite:geolocation-!cn:
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    '+.jsdelivr.net':
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    '+.github.com':
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    '+.githubusercontent.com':
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    '+.githubassets.com':
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-    '+.fastly.net':
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.jsdelivr.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.github.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubusercontent.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.githubassets.com":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    "+.fastly.net":
+    - "https://cloudflare-dns.com/dns-query"
+    - "https://dns.google/dns-query"
+    # <<< SCKI BUSINESS DNS POLICY: END
   nameserver:
   - https://dns.alidns.com/dns-query
   - https://doh.pub/dns-query
@@ -1905,7 +1907,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.20-oc-normal.14"
+VERSION = "v6.0.20-oc-normal.15"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end

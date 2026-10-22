@@ -3,8 +3,8 @@
   "generator": "tools/generate-egern-from-cmfa.js",
   "asset_revision": "v6.0.20",
   "source": {
-    "cmfa_sha256": "5cd3a2d8c620e8a2cbdcd847af51a792f1c5f2a629110ca5614c251574a3661d",
-    "routing_graph_sha256": "a193e251d1e2911013c25a0bc0b8d45535090a35b649d2ec03c12982a4e2655b",
+    "cmfa_sha256": "71c40065ac3c498044b136cd2857eafc07e8313550303498b16e1fe838ff6fd7",
+    "routing_graph_sha256": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },
