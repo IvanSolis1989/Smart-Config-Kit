@@ -91,14 +91,32 @@ async def upload(manifest):
         channel = await client.get_entity('IvanSolis89')
         if utils.get_peer_id(channel) != -1003974315707:
             raise ValueError('Unexpected destination channel')
+        existing = None
+        if manifest.get('verify_only'):
+            first = int(manifest['first_message_id'])
+            if first < 1:
+                raise ValueError('Invalid message range')
+            found = await client.get_messages(channel, ids=list(range(first, first + 100)))
+            existing = {}
+            for message in found:
+                if message and message.file:
+                    existing.setdefault((message.file.name, message.file.size), message)
+            missing = [item['name'] for item in manifest['files'] if (item['name'], item['size']) not in existing]
+            print(json.dumps({'stage': 'inspect', 'found': [key[0] for key in existing], 'missing': missing}), file=sys.stderr, flush=True)
+            if missing:
+                raise ValueError('Expected raw documents are missing; no messages were sent')
         for offset in range(0, len(manifest['files']), 10):
             batch = manifest['files'][offset:offset + 10]
-            captions = [manifest['caption'] if offset == 0 else ''] + [''] * (len(batch) - 1)
-            paths = [item['path'] for item in batch]
-            messages = await client.send_file(channel, paths if len(paths) > 1 else paths[0],
-                                              caption=captions if len(paths) > 1 else captions[0],
-                                              force_document=True, parse_mode='html')
-            messages = messages if isinstance(messages, list) else [messages]
+            if existing is not None:
+                messages = [existing[(item['name'], item['size'])] for item in batch]
+            else:
+                captions = [manifest['caption'] if offset == 0 else ''] + [''] * (len(batch) - 1)
+                paths = [item['path'] for item in batch]
+                messages = await client.send_file(channel, paths if len(paths) > 1 else paths[0],
+                                                  caption=captions if len(paths) > 1 else captions[0],
+                                                  force_document=True, parse_mode='html')
+                messages = messages if isinstance(messages, list) else [messages]
+                print(json.dumps({'stage': 'sent', 'message_ids': [message.id for message in messages]}), file=sys.stderr, flush=True)
             if len(messages) != len(batch):
                 raise ValueError('Telegram returned an incomplete artifact group')
             for item, message in zip(batch, messages):
@@ -113,6 +131,7 @@ async def upload(manifest):
                     verified = True
                 receipts.append({**{key: item[key] for key in ('name', 'size', 'sha256')},
                                  'message_id': message.id, 'download_verified': verified})
+                print(json.dumps({'stage': 'verified', **receipts[-1]}), file=sys.stderr, flush=True)
     finally:
         try:
             if await client.is_user_authorized():

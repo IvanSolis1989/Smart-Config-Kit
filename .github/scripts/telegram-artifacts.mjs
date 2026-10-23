@@ -12,6 +12,12 @@ export function runHelper(arguments_, env = process.env) {
   const result = spawnSync(env.TELEGRAM_PYTHON || 'python3', [helper, ...arguments_], {
     encoding: 'utf8', env, timeout: 15 * 60 * 1000, maxBuffer: 1024 * 1024, windowsHide: true,
   });
+  for (const line of (result.stderr || '').split(/\r?\n/)) {
+    try {
+      const diagnostic = JSON.parse(line);
+      if (['inspect', 'sent', 'verified'].includes(diagnostic.stage)) console.error(JSON.stringify(diagnostic));
+    } catch {}
+  }
   if (result.error || result.status !== 0) throw new Error('Telegram artifact helper failed; inspect channel before retrying');
   return JSON.parse(result.stdout);
 }
@@ -61,10 +67,11 @@ export function validateUploadConfiguration(files, env) {
 export async function uploadArtifacts(files, caption, env = process.env, fetcher = fetch) {
   validateUploadConfiguration(files, env);
   const maximum = env.VERIFY_FILES === 'true' ? 20_000_000 : 50_000_000;
-  if (files.every(file => file.size <= maximum)) return uploadCloud(files, caption, env, fetcher);
+  if (env.NOTIFY_MODE !== 'verify' && files.every(file => file.size <= maximum)) return uploadCloud(files, caption, env, fetcher);
   const directory = mkdtempSync(path.join(env.RUNNER_TEMP || tmpdir(), 'telegram-upload-'));
   const manifest = path.join(directory, 'manifest.json');
-  writeFileSync(manifest, JSON.stringify({ files, caption, verify_download: env.VERIFY_FILES === 'true' }));
+  writeFileSync(manifest, JSON.stringify({ files, caption, verify_download: env.VERIFY_FILES === 'true' || env.NOTIFY_MODE === 'verify',
+    verify_only: env.NOTIFY_MODE === 'verify', first_message_id: env.FIRST_MESSAGE_ID }));
   return runHelper(['upload', '--manifest', manifest], env);
 }
 

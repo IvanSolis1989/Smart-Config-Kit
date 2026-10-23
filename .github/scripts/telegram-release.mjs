@@ -99,7 +99,7 @@ export async function selectAnnouncement(eventName, event, tag, api, repository)
   return null;
 }
 
-export async function publishRelease({ release, repository, api, telegram, prepare, upload, recover = false, edit = false }) {
+export async function publishRelease({ release, repository, api, telegram, prepare, upload, recover = false, edit = false, verify = false }) {
   if (release.draft || !release.published_at) throw new Error('Refusing to announce an unpublished release');
   if (release.kind === 'changelog' && release.html_url !== `https://github.com/${repository}/blob/${release.sha}/CHANGELOG.md`) {
     throw new Error('Unexpected changelog URL');
@@ -121,17 +121,18 @@ export async function publishRelease({ release, repository, api, telegram, prepa
     await telegram('editMessageCaption', { chat_id: channelId, message_id: messageId, caption: formatMessage(repository, release), parse_mode: 'HTML' });
     return { edited: true, url: receipt.target_url };
   }
-  if (receipt?.state === 'success') return { skipped: true, url: receipt.target_url };
-  if (receipt && !recover) {
+  if (receipt?.state === 'success' && !verify) return { skipped: true, url: receipt.target_url };
+  if (receipt && !recover && !verify) {
     throw new Error('上次发送结果不确定。请先检查频道，再用 recover 模式重试，避免重复发布。');
   }
   await telegram('getChatMember', { chat_id: channelId }, true);
   const files = await prepare(repository, release);
   if (!files.length) throw new Error('No product files prepared for Telegram');
   const statusPath = `/statuses/${commit.sha}`;
-  await api(statusPath, { state: 'pending', context, description: 'Telegram delivery started; inspect channel before recovery' });
+  if (!verify) await api(statusPath, { state: 'pending', context, description: 'Telegram delivery started; inspect channel before recovery' });
   const message = await upload(files, formatMessage(repository, release, 1000));
   const url = `${channelUrl}/${message.message_id}`;
+  console.log(JSON.stringify({ delivered: true, url, files: message.files }));
   await api(statusPath, { state: 'success', context, description: `Telegram message ${message.message_id}`, target_url: url });
   return { skipped: false, url, files: message.files };
 }
@@ -141,19 +142,25 @@ export async function main(env = process.env, fetcher = fetch) {
   if (!repositories.has(repository)) throw new Error('Notifications are restricted to the official repositories');
   const event = JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, 'utf8'));
   const mode = env.GITHUB_EVENT_NAME === 'workflow_dispatch' ? (env.NOTIFY_MODE || 'preview') : 'send';
-  if (!['preview', 'send', 'test', 'recover', 'edit'].includes(mode)) throw new Error('Unknown notification mode');
+  if (!['preview', 'send', 'test', 'recover', 'edit', 'verify'].includes(mode)) throw new Error('Unknown notification mode');
   const api = async (path, body) => {
-    let response;
-    try {
-      response = await fetcher(`https://api.github.com/repos/${repository}${path}`, {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      let response;
+      try {
+        response = await fetcher(`https://api.github.com/repos/${repository}${path}`, {
         method: body ? 'POST' : 'GET',
         headers: { Authorization: `Bearer ${env.GH_TOKEN}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' },
         ...(body ? { body: JSON.stringify(body) } : {}),
         signal: AbortSignal.timeout(30000),
-      });
-    } catch { throw new Error('GitHub request failed'); }
-    if (!response.ok) throw new Error(`GitHub API returned HTTP ${response.status}`);
-    return response.json();
+        });
+      } catch {
+        if (attempt === 2) throw new Error(`GitHub request failed: ${body ? 'POST' : 'GET'} ${path}`);
+      }
+      if (response?.ok) return response.json();
+      if (response && response.status < 500 && response.status !== 429) throw new Error(`GitHub API returned HTTP ${response.status}: ${path}`);
+      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
+    throw new Error(`GitHub request failed: ${path}`);
   };
   const telegram = async (method, body, checkPermission = false) => {
     if (!env.TELEGRAM_BOT_TOKEN?.trim()) throw new Error('Missing Actions Secret: TELEGRAM_BOT_TOKEN');
@@ -201,6 +208,7 @@ export async function main(env = process.env, fetcher = fetch) {
         upload: (files, caption) => uploadArtifacts(files, caption, env),
         recover: mode === 'recover',
         edit: mode === 'edit',
+        verify: mode === 'verify',
       });
     }
   }

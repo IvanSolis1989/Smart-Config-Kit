@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { formatMessage, selectAnnouncement, publishRelease, changelogAnnouncement, summarizeChanges } from './telegram-release.mjs';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { main, formatMessage, selectAnnouncement, publishRelease, changelogAnnouncement, summarizeChanges } from './telegram-release.mjs';
 
 const repository = 'IvanSolis1989/Aerove';
 const sha = 'a'.repeat(40);
@@ -10,6 +13,22 @@ const release = {
   html_url: `https://github.com/${repository}/releases/tag/v0.10.0-beta.1+123`,
   assets: [{ name: 'Aerove.apk', state: 'uploaded', size: 100 }],
 };
+
+test('retries a transient GitHub network failure without sending a Telegram message', async t => {
+  const directory = mkdtempSync(path.join(tmpdir(), 'telegram-api-test-'));
+  t.after(() => rmSync(directory, { recursive: true }));
+  const event = path.join(directory, 'event.json');
+  writeFileSync(event, '{}');
+  let attempts = 0;
+  const result = await main({ GITHUB_REPOSITORY: repository, GITHUB_EVENT_NAME: 'workflow_dispatch',
+    GITHUB_EVENT_PATH: event, NOTIFY_MODE: 'preview', RELEASE_TAG: release.tag_name }, async url => {
+    assert.ok(String(url).startsWith('https://api.github.com/'));
+    if (++attempts === 1) throw new Error('Temporary network failure');
+    return Response.json(release);
+  });
+  assert.equal(attempts, 2);
+  assert.match(result.preview, /修复连接/);
+});
 
 test('formats product/channel labels, removes hidden notes and bounds message size', () => {
   const message = formatMessage(repository, release);

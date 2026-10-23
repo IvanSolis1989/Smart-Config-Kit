@@ -11,7 +11,7 @@ on:
       mode:
         description: Preview is read-only; test sends a silent setup message; recover may resend
         type: choice
-        options: [preview, send, test, recover, edit]
+        options: [preview, send, test, recover, edit, verify]
         default: preview
       tag:
         description: Changelog source ref; defaults to main (not needed for test)
@@ -21,6 +21,10 @@ on:
         description: Download sent documents and verify SHA256 (send/recover)
         type: boolean
         default: false
+      first_message_id:
+        description: First message to inspect in verify mode; sends no new documents
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -73,6 +77,7 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_PYTHON: ${{ runner.temp }}/telegram-python/bin/python
           VERIFY_FILES: ${{ inputs.verify_files }}
+          FIRST_MESSAGE_ID: ${{ inputs.first_message_id }}
           NOTIFY_MODE: ${{ inputs.mode }}
           RELEASE_TAG: ${{ inputs.tag }}
         run: node .github/scripts/telegram-release.mjs

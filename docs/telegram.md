@@ -26,6 +26,7 @@ Actions → **Telegram release notification** → Run workflow，选择 main：
 - `send`：发送指定提交的各客户端原文件和本次更新摘要；tag 留空取 main。
 - `recover`：先检查频道确认上次没有成功发送，再使用此模式；它允许重试不确定发送，可能造成重复消息。
 - `edit`：仅精简已有成功消息的说明，不重新上传文件。
+- `verify`：指定 `first_message_id`，只读取已有附件并下载核对 SHA256，补齐回执，不发新文件。
 
 勾选 `verify_files` 会从 Telegram 下载发送的文件并核对 SHA256。
 上传使用 Telethon 的机器人账号 MTProto，session 只存在内存并在结束后登出。
