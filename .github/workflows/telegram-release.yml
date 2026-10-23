@@ -1,0 +1,59 @@
+name: Telegram release notification
+
+on:
+  push:
+    branches: [main]
+    paths: ['CHANGELOG.md', '.github/scripts/telegram-*.mjs', '.github/workflows/telegram-release.yml']
+  pull_request:
+    paths: ['.github/scripts/telegram-*.mjs', '.github/workflows/telegram-release.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Preview is read-only; test sends a silent setup message; recover may resend
+        type: choice
+        options: [preview, send, test, recover]
+        default: preview
+      tag:
+        description: Changelog source ref; defaults to main (not needed for test)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: telegram-olympus
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.ref || github.event.repository.default_branch }}
+      - run: node --test .github/scripts/telegram-release.test.mjs
+  notify:
+    needs: validate
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.repository == 'IvanSolis1989/Smart-Config-Kit' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Notify official channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          NOTIFY_MODE: ${{ inputs.mode }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: node .github/scripts/telegram-release.mjs
