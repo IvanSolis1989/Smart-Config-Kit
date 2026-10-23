@@ -38,7 +38,9 @@ export function formatMessage(repository, release, limit = 650) {
     : 'Smart-Config-Kit';
   const channel = release.kind === 'changelog' ? '配置更新' : release.prerelease ? '预览版' : '正式版';
   const title = `${product} ${release.tag_name} · ${channel}`;
-  const footer = `\n\n<a href="${html(release.html_url)}">发布页</a>`;
+  const footer = release.kind === 'changelog'
+    ? `\n\n<a href="https://github.com/${html(repository)}">仓库链接</a>`
+    : `\n\n<a href="${html(release.html_url)}">发布页</a>`;
   const rows = summarizeChanges(release).map(change => `• ${html(change)}`);
   const budget = Math.min(limit, 650) - html(title).length - footer.length - 2;
   while (rows.length > 1 && rows.join('\n').length > budget) rows.pop();
@@ -112,23 +114,40 @@ export async function publishRelease({ release, repository, api, telegram, prepa
     throw new Error('Aerove Release has no uploaded APK');
   }
   const commit = release.kind === 'changelog' ? { sha: release.sha } : await api(`/commits/${encodeURIComponent(release.tag_name)}`);
-  const context = `telegram/olympus/${release.kind === 'changelog' ? 'raw-changelog' : 'files-release'}-${release.id}`;
+  const textOnly = release.kind === 'changelog';
+  const context = `telegram/olympus/${textOnly ? 'link-changelog' : 'files-release'}-${release.id}`;
   const statuses = await api(`/commits/${commit.sha}/status?per_page=100`);
   const receipt = statuses.statuses.find(status => status.context === context);
   if (edit) {
     if (!receipt?.target_url?.startsWith(channelUrl + '/')) throw new Error('No confirmed message to edit');
     const messageId = Number(receipt.target_url.split('/').at(-1));
-    await telegram('editMessageCaption', { chat_id: channelId, message_id: messageId, caption: formatMessage(repository, release), parse_mode: 'HTML' });
+    await telegram(textOnly ? 'editMessageText' : 'editMessageCaption', {
+      chat_id: channelId, message_id: messageId, parse_mode: 'HTML',
+      ...(textOnly ? { text: formatMessage(repository, release), link_preview_options: { is_disabled: true } }
+        : { caption: formatMessage(repository, release) }),
+    });
     return { edited: true, url: receipt.target_url };
   }
   if (receipt?.state === 'success' && !verify) return { skipped: true, url: receipt.target_url };
   if (receipt && !recover && !verify) {
     throw new Error('上次发送结果不确定。请先检查频道，再用 recover 模式重试，避免重复发布。');
   }
+  if (textOnly && verify) throw new Error('Text notifications do not have file attachments to verify');
   await telegram('getChatMember', { chat_id: channelId }, true);
+  const statusPath = `/statuses/${commit.sha}`;
+  if (textOnly) {
+    await api(statusPath, { state: 'pending', context, description: 'Telegram delivery started; inspect channel before recovery' });
+    const message = await telegram('sendMessage', {
+      chat_id: channelId, text: formatMessage(repository, release), parse_mode: 'HTML',
+      link_preview_options: { is_disabled: true },
+    });
+    const url = `${channelUrl}/${message.message_id}`;
+    console.log(JSON.stringify({ delivered: true, url }));
+    await api(statusPath, { state: 'success', context, description: `Telegram message ${message.message_id}`, target_url: url });
+    return { skipped: false, url };
+  }
   const files = await prepare(repository, release);
   if (!files.length) throw new Error('No product files prepared for Telegram');
-  const statusPath = `/statuses/${commit.sha}`;
   if (!verify) await api(statusPath, { state: 'pending', context, description: 'Telegram delivery started; inspect channel before recovery' });
   const message = await upload(files, formatMessage(repository, release, 1000));
   const url = `${channelUrl}/${message.message_id}`;
@@ -187,7 +206,7 @@ export async function main(env = process.env, fetcher = fetch) {
     await telegram('getChatMember', { chat_id: channelId }, true);
     const message = await telegram('sendMessage', {
       chat_id: channelId, disable_notification: true,
-      text: `机器人部署测试\n\n${repository} 的 GitHub Actions 已连接 Olympus 官方频道。\n${repository.endsWith('/Aerove') ? '后续公开 Release' : '后续 main 根 CHANGELOG.md 更新'}将自动发送更新说明和下载入口。\n\n讨论群：${discussionUrl}`,
+      text: `机器人部署测试\n\n${repository} 的 GitHub Actions 已连接 Olympus 官方频道。\n${repository.endsWith('/Aerove') ? '后续公开 Release 将自动发送更新说明和产物文件。' : '后续 main 根 CHANGELOG.md 更新将自动发送更新内容和仓库链接。'}\n\n讨论群：${discussionUrl}`,
       link_preview_options: { is_disabled: true },
     });
     result = { test: true, url: `${channelUrl}/${message.message_id}` };

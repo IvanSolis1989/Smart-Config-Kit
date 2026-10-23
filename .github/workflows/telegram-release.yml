@@ -11,18 +11,10 @@ on:
       mode:
         description: Preview is read-only; test sends a silent setup message; recover may resend
         type: choice
-        options: [preview, send, test, recover, edit, verify]
+        options: [preview, send, test, recover, edit]
         default: preview
       tag:
         description: Changelog source ref; defaults to main (not needed for test)
-        type: string
-        required: false
-      verify_files:
-        description: Download sent documents and verify SHA256 (send/recover)
-        type: boolean
-        default: false
-      first_message_id:
-        description: First message to inspect in verify mode; sends no new documents
         type: string
         required: false
 
@@ -50,7 +42,7 @@ jobs:
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
       github.repository == 'IvanSolis1989/Smart-Config-Kit' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 5
     permissions:
       contents: read
       statuses: write
@@ -59,25 +51,10 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
-      - name: Install pinned document upload dependencies
-        if: github.event_name != 'workflow_dispatch' || (inputs.mode != 'preview' && inputs.mode != 'test' && inputs.mode != 'edit')
-        env:
-          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
-          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
-        run: |
-          python3.12 -m venv "$RUNNER_TEMP/telegram-python"
-          if test -n "$TELEGRAM_API_ID" && test -n "$TELEGRAM_API_HASH"; then
-            "$RUNNER_TEMP/telegram-python/bin/python" -m pip install --require-hashes -r .github/scripts/telegram-requirements.txt
-          fi
       - name: Notify official channel
         env:
           GH_TOKEN: ${{ github.token }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
-          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
-          TELEGRAM_PYTHON: ${{ runner.temp }}/telegram-python/bin/python
-          VERIFY_FILES: ${{ inputs.verify_files }}
-          FIRST_MESSAGE_ID: ${{ inputs.first_message_id }}
           NOTIFY_MODE: ${{ inputs.mode }}
           RELEASE_TAG: ${{ inputs.tag }}
         run: node .github/scripts/telegram-release.mjs

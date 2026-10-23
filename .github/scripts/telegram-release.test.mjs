@@ -141,3 +141,32 @@ test('expands the matching linked changelog instead of announcing a pointer', as
   assert.match(text, /规则行为不变/);
   assert.doesNotMatch(text, /详见|旧更新|交流讨论/);
 });
+
+test('Smart Config sends and edits only update text and its repository link', async () => {
+  const repo = 'IvanSolis1989/Smart-Config-Kit';
+  const announcement = changelogAnnouncement(repo, sha, '# 日志\n## 2026-10-23 下载复核\n- 补充微信进程 DIRECT 回归。\n', release.published_at);
+  let receipt;
+  const calls = [];
+  const api = async (path, body) => {
+    if (body) { receipt = body; return body; }
+    assert.ok(path.includes('/status?'));
+    return { statuses: receipt ? [receipt] : [] };
+  };
+  const options = { release: announcement, repository: repo, api,
+    telegram: async (method, body) => { calls.push({ method, body }); return { message_id: 33 }; },
+    prepare: async () => { throw new Error('Must not prepare files'); },
+    upload: async () => { throw new Error('Must not upload files'); },
+  };
+  assert.deepEqual(await publishRelease(options), { skipped: false, url: 'https://t.me/IvanSolis89/33' });
+  assert.equal(receipt.context, `telegram/olympus/link-changelog-${sha}`);
+  assert.equal(calls[1].method, 'sendMessage');
+  assert.match(calls[1].body.text, /微信进程 DIRECT/);
+  assert.match(calls[1].body.text, /href="https:\/\/github.com\/IvanSolis1989\/Smart-Config-Kit">仓库链接/);
+  assert.equal((calls[1].body.text.match(/href=/g) || []).length, 1);
+  assert.equal(calls[1].body.link_preview_options.is_disabled, true);
+  assert.equal((await publishRelease(options)).skipped, true);
+  assert.equal(calls.length, 2);
+  await publishRelease({ ...options, edit: true });
+  assert.equal(calls[2].method, 'editMessageText');
+  assert.equal(calls[2].body.message_id, 33);
+});
