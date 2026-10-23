@@ -7,6 +7,10 @@
 
 ---
 
+## 2026-10-23 — SubStore 辅助同步验收加固
+
+- 独立辅助扩展升级 v1.8.1，补充 local 快照并发失败保护与完整链路验收步骤；详见 [SubStore 日志](../SubStore/CHANGELOG.md)。Clash Party JS、规则源、DNS 与其他客户端产物未变，按 AGENTS.md §0.1 无需联动重生成。
+
 ## 2026-10-23 — Issue #187 下载域名复核
 
 - `dldir1.qq.com` 在 `v6.0.20-normal.20` 已由精确域名进入下载策略，未发现广告误拦；补充原生载荷、Smart/Normal/FlClash 下载组选项与 Windows 微信进程前置 DIRECT 回归，规则和组行为保持不变。
