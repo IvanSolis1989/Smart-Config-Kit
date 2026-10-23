@@ -11,7 +11,7 @@ on:
       mode:
         description: Preview is read-only; test sends a silent setup message; recover may resend
         type: choice
-        options: [preview, send, test, recover]
+        options: [preview, send, test, recover, edit]
         default: preview
       tag:
         description: Changelog source ref; defaults to main (not needed for test)
@@ -56,7 +56,7 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
       - name: Install pinned document upload dependencies
-        if: github.event_name != 'workflow_dispatch' || (inputs.mode != 'preview' && inputs.mode != 'test')
+        if: github.event_name != 'workflow_dispatch' || (inputs.mode != 'preview' && inputs.mode != 'test' && inputs.mode != 'edit')
         env:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}

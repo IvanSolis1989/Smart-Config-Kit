@@ -6,10 +6,11 @@
 `.github/workflows/telegram-release.yml` 仅在 main 的根 `CHANGELOG.md` 改动时自动通知。
 普通提交、子目录日志和 GitHub Release 不触发频道更新；通知脚本自身的提交只执行测试和差异检查。
 脚本比较完整 push 的 before/after，只有根日志实际修改才发送，正文取该提交根日志的第一节，
-直接附上该提交的客户端配置 ZIP、日志链接及讨论群链接。不推断没有写入日志的版本或变更。
-ZIP 从现有 release-batch contract 的客户端 staticOutputs 选择配置，保留平台目录、README、CHANGELOG
-及 Passwall 分流辅助文件；读取 Git blob，不把本地未提交改动混入产物，也不重新生成配置。
-包内 BUILD_SOURCE.json 记录来源提交和逐文件哈希，保存后读回核对内容和 SHA256。
+直接附上各客户端的原始配置文件，多个文件合并发送。不压缩，不改文件名，不改文件内容。
+从现有 release-batch contract 的客户端 staticOutputs 选择产物，读取指定提交的 Git blob，
+不混入本地未提交改动，也不重新生成配置。保存和上传后核对逐文件 SHA256。
+正文只保留一次标题、最多四条实际变化和一个短文本“发布页”链接；
+根日志引用的同日子目录日志会展开为实际描述，合并重复内容，不机械转发“详见某日志”。
 
 在 Settings → Secrets and variables → Actions 保存 `TELEGRAM_BOT_TOKEN`、`TELEGRAM_API_ID`、`TELEGRAM_API_HASH`，
 后两者从 [Telegram API 开发页面](https://my.telegram.org/apps) 获取。
@@ -22,16 +23,17 @@ Actions → **Telegram release notification** → Run workflow，选择 main：
 
 - `preview`：只预览根日志最新节；tag 可填写提交 SHA，留空取 main，不发消息。
 - `test`：发送一条静音“机器人部署测试”，验证 Secret 和频道权限。
-- `send`：发送指定提交的配置 ZIP 和根日志最新节摘要；tag 留空取 main。
+- `send`：发送指定提交的各客户端原文件和本次更新摘要；tag 留空取 main。
 - `recover`：先检查频道确认上次没有成功发送，再使用此模式；它允许重试不确定发送，可能造成重复消息。
+- `edit`：仅精简已有成功消息的说明，不重新上传文件。
 
 勾选 `verify_files` 会从 Telegram 下载发送的文件并核对 SHA256。
 上传使用 Telethon 的机器人账号 MTProto，session 只存在内存并在结束后登出。
 不登录个人用户账号，不运行常驻服务；依赖版本与 PyPI 文件哈希固定在 telegram-requirements.txt。
-未配置 API ID/Hash 时，小于 50 MB 的配置 ZIP 可直接通过云端 Bot API 发送；
+小于 50 MB 的原文件可直接通过云端 Bot API 发送；
 需要下载回验时云端文件上限为 20 MB。更大的产物必须补齐 API 凭据，不降级成链接。
 
-发送回执保存在来源提交的 GitHub commit status：`telegram/olympus/files-changelog-<SHA>`。
+原文件发送回执保存在来源提交的 GitHub commit status：`telegram/olympus/raw-changelog-<SHA>`。
 同一提交已有 success 回执时跳过；首次发送前写 pending，消息发送成功后写 success 和频道消息链接。
 网络失败或回执保存失败保留 pending，自动重跑不会盲目再发。
 确认原消息已存在时，可将该 context 改为 success 并附原消息链接，无须重发。

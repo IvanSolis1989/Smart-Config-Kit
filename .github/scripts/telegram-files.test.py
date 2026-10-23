@@ -4,7 +4,6 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-import zipfile
 
 spec = importlib.util.spec_from_file_location('telegram_files', Path(__file__).with_name('telegram-files.py'))
 files = importlib.util.module_from_spec(spec)
@@ -26,7 +25,7 @@ class ArtifactFilesTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 files.validate_files([item])
 
-    def test_bundle_reads_pinned_blobs_and_is_reproducible(self):
+    def test_original_files_preserve_names_and_pinned_bytes(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / 'repository'
             root.mkdir()
@@ -47,18 +46,15 @@ class ArtifactFilesTest(unittest.TestCase):
             git('-c', 'user.name=Artifact test', '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'fixture')
             sha = git('rev-parse', 'HEAD')
             (root / 'Client/config.conf').write_text('uncommitted changes', encoding='utf-8')
-            first = files.bundle(root, sha, Path(directory) / 'first')[0]
-            second = files.bundle(root, sha, Path(directory) / 'second')[0]
+            first = files.prepare_files(root, sha, Path(directory) / 'first')[0]
+            second = files.prepare_files(root, sha, Path(directory) / 'second')[0]
             self.assertEqual(first['sha256'], second['sha256'])
-            with zipfile.ZipFile(first['path']) as package:
-                self.assertEqual(package.read('Smart-Config-Kit/Client/config.conf'), b'verified output\n')
-                self.assertNotIn('Smart-Config-Kit/private.txt', package.namelist())
-                manifest = json.loads(package.read('Smart-Config-Kit/BUILD_SOURCE.json'))
-                self.assertEqual(manifest['source'], sha)
-                self.assertEqual(len(manifest['files']), 4)
+            self.assertEqual(first['name'], 'config.conf')
+            self.assertEqual(Path(first['path']).read_bytes(), b'verified output\n')
+            self.assertEqual(list((Path(directory) / 'first').rglob('*.*')), [Path(first['path'])])
             files.validate_files([first])
             with self.assertRaises(ValueError):
-                files.bundle(root, 'main', Path(directory) / 'invalid')
+                files.prepare_files(root, 'main', Path(directory) / 'invalid')
 
 
 if __name__ == '__main__':

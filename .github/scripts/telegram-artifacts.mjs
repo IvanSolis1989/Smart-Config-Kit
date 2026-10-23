@@ -19,7 +19,7 @@ export function runHelper(arguments_, env = process.env) {
 export async function prepareArtifacts(repository, release, fetcher = fetch, root = process.cwd()) {
   const directory = mkdtempSync(path.join(process.env.RUNNER_TEMP || tmpdir(), 'telegram-artifacts-'));
   if (release.kind === 'changelog') {
-    return runHelper(['bundle', '--root', root, '--source', release.sha, '--output', directory]);
+    return runHelper(['prepare', '--root', root, '--source', release.sha, '--output', directory]);
   }
   if (!release.assets?.length) throw new Error('Release has no downloadable artifacts');
   const files = [];
@@ -60,7 +60,8 @@ export function validateUploadConfiguration(files, env) {
 
 export async function uploadArtifacts(files, caption, env = process.env, fetcher = fetch) {
   validateUploadConfiguration(files, env);
-  if (!env.TELEGRAM_API_ID?.trim() || !env.TELEGRAM_API_HASH?.trim()) return uploadCloud(files, caption, env, fetcher);
+  const maximum = env.VERIFY_FILES === 'true' ? 20_000_000 : 50_000_000;
+  if (files.every(file => file.size <= maximum)) return uploadCloud(files, caption, env, fetcher);
   const directory = mkdtempSync(path.join(env.RUNNER_TEMP || tmpdir(), 'telegram-upload-'));
   const manifest = path.join(directory, 'manifest.json');
   writeFileSync(manifest, JSON.stringify({ files, caption, verify_download: env.VERIFY_FILES === 'true' }));
@@ -89,9 +90,9 @@ async function uploadCloud(files, caption, env, fetcher) {
       if (bytes.length !== file.size || sha256(bytes) !== file.sha256) throw new Error('Prepared document SHA256 mismatch');
       const field = batch.length === 1 ? 'document' : `file${index}`;
       form.set(field, new Blob([bytes]), file.name);
-      media.push({ type: 'document', media: `attach://${field}`, ...(index === 0 && offset === 0 ? { caption } : {}) });
+      media.push({ type: 'document', media: `attach://${field}`, parse_mode: 'HTML', ...(index === 0 && offset === 0 ? { caption } : {}) });
     }
-    if (batch.length === 1 && offset === 0) form.set('caption', caption);
+    if (batch.length === 1 && offset === 0) { form.set('caption', caption); form.set('parse_mode', 'HTML'); }
     if (batch.length > 1) form.set('media', JSON.stringify(media));
     const result = await request(batch.length === 1 ? 'sendDocument' : 'sendMediaGroup', form);
     const messages = Array.isArray(result) ? result : [result];
