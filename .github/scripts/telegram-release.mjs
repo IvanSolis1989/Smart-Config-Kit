@@ -1,12 +1,13 @@
 import { readFileSync, appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { prepareArtifacts, uploadArtifacts, validateUploadConfiguration } from './telegram-artifacts.mjs';
 
 const repositories = new Set(['IvanSolis1989/Aerove', 'IvanSolis1989/Smart-Config-Kit']);
 const channelId = '-1003974315707';
 const channelUrl = 'https://t.me/IvanSolis89';
 const discussionUrl = 'https://t.me/Olympus_Habitue';
 
-export function formatMessage(repository, release) {
+export function formatMessage(repository, release, limit = 3800) {
   const product = repository.endsWith('/Aerove')
     ? (/lite/i.test(release.tag_name) ? 'AEROVE Lite' : 'AEROVE 标准版')
     : 'Smart-Config-Kit';
@@ -22,7 +23,7 @@ export function formatMessage(repository, release) {
   const footer = release.kind === 'changelog'
     ? `\n\n更新详情：${release.html_url}\n配置下载：https://github.com/${repository}\n交流讨论：${discussionUrl}`
     : `\n\n发布与下载：${release.html_url}\n交流讨论：${discussionUrl}`;
-  const budget = Math.max(0, 3800 - title.length - footer.length - 2);
+  const budget = Math.max(0, limit - title.length - footer.length - 2);
   const summary = notes.length > budget ? notes.slice(0, budget - 12) + '\n…详见发布页面' : notes;
   return `${title}\n\n${summary}${footer}`;
 }
@@ -70,7 +71,7 @@ export async function selectAnnouncement(eventName, event, tag, api, repository)
   return null;
 }
 
-export async function publishRelease({ release, repository, api, telegram, recover = false }) {
+export async function publishRelease({ release, repository, api, telegram, prepare, upload, recover = false }) {
   if (release.draft || !release.published_at) throw new Error('Refusing to announce an unpublished release');
   if (release.kind === 'changelog' && release.html_url !== `https://github.com/${repository}/blob/${release.sha}/CHANGELOG.md`) {
     throw new Error('Unexpected changelog URL');
@@ -83,7 +84,7 @@ export async function publishRelease({ release, repository, api, telegram, recov
     throw new Error('Aerove Release has no uploaded APK');
   }
   const commit = release.kind === 'changelog' ? { sha: release.sha } : await api(`/commits/${encodeURIComponent(release.tag_name)}`);
-  const context = `telegram/olympus/${release.kind === 'changelog' ? 'changelog' : 'release'}-${release.id}`;
+  const context = `telegram/olympus/files-${release.kind === 'changelog' ? 'changelog' : 'release'}-${release.id}`;
   const statuses = await api(`/commits/${commit.sha}/status?per_page=100`);
   const receipt = statuses.statuses.find(status => status.context === context);
   if (receipt?.state === 'success') return { skipped: true, url: receipt.target_url };
@@ -91,16 +92,14 @@ export async function publishRelease({ release, repository, api, telegram, recov
     throw new Error('上次发送结果不确定。请先检查频道，再用 recover 模式重试，避免重复发布。');
   }
   await telegram('getChatMember', { chat_id: channelId }, true);
+  const files = await prepare(repository, release);
+  if (!files.length) throw new Error('No product files prepared for Telegram');
   const statusPath = `/statuses/${commit.sha}`;
   await api(statusPath, { state: 'pending', context, description: 'Telegram delivery started; inspect channel before recovery' });
-  const message = await telegram('sendMessage', {
-    chat_id: channelId,
-    text: formatMessage(repository, release),
-    link_preview_options: { is_disabled: true },
-  });
+  const message = await upload(files, formatMessage(repository, release, 1000));
   const url = `${channelUrl}/${message.message_id}`;
   await api(statusPath, { state: 'success', context, description: `Telegram message ${message.message_id}`, target_url: url });
-  return { skipped: false, url };
+  return { skipped: false, url, files: message.files };
 }
 
 export async function main(env = process.env, fetcher = fetch) {
@@ -157,7 +156,18 @@ export async function main(env = process.env, fetcher = fetch) {
     else if (mode === 'preview') {
       if (release.draft || !release.published_at) throw new Error('Release is not published');
       result = { preview: formatMessage(repository, release) };
-    } else result = await publishRelease({ release, repository, api, telegram, recover: mode === 'recover' });
+    } else {
+      result = await publishRelease({
+        release, repository, api, telegram,
+        prepare: async (repo, announcement) => {
+          const files = await prepareArtifacts(repo, announcement, fetcher);
+          validateUploadConfiguration(files, env);
+          return files;
+        },
+        upload: (files, caption) => uploadArtifacts(files, caption, env),
+        recover: mode === 'recover',
+      });
+    }
   }
   const output = JSON.stringify(result, null, 2);
   console.log(output);

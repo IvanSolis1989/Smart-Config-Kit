@@ -38,17 +38,22 @@ test('records confirmed delivery and skips a duplicate trigger', async () => {
     if (body) { writes.push(body); receipt = body; return body; }
     return path.includes('/status?') ? { statuses: receipt ? [receipt] : [] } : { sha };
   };
-  const telegram = async (method, body) => { if (method === 'sendMessage') sends.push(body); return { message_id: 17 }; };
-  assert.deepEqual(await publishRelease({ release, repository, api, telegram }), { skipped: false, url: 'https://t.me/IvanSolis89/17' });
+  const telegram = async () => ({});
+  const files = [{ name: 'Aerove.apk' }];
+  const prepare = async () => files;
+  const upload = async (artifacts, caption) => { sends.push({ artifacts, caption }); return { message_id: 17, files }; };
+  assert.deepEqual(await publishRelease({ release, repository, api, telegram, prepare, upload }), { skipped: false, url: 'https://t.me/IvanSolis89/17', files });
   assert.deepEqual(writes.map(write => write.state), ['pending', 'success']);
-  assert.equal((await publishRelease({ release, repository, api, telegram })).skipped, true);
+  assert.equal((await publishRelease({ release, repository, api, telegram, prepare, upload })).skipped, true);
   assert.equal(sends.length, 1);
+  assert.deepEqual(sends[0].artifacts, files);
+  assert.ok(sends[0].caption.length <= 1000);
 });
 
 test('does not automatically resend an ambiguous delivery', async () => {
   let attempts = 0;
   const api = async path => path.includes('/status?')
-    ? { statuses: [{ context: 'telegram/olympus/release-42', state: 'pending' }] } : { sha };
+    ? { statuses: [{ context: 'telegram/olympus/files-release-42', state: 'pending' }] } : { sha };
   await assert.rejects(publishRelease({ release, repository, api, telegram: async () => attempts++ }), /recover/);
   assert.equal(attempts, 0);
 });
