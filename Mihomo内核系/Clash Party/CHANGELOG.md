@@ -14,9 +14,13 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## 2026-10-24 — Meow 通用消费者
+
+- Meow 从 AEROVE 专属候选调整为通用 JS 与官方核心/App 原生 YAML；规则源与本客户端行为不变。详见 [Meow 日志](../../Meow内核系/Meow/CHANGELOG.md)。
+
 ## 2026-10-24 — AEROVE Lite / meow-rs 候选消费者
 
-- 新增复用共享节点分类与融合规则的 Meow 分流候选，DNS 等平台设置由 Lite 管理；Clash Party 与其他正式产物不受影响。候选和待验条件见 [AEROVE Lite 日志](../../Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+- 新增复用共享节点分类与融合规则的 Meow 分流候选，DNS 等平台设置由 Lite 管理；Clash Party 与其他正式产物不受影响。候选和待验条件见 [AEROVE Lite 日志](../../Meow内核系/Meow/CHANGELOG.md)。
 
 ## v6.0.20-dns.22 (2026-10-24)
 

@@ -18,6 +18,8 @@
 
 ## 先运行相关验证
 
+Meow 通用 JS / 原生 YAML 使用 `node tools/generate-meow.js` 生成，`--check` 只读核对；生成阶段另需 Ruby ≥ 3.0。相关测试为 `node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js`，实际核心校验需设置 `MEOW_BIN`、`MEOW_GEOSITE_FILE`、`MEOW_MMDB_FILE`。客户端运行不需要 Ruby；入口与各 App 边界见 [Meow 说明](../Meow内核系/Meow/README.md)。
+
 验证器默认只读；生成器会改写已发布产物。请从本次改动直接相关的检查开始；完整验收要求以 [AGENTS.md](../AGENTS.md) 为准。
 
 <a id="js-overwrite-smoke-contract"></a>

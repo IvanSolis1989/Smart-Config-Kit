@@ -13,7 +13,7 @@
 
 点击下载按钮打开 `main` 的 Raw 文件，右键可复制链接。**15 个客户端入口、19 个独立文件**均附导入教程；兼容入口可能指向同一文件。
 
-[Mihomo](#mihomo) · [sing-box](#sing-box) · [Xray](#xray) · [双内核](#dual-core) · [独立客户端](#independent)
+[Mihomo](#mihomo) · [sing-box](#sing-box) · [Xray](#xray) · [双内核](#dual-core) · [独立客户端](#independent) · [Meow 适配](#meow)
 
 ## <a id="mihomo"></a>Mihomo 内核系
 
@@ -116,6 +116,12 @@ Hiddify 4.1.1 优先核对 1.13 兼容文件与完整配置模式；官方内核
 使用 Egern 原生 YAML 与适配规则集；不能直接消费 Mihomo MRS。
 
 [![下载 Egern YAML](../assets/readme/button-egern-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/README.md)
+
+## <a id="meow"></a>Meow / meow-rs 通用适配
+
+官方核心及官方 meow-android / meow-ios 使用原生 YAML，先替换模板节点订阅 URL。JS 仅用于提供 main(config) 的宿主，AEROVE Lite 是其中一个消费者。核心 -t 已验，各 App 完整导入与真实连接仍见[支持队列](../support-queue.md#meow)，不计入上方15个既有正式入口统计。
+
+[下载 Meow 原生 YAML](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.yaml) · [下载通用 JS](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.js) · [导入教程](../../Meow内核系/Meow/README.md)
 
 ## 使用前确认
 

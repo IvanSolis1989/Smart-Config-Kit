@@ -1,6 +1,12 @@
-# AEROVE Lite / meow-rs — 变更日志
+# Meow / meow-rs — 变更日志
 
-[使用说明](README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
+[使用说明](README.md) · [支持队列](../../docs/support-queue.md#meow)
+
+## v6.0.20-meow.2 (2026-10-24)
+
+- 将 AEROVE 专属目录改为 Meow 通用入口，JS 统一为 Meow(meow).js；AEROVE 仅保留消费者说明，旧 Raw 路径需更新。
+- 新增官方核心/官方 Android/iOS 的原生 Meow(meow).yaml，使用 provider 筛选和 REJECT 空池哨兵，投影原生 DNS/geodata 字段。
+- 官方 v0.26.1 实际 -t 通过，CI 增加归档验 SHA 与真实核心校验；App、HTTP 下载与真实路由仍待验。
 
 ## v6.0.20-meow.1 (2026-10-24)
 

@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "version": "v6.0.20-meow.2",
+  "build": "2026-10-24",
+  "client": "Meow",
+  "kernel": "meow-rs",
+  "status": "pre-adapted-awaiting-app",
+  "source_authority": "rulesets/source/routing-graph.js",
+  "queue": "docs/support-queue.md#meow",
+  "input_sha256_lf": {
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "0f8c6d3c6385e2a22b6435a5ade37c6236f376531749bf446642ce481977f6ec",
+    "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "5d28463337736d645f6012c9afb3484a6328cb5b5cafce4d3905269abafc9ff9",
+    "rulesets/source/routing-graph.js": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
+    "rulesets/generated/fused/manifest.json": "685166bb56ceaeb08053e15676744f1a7ba3e651f9259881baae7a881212df8c",
+    "tools/generate-meow.js": "11873125725f2f63b3b9622af9bd30003d1943517974993f1412cd87aab84083",
+    "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed"
+  },
+  "output": {
+    "path": "Meow内核系/Meow/Meow(meow).js",
+    "sha256_lf": "bcb14ae51109623a17d309a867f578a56ce86003928952efc9ba1a807f439189"
+  },
+  "native_output": {
+    "path": "Meow内核系/Meow/Meow(meow).yaml",
+    "sha256_lf": "de0e47f1c1c0894369a623985da01dbd05aefa4330fe390095cee0a2f41ad3a8",
+    "requires_js_host": false
+  },
+  "consumers": [
+    "meow-rs core",
+    "meow-android (YAML; App verification pending)",
+    "meow-ios (YAML; App verification pending)",
+    "AEROVE Lite (JS; App verification pending)"
+  ],
+  "routing": {
+    "rule_count": 168,
+    "provider_count": 149,
+    "business_group_count": 33,
+    "maximum_region_group_count": 22
+  },
+  "js_managed_fields": [
+    "proxies",
+    "proxy-providers (inline flattening only)",
+    "proxy-groups",
+    "rule-providers",
+    "rules"
+  ],
+  "js_preserved_fields": [
+    "dns",
+    "hosts",
+    "sniffer",
+    "tun",
+    "ports",
+    "mode",
+    "external-controller",
+    "secret",
+    "geodata"
+  ],
+  "native_managed_fields": [
+    "mixed-port",
+    "allow-lan",
+    "bind-address",
+    "mode",
+    "log-level",
+    "ipv6",
+    "strict",
+    "hosts",
+    "dns",
+    "proxy-groups",
+    "proxy-providers",
+    "rule-providers",
+    "rules",
+    "geodata"
+  ],
+  "verification": {
+    "node_vm": "covered-by-tests",
+    "native_core": "requires-actual-core-test",
+    "quickjs_android": "pending",
+    "app_import": "pending",
+    "actual_routing": "pending"
+  }
+}

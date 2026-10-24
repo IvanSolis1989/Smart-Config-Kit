@@ -54,7 +54,7 @@
 
 [打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
 
-开发中的客户端见[支持队列](docs/support-queue.md)，其中提供 AEROVE Lite / meow-rs 的预适配分流脚本与联调条件。
+[Meow / meow-rs 通用适配](Meow内核系/Meow/README.md)提供官方核心及官方 Android/iOS 的原生 YAML，以及支持脚本宿主的通用 JS；各端验收进展见[支持队列](docs/support-queue.md)。
 
 ## <a name="routing"></a>一套策略，按客户端落地
 

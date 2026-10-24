@@ -13,9 +13,13 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-24 — Meow 通用原生与 JS 入口
+
+- 新增 v6.0.20-meow.2 原生 YAML，将 AEROVE 专属目录改为通用 Meow；核对官方 Android/iOS 输入与版本，真实官方核心校验接入 CI。App 与连接待验，详见 [Meow 日志](Meow内核系/Meow/CHANGELOG.md)。
+
 ## 2026-10-24 — AEROVE Lite / meow-rs 预适配
 
-- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Meow/CHANGELOG.md)。
 
 ## 2026-10-24 — README 首页与专题导航
 

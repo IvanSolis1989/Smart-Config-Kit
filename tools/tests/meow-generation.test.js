@@ -5,9 +5,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const os = require('node:os');
+const { spawnSync } = require('node:child_process');
+const { localPathForRepositoryRuleUrl } = require('../lib/repository-rule-asset');
 const root = path.resolve(__dirname, '../..');
 const source = () => fs.readFileSync(path.join(root, 'Mihomo内核系/FlClash/FlClash(mihomo).js'), 'utf8');
-const api = () => require('../generate-aerove-meow');
+const api = () => require('../generate-meow');
 const plain = value => JSON.parse(JSON.stringify(value));
 
 function run(script, input) {
@@ -95,7 +98,59 @@ test('generated script and provenance manifest are current; support remains pend
   const manifest = JSON.parse(fs.readFileSync(path.join(root, api().MANIFEST_PATH), 'utf8'));
   assert.equal(manifest.status, 'pre-adapted-awaiting-app');
   assert.equal(manifest.verification.app_import, 'pending');
-  assert.equal(manifest.verification.meow_core, 'pending');
+  assert.equal(manifest.verification.native_core, 'requires-actual-core-test');
   assert.ok(manifest.routing.rule_count > 100);
   assert.equal(manifest.routing.business_group_count, 33);
+});
+
+test('official clients receive native YAML independently of a JS host', () => {
+  const outputs = api().buildOutputs();
+  assert.ok(api().NATIVE_PATH && outputs[api().NATIVE_PATH], 'native YAML profile must be generated');
+  assert.match(outputs[api().NATIVE_PATH], /proxy-groups:/);
+  assert.doesNotMatch(outputs[api().NATIVE_PATH], /function main|AEROVE Lite 分流覆写/);
+  const manifest = JSON.parse(outputs[api().MANIFEST_PATH]);
+  assert.equal(manifest.client, 'Meow');
+  assert.equal(manifest.native_output.path, api().NATIVE_PATH);
+});
+
+test('native profile passes the official Meow core with every local rule asset', {
+  skip: !(process.env.MEOW_BIN && process.env.MEOW_GEOSITE_FILE && process.env.MEOW_MMDB_FILE)
+    && 'Set MEOW_BIN, MEOW_GEOSITE_FILE and MEOW_MMDB_FILE for actual core validation'
+}, t => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-meow-core-'));
+  t.after(() => {
+    assert.equal(path.dirname(path.resolve(dir)), path.resolve(os.tmpdir()));
+    assert.ok(path.basename(dir).startsWith('scki-meow-core-'));
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+  const parsed = spawnSync(process.env.RUBY_BIN || 'ruby', ['-EUTF-8:UTF-8', '-rjson', '-ryaml', '-e',
+    'print JSON.generate(YAML.safe_load(STDIN.read, aliases: true))'],
+  { input: fs.readFileSync(path.join(root, api().NATIVE_PATH)), encoding: 'utf8', windowsHide: true });
+  assert.equal(parsed.status, 0, parsed.stderr);
+  const config = JSON.parse(parsed.stdout);
+  const subscription = path.join(dir, 'nodes.yaml');
+  fs.writeFileSync(subscription, JSON.stringify({ proxies: [
+    { name: '香港 HKG synthetic', type: 'socks5', server: '127.0.0.1', port: 65534 }
+  ] }));
+  config['proxy-providers'] = { Subscribe: { type: 'file', path: subscription } };
+  for (const [name, provider] of Object.entries(config['rule-providers'])) {
+    const file = localPathForRepositoryRuleUrl(provider.url);
+    assert.ok(file, `Missing local provider asset: ${name}`);
+    const target = path.join(dir, path.basename(file));
+    fs.copyFileSync(file, target);
+    config['rule-providers'][name] = { type: 'file', path: target, format: provider.format, behavior: provider.behavior };
+  }
+  for (const [key, env, file] of [['geosite-path', 'MEOW_GEOSITE_FILE', 'geosite.dat'], ['mmdb-path', 'MEOW_MMDB_FILE', 'Country.mmdb']]) {
+    fs.copyFileSync(process.env[env], path.join(dir, file));
+    config.geodata[key] = path.join(dir, file);
+  }
+  const target = path.join(dir, 'config.yaml');
+  fs.writeFileSync(target, JSON.stringify(config));
+  const result = spawnSync(process.env.MEOW_BIN, ['-d', dir, '-f', target, '-t'],
+    { encoding: 'utf8', windowsHide: true, timeout: 60000, maxBuffer: 8 * 1024 * 1024 });
+  const log = result.stdout + result.stderr;
+  assert.equal(result.status, 0, log);
+  assert.match(log, /Configuration test passed/);
+  assert.doesNotMatch(log, /\bWARN\b|\bERROR\b/);
+  t.diagnostic(`Real core: ${Object.keys(config['rule-providers']).length} local providers, ${config.rules.length} rules, ${config['proxy-groups'].length} groups; synthetic node, no traffic test`);
 });
