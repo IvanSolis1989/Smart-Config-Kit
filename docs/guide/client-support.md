@@ -13,6 +13,8 @@
 
 [按场景选择](#choose) · [协议矩阵](#protocols) · [条件与证据](#conditions)
 
+开发中的客户端适配见[支持队列](../support-queue.md)。AEROVE Lite / meow-rs 已有分流覆写候选，仍待 App 配置准入和 Android 联调。
+
 ## <a id="choose"></a>按使用场景选择
 
 | 场景 | 选择与边界 |

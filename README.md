@@ -54,6 +54,8 @@
 
 [打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
 
+开发中的客户端见[支持队列](docs/support-queue.md)，其中提供 AEROVE Lite / meow-rs 的预适配分流脚本与联调条件。
+
 ## <a name="routing"></a>一套策略，按客户端落地
 
 - **规则同源**：业务规则和命中顺序集中维护，再生成各端原生配置。

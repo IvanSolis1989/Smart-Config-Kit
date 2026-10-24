@@ -14,6 +14,10 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## 2026-10-24 — AEROVE Lite / meow-rs 候选消费者
+
+- 新增复用共享节点分类与融合规则的 Meow 分流候选，DNS 等平台设置由 Lite 管理；Clash Party 与其他正式产物不受影响。候选和待验条件见 [AEROVE Lite 日志](../../Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## v6.0.20-dns.22 (2026-10-24)
 
 - 将客户端目录归入内核系列分类，原有配置文件与说明保留在客户端子目录；规则语义和配置字段不变。旧 Raw 配置链接因路径迁移而变化，现有用户需重新导入对应配置；共享 `rulesets/` 资产地址保持不变。

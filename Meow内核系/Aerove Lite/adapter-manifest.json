@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "version": "v6.0.20-meow.1",
+  "build": "2026-10-24",
+  "client": "AEROVE Lite",
+  "kernel": "meow-rs",
+  "status": "pre-adapted-awaiting-app",
+  "source_authority": "rulesets/source/routing-graph.js",
+  "queue": "docs/support-queue.md#aerove-lite-meow",
+  "input_sha256_lf": {
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "0f8c6d3c6385e2a22b6435a5ade37c6236f376531749bf446642ce481977f6ec",
+    "rulesets/source/routing-graph.js": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
+    "rulesets/generated/fused/manifest.json": "685166bb56ceaeb08053e15676744f1a7ba3e651f9259881baae7a881212df8c",
+    "tools/generate-aerove-meow.js": "757a38e8eec867b5fc9ca8626b4b57bfc715144ef2f98433007dde66f9787478"
+  },
+  "output": {
+    "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
+    "sha256_lf": "3cbbb32790642d0e3715a75c031d04d60940ac6bab3ae14cedb603e7203c1e8d"
+  },
+  "routing": {
+    "rule_count": 168,
+    "provider_count": 149,
+    "business_group_count": 33,
+    "maximum_region_group_count": 22
+  },
+  "managed_fields": [
+    "proxies",
+    "proxy-providers (inline flattening only)",
+    "proxy-groups",
+    "rule-providers",
+    "rules"
+  ],
+  "app_owned_fields": [
+    "dns",
+    "hosts",
+    "sniffer",
+    "tun",
+    "ports",
+    "mode",
+    "external-controller",
+    "secret",
+    "geodata"
+  ],
+  "verification": {
+    "node_vm": "covered-by-tests",
+    "meow_core": "pending",
+    "quickjs_android": "pending",
+    "app_import": "pending",
+    "actual_routing": "pending"
+  }
+}

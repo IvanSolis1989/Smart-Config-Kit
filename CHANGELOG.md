@@ -13,6 +13,10 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-24 — AEROVE Lite / meow-rs 预适配
+
+- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## 2026-10-24 — README 首页与专题导航
 
 - 统一客户端教程、下载专题与现行文档版式，历史资料保留原文并集中导航。

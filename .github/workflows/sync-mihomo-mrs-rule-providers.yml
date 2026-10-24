@@ -71,9 +71,12 @@ jobs:
           node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
           node tools/generate-fused-fallback-artifacts.js
           node tools/generate-karing.js
+          node tools/generate-aerove-meow.js
 
       - name: Validate complete fused release chain
         run: |
+          node tools/generate-aerove-meow.js --check
+          node --test tools/tests/aerove-meow-generation.test.js
           node tools/validate-adfp-exceptions.js
           node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           node tools/sync-business-dns-policy.js --check
@@ -112,6 +115,8 @@ jobs:
           node tools/refresh-rule-quality.js
           node tools/generate-karing.js
           node tools/generate-karing.js --check
+          node tools/generate-aerove-meow.js
+          node tools/generate-aerove-meow.js --check
           node tools/refresh-rule-quality.js --check
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
 
