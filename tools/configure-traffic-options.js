@@ -16,8 +16,8 @@ const { planLocalTrafficOptions, writeLocalTrafficOptions } = require('./lib/loc
 const root = path.resolve(__dirname, '..');
 const configFile = path.join(root, 'rulesets/source/traffic-options.json');
 const openClashFiles = [
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
 ];
 const commands = [
   ['tools/sync-traffic-options.js'],
@@ -25,7 +25,7 @@ const commands = [
   ['tools/generate-stash-from-cmfa.js'],
   ['tools/generate-egern-supplemental.js'],
   ['tools/generate-egern-from-cmfa.js', '--reuse-assets'],
-  ['SingBox/SingBox(sing-box)-generator.js'],
+  ['Sing-box内核系/SingBox/SingBox(sing-box)-generator.js'],
   ['tools/generate-fused-fallback-artifacts.js'],
 ];
 

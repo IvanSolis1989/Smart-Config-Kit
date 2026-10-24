@@ -167,10 +167,10 @@ test('CLI defaults to stdout and only writes its explicit report destination', (
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-ordered-'));
   try {
     fs.mkdirSync(path.join(root, 'rulesets/generated/fused/mihomo'), { recursive: true });
-    fs.mkdirSync(path.join(root, 'Clash Party'));
+    fs.mkdirSync(path.join(root, 'Mihomo内核系/Clash Party'), { recursive: true });
     fs.writeFileSync(path.join(root, 'rulesets/generated/fused/manifest.json'), JSON.stringify({ authority: 'fixture', segments: [{ id: 's', policy: 'direct', files: { domain: { source: 's-domain.yaml' } } }] }));
     fs.writeFileSync(path.join(root, 'rulesets/generated/fused/mihomo/s-domain.yaml'), 'payload:\n  - "*.example.com"\n');
-    fs.writeFileSync(path.join(root, 'Clash Party/ClashParty(mihomo-smart).js'), 'const MIHOMO_FUSED_RULES = ["RULE-SET,s-domain,direct"];\n');
+    fs.writeFileSync(path.join(root, 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js'), 'const MIHOMO_FUSED_RULES = ["RULE-SET,s-domain,direct"];\n');
     const loaded = loadRepository({ root });
     assert.equal(firstMatch(loaded, { host: 'example.com' }, { mode: 'domain-projection' }).status, 'no-match', 'domain-payload *. excludes root');
     assert.equal(firstMatch(loaded, { host: 'x.example.com' }, { mode: 'domain-projection' }).policy, 'direct');

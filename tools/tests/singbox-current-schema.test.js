@@ -7,8 +7,8 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '../..');
-const fullPath = path.join(root, 'SingBox/SingBox(sing-box)-full.json');
-const compatPath = path.join(root, 'SingBox/SingBox(sing-box)-1.13.json');
+const fullPath = path.join(root, 'Sing-box内核系/SingBox/SingBox(sing-box)-full.json');
+const compatPath = path.join(root, 'Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json');
 const full = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 const compat = JSON.parse(fs.readFileSync(compatPath, 'utf8'));
 

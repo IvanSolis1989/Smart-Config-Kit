@@ -137083,8 +137083,8 @@
     },
     {
       "path": "tools/build-fused-rule-sets.js",
-      "sha256": "140738f976fa17e366da5a9707cde53e2027b6abdf8a4e2e4d024155aecfc868",
-      "bytes": 77627,
+      "sha256": "9d4f1086686a44d1d90d49211ec97b157b9d4de9f38caa0e6ce4f3d5ed774d23",
+      "bytes": 77867,
       "text_normalization": "LF"
     },
     {
@@ -137107,20 +137107,20 @@
     },
     {
       "path": "tools/refresh-rule-quality.js",
-      "sha256": "64997d225ca8e21c3e07fd26864882a9a85a0c7ba0481f749aca4fb3d9303453",
-      "bytes": 13013,
+      "sha256": "2e5e7c0b9ada032cf2015ddc2f49debb59b410116b86d6cc638c3e3bc7a52e73",
+      "bytes": 13121,
       "text_normalization": "LF"
     },
     {
       "path": "tools/lib/ordered-rule-semantics.js",
-      "sha256": "83c6c6c4d979273c8bc9be951452fd191206b385bedb94db81f25e7bb25d2477",
-      "bytes": 30614,
+      "sha256": "ad9d5739e0c31a1c1a441c9ba6742ad276d40dbad75072f6cf011462f835b635",
+      "bytes": 30642,
       "text_normalization": "LF"
     },
     {
       "path": "tools/lib/adfp-exceptions.js",
-      "sha256": "616f2ad149615f18b2bffd798ad1c3ddf29f99352031cb5bcc81913aef7ad869",
-      "bytes": 10656,
+      "sha256": "48450b0eed244d12b28292a90b699106fe778806bcdda5467d3695defec63ecb",
+      "bytes": 10672,
       "text_normalization": "LF"
     },
     {
@@ -137143,8 +137143,8 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "46b276acd24a7058fbff9da764860f5895928d098fe9779d06fb190ddcdadb99",
-      "bytes": 8972,
+      "sha256": "f8a03484f0a6317f26d9aed602f114e26efcfe6451d0791d83c48ed73ee7571b",
+      "bytes": 9052,
       "text_normalization": "LF"
     },
     {
@@ -137155,20 +137155,38 @@
     },
     {
       "path": "tools/generate-egern-from-cmfa.js",
-      "sha256": "b83bd4201d7dbb7e8b42adedc80f59aaeb7b6778ae9190b827aba471fae22a8f",
-      "bytes": 51902,
+      "sha256": "6ceca6e03afda64a5fbf7252f84bc10a212486e615301accc440e538708c70da",
+      "bytes": 51982,
       "text_normalization": "LF"
     },
     {
-      "path": "SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "579f7b72a2ad5292529f4432010c08bb203c22af1a1e2ee166806c6799517287",
-      "bytes": 28894,
+      "path": "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js",
+      "sha256": "1f1d2f84effe0ce6870b8797119aeadd448f1ab0ecbda01fcd5708d4d0973ded",
+      "bytes": 28958,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "6eb689e836eb7a9923c0e3a83f2ba098cbcddee3c72dc746cdd919ea14b4ee60",
-      "bytes": 26452,
+      "sha256": "ec00942be48a7f037277e400e63ea09a8e55ad6b0f6f129fc510cda467b06f7a",
+      "bytes": 26601,
+      "text_normalization": "LF"
+    },
+    {
+      "path": "tools/generate-karing.js",
+      "sha256": "cd549d279aa163ffe441676396c5c8f4924ee4d980619a0bc22a0b0747b5d0f2",
+      "bytes": 23386,
+      "text_normalization": "LF"
+    },
+    {
+      "path": "tools/lib/client-layout.js",
+      "sha256": "23eefaeb52cc54a29bb00cb368080cfcae10fc9b5c65a8ed44ac5cf1ec4c3fd5",
+      "bytes": 1954,
+      "text_normalization": "LF"
+    },
+    {
+      "path": "tools/client-layout.json",
+      "sha256": "83e85a68844c27cf0e758699bf8e496c20cad0305acca24d0b6d3e476d4b6eab",
+      "bytes": 496,
       "text_normalization": "LF"
     },
     {

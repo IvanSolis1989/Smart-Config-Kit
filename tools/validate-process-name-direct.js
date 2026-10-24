@@ -25,28 +25,28 @@ const SURGE_DIRECT_PROCESS_URL = repositoryAssetUrl(`rulesets/generated/fused/su
 const SURGE_WORK_PROCESS_URL = repositoryAssetUrl(`rulesets/generated/fused/surge/${CONTRACT_SEGMENTS["scki-fused-009-work"]}.list`, SOURCE_GRAPH_VERSION);
 
 const mihomoJsTargets = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 
 const mihomoRuleTextTargets = [
-  'Clash Meta For Android/CMFA(mihomo).yaml',
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
+  'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
 ];
 
 const unsupportedTargets = [
-  'Shadowrocket/Shadowrocket.conf',
-  'Loon/Loon.conf',
-  'Quantumult X/QuantumultX.conf',
-  'Passwall/Passwall(xray+sing-box)-apply.sh',
-  'Passwall/Passwall(xray+sing-box).conf',
-  'Passwall2/Passwall2(xray+sing-box)-apply.sh',
-  'Passwall2/Passwall2(xray+sing-box).conf',
+  '独立内核系/Shadowrocket/Shadowrocket.conf',
+  '独立内核系/Loon/Loon.conf',
+  '独立内核系/Quantumult X/QuantumultX.conf',
+  '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh',
+  '双内核系/Passwall/Passwall(xray+sing-box).conf',
+  '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh',
+  '双内核系/Passwall2/Passwall2(xray+sing-box).conf',
 ];
 
-for (const dir of ['Passwall/shunt-rules', 'Passwall2/shunt-rules']) {
+for (const dir of ['双内核系/Passwall/shunt-rules', '双内核系/Passwall2/shunt-rules']) {
   for (const file of fs.readdirSync(path.join(ROOT, dir)).filter((name) => name.endsWith('.list'))) {
     unsupportedTargets.push(`${dir}/${file}`);
   }
@@ -67,7 +67,7 @@ for (const target of mihomoRuleTextTargets) {
 }
 
 {
-  const target = 'Surge/Surge.conf';
+  const target = '独立内核系/Surge/Surge.conf';
   const text = read(target);
   if (!text.includes(`RULE-SET,${SURGE_DIRECT_PROCESS_URL},DIRECT`)) {
     failures.push(`${target}: missing Surge Mac supplemental DIRECT process RULE-SET`);
@@ -78,7 +78,7 @@ for (const target of mihomoRuleTextTargets) {
 }
 
 {
-  const target = 'SingBox/SingBox(sing-box)-full.json';
+  const target = 'Sing-box内核系/SingBox/SingBox(sing-box)-full.json';
   const data = JSON.parse(read(target));
   const routeRuleSets = new Set((data.route?.rule_set || []).map((ruleSet) => ruleSet.tag));
   if (!routeRuleSets.has(SINGBOX_DIRECT_RULE_SET)) {
@@ -107,7 +107,7 @@ for (const target of mihomoRuleTextTargets) {
 }
 
 {
-  const target = 'v2rayN/v2rayN(xray).json';
+  const target = 'Xray内核系/v2rayN/v2rayN(xray).json';
   const data = JSON.parse(read(target));
   const direct = data.find((rule) => rule.id === SINGBOX_DIRECT_RULE_SET);
   const work = data.find((rule) => rule.id === SINGBOX_WORK_RULE_SET);

@@ -79,20 +79,20 @@ Aethersailor 同时有规则、配置和 OpenClash 覆写模块，其文档说�
 
 | 目录/产物 | 本地运行时点 | 对本次缺陷的适用性及处理结论 |
 |---|---|---|
-| Clash Party | Smart `Clash Party/ClashParty(mihomo-smart).js:22,135,277,1182,1207,1261`；Normal `Clash Party/ClashParty(mihomo).js:23,134,288,1110,1132,1185` | 与 FlClash 类似的 `config.proxies` 分类、清理、组构造流程，**适用**；两个脚本都是本次 3 JS 改动范围。Smart/Normal 逻辑需一起保持。 |
-| Clash Meta For Android | `Clash Meta For Android/CMFA(mihomo).yaml:215-236,645-662` | YAML 静态 `Subscribe` provider、`use` 与地区 `filter`，无同一 JS 对象清理流程；**不适用 JS 预检**。仍有名称分类同构点，证据里未发现 OpenClash Ruby 的 IPLC/中转/TG 误删条件。 |
-| OpenClash | Normal `OpenClash/OpenClash(mihomo).sh:2336-2345,2358,2512,2531,2563,2591`；Smart `OpenClash/OpenClash(mihomo-smart).sh:2333-2342,2356,2506,2528,2560,2588` | `INFO_PATTERNS`、代理筛选、组 fallback 与覆盖 `config.proxies`，**适用**；两份 Shell/Ruby 实现是本次实施范围。现有宽泛规则在实际样例中误删 `HK IPLC 03 x3`、`HK 中转 01`、`HK Telegram 01`。 |
-| Shadowrocket | `Shadowrocket/Shadowrocket.conf:122` 及区域组 `policy-regex-filter` | 静态名称分类 regex，无订阅对象预检/清理；**不适用本次修改**。当前未观察到上述 IPLC/中转/TG 负向误删表达式。 |
-| SingBox | `SingBox/SingBox(sing-box)-generator.js:255-271` | 生成静态 selector/urltest；节点由用户按 tag 接入，无目标运行时分类流程；**不适用**。 |
-| v2rayN | `v2rayN/v2rayN(xray).json:3-6,18` | 展平后的 Xray RuleObject/outboundTag，没有 Mihomo 订阅 JS 或动态分类；**不适用**。 |
-| Surge | `Surge/Surge.conf:114` 及区域组 `include-all-proxies`/regex | 有静态名称分类，未见同样的 JS flow/对象删除路径；**不适用**本次修改。 |
-| Loon | `Loon/Loon.conf:68-80` | `NameRegex` Remote Filter 分类，不运行本次的代理对象清理；**不适用**。 |
-| Quantumult X | `Quantumult X/QuantumultX.conf:46,80-85` | `server-tag-regex` 分类配置，无 Mihomo JS 对象输入；**不适用**。 |
-| Passwall | `Passwall/Passwall(xray+sing-box)-apply.sh:87-95` | 安装 fused shunt rule，没有节点分类/provider 过滤；**不适用**。 |
-| Passwall2 | `Passwall2/Passwall2(xray+sing-box)-apply.sh:87-95` | 同 Passwall 的 shunt-rule 安装点；**不适用**。 |
-| FlClash | `FlClash/FlClash(mihomo).js:53,163,317,1171,1196,1257` | 与 Party Normal 同构 JS 分类及数组清理流程，**适用**，是本次 3 JS 修改范围之一。 |
-| Stash | `Stash/Stash.yaml:125-136,545-558` | YAML 静态 provider/use 与 filter；生成器刻意不带 Mihomo `exclude-filter`/health-check；**不适用 JS 预检**，也不能机械复制 Mihomo 字段。 |
-| Egern | `Egern/Egern.yaml:89-95,98-127` | 静态 Subscribe、Smart `policies`/`flatten` 和 `filter` 名称分类；**不适用 JS flow/清理**。只需记录其分类语义单独实现，不在本次改动范围。 |
+| Clash Party | Smart `Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js:22,135,277,1182,1207,1261`；Normal `Mihomo内核系/Clash Party/ClashParty(mihomo).js:23,134,288,1110,1132,1185` | 与 FlClash 类似的 `config.proxies` 分类、清理、组构造流程，**适用**；两个脚本都是本次 3 JS 改动范围。Smart/Normal 逻辑需一起保持。 |
+| Clash Meta For Android | `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml:215-236,645-662` | YAML 静态 `Subscribe` provider、`use` 与地区 `filter`，无同一 JS 对象清理流程；**不适用 JS 预检**。仍有名称分类同构点，证据里未发现 OpenClash Ruby 的 IPLC/中转/TG 误删条件。 |
+| OpenClash | Normal `Mihomo内核系/OpenClash/OpenClash(mihomo).sh:2336-2345,2358,2512,2531,2563,2591`；Smart `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh:2333-2342,2356,2506,2528,2560,2588` | `INFO_PATTERNS`、代理筛选、组 fallback 与覆盖 `config.proxies`，**适用**；两份 Shell/Ruby 实现是本次实施范围。现有宽泛规则在实际样例中误删 `HK IPLC 03 x3`、`HK 中转 01`、`HK Telegram 01`。 |
+| Shadowrocket | `独立内核系/Shadowrocket/Shadowrocket.conf:122` 及区域组 `policy-regex-filter` | 静态名称分类 regex，无订阅对象预检/清理；**不适用本次修改**。当前未观察到上述 IPLC/中转/TG 负向误删表达式。 |
+| SingBox | `Sing-box内核系/SingBox/SingBox(sing-box)-generator.js:255-271` | 生成静态 selector/urltest；节点由用户按 tag 接入，无目标运行时分类流程；**不适用**。 |
+| v2rayN | `Xray内核系/v2rayN/v2rayN(xray).json:3-6,18` | 展平后的 Xray RuleObject/outboundTag，没有 Mihomo 订阅 JS 或动态分类；**不适用**。 |
+| Surge | `独立内核系/Surge/Surge.conf:114` 及区域组 `include-all-proxies`/regex | 有静态名称分类，未见同样的 JS flow/对象删除路径；**不适用**本次修改。 |
+| Loon | `独立内核系/Loon/Loon.conf:68-80` | `NameRegex` Remote Filter 分类，不运行本次的代理对象清理；**不适用**。 |
+| Quantumult X | `独立内核系/Quantumult X/QuantumultX.conf:46,80-85` | `server-tag-regex` 分类配置，无 Mihomo JS 对象输入；**不适用**。 |
+| Passwall | `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh:87-95` | 安装 fused shunt rule，没有节点分类/provider 过滤；**不适用**。 |
+| Passwall2 | `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh:87-95` | 同 Passwall 的 shunt-rule 安装点；**不适用**。 |
+| FlClash | `Mihomo内核系/FlClash/FlClash(mihomo).js:53,163,317,1171,1196,1257` | 与 Party Normal 同构 JS 分类及数组清理流程，**适用**，是本次 3 JS 修改范围之一。 |
+| Stash | `独立内核系/Stash/Stash.yaml:125-136,545-558` | YAML 静态 provider/use 与 filter；生成器刻意不带 Mihomo `exclude-filter`/health-check；**不适用 JS 预检**，也不能机械复制 Mihomo 字段。 |
+| Egern | `独立内核系/Egern/Egern.yaml:89-95,98-127` | 静态 Subscribe、Smart `policies`/`flatten` 和 `filter` 名称分类；**不适用 JS flow/清理**。只需记录其分类语义单独实现，不在本次改动范围。 |
 
 Mihomo 文档把 `use` 定义为引用 `proxy-providers`，而 `include-all-proxies` 指向配置中显式定义的代理；官方文档还指出 `url` 检测不检查 `use` 引入的 provider 节点。因此各端 provider 入口并不等价，不能凭“所有组都包含节点”推断脚本拿到同一类数据。参考 [Mihomo proxy groups 官方说明](https://wiki.metacubex.one/en/config/proxy-groups/)。
 

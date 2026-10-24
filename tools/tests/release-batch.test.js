@@ -7,12 +7,13 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync, spawnSync } = require('node:child_process');
-const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH } = require('../lib/release-batch');
+const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH, inventoryFromManifests } = require('../lib/release-batch');
+const { clientDirectory } = require('../lib/client-layout');
 const cli = path.resolve(__dirname, '../validate-release-batch.js');
 const hash = text => crypto.createHash('sha256').update(text.replace(/\r\n/g, '\n')).digest('hex');
 const SOURCE = 'rulesets/source/routing-graph.js';
-const CMFA = 'Clash Meta For Android/CMFA(mihomo).yaml';
-const PROFILE = 'Egern/Egern.yaml';
+const CMFA = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
+const PROFILE = '独立内核系/Egern/Egern.yaml';
 const MRS = 'rulesets/generated/mihomo-mrs/manifest.json';
 const FUSED = 'rulesets/generated/fused/manifest.json';
 const EGERN = 'rulesets/generated/egern/manifest.json';
@@ -56,15 +57,15 @@ test('published repository contract and CLI use the supported release gate versi
   const contract = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../..', CONTRACT_PATH), 'utf8'));
   assert.equal(contract.version, VERSION);
   assert.ok(contract.staticOutputs.includes('rulesets/generated/mihomo-mrs/source-ledger.json'), 'MRS source receipts must be covered by the release batch');
-  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-full.json'));
-  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
+  assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-full.json'));
+  assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
   const result = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', windowsHide: true });
   assert.equal(result.status, 0, result.stderr);
   assert.ok(result.stdout.startsWith(`Release batch v${contract.version}:`));
 });
 
 test('automatic refresh freezes and requires both generated sing-box profiles', t => {
-  const profiles = ['SingBox/SingBox(sing-box)-full.json', 'SingBox/SingBox(sing-box)-1.13.json'];
+  const profiles = ['Sing-box内核系/SingBox/SingBox(sing-box)-full.json', 'Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json'];
   const f = fixture(t, { extraStaticOutputs: profiles });
   for (const file of profiles) f.write(file, '{"revision":"updated-asset"}\n');
   const receipt = f.prepare();
@@ -92,7 +93,7 @@ test('no-op coverage is complete and validation never stages the workset', t => 
   f.stage(modified); assert.equal(f.check(modified).ok, true);
 });
 
-for (const file of ['rulesets/generated/mihomo-mrs/unexpected.mrs', 'Egern/unexpected.yaml', 'outside.txt', 'secret.env']) {
+for (const file of ['rulesets/generated/mihomo-mrs/unexpected.mrs', '独立内核系/Egern/unexpected.yaml', 'outside.txt', 'secret.env']) {
   test(`rejects unknown path without staging: ${file}`, t => {
     const f = fixture(t); f.write(file, 'sensitive fixture data\n');
     assert.throws(() => f.prepare(), /Unexpected changed path/);
@@ -127,19 +128,35 @@ test('fused manifest derives precise native/source/shunt output names for a new 
     clash: { file: `${id}.list` }, surge: { file: `${id}.list` }, quantumultx: { file: `${id}.list` },
     egern: { file: `${id}.yaml` }, sing_box: { file: `${id}.srs`, source: `${id}.json` },
     passwall: { file: `${id}.list`, source: `sing-box/${id}.srs` },
-    xray: { file: 'v2rayN/v2rayN(xray).json', source: `sing-box/${id}.json` } };
+    xray: { file: 'Xray内核系/v2rayN/v2rayN(xray).json', source: `sing-box/${id}.json` } };
   f.fused.segments = [{ id, files }];
   for (const [family, names] of Object.entries({ mihomo: [`${id}-domain.mrs`, `${id}-domain.yaml`],
     clash: [`${id}.list`], surge: [`${id}.list`], quantumultx: [`${id}.list`], egern: [`${id}.yaml`],
     'sing-box': [`${id}.srs`, `${id}.json`], passwall: [`${id}.list`] })) {
     for (const name of names) f.write(`rulesets/generated/fused/${family}/${name}`, `fixture ${name}\n`);
   }
-  for (const app of ['Passwall', 'Passwall2']) f.write(`${app}/shunt-rules/${id}.list`, 'fixture shunt\n');
+  for (const app of ['Passwall', 'Passwall2']) f.write(`${clientDirectory(app)}/shunt-rules/${id}.list`, 'fixture shunt\n');
   f.bind(); const receipt = f.prepare();
   assert.equal(receipt.currentOutputs.length - receipt.baselineOutputs.length, 11);
   f.stage(receipt); assert.equal(f.check(receipt).ok, true);
   files.domain.source = 'unexpected.yaml'; f.bind();
   assert.throws(() => f.prepare(), /Missing fused source/);
+});
+
+test('optional Karing manifest contributes exact generated source assets to release inventory', t => {
+  const f = fixture(t);
+  const contract = JSON.parse(f.read(CONTRACT_PATH));
+  const manifestPath = `${clientDirectory('Karing')}/adapter-manifest.json`;
+  contract.manifests.karing = manifestPath;
+  contract.staticOutputs.push(`${clientDirectory('Karing')}/diversion_rules_custom.json`, manifestPath);
+  const source = 'rulesets/generated/karing/compound-001.json';
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: source }, { kind: 'reused', url: 'https://example.invalid/existing.srs' }] });
+  const read = file => Buffer.from(f.read(file));
+  assert.ok(inventoryFromManifests(contract, read).paths.includes(source));
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: 'rulesets/generated/karing/../outside.json' }] });
+  assert.throws(() => inventoryFromManifests(contract, read), /Unsafe|Karing/);
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: 'rulesets/generated/fused/outside.json' }] });
+  assert.throws(() => inventoryFromManifests(contract, read), /Karing/);
 });
 test('baseline manifest inventory is frozen and detects undeclared tracked assets', t => {
   const f = fixture(t); f.write('rulesets/generated/mihomo-mrs/undeclared.mrs', 'fixture\n');

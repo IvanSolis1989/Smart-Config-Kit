@@ -9,9 +9,9 @@ const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const { parseLocalTrafficOptions, setLocalTrafficOptions } = require('./lib/local-traffic-options');
 const runtimePath = 'tools/runtime/traffic-options.js';
 const targets = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 const ruleBegin = '  // >>> SCKI QUIC RULES: BEGIN';
 const ruleEnd = '  // <<< SCKI QUIC RULES: END';

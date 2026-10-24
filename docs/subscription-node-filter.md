@@ -54,7 +54,7 @@ HTTP/file 或带额外字段的 `proxy-providers` 仍需先使用 [Sub-Store](..
 
 ## 适用端与维护
 
-inline 展平与预检属于五个订阅处理脚本的运行时。CMFA 的原生 provider 组也需区分支持出站，使用组级 `exclude-type: direct|reject` 与 `empty-fallback: REJECT`，保留 provider 中的拨号依赖。Stash 没有公开的同等字段：测速 provider 应只包含远端代理，把需要的具名直连支持出站置于独立顶层 `proxies`，并在聚合层确认所有 dialer 引用；空 provider/空组仍受 Stash 默认直连语义约束。完整逐端分析与实核证据见 [后续研究](./research/2026-09-30-routing-runtime-followup.md)。
+inline 展平与预检属于五个订阅处理脚本的运行时。CMFA 的原生 provider 组也需区分支持出站，使用组级 `exclude-type: direct|reject` 与 `empty-fallback: REJECT`，保留 provider 中的拨号依赖。Stash 没有公开的同等字段：测速 provider 应只包含远端代理，把需要的具名直连支持出站置于独立顶层 `proxies`，并在聚合层确认所有 dialer 引用；空 provider/空组仍受 Stash 默认直连语义约束。完整逐端分析与实核证据见 [后续研究](research/2026-09-30-routing-runtime-followup.md)。
 
 规则权威源保持 `rulesets/source/routing-graph.js` v6.0.14；融合规则和发布缓存键保持原值。共享节点筛选源码位于 `tools/runtime/subscription-node-filter.js` 与 `.rb`，修改后运行对应同步工具，并检查实际客户端脚本中的嵌入块，防止三个 JS 或两个 Ruby 副本漂移。
 

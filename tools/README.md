@@ -2,7 +2,7 @@
 
 ## Official documentation snapshots
 
-`cache-official-docs.js` v1.0.0 saves exact official response bodies as content-addressed gzip files. Inventories are explicit; this is a reviewed set of routing/configuration manuals, release metadata and source files, not a full website mirror. Snapshot coverage and decisions are indexed in [the dated report](../docs/upstream/2026-10-19/README.md).
+`cache-official-docs.js` v1.0.1 saves exact official response bodies as content-addressed gzip files. Inventories are explicit; this is a reviewed set of routing/configuration manuals, release metadata and source files, not a full website mirror. Snapshot coverage and decisions are indexed in [the dated report](../docs/upstream/2026-10-19/README.md). Verification also checks historical manifest hashes, allowing Git line-ending conversion while rejecting edits to archived evidence.
 
 ```bash
 node tools/cache-official-docs.js --group docs/upstream/2026-10-19/mihomo --github-cli
@@ -171,3 +171,16 @@ Scope:
 Normal full synchronization still fetches current upstream inputs through `node tools/sync-mihomo-mrs-rule-providers.js`. For explicitly requested recovery from a published Git baseline, the same tool accepts `--source-snapshot <manifest>` plus the verified Mihomo binary; it binds provider ID and URL to the baseline MRS manifest, checks current behavior/format, verifies the complete published origin-file inventory and Git blob hashes, decodes the native MRS and residual YAML, and compares the full predicate set, including wildcard boundaries. The resulting source receipt records `legacy-snapshot` and `original_upstream_provenance: unknown`; it does not invent an upstream timestamp or URL lineage.
 
 Optional `--ids <id1,id2,...>` selects provider IDs for the current invocation. Selected outputs are staged before publication; unrelated providers remain untouched, and failed conversion does not replace published outputs or receipts. Snapshot inputs do not replace the normal all-provider upstream sync path.
+
+
+## Karing adapter
+
+Karing uses a dedicated sing-box routing adapter maintained in `Sing-box内核系/Karing/`. Node groups, the default fallback and DNS remain managed in the Karing App. The adapter imports native diversion rules and does not claim lossless import of the complete SingBox JSON.
+
+```bash
+# Regenerate the Karing adapter from the routing/fused sources.
+node tools/generate-karing.js
+
+# Read-only contract and generated-output check.
+node tools/generate-karing.js --check
+```

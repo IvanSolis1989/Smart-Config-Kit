@@ -10,8 +10,8 @@ const SCKI_ZEROTIER_PLANET_PROXY = true
 
 ```powershell
 # 更新已有本地覆写：默认保留其 ZeroTier 布尔值；preserve-local 同时保留测速/QUIC。
-node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --source 'Clash Party/ClashParty(mihomo-smart).js' --preserve-local --dry-run
-node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --source 'Clash Party/ClashParty(mihomo-smart).js' --preserve-local
+node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --source 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js' --preserve-local --dry-run
+node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --source 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js' --preserve-local
 
 # 仅在这台设备上明确启用或关闭；省略 source 时只调整现有本地文件。
 node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --zerotier on

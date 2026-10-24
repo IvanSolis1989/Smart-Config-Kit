@@ -26,6 +26,7 @@ const PRODUCT_IDS = [
   'flclash',
   'stash',
   'egern',
+  'karing',
 ];
 const STATE_LABELS = {
   built_in: '内置自动',
@@ -240,7 +241,7 @@ function renderClientCapabilityMatrix(matrix) {
     '- `runtime_hook` / `restricted_projection` 仅在 Clash Party、OpenClash、FlClash 的本仓库覆写入口中存在；其 profile 是本地受信任设置，不从订阅读取。',
     '- `engine_filter`、`client_regex_filter` 与 `engine_smart_filter` 说明客户端可以用本产物已声明的正则 / smart 机制选择节点；它们不表示拥有订阅 DNS 的运行时写入权。',
     '- `manual_mihomo_overlay` / `manual_native_config` 都要求用户在客户端自己的本地配置层合并 DNS；不能覆盖仓库的全局 DNS 基线，也不能把 Mihomo 字段直接复制到 Apple 私有配置、sing-box 或 Passwall。',
-    '- 每个单元格的“证据”都是仓库内可机械校验的文件与 marker；`tools/validate-artifact-contracts.js` 会验证 schema、14 个产品、4 个固定列、文件存在性与 marker。',
+    `- 每个单元格的“证据”都是仓库内可机械校验的文件与 marker；\`tools/validate-artifact-contracts.js\` 会验证 schema、${PRODUCT_IDS.length} 个产品、4 个固定列、文件存在性与 marker。`,
     '',
     '延伸阅读：[私有节点 DNS：受限投影与跨端边界](./private-node-dns.md)。',
     '',

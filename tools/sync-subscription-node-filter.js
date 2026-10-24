@@ -7,9 +7,9 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const sourcePath = 'tools/runtime/subscription-node-filter.js';
 const targets = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 const begin = '// >>> SCKI SUBSCRIPTION NODE FILTER: BEGIN';
 const end = '// <<< SCKI SUBSCRIPTION NODE FILTER: END';

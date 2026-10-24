@@ -11,15 +11,15 @@ const FUSED_ROOT = path.join(REPO_ROOT, 'rulesets/generated/fused');
 const FUSED_SING_BOX_DIR = path.join(FUSED_ROOT, 'sing-box');
 const FUSED_PASSWALL_DIR = path.join(FUSED_ROOT, 'passwall');
 const MANIFEST_FILE = path.join(FUSED_ROOT, 'manifest.json');
-const CLASH_SMART_FILE = path.join(REPO_ROOT, 'Clash Party/ClashParty(mihomo-smart).js');
-const V2RAYN_FILE = path.join(REPO_ROOT, 'v2rayN/v2rayN(xray).json');
-const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall/shunt-rules');
-const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, 'Passwall2/shunt-rules');
+const CLASH_SMART_FILE = path.join(REPO_ROOT, 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js');
+const V2RAYN_FILE = path.join(REPO_ROOT, 'Xray内核系/v2rayN/v2rayN(xray).json');
+const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall/shunt-rules');
+const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall2/shunt-rules');
 
-const BUILD_DATE = '2026-10-19';
-const V2RAYN_VERSION = 'v6.0.20-v2n.9';
-const PASSWALL_VERSION = 'v6.0.20-pw.10';
-const PASSWALL2_VERSION = 'v6.0.20-pw2.10';
+const BUILD_DATE = '2026-10-24';
+const V2RAYN_VERSION = 'v6.0.20-v2n.10';
+const PASSWALL_VERSION = 'v6.0.20-pw.11';
+const PASSWALL2_VERSION = 'v6.0.20-pw2.11';
 
 const DIRECT_POLICIES = new Set([
   'DIRECT',
@@ -625,7 +625,7 @@ function writePasswallArtifacts(manifest, { writeLists = true } = {}) {
   }
 
   writeText(
-    path.join(REPO_ROOT, 'Passwall/Passwall(xray+sing-box)-apply.sh'),
+    path.join(REPO_ROOT, '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh'),
     renderPasswallScript({
       appName: 'Passwall',
       title: 'Passwall',
@@ -638,7 +638,7 @@ function writePasswallArtifacts(manifest, { writeLists = true } = {}) {
     }),
   );
   writeText(
-    path.join(REPO_ROOT, 'Passwall2/Passwall2(xray+sing-box)-apply.sh'),
+    path.join(REPO_ROOT, '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh'),
     renderPasswallScript({
       appName: 'Passwall2',
       title: 'Passwall2',
@@ -651,22 +651,22 @@ function writePasswallArtifacts(manifest, { writeLists = true } = {}) {
     }),
   );
   writeText(
-    path.join(REPO_ROOT, 'Passwall/Passwall(xray+sing-box).conf'),
+    path.join(REPO_ROOT, '双内核系/Passwall/Passwall(xray+sing-box).conf'),
     renderPasswallConf({
       title: 'Passwall',
       version: PASSWALL_VERSION,
-      readmePath: 'Passwall/README.md',
+      readmePath: '双内核系/Passwall/README.md',
       segments,
       baselineVersion: manifest.baseline_version,
       assetRevision,
     }),
   );
   writeText(
-    path.join(REPO_ROOT, 'Passwall2/Passwall2(xray+sing-box).conf'),
+    path.join(REPO_ROOT, '双内核系/Passwall2/Passwall2(xray+sing-box).conf'),
     renderPasswallConf({
       title: 'Passwall2',
       version: PASSWALL2_VERSION,
-      readmePath: 'Passwall2/README.md',
+      readmePath: '双内核系/Passwall2/README.md',
       segments,
       baselineVersion: manifest.baseline_version,
       assetRevision,
@@ -696,7 +696,7 @@ function updateManifest(manifest, stats) {
         },
         xray: {
           format: 'inline-json',
-          file: 'v2rayN/v2rayN(xray).json',
+          file: 'Xray内核系/v2rayN/v2rayN(xray).json',
           source: `sing-box/${segment.files.sing_box.source}`,
         },
       },

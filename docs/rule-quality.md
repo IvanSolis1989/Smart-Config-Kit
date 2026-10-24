@@ -59,7 +59,7 @@ node tools/validate-adfp-exceptions.js
 | 客户端 | 仓库格式 | 官方格式依据或本次证据边界 |
 | --- | --- | --- |
 | Clash Party、CMFA、FlClash、OpenClash | Mihomo JS/YAML、MRS | [Mihomo rule providers](https://wiki.metacubex.one/en/config/rule-providers/)、[routing rules](https://wiki.metacubex.one/en/config/rules/)；[CMFA](https://github.com/MetaCubeX/ClashMetaForAndroid)、[OpenClash](https://github.com/vernesong/OpenClash/wiki) |
-| Shadowrocket | 原生 `.conf`、远程文本规则集 | 本仓库[配置样例](../Shadowrocket/Shadowrocket.conf)与 [AGENTS.md 能力合同](../AGENTS.md)是本次可核证依据。未找到已验证的官方规则语言规范；本次不据第三方指南推断兼容性，也未新增运行时字段。 |
+| Shadowrocket | 原生 `.conf`、远程文本规则集 | 本仓库[配置样例](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)与 [AGENTS.md 能力合同](../AGENTS.md)是本次可核证依据。未找到已验证的官方规则语言规范；本次不据第三方指南推断兼容性，也未新增运行时字段。 |
 | Stash | 生成 YAML、rule-provider、MRS | [Rule Sets](https://stash.wiki/en/rules/rule-set)：MRS 适用于 `domain` / `ipcidr`；本次不新增字段。 |
 | Egern | YAML profile、Egern 原生 rule-set | [Egern Rules](https://egernapp.com/docs/configuration/rules/)：规则按列出顺序匹配，`rule_set` 引用本地或远程文件。 |
 | sing-box | JSON、二进制 `.srs` | [sing-box rule-set](https://sing-box.sagernet.org/configuration/rule-set/)：`source` / `binary` 与本地 / 远程 rule-set 结构。 |

@@ -45,7 +45,7 @@ function readText(relativePath) {
 }
 
 function parseFusedRules() {
-  return parseRules(readText('Clash Party/ClashParty(mihomo-smart).js'));
+  return parseRules(readText('Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js'));
 }
 
 // Deliberate domain-provider projection; this does not assert full connection routing.
@@ -251,7 +251,7 @@ test('LINUX DO mainland backup domain stays domestic without broadening the main
   const qxFused = readText(`rulesets/generated/fused/quantumultx/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.list`);
   const surgeFused = readText(`rulesets/generated/fused/surge/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.list`);
   const singBoxFused = JSON.parse(readText(`rulesets/generated/fused/sing-box/${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}.json`));
-  const xrayRules = JSON.parse(readText('v2rayN/v2rayN(xray).json'));
+  const xrayRules = JSON.parse(readText('Xray内核系/v2rayN/v2rayN(xray).json'));
   const xrayDomesticRule = xrayRules.find((rule) => rule.id === `${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}`);
   const fusedRules = parseFusedRules();
   const domesticIndex = fusedRules.indexOf(`RULE-SET,${CONTRACT_SEGMENTS["scki-fused-013-cn-site"]}-domain,🏠 国内网站`);
@@ -292,7 +292,7 @@ test('reported NetEase game endpoints use the early direct guard before generic 
   assert.ok(directGuardIndex < domesticGameIndex, 'the direct guard must precede domestic games');
 
   const directGuard = readText('rulesets/supplemental/clash/adfp-direct.list');
-  const shadowrocket = readText('Shadowrocket/Shadowrocket.conf');
+  const shadowrocket = readText('独立内核系/Shadowrocket/Shadowrocket.conf');
   const shadowrocketDirectRule = `${CONTRACT_SEGMENTS["scki-fused-001-direct"]}.list?scki=${SOURCE_GRAPH_VERSION},DIRECT`;
   const shadowrocketGameRule = `${CONTRACT_SEGMENTS["scki-fused-060-game-cn"]}.list?scki=${SOURCE_GRAPH_VERSION},🕹️ 国内游戏`;
   assert.ok(shadowrocket.indexOf(shadowrocketDirectRule) < shadowrocket.indexOf(shadowrocketGameRule), 'Shadowrocket must reference the direct guard before domestic games');

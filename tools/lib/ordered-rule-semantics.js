@@ -8,12 +8,13 @@ const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 const { splitTopLevel, canonicalizeEntry, parseCidr } = require('./fused-rule-optimizer');
 const { toMihomoDomainPayload } = require('./mihomo-domain-payload');
+const { readHistoricalClientFile } = require('./client-layout');
 
 // DOMAIN-PAYLOAD is an audit representation of behavior:domain wildcard syntax,
 // not a new client rule type. Its '*' has different semantics from DOMAIN-WILDCARD.
 const DOMAIN_TYPES = new Set(['DOMAIN', 'DOMAIN-SUFFIX', 'DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'DOMAIN-REGEX', 'DOMAIN-PAYLOAD']);
 const IP_TYPES = new Set(['IP-CIDR', 'IP-CIDR6', 'SRC-IP-CIDR']);
-const FINAL_JS = 'Clash Party/ClashParty(mihomo-smart).js';
+const FINAL_JS = 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js';
 const MANIFEST = 'rulesets/generated/fused/manifest.json';
 const digest = (text) => crypto.createHash('sha256').update(text).digest('hex');
 const result = (status, reason) => ({ status, ...(reason ? { reason } : {}) });
@@ -163,7 +164,7 @@ function repositoryReader(root, ref) {
     read(relative) {
       const normalized = relative.replace(/\\/g, '/');
       if (path.isAbsolute(relative) || normalized.split('/').includes('..')) throw new Error(`unsafe repository asset path: ${relative}`);
-      return revision ? execFileSync('git', ['-C', absolute, 'show', `${revision}:${normalized}`], { encoding: 'utf8', maxBuffer: 128 * 1024 * 1024 }) : fs.readFileSync(path.join(absolute, relative), 'utf8');
+      return revision ? readHistoricalClientFile(absolute, revision, normalized).toString('utf8') : fs.readFileSync(path.join(absolute, relative), 'utf8');
     },
   };
 }

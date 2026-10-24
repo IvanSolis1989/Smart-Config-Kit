@@ -21,7 +21,7 @@ Xray/v2rayN 产物把规则展平在本地配置中，没有 runtime 远程 `.sr
 
 | 客户端 | 当前原生语法 | 依据与本次复核限制 |
 | --- | --- | --- |
-| Shadowrocket | `RULE-SET,<URL>,<policy>` | 仓库 `Shadowrocket/REFERENCE-shadowrocket.md` 记录此语法。官方帮助站 <https://help.shadowrocket.net/> 本次无法读取，因此不能声称本次已从该官方页面重新确认 HTTPS 支持。 |
+| Shadowrocket | `RULE-SET,<URL>,<policy>` | 仓库 `独立内核系/Shadowrocket/REFERENCE-shadowrocket.md` 记录此语法。官方帮助站 <https://help.shadowrocket.net/> 本次无法读取，因此不能声称本次已从该官方页面重新确认 HTTPS 支持。 |
 | Surge | `RULE-SET,<URL>,<policy>` | [官方 Rule Set 手册](https://manual.nssurge.com/rules/ruleset.html)明确外部资源可以是 `http://` 或 `https://` URL，并给出 URL 型 `RULE-SET` 示例。 |
 | Loon | `[Remote Rule]` URL 条目 | [官方示例配置](https://github.com/Loon0x00/LoonExampleConfig/blob/master/example.conf)包含 HTTPS raw GitHub URL。LoonManual 官方仓库在 <https://github.com/Loon0x00/LoonManual>；其 Remote Rule 手册正文本次未能抓取，证据限于官方示例配置。 |
 | Quantumult X | `[filter_remote]` URL 条目 | 上游[官方 URL Scheme](https://github.com/crossutility/Quantumult-X/blob/master/url-scheme.md)展示 `filter_remote` 中的 HTTPS raw GitHub URL；上游[官方 sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)可供参考。具体行参数来自社区 [filter_remote 说明](https://qx.atlucky.me/shi-yong-fang-fa/pei-zhi-wen-jian-xiang-jie/filter-fen-liu-gui-ze/filterremote-yuan-cheng-fen-liu-gui-ze)，不将其称作官方手册。 |
@@ -35,7 +35,7 @@ Xray/v2rayN 产物把规则展平在本地配置中，没有 runtime 远程 `.sr
 
 ## 用户恢复步骤
 
-1. 通过可用网络路由或代理，从[官方 Shadowrocket 配置](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Shadowrocket/Shadowrocket.conf)导入。
+1. 通过可用网络路由或代理，从[官方 Shadowrocket 配置](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)导入。
 2. 替换含已退休 `a1/fin.txt` 引用的旧配置副本，再刷新规则；新版配置不要继续使用 jsDelivr 导入 URL。
 3. 如果网络不能直连 GitHub raw，使用可用代理。换用同仓库的另一个 jsDelivr 域名不能绕过本次观察到的仓库级 package 限制。
 

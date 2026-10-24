@@ -5,6 +5,20 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 const workflow = fs.readFileSync(path.resolve(__dirname, '../../.github/workflows/ai-responder.yml'), 'utf8');
+const { clientDirectory } = require('../lib/client-layout');
+
+test('AI patch allowlist names complete client directories and keeps family roots closed', () => {
+  const block = workflow.match(/ALLOWED_PREFIXES = \[([\s\S]*?)\]/)[1];
+  const prefixes = [...block.matchAll(/'([^']+)'/g)].map(match => match[1]);
+  for (const client of ['Clash Party', 'Clash Meta For Android', 'OpenClash', 'Shadowrocket', 'Stash',
+    'SingBox', 'v2rayN', 'Surge', 'Loon', 'Quantumult X', 'Passwall', 'Passwall2', 'FlClash']) {
+    const directory = clientDirectory(client);
+    assert.ok(prefixes.includes(`${directory}/`));
+    assert.ok(!prefixes.includes(`${directory.split('/')[0]}/`));
+  }
+  assert.ok(!prefixes.includes(`${clientDirectory('Egern')}/`));
+  assert.ok(!prefixes.includes(`${clientDirectory('Karing')}/`));
+});
 
 test('workflow uses bounded context after category selection and the tested Node API runner', () => {
   assert.ok(workflow.indexOf('Determine category & model') < workflow.indexOf('Build bounded AI context'));

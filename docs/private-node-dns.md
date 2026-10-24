@@ -65,7 +65,7 @@ profile 的唯一源是 `tools/runtime/subscription-adapter-profiles.json`，发
 |---|---|---|
 | Clash Party Smart | 自动 | JS 覆写有订阅配置输入。 |
 | Clash Party Normal | 自动 | 同上。 |
-| FlClash 覆写脚本 | 自动，有应用层前提 | 关联 JS 后关闭「DNS 覆写」，避免 UI 二次覆盖节点 DNS 投影；核对最终配置，见 [FlClash 教程](../FlClash/README.md)。 |
+| FlClash 覆写脚本 | 自动，有应用层前提 | 关联 JS 后关闭「DNS 覆写」，避免 UI 二次覆盖节点 DNS 投影；核对最终配置，见 [FlClash 教程](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md)。 |
 | OpenClash Normal / Smart | 自动 | 覆写 Ruby 在写入本地配置前可读取原订阅。 |
 | CMFA / Stash / Egern | 本地 overlay | 静态 YAML（Stash/Egern 还是生成物，禁止手改生成文件），没有订阅运行时变换 seam。 |
 | Shadowrocket / Surge / Loon / Quantumult X | 本地配置 | 仓库交付的是静态私有配置，不能读取机场源 YAML。 |
@@ -73,7 +73,7 @@ profile 的唯一源是 `tools/runtime/subscription-adapter-profiles.json`，发
 | v2rayN Xray | 不适用 | 这里的 JSON 只提供 Xray 路由 fallback。 |
 | Passwall / Passwall2 | 不适用 | 这里的产物是 shunt rule/UCI 参考，不拥有 Mihomo DNS runtime。 |
 
-上表是 Node-DNS 的快速边界；完整的 14 个产品还应结合订阅输入、动态分组和可选 profile 一起判断，见[跨客户端能力矩阵](./client-capability-matrix.md)。矩阵把“客户端可导入订阅”和“本仓库拥有运行时订阅适配 hook”明确区分，避免把静态配置端误称为自动适配。
+上表是 Node-DNS 的快速边界；完整的 14 个产品还应结合订阅输入、动态分组和可选 profile 一起判断，见[跨客户端能力矩阵](client-capability-matrix.md)。矩阵把“客户端可导入订阅”和“本仓库拥有运行时订阅适配 hook”明确区分，避免把静态配置端误称为自动适配。
 
 ### Clash Party v2.0.3+ 的内置 DNS 保护
 

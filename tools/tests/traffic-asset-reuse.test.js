@@ -11,11 +11,11 @@ const originalRoot = path.resolve(__dirname, '../..');
 // edits in the user's real checkout must still fail the production reuse gate.
 const root = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-traffic-published-'));
 test.after(() => fs.rmSync(root, { recursive: true, force: true }));
-for (const directory of ['tools', 'rulesets/source', 'rulesets/supplemental', 'rulesets/generated/fused', 'SingBox']) {
+for (const directory of ['tools', 'rulesets/source', 'rulesets/supplemental', 'rulesets/generated/fused', 'Sing-box内核系/SingBox']) {
   fs.mkdirSync(path.dirname(path.join(root, directory)), { recursive: true });
   fs.cpSync(path.join(originalRoot, directory), path.join(root, directory), { recursive: true });
 }
-for (const file of ['Clash Meta For Android/CMFA(mihomo).yaml', 'FlClash/FlClash(mihomo).js']) {
+for (const file of ['Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'Mihomo内核系/FlClash/FlClash(mihomo).js']) {
   fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
   fs.copyFileSync(path.join(originalRoot, file), path.join(root, file));
 }
@@ -58,7 +58,7 @@ test('asset reuse rejects unrelated provider, rule and segment ownership changes
 });
 
 test('snapshot reuse dry run leaves manifest and client files unchanged', () => {
-  const files = ['rulesets/generated/fused/manifest.json', 'Clash Meta For Android/CMFA(mihomo).yaml', 'FlClash/FlClash(mihomo).js'];
+  const files = ['rulesets/generated/fused/manifest.json', 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
   const before = files.map(file => fs.readFileSync(path.join(root, file)));
   execFileSync(process.execPath, ['tools/build-fused-rule-sets.js', '--reuse-assets', '--dry-run'], { cwd: root, stdio: 'pipe' });
   files.forEach((file, index) => assert.deepEqual(fs.readFileSync(path.join(root, file)), before[index]));

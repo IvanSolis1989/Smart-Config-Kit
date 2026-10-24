@@ -9,13 +9,13 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const JS_RUNTIME = 'tools/runtime/node-dns-hints.js';
 const RUBY_RUNTIME = 'tools/runtime/node-dns-hints.rb';
 const JS_TARGETS = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 const RUBY_TARGETS = [
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
 ];
 const JS_MARKERS = {
   begin: '// >>> SCKI NODE DNS HINTS: BEGIN',

@@ -21,7 +21,7 @@ function textRules(file) {
 }
 
 test('Issue #186 current Shadowrocket uses live repository assets instead of removed fin.txt', () => {
-  const config = fs.readFileSync(path.join(REPO_ROOT, 'Shadowrocket/Shadowrocket.conf'), 'utf8');
+  const config = fs.readFileSync(path.join(REPO_ROOT, '独立内核系/Shadowrocket/Shadowrocket.conf'), 'utf8');
   assert.doesNotMatch(config, /DoingDog|\/a1\/fin\.txt/i);
   const urls = [...config.matchAll(/^RULE-SET,(https:\/\/[^,]+),/gm)].map((match) => match[1]);
   const expectedFiles = manifest.segments.filter((segment) => segment.files.clash)
@@ -87,9 +87,9 @@ test('platform consumers exclude the empty work asset while Surge keeps its four
   const segment = sourceSegment && manifest.segments.find((row) => row.id === sourceSegment.id);
   assert.ok(segment, 'the retained work source segment must remain in the manifest');
   for (const [platform, consumer] of [
-    ['clash', 'Shadowrocket/Shadowrocket.conf'],
-    ['clash', 'Loon/Loon.conf'],
-    ['quantumultx', 'Quantumult X/QuantumultX.conf'],
+    ['clash', '独立内核系/Shadowrocket/Shadowrocket.conf'],
+    ['clash', '独立内核系/Loon/Loon.conf'],
+    ['quantumultx', '独立内核系/Quantumult X/QuantumultX.conf'],
   ]) {
     const file = segment.files[platform].file;
     assert.equal(textRules(path.join(REPO_ROOT, 'rulesets/generated/fused', platform, file)), 0);
@@ -101,6 +101,6 @@ test('platform consumers exclude the empty work asset while Surge keeps its four
   const processRules = fs.readFileSync(surgeAsset, 'utf8').split(/\r?\n/).filter((line) => line.startsWith('PROCESS-NAME,'));
   assert.equal(textRules(surgeAsset), 4);
   assert.equal(processRules.length, 4, 'Surge process support must preserve all four source rules');
-  const surgeConfig = fs.readFileSync(path.join(REPO_ROOT, 'Surge/Surge.conf'), 'utf8');
+  const surgeConfig = fs.readFileSync(path.join(REPO_ROOT, '独立内核系/Surge/Surge.conf'), 'utf8');
   assert.ok(surgeConfig.includes(`${EXPECTED_BASE}rulesets/generated/fused/surge/${surgeFile}?scki=${manifest.asset_revision}`));
 });

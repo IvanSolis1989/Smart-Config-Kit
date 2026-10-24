@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="768" viewBox="0 0 420 768" role="img" aria-labelledby="title desc">
+<title id="title">业务策略与区域节点</title><desc id="desc">窄屏版：33 业务组到 22 区域组，再到实际节点。业务组也可以按候选直连或拦截。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="418" height="766" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="357" cy="15" rx="151.2" ry="576" fill="url(#aura)"/><path d="M28 1H392" stroke="#ffffff" stroke-width="2"/>
+<text x="24" y="42" font-size="24" font-weight="650" fill="#18324f" >业务决定策略，区域决定出口</text>
+  <rect x="24" y="65" width="372" height="217" rx="18" fill="#e7edff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="65.5" width="371" height="216" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="98" font-size="22" font-weight="650" fill="#18324f" >33 个业务组</text>
+  <text x="44" y="133" font-size="18" font-weight="400" fill="#18324f" >AI / 金融 / 通讯 / 社交 / 协作</text><text x="44" y="164" font-size="18" font-weight="400" fill="#18324f" >国内与国外流媒体</text><text x="44" y="195" font-size="18" font-weight="400" fill="#18324f" >国内与国外游戏</text><text x="44" y="226" font-size="18" font-weight="400" fill="#18324f" >工具 / 平台服务 / 下载 / Tracker</text><text x="44" y="257" font-size="18" font-weight="400" fill="#18324f" >网站分流 / 广告拦截 / 最终兜底</text>
+  <path d="M210 290L210 309" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="321" width="372" height="197" rx="18" fill="#dcf2f0" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="321.5" width="371" height="196" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="354" font-size="21" font-weight="650" fill="#18324f" >22 区域组 · 11 全部 + 11 家宽</text>
+  <text x="44" y="390" font-size="19" font-weight="400" fill="#18324f" >全球 · 香港 · 台湾 · 狮城</text><text x="44" y="420" font-size="19" font-weight="400" fill="#18324f" >日韩 · 亚太 · 美国 · 欧洲</text><text x="44" y="450" font-size="19" font-weight="400" fill="#18324f" >美洲 · 非洲 · 其他</text>
+  <text x="44" y="494" font-size="18" font-weight="400" fill="#506780" >按候选选择，自动择路依客户端能力</text>
+  <path d="M210 526L210 545" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="557" width="372" height="75" rx="18" fill="#e7e3fa" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="557.5" width="371" height="74" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="589" font-size="21" font-weight="650" fill="#18324f" >实际节点 · 订阅节点池</text><text x="44" y="616" font-size="18" font-weight="400" fill="#506780" >已清洗与分类</text>
+  <text x="24" y="668" font-size="18" font-weight="400" fill="#506780" >业务组也可按候选直连或拦截。</text><text x="24" y="695" font-size="18" font-weight="400" fill="#506780" >图示适用于具备区域策略组的客户端；</text><text x="24" y="722" font-size="18" font-weight="400" fill="#506780" >sing-box / Xray / Passwall / Karing</text><text x="24" y="749" font-size="18" font-weight="400" fill="#506780" >的组结构与接入边界，见各端教程。</text>
+</g></svg>

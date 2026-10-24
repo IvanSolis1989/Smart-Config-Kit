@@ -28,21 +28,22 @@ function fixture(t, files = {}) {
 test('Issue #186 Shadowrocket selects traceable URL/error evidence without loading a directory', (t) => {
   const ruleUrl = 'https://raw.githubusercontent.com/example/repo/main/rulesets/generated/fused/clash/ad.list?scki=v6.0.19';
   const repoRoot = fixture(t, {
-    'Shadowrocket/Shadowrocket.conf': ['# Shadowrocket', '[Rule]', ...Array.from({ length: 1800 }, (_, i) => `DOMAIN-SUFFIX,unrelated-${i}.invalid,DIRECT`), `RULE-SET,${ruleUrl},Ad`, 'FINAL,Default'].join('\n'),
-    'Shadowrocket/README.md': '# Import\nDownload the current Shadowrocket config.\n',
-    'Shadowrocket/REFERENCE-shadowrocket.md': 'MUST_NOT_LOAD_REFERENCE',
-    'Shadowrocket/CHANGELOG.md': 'MUST_NOT_LOAD_HISTORY'.repeat(100000),
-    'Shadowrocket/unrelated.conf': 'MUST_NOT_LOAD_NEIGHBOR',
+    '独立内核系/Shadowrocket/Shadowrocket.conf': ['# Shadowrocket', '[Rule]', ...Array.from({ length: 1800 }, (_, i) => `DOMAIN-SUFFIX,unrelated-${i}.invalid,DIRECT`), `RULE-SET,${ruleUrl},Ad`, 'FINAL,Default'].join('\n'),
+    '独立内核系/Shadowrocket/README.md': '# Import\nDownload the current Shadowrocket config.\n',
+    '独立内核系/Shadowrocket/REFERENCE-shadowrocket.md': 'MUST_NOT_LOAD_REFERENCE',
+    '独立内核系/Shadowrocket/CHANGELOG.md': 'MUST_NOT_LOAD_HISTORY'.repeat(100000),
+    '独立内核系/Shadowrocket/unrelated.conf': 'MUST_NOT_LOAD_NEIGHBOR',
     'rulesets/generated/fused/clash/ad.list': 'MUST_NOT_LOAD_PAYLOAD'.repeat(100000),
     'docs/rule-asset-delivery.md': '# Download failure\nPackage size exceeded configured limit of 50 MB\nFailed to fetch repository\nThe retired a1/fin.txt is not an equivalent current source.\n',
   });
   const result = buildIssueContext({ repoRoot, title: '#186 Shadowrocket 规则下载失败', body: `Failed to fetch repository; a1/fin.txt; ${ruleUrl}` });
   assert.equal(result.folder, 'Shadowrocket');
+  assert.ok(result.files.some(file => file.path.endsWith('/Shadowrocket/README.md') && file.complete));
   assert.ok(result.text.includes(ruleUrl));
   assert.ok(result.text.includes('Package size exceeded configured limit of 50 MB'));
   assert.doesNotMatch(result.text, /MUST_NOT_LOAD/);
   assert.ok(result.files.every((file) => !/REFERENCE|CHANGELOG|generated\/fused/.test(file.path)));
-  const config = result.files.find((file) => file.path === 'Shadowrocket/Shadowrocket.conf');
+  const config = result.files.find((file) => file.path === '独立内核系/Shadowrocket/Shadowrocket.conf');
   assert.equal(config.complete, false);
   assert.ok(config.ranges.some(({ start, end }) => start <= 1803 && end >= 1803));
   assert.match(result.text, /L1803: RULE-SET/);
@@ -54,20 +55,56 @@ test('Issue #186 Shadowrocket selects traceable URL/error evidence without loadi
 
 test('FlClash title wins over Clash Party comparison in a report', (t) => {
   const repoRoot = fixture(t, {
-    'FlClash/FlClash(mihomo).js': "function main(config) { return config; }\n",
-    'FlClash/README.md': '# FlClash\nUse the JavaScript overwrite.\n',
-    'Clash Party/ClashParty(mihomo-smart).js': 'UNRELATED_COMPARISON_CONFIG',
+    'Mihomo内核系/FlClash/FlClash(mihomo).js': "function main(config) { return config; }\n",
+    'Mihomo内核系/FlClash/README.md': '# FlClash\nUse the JavaScript overwrite.\n',
+    'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js': 'UNRELATED_COMPARISON_CONFIG',
   });
   const result = buildIssueContext({ repoRoot, title: 'FlClash 覆写失败', body: 'Clash Party works for comparison.' });
   assert.equal(result.folder, 'FlClash');
-  assert.ok(result.files.some((file) => file.path === 'FlClash/FlClash(mihomo).js' && file.complete));
+  assert.ok(result.files.some((file) => file.path === 'Mihomo内核系/FlClash/FlClash(mihomo).js' && file.complete));
   assert.doesNotMatch(result.text, /UNRELATED_COMPARISON_CONFIG/);
+});
+
+test('client paths select their actual application rather than names in the kernel family', t => {
+  const { clientDirectory } = require('../lib/client-layout');
+  const repoRoot = fixture(t);
+  for (const [client, filename] of [['Clash Meta For Android', 'CMFA(mihomo).yaml'],
+    ['Passwall', 'Passwall(xray+sing-box)-apply.sh']]) {
+    const relative = `${clientDirectory(client)}/${filename}`;
+    for (const body of [relative, `https://example.invalid/main/${relative.split('/').map(encodeURIComponent).join('/')}`]) {
+      assert.equal(buildIssueContext({ repoRoot, title: 'Configuration issue', body }).folder, client, body);
+    }
+    assert.equal(buildIssueContext({ repoRoot, title: 'Surge issue', body: relative }).folder, 'Surge');
+    assert.equal(buildIssueContext({ repoRoot, title: 'Configuration issue', comment: 'Surge issue', body: relative }).folder, 'Surge');
+  }
+  const family = clientDirectory('Passwall').split('/')[0];
+  assert.equal(buildIssueContext({ repoRoot, title: 'Configuration issue', body: `${family}/` }).folder, '');
+});
+
+test('Karing supplies native profile evidence but does not enable AI patches', t => {
+  const { clientDirectory } = require('../lib/client-layout');
+  const relative = `${clientDirectory('Karing')}/diversion_rules_custom.json`;
+  const repoRoot = fixture(t, { 'README.md': 'Large root evidence\n'.repeat(1000), [relative]: '{"rules":[]}\n' });
+  const result = buildIssueContext({ repoRoot, title: 'Karing import issue', codeMod: true });
+  assert.equal(result.folder, 'Karing');
+  assert.ok(result.files.some(file => file.path === relative && file.complete));
+  assert.equal(result.codeModAllowed, false);
+});
+
+test('a complete migrated client configuration can enable code mode without a root README', t => {
+  const repoRoot = fixture(t, {
+    'README.md': 'Large root evidence\n'.repeat(1000),
+    'Mihomo内核系/FlClash/FlClash(mihomo).js': 'function main(c) { return c; }\n',
+  });
+  const result = buildIssueContext({ repoRoot, title: 'Fix FlClash', codeMod: true });
+  assert.equal(result.folder, 'FlClash');
+  assert.equal(result.codeModAllowed, true);
 });
 
 test('download failures prioritize actual rule URLs over earlier node health-check URLs', (t) => {
   const ruleUrl = 'https://example.invalid/rules/current.list';
   const repoRoot = fixture(t, {
-    'Shadowrocket/Shadowrocket.conf': ['# Shadowrocket', '[Proxy Group]',
+    '独立内核系/Shadowrocket/Shadowrocket.conf': ['# Shadowrocket', '[Proxy Group]',
       ...Array.from({ length: 100 }, (_, i) => `Region${i} = url-test,url=http://health.invalid/check,policy-regex-filter=${'REGION'.repeat(20)}`),
       '[Rule]', `RULE-SET,${ruleUrl},DIRECT`, 'FINAL,Default'].join('\n'),
   });
@@ -77,8 +114,8 @@ test('download failures prioritize actual rule URLs over earlier node health-che
 
 test('controlled aliases recognize Passwall2, Quantumult X and Clash Party Normal', (t) => {
   const repoRoot = fixture(t, {
-    'Clash Party/ClashParty(mihomo).js': 'NORMAL_CONFIG\n',
-    'Clash Party/ClashParty(mihomo-smart).js': 'SMART_CONFIG\n',
+    'Mihomo内核系/Clash Party/ClashParty(mihomo).js': 'NORMAL_CONFIG\n',
+    'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js': 'SMART_CONFIG\n',
   });
   assert.equal(buildIssueContext({ repoRoot, title: 'pw2 problem' }).folder, 'Passwall2');
   assert.equal(buildIssueContext({ repoRoot, title: 'QuantumultX error' }).folder, 'Quantumult X');
@@ -139,7 +176,7 @@ test('an overlong selector query is bounded and its retrieval gap is explicit', 
 
 test('large individual source lines are omitted with evidence gaps and stay within the hard cap', (t) => {
   const repoRoot = fixture(t, {
-    'FlClash/FlClash(mihomo).js': `# short header\nhttps://example.invalid/${'x'.repeat(40000)}\nfunction main(config) { return config; }\n`,
+    'Mihomo内核系/FlClash/FlClash(mihomo).js': `# short header\nhttps://example.invalid/${'x'.repeat(40000)}\nfunction main(config) { return config; }\n`,
     'README.md': 'x'.repeat(600000),
   });
   const result = buildIssueContext({ repoRoot, title: 'FlClash example.invalid error' });
@@ -154,7 +191,8 @@ test('candidate paths do not follow a repository symlink to outside evidence', (
   const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-issue-outside-'));
   t.after(() => fs.rmSync(outside, { recursive: true, force: true }));
   fs.writeFileSync(path.join(outside, 'Shadowrocket.conf'), 'OUTSIDE_REPOSITORY_SECRET');
-  try { fs.symlinkSync(outside, path.join(repoRoot, 'Shadowrocket'), process.platform === 'win32' ? 'junction' : 'dir'); }
+  fs.mkdirSync(path.join(repoRoot, '独立内核系'), { recursive: true });
+  try { fs.symlinkSync(outside, path.join(repoRoot, '独立内核系/Shadowrocket'), process.platform === 'win32' ? 'junction' : 'dir'); }
   catch (error) {
     if (error.code === 'EPERM') { t.skip('Symlink creation unavailable in this environment.'); return; }
     throw error;
@@ -209,13 +247,13 @@ test('a docs-only task supplies just its explicit target and the complete modifi
 test('an explicit document with an identified client retains the existing product evidence selection', (t) => {
   const repoRoot = fixture(t, {
     'docs/index.md': '# Index\n',
-    'FlClash/FlClash(mihomo).js': 'function main(c) { return c; }\n',
-    'FlClash/README.md': '# FlClash\n',
+    'Mihomo内核系/FlClash/FlClash(mihomo).js': 'function main(c) { return c; }\n',
+    'Mihomo内核系/FlClash/README.md': '# FlClash\n',
     'docs/rule-asset-delivery.md': '# Rule downloads\n',
   });
   const result = buildIssueContext({ repoRoot, title: 'FlClash docs/index.md', body: 'Correct download guidance.', codeMod: true });
   assert.equal(result.documentOnly, false);
-  for (const file of ['docs/index.md', 'FlClash/FlClash(mihomo).js', 'rulesets/source/routing-graph.js', 'README.md', 'FlClash/README.md', 'docs/rule-asset-delivery.md']) {
+  for (const file of ['docs/index.md', 'Mihomo内核系/FlClash/FlClash(mihomo).js', 'rulesets/source/routing-graph.js', 'README.md', 'Mihomo内核系/FlClash/README.md', 'docs/rule-asset-delivery.md']) {
     assert.ok(result.files.some((entry) => entry.path === file), file);
   }
 });
@@ -237,10 +275,10 @@ test('small Markdown and README completeness is governed by bytes rather than li
   const repoRoot = fixture(t, {
     'docs/index.md': manyShortLines,
     'README.md': manyShortLines,
-    'FlClash/README.md': manyShortLines,
+    'Mihomo内核系/FlClash/README.md': manyShortLines,
   });
   const result = buildIssueContext({ repoRoot, title: 'FlClash documentation', comment: 'Please update `docs/index.md`.', codeMod: true });
-  for (const target of ['docs/index.md', 'README.md', 'FlClash/README.md']) {
+  for (const target of ['docs/index.md', 'README.md', 'Mihomo内核系/FlClash/README.md']) {
     assert.ok(result.files.some((file) => file.path === target && file.complete && file.sourceLines > 160), target);
   }
 });
@@ -314,8 +352,8 @@ test('explicit docs symlinks outside the repository never become complete source
 test('a modification request with no complete workflow-editable target deterministically becomes analysis only', (t) => {
   const repoRoot = fixture(t, {
     'README.md': `# Long root README\n${'Existing usage guidance.\n'.repeat(500)}`,
-    'Shadowrocket/README.md': `# Long client README\n${'Existing client guidance.\n'.repeat(500)}`,
-    'Shadowrocket/Shadowrocket.conf': ['[Rule]', ...Array.from({ length: 1800 }, (_, i) => `RULE-SET,https://example.invalid/rules/${i}.list,DIRECT`)].join('\n'),
+    '独立内核系/Shadowrocket/README.md': `# Long client README\n${'Existing client guidance.\n'.repeat(500)}`,
+    '独立内核系/Shadowrocket/Shadowrocket.conf': ['[Rule]', ...Array.from({ length: 1800 }, (_, i) => `RULE-SET,https://example.invalid/rules/${i}.list,DIRECT`)].join('\n'),
   });
   const input = { repoRoot, title: '#186 Shadowrocket 下载失败', body: 'Failed to fetch repository; a1/fin.txt', comment: 'Keep the same original problem report.' };
   const expectedAnalysis = buildIssueContext({ ...input, codeMod: false });
@@ -335,10 +373,10 @@ test('a modification request with no complete workflow-editable target determini
 test('complete evidence outside the workflow allowlist does not keep a modification request enabled', (t) => {
   const repoRoot = fixture(t, {
     'README.md': `# README\n${'Long root readme.\n'.repeat(500)}`,
-    'Egern/Egern.yaml': 'rules:\n  - default: DIRECT\n',
+    '独立内核系/Egern/Egern.yaml': 'rules:\n  - default: DIRECT\n',
   });
   const result = buildIssueContext({ repoRoot, title: 'Egern configuration question', codeMod: true });
-  assert.ok(result.files.some((file) => file.path === 'Egern/Egern.yaml' && file.complete));
+  assert.ok(result.files.some((file) => file.path === '独立内核系/Egern/Egern.yaml' && file.complete));
   assert.equal(result.requestedCodeMod, true);
   assert.equal(result.codeModAllowed, false);
   assert.equal(result.fullContractIncluded, false);
@@ -355,7 +393,7 @@ test('downgrade preserves an unavailable contract gap instead of implying the ma
 });
 
 test('CLI saves text and manifest, and logs only output paths and byte counts', (t) => {
-  const repoRoot = fixture(t, { 'FlClash/FlClash(mihomo).js': 'function main(c) { return c; }\n' });
+  const repoRoot = fixture(t, { 'Mihomo内核系/FlClash/FlClash(mihomo).js': 'function main(c) { return c; }\n' });
   const output = path.join(repoRoot, 'artifacts', 'context.txt');
   const stdout = execFileSync(process.execPath, [path.resolve(__dirname, '../build-ai-issue-context.js'), '--output', output], {
     cwd: repoRoot,

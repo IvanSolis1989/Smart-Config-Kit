@@ -224,11 +224,11 @@ function parseArguments(args) {
 async function main(args = process.argv.slice(2)) {
   const options = parseArguments(args);
   if (options.help) {
-    console.log('Usage: node tools/verify-rule-asset-downloads.js [--output report.json] [--proxy http(s)://host:port] [--timeout seconds] [--deadline seconds] [--concurrency 1..4] [--curl-bin executable]\nGET every unique active RULE-SET URL in Shadowrocket/Shadowrocket.conf (default 3 workers, default 60s/request, one transient retry, default 180s batch). SCKI_CURL_BIN can select curl. Explicit proxy overrides NO_PROXY without changing system settings.');
+    console.log('Usage: node tools/verify-rule-asset-downloads.js [--output report.json] [--proxy http(s)://host:port] [--timeout seconds] [--deadline seconds] [--concurrency 1..4] [--curl-bin executable]\nGET every unique active RULE-SET URL in 独立内核系/Shadowrocket/Shadowrocket.conf (default 3 workers, default 60s/request, one transient retry, default 180s batch). SCKI_CURL_BIN can select curl. Explicit proxy overrides NO_PROXY without changing system settings.');
     return 0;
   }
   const { output, curlBin } = options;
-  const consumer = 'Shadowrocket/Shadowrocket.conf';
+  const consumer = '独立内核系/Shadowrocket/Shadowrocket.conf';
   const urls = collectRuleUrls(fs.readFileSync(path.join(ROOT, consumer), 'utf8'));
   if (!urls.length) throw new Error('no active RULE-SET URLs found');
   const report = { consumer, curlBin, ...await verifyUrls(urls, options) };

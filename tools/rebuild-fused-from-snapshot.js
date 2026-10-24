@@ -9,6 +9,7 @@
 const childProcess = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
+const { readHistoricalClientFile } = require('./lib/client-layout');
 const {
   buildEgernGenerationManifest,
   getGeneratedEgernRuleSetReferences,
@@ -89,16 +90,7 @@ function normalizeText(value) {
 }
 
 function gitShow(ref, relative) {
-  const result = childProcess.spawnSync('git', ['show', `${ref}:${relative.replace(/\\/g, '/')}`], {
-    cwd: REPO_ROOT,
-    encoding: null,
-    maxBuffer: 256 * 1024 * 1024,
-  });
-  if (result.status !== 0) {
-    const message = Buffer.from(result.stderr || '').toString('utf8').trim();
-    throw new Error(`git show ${ref}:${relative} failed${message ? `: ${message}` : ''}`);
-  }
-  return Buffer.from(result.stdout || Buffer.alloc(0));
+  return readHistoricalClientFile(REPO_ROOT, ref, relative.replace(/\\/g, '/'));
 }
 
 function readProbe(probeRoot, relative) {
@@ -860,7 +852,7 @@ function effectiveNativeRecords(snapshot) {
 }
 
 function buildNativeEgernPlan({ baselineRef, baselineManifest, rawMihomoAssignment, affectedIds }) {
-  const baselineProfile = gitShow(baselineRef, 'Egern/Egern.yaml').toString('utf8');
+  const baselineProfile = gitShow(baselineRef, '独立内核系/Egern/Egern.yaml').toString('utf8');
   const baseline = collectNativeEgernSnapshot({
     profileSource: baselineProfile,
     read: (relative) => gitShow(baselineRef, relative),
@@ -941,7 +933,7 @@ function buildNativeEgernPlan({ baselineRef, baselineManifest, rawMihomoAssignme
 }
 
 function writeNativeEgernSnapshot({ root, baselineRef, nativePlan }) {
-  const activeProfile = fs.readFileSync(path.join(root, 'Egern/Egern.yaml'), 'utf8');
+  const activeProfile = fs.readFileSync(path.join(root, '独立内核系/Egern/Egern.yaml'), 'utf8');
   const expectedFiles = getGeneratedEgernRuleSetReferences(activeProfile);
   if (JSON.stringify(expectedFiles) !== JSON.stringify(nativePlan.expectedReferences)) {
     throw new Error('active Egern profile has unrelated native rule-set topology drift');
@@ -966,9 +958,9 @@ function rebuildNativeEgernManifest({ root, baselineRef, fusedManifest }) {
   const rendered = baseline.rendered || {};
   const manifest = buildEgernGenerationManifest({
     assetRevision: fusedManifest.asset_revision,
-    cmfaSource: fs.readFileSync(path.join(root, 'Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8'),
+    cmfaSource: fs.readFileSync(path.join(root, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8'),
     routingGraphSource: fs.readFileSync(path.join(root, 'rulesets/source/routing-graph.js'), 'utf8'),
-    profileSource: fs.readFileSync(path.join(root, 'Egern/Egern.yaml'), 'utf8'),
+    profileSource: fs.readFileSync(path.join(root, '独立内核系/Egern/Egern.yaml'), 'utf8'),
     generatedRuleSetDirectory: path.join(root, NATIVE_EGERN_RELATIVE_ROOT),
     sourceProviderCount: fusedManifest.fused_provider_count,
     sourceRuleCount: fusedManifest.fused_rule_count,

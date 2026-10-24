@@ -68,8 +68,9 @@ jobs:
           node tools/generate-stash-from-cmfa.js
           node tools/generate-egern-supplemental.js
           node tools/generate-egern-from-cmfa.js
-          node "SingBox/SingBox(sing-box)-generator.js"
+          node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
           node tools/generate-fused-fallback-artifacts.js
+          node tools/generate-karing.js
 
       - name: Validate complete fused release chain
         run: |
@@ -109,6 +110,8 @@ jobs:
           fi
           node tools/validate-ordered-rule-semantics.js --baseline-ref "$SCKI_RELEASE_BASE" --mode domain-projection --check --output rulesets/generated/semantic-diff.json "${approval_args[@]}"
           node tools/refresh-rule-quality.js
+          node tools/generate-karing.js
+          node tools/generate-karing.js --check
           node tools/refresh-rule-quality.js --check
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
 

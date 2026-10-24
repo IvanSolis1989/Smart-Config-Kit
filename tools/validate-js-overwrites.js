@@ -28,7 +28,7 @@ const TARGETS = [
   {
     id: 'smart',
     label: 'Clash Party Smart',
-    file: path.join('Clash Party', 'ClashParty(mihomo-smart).js'),
+    file: path.join('Mihomo内核系/Clash Party', 'ClashParty(mihomo-smart).js'),
     regionType: 'smart',
     preserveArrayRefs: false,
     requireTunExcludes: true,
@@ -36,7 +36,7 @@ const TARGETS = [
   {
     id: 'normal',
     label: 'Clash Party Normal',
-    file: path.join('Clash Party', 'ClashParty(mihomo).js'),
+    file: path.join('Mihomo内核系/Clash Party', 'ClashParty(mihomo).js'),
     regionType: 'url-test',
     preserveArrayRefs: false,
     requireTunExcludes: true,
@@ -44,7 +44,7 @@ const TARGETS = [
   {
     id: 'flclash',
     label: 'FlClash',
-    file: path.join('FlClash', 'FlClash(mihomo).js'),
+    file: path.join('Mihomo内核系/FlClash', 'FlClash(mihomo).js'),
     regionType: 'url-test',
     preserveArrayRefs: true,
     requireTunExcludes: false,

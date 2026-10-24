@@ -20,12 +20,23 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
-test('client capability matrix covers the 14 semantic products and has verified evidence', () => {
+test('client capability matrix covers every published product and has verified evidence', () => {
   const matrix = readClientCapabilityMatrix(REPOSITORY_ROOT);
   const validation = validateClientCapabilityMatrix(matrix, REPOSITORY_ROOT);
   assert.equal(validation.ok, true, validation.issues.map((issue) => `${issue.id}: ${issue.message}`).join('\n'));
   assert.deepEqual(matrix.columns, COLUMN_IDS);
   assert.deepEqual(matrix.products.map((product) => product.id), PRODUCT_IDS);
+});
+
+test('Karing is an explicit native-rule import with manual node groups and DNS', () => {
+  const matrix = readClientCapabilityMatrix(REPOSITORY_ROOT);
+  const product = matrix.products.find(item => item.id === 'karing');
+  assert.ok(product, 'Karing must have its own capability record');
+  assert.equal(product.capabilities.subscription_input.state, 'documented_manual');
+  assert.equal(product.capabilities.dynamic_grouping.state, 'documented_manual');
+  assert.equal(product.capabilities.node_dns_hint.state, 'documented_manual');
+  assert.equal(product.capabilities.optional_node_dns_sidecar.state, 'not_available');
+  assert.ok(product.artifacts.some(file => file.endsWith('/Karing/diversion_rules_custom.json')));
 });
 
 test('client capability matrix rejects missing capability columns and stale evidence markers', () => {

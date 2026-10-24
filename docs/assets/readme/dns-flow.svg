@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="552" viewBox="0 0 1120 552" role="img" aria-labelledby="title desc">
+<title id="title">Mihomo DNS 四层分工</title><desc id="desc">客户端启动由 default-nameserver 进行 bootstrap，随后按域名性质分为国内业务、代理节点域名与海外业务三条 DoH 通道。此图只适用于主线 Mihomo DNS 示意。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="1118" height="550" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="952" cy="15" rx="403.2" ry="414" fill="url(#aura)"/><path d="M28 1H1092" stroke="#ffffff" stroke-width="2"/>
+<text x="36" y="48" font-size="27" font-weight="650" fill="#18324f" >DNS 四层分工</text><text x="1084" y="47" font-size="19" font-weight="500" fill="#506780" text-anchor="end">主线 Mihomo 配置示意</text>
+  <rect x="36" y="75" width="1048" height="100" rx="20" fill="#e0edff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="36.5" y="75.5" width="1047" height="99" rx="20" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/>
+  <text x="58" y="110" font-size="22" font-weight="650" fill="#18324f" >① 启动引导 · default-nameserver</text>
+  <text x="58" y="145" font-size="20" font-weight="400" fill="#506780" >DoH-over-IP + 明文兜底；仅为 DoH 服务域名提供 bootstrap 解析</text>
+  <path d="M560 182V204M560 204H205V232" fill="none" stroke="#7b99b9" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M560 204V232" fill="none" stroke="#7b99b9" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M560 204H915V232" fill="none" stroke="#7b99b9" stroke-width="2.2" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="36" y="246" width="336" height="216" rx="20" fill="#ddf3ed" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="36.5" y="246.5" width="335" height="215" rx="20" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><rect x="392" y="246" width="336" height="216" rx="20" fill="#e0edff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="392.5" y="246.5" width="335" height="215" rx="20" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><rect x="748" y="246" width="336" height="216" rx="20" fill="#ebe5fc" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="748.5" y="246.5" width="335" height="215" rx="20" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/>
+  <text x="58" y="281" font-size="22" font-weight="650" fill="#18324f" >② 国内业务域名</text>
+  <text x="58" y="315" font-size="18" font-weight="400" fill="#506780" >nameserver-policy</text><text x="58" y="346" font-size="18" font-weight="400" fill="#506780" >/ nameserver</text><text x="58" y="377" font-size="18" font-weight="400" fill="#506780" >geosite:cn → AliDNS / DNSPod</text><text x="58" y="408" font-size="18" font-weight="400" fill="#506780" >大陆站点与国内 CDN</text>
+  <text x="414" y="281" font-size="22" font-weight="650" fill="#18324f" >③ 代理节点域名</text>
+  <text x="414" y="315" font-size="18" font-weight="400" fill="#506780" >proxy-server-nameserver</text><text x="414" y="346" font-size="18" font-weight="400" fill="#506780" >Cloudflare / Google</text><text x="414" y="377" font-size="18" font-weight="400" fill="#506780" >AliDNS / DNSPod</text><text x="414" y="408" font-size="18" font-weight="400" fill="#506780" >解析活动代理节点 FQDN</text>
+  <text x="770" y="281" font-size="22" font-weight="650" fill="#18324f" >④ 海外业务域名</text>
+  <text x="770" y="315" font-size="18" font-weight="400" fill="#506780" >nameserver-policy / fallback</text><text x="770" y="346" font-size="18" font-weight="400" fill="#506780" >geosite:geolocation-!cn</text><text x="770" y="377" font-size="18" font-weight="400" fill="#506780" >Cloudflare / Google</text><text x="770" y="408" font-size="18" font-weight="400" fill="#506780" >fallback-filter · GeoIP CN</text>
+  <text x="36" y="504" font-size="18" font-weight="400" fill="#506780" >业务查询优先使用加密 DoH；ISP 可见性仍取决于 bootstrap、客户端与网络路径。</text>
+  <text x="36" y="534" font-size="18" font-weight="400" fill="#506780" >其他客户端遵循各自原生 DNS；Karing 的 DNS 由适配配置与 App 设置维护。</text>
+</g></svg>

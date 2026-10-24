@@ -23,8 +23,8 @@ Sub-Store 的脚本操作、筛选与发布辅助模块。
 
 | 模块 | 接口与边界 |
 |---|---|
-| [`fusion-publication-guard.mjs`](./fusion-publication-guard.mjs) | `validateFusionContract(contract)`：独立验证合同结构和值，非法时抛错；`validateFusionPublication(document, contract)`：先验证合同，再对已解析且通过字段校验的 `document.proxies` 检查最低数量、全部必需名称前缀及五种错误占位提示；失败抛错，成功只返回 `{nodes, coveredPrefixes}`，不修改节点 |
-| [`patch-fusion-worker.mjs`](./patch-fusion-worker.mjs) | `patchFusionWorker(source)`：返回加入合同校验的新源码；只接受已审查的精确 wrapper 基线，拒绝歧义或重复补丁；无文件、网络、部署或凭据操作 |
+| [`fusion-publication-guard.mjs`](fusion-publication-guard.mjs) | `validateFusionContract(contract)`：独立验证合同结构和值，非法时抛错；`validateFusionPublication(document, contract)`：先验证合同，再对已解析且通过字段校验的 `document.proxies` 检查最低数量、全部必需名称前缀及五种错误占位提示；失败抛错，成功只返回 `{nodes, coveredPrefixes}`，不修改节点 |
+| [`patch-fusion-worker.mjs`](patch-fusion-worker.mjs) | `patchFusionWorker(source)`：返回加入合同校验的新源码；只接受已审查的精确 wrapper 基线，拒绝歧义或重复补丁；无文件、网络、部署或凭据操作 |
 
 合同只接受 `{schemaVersion: 1, minimumNodes: 正整数, requiredNamePrefixes: 非空唯一字符串数组}`；前缀按字面起始、区分大小写匹配。模块不推断私人合同或证明连通性；错误占位及接入要求见[发布保护](../README.md#自动发布前的完整性保护)。
 
@@ -55,7 +55,7 @@ node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-work
 
 ## 独立网页管理入口
 
-[`web-management-route.mjs`](./web-management-route.mjs) 与 [`patch-web-management-worker.mjs`](./patch-web-management-worker.mjs) 为已审查的 extension-aware Worker wrapper 增加独立网页管理别名。部署者通过 secret `SUB_STORE_WEB_BACKEND_PATH` 设置 `/web-` 加 64 位小写十六进制随机值；命中此前缀时，只为本轮旧路由选择克隆的环境，不改旧管理 secret 或扩展受限入口，也不改变后端使用的原始 bindings。
+[`web-management-route.mjs`](web-management-route.mjs) 与 [`patch-web-management-worker.mjs`](patch-web-management-worker.mjs) 为已审查的 extension-aware Worker wrapper 增加独立网页管理别名。部署者通过 secret `SUB_STORE_WEB_BACKEND_PATH` 设置 `/web-` 加 64 位小写十六进制随机值；命中此前缀时，只为本轮旧路由选择克隆的环境，不改旧管理 secret 或扩展受限入口，也不改变后端使用的原始 bindings。
 
 该路径具有完整后端管理权限，应与扩展的 URL 单字段连接分开保管。patcher 引入同目录 `scki-web-management-route.mjs`，只接受唯一审查匹配行；模块不生成凭据或执行部署。启用新管理路径须得到部署所有者授权。
 
@@ -67,7 +67,7 @@ node --test tools/tests/web-management-route.test.js
 
 ## 下载网关 530 恢复
 
-[`download-gateway-fallback.mjs`](./download-gateway-fallback.mjs) 与 [`patch-download-gateway-worker.mjs`](./patch-download-gateway-worker.mjs) 适用于已审查的 Worker 下载适配器。原有网关返回 HTTP 530 时，仅对 GET/HEAD 尝试一次由 Worker 直连同一目标，保持原上游请求头与取消信号；直连使用 `manual` 并拒绝重定向和非成功响应。其他网关错误继续失败，已有来源预览、节点校验和完整发布合同仍需通过。
+[`download-gateway-fallback.mjs`](download-gateway-fallback.mjs) 与 [`patch-download-gateway-worker.mjs`](patch-download-gateway-worker.mjs) 适用于已审查的 Worker 下载适配器。原有网关返回 HTTP 530 时，仅对 GET/HEAD 尝试一次由 Worker 直连同一目标，保持原上游请求头与取消信号；直连使用 `manual` 并拒绝重定向和非成功响应。其他网关错误继续失败，已有来源预览、节点校验和完整发布合同仍需通过。
 
 补丁不更改网关 URL、Token、来源 allowlist、Sub-Store 配置或任何写入路径。它只接受精确的适配器源码基线，输出源码并引用同目录 `scki-download-gateway-fallback.mjs`，不自行部署。接入者须按返回的模块引用准备部署包，并以实际来源预览验收；不能把网关错误或错误占位节点当成下载成功。
 

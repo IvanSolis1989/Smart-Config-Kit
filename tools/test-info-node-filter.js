@@ -24,12 +24,12 @@ const EN = ['Sign', 'Login', 'Register', 'Help', 'FAQ'];   // 英文：必须 \b
 
 // junk 过滤器所在的 6 个 mihomo 产物（其余产物不处理订阅去 junk，#6 不适用）
 const PRODUCTS = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
-  'Clash Meta For Android/CMFA(mihomo).yaml',
-  'OpenClash/OpenClash(mihomo-smart).sh',
-  'OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
 ];
 
 // 英文关键词的词边界保护：接受两种合法形态

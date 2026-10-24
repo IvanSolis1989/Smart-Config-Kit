@@ -2,7 +2,7 @@
 
 **首次允许机场网站后，打开已登录仪表盘即可自动提取、匹配并验证订阅，更新本机及可选 Cloudflare 的已有条目。**
 
-支持用户明确允许的 HTTP/HTTPS 域名、IPv4、IPv6 和自托管面板；不以六家测试样本限制范围。浏览器访问权限和扩展内的站点信任同时有效才会同步。当前版本见 `manifest.json`，历史见 [CHANGELOG.md](./CHANGELOG.md)。
+支持用户明确允许的 HTTP/HTTPS 域名、IPv4、IPv6 和自托管面板；不以六家测试样本限制范围。浏览器访问权限和扩展内的站点信任同时有效才会同步。当前版本见 `manifest.json`，历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 使用
 
@@ -150,7 +150,7 @@ node --test SubStore/edge-extension/*.test.mjs SubStore/edge-extension/*.test.cj
 
 ### 生成可安装目录
 
-[`package.mjs`](./package.mjs) 从 Git 已提交版本收集 manifest、导入依赖及动态 bundle，生成仅含运行文件的安装目录。`--out` 必须是绝对路径，`--ref` 默认 `HEAD`，不会读取未提交工作区作为发布源；需要其他已审查提交时显式指定 `--ref <commit>`。Windows 通用示例：
+[`package.mjs`](package.mjs) 从 Git 已提交版本收集 manifest、导入依赖及动态 bundle，生成仅含运行文件的安装目录。`--out` 必须是绝对路径，`--ref` 默认 `HEAD`，不会读取未提交工作区作为发布源；需要其他已审查提交时显式指定 `--ref <commit>`。Windows 通用示例：
 
 ```powershell
 node SubStore/edge-extension/package.mjs --out "C:\Extensions\SubStore-AutoSync"

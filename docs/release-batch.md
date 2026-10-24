@@ -8,7 +8,7 @@
 
 合同的 `staticOutputs` 枚举客户端文件、派生补充规则和 quality 收据的确切路径；MRS、fused 和 Egern manifest 则分别导出动态资产文件名。两版 manifest 的并集只用于判断允许变更路径，当前版清单决定必须存在的完整输出。旧资产只有退出当前 manifest 后才允许删除，新增资产必须通过对应 provider/segment 文件名规则及既有 validator。rename 按删除和新增两端检查。
 
-动态资产目录还会逐文件对照清单，不能留下旧资产、隐藏一个漏生成的输出或增加未声明文件。静态产物目录不提供目录级许可：例如 `Egern/unexpected.yaml` 仍会被拒绝。
+动态资产目录还会逐文件对照清单，不能留下旧资产、隐藏一个漏生成的输出或增加未声明文件。静态产物目录不提供目录级许可：例如 `独立内核系/Egern/unexpected.yaml` 仍会被拒绝。
 
 整个 Git 工作集都参与检查：baseline 到工作区、index、unstaged、untracked，使用 Git NUL 输出读取路径。Git 已忽略的缓存/本地工作目录遵循仓库 `.gitignore`，不属于待提交工作集；受 Git 跟踪的 ignored 文件仍参与检查。gate 不打印未知文件内容。symlink（包括祖先目录）、submodule、未合并索引及既有文件 mode 变化均拒绝。
 

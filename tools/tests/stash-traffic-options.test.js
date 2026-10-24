@@ -6,7 +6,7 @@ const path = require('node:path');
 const test = require('node:test');
 const { transformBody, extractVersions, extractCounts } = require('../generate-stash-from-cmfa');
 
-const source = fs.readFileSync(path.join(__dirname, '../../Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8');
+const source = fs.readFileSync(path.join(__dirname, '../../Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8');
 const versions = extractVersions(source);
 const counts = extractCounts(source);
 

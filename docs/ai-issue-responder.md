@@ -29,7 +29,7 @@ Token Plan 应使用控制台提供的专属 Base URL 和对应 key；按量付�
 
 [运行 38619558065](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/38619558065)的调用与发布步骤成功，机器人正文却只有 high-risk 拒答；#182、#183、#184 也有同样现象。旧代码仅提取 `message.content`，没有留存 HTTP 状态与完成原因，因此不能从旧日志确定供应商在何处做出过滤决定，也不能证明哪个词或文件触发过滤。
 
-2026-10-16 已真实调用 `mimo-v2.6-flash`，完成 #186 原文分析以及小文档完整补丁任务。后者使用 workflow 的同一段 Python 程序在临时副本应用，读回全文与预期一致；详见[实测收据与边界](./research/2026-10-16-mimo-issue-responder-acceptance.md)。测试没有向公开 Issue 发评论或创建 PR；GitHub Actions 云端运行仍需在发布后验证。
+2026-10-16 已真实调用 `mimo-v2.6-flash`，完成 #186 原文分析以及小文档完整补丁任务。后者使用 workflow 的同一段 Python 程序在临时副本应用，读回全文与预期一致；详见[实测收据与边界](research/2026-10-16-mimo-issue-responder-acceptance.md)。测试没有向公开 Issue 发评论或创建 PR；GitHub Actions 云端运行仍需在发布后验证。
 
 ```bash
 node --test tools/tests/ai-issue-*.test.js tools/tests/ai-responder-workflow.test.js

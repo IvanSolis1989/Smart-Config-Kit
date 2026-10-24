@@ -3,8 +3,8 @@ name: Validate JS Overwrites
 on:
   pull_request:
     paths:
-      - 'Clash Party/**/*.js'
-      - 'FlClash/**/*.js'
+      - 'Mihomo内核系/Clash Party/**/*.js'
+      - 'Mihomo内核系/FlClash/**/*.js'
       - 'rulesets/source/routing-graph.js'
       - 'rulesets/source/traffic-options.json'
       - 'tools/runtime/**'
@@ -20,12 +20,15 @@ on:
       - 'tools/sync-subscription-node-filter.js'
       - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
+      - 'tools/generate-readme-visuals.js'
+      - 'docs/assets/readme/**'
+      - 'README.md'
       - '.github/workflows/validate-js-overwrites.yml'
   push:
     branches: [main]
     paths:
-      - 'Clash Party/**/*.js'
-      - 'FlClash/**/*.js'
+      - 'Mihomo内核系/Clash Party/**/*.js'
+      - 'Mihomo内核系/FlClash/**/*.js'
       - 'rulesets/source/routing-graph.js'
       - 'rulesets/source/traffic-options.json'
       - 'tools/runtime/**'
@@ -41,6 +44,9 @@ on:
       - 'tools/sync-subscription-node-filter.js'
       - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
+      - 'tools/generate-readme-visuals.js'
+      - 'docs/assets/readme/**'
+      - 'README.md'
       - '.github/workflows/validate-js-overwrites.yml'
   workflow_dispatch:
 
@@ -60,6 +66,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Check generated README visuals
+        run: node tools/generate-readme-visuals.js --check
 
       - name: Validate JS overwrite contracts
         run: node tools/validate-js-overwrites.js

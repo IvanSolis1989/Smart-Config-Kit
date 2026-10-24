@@ -20,7 +20,7 @@ node tools/configure-traffic-options.js --health-check power-save --quic follow-
 node tools/configure-traffic-options.js --health-check standard --quic block-foreign
 ```
 
-指定 `--target <已有本地.js>` 时只更新该设备的 JS 文件；`--source <新JS>` 更新源码，`--preserve-local` 保留该设备的测速/QUIC，ZeroTier 的明确布尔值始终默认保留。设备级启用/关闭与安全更新命令见 [ZeroTier 本地代理选项](./zerotier-planet-proxy.md)。
+指定 `--target <已有本地.js>` 时只更新该设备的 JS 文件；`--source <新JS>` 更新源码，`--preserve-local` 保留该设备的测速/QUIC，ZeroTier 的明确布尔值始终默认保留。设备级启用/关闭与安全更新命令见 [ZeroTier 本地代理选项](zerotier-planet-proxy.md)。
 
 JS 运行时同步器保留各文件原有的 LF/CRLF 和标记块后的换行；已同步文件再次生成时内容不变。可运行 `node tools/sync-traffic-options.js --check`，按完整字节内容检查共享 runtime 与三份 JS 是否一致。
 
@@ -58,7 +58,7 @@ Clash Party Smart/Normal 与 FlClash 的 JS 覆写可分别修改文件顶部的
 | Loon | 旧配置的 `disable-udp-ports = 443` 禁用全部 UDP/443，包含国内地址和四项服务例外；`follow-rules` 需移除这一受管限制。 |
 | Quantumult X | 两档都保留 `fallback_udp_policy=reject`：它只在所选节点不支持 UDP 时拒绝能力回退，不按目的地址和 UDP/443 执行源图的条件拒绝；因此不能声称与源图等价。 |
 | Passwall、Passwall2 | 本仓库产物是 shunt 规则集与应用脚本，没有独立的端口检查器；实际 UDP 能力还取决于 LuCI 设置及所选核心。 |
-| v2rayN Xray | 仅提供路由规则，实际流量捕获与 UDP 能力取决于 v2rayN/Xray 配置。 |
+| v2rayN Xray | 仅提供路由规则，实际流量捕获与 UDP 能力取决于 Xray内核系/v2rayN/Xray 配置。 |
 
 两种模式都可能改变访问体验。拒绝海外 UDP/443 可能让应用回退到 TCP；放行后，无法承载 UDP 的节点可能出现超时，或使应用走到与 TCP 不同的连接路径。尤其在上述降级平台，以具体客户端的连接日志判断实际命中，不能推断 14 端精确等价。
 

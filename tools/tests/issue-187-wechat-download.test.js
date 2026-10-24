@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { clientDirectory } = require('../lib/client-layout');
 const test = require('node:test');
 const { getRawRoutingGraph } = require('../../rulesets/source/routing-graph');
 const { firstMatch, loadRepository, matchEntry } = require('../lib/ordered-rule-semantics');
@@ -58,14 +59,14 @@ test('Issue #187 exact host survives every generated native download format', ()
   ]) assert.match(read(file), /^  - "dldir1\.qq\.com"$/m);
   const singbox = JSON.parse(read(`rulesets/generated/fused/sing-box/${segment.id}.json`));
   assert.ok(singbox.rules.some(rule => rule.domain?.includes(HOST)));
-  const xray = JSON.parse(read('v2rayN/v2rayN(xray).json')).find(rule => rule.id === segment.id);
+  const xray = JSON.parse(read('Xray内核系/v2rayN/v2rayN(xray).json')).find(rule => rule.id === segment.id);
   assert.ok(xray.domain.includes(`full:${HOST}`));
   for (const app of ['Passwall', 'Passwall2']) {
-    assert.ok(read(`${app}/shunt-rules/${segment.id}.list`).includes(`${segment.id}.srs`));
+    assert.ok(read(`${clientDirectory(app)}/shunt-rules/${segment.id}.list`).includes(`${segment.id}.srs`));
   }
 });
 
-for (const file of ['Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js', 'FlClash/FlClash(mihomo).js']) {
+for (const file of ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js']) {
   test(`${file}: Issue #187 download route retains selectable DIRECT and a proxy-first default`, () => {
     const sandbox = { console: { log() {}, error() {} } };
     vm.createContext(sandbox);

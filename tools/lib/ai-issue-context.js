@@ -4,6 +4,8 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { TextDecoder } = require('node:util');
+const { clientDirectory } = require('./client-layout');
+const { families } = require('../client-layout.json');
 
 // Byte limits apply to the final UTF-8 text, including provenance and warnings.
 // A modification request reserves most of its 96 KiB for the full contract.
@@ -23,21 +25,22 @@ const CONTEXT_LIMITS = Object.freeze({
 
 // Explicit candidates, never a directory crawl or a filename supplied by an Issue.
 const CLIENTS = [
-  { folder: 'Passwall2', aliases: /\b(?:passwall2|pw2)\b/i, configs: ['Passwall2/Passwall2(xray+sing-box)-apply.sh'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
-  { folder: 'Passwall', aliases: /\b(?:passwall|pw)\b/i, configs: ['Passwall/Passwall(xray+sing-box)-apply.sh'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
-  { folder: 'Quantumult X', aliases: /\b(?:quantumult[ -]?x|qx)\b/i, configs: ['Quantumult X/QuantumultX.conf'] },
-  { folder: 'Shadowrocket', aliases: /\b(?:shadowrocket|sr)\b|小火箭/i, configs: ['Shadowrocket/Shadowrocket.conf'] },
-  { folder: 'FlClash', aliases: /\bflclash\b/i, configs: ['FlClash/FlClash(mihomo).js'] },
-  { folder: 'Clash Party', aliases: /\bclash[ -]?party\b/i, configs: ['Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js'] },
-  { folder: 'Clash Meta For Android', aliases: /\b(?:cmfa|clash\s+meta(?:\s+for\s+android)?|clashmi)\b/i, configs: ['Clash Meta For Android/CMFA(mihomo).yaml'] },
-  { folder: 'OpenClash', aliases: /\b(?:openclash|shellclash|shellcrash)\b/i, configs: ['OpenClash/OpenClash(mihomo).sh', 'OpenClash/OpenClash(mihomo-smart).sh'] },
-  { folder: 'Stash', aliases: /\bstash\b/i, configs: ['Stash/Stash.yaml'], generators: ['tools/generate-stash-from-cmfa.js'] },
-  { folder: 'Egern', aliases: /\begern\b/i, configs: ['Egern/Egern.yaml'], generators: ['tools/generate-egern-from-cmfa.js'] },
-  { folder: 'SingBox', aliases: /\b(?:sing[ -]?box|hiddify|homeproxy)\b/i, configs: ['SingBox/SingBox(sing-box)-full.json'], generators: ['SingBox/SingBox(sing-box)-generator.js'] },
-  { folder: 'v2rayN', aliases: /\bv2rayn?\b/i, configs: ['v2rayN/v2rayN(xray).json'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
-  { folder: 'Surge', aliases: /\bsurge\b/i, configs: ['Surge/Surge.conf'] },
-  { folder: 'Loon', aliases: /\bloon\b/i, configs: ['Loon/Loon.conf'] },
-];
+  { folder: 'Passwall2', aliases: /\b(?:passwall2|pw2)\b/i, configs: ['双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
+  { folder: 'Passwall', aliases: /\b(?:passwall|pw)\b/i, configs: ['双内核系/Passwall/Passwall(xray+sing-box)-apply.sh'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
+  { folder: 'Quantumult X', aliases: /\b(?:quantumult[ -]?x|qx)\b/i, configs: ['独立内核系/Quantumult X/QuantumultX.conf'] },
+  { folder: 'Shadowrocket', aliases: /\b(?:shadowrocket|sr)\b|小火箭/i, configs: ['独立内核系/Shadowrocket/Shadowrocket.conf'] },
+  { folder: 'FlClash', aliases: /\bflclash\b/i, configs: ['Mihomo内核系/FlClash/FlClash(mihomo).js'] },
+  { folder: 'Clash Party', aliases: /\bclash[ -]?party\b/i, configs: ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js'] },
+  { folder: 'Clash Meta For Android', aliases: /\b(?:cmfa|clash\s+meta(?:\s+for\s+android)?|clashmi)\b/i, configs: ['Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'] },
+  { folder: 'OpenClash', aliases: /\b(?:openclash|shellclash|shellcrash)\b/i, configs: ['Mihomo内核系/OpenClash/OpenClash(mihomo).sh', 'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh'] },
+  { folder: 'Stash', aliases: /\bstash\b/i, configs: ['独立内核系/Stash/Stash.yaml'], generators: ['tools/generate-stash-from-cmfa.js'] },
+  { folder: 'Egern', aliases: /\begern\b/i, configs: ['独立内核系/Egern/Egern.yaml'], generators: ['tools/generate-egern-from-cmfa.js'] },
+  { folder: 'SingBox', aliases: /\b(?:sing[ -]?box|hiddify|homeproxy)\b/i, configs: ['Sing-box内核系/SingBox/SingBox(sing-box)-full.json'], generators: ['Sing-box内核系/SingBox/SingBox(sing-box)-generator.js'] },
+  { folder: 'Karing', aliases: /\bkaring\b/i, configs: [`${clientDirectory('Karing')}/diversion_rules_custom.json`], generators: ['tools/generate-karing.js'] },
+  { folder: 'v2rayN', aliases: /\bv2rayn?\b/i, configs: ['Xray内核系/v2rayN/v2rayN(xray).json'], generators: ['tools/generate-fused-fallback-artifacts.js'] },
+  { folder: 'Surge', aliases: /\bsurge\b/i, configs: ['独立内核系/Surge/Surge.conf'] },
+  { folder: 'Loon', aliases: /\bloon\b/i, configs: ['独立内核系/Loon/Loon.conf'] },
+].map(client => ({ ...client, directory: clientDirectory(client.folder) }));
 
 const DELIVERY_QUERY = /download|fetch|https?:|rule[ _-]?set|provider|jsdelivr|cdn|\b(?:403|404|413|502|503|504)\b|下载|获取|规则.{0,8}(?:失败|更新|加载)|规则集|分发|空内容/i;
 const TOPICS = [
@@ -54,11 +57,11 @@ function hasCompleteEditableTarget(files) {
   // Match the current AI_PATCH workflow allowlist. In particular AGENTS.md and
   // rulesets/source are evidence, never automatically writable targets, and
   // Egern is not yet an allowed workflow directory.
-  const directories = new Set(['Clash Party', 'Clash Meta For Android', 'OpenClash',
+  const directories = ['Clash Party', 'Clash Meta For Android', 'OpenClash',
     'Shadowrocket', 'Stash', 'SingBox', 'v2rayN', 'Surge', 'Loon', 'Quantumult X',
-    'Passwall', 'Passwall2', 'FlClash', 'docs', 'tools']);
+    'Passwall', 'Passwall2', 'FlClash'].map(clientDirectory).concat(['docs', 'tools']);
   return files.some((file) => file.complete && (file.path === 'README.md' || file.path === 'CHANGELOG.md'
-    || (file.path.includes('/') && directories.has(file.path.split('/')[0]))));
+    || directories.some(directory => file.path.startsWith(`${directory}/`))));
 }
 
 function queryParts({ title, body, comment }) {
@@ -74,7 +77,14 @@ function queryParts({ title, body, comment }) {
 function identifyClient(parts) {
   // A title naming one client takes precedence over comparison links in the body.
   for (const part of parts) {
-    const client = CLIENTS.find((candidate) => candidate.aliases.test(part));
+    // Parent directory labels enumerate sibling apps. They are layout metadata,
+    // never evidence that a report concerns those apps. Decode URL runs only
+    // for selection; malformed escapes remain inert report text.
+    let selection = part.replace(/(?:%[0-9a-f]{2})+/gi, encoded => {
+      try { return decodeURIComponent(encoded); } catch { return encoded; }
+    });
+    for (const family of families) selection = selection.split(family.directory).join('');
+    const client = CLIENTS.find((candidate) => candidate.aliases.test(selection));
     if (client) return client;
   }
   return null;
@@ -296,7 +306,7 @@ function buildIssueContext({ repoRoot, title = '', body = '', comment = '', code
     }
     add('rulesets/source/routing-graph.js', CONTEXT_LIMITS.sourceBytes);
     add('README.md', CONTEXT_LIMITS.rootReadmeBytes);
-    if (client) add(`${folder}/README.md`, CONTEXT_LIMITS.folderReadmeBytes);
+    if (client) add(`${client.directory}/README.md`, CONTEXT_LIMITS.folderReadmeBytes);
     if (DELIVERY_QUERY.test(query)) add('docs/rule-asset-delivery.md', CONTEXT_LIMITS.troubleshootingBytes, false);
   }
 

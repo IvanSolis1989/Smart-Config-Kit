@@ -12,52 +12,52 @@
       "id": "clash-party",
       "name": "Clash Party（Smart / Normal）",
       "artifacts": [
-        "Clash Party/ClashParty(mihomo-smart).js",
-        "Clash Party/ClashParty(mihomo).js"
+        "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js",
+        "Mihomo内核系/Clash Party/ClashParty(mihomo).js"
       ],
       "capabilities": {
         "subscription_input": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "JS 覆写入口直接接收订阅配置。",
-          "evidence": [{ "file": "Clash Party/ClashParty(mihomo-smart).js", "contains": "function main(config)" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js", "contains": "function main(config)" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "刷新时分类节点并重建固定策略组。",
-          "evidence": [{ "file": "Clash Party/ClashParty(mihomo-smart).js", "contains": "function classifyAllNodes(proxies)" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js", "contains": "function classifyAllNodes(proxies)" }]
         },
         "node_dns_hint": {
           "state": "built_in",
           "mode": "restricted_projection",
           "summary": "只投影活动节点 FQDN 的受限 DNS 提示。",
-          "evidence": [{ "file": "Clash Party/ClashParty(mihomo-smart).js", "contains": "SckiSubscriptionAdapter.captureNodeDns" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js", "contains": "SckiSubscriptionAdapter.captureNodeDns" }]
         },
         "optional_node_dns_sidecar": {
           "state": "built_in",
           "mode": "integrated_runtime_profile",
           "summary": "profile 内置于覆写，非机场订阅字段。",
-          "evidence": [{ "file": "Clash Party/ClashParty(mihomo-smart).js", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
         }
       }
     },
     {
       "id": "cmfa",
       "name": "Clash Meta for Android（CMFA）",
-      "artifacts": ["Clash Meta For Android/CMFA(mihomo).yaml"],
+      "artifacts": ["Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "provider_node_feed",
           "summary": "编辑 proxy-provider 的订阅 URL 后由客户端拉取。",
-          "evidence": [{ "file": "Clash Meta For Android/CMFA(mihomo).yaml", "contains": "  Subscribe:" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml", "contains": "  Subscribe:" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "engine_filter",
           "summary": "Mihomo filter 在运行时按节点名选入区域组。",
-          "evidence": [{ "file": "Clash Meta For Android/CMFA(mihomo).yaml", "contains": "  filter:" }]
+          "evidence": [{ "file": "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml", "contains": "  filter:" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -77,52 +77,52 @@
       "id": "openclash",
       "name": "OpenClash（Normal / Smart）",
       "artifacts": [
-        "OpenClash/OpenClash(mihomo).sh",
-        "OpenClash/OpenClash(mihomo-smart).sh"
+        "Mihomo内核系/OpenClash/OpenClash(mihomo).sh",
+        "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh"
       ],
       "capabilities": {
         "subscription_input": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "Ruby 覆写在落盘前读取原订阅配置。",
-          "evidence": [{ "file": "OpenClash/OpenClash(mihomo-smart).sh", "contains": "SckiSubscriptionAdapter.capture_node_dns" }]
+          "evidence": [{ "file": "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh", "contains": "SckiSubscriptionAdapter.capture_node_dns" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "Ruby 覆写按订阅节点重建区域组。",
-          "evidence": [{ "file": "OpenClash/OpenClash(mihomo-smart).sh", "contains": "def make_smart_group" }]
+          "evidence": [{ "file": "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh", "contains": "def make_smart_group" }]
         },
         "node_dns_hint": {
           "state": "built_in",
           "mode": "restricted_projection",
           "summary": "只将活动节点私有 DNS 投影到精确 policy。",
-          "evidence": [{ "file": "OpenClash/OpenClash(mihomo-smart).sh", "contains": "SckiSubscriptionAdapter.apply_node_dns" }]
+          "evidence": [{ "file": "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh", "contains": "SckiSubscriptionAdapter.apply_node_dns" }]
         },
         "optional_node_dns_sidecar": {
           "state": "built_in",
           "mode": "integrated_runtime_profile",
           "summary": "受信任的 shell profile 控制投影深度。",
-          "evidence": [{ "file": "OpenClash/OpenClash(mihomo-smart).sh", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
+          "evidence": [{ "file": "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
         }
       }
     },
     {
       "id": "shadowrocket",
       "name": "Shadowrocket",
-      "artifacts": ["Shadowrocket/Shadowrocket.conf"],
+      "artifacts": ["独立内核系/Shadowrocket/Shadowrocket.conf"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "client_external_node_feed",
           "summary": "用户在客户端另行添加机场节点订阅。",
-          "evidence": [{ "file": "Shadowrocket/README.md", "contains": "机场订阅" }]
+          "evidence": [{ "file": "独立内核系/Shadowrocket/README.md", "contains": "机场订阅" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "client_regex_filter",
           "summary": "策略组按节点名正则自动聚合。",
-          "evidence": [{ "file": "Shadowrocket/Shadowrocket.conf", "contains": "policy-regex-filter=" }]
+          "evidence": [{ "file": "独立内核系/Shadowrocket/Shadowrocket.conf", "contains": "policy-regex-filter=" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -141,19 +141,19 @@
     {
       "id": "sing-box",
       "name": "sing-box（1.14 / 1.13 静态配置）",
-      "artifacts": ["SingBox/SingBox(sing-box)-full.json", "SingBox/SingBox(sing-box)-1.13.json"],
+      "artifacts": ["Sing-box内核系/SingBox/SingBox(sing-box)-full.json", "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "manual_outbound_wiring",
           "summary": "静态 JSON 需替换或接入节点出站。",
-          "evidence": [{ "file": "SingBox/README.md", "contains": "替换为真实节点" }]
+          "evidence": [{ "file": "Sing-box内核系/SingBox/README.md", "contains": "替换为真实节点" }]
         },
         "dynamic_grouping": {
           "state": "documented_manual",
           "mode": "static_selector",
           "summary": "selector/urltest 只选择已接入的静态出站。",
-          "evidence": [{ "file": "SingBox/SingBox(sing-box)-full.json", "contains": "\"type\": \"selector\"" }]
+          "evidence": [{ "file": "Sing-box内核系/SingBox/SingBox(sing-box)-full.json", "contains": "\"type\": \"selector\"" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -172,19 +172,19 @@
     {
       "id": "v2rayn-xray",
       "name": "v2rayN Xray 路由 fallback",
-      "artifacts": ["v2rayN/v2rayN(xray).json"],
+      "artifacts": ["Xray内核系/v2rayN/v2rayN(xray).json"],
       "capabilities": {
         "subscription_input": {
           "state": "not_available",
           "mode": "routing_only",
           "summary": "JSON 只承担 Xray 路由，节点由 v2rayN 管理。",
-          "evidence": [{ "file": "v2rayN/README.md", "contains": "本文件只负责路由规则。" }]
+          "evidence": [{ "file": "Xray内核系/v2rayN/README.md", "contains": "本文件只负责路由规则。" }]
         },
         "dynamic_grouping": {
           "state": "not_available",
           "mode": "none",
           "summary": "三出站 Xray fallback 没有节点分组重建。",
-          "evidence": [{ "file": "v2rayN/README.md", "contains": "没有 URLTest、Smart、LightGBM、节点过滤和订阅组重建。" }]
+          "evidence": [{ "file": "Xray内核系/v2rayN/README.md", "contains": "没有 URLTest、Smart、LightGBM、节点过滤和订阅组重建。" }]
         },
         "node_dns_hint": {
           "state": "not_available",
@@ -196,26 +196,26 @@
           "state": "not_available",
           "mode": "not_applicable",
           "summary": "不应把路由 JSON 当作订阅 sidecar。",
-          "evidence": [{ "file": "v2rayN/README.md", "contains": "本文件只负责路由规则。" }]
+          "evidence": [{ "file": "Xray内核系/v2rayN/README.md", "contains": "本文件只负责路由规则。" }]
         }
       }
     },
     {
       "id": "surge",
       "name": "Surge",
-      "artifacts": ["Surge/Surge.conf"],
+      "artifacts": ["独立内核系/Surge/Surge.conf"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "client_external_node_feed",
           "summary": "用户将机场订阅作为子配置接入。",
-          "evidence": [{ "file": "Surge/README.md", "contains": "机场订阅作为独立子配置" }]
+          "evidence": [{ "file": "独立内核系/Surge/README.md", "contains": "机场订阅作为独立子配置" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "client_regex_filter",
           "summary": "url-test 通过节点名正则筛选候选。",
-          "evidence": [{ "file": "Surge/Surge.conf", "contains": "policy-regex-filter=" }]
+          "evidence": [{ "file": "独立内核系/Surge/Surge.conf", "contains": "policy-regex-filter=" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -234,19 +234,19 @@
     {
       "id": "loon",
       "name": "Loon",
-      "artifacts": ["Loon/Loon.conf"],
+      "artifacts": ["独立内核系/Loon/Loon.conf"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "client_external_node_feed",
           "summary": "用户在 Node 面板粘贴机场订阅。",
-          "evidence": [{ "file": "Loon/README.md", "contains": "机场订阅 URL" }]
+          "evidence": [{ "file": "独立内核系/Loon/README.md", "contains": "机场订阅 URL" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "client_regex_filter",
           "summary": "Remote Filter 的 NameRegex 自动筛选节点。",
-          "evidence": [{ "file": "Loon/Loon.conf", "contains": "NameRegex" }]
+          "evidence": [{ "file": "独立内核系/Loon/Loon.conf", "contains": "NameRegex" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -265,19 +265,19 @@
     {
       "id": "quantumult-x",
       "name": "Quantumult X",
-      "artifacts": ["Quantumult X/QuantumultX.conf"],
+      "artifacts": ["独立内核系/Quantumult X/QuantumultX.conf"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "client_external_node_feed",
           "summary": "用户在 server_remote 手工填入订阅。",
-          "evidence": [{ "file": "Quantumult X/README.md", "contains": "机场订阅 / 节点（⚠️ 必须手动配置）" }]
+          "evidence": [{ "file": "独立内核系/Quantumult X/README.md", "contains": "机场订阅 / 节点（⚠️ 必须手动配置）" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "client_regex_filter",
           "summary": "policy 按 server tag 正则筛选节点。",
-          "evidence": [{ "file": "Quantumult X/QuantumultX.conf", "contains": "server-tag-regex=" }]
+          "evidence": [{ "file": "独立内核系/Quantumult X/QuantumultX.conf", "contains": "server-tag-regex=" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -296,19 +296,19 @@
     {
       "id": "passwall",
       "name": "Passwall",
-      "artifacts": ["Passwall/Passwall(xray+sing-box)-apply.sh"],
+      "artifacts": ["双内核系/Passwall/Passwall(xray+sing-box)-apply.sh"],
       "capabilities": {
         "subscription_input": {
           "state": "not_available",
           "mode": "uci_shunt_only",
           "summary": "本目录只交付 UCI shunt rule fallback。",
-          "evidence": [{ "file": "Passwall/README.md", "contains": "本目录因此只提供 fallback" }]
+          "evidence": [{ "file": "双内核系/Passwall/README.md", "contains": "本目录因此只提供 fallback" }]
         },
         "dynamic_grouping": {
           "state": "not_available",
           "mode": "none",
           "summary": "shunt rule 不能表达 Mihomo 嵌套分组。",
-          "evidence": [{ "file": "Passwall/README.md", "contains": "没有 Clash Party 的 proxy-groups 嵌套选择器" }]
+          "evidence": [{ "file": "双内核系/Passwall/README.md", "contains": "没有 Clash Party 的 proxy-groups 嵌套选择器" }]
         },
         "node_dns_hint": {
           "state": "not_available",
@@ -320,26 +320,26 @@
           "state": "not_available",
           "mode": "not_applicable",
           "summary": "不交付订阅 Node-DNS sidecar。",
-          "evidence": [{ "file": "Passwall/README.md", "contains": "本目录因此只提供 fallback" }]
+          "evidence": [{ "file": "双内核系/Passwall/README.md", "contains": "本目录因此只提供 fallback" }]
         }
       }
     },
     {
       "id": "passwall2",
       "name": "Passwall2",
-      "artifacts": ["Passwall2/Passwall2(xray+sing-box)-apply.sh"],
+      "artifacts": ["双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh"],
       "capabilities": {
         "subscription_input": {
           "state": "not_available",
           "mode": "uci_shunt_only",
           "summary": "本目录只交付 UCI shunt rule fallback。",
-          "evidence": [{ "file": "Passwall2/README.md", "contains": "本目录只提供 fallback" }]
+          "evidence": [{ "file": "双内核系/Passwall2/README.md", "contains": "本目录只提供 fallback" }]
         },
         "dynamic_grouping": {
           "state": "not_available",
           "mode": "none",
           "summary": "精简 shunt 模型不拥有节点分组重建。",
-          "evidence": [{ "file": "Passwall2/README.md", "contains": "主要保留 shunt rules" }]
+          "evidence": [{ "file": "双内核系/Passwall2/README.md", "contains": "主要保留 shunt rules" }]
         },
         "node_dns_hint": {
           "state": "not_available",
@@ -351,57 +351,57 @@
           "state": "not_available",
           "mode": "not_applicable",
           "summary": "不交付订阅 Node-DNS sidecar。",
-          "evidence": [{ "file": "Passwall2/README.md", "contains": "本目录只提供 fallback" }]
+          "evidence": [{ "file": "双内核系/Passwall2/README.md", "contains": "本目录只提供 fallback" }]
         }
       }
     },
     {
       "id": "flclash",
       "name": "FlClash 覆写脚本",
-      "artifacts": ["FlClash/FlClash(mihomo).js"],
+      "artifacts": ["Mihomo内核系/FlClash/FlClash(mihomo).js"],
       "capabilities": {
         "subscription_input": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "关联覆写后，JS 接收刷新后的订阅配置。",
-          "evidence": [{ "file": "FlClash/README.md", "contains": "关联到订阅" }]
+          "evidence": [{ "file": "Mihomo内核系/FlClash/README.md", "contains": "关联到订阅" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "runtime_hook",
           "summary": "刷新时分类节点并重建固定策略组。",
-          "evidence": [{ "file": "FlClash/FlClash(mihomo).js", "contains": "function classifyAllNodes(proxies)" }]
+          "evidence": [{ "file": "Mihomo内核系/FlClash/FlClash(mihomo).js", "contains": "function classifyAllNodes(proxies)" }]
         },
         "node_dns_hint": {
           "state": "built_in",
           "mode": "restricted_projection",
           "summary": "只投影活动节点 FQDN 的 DNS 提示。",
-          "evidence": [{ "file": "FlClash/FlClash(mihomo).js", "contains": "SckiSubscriptionAdapter.captureNodeDns" }]
+          "evidence": [{ "file": "Mihomo内核系/FlClash/FlClash(mihomo).js", "contains": "SckiSubscriptionAdapter.captureNodeDns" }]
         },
         "optional_node_dns_sidecar": {
           "state": "built_in",
           "mode": "integrated_runtime_profile",
           "summary": "profile 内置于覆写，不能由订阅篡改。",
-          "evidence": [{ "file": "FlClash/FlClash(mihomo).js", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
+          "evidence": [{ "file": "Mihomo内核系/FlClash/FlClash(mihomo).js", "contains": "SCKI_SUBSCRIPTION_ADAPTER_PROFILE" }]
         }
       }
     },
     {
       "id": "stash",
       "name": "Stash",
-      "artifacts": ["Stash/Stash.yaml"],
+      "artifacts": ["独立内核系/Stash/Stash.yaml"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "provider_node_feed",
           "summary": "编辑 Subscribe provider 的 URL 后由客户端拉取。",
-          "evidence": [{ "file": "Stash/README.md", "contains": "proxy-providers" }]
+          "evidence": [{ "file": "独立内核系/Stash/README.md", "contains": "proxy-providers" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "engine_filter",
           "summary": "继承 YAML filter 选择已下载的节点。",
-          "evidence": [{ "file": "Stash/Stash.yaml", "contains": "  filter:" }]
+          "evidence": [{ "file": "独立内核系/Stash/Stash.yaml", "contains": "  filter:" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -420,19 +420,19 @@
     {
       "id": "egern",
       "name": "Egern",
-      "artifacts": ["Egern/Egern.yaml"],
+      "artifacts": ["独立内核系/Egern/Egern.yaml"],
       "capabilities": {
         "subscription_input": {
           "state": "documented_manual",
           "mode": "profile_external_node_feed",
           "summary": "用户在 Egern Profile 的 Subscribe URL 接入节点。",
-          "evidence": [{ "file": "Egern/README.md", "contains": "policy_groups -> Subscribe -> urls" }]
+          "evidence": [{ "file": "独立内核系/Egern/README.md", "contains": "policy_groups -> Subscribe -> urls" }]
         },
         "dynamic_grouping": {
           "state": "built_in",
           "mode": "engine_smart_filter",
           "summary": "Egern smart 区域组按其引擎规则选择节点。",
-          "evidence": [{ "file": "Egern/Egern.yaml", "contains": "  - smart:" }]
+          "evidence": [{ "file": "独立内核系/Egern/Egern.yaml", "contains": "  - smart:" }]
         },
         "node_dns_hint": {
           "state": "documented_manual",
@@ -445,6 +445,59 @@
           "mode": "local_overlay_only",
           "summary": "不交付读取机场源配置的自动 sidecar。",
           "evidence": [{ "file": "docs/private-node-dns.md", "contains": "CMFA / Stash / Egern | 本地 overlay" }]
+        }
+      }
+    },
+    {
+      "id": "karing",
+      "name": "Karing（原生自定义分流适配）",
+      "artifacts": [
+        "Sing-box内核系/Karing/diversion_rules_custom.json"
+      ],
+      "capabilities": {
+        "subscription_input": {
+          "state": "documented_manual",
+          "mode": "native_diversion_import",
+          "summary": "导入原生分流 JSON；节点订阅独立添加。",
+          "evidence": [
+            {
+              "file": "Sing-box内核系/Karing/README.md",
+              "contains": "diversion_rules_custom.json"
+            }
+          ]
+        },
+        "dynamic_grouping": {
+          "state": "documented_manual",
+          "mode": "app_managed_node_groups",
+          "summary": "代理规则默认当前选择，业务及区域节点组在 App 中绑定。",
+          "evidence": [
+            {
+              "file": "Sing-box内核系/Karing/README.md",
+              "contains": "currentSelected"
+            }
+          ]
+        },
+        "node_dns_hint": {
+          "state": "documented_manual",
+          "mode": "app_managed_dns",
+          "summary": "DNS 由 Karing App 设置，原生分流文件不接管订阅 DNS。",
+          "evidence": [
+            {
+              "file": "Sing-box内核系/Karing/README.md",
+              "contains": "DNS"
+            }
+          ]
+        },
+        "optional_node_dns_sidecar": {
+          "state": "not_available",
+          "mode": "not_provided",
+          "summary": "不提供读取机场配置的 Node-DNS sidecar。",
+          "evidence": [
+            {
+              "file": "Sing-box内核系/Karing/README.md",
+              "contains": "DNS"
+            }
+          ]
         }
       }
     }

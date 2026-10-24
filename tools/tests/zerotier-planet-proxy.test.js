@@ -10,7 +10,7 @@ const runtime = require('../runtime/traffic-options');
 const { prepareUpdates } = require('../sync-traffic-options');
 
 const root = path.resolve(__dirname, '../..');
-const targets = ['Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js', 'FlClash/FlClash(mihomo).js'];
+const targets = ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
 const planet = graph.getZeroTierPlanetProxyPolicy();
 const plain = value => JSON.parse(JSON.stringify(value));
 function node(name) {

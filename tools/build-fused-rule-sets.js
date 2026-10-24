@@ -1447,26 +1447,26 @@ function applyMobileConfigs(timeline, assetRevision) {
   const surgeLines = renderMobileRules('surge', timeline, assetRevision);
   const loonLines = renderMobileRules('loon-remote', timeline, assetRevision);
   const qxLines = renderMobileRules('quantumultx', timeline, assetRevision);
-  const shadowrocket = path.join(REPO_ROOT, 'Shadowrocket/Shadowrocket.conf');
+  const shadowrocket = path.join(REPO_ROOT, '独立内核系/Shadowrocket/Shadowrocket.conf');
   let sr = readText(shadowrocket);
   sr = replaceSection(sr, 'Rule', srLines);
   sr = withRuleSetCount(sr, srLines.filter(line => line.startsWith('RULE-SET,')));
   writeText(shadowrocket, sr);
 
-  const surge = path.join(REPO_ROOT, 'Surge/Surge.conf');
+  const surge = path.join(REPO_ROOT, '独立内核系/Surge/Surge.conf');
   let surgeText = readText(surge);
   surgeText = replaceSection(surgeText, 'Rule', surgeLines);
   surgeText = withRuleSetCount(surgeText, surgeLines.filter(line => line.startsWith('RULE-SET,')));
   writeText(surge, surgeText);
 
-  const loon = path.join(REPO_ROOT, 'Loon/Loon.conf');
+  const loon = path.join(REPO_ROOT, '独立内核系/Loon/Loon.conf');
   let loonText = readText(loon);
   loonText = replaceSection(loonText, 'Remote Rule', loonLines);
   loonText = replaceSection(loonText, 'Rule', renderMobileRules('loon-local', timeline, assetRevision));
   loonText = withRuleSetCount(loonText, loonLines);
   writeText(loon, loonText);
 
-  const qx = path.join(REPO_ROOT, 'Quantumult X/QuantumultX.conf');
+  const qx = path.join(REPO_ROOT, '独立内核系/Quantumult X/QuantumultX.conf');
   let qxText = readText(qx);
   qxText = replaceSection(qxText, 'filter_remote', qxLines);
   qxText = replaceSection(qxText, 'filter_local', renderMobileRules('quantumultx-local', timeline, assetRevision));
@@ -1522,13 +1522,13 @@ function applyMobileTrafficOptions(source, platform, options) {
 }
 
 function applyTrafficOptionsToStaticArtifacts(options) {
-  const cmfa = path.join(REPO_ROOT, 'Clash Meta For Android/CMFA(mihomo).yaml');
+  const cmfa = path.join(REPO_ROOT, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml');
   writeText(cmfa, applyCmfaTrafficOptions(readText(cmfa), options));
   for (const [platform, relative] of [
-    ['shadowrocket', 'Shadowrocket/Shadowrocket.conf'],
-    ['surge', 'Surge/Surge.conf'],
-    ['loon', 'Loon/Loon.conf'],
-    ['quantumultx', 'Quantumult X/QuantumultX.conf'],
+    ['shadowrocket', '独立内核系/Shadowrocket/Shadowrocket.conf'],
+    ['surge', '独立内核系/Surge/Surge.conf'],
+    ['loon', '独立内核系/Loon/Loon.conf'],
+    ['quantumultx', '独立内核系/Quantumult X/QuantumultX.conf'],
   ]) {
     const file = path.join(REPO_ROOT, relative);
     writeText(file, applyMobileTrafficOptions(readText(file), platform, options));
@@ -1689,10 +1689,10 @@ function reuseSnapshotTopology(clashOutput, manifest) {
 }
 
 function writeClientArtifacts(timeline, assetRevision, fused) {
-  for (const file of ['Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js', 'FlClash/FlClash(mihomo).js']) {
+  for (const file of ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js']) {
     applyJsFusedBlock(file, fused.providers, fused.rules);
   }
-  for (const file of ['Clash Meta For Android/CMFA(mihomo).yaml', 'OpenClash/OpenClash(mihomo).sh', 'OpenClash/OpenClash(mihomo-smart).sh']) {
+  for (const file of ['Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'Mihomo内核系/OpenClash/OpenClash(mihomo).sh', 'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh']) {
     replaceOpenClashYaml(file, fused.providers, fused.rules);
   }
   applyMobileConfigs(timeline, assetRevision);

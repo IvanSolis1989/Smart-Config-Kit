@@ -7,11 +7,11 @@ const { getTrafficOptions, validateTrafficOptions } = require('../rulesets/sourc
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
-const SOURCE_FILE = 'Clash Meta For Android/CMFA(mihomo).yaml';
-const OUTPUT_FILE = 'Stash/Stash.yaml';
+const SOURCE_FILE = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
+const OUTPUT_FILE = '独立内核系/Stash/Stash.yaml';
 const FUSED_MANIFEST_FILE = 'rulesets/generated/fused/manifest.json';
-const VERSION_SUFFIX = 'stash.13';
-const BUILD_DATE = '2026-10-20';
+const VERSION_SUFFIX = 'stash.14';
+const BUILD_DATE = '2026-10-24';
 
 const DNS_BOOTSTRAP_PLAINTEXT = ['223.5.5.5', '119.29.29.29', '1.1.1.1', '8.8.8.8'];
 const DNS_DOMESTIC_DOH = ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query'];
@@ -151,14 +151,14 @@ function buildHeader(versions, counts) {
     `# Build: ${BUILD_DATE}`,
     `# 架构：由 CMFA 自动裁剪生成；22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + ${counts.fusedProviders} 融合 rule-providers / ${counts.fusedRules} rules（源 ${counts.sourceProviders}/${counts.sourceRules}）`,
     `# 规则源：rulesets/source/routing-graph.js ${versions.baselineVersion} / 派生：CMFA ${versions.cmfaVersion}`,
-    '# 生成：node tools/generate-stash-from-cmfa.js（禁止手工修改 Stash/Stash.yaml）',
-    '# 变更历史：见 `Stash/CHANGELOG.md`',
+    '# 生成：node tools/generate-stash-from-cmfa.js（禁止手工修改 独立内核系/Stash/Stash.yaml）',
+    '# 变更历史：见 `独立内核系/Stash/CHANGELOG.md`',
     '# 注意：Stash 不支持 Mihomo Smart + LightGBM；本产物使用 url-test 区域组',
     '# ================================================================',
     '# ★ 快速上手：',
     '#   1. 将 proxy-providers → Subscribe → url 替换为你的机场订阅链接',
     '#   2. 导入 Stash 即可使用；首次导入后在 Stash 内检查 rule-providers 下载状态',
-    '#   3. 兼容取舍见 `Stash/REFERENCE-Stash-wiki.md`',
+    '#   3. 兼容取舍见 `独立内核系/Stash/REFERENCE-Stash-wiki.md`',
     '# ================================================================',
   ];
 }
