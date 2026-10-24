@@ -1,16 +1,16 @@
-// Meow / meow-rs 通用分流覆写候选（需要 main(config) 脚本宿主）
-// 版本：v6.0.20-meow.2 | Build：2026-10-24
+// AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
+// 版本：v6.0.20-meow.3 | Build：2026-10-24
 // 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.20
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
-// 变更历史：Meow内核系/Meow/CHANGELOG.md；状态：docs/support-queue.md
+// 变更历史：Meow内核系/Aerove Lite/CHANGELOG.md；状态：docs/support-queue.md#aerove-lite-meow
 // 只维护节点清洗、分组、rule-providers、rules；DNS / TUN / 端口 / 嗅探由 App 管理。
 // 前提：已展开节点的订阅；远程 proxy-providers 请先用 SubStore 展平。
 // 目标接口：main(config)，JSON 对象入出；无网络、文件系统或定时器依赖。
-// 官方核心及官方 Android/iOS 使用同目录 Meow(meow).yaml；不假定官方 App 执行 JS。
+// 官方 Meow 客户端使用相邻 Meow 目录的原生 YAML；不假定官方 App 执行 JS。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.20-meow.2'
+const VERSION = 'v6.0.20-meow.3'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。

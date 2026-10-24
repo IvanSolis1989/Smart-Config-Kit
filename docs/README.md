@@ -39,7 +39,7 @@
 - **[仓库维护契约](../AGENTS.md)**：生成链路、版本同步和 README 编写与视觉验收要求。
 - [维护工具](../tools/README.md)：官方文档缓存、生成与验证工具。
 - [客户端支持队列](support-queue.md)：预适配候选、接口边界与正式支持的剩余验收。
-- [Meow 通用适配](../Meow内核系/Meow/README.md)：官方核心/官方 App 原生 YAML 与可选 JS，AEROVE 专属接入单列。
+- [Meow 内核系](../Meow内核系/README.md)：[官方 Meow 原生 YAML](../Meow内核系/Meow/README.md)与 [AEROVE Lite JS](../Meow内核系/Aerove%20Lite/README.md)分别提供客户端教程、参考文档和日志。
 - [规则资产交付](rule-asset-delivery.md)：下载 URL 与完整内容校验。
 - [发布批次](release-batch.md)：生成物、版本与发布验收。
 - [官方参考与历史核验](archive/README.md)：客户端 REFERENCE、注明日期的官方版本复核和专题验收原文。

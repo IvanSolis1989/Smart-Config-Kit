@@ -2,7 +2,7 @@
 
 记录通用适配与各客户端验收进展。源码支持、核心校验、App 导入和真实连接分别记录。
 
-[文档中心](README.md) · [客户端选择](guide/client-support.md) · [Meow 使用说明](../Meow内核系/Meow/README.md)
+[文档中心](README.md) · [客户端选择](guide/client-support.md) · [Meow 内核系](../Meow内核系/README.md)
 
 | 对象 | 入口 | 当前阶段 |
 | --- | --- | --- |
@@ -12,7 +12,7 @@
 
 ## <a id="meow"></a>Meow / meow-rs 通用适配
 
-核对日期：2026-10-24。[Meow(meow).yaml](../Meow内核系/Meow/Meow%28meow%29.yaml) 面向官方核心/官方 App；[Meow(meow).js](../Meow内核系/Meow/Meow%28meow%29.js) 面向提供 main(config) 的宿主。AEROVE Lite 是其中一个消费者。
+核对日期：2026-10-24。两个客户端目录并列：[官方 Meow](../Meow内核系/Meow/README.md)使用 [Meow(meow).yaml](../Meow内核系/Meow/Meow%28meow%29.yaml)，[AEROVE Lite](../Meow内核系/Aerove%20Lite/README.md)使用 [AeroveLite(meow).js](../Meow内核系/Aerove%20Lite/AeroveLite%28meow%29.js)；各自提供 README、参考文档和日志，共享生成器与规则基线。
 
 已完成同源融合规则、33 业务组、22 个原生地区/家宽组、通用 JS、原生 YAML、输入/输出哈希、失败原子性、空池拒绝，以及自动刷新/CI。官方 v0.26.1 核心真实 -t 已加载 149 个本地规则资产、168 条规则、55 个组及实际 Geo 数据，没有 WARN/ERROR。节点为合成样例，未启动代理流量。依据见 [REFERENCE](../Meow内核系/Meow/REFERENCE-meow-rs.md)。
 
@@ -30,7 +30,7 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
-目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。专属接口见 [AEROVE Lite 接入](../Meow内核系/Meow/clients/aerove-lite.md)。已发送给 AEROVE 开发会话推进，取得真实证据前以下状态保持待验：
+目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)，专属接口见 [接口依据](../Meow内核系/Aerove%20Lite/REFERENCE-AEROVE-Lite.md)。已发送给 AEROVE 开发会话推进，取得真实证据前以下状态保持待验：
 
 1. 导入、资源准备和运行路径统一使用 Meow 配置准入，避免旧 CompatibilityValidator 拒绝 provider.proxy/header 等字段。
 2. App 的 AND/OR/NOT 准入与固定内核一致，保留 QUIC 等有序规则。

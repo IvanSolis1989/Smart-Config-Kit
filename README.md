@@ -54,7 +54,7 @@
 
 [打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
 
-[Meow / meow-rs 通用适配](Meow内核系/Meow/README.md)提供官方核心及官方 Android/iOS 的原生 YAML，以及支持脚本宿主的通用 JS；各端验收进展见[支持队列](docs/support-queue.md)。
+[Meow 内核系](Meow内核系/README.md)按客户端提供并列入口：[官方 Meow](Meow内核系/Meow/README.md)使用原生 YAML，[AEROVE Lite](Meow内核系/Aerove%20Lite/README.md)使用 JS 覆写；各端验收进展见[支持队列](docs/support-queue.md)。
 
 ## <a name="routing"></a>一套策略，按客户端落地
 

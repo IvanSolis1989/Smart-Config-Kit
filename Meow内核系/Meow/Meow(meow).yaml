@@ -1,4 +1,4 @@
-# Meow 原生 YAML v6.0.20-meow.2 | Build: 2026-10-24
+# Meow 原生 YAML v6.0.20-meow.3 | Build: 2026-10-24
 # 架构：22 provider-filter 区域组 + 33 业务组；融合 MRS / residual YAML
 # 规则源：rulesets/source/routing-graph.js v6.0.20
 # 生成：node tools/generate-meow.js（禁止手工改生成物）

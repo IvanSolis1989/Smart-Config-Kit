@@ -1,6 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Meow 变更日志" width="100%">
+</picture>
+
 # Meow / meow-rs — 变更日志
 
 [使用说明](README.md) · [支持队列](../../docs/support-queue.md#meow)
+
+## v6.0.20-meow.3 (2026-10-24)
+
+- 官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自提供 README、参考文档与变更日志；共享生成器和家族适配清单。
+- 本目录仅说明官方核心与官方 Android/iOS 的 YAML 导入；配置语义与验收边界保持不变。
 
 ## v6.0.20-meow.2 (2026-10-24)
 

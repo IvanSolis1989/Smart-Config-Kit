@@ -13,7 +13,7 @@
 
 [按场景选择](#choose) · [协议矩阵](#protocols) · [条件与证据](#conditions)
 
-[Meow 通用适配](../../Meow内核系/Meow/README.md)提供官方核心、meow-android / meow-ios 的原生 YAML，以及供脚本宿主使用的通用 JS。各端运行验收和 AEROVE Lite 接线见[支持队列](../support-queue.md)。
+[Meow 内核系](../../Meow内核系/README.md)提供并列客户端入口：[官方 Meow](../../Meow内核系/Meow/README.md)使用原生 YAML，[AEROVE Lite](../../Meow内核系/Aerove%20Lite/README.md)使用 JS 覆写。两者各有导入教程与参考文档；运行验收和接线见[支持队列](../support-queue.md)。
 
 ## <a id="choose"></a>按使用场景选择
 

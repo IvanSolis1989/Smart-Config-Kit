@@ -12,7 +12,9 @@
 | 官方 Android | 稳定 v1.0.8，App 0ea329a5655f2c4370862d2ec585f0ef4b353207；核心 v0.20.2 | [URL/addLocal/nativeValidateConfig](https://github.com/meow-rs/meow-android/blob/4740012bf0efdb8bae8fbeeefaf4937dfa309f26/core/src/main/java/io/github/madeye/meow/repo/ProfileRepository.kt)，[稳定核心依赖](https://github.com/meow-rs/meow-android/blob/v1.0.8/core/src/main/rust/meow-android-ffi/Cargo.toml) |
 | 官方 iOS | 稳定 v2.0.0，App fe288b1eea60fb9a2da18a0749cce1ca0bd538f7；核心 a663364469b3b7dc2b46d2e0f4530e50a54108ee | [URL/本地 YAML](https://github.com/meow-rs/meow-ios/blob/a32df0ba845d706659cb531aa9250e769011f651/App/Sources/Services/SubscriptionService.swift)，[稳定核心依赖](https://github.com/meow-rs/meow-ios/blob/v2.0.0/core/rust/meow-ios-ffi/Cargo.toml) |
 
-官方 App 本轮未发现 AEROVE 式 main(config) JS 覆写入口。JS 只供具有对应宿主的客户端，AEROVE 证据见[单独接入页](clients/aerove-lite.md)。
+官方 App 本轮未发现 AEROVE 式 main(config) JS 覆写入口。JS 只供具有对应宿主的客户端，AEROVE 证据见[单独接入页](../Aerove%20Lite/REFERENCE-AEROVE-Lite.md)。
+
+官方应用显示名为 Android 的 [Meow](https://github.com/meow-rs/meow-android/blob/4740012bf0efdb8bae8fbeeefaf4937dfa309f26/mobile/src/main/res/values/strings.xml#L13) 和 iOS 的 [meow](https://github.com/meow-rs/meow-ios/blob/a32df0ba845d706659cb531aa9250e769011f651/App/Info.plist#L7)，本仓库共用 Meow 客户端目录。
 
 ## 字段与语义
 

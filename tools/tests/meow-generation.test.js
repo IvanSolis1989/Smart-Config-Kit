@@ -111,6 +111,10 @@ test('official clients receive native YAML independently of a JS host', () => {
   const manifest = JSON.parse(outputs[api().MANIFEST_PATH]);
   assert.equal(manifest.client, 'Meow');
   assert.equal(manifest.native_output.path, api().NATIVE_PATH);
+  assert.deepEqual(manifest.client_entries, {
+    meow: { name: 'Meow', readme: 'Meow内核系/Meow/README.md', artifact: api().NATIVE_PATH },
+    aerove_lite: { name: 'AEROVE Lite', readme: 'Meow内核系/Aerove Lite/README.md', artifact: api().SCRIPT_PATH }
+  });
 });
 
 test('native profile passes the official Meow core with every local rule asset', {

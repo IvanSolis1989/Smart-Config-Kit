@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "version": "v6.0.20-meow.2",
+  "version": "v6.0.20-meow.3",
   "build": "2026-10-24",
   "client": "Meow",
   "kernel": "meow-rs",
@@ -12,17 +12,29 @@
     "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "5d28463337736d645f6012c9afb3484a6328cb5b5cafce4d3905269abafc9ff9",
     "rulesets/source/routing-graph.js": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
     "rulesets/generated/fused/manifest.json": "685166bb56ceaeb08053e15676744f1a7ba3e651f9259881baae7a881212df8c",
-    "tools/generate-meow.js": "11873125725f2f63b3b9622af9bd30003d1943517974993f1412cd87aab84083",
+    "tools/generate-meow.js": "682ce961d639b110ab680c969478f23c3a4d3fd08d7bfa8a45ce2eff08c2d2d8",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed"
   },
   "output": {
-    "path": "Meow内核系/Meow/Meow(meow).js",
-    "sha256_lf": "bcb14ae51109623a17d309a867f578a56ce86003928952efc9ba1a807f439189"
+    "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
+    "sha256_lf": "217a4d7ecfb56d99cbb79148159ee636b882af5520c4ad7b6c6c870405f938cb"
   },
   "native_output": {
     "path": "Meow内核系/Meow/Meow(meow).yaml",
-    "sha256_lf": "de0e47f1c1c0894369a623985da01dbd05aefa4330fe390095cee0a2f41ad3a8",
+    "sha256_lf": "2749b55428de72b205f31e29733a979e065064710ea17230611c00144f22ab68",
     "requires_js_host": false
+  },
+  "client_entries": {
+    "meow": {
+      "name": "Meow",
+      "readme": "Meow内核系/Meow/README.md",
+      "artifact": "Meow内核系/Meow/Meow(meow).yaml"
+    },
+    "aerove_lite": {
+      "name": "AEROVE Lite",
+      "readme": "Meow内核系/Aerove Lite/README.md",
+      "artifact": "Meow内核系/Aerove Lite/AeroveLite(meow).js"
+    }
   },
   "consumers": [
     "meow-rs core",

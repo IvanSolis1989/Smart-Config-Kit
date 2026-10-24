@@ -14,12 +14,14 @@ const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const { buildNativeProfile } = require('./lib/meow-native-profile');
 const ROOT = path.resolve(__dirname, '..');
 const SOURCE_PATH = 'Mihomo内核系/FlClash/FlClash(mihomo).js';
-const CLIENT_DIR = 'Meow内核系/Meow';
-const SCRIPT_PATH = `${CLIENT_DIR}/Meow(meow).js`;
+const FAMILY_DIR = 'Meow内核系';
+const CLIENT_DIR = `${FAMILY_DIR}/Meow`;
+const SCRIPT_CLIENT_DIR = `${FAMILY_DIR}/Aerove Lite`;
+const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
-const MANIFEST_PATH = `${CLIENT_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.2`;
+const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.3`;
 const BUILD = '2026-10-24';
 const canonical = text => text.replace(/\r\n/g, '\n');
 const hash = text => crypto.createHash('sha256').update(canonical(text)).digest('hex');
@@ -102,16 +104,16 @@ function renderScript(input) {
     '  sckiAssertIndependentDns(config.dns)\n' +
     '  return sckiRoutingMain(JSON.parse(JSON.stringify(config)))\n}\n';
   return [
-    '// Meow / meow-rs 通用分流覆写候选（需要 main(config) 脚本宿主）',
+    '// AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）',
     `// 版本：${VERSION} | Build：${BUILD}`,
     '// 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML',
     `// 规则源：rulesets/source/routing-graph.js ${SOURCE_GRAPH_VERSION}`,
     `// 生成：node tools/generate-meow.js；运行时输入：${SOURCE_PATH}`,
-    `// 变更历史：${CLIENT_DIR}/CHANGELOG.md；状态：docs/support-queue.md`,
+    `// 变更历史：${SCRIPT_CLIENT_DIR}/CHANGELOG.md；状态：docs/support-queue.md#aerove-lite-meow`,
     '// 只维护节点清洗、分组、rule-providers、rules；DNS / TUN / 端口 / 嗅探由 App 管理。',
     '// 前提：已展开节点的订阅；远程 proxy-providers 请先用 SubStore 展平。',
     '// 目标接口：main(config)，JSON 对象入出；无网络、文件系统或定时器依赖。',
-    '// 官方核心及官方 Android/iOS 使用同目录 Meow(meow).yaml；不假定官方 App 执行 JS。',
+    '// 官方 Meow 客户端使用相邻 Meow 目录的原生 YAML；不假定官方 App 执行 JS。',
     '// 客户端联调和真实连接验收状态见支持队列。',
     '', source
   ].join('\n');
@@ -146,6 +148,10 @@ function buildOutputs() {
     input_sha256_lf: Object.fromEntries(inputs.map(file => [file, hash(read(file))])),
     output: { path: SCRIPT_PATH, sha256_lf: hash(script) },
     native_output: { path: NATIVE_PATH, sha256_lf: hash(nativeText), requires_js_host: false },
+    client_entries: {
+      meow: { name: 'Meow', readme: `${CLIENT_DIR}/README.md`, artifact: NATIVE_PATH },
+      aerove_lite: { name: 'AEROVE Lite', readme: `${SCRIPT_CLIENT_DIR}/README.md`, artifact: SCRIPT_PATH }
+    },
     consumers: ['meow-rs core', 'meow-android (YAML; App verification pending)', 'meow-ios (YAML; App verification pending)',
       'AEROVE Lite (JS; App verification pending)'],
     routing: { rule_count: routing.rules.length, provider_count: Object.keys(routing.providers).length,

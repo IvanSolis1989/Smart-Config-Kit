@@ -13,13 +13,17 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-24 — Meow 与 AEROVE Lite 并列客户端目录
+
+- v6.0.20-meow.3 将官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自维护 README、参考文档和日志，共享生成器与清单；分流语义不变。详见 [官方 Meow 日志](Meow内核系/Meow/CHANGELOG.md)及 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## 2026-10-24 — Meow 通用原生与 JS 入口
 
 - 新增 v6.0.20-meow.2 原生 YAML，将 AEROVE 专属目录改为通用 Meow；核对官方 Android/iOS 输入与版本，真实官方核心校验接入 CI。App 与连接待验，详见 [Meow 日志](Meow内核系/Meow/CHANGELOG.md)。
 
 ## 2026-10-24 — AEROVE Lite / meow-rs 预适配
 
-- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Meow/CHANGELOG.md)。
+- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
 
 ## 2026-10-24 — README 首页与专题导航
 

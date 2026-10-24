@@ -59,9 +59,9 @@ test('published repository contract and CLI use the supported release gate versi
   assert.ok(contract.staticOutputs.includes('rulesets/generated/mihomo-mrs/source-ledger.json'), 'MRS source receipts must be covered by the release batch');
   assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-full.json'));
   assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
-  assert.ok(contract.staticOutputs.includes('Meow内核系/Meow/Meow(meow).js'));
+  assert.ok(contract.staticOutputs.includes('Meow内核系/Aerove Lite/AeroveLite(meow).js'));
   assert.ok(contract.staticOutputs.includes('Meow内核系/Meow/Meow(meow).yaml'), 'Official clients need native YAML independently of a JS host');
-  assert.ok(contract.staticOutputs.includes('Meow内核系/Meow/adapter-manifest.json'), 'Candidate and provenance must refresh together');
+  assert.ok(contract.staticOutputs.includes('Meow内核系/adapter-manifest.json'), 'Sibling client artifacts and shared provenance must refresh together');
   assert.ok(contract.validators.some(command => command[0] === 'tools/generate-meow.js' && command[1] === '--check'));
   const result = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', windowsHide: true });
   assert.equal(result.status, 0, result.stderr);
