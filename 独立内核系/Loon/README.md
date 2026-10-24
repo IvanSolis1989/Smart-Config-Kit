@@ -208,7 +208,7 @@ geoip-url = https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mm
 1. 确认启用本目录配置，55 个组已载入，区域组含可用节点。
 2. 检查所有远程规则下载状态。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求日志中核对 AI、Netflix、国内流媒体的规则与实际出口。
-4. 继续完成根 README 的[导入后验证清单](../../README.md#-导入后-60-秒验证清单)。
+4. 继续完成专题页的[导入后验证清单](../../docs/guide/dns-and-verification.md#verification)。
 
 ---
 

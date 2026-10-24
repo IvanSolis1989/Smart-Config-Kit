@@ -52,7 +52,7 @@ APK 是安装包；arm64-v8a / armeabi-v7a 是 CPU 架构。首次建立 VPN 连
 
 ### 跑起来之后怎么验证？
 
-检查 22 区域组 + 33 业务组、规则下载和连接记录，再按根 README 的[导入后验证清单](../../README.md#-导入后-60-秒验证清单)核对。
+检查 22 区域组 + 33 业务组、规则下载和连接记录，再按专题页的[导入后验证清单](../../docs/guide/dns-and-verification.md#verification)核对。
 
 ### 最常见踩坑
 

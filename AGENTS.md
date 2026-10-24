@@ -87,7 +87,7 @@ node tools/generate-egern-from-cmfa.js
 | 11 | FlClash（JS 覆写脚本） | `Mihomo内核系/FlClash/FlClash(mihomo).js` | 从属（Clash Party Normal JS 的 FlClash 移植版；url-test 区域组，无 Smart+LightGBM） |
 | 12 | Stash（Clash Premium 兼容 YAML） | `独立内核系/Stash/Stash.yaml` + `tools/generate-stash-from-cmfa.js` | 从属（由 CMFA 自动裁剪生成；无 Smart+LightGBM） |
 | 13 | Egern（iOS / macOS YAML） | `独立内核系/Egern/Egern.yaml` + `tools/generate-egern-from-cmfa.js` | 从属（由 CMFA 生成；`.mrs` 映射为 Egern 兼容 YAML / 文本规则源） |
-| 14 | Karing（sing-box 分流适配 JSON） | `Sing-box内核系/Karing/diversion_rules_custom.json` + `tools/generate-karing.js` | 原生适配入口；保留 Karing 手工节点组、DNS 与默认兜底，不代表完整 SingBox JSON 无损导入 |
+| 14 | Karing（sing-box 分流适配 JSON） | `Sing-box内核系/Karing/diversion_rules_custom.json` + `tools/generate-karing.js` | 原生分流规则入口；节点组、DNS 与最终默认动作由 Karing App 设置，不代表完整 SingBox JSON 无损导入 |
 
 **基线原则：** `rulesets/source/routing-graph.js` 是唯一的「**规则权威源**」。Clash Party / CMFA / Stash / Egern / SingBox / v2rayN / Passwall 等都是派生或消费产物；仅在平台能力受限处允许差异（见 §3）。
 
@@ -123,7 +123,7 @@ node tools/generate-egern-from-cmfa.js
 
 ### 0A. 内核系列目录与 Karing 适配
 
-14 个既有客户端目录按五类内核系列归档；各 APP 原有子目录和文件名保留。新增 Karing 是第 15 个语义产品入口，提供 sing-box 分流适配 JSON；其节点组、默认兜底和 DNS 由 Karing 适配配置手工维护，不是 JS 覆写脚本，也不承诺完整 sing-box JSON 无损导入。`SubStore/`、`rulesets/`、`tools/`、`docs/` 仍是仓库级共享目录，不归入客户端内核系列。
+14 个既有客户端目录按五类内核系列归档；各 APP 原有子目录和文件名保留。新增 Karing 是第 15 个语义产品入口，提供 sing-box 分流适配 JSON，仅导入分流规则；节点组、DNS 与最终默认动作由 Karing App 手工设置。它不是 JS 覆写脚本，也不承诺完整 sing-box JSON 无损导入。`SubStore/`、`rulesets/`、`tools/`、`docs/` 仍是仓库级共享目录，不归入客户端内核系列。
 
 - 生成 Karing 适配：`node tools/generate-karing.js`
 - 只读检查 Karing 适配合同：`node tools/generate-karing.js --check`
@@ -296,7 +296,7 @@ node tools/generate-egern-from-cmfa.js
 - `README.md`（根目录 + 各子目录）的定位是**项目介绍 / 使用指南 / 导入说明**。
 - **严禁**在 README 中写版本变更历史（如「v5.4.X 修复了…」「近期 DNS 加固」等），这类内容只属于 `CHANGELOG.md`。
 - 若在 README 中发现 changelog 内容，必须立即移到对应 `CHANGELOG.md` 并从 README 删除。
-- **README 发布前视觉验收**：编辑后必须渲染 Markdown，检查按钮、图表、文字与链接的实际布局；根 README 还需检查亮色、深色和窄屏效果。完成视觉检查后才可推送 GitHub。
+- **README 发布前视觉验收**：按 §10 执行；完成视觉检查后才可推送 GitHub。
 
 **每次更新必须同步所有 CHANGELOG ⚠️：**
 
@@ -837,3 +837,33 @@ PR 提交后会自动运行两个验证工作流：
 
 - **代码修改模式**：AI 输出结构化响应（`<!-- AI_REPLY -->` + `<!-- AI_PATCH -->` + `<!-- AI_PR -->`），workflow 自动提取补丁、创建分支、提交并开 PR
 - **所需 Secrets / Variables**：`MIMO_API_KEY`（必填）、`TAVILY_API_KEY`（可选，联网搜索）；可选 Actions Variable `MIMO_BASE_URL` 覆盖标准端点 `https://api.xiaomimimo.com/v1`。Token Plan 的 key 不能与标准套餐混用，`MIMO_BASE_URL` 应填写控制台提供的完整 base URL。
+
+---
+
+## 10. README 与文档编写契约
+
+### 10.1 根 README 的职责与信息顺序
+
+根 `README.md` 是项目首页和快速入口，优先帮助读者判断项目价值、开始使用并找到对应客户端。推荐按以下顺序组织：
+
+1. 主视觉与项目价值：说明解决什么问题、适合谁，并使用 `tools/generate-readme-visuals.js` 生成的自包含现代玻璃风 SVG。
+2. 三步入门：以简短步骤引导读者选客户端、导入配置并完成基本检查。
+3. 按客户端家族排列的下载入口：提供清晰分类目录和按钮，覆盖仓库提供的全部产物。
+4. 单张核心设计概览：解释同源规则如何按客户端落地，不重复专题页的详细图表。
+5. 专题导航：链接到 `docs/guide/` 下的 downloads、client-support、routing-policy、dns-and-verification、acknowledgements 等指南。
+6. 参与方式与 License。
+
+根 README 不重复长目录路径、参数、维护命令、详细协议/规则来源、DNS 排障步骤或变更历史。将这些内容放在二级指南、客户端教程或相应单一事实源中；升级时同步修正文档链接，并核对文中可验证事实仍与源文件、生成物或官方资料一致。wiki 不作为本仓库需要另行维护的内容副本。
+
+### 10.2 首页布局与媒体
+
+- 根 README 表格建议不超过三列，每张表聚焦一种比较；长矩阵按客户端家族拆到对应二级文档。避免首列文字逐字竖排、极窄教程列、无必要的横向滚动，以及在表格单元格中嵌入长代码。
+- 下载内容可按客户端家族使用分类目录和按钮；保证每个正式产物都能从入口发现，并明确区分 Raw 文件（直接获取配置/规则）与教程（说明选择、导入和设置）。
+- 视觉应优先适配手机；至少在 390px 宽视口检查图表文字、按钮与导航可读。图片提供有意义的 alt 文本；关键信息须保留为可检索文本，不得只放在图片里，也不得用一张大图承载全部说明。
+- 首页视觉使用 `tools/generate-readme-visuals.js` 生成的自包含 SVG。保持 SVG 自包含，不依赖 inline CSS/JavaScript 或 GitHub 不支持的功能；需要修改图形时更新生成器并重生成资源，不手工编辑生成结果。
+
+### 10.3 渲染、链接与发布验收
+
+每次修改 README 的布局、表格、SVG 或链接，在推送前必须完成实际 GitHub GFM 或等效渲染验收：检查桌面亮色、桌面暗色和 390px 窄屏；确认页面整体无溢出、图文无截断、按钮可读。核对本地文件链接与页内锚点，对新增或改变的下载 URL 检查实际响应；地址和内容未变的链接可复用已有完整下载与哈希校验结果。可将截图或验收报告保存在 `.cache/` 作为证据。
+
+生成器的 `--check` 可用于发现生成文件漂移，但不能替代视觉验收。仅在本次授权包含发布时推送；发布后检查 GitHub 上的实际渲染效果，并核对对应提交的 CI 结果。纯文档与 SVG 表现层修改不触发 §1 的全客户端版本更新或规则再生成；若改动同时影响规则、DNS、运行时行为或生成产物，仍按 §1 执行。

@@ -77,7 +77,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 点「代理」标签，应看到：
 - **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过）：🌍 全球节点、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
 - **33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+- 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
 
 ---
 

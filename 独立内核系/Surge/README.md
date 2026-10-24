@@ -228,7 +228,7 @@ DNS 位于 `[General]`。多个加密 DNS **并发查询，采用首个有效响
 1. 确认启用 `Surge Smart v6.0.20-Surge.12`，策略面板有 55 个组且区域组含节点。
 2. 检查所有 RULE-SET 下载完成。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在 **活动（Activity）** 中核对 AI、Netflix、国内流媒体规则及实际出口。
-4. 继续完成根 README 的[导入后验证清单](../../README.md#-导入后-60-秒验证清单)。
+4. 继续完成专题页的[导入后验证清单](../../docs/guide/dns-and-verification.md#verification)。
 
 ---
 

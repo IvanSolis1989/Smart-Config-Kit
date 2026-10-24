@@ -57,6 +57,13 @@ document('hero.svg', 1120, 250, 'Smart-Config-Kit', '同一规则源，多端原
   ${text(50, 190, '桌面 · 移动端 · OpenWrt', 19, 400, muted)}
   <rect x="50" y="214" width="104" height="4" rx="2" fill="url(#ribbon)"/>`);
 
+document('hero-mobile.svg', 420, 230, 'Smart-Config-Kit', '同一规则源，多端原生分流。桌面、移动端与 OpenWrt。',
+  `<g fill="none" stroke="#aac7e2" stroke-width="1.3" opacity=".66"><path d="M333 102L423 158L333 214L291 158ZM333 102V214M291 158H423M333 102L382 158L333 214"/><circle cx="333" cy="158" r="7" fill="#f3fbff"/></g>
+  ${text(25, 72, 'Smart-Config-Kit', 34, 650)}
+  ${text(26, 114, '同一规则源，多端原生分流。', 22, 500)}
+  ${text(26, 160, '桌面 · 移动端 · OpenWrt', 18, 400, muted)}
+  <rect x="26" y="191" width="83" height="4" rx="2" fill="url(#ribbon)"/>`);
+
 document('routing-flow.svg', 1120, 460, '同源编译与规则命中', '规则源图经 MRS 归一化和 fused 编译生成各端原生格式。请求按源图规则顺序命中，UI 分组顺序不是匹配顺序。',
   `${text(36, 48, '从同一规则源，到各端原生配置', 27, 650)}
   ${rect(36, 77, 272, 103, '#e0edff')}${text(56, 111, '唯一规则源', 22, 650)}${text(56, 143, 'routing-graph.js', 20, 400, muted)}
@@ -163,6 +170,69 @@ const colors = {
   teal: ['#d9f2ef', '#f2fcf9', '#147e7c', '#9ecfc9'],
   violet: ['#eae4fc', '#fbf8ff', '#6f57a6', '#c8bbe9'],
 };
+
+// Homepage navigation stays separate from download buttons and their public names.
+const families = [
+  ['mihomo', 'Mihomo', ['Clash Party · CMFA', 'OpenClash · FlClash'], 'blue'],
+  ['sing-box', 'sing-box', ['SingBox · Karing'], 'teal'],
+  ['xray', 'Xray', ['v2rayN 路由'], 'violet'],
+  ['dual-core', '双内核', ['Passwall · Passwall2'], 'teal'],
+  ['independent', '独立内核', ['Shadowrocket · Surge · Loon', 'Quantumult X · Stash · Egern'], 'violet'],
+];
+for (const [slug, label, apps, color] of families) {
+  const [tint, light, accent, stroke] = colors[color];
+  document(`family-${slug}.svg`, 250, 128, `${label} 配置入口`, apps.join('；'),
+    `<defs><linearGradient id="family" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${light}"/><stop offset=".65" stop-color="${tint}"/><stop offset="1" stop-color="${light}"/></linearGradient></defs>
+    <rect x="1" y="1" width="248" height="126" rx="19" fill="url(#family)" stroke="${stroke}"/>
+    <path d="M20 2H230" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M222 28V49M212 38H232" stroke="${accent}" stroke-opacity=".22" stroke-width="1.5"/>
+    <circle cx="222" cy="38" r="13" fill="#ffffff" fill-opacity=".54" stroke="${stroke}"/>
+    <path d="M218 34L222 38L218 42M222 38H227" fill="none" stroke="${accent}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    ${text(19, 45, label, 24, 650)}
+    ${lines(19, 79, apps, 14.5, 24, muted)}
+    <path d="M20 115H57" stroke="${accent}" stroke-width="2" stroke-opacity=".5" stroke-linecap="round"/>`, true);
+}
+
+function sourceMark(x, y) {
+  return `<g transform="translate(${x} ${y})" fill="none" stroke="#6b9ac8" stroke-width="1.6"><path d="M0 17L28 0L56 17L28 34ZM28 0V34M0 17H56"/><circle cx="28" cy="17" r="5" fill="#f5fbff"/></g>`;
+}
+function deviceMark(x, y) {
+  return `<g transform="translate(${x} ${y})" fill="none" stroke="#7c80b0" stroke-width="1.7" stroke-linejoin="round"><rect width="43" height="28" rx="3"/><path d="M21 28V35M10 35H33"/><rect x="50" y="9" width="17" height="31" rx="3"/><path d="M56 35H61"/></g>`;
+}
+
+document('overview.svg', 1120, 300, '同一规则源，跨设备分流', '同一规则源生成各客户端原生配置，在桌面、移动端与 OpenWrt 使用。具备对应能力的客户端提供 33 业务组与 22 区域组；Karing 使用原生适配，Xray 使用三出站路由，能力和导入方式以各端指南为准。',
+  `${rect(28, 29, 292, 151, '#e0edff', 23)}${sourceMark(244, 52)}
+  ${text(49, 78, '同一规则源', 27, 650)}
+  ${lines(49, 118, ['统一维护分流策略', '业务命中顺序保持一致'], 20, 30)}
+  ${arrow(332, 105, 384, 105)}
+  ${rect(398, 29, 306, 151, '#d9f2ef', 23)}
+  ${text(419, 78, '各端原生配置', 27, 650)}
+  ${lines(419, 118, ['选择客户端，导入对应配置', '按平台能力适配规则与节点组'], 20, 30)}
+  ${arrow(716, 105, 768, 105)}
+  ${rect(782, 29, 310, 151, '#eae4fc', 23)}${deviceMark(1004, 48)}
+  ${text(803, 78, '跨设备分流', 27, 650)}
+  ${lines(803, 118, ['桌面 · 移动端 · OpenWrt', '按业务选择策略与出口'], 20, 30)}
+  <path d="M34 206H1086" stroke="#c6d9e8"/>
+  ${text(36, 240, '33 业务组 / 22 区域组', 21, 650)}
+  ${text(334, 240, '适用于具备对应策略组能力的客户端', 19, 400, muted)}
+  ${text(36, 275, 'Karing 原生适配 · Xray 三出站路由；各端能力与导入方式见配置指南。', 19, 400, muted)}`);
+
+document('overview-mobile.svg', 420, 550, '同一规则源，跨设备分流', '窄屏概览：同一规则源生成各端原生配置，在桌面、移动端与 OpenWrt 分流。33 业务组和 22 区域组只适用于具备对应能力的客户端。Karing 原生适配与 Xray 三出站路由有各自边界。',
+  `${rect(22, 20, 376, 106, '#e0edff', 21)}${sourceMark(316, 38)}
+  ${text(42, 58, '同一规则源', 25, 650)}
+  ${text(42, 91, '统一维护策略与业务命中顺序', 19, 400, muted)}
+  ${arrow(210, 134, 210, 150)}
+  ${rect(22, 162, 376, 106, '#d9f2ef', 21)}
+  ${text(42, 200, '各端原生配置', 25, 650)}
+  ${text(42, 233, '选择客户端，导入对应配置', 19, 400, muted)}
+  ${arrow(210, 276, 210, 292)}
+  ${rect(22, 304, 376, 106, '#eae4fc', 21)}${deviceMark(311, 322)}
+  ${text(42, 342, '跨设备分流', 25, 650)}
+  ${text(42, 375, '桌面 · 移动端 · OpenWrt', 19, 400, muted)}
+  ${text(24, 449, '33 业务组 / 22 区域组', 22, 650)}
+  ${text(24, 478, '适用于具备对应能力的客户端', 18, 400, muted)}
+  ${lines(24, 511, ['Karing 原生适配 · Xray 三出站路由', '各端能力与导入方式见配置指南'], 17, 25)}`);
+
 for (const [slug, label, format, color] of buttons) {
   const [a, b, accent, stroke] = colors[color];
   document(`button-${slug}.svg`, 145, 38, `下载 ${label} ${format}`, `打开 ${label} ${format} 原始文件`,

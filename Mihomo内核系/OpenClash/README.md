@@ -153,7 +153,7 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 
 - OpenClash「运行状态」应显示内核正常启动，日志没有大面积 rule-provider 403 / 404。
 - 策略组页面应看到 22 区域组 + 33 业务组；Smart 版区域组应为 `smart`，Normal 版应为 `url-test`。
-- 额外检查：按根 README 的 [导入后 60 秒验证清单](../../README.md#-导入后-60-秒验证清单) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+- 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
 
 ## 4. 常见问题
 

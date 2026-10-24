@@ -189,7 +189,7 @@ GitHub Raw 示例：`https://raw.githubusercontent.com/<user>/<repo>/main/Shadow
 
 ### 验证分流是否正确
 
-访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在连接信息中核对 AI、Netflix、国内流媒体的命中规则与上游节点；继续完成根 README 的[导入后验证清单](../../README.md#-导入后-60-秒验证清单)。
+访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在连接信息中核对 AI、Netflix、国内流媒体的命中规则与上游节点；继续完成专题页的[导入后验证清单](../../docs/guide/dns-and-verification.md#verification)。
 
 ## 九、iOS 系统设置建议
 

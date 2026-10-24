@@ -320,7 +320,7 @@ sniffer:
 1. **代理组**：最多 22 区域组 + 33 业务组；Smart 区域组为 smart，Normal 为 url-test；候选节点与区域相符。
 2. **连接记录**：分别访问 AI、Netflix、国内流媒体，核对实际规则、业务组和出站。下表推荐值仅供选择，以实际组名和可用节点为准。
 3. **规则**：当前基线为 168 条主规则、149 个融合 rule-providers；不要用未融合源规则数判断是否完整。
-4. **日志与 DNS**：无解析错误或规则集加载失败；最终 DNS 包含脚本 DoH 与 blacklist 模式。完整清单见根 README 的[导入后验证](../../README.md#-导入后-60-秒验证清单)。
+4. **日志与 DNS**：无解析错误或规则集加载失败；最终 DNS 包含脚本 DoH 与 blacklist 模式。完整清单见专题页的[导入后验证](../../docs/guide/dns-and-verification.md#verification)。
 
 ---
 

@@ -221,7 +221,7 @@ Apple / iCloud 等系统 DNS 例外由 `[general] dns_exclusion_list` 配置。�
 1. 确认启用 `Quantumult X Smart v6.0.20-QX.11`，有 22 个区域组和 33 个 `static` 业务组，区域组含节点。
 2. 检查所有 `filter_remote` 下载成功。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在日志中核对 AI、Netflix、国内流媒体的规则与实际出口。
-4. 继续完成根 README 的[导入后验证清单](../../README.md#-导入后-60-秒验证清单)。
+4. 继续完成专题页的[导入后验证清单](../../docs/guide/dns-and-verification.md#verification)。
 
 ---
 
