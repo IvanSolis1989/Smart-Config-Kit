@@ -7,6 +7,11 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+## 2026-10-24 — 准入与联调证据同步
+
+- 核查固定 App 提交及外部候选，记录 74 项 JVM、AndroidTest 编译和 149 资产读回通过的实际范围；生产 factory、Geo 资源上下文及命名代理下载仍待整合。
+- 增加 [VALIDATION](VALIDATION.md)，将当前进展与早期接口快照区分；完善 README、支持队列和独立下载按钮。未修改脚本或规则语义。
+
 ## v6.0.20-meow.3 (2026-10-24)
 
 - 按客户端并列归档，将 AEROVE Lite JS 与使用说明、接口依据和日志放入独立目录；官方 Meow 原生 YAML 保留在其客户端目录。

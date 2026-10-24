@@ -4,6 +4,8 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [官方核心依据](../Meow/REFERENCE-meow-rs.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+最新核查见 [VALIDATION](VALIDATION.md)：包含固定 App 提交、候选检查实际结果、生产接线及 Geo/代理下载阻断。本页继续保留早期接口快照，不能用来覆盖较新的验收记录。
+
 ## 接口固定快照
 
 2026-10-24 只读核对 `IvanSolis1989/Aerove` 开发工作树，HEAD 为 `b60c272c5e24e9601ea489dd187009e70eda14f6`；当时存在开发中改动，HEAD 不能替代实际读取内容。仓库内位置与当时观察如下：

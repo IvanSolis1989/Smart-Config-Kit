@@ -22,6 +22,8 @@
 | Smart 择路 | [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) Smart：需 Smart 内核 + LightGBM，消费融合规则集。 |
 | 普通 Mihomo | [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) Normal / [FlClash](../../Mihomo内核系/FlClash/README.md)：规则语义相同，区域组使用 url-test；Clash Verge Rev 默认选 Normal。 |
 | Android Mihomo | [CMFA](../../Mihomo内核系/Clash%20Meta%20For%20Android/README.md)：原生 YAML，同步产物，不是规则基准。 |
+| 官方 Meow / meow-rs | [Meow](../../Meow内核系/Meow/README.md)：原生 YAML，先替换节点订阅占位 URL；核心配置校验已通过，官方 Android/iOS 导入与连接待验。 |
+| AEROVE Lite（开发联调） | [AEROVE Lite](../../Meow内核系/Aerove%20Lite/README.md)：JS 覆写，节点先展开；校验器候选 JVM 检查已通过，生产接线与 APK/真实路由验收待完成。 |
 | Stash | [Stash](../../独立内核系/Stash/README.md)：从 CMFA 裁剪生成，保持 Clash Premium 兼容。 |
 | Karing | [Karing](../../Sing-box内核系/Karing/README.md)：按源顺序适配 direct / block / currentSelected；节点组、DNS 与默认动作在 App 设置。 |
 | sing-box / Hiddify / HomeProxy | [sing-box](../../Sing-box内核系/SingBox/README.md)：按实际 1.14 / 1.13 内核选择；GUI 完整配置边界须另验。 |
@@ -31,7 +33,7 @@
 
 ## <a id="protocols"></a>协议支持矩阵
 
-以下沿用 **2026-10-19** 核验口径，描述核心或客户端能力；实际设备仍需完成连接验收。FlClash 与 Karing 等未单列客户端不借此扩展能力声明。
+以下沿用 **2026-10-19** 核验口径，描述核心或客户端能力；实际设备仍需完成连接验收。FlClash、Karing 与 Meow 系等未单列客户端不借此扩展能力声明；Meow 核心字段及 App 联调分别见[官方依据](../../Meow内核系/Meow/REFERENCE-meow-rs.md)和[AEROVE 验收记录](../../Meow内核系/Aerove%20Lite/VALIDATION.md)。
 
 **✓ 支持**　 **△ 有条件支持**　 **— 不支持**
 

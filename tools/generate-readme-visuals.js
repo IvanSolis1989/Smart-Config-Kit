@@ -164,6 +164,7 @@ const buttons = [
   ['quantumult-x-conf', 'Quantumult X', 'CONF', 'violet'], ['egern-yaml', 'Egern', 'YAML', 'violet'],
   ['passwall-sh', 'Passwall', 'SH', 'teal'], ['passwall2-sh', 'Passwall2', 'SH', 'teal'],
   ['flclash-js', 'FlClash', 'JS', 'blue'],
+  ['meow-yaml', 'Meow', 'YAML', 'teal'], ['aerove-lite-js', 'AEROVE Lite', 'JS', 'teal'],
 ];
 const colors = {
   blue: ['#e0efff', '#f6fbff', '#2869b2', '#a5c9ed'],
@@ -178,6 +179,7 @@ const families = [
   ['xray', 'Xray', ['v2rayN 路由'], 'violet'],
   ['dual-core', '双内核', ['Passwall · Passwall2'], 'teal'],
   ['independent', '独立内核', ['Shadowrocket · Surge · Loon', 'Quantumult X · Stash · Egern'], 'violet'],
+  ['meow', 'Meow', ['官方 Meow · AEROVE Lite', '原生 YAML / JS 覆写'], 'teal'],
 ];
 for (const [slug, label, apps, color] of families) {
   const [tint, light, accent, stroke] = colors[color];

@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | [官方 meow-rs 核心](#meow) | 原生 YAML / WebUI | v0.26.1 真实 -t 通过；生产订阅/HTTP 下载与路由待验 |
 | [官方 meow-android / meow-ios](#meow-official-apps) | 原生 YAML | 导入接口及旧核心关键能力已核源码；完整 App 导入与连接待验 |
-| [AEROVE Lite](#aerove-lite-meow) | 通用 JS | 已交接开发会话；配置准入接线与 Android 联调待验 |
+| [AEROVE Lite](#aerove-lite-meow) | JS 覆写 | 准入候选 74 项 JVM、AndroidTest 编译与 149 资产读回通过；生产接线及 APK/真实路由待验 |
 
 ## <a id="meow"></a>Meow / meow-rs 通用适配
 
@@ -30,12 +30,22 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
-目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)，专属接口见 [接口依据](../Meow内核系/Aerove%20Lite/REFERENCE-AEROVE-Lite.md)。已发送给 AEROVE 开发会话推进，取得真实证据前以下状态保持待验：
+目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)，专属接口见 [接口依据](../Meow内核系/Aerove%20Lite/REFERENCE-AEROVE-Lite.md)。本轮已读取开发会话、固定 App 源码和保存产物，完整范围与指纹见[联调核查](../Meow内核系/Aerove%20Lite/VALIDATION.md)。
 
-1. 导入、资源准备和运行路径统一使用 Meow 配置准入，避免旧 CompatibilityValidator 拒绝 provider.proxy/header 等字段。
-2. App 的 AND/OR/NOT 准入与固定内核一致，保留 QUIC 等有序规则。
-3. 在目标 APK 的真实 QuickJS 执行通用 JS，读回最终 YAML，核对组/provider/规则顺序和字段所有权。
-4. 完成固定内核校验、资源更新、Android VPN 与真实路由验收，区分模拟器和真机。
+已通过的候选检查：
+
+- Kotlin 准入候选 74 项 JVM 测试通过，覆盖三阶段准入、资源根接口和 proxy/header 合同；尚未执行真实原生转换或接入生产 factory。
+- SDK 36 AndroidTest 候选编译通过，149 个 provider payload 保存读回完成；Android/QuickJS JNI/原生 payload 解析未执行。
+- 新增 4 个原生回归源码并完成严格补丁回放；Rust 尚未执行，保留为“源码准备完成”。
+
+剩余生产与设备验收：
+
+1. 导入、资源准备和运行路径统一使用 Meow 配置准入；固定 App 提交 5d2c2bb… 仍在生产入口实例化旧 CompatibilityValidator。
+2. 整合候选的 AND/OR/NOT 准入，并将完整校验接上可信 prepared Geo 资源根；5 条 GEOSITE 逻辑规则的 string-only 校验仍有明确阻断。
+3. 接通 provider 命名代理与 header 下载；当前下载器仍强制直连。
+4. 统一导入、资源准备与备份恢复的有界容量，容纳 149 个规则源；固定源码仍有 128 条限制，保留字节预算和超限拒绝。
+5. 在目标 APK 的真实 QuickJS 执行当前 JS，读回最终 YAML，核对组/provider/规则顺序和字段所有权。
+6. 完成固定内核校验、资源更新、Android VPN 与真实路由验收，区分模拟器和真机。旧 APK 或部分 Native 测试通过不代表本轮联调完成。
 
 ## 维护
 

@@ -15,11 +15,15 @@
 
 [原生 YAML](Meow/Meow%28meow%29.yaml) · [导入教程](Meow/README.md) · [官方适配依据](Meow/REFERENCE-meow-rs.md) · [变更日志](Meow/CHANGELOG.md)
 
+官方核心配置校验已通过；官方 Android/iOS 的完整导入与实际连接仍在[各自 App 队列](../docs/support-queue.md#meow-official-apps)中。
+
 ## AEROVE Lite
 
 使用 `main(config)` JS 覆写宿主；先导入已展开节点的订阅，再关联脚本。
 
 [覆写脚本](Aerove%20Lite/AeroveLite%28meow%29.js) · [导入教程](Aerove%20Lite/README.md) · [宿主接口依据](Aerove%20Lite/REFERENCE-AEROVE-Lite.md) · [变更日志](Aerove%20Lite/CHANGELOG.md)
+
+准入候选的 JVM 检查、AndroidTest 编译和规则 fixture 读回已通过；生产接线、可信资源上下文、代理下载与 APK/真实路由尚待完成，详见[联调核查](Aerove%20Lite/VALIDATION.md)。
 
 ## 共享维护
 

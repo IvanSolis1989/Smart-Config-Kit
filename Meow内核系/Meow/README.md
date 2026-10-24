@@ -7,6 +7,8 @@
 
 为官方 Meow Android、meow iOS 及 meow-rs 核心提供原生 YAML 分流配置。
 
+官方项目：[meow-rs 核心](https://github.com/meow-rs/meow-rs) · [Android Meow](https://github.com/meow-rs/meow-android) · [iOS meow](https://github.com/meow-rs/meow-ios)。本仓库提供分流配置，安装和系统权限以对应客户端说明为准。
+
 [内核家族入口](../README.md) · [下载目录](../../docs/guide/downloads.md#meow) · [支持队列](../../docs/support-queue.md#meow-official-apps) · [变更日志](CHANGELOG.md)
 
 ## 开始前与文件选择

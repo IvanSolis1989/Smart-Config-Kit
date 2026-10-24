@@ -11,7 +11,7 @@
 
 [项目首页](../../README.md) · [文档中心](../README.md) · [导入后验收](dns-and-verification.md#verification)
 
-点击下载按钮打开 `main` 的 Raw 文件，右键可复制链接。**15 个客户端入口、19 个独立文件**均附导入教程；兼容入口可能指向同一文件。
+点击下载按钮打开 `main` 的 Raw 文件，右键可复制链接。**15 个既有客户端入口、19 个独立文件**均附导入教程；另提供 **2 个 Meow 系候选入口**，分别是官方 Meow YAML 与 AEROVE Lite JS。兼容入口可能指向同一文件，候选入口的 App 验收状态单独记录。
 
 [Mihomo](#mihomo) · [sing-box](#sing-box) · [Xray](#xray) · [双内核](#dual-core) · [独立客户端](#independent) · [Meow 适配](#meow)
 
@@ -119,10 +119,19 @@ Hiddify 4.1.1 优先核对 1.13 兼容文件与完整配置模式；官方内核
 
 ## <a id="meow"></a>Meow 内核系
 
-官方 Meow 和 AEROVE Lite 按客户端并列提供下载及教程。核心 -t 已验，各 App 完整导入与真实连接仍见[支持队列](../support-queue.md#meow)，不计入上方15个既有正式入口统计。
+两个客户端使用同源分流，各自的格式、导入方式及验收状态分别维护。
 
-- **官方 Meow（Android / iOS）与官方核心**：[原生 YAML](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.yaml) · [导入教程](../../Meow内核系/Meow/README.md)。使用前替换模板节点订阅 URL。
-- **AEROVE Lite**：[JS 覆写](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/AeroveLite%28meow%29.js) · [导入教程](../../Meow内核系/Aerove%20Lite/README.md)。需要 main(config) 宿主和已展开节点的订阅。
+### 官方 Meow（Android / iOS）与官方核心
+
+原生 YAML，使用前替换模板节点订阅 URL。官方核心配置校验已通过；官方 Android/iOS 的完整导入与连接见[官方 App 队列](../support-queue.md#meow-official-apps)。
+
+[![下载 Meow YAML](../assets/readme/button-meow-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Meow/README.md)
+
+### AEROVE Lite
+
+JS 覆写，需要 main(config) 宿主和已展开节点的订阅。校验器候选已通过 JVM 检查；生产接线、命名代理下载与 APK 真实联调仍见[AEROVE 队列](../support-queue.md#aerove-lite-meow)。
+
+[![下载 AEROVE Lite JS](../assets/readme/button-aerove-lite-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/AeroveLite%28meow%29.js) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Aerove%20Lite/README.md)
 
 ## 使用前确认
 

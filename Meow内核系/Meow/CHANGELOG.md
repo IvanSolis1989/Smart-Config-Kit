@@ -7,6 +7,10 @@
 
 [使用说明](README.md) · [支持队列](../../docs/support-queue.md#meow)
 
+## 2026-10-24 — 官方客户端入口补全
+
+- README 增加官方核心、Android Meow 与 iOS meow 的项目入口；根首页和下载目录补齐 Meow 卡片及原生 YAML 按钮，官方 App 待验状态保持独立。
+
 ## v6.0.20-meow.3 (2026-10-24)
 
 - 官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自提供 README、参考文档与变更日志；共享生成器和家族适配清单。

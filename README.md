@@ -32,6 +32,7 @@
   <a href="docs/guide/downloads.md#xray"><img src="docs/assets/readme/family-xray.svg" alt="Xray 内核系：v2rayN 路由" width="250" height="128"></a>
   <a href="docs/guide/downloads.md#dual-core"><img src="docs/assets/readme/family-dual-core.svg" alt="双内核系：Passwall、Passwall2" width="250" height="128"></a>
   <a href="docs/guide/downloads.md#independent"><img src="docs/assets/readme/family-independent.svg" alt="独立内核系：Shadowrocket、Surge、Loon、Quantumult X、Stash、Egern" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#meow"><img src="docs/assets/readme/family-meow.svg" alt="Meow 内核系：官方 Meow 原生 YAML、AEROVE Lite JS 覆写；各客户端验收进展见教程" width="250" height="128"></a>
 </p>
 
 <p>
@@ -49,12 +50,14 @@
   <a href="docs/guide/downloads.md#independent">Loon</a> ·
   <a href="docs/guide/downloads.md#independent">Quantumult X</a> ·
   <a href="docs/guide/downloads.md#independent">Stash</a> ·
-  <a href="docs/guide/downloads.md#independent">Egern</a>
+  <a href="docs/guide/downloads.md#independent">Egern</a> ·
+  <a href="Meow内核系/Meow/README.md">官方 Meow</a> ·
+  <a href="Meow内核系/Aerove%20Lite/README.md">AEROVE Lite</a>
 </p>
 
 [打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
 
-[Meow 内核系](Meow内核系/README.md)按客户端提供并列入口：[官方 Meow](Meow内核系/Meow/README.md)使用原生 YAML，[AEROVE Lite](Meow内核系/Aerove%20Lite/README.md)使用 JS 覆写；各端验收进展见[支持队列](docs/support-queue.md)。
+[Meow 内核系](Meow内核系/README.md)：官方客户端使用原生 YAML，AEROVE Lite 使用 JS 覆写。官方核心配置校验已通过，各 App 与脚本联调的进展和剩余条件见[支持队列](docs/support-queue.md)。
 
 ## <a name="routing"></a>一套策略，按客户端落地
 

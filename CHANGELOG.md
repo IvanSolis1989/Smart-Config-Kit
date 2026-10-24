@@ -13,6 +13,10 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-24 — Meow 导航与 AEROVE 配置联调核查
+
+- 补齐首页 Meow 系列卡片、客户端索引及两个独立下载按钮；按固定源码和保存证据同步候选检查结果与剩余阻断，未把生产接线和真实路由标为通过。详见 [AEROVE 联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+
 ## 2026-10-24 — Meow 与 AEROVE Lite 并列客户端目录
 
 - v6.0.20-meow.3 将官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自维护 README、参考文档和日志，共享生成器与清单；分流语义不变。详见 [官方 Meow 日志](Meow内核系/Meow/CHANGELOG.md)及 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。

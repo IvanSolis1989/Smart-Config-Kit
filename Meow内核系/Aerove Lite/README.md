@@ -5,9 +5,9 @@
 
 # AEROVE Lite 导入指南
 
-为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS；客户端完整导入、最终配置和真实路由仍待联调验收。
+为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS；当前用于开发联调，生产准入、代理下载及 APK 真实路由仍待完成。
 
-[内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
+[内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [联调核查](VALIDATION.md) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
 ## 开始前
 
@@ -31,7 +31,9 @@ JS 只创建实际有节点的地区组，因此地区与业务组总数可能�
 
 脚本在副本上处理配置，失败抛错，原输入保持不变。若 DNS 引用将被重建的订阅 rule-set，脚本会明确拒绝；先改用独立 DNS 策略，再应用覆写。
 
-需要由 AEROVE 开发与 APK 联调完成：导入、资源准备和运行路径接入 Meow 校验器；准入直接 AND/OR/NOT 逻辑规则；在真实 Android QuickJS 执行脚本并读回最终 YAML；验证资源更新、VPN 和真实路由。上述项目以[支持队列](../../docs/support-queue.md#aerove-lite-meow)及新的源码、APK、日志为准。
+校验器候选的 74 项 JVM 测试、AndroidTest 编译和 149 个规则资产读回已经通过。它们尚未证明生产入口完成接线，也未执行此候选的 Android QuickJS/JNI 或真实连接，证据范围见[联调核查](VALIDATION.md)。
+
+实际剩余条件是：生产导入/资源准备/启动接入 Meow 准入；完整校验获得可信的 Geo 资源目录；接通 provider 的命名代理与 header 下载；统一资源和备份容量以容纳 149 个规则源；在目标 APK 执行当前脚本并读回最终 YAML，完成资源更新、VPN 和真实路由。对应状态见[支持队列](../../docs/support-queue.md#aerove-lite-meow)。
 
 共享 JS 的本地行为检查与官方核心原生 YAML 校验各有独立证据，均不能替代 Lite 的最终配置和实际连接验收。官方核心验证范围见[官方依据](../Meow/REFERENCE-meow-rs.md)。
 

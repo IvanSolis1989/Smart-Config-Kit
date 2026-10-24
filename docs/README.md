@@ -17,10 +17,16 @@
 2. **[确认客户端能力](guide/client-support.md)**：按平台选客户端，核对协议、最低版本和 GUI 导入边界。
 3. **[完成导入后验收](guide/dns-and-verification.md)**：了解解析路径，检查规则下载、实际命中与最终出口。
 
+## Meow 系客户端入口
+
+- [官方 Meow](../Meow内核系/Meow/README.md)：官方核心及 Android/iOS 原生 YAML，先替换节点订阅 URL；核心配置校验与 App 导入分别验收。
+- [AEROVE Lite](../Meow内核系/Aerove%20Lite/README.md)：JS 覆写；[验收记录](../Meow内核系/Aerove%20Lite/VALIDATION.md)区分已通过的候选检查、生产接线及 APK 真实联调。
+- [Meow 内核系](../Meow内核系/README.md) · [下载入口](guide/downloads.md#meow) · [支持队列](support-queue.md#meow)。
+
 ## 理解分流设计
 
 - **[策略与规则来源](guide/routing-policy.md)**：架构、33 业务组、区域选择和规则来源。
-- [跨客户端能力矩阵](client-capability-matrix.md)：15 个语义产品的订阅输入、动态分组、Node-DNS 与可选能力。
+- [跨客户端能力矩阵](client-capability-matrix.md)：15 个既有语义产品的订阅输入、动态分组、Node-DNS 与可选能力；Meow 候选边界见上述独立入口。
 - [规则质量与来源台账](rule-quality.md)：来源收据、有序语义、例外治理与发布约束。
 - [GEOSITE 覆盖台账](GEOSITE_COVERAGE_LEDGER.md)：已有分类、补充规则与覆盖依据。
 
@@ -39,7 +45,6 @@
 - **[仓库维护契约](../AGENTS.md)**：生成链路、版本同步和 README 编写与视觉验收要求。
 - [维护工具](../tools/README.md)：官方文档缓存、生成与验证工具。
 - [客户端支持队列](support-queue.md)：预适配候选、接口边界与正式支持的剩余验收。
-- [Meow 内核系](../Meow内核系/README.md)：[官方 Meow 原生 YAML](../Meow内核系/Meow/README.md)与 [AEROVE Lite JS](../Meow内核系/Aerove%20Lite/README.md)分别提供客户端教程、参考文档和日志。
 - [规则资产交付](rule-asset-delivery.md)：下载 URL 与完整内容校验。
 - [发布批次](release-batch.md)：生成物、版本与发布验收。
 - [官方参考与历史核验](archive/README.md)：客户端 REFERENCE、注明日期的官方版本复核和专题验收原文。
