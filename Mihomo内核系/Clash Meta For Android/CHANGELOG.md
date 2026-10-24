@@ -1,9 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Clash Meta For Android (CMFA) 变更日志" width="100%">
+</picture>
+
 # Clash Meta For Android (CMFA) — 变更日志
 
 > `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml` 的变更日志。
 > 主版本号跟随 Clash Party 主线。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-cmfa.14 (2026-10-24)
 

@@ -1,6 +1,13 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../docs/assets/readme/page-changelog.svg" alt="SubStore 变更日志" width="100%">
+</picture>
+
 # SubStore 变更日志
 
 > SubStore 是辅助脚本目录，不参与 14 类客户端正式分流产物的生成。
+
+[![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [返回 README](../README.md) · [仓库文档中心](../docs/README.md)
 
 ## 文档精简 (2026-10-19)
 

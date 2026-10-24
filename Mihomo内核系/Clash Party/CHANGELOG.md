@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Clash Party 变更日志" width="100%">
+</picture>
+
 # Clash Party — 变更日志
 
 > 本文件记录 Clash Party JS 覆写脚本变更。
@@ -6,6 +11,8 @@
 > 主版本变更必须同步传递到所有受影响产物的子版本号。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-dns.22 (2026-10-24)
 
@@ -195,7 +202,7 @@
 
 ## 2026-08-31 FlClash 平台说明联动
 
-- FIX#181：FlClash 子版本 `v6.0.11-flclash.7` 修正其应用层 DNS 覆盖与 Android VPN HTTP 代理说明。Clash Party 没有 FlClash 的后置 `overrideDns` 开关；本次不改 Clash Party 产物、规则源或 DNS 算法。详见 [FlClash 变更日志](../Mihomo内核系/FlClash/CHANGELOG.md)。
+- FIX#181：FlClash 子版本 `v6.0.11-flclash.7` 修正其应用层 DNS 覆盖与 Android VPN HTTP 代理说明。Clash Party 没有 FlClash 的后置 `overrideDns` 开关；本次不改 Clash Party 产物、规则源或 DNS 算法。详见 [FlClash 变更日志](../FlClash/CHANGELOG.md)。
 
 ## v6.0.11-dns.4 / v6.0.11-normal.5 (2026-08-22)
 

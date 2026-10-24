@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="OpenClash 变更日志" width="100%">
+</picture>
+
 # OpenClash — 变更日志
 
 > 覆盖 `Mihomo内核系/OpenClash/OpenClash(mihomo).sh`（Normal）+
@@ -6,6 +11,8 @@
 > 两份脚本版本号各自独立递增，但主版本号跟随 Clash Party 主线。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-oc-normal.16 / v6.0.20-oc-smart.17 (2026-10-24)
 

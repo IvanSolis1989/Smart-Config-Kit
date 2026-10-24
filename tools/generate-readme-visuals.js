@@ -111,7 +111,7 @@ document('dns-flow.svg', 1120, 552, 'Mihomo DNS 四层分工', '客户端启动�
   ${text(770, 281, '④ 海外业务域名', 22, 650)}
   ${lines(770, 315, ['nameserver-policy / fallback', 'geosite:geolocation-!cn', 'Cloudflare / Google', 'fallback-filter · GeoIP CN'], 18, 31)}
   ${text(36, 504, '业务查询优先使用加密 DoH；ISP 可见性仍取决于 bootstrap、客户端与网络路径。', 18, 400, muted)}
-  ${text(36, 534, '其他客户端遵循各自原生 DNS；Karing 的 DNS 由适配配置与 App 设置维护。', 18, 400, muted)}`);
+  ${text(36, 534, '其他客户端遵循各自原生 DNS；Karing 的 DNS 由 App 设置维护。', 18, 400, muted)}`);
 
 // Narrow-screen alternatives preserve readable type instead of shrinking the desktop diagrams.
 document('routing-flow-mobile.svg', 420, 744, '同源编译与规则命中', '窄屏版：规则源图经 MRS 与 fused 编译为原生配置；运行时按规则顺序检查并选择出口。',
@@ -150,7 +150,7 @@ document('dns-flow-mobile.svg', 420, 978, 'Mihomo DNS 四层分工', '窄屏版�
   ${rect(58, 277, 338, 153, '#ddf3ed', 18)}${text(78, 310, '② 国内业务域名', 22, 650)}${lines(78, 341, ['nameserver-policy / nameserver', 'geosite:cn → AliDNS / DNSPod', '大陆站点与国内 CDN'], 18, 31)}
   ${rect(58, 451, 338, 153, '#e0edff', 18)}${text(78, 484, '③ 代理节点域名', 22, 650)}${lines(78, 515, ['proxy-server-nameserver', 'Cloudflare / Google', 'AliDNS / DNSPod · 活动节点 FQDN'], 18, 31)}
   ${rect(58, 625, 338, 153, '#ebe5fc', 18)}${text(78, 658, '④ 海外业务域名', 22, 650)}${lines(78, 689, ['nameserver-policy / fallback', 'geosite:geolocation-!cn', 'Cloudflare / Google · GeoIP CN'], 18, 31)}
-  ${lines(24, 817, ['业务查询优先使用加密 DoH；', 'ISP 可见性仍取决于 bootstrap、', '客户端与网络路径。', '其他客户端遵循各自原生 DNS；', 'Karing DNS 由适配配置与 App 维护。'], 18, 30)}`);
+  ${lines(24, 817, ['业务查询优先使用加密 DoH；', 'ISP 可见性仍取决于 bootstrap、', '客户端与网络路径。', '其他客户端遵循各自原生 DNS；', 'Karing 的 DNS 由 App 设置维护。'], 18, 30)}`);
 
 const buttons = [
   ['smart-js', 'Smart', 'JS', 'blue'], ['normal-js', 'Normal', 'JS', 'blue'],
@@ -242,6 +242,98 @@ for (const [slug, label, format, color] of buttons) {
     ${text(13, 17, label, 14, 600)}${text(13, 30, format, 9.5, 600, accent)}
     <circle cx="126" cy="19" r="11" fill="#ffffff" fill-opacity=".55"/>
     <path d="M126 13V23M122 19L126 23L130 19M121 27H131" fill="none" stroke="${accent}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>`, true);
+}
+
+// Document headers share a quiet routing-prism motif, with no drifting release data.
+const pages = [
+  ['clash-party', 'Clash Party', '覆写脚本与导入指南', 'blue'],
+  ['cmfa', 'CMFA', '原生配置与导入指南', 'blue'],
+  ['openclash', 'OpenClash', '路由器配置与导入指南', 'blue'],
+  ['flclash', 'FlClash', '覆写脚本与导入指南', 'blue'],
+  ['sing-box', 'SingBox', '完整配置与导入指南', 'teal'],
+  ['karing', 'Karing', '原生分流适配与导入指南', 'teal'],
+  ['v2rayn', 'v2rayN', '路由配置与使用指南', 'violet'],
+  ['passwall', 'Passwall', '分流配置与导入指南', 'teal'],
+  ['passwall2', 'Passwall2', '分流配置与导入指南', 'teal'],
+  ['shadowrocket', 'Shadowrocket', '配置导入与使用指南', 'violet'],
+  ['surge', 'Surge', '配置导入与使用指南', 'violet'],
+  ['loon', 'Loon', '配置导入与使用指南', 'violet'],
+  ['quantumult-x', 'Quantumult X', '配置导入与使用指南', 'violet'],
+  ['stash', 'Stash', '配置导入与使用指南', 'violet'],
+  ['egern', 'Egern', '配置导入与使用指南', 'violet'],
+  ['downloads', '配置下载', '选择客户端，找到对应配置', 'blue'],
+  ['client-support', '客户端支持', '了解平台能力与适配边界', 'teal'],
+  ['routing-policy', '分流策略', '了解业务命中与出口选择', 'blue'],
+  ['dns-and-verification', 'DNS 与导入验收', '检查解析、规则与实际出口', 'teal'],
+  ['acknowledgements', '来源与致谢', '规则来源、项目与贡献者', 'violet'],
+  ['docs', '文档中心', '从配置导入到日常使用', 'blue'],
+  ['advanced', '进阶使用', '按需配置，理解适用边界', 'violet'],
+  ['substore', 'Sub-Store', '订阅处理脚本与使用指南', 'teal'],
+  ['tools', '维护工具', '生成、检查与维护说明', 'blue'],
+  ['family-mihomo', 'Mihomo 内核系列', '选择客户端与配置入口', 'blue'],
+  ['family-sing-box', 'sing-box 内核系列', '完整配置与原生分流适配', 'teal'],
+  ['family-xray', 'Xray 内核系列', '路由配置与使用入口', 'violet'],
+  ['family-dual-core', '双内核系列', 'Passwall 与 Passwall2 配置入口', 'teal'],
+  ['family-independent', '独立内核系列', '按客户端选择原生配置', 'violet'],
+  ['changelog', '变更日志', '查看版本变化与发布记录', 'blue'],
+  ['contract', '维护契约', '生成、文档与协作约定', 'blue'],
+  ['archive', '参考与核验档案', '官方资料与历史证据入口', 'violet'],
+  ['rules-source', '规则源与编译', '维护同源规则与生成链路', 'teal'],
+  ['mirrors', '规则镜像', '备用来源与资产说明', 'blue'],
+  ['ai-issue-responder', 'Issue自动回复', '回复流程与配置说明', 'blue'],
+  ['claude-dependencies', 'Claude服务依赖', '服务连接与依赖排查', 'violet'],
+  ['rules-coverage', '规则覆盖台账', '查看规则来源与覆盖范围', 'teal'],
+  ['microsoft-store', 'Microsoft Store排障', '商店访问与下载问题排查', 'blue'],
+  ['private-node-dns', '私有节点DNS', '私有节点域名与解析设置', 'teal'],
+  ['process-name', '进程规则兼容', '进程匹配与平台适用边界', 'violet'],
+  ['release-batch', '发布批次', '同步范围与发布记录', 'blue'],
+  ['rule-asset-delivery', '规则资产交付', '规则下载与交付检查', 'teal'],
+  ['rule-quality', '规则质量', '质量检查与维护说明', 'blue'],
+  ['subscription-node-filter', '订阅节点筛选', '节点清理与筛选说明', 'teal'],
+  ['telegram', '频道通知', '频道发布与通知配置', 'violet'],
+  ['traffic-options', '测速与QUIC', '测速设置与流量选项', 'blue'],
+  ['zerotier', 'ZeroTier UDP代理', '连接路径与代理配置', 'teal'],
+];
+function pagePrism(x, y, scale, accent, stroke) {
+  return `<g transform="translate(${x} ${y}) scale(${scale})" fill="none" stroke-linejoin="round">
+    <path d="M0 50H52M160 20H210M160 50H232M160 80H210" stroke="${stroke}" stroke-width="2"/>
+    <path d="M52 50L106 17L160 50L106 83Z" fill="${accent}" fill-opacity=".06" stroke="${accent}" stroke-opacity=".6" stroke-width="1.7"/>
+    <path d="M106 17V83M52 50H160M106 17L133 50L106 83" stroke="${accent}" stroke-opacity=".3" stroke-width="1.3"/>
+    <circle cx="106" cy="50" r="7" fill="#ffffff" fill-opacity=".8" stroke="${accent}" stroke-width="1.6"/>
+    <g fill="#ffffff" stroke="${accent}" stroke-width="1.6"><circle cx="0" cy="50" r="4"/><circle cx="210" cy="20" r="4"/><circle cx="232" cy="50" r="4"/><circle cx="210" cy="80" r="4"/></g>
+    </g>`;
+}
+for (const [slug, title, subtitle, color] of pages) {
+  const [tint, , accent, stroke] = colors[color];
+  // Estimate mixed CJK/Latin width conservatively, keeping mobile text readable.
+  const titleUnits = [...title].reduce((sum, ch) => sum + (/[^\x00-\x7F]/.test(ch) ? 1 : .65), 0);
+  const mobileTitleSize = Math.max(25, Math.min(30, Math.floor(372 / titleUnits)));
+  document(`page-${slug}.svg`, 1000, 180, title, subtitle,
+    `<path d="M30 148H608" stroke="${stroke}" stroke-opacity=".45"/>
+    ${rect(688, 25, 280, 130, tint, 25)}${pagePrism(711, 40, 1, accent, stroke)}
+    ${text(34, 76, title, 36, 650)}${text(36, 116, subtitle, 22, 400, muted)}
+    <rect x="36" y="147" width="70" height="3" rx="1.5" fill="url(#ribbon)"/>`);
+  document(`page-${slug}-mobile.svg`, 420, 180, title, subtitle,
+    `${text(24, 59, title, mobileTitleSize, 650)}${text(25, 98, subtitle, 18, 400, muted)}
+    <path d="M25 139H235" stroke="${stroke}" stroke-opacity=".5"/>
+    <rect x="25" y="138" width="49" height="3" rx="1.5" fill="url(#ribbon)"/>
+    ${pagePrism(275, 116, .5, accent, stroke)}`);
+}
+
+const navButtons = [
+  ['downloads', '下载目录', 'blue', 'M12 12V22M8 18L12 22L16 18M7 27H17'],
+  ['docs', '文档中心', 'violet', 'M6 11H11L13 13L15 11H20V27H15L13 29L11 27H6ZM13 13V29'],
+  ['verify', '导入后验收', 'teal', 'M7 19L11 23L19 14'],
+  ['tutorial', '导入教程', 'blue', 'M7 12H20V27H7ZM10 16H17M10 20H17M10 24H14'],
+];
+for (const [slug, label, color, icon] of navButtons) {
+  const [tint, light, accent, stroke] = colors[color];
+  document(`nav-${slug}.svg`, 145, 38, label, `打开${label}`,
+    `<defs><linearGradient id="nav" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${light}"/><stop offset=".65" stop-color="${tint}"/><stop offset="1" stop-color="${light}"/></linearGradient></defs>
+    <rect x="1" y="1" width="143" height="36" rx="11" fill="url(#nav)" stroke="${stroke}"/>
+    <path d="M12 2H133" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="${icon}" fill="none" stroke="${accent}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(7 0)"/>
+    ${text(39, 24, label, 14, 600)}`, true);
 }
 
 let failures = 0;

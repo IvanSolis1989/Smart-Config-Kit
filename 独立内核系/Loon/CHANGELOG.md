@@ -1,8 +1,15 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Loon 变更日志" width="100%">
+</picture>
+
 # Loon — 变更日志
 
 > `独立内核系/Loon/Loon.conf` 的变更日志。主版本号跟随 Clash Party 主线；尾段 `-Loon.N` 独立递增。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-Loon.10 (2026-10-24)
 

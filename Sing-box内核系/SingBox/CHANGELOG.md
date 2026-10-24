@@ -1,9 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="SingBox 变更日志" width="100%">
+</picture>
+
 # SingBox — 变更日志
 
 > `Sing-box内核系/SingBox/SingBox(sing-box)-full.json`（完整配置，由脚本生成）的变更日志。
 > 本目录由同一生成器发布当前稳定版 Full 配置与 1.13 兼容配置。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-sing.11 (2026-10-24)
 

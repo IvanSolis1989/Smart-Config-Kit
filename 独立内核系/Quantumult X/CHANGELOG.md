@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Quantumult X 变更日志" width="100%">
+</picture>
+
 # Quantumult X — 变更日志
 
 > `独立内核系/Quantumult X/QuantumultX.conf` 的变更日志。主版本号跟随 Clash Party 主线；尾段 `-QX.N` 独立递增。
@@ -5,6 +10,8 @@
 > 当前仓库无 `tools/srk_to_qx.py`；本产物独立手工维护，并由 `tools/validate-artifact-contracts.js` 做结构和基线验证。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-QX.12 (2026-10-24)
 

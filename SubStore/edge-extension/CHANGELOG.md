@@ -1,4 +1,11 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="自动订阅同步助手 变更日志" width="100%">
+</picture>
+
 # 自动订阅同步助手 — 变更日志
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v1.8.0 (2026-10-18)
 

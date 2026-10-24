@@ -1,9 +1,33 @@
-# FlClash 使用教程 — 覆写脚本版
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-flclash-mobile.svg">
+  <img src="../../docs/assets/readme/page-flclash.svg" alt="FlClash 导入指南" width="100%">
+</picture>
 
-## 📥 规则下载链接
+# FlClash 导入指南
 
-[![下载 FlClash JS](../../docs/assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
-[![下载 备选 CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+为 Mihomo 节点订阅创建并关联专用 JS 覆写，自动生成区域与业务分组。使用 **url-test，不支持 Smart / LightGBM**；先创建，再关联。
+
+<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>
+
+[开始前](#before-you-start) · [选择文件](#downloads) · [导入步骤](#import) · [常见问题](#faq) · [进阶与参考](#reference)
+
+<a id="before-you-start"></a>
+
+## 开始前：确认版本与节点订阅
+
+需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；脚本 API 说明见[官方仓库教程](https://github.com/chen08209/FlClash/issues/1510)。
+
+- 单机场优先使用原生订阅链接；多机场按 [Sub-Store 教程](../../SubStore/README.md)输出一条 `Clash.Meta(mihomo)` URL。
+- 创建覆写后必须关联到对应 Profile；只粘贴或保存脚本不会生效。
+- 规则下载需要 GitHub Raw 可达或可用代理。备选静态 YAML 按 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)编辑后导入。
+
+<a id="-规则下载链接"></a>
+
+<a id="downloads"></a>
+
+## 选择并下载文件
+
+[![下载 FlClash JS](../../docs/assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js) [![下载 备选 CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
 点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
 
@@ -21,34 +45,11 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 推荐下载 JS 覆写脚本，创建后关联到节点订阅；备选 YAML 的导入方法见 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)。
 
----
+<a id="快速开始两步操作"></a>
 
-业务 DNS policy 来自 `../rulesets/source/business-dns-policy.json`，运行 `node tools/sync-business-dns-policy.js` 更新投影，并用 `--check` 与 `node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js` 验收。
+<a id="import"></a>
 
-本目录提供 FlClash 专用 JS，要求 **FlClash ≥ v0.8.85**；使用 url-test，最多 22 区域组 + 33 业务组，**不支持 Smart + LightGBM**。版本见 [CHANGELOG](CHANGELOG.md)。
-
-- 创建脚本后须**关联到订阅**；多机场先用 [Sub-Store](../../SubStore/README.md)输出一条 Mihomo 节点订阅。
-- 倍率筛选默认关闭；支持小写地区码加编号，inline 节点与拨号依赖边界见[节点筛选](../../docs/subscription-node-filter.md)。
-- 关闭 App 二次 DNS 覆写与追加系统 DNS，保留脚本的[私有节点 DNS](../../docs/private-node-dns.md)。
-- [规则下载](../../docs/rule-asset-delivery.md)需 GitHub Raw 可达或可用代理；另见[测速/QUIC](../../docs/traffic-options.md)、[微信排错](../../docs/research/2026-10-16-wechat-issue-187.md)及[默认关闭的 ZeroTier UDP 代理](../../docs/zerotier-planet-proxy.md)。
-
-<sub>💖 [支持本项目](../../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
-
-<table><tr>
-<td><img width="160" alt="FlClash 截图1" src="https://github.com/user-attachments/assets/e88e0724-2bc0-4111-851e-e8aa0a9141d3"></td>
-<td><img width="160" alt="FlClash 截图2" src="https://github.com/user-attachments/assets/530d9f3a-e793-423b-a4d6-85a2d4a75054"></td>
-<td><img width="160" alt="FlClash 截图3" src="https://github.com/user-attachments/assets/f2b03096-3469-4d67-ab10-60bac2b82347"></td>
-<td><img width="160" alt="FlClash 截图4" src="https://github.com/user-attachments/assets/be31a91a-259c-47a7-b599-fa08752bef8d"></td>
-<td><img width="160" alt="FlClash 截图5" src="https://github.com/user-attachments/assets/770eb553-86c5-49a7-80f4-4fd68594888b"></td>
-</tr></table>
-
----
-
-## 快速开始（两步操作）
-
-> ⚠️ **注意**：
-> 1. 必须先「创建」脚本再「关联」到订阅，只粘贴不关联不会生效
-> 2. 单机场优先使用机场**原生订阅链接**。若要把多个机场合成为同一节点池，请按 [Sub-Store 多机场聚合教程](../../SubStore/README.md) 输出一条 `Clash.Meta(mihomo)` URL，再将覆写关联到这一个 Profile；不要使用来历不明的通用转换器。
+## 按顺序创建、关联并启动
 
 ### 第 1 步：创建覆写脚本
 
@@ -72,34 +73,16 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 3. 选择刚才创建的覆写脚本 → 确定
 4. 返回首页 → 下拉刷新（或重启 FlClash）
 
-### 验证
 
-点「代理」标签，应看到：
-- **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过）：🌍 全球节点、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
-- **33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……
-- 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+<a id="应用层设置与-dns-所有权"></a>
 
----
-
-## 与 CMFA YAML 的对比
-
-| | 覆写脚本（推荐） | CMFA YAML（备选） |
-|---|---|---|
-| 节点分类 | **word-boundary 正则**，TW 不误伤 TWN | Go RE2 子串匹配 |
-| 订阅垃圾清理 | 自动剔除机场无用 proxy-groups | 不支持 |
-| 家宽识别 | 自动识别并建独立组 | 支持（filter 正则） |
-| 空区域处理 | 无节点自动跳过不建空组 | 可能产生空组 |
-| Smart + LightGBM | 不支持（内核限制） | 不支持（同） |
-
----
-
-## 应用层设置与 DNS 所有权
+### 第 3 步：核对 App 设置
 
 **关联本仓库脚本后，关闭「DNS 覆写」，不需要再向 UI 粘贴一份 DNS YAML。** 关闭的是 FlClash 的二次覆盖，不是 Mihomo DNS；脚本仍会设置 `dns.enable: true`、`respect-rules: true` 和国内/海外解析策略。
 
 订阅刷新时以 adaptive 模式投影活动节点所需的 DNS 提示；UI 合并时保留精确 node policy。详见[私有节点 DNS](../../docs/private-node-dns.md)。
 
-### Android 网络设置
+#### Android 网络设置
 
 - 开启 VPN，运行模式选「规则」；DNS 劫持开启，路由模式使用配置。
 - VPN 下的「系统代理」关闭：它额外发布 HTTP 代理，关闭它不会关闭 TUN。
@@ -115,6 +98,51 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 | 国内 APP 完全不进入 VPN | 启用应用访问控制并排除这些 APP；保留排除名单，关闭 VPN“系统代理”。排除 APP 的连接和 DNS 不受脚本控制，也不应以 Mihomo 日志缺失判定它们无网络请求。 |
 
 [Android 官方说明](https://developer.android.com/reference/android/net/VpnService.Builder#setHttpProxy(android.net.ProxyInfo))提醒，分流 VPN 与额外 HTTP 代理组合可能影响应用联网。修改后停止再启动 VPN，并彻底重开受影响 App；仅刷新节点不会清除旧连接。
+
+
+<a id="verification"></a>
+
+## 导入后核验
+
+点「代理」标签，应看到：
+- **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过）：🌍 全球节点、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
+- **33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……
+- 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+
+检查最终配置的 DNS 与实际连接记录；脚本版本正确不能证明 App patch 后的最终配置正确。详细检查见下方 DNS 说明。
+
+<a id="常见问题"></a>
+
+<a id="faq"></a>
+
+## 常见问题
+
+### Q: 代理/规则标签消失了？
+
+单机场先试机场的**原生订阅链接**（不经转换器）。若实际需求是多个机场合并为同一节点池，请按 [Sub-Store 多机场聚合教程](../../SubStore/README.md) 输出一条 `Clash.Meta(mihomo)` URL，再关联覆写脚本；不要使用来历不明的通用转换器。
+
+### Q: 区域组为什么是 url-test 不是 smart？
+
+FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart / LightGBM；MetaCubeX Alpha 也不等于 Smart。
+
+### Q: 换机场后需要重新配置吗？
+
+不需要。覆写脚本换订阅后自动重新执行。
+
+### 国内 App 无法联网？
+
+先保留应用排除名单，关闭 DNS 二次覆写与系统 DNS 追加，核对 VPN 和核心两个 IPv6 开关。重启 VPN 和受影响 App，再检查失败时间、域名、规则与出站。完整对照步骤见下方 DNS 说明。
+
+
+<a id="reference"></a>
+
+## 进阶与参考
+
+- [节点筛选](../../docs/subscription-node-filter.md)：小写地区码加编号、inline 节点及拨号依赖，倍率筛选默认关闭。
+- [私有节点 DNS](../../docs/private-node-dns.md) · [规则下载](../../docs/rule-asset-delivery.md) · [测速 / QUIC](../../docs/traffic-options.md)。
+- [微信排错](../../docs/research/2026-10-16-wechat-issue-187.md) · [ZeroTier UDP 代理（默认关闭）](../../docs/zerotier-planet-proxy.md)。
+
+### DNS 合并顺序与排障
 
 ### 为什么开启「DNS 覆写」会导致脚本失效？
 
@@ -149,25 +177,25 @@ UI 保存的旧值不能证明当前生效状态；合并顺序与版本边界�
 3. 记录一次失败操作的具体时间、域名、规则、出站和错误；FlClash 自身 `checkIp` 的 502 只是出口信息服务错误，不能证明其他 APP 或所有节点不可用。
 4. 仅当失败业务域名明确命中广告拦截时，才临时将广告组切到 `DIRECT` 做对照，随后恢复。不要长期关闭全部广告规则，也不要对整个 APP 的域名族做无证据白名单。
 
----
+<a id="与-cmfa-yaml-的对比"></a>
 
-## 常见问题
+<details>
+<summary>专用 JS 与静态 YAML 的区别</summary>
 
-### Q: 代理/规则标签消失了？
+| | 覆写脚本（推荐） | CMFA YAML（备选） |
+|---|---|---|
+| 节点分类 | **word-boundary 正则**，TW 不误伤 TWN | Go RE2 子串匹配 |
+| 订阅垃圾清理 | 自动剔除机场无用 proxy-groups | 不支持 |
+| 家宽识别 | 自动识别并建独立组 | 支持（filter 正则） |
+| 空区域处理 | 无节点自动跳过不建空组 | 可能产生空组 |
+| Smart + LightGBM | 不支持（内核限制） | 不支持（同） |
 
-单机场先试机场的**原生订阅链接**（不经转换器）。若实际需求是多个机场合并为同一节点池，请按 [Sub-Store 多机场聚合教程](../../SubStore/README.md) 输出一条 `Clash.Meta(mihomo)` URL，再关联覆写脚本；不要使用来历不明的通用转换器。
+</details>
 
-### Q: 区域组为什么是 url-test 不是 smart？
+<a id="协议支持"></a>
 
-FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart / LightGBM；MetaCubeX Alpha 也不等于 Smart。
-
-### Q: 换机场后需要重新配置吗？
-
-不需要。覆写脚本换订阅后自动重新执行。
-
----
-
-## 协议支持
+<details>
+<summary>协议能力参考（以实际内置核心为准）</summary>
 
 | 协议 | 支持 |
 |---|:-:|
@@ -177,16 +205,33 @@ FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart /
 | Hysteria v1/v2 / TUIC v5 | ✅ |
 | WireGuard / AnyTLS / ShadowTLS / Snell v4 | ✅ |
 
----
+</details>
 
-## 相关链接
+<details>
+<summary>配置界面补充示例</summary>
+
+<img width="160" alt="FlClash 配置示例 1" src="https://github.com/user-attachments/assets/e88e0724-2bc0-4111-851e-e8aa0a9141d3">
+<img width="160" alt="FlClash 配置示例 2" src="https://github.com/user-attachments/assets/530d9f3a-e793-423b-a4d6-85a2d4a75054">
+<img width="160" alt="FlClash 配置示例 3" src="https://github.com/user-attachments/assets/f2b03096-3469-4d67-ab10-60bac2b82347">
+<img width="160" alt="FlClash 配置示例 4" src="https://github.com/user-attachments/assets/be31a91a-259c-47a7-b599-fa08752bef8d">
+<img width="160" alt="FlClash 配置示例 5" src="https://github.com/user-attachments/assets/770eb553-86c5-49a7-80f4-4fd68594888b">
+
+</details>
+
+<a id="相关链接"></a>
 
 - [FlClash GitHub](https://github.com/chen08209/FlClash)
 - [覆写脚本源码](./FlClash(mihomo).js)
 - [CMFA YAML（备选方案）](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)
 
----
+业务 DNS 的权威源为 [business-dns-policy.json](../../rulesets/source/business-dns-policy.json)，维护命令：
 
-## 💖 支持本项目
+```bash
+node tools/sync-business-dns-policy.js
+node tools/sync-business-dns-policy.js --check
+node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js
+```
 
-→ [捐赠 / Star / PR](../../docs/donate.md)
+<a id="-支持本项目"></a>
+
+[变更历史](CHANGELOG.md) · [支持本项目](../../docs/donate.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

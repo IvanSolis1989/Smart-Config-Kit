@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="v2rayN 变更日志" width="100%">
+</picture>
+
 # v2rayN — 变更日志
 
 > `Xray内核系/v2rayN/v2rayN(xray).json` 的变更日志。
@@ -6,6 +11,8 @@
 > v2rayN 本身是多核调度器，路径 A（mihomo 核）和路径 B（sing-box 核）直接复用 CMFA / SingBox 产物，不在此记录；本文件仅针对**路径 C（Xray 核）** 的 `v2rayN(xray).json`。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-v2n.10 (2026-10-24)
 

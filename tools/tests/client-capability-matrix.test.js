@@ -54,7 +54,16 @@ test('generated Markdown is deterministic and checked in', () => {
   const rendered = renderClientCapabilityMatrix(matrix);
   const checkedIn = fs.readFileSync(path.join(REPOSITORY_ROOT, ...MATRIX_OUTPUT.split('/')), 'utf8');
   assert.equal(checkedIn, rendered);
-  assert.match(rendered, /\| 产品 \| `subscription_input`/);
+  assert.match(rendered, /## Mihomo 内核系列/);
+  assert.doesNotMatch(rendered, /\| 产品 \|/);
+  for (const product of matrix.products) {
+    assert.ok(rendered.includes(`<a id="${product.id}"></a>`));
+    for (const column of COLUMN_IDS) {
+      const capability = product.capabilities[column];
+      assert.ok(rendered.includes(`\`${column}\` → \`${capability.mode}\``));
+      assert.ok(rendered.includes(capability.summary));
+    }
+  }
   assert.match(rendered, /Clash Party/);
   assert.match(rendered, /Passwall2/);
 });

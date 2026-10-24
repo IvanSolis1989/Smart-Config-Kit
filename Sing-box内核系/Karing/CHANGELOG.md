@@ -1,6 +1,13 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Karing 变更日志" width="100%">
+</picture>
+
 # Karing — 变更日志
 
 > Karing 原生自定义分流产物，规则基线跟随源规则图；平台能力差异见 README 与适配清单。
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-karing.1 (2026-10-24)
 

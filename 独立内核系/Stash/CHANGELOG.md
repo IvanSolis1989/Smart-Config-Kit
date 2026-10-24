@@ -1,8 +1,15 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Stash 变更日志" width="100%">
+</picture>
+
 # Stash — 变更日志
 
 > 本文件记录 Stash 专用 YAML 产物的变更。详细平台字段依据见 `REFERENCE-Stash-wiki.md`。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-stash.14 (2026-10-24)
 

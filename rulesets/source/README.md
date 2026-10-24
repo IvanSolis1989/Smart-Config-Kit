@@ -1,6 +1,15 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-rules-source-mobile.svg">
+  <img src="../../docs/assets/readme/page-rules-source.svg" alt="规则源与权威规则图：routing-graph.js 及规则集编译链路" width="100%">
+</picture>
+
 # Source Routing Graph
 
 `routing-graph.js` is the rule-authority input for Smart-Config-Kit.
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![配置下载](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md)
+
+文档中心：[docs/README.md](../../docs/README.md) · 配置下载：[downloads.md](../../docs/guide/downloads.md)
 
 It owns three relationships:
 

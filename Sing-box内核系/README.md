@@ -1,10 +1,19 @@
-# Sing-box内核系
+<picture>
+  <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-family-sing-box-mobile.svg">
+  <img src="../docs/assets/readme/page-family-sing-box.svg" alt="sing-box 内核系：SingBox 完整配置与 Karing 原生分流适配" width="100%">
+</picture>
 
-> 客户端文件保持原目录结构；各客户端 README 和 CHANGELOG 位于对应子目录。
+# sing-box 内核系客户端入口
 
-sing-box 系客户端入口。SingBox 文件夹提供完整生成配置；Karing 文件夹提供面向 Karing 的 sing-box 分流适配 JSON，并保留手工维护的节点组、默认兜底和 DNS 设置。Karing 适配不是 JS 覆写脚本，也不承诺完整 sing-box JSON 无损导入。
+本系列提供 sing-box 完整配置和 Karing 原生分流规则入口。Karing 文件仅用于自定义分流规则；节点组、DNS 和最终默认动作由 Karing App 设置，不能作为完整 sing-box 配置导入。Hiddify 与 HomeProxy 的 sing-box 导入说明见 [SingBox 教程](./SingBox/README.md)。
 
-## 客户端目录
+[![配置下载](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md#sing-box) [![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![DNS 与导入后验收](../docs/assets/readme/nav-verify.svg)](../docs/guide/dns-and-verification.md)
 
-- [SingBox](./SingBox/README.md)
-- [Karing](./Karing/README.md)
+快速导航：[配置下载](../docs/guide/downloads.md#sing-box) · [文档中心](../docs/README.md) · [DNS 与导入后验收](../docs/guide/dns-and-verification.md)
+
+## 客户端教程
+
+- [SingBox / sing-box](./SingBox/README.md) — 完整 sing-box JSON 配置与版本说明
+- [Karing](./Karing/README.md) — Karing 自定义分流组 JSON
+
+请按实际客户端选择入口，并在客户端提供节点订阅后按教程导入相应文件。

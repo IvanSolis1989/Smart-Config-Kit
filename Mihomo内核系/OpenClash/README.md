@@ -1,10 +1,39 @@
-# OpenClash 使用说明（Smart / Normal 双版本）
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-openclash-mobile.svg">
+  <img src="../../docs/assets/readme/page-openclash.svg" alt="OpenClash 导入指南" width="100%">
+</picture>
 
-## 📥 规则下载链接
+# OpenClash 导入指南
 
-[![下载 Smart SH](../../docs/assets/readme/button-smart-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
-[![下载 Normal SH](../../docs/assets/readme/button-normal-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh)
-[![下载 UI CONF](../../docs/assets/readme/button-ui-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.conf)
+在 OpenWrt 为现有节点订阅部署 Shell 覆写，统一生成分组、规则与 DNS。**Smart / Normal 二选一**，完整脚本使用固定自定义入口。
+
+<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>
+
+[开始前](#before-you-start) · [选择文件](#downloads) · [导入步骤](#import) · [常见问题](#faq) · [进阶与参考](#reference)
+
+<a id="1-三件套定位先搞清楚每个文件干嘛的"></a>
+
+<a id="before-you-start"></a>
+
+## 开始前：确认内核并备份
+
+先按 [OpenClash 官方入口](https://github.com/vernesong/OpenClash)安装插件，准备路由器可访问的 Mihomo 节点订阅。备份现有插件设置和自定义脚本；已有逻辑先合并再部署。
+
+| 选择 | 所需核心与区域组 |
+|---|---|
+| Smart SH | vernesong/mihomo Smart；smart + LightGBM |
+| Normal SH | MetaCubeX/mihomo stable 或 Alpha；url-test |
+| UI CONF | 配套 UCI 快照；偏向 Smart，导入后核对实际核心、DNS、端口与网络模式 |
+
+两份脚本规则量相同，均为 22 区域组 + 33 业务组。MetaCubeX Alpha 不等于 Smart。输入订阅须包含展开后的节点；远程 provider 先经 Sub-Store 展开。规则下载需要 GitHub Raw 可达或可用代理。
+
+<a id="-规则下载链接"></a>
+
+<a id="downloads"></a>
+
+## 选择并下载文件
+
+[![下载 Smart SH](../../docs/assets/readme/button-smart-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh) [![下载 Normal SH](../../docs/assets/readme/button-normal-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh) [![下载 UI CONF](../../docs/assets/readme/button-ui-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.conf)
 
 点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
 
@@ -28,57 +57,11 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 Smart 与 Normal 覆写脚本二选一，UI CONF 为配套 UCI 配置快照；按下文分别上传到对应入口。
 
----
+<a id="3-部署步骤"></a>
 
-业务 DNS policy 由 `../rulesets/source/business-dns-policy.json` 维护，执行 `node tools/sync-business-dns-policy.js` 生成 Normal/Smart 投影；通过该命令的 `--check` 与两个业务 DNS 测试校验。
+<a id="import"></a>
 
-本目录提供 OpenClash Smart / Normal 完整 Shell 覆写与配套 UCI 快照；两份脚本二选一，规则量相同。版本见 [CHANGELOG](CHANGELOG.md)。
-
-- Smart 需要 vernesong/mihomo Smart 核心；MetaCubeX stable / Alpha 使用 Normal。
-- 输入订阅应包含已展开的节点；远程 provider 先用 Sub-Store 展开。倍率筛选默认关闭，见[节点筛选](../../docs/subscription-node-filter.md)。
-- 私有节点 DNS 默认 adaptive，只投影活动节点提示；LuCI Mixin 须保留这些字段。见[私有节点 DNS](../../docs/private-node-dns.md)。
-- 路由器通常无法识别局域网终端的进程名；PROCESS-NAME 不能替代域名规则。
-- [规则下载](../../docs/rule-asset-delivery.md)需要 GitHub Raw 可达或可用代理；[测速/QUIC](../../docs/traffic-options.md)、[微信排错](../../docs/research/2026-10-16-wechat-issue-187.md)另有说明。
-
-<sub>💖 [支持本项目](../../docs/donate.md) · ⭐ [Star](https://github.com/ivansolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/ivansolis1989/Smart-Config-Kit/issues)</sub>
-
----
-
-## 1. 三件套定位（先搞清楚每个文件干嘛的）
-
-| 文件 | 作用 | 上传到哪 / 在 LuCI 哪里用 |
-|------|------|---------------------------|
-| `OpenClash(mihomo).conf` | OpenClash **UI 配置快照（必导）**：把推荐的 UCI 选项（核心 = Smart、DNS = fake-ip、Sniffer、GeoX 自动更新、LightGBM 自动更新等 30+ 项）一次性灌进 OpenClash，**导完就不用再去 LuCI WebUI 上手动勾任何东西** | LuCI → OpenClash → **覆写设置** 页面里的 **配置文件上传**入口（一次性导入，不需要落到固定路径） |
-| `OpenClash(mihomo-smart).sh` | **Smart 内核**覆写脚本（`type: smart` + LightGBM） | 备份后上传为 `/etc/openclash/custom/openclash_custom_overwrite.sh`，赋予执行权限并重启插件（见 §3.4） |
-| `OpenClash(mihomo).sh` | **Normal 内核**覆写脚本（`type: url-test`，非 Smart 内核） | 同上，与 Smart 版二选一 |
-
-> 按实际核心选择一份 .sh。UCI 快照是设置参考，导入后仍须确认核心类型、DNS 和设备网络参数；它不能自动检测环境。
-
----
-
-## 2. Smart 与 Normal 的区别
-
-| 项目 | Smart 版（`OpenClash(mihomo-smart).sh`） | Normal 版（`OpenClash(mihomo).sh`） |
-|---|---|---|
-| 适用内核 | vernesong/mihomo Smart 分支 | MetaCubeX/mihomo 稳定内核（非 Smart） |
-| 区域组类型 | `type: smart` | `type: url-test` |
-| LightGBM | 支持（`uselightgbm: true`） | 不支持 |
-| 规则覆盖 | 149 融合 providers / 168 rules（源 525 / 984） | 149 融合 providers / 168 rules（源 525 / 984） |
-| 业务组数量 | 33 | 33 |
-| 区域组数量 | 22 | 22 |
-| DNS / Sniffer / Rule-Providers | 完全一致 | 完全一致 |
-
-一句话：**想要 ML 自动择优就选 Smart；只想稳定跑在非 Smart 内核就选 Normal。**
-
-Smart 版使用 `uselightgbm` / `collectdata` 等[官方 Smart 字段](https://github.com/vernesong/OpenClash/releases/tag/mihomo)，不设置 `strategy`；节点选择由内核目标匹配、连接质量和重试机制决定。MetaCubeX/mihomo 的 Alpha 分支不等于 Smart 内核。发布版本、覆写入口及设备验收边界见[官方版本核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。
-
----
-
-## 3. 部署步骤
-
-### 3.1 先装好 OpenClash
-
-参考官方文档：<https://github.com/vernesong/OpenClash/wiki>
+## 按顺序部署与启动
 
 ### 3.2 进入「覆写设置」页面
 
@@ -88,7 +71,7 @@ LuCI → **服务 → OpenClash → 覆写设置（Overwrite Settings）**。
 
 <img width="1280" height="678" alt="① 覆写设置页面入口" src="https://github.com/user-attachments/assets/3f7f16a8-f01c-4f7d-ad17-338140088a9a" />
 
-### 3.3 导入 `.conf`（**必做**，一次性灌入全部 UI 选项）
+### 3.3 核对或导入配套 UCI 设置
 
 在覆写设置页面里找到 **配置文件上传** 入口：
 
@@ -135,27 +118,30 @@ ssh root@192.168.1.1 'chmod +x /etc/openclash/custom/openclash_custom_overwrite.
 
 在受信任的转换服务中合并多个订阅，输出含 proxies 的 Mihomo 配置，再交给 LuCI 下载。服务端可看到订阅 token；敏感订阅优先本地处理。
 
-#### 方式 C：在 .sh 脚本内写多个 proxy-providers（无需额外工具）
+#### 方式 C：手动合并输入订阅配置
 
 请编辑**输入订阅配置**，合并为同一个 proxies 列表，或使用仅含 type: inline 与 payload 的 provider；不要向本仓库 Shell 的规则 heredoc 添加远程节点 provider。
 
 预检会展平可接受的 inline 节点并重建区域组；远程、带额外字段或有歧义的 provider 会被拒绝，保留原订阅。详细输入边界见[节点筛选指南](../../docs/subscription-node-filter.md)。
 
----
 
 ### 3.6 导入订阅并启动
 
 LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置** 选择该配置 → 启动 OpenClash。
 
----
+<a id="verification"></a>
 
-### 3.7 启动后验证
+## 启动后核验
 
 - OpenClash「运行状态」应显示内核正常启动，日志没有大面积 rule-provider 403 / 404。
 - 策略组页面应看到 22 区域组 + 33 业务组；Smart 版区域组应为 `smart`，Normal 版应为 `url-test`。
 - 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
 
-## 4. 常见问题
+<a id="4-常见问题"></a>
+
+<a id="faq"></a>
+
+## 常见问题
 
 ### Q1：我现在不是 Smart 内核，还能用这套规则吗？
 
@@ -179,18 +165,50 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 
 请改用 §3.4 的文件系统部署：备份后把 `.sh` 上传为 `/etc/openclash/custom/openclash_custom_overwrite.sh`，赋予执行权限并重启插件。若仍失败，再提供路由器型号、OpenWrt / LuCI / OpenClash 版本，以及 `logread | grep -Ei 'luci|uhttpd|openclash|content|maximum|POST'` 的输出。
 
----
 
-## 5. 配套文件
+<a id="reference"></a>
 
-| 文件 | 说明 |
-|------|------|
-| `OpenClash(mihomo-smart).sh` | 覆写脚本（Smart 内核） |
-| `OpenClash(mihomo).sh` | 覆写脚本（Normal 内核） |
-| `OpenClash(mihomo).conf` | OpenClash UI 配置快照（一次性导入） |
+## 进阶与参考
 
----
+- [节点筛选与订阅输入边界](../../docs/subscription-node-filter.md)：倍率筛选默认关闭，远程、额外字段或有歧义的 provider 会被拒绝。
+- [私有节点 DNS](../../docs/private-node-dns.md)：默认 adaptive；LuCI Mixin 须保留活动节点的精确 policy。
+- [规则下载](../../docs/rule-asset-delivery.md) · [测速 / QUIC](../../docs/traffic-options.md) · [微信排错](../../docs/research/2026-10-16-wechat-issue-187.md)。
+- 路由器通常无法识别局域网终端进程名，PROCESS-NAME 不能替代域名规则。
+- [官方版本、覆写入口与设备验收边界](../../docs/upstream/2026-10-19/mihomo/report.md) · [本地官方参考](REFERENCE-openclash.md)。
 
-## 💖 支持本项目
+<a id="2-smart-与-normal-的区别"></a>
 
-→ [捐赠 / Star / PR](../../docs/donate.md)
+<details>
+<summary>Smart / Normal 字段与规则覆盖对照</summary>
+
+| 项目 | Smart 版（`OpenClash(mihomo-smart).sh`） | Normal 版（`OpenClash(mihomo).sh`） |
+|---|---|---|
+| 适用内核 | vernesong/mihomo Smart 分支 | MetaCubeX/mihomo 稳定内核（非 Smart） |
+| 区域组类型 | `type: smart` | `type: url-test` |
+| LightGBM | 支持（`uselightgbm: true`） | 不支持 |
+| 规则覆盖 | 149 融合 providers / 168 rules（源 525 / 984） | 149 融合 providers / 168 rules（源 525 / 984） |
+| 业务组数量 | 33 | 33 |
+| 区域组数量 | 22 | 22 |
+| DNS / Sniffer / Rule-Providers | 完全一致 | 完全一致 |
+
+一句话：**想要 ML 自动择优就选 Smart；只想稳定跑在非 Smart 内核就选 Normal。**
+
+Smart 版使用 `uselightgbm` / `collectdata` 等[官方 Smart 字段](https://github.com/vernesong/OpenClash/releases/tag/mihomo)，不设置 `strategy`；节点选择由内核目标匹配、连接质量和重试机制决定。MetaCubeX/mihomo 的 Alpha 分支不等于 Smart 内核。发布版本、覆写入口及设备验收边界见[官方版本核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。
+
+</details>
+
+<a id="5-配套文件"></a>
+
+UI CONF 是 UCI 设置快照，不是节点配置；完整 Shell 应部署到 `/etc/openclash/custom/openclash_custom_overwrite.sh`，不要注册为普通 INI 覆写模块。
+
+业务 DNS 的权威源为 [business-dns-policy.json](../../rulesets/source/business-dns-policy.json)，维护命令：
+
+```bash
+node tools/sync-business-dns-policy.js
+node tools/sync-business-dns-policy.js --check
+node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-sync.test.js
+```
+
+<a id="-支持本项目"></a>
+
+[变更历史](CHANGELOG.md) · [支持本项目](../../docs/donate.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

@@ -1,9 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Shadowrocket 变更日志" width="100%">
+</picture>
+
 # Shadowrocket — 变更日志
 
 > `独立内核系/Shadowrocket/Shadowrocket.conf` 的变更日志。
 > 主版本号跟随 Clash Party 主线；尾段（`-SR.N`）独立递增。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-SR.11 (2026-10-24)
 

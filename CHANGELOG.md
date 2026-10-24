@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/readme/page-changelog-mobile.svg">
+  <img src="docs/assets/readme/page-changelog.svg" alt="Smart-Config-Kit 仓库 变更日志" width="100%">
+</picture>
+
 # Smart-Config-Kit — 变更日志
 
 > 仓库级变更摘要。各产物的详细变更见对应子目录 `CHANGELOG.md`。
@@ -6,7 +11,11 @@
 
 ---
 
+[![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
+
 ## 2026-10-24 — README 首页与专题导航
+
+- 统一客户端教程、下载专题与现行文档版式，历史资料保留原文并集中导航。
 
 - 将根 README 重排为快速入门、客户端系列入口和单张架构概览；下载目录、协议矩阵、规则来源、DNS 验收与致谢迁入 `docs/guide/`。保留既有下载地址，拆分长表，并在 `AGENTS.md` §10 固化内容分层、视觉风格与发布验收契约。
 

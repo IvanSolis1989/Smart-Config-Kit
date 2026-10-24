@@ -1,9 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="FlClash 变更日志" width="100%">
+</picture>
+
 # FlClash — 变更日志
 
 > FlClash 覆写脚本 `FlClash(mihomo).js`，使用标准 Mihomo 内核的 url-test 区域组。
 > 规则权威源：`rulesets/source/routing-graph.js`；FlClash 消费最终融合规则集，区域组与 Clash Party Normal 对齐。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-flclash.23 (2026-10-24)
 

@@ -1,45 +1,47 @@
-# Passwall 使用教程（对齐 Clash Party v6.0.20）
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-passwall-mobile.svg">
+  <img src="../../docs/assets/readme/page-passwall.svg" alt="Passwall 导入指南" width="100%">
+</picture>
 
-## 📥 规则下载链接
+# Passwall 导入指南
+
+<a id="passwall-使用教程对齐-clash-party-v6020"></a>
+
+
+
+在 OpenWrt 上将同源融合 SRS 应用到 sing-box 分流节点。先备份 UCI，再导入规则并逐项选择业务出口。
+
+[![下载入口](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
+
+[开始前](#before-start) · [文件选择](#files) · [脚本导入](#3-推荐导入方式) · [手工导入](#4-手工导入方式) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
+
+> 配置版本：`v6.0.20-pw.11` · Build：2026-10-24 · 规则基线：Clash Party v6.0.20。历史见 [CHANGELOG](CHANGELOG.md)。
+
+<a id="before-start"></a>
+<a id="-规则下载链接"></a>
+
+## 开始前：确认后端并备份
+
+本目录提供 UCI 批量应用脚本和 fused SRS 分流参考，**仅支持 `type=sing-box`、`protocol=_shunt` 的分流节点**。文件名保留历史 `xray+sing-box` 以保持下载链接有效，不能据此判断支持 Xray。
+
+1. 在 LuCI 准备可用节点，并创建 **sing-box 分流节点**。确认全部分流节点均使用 sing-box；以后切换后端前，先移除 SRS 规则。
+2. 备份 `/etc/config/passwall`，并保存当前节点及规则设置。
+3. 确认路由器能通过网络或可用代理访问 GitHub Raw；下载问题见[规则下载说明](../../docs/rule-asset-delivery.md)。
+
+脚本在任何写入前检查全部分流节点；遇到 Xray、未知后端、读取失败或没有分流节点时会停止。默认 `--replace` 替换仓库管理的旧规则；需要并存时显式使用 `--append`。
 
 [![下载 Passwall SH](../../docs/assets/readme/button-passwall-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh)
 
-按钮打开 Raw 文件，可复制链接或另存为。
-
-**Passwall SH 直链：**
+按钮打开 Raw 脚本，可复制链接或另存为：
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh
 ```
 
-下载的是 UCI 批量应用脚本。先在 LuCI 创建 **sing-box 分流节点**，再通过 SSH 执行；默认替换仓库管理的旧规则，需保留并存时使用 `--append`。
+<a id="files"></a>
+<a id="2-文件说明"></a>
 
-本目录 SRS 规则仅支持 `type=sing-box`、`protocol=_shunt` 的分流节点。脚本在任何写入前检查全部分流节点；存在 Xray、未知后端、读取失败或没有分流节点时停止。文件名保留历史 `xray+sing-box` 以保持下载链接有效，不能据此判断支持 Xray。以后切换分流后端前须先移除 SRS 规则。官方后端源码证据见[版本与兼容性研究](../../docs/upstream/2026-10-19/singbox/report.md)。
-
----
-
-规则更新依赖可访问 GitHub raw 的网络或可用代理；导入与下载故障排查见[规则下载说明](../../docs/rule-asset-delivery.md)。
-
-
-> 版本：**v6.0.20-pw.11**（Build 2026-10-24；基线：Clash Party v6.0.20；78 个 SRS 资产使用发布版本缓存键）。
-
----
-
-## 1. 定位
-
-Passwall 是 OpenWrt 上的全功能代理插件，带直连/屏蔽/GFW/代理四列表、shunt rules、ACL 和 TCP/UDP 节点分选。它底层走 xray-core / sing-box，不打包 mihomo，也没有 Clash Party 的 proxy-groups 嵌套选择器。
-
-本目录因此只提供 fallback：从最终 fused 规则集生成 78 条非空 Passwall 原生 shunt rule。每条 rule 只引用一个远程 `.srs`：
-
-```text
-rule-set:remote:https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/<segment>.srs
-```
-
-规则只在源规则图及融合链路维护，不在本目录手写展开。
-
----
-
-## 2. 文件说明
+## 文件选择
 
 | 文件 | 用途 |
 | --- | --- |
@@ -50,11 +52,11 @@ rule-set:remote:https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit
 
 `shunt-rules/*.list` 每个文件只保留一个非注释行。不要在这里手写 `domain:` / `geoip:` / Clash 前缀。
 
----
+<a id="3-推荐导入方式"></a>
 
-## 3. 推荐导入方式
+## 分步导入：脚本
 
-1. 在 LuCI 创建 sing-box 分流节点，确认所有分流节点均使用该后端；备份 `/etc/config/passwall`。把 `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh` 复制到路由器。
+1. 在 LuCI 创建 sing-box 分流节点，确认所有分流节点均使用该后端；备份 `/etc/config/passwall`。把 `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh` 复制到路由器，并在脚本所在目录执行下一步。
 2. 执行：
 
 ```sh
@@ -71,9 +73,9 @@ sh 'Passwall(xray+sing-box)-apply.sh'
 sh 'Passwall(xray+sing-box)-apply.sh' --append
 ```
 
----
+<a id="4-手工导入方式"></a>
 
-## 4. 手工导入方式
+## 分步导入：手工
 
 不方便 SSH 时，可在 LuCI 的 **sing-box 分流节点**中逐条新增 shunt rule；手工粘贴不会执行脚本的后端检查：
 
@@ -85,9 +87,53 @@ sh 'Passwall(xray+sing-box)-apply.sh' --append
 
 Passwall / Passwall2 的 sing-box 后端支持 `rule-set:remote:` / `rule-set:local:`。Xray 后端会过滤这些引用；Passwall2 还可能生成缺失域名/IP 条件的宽匹配规则。不要将 SRS 引用交给 Xray，也不要粘贴 Clash 的 `DOMAIN-SUFFIX,` 等前缀。
 
----
+<a id="verification"></a>
 
-## 5. 与 OpenClash 的差异
+## 导入验收
+
+- LuCI 中出现 `scki-fused-*` 规则，顺序与参考 `.conf` 一致；替换模式下没有旧仓库规则重复残留。
+- 所有分流节点仍为 sing-box；每条规则已绑定预期业务节点，已保存并应用，服务日志没有后端或规则下载错误。
+- 检查最终生成配置确实包含远程 `route.rule_set`，用真实连接确认直连、代理、拦截与默认流量去向，再按[运行验证清单](../../docs/guide/dns-and-verification.md#verification)检查。
+
+脚本退出成功、UCI 保存成功或服务存活都不能代替规则命中验证。官方源码与本地门禁证据见[后端核验报告](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)；实际设备、网络和流量仍需在你的 OpenWrt 上验收。
+
+<a id="faq"></a>
+
+## 常见问题
+
+**为什么脚本拒绝运行？** 先读报错，核对全部分流节点的 `protocol` 和 `type`。没有分流节点、混用 Xray 或读取失败都会在写入 UCI 前停止；修正后端后再执行。
+
+**文件名有 Xray，为什么不能使用 Xray？** 插件本身支持多后端，但本仓库这条导入路径依赖 SRS。Xray 会过滤 SRS 引用，Passwall2 还可能产生缺少域名/IP 条件的宽匹配；不要以“无报错”判断兼容。
+
+**能把 Clash 规则粘贴进去吗？** 不要使用 `DOMAIN-SUFFIX,` 等 Clash 前缀。按本页手工步骤复制 `.list` 的 `rule-set:remote:...srs`，并严格保持顺序和目标。
+
+**需要嵌套策略组或 Smart 怎么办？** 使用 [OpenClash](../../Mihomo内核系/OpenClash/README.md)；本页 fallback 不保留 Clash Party 的嵌套选择器与 LightGBM。
+
+<a id="advanced"></a>
+
+## 进阶参考
+
+<details>
+
+<summary>插件定位、融合规则与能力差异</summary>
+
+<a id="1-定位"></a>
+
+### 插件定位与融合规则
+
+Passwall 是 OpenWrt 上的全功能代理插件，带直连/屏蔽/GFW/代理四列表、shunt rules、ACL 和 TCP/UDP 节点分选。它底层走 xray-core / sing-box，不打包 mihomo，也没有 Clash Party 的 proxy-groups 嵌套选择器。
+
+本目录因此只提供 fallback：从最终 fused 规则集生成 78 条非空 Passwall 原生 shunt rule。每条 rule 只引用一个远程 `.srs`：
+
+```text
+rule-set:remote:https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/<segment>.srs
+```
+
+规则只在源规则图及融合链路维护，不在本目录手写展开。
+
+<a id="5-与-openclash-的差异"></a>
+
+### 与 OpenClash 的差异
 
 | 能力 | Passwall fallback | OpenClash / Clash Party |
 | --- | --- | --- |
@@ -100,9 +146,15 @@ Passwall / Passwall2 的 sing-box 后端支持 `rule-set:remote:` / `rule-set:lo
 
 需要嵌套策略组或 Smart 时使用 OpenClash。
 
----
+</details>
 
-## 6. 维护者入口
+<details>
+
+<summary>维护者入口与官方语法</summary>
+
+<a id="6-维护者入口"></a>
+
+### 维护者入口
 
 不要手工编辑 `Passwall(xray+sing-box)-apply.sh`、`Passwall(xray+sing-box).conf` 或 `shunt-rules/*.list`。生成链路：
 
@@ -119,3 +171,5 @@ node tools/validate-artifact-contracts.js --strict-ruby
 - Passwall / Passwall2 差异讨论：https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555
 
 补充说明：[Claude 服务依赖](../../docs/claude-service-dependencies.md) · [测速与 QUIC](../../docs/traffic-options.md) · [微信连接排障](../../docs/research/2026-10-16-wechat-issue-187.md)。
+
+</details>

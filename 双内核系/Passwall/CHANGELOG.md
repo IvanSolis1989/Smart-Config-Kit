@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Passwall 变更日志" width="100%">
+</picture>
+
 # Passwall — 变更日志
 
 > `双内核系/Passwall/` 目录的变更日志（Passwall 全功能版专属参考；四列表 + shunt_rules + ACL 三层架构）。
@@ -6,6 +11,8 @@
 > 主版本号跟随 Clash Party 主线；尾段 `-pw.N` 独立递增。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-pw.11 (2026-10-24)
 

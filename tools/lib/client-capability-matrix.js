@@ -196,20 +196,41 @@ function markdownRepositoryLink(relativePath) {
   return `[${markdownEscape(label)}](${url})`;
 }
 
-function renderCapabilityCell(capability) {
+function renderCapabilityEntry(column, capability) {
+  const titles = {
+    subscription_input: '订阅输入',
+    dynamic_grouping: '动态分组',
+    node_dns_hint: '节点 DNS 提示',
+    optional_node_dns_sidecar: '可选 Node-DNS sidecar',
+  };
   const evidenceLinks = capability.evidence.map((entry) => markdownRepositoryLink(entry.file)).join('、');
   return [
-    `**${STATE_LABELS[capability.state]}**`,
-    `\`${capability.mode}\``,
-    markdownEscape(capability.summary),
-    `证据：${evidenceLinks}`,
-  ].join('<br>');
+    `- **${titles[column]} · ${STATE_LABELS[capability.state]}**`,
+    `  ${markdownEscape(capability.summary)}`,
+    '',
+    `  \`${column}\` → \`${capability.mode}\`。证据：${evidenceLinks}`,
+  ].join('\n');
 }
 
 function renderClientCapabilityMatrix(matrix) {
   assertValidClientCapabilityMatrix(matrix);
   const lines = [
+    '<picture>',
+    '  <source media="(max-width: 600px)" srcset="assets/readme/page-client-support-mobile.svg">',
+    '  <img src="assets/readme/page-client-support.svg" width="100%" alt="客户端能力与适配边界">',
+    '</picture>',
+    '',
     '# 跨客户端能力矩阵',
+    '',
+    '按内核系列查找产品，再查看订阅输入、动态分组、节点 DNS 提示与可选 sidecar 四项能力。状态、mode 与证据逐项列出，便于在手机上阅读。',
+    '',
+    '<p>',
+    '  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>',
+    '  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>',
+    '  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>',
+    '</p>',
+    '',
+    '[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)',
     '',
     '> 此文件由 `docs/client-capability-matrix.json` 生成。修改能力声明或证据后运行 `node tools/generate-client-capability-matrix.js`；CI 使用 `--check` 拒绝漂移。',
     '',
@@ -219,19 +240,31 @@ function renderClientCapabilityMatrix(matrix) {
     '- **手工文档**：仓库只提供本地配置 / Mixin / 原生字段的操作边界，不交付会读取机场源配置的自动 sidecar。',
     '- **无 / 不适用**：该产物只拥有路由、shunt rule 或静态出站模型；不要把它当作订阅 DNS 转换器。',
     '',
-    '| 产品 | `subscription_input`<br>订阅输入 | `dynamic_grouping`<br>动态分组 | `node_dns_hint`<br>节点 DNS 提示 | `optional_node_dns_sidecar`<br>可选 Node-DNS sidecar |',
-    '| --- | --- | --- | --- | --- |',
   ];
 
-  for (const product of matrix.products) {
-    const artifactLinks = product.artifacts.map(markdownRepositoryLink).join('<br>');
-    lines.push([
-      `**${markdownEscape(product.name)}**<br>${artifactLinks}`,
-      renderCapabilityCell(product.capabilities.subscription_input),
-      renderCapabilityCell(product.capabilities.dynamic_grouping),
-      renderCapabilityCell(product.capabilities.node_dns_hint),
-      renderCapabilityCell(product.capabilities.optional_node_dns_sidecar),
-    ].join(' | ').replace(/^/, '| ').concat(' |'));
+  const families = [
+    ['Mihomo 内核系列', ['clash-party', 'cmfa', 'openclash', 'flclash']],
+    ['Sing-box 内核系列', ['sing-box', 'karing']],
+    ['Xray 内核系列', ['v2rayn-xray']],
+    ['双内核系列', ['passwall', 'passwall2']],
+    ['独立内核系列', ['shadowrocket', 'surge', 'loon', 'quantumult-x', 'stash', 'egern']],
+  ];
+  lines.push('## 按系列查阅', '', ...families.map(([name, ids]) =>
+    `- **${name}**：${ids.map((id) => {
+      const product = matrix.products.find((item) => item.id === id);
+      return `[${markdownEscape(product.name)}](#${id})`;
+    }).join(' · ')}`), '');
+
+  for (const [family, ids] of families) {
+    lines.push(`## ${family}`, '');
+    for (const id of ids) {
+      const product = matrix.products.find((item) => item.id === id);
+      lines.push(`<a id="${product.id}"></a>`, '', `### ${markdownEscape(product.name)}`, '',
+        `产物：${product.artifacts.map(markdownRepositoryLink).join('、')}`, '');
+      for (const column of COLUMN_IDS) {
+        lines.push(renderCapabilityEntry(column, product.capabilities[column]), '');
+      }
+    }
   }
 
   lines.push(
@@ -241,7 +274,7 @@ function renderClientCapabilityMatrix(matrix) {
     '- `runtime_hook` / `restricted_projection` 仅在 Clash Party、OpenClash、FlClash 的本仓库覆写入口中存在；其 profile 是本地受信任设置，不从订阅读取。',
     '- `engine_filter`、`client_regex_filter` 与 `engine_smart_filter` 说明客户端可以用本产物已声明的正则 / smart 机制选择节点；它们不表示拥有订阅 DNS 的运行时写入权。',
     '- `manual_mihomo_overlay` / `manual_native_config` 都要求用户在客户端自己的本地配置层合并 DNS；不能覆盖仓库的全局 DNS 基线，也不能把 Mihomo 字段直接复制到 Apple 私有配置、sing-box 或 Passwall。',
-    `- 每个单元格的“证据”都是仓库内可机械校验的文件与 marker；\`tools/validate-artifact-contracts.js\` 会验证 schema、${PRODUCT_IDS.length} 个产品、4 个固定列、文件存在性与 marker。`,
+    `- 每项能力的“证据”都是仓库内可机械校验的文件与 marker；\`tools/validate-artifact-contracts.js\` 会验证 schema、${PRODUCT_IDS.length} 个产品、4 个固定列、文件存在性与 marker。`,
     '',
     '延伸阅读：[私有节点 DNS：受限投影与跨端边界](./private-node-dns.md)。',
     '',

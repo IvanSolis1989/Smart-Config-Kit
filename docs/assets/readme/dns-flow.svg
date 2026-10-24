@@ -23,5 +23,5 @@
   <text x="770" y="281" font-size="22" font-weight="650" fill="#18324f" >④ 海外业务域名</text>
   <text x="770" y="315" font-size="18" font-weight="400" fill="#506780" >nameserver-policy / fallback</text><text x="770" y="346" font-size="18" font-weight="400" fill="#506780" >geosite:geolocation-!cn</text><text x="770" y="377" font-size="18" font-weight="400" fill="#506780" >Cloudflare / Google</text><text x="770" y="408" font-size="18" font-weight="400" fill="#506780" >fallback-filter · GeoIP CN</text>
   <text x="36" y="504" font-size="18" font-weight="400" fill="#506780" >业务查询优先使用加密 DoH；ISP 可见性仍取决于 bootstrap、客户端与网络路径。</text>
-  <text x="36" y="534" font-size="18" font-weight="400" fill="#506780" >其他客户端遵循各自原生 DNS；Karing 的 DNS 由适配配置与 App 设置维护。</text>
+  <text x="36" y="534" font-size="18" font-weight="400" fill="#506780" >其他客户端遵循各自原生 DNS；Karing 的 DNS 由 App 设置维护。</text>
 </g></svg>

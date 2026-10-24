@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Passwall / Passwall2 变更日志" width="100%">
+</picture>
+
 # Passwall / Passwall2 — 变更日志
 
 > `双内核系/Passwall2/` 目录的变更日志（目录名保留历史命名，实际产物同时适用 Passwall 全功能版 + Passwall2 精简分流版——两者共用 `shunt_rules.lua` 解析器，同一份 `.list` 互通）。
@@ -5,6 +10,8 @@
 > 主版本号跟随 Clash Party 主线；尾段 `-pw2.N` 独立递增。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-pw2.11 (2026-10-24)
 

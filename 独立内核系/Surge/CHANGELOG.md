@@ -1,8 +1,17 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Surge 变更日志" width="100%">
+</picture>
+
 # Surge — 变更日志
+
+> 手册链接使用当前可访问路径；历史条目保留当时语义，不据此推定旧字段仍受当前版本支持。
 
 > `独立内核系/Surge/Surge.conf` 的变更日志。主版本号跟随 Clash Party 主线；尾段 `-Surge.N` 独立递增。
 
 ---
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 ## v6.0.20-Surge.13 (2026-10-24)
 
@@ -242,7 +251,7 @@
 
 - ✅ FIX#SURGE-PORT-RULE：Surge 端口规则统一改为官方 `DEST-PORT`
   - 修复导入时报「第 331 行存在无效配置：`DST-PORT,7680,REJECT`」的问题
-  - 依据 [Surge Manual `Misc Rule / DEST-PORT`](https://manual.nssurge.com/rule/misc-rule.html#dest-port)；Shadowrocket / Mihomo / OpenClash 的 `DST-PORT` 语法不受影响
+  - 依据 [Surge Manual `Misc Rule / DEST-PORT`](https://manual.nssurge.com/rules/source-and-port.html#dest-port)；Shadowrocket / Mihomo / OpenClash 的 `DST-PORT` 语法不受影响
 
 ## v5.4.16-Surge.2 (2026-05-22)
 
@@ -439,12 +448,12 @@ P0 审查发现 9 个区域 `url-test` 组只有 `policy-regex-filter`，没有�
 
 ### 官方文档证据
 
-- [Surge Policy Including](https://manual.nssurge.com/policy-group/policy-including.html)：`include-all-proxies=true` 会包含 `[Proxy]` 中所有代理，并可与 `policy-regex-filter` 联用过滤。
+- [Surge Policy Including](https://manual.nssurge.com/policy-groups/policy-including.html)：`include-all-proxies=true` 会包含 `[Proxy]` 中所有代理，并可与 `policy-regex-filter` 联用过滤。
 
 ## v5.2.5-Surge.2 (2026-04-22) — 移除 72 条 Clash YAML + anti-AD CDN + 版本对齐
 
 与 Loon v5.2.4-Loon.2 / .3 同批"Clash Party v5.2.4 基线遗毒"。Surge manual 明确 RULE-SET
-期望 **"text file, each line containing a rule declaration"**（[manual.nssurge.com/rule/ruleset.html](https://manual.nssurge.com/rule/ruleset.html)），
+期望 **"text file, each line containing a rule declaration"**（[manual.nssurge.com/rule/ruleset.html](https://manual.nssurge.com/rules/ruleset.html)），
 Clash classical YAML 的 `payload: \n - DOMAIN-SUFFIX,x` 格式不符合该定义，**Surge 会沉默加载为空**。
 
 ### 改动
@@ -465,8 +474,8 @@ Clash classical YAML 的 `payload: \n - DOMAIN-SUFFIX,x` 格式不符合该定�
 
 深度审查发现有 agent 误把下列 Surge 原生字段当成 Loon 专属。经官方文档核实**全部保留**：
 
-- `FINAL,🐟 漏网之鱼,dns-failed` ✓（[Surge manual rules](https://manual.nssurge.com/rule/summary.html)：DNS 失败时的兜底，Surge 独有特性）
-- `bypass-system`、`tun-excluded-routes`、`hijack-dns`、`udp-policy-not-supported-behaviour` ✓（[misc-options](https://manual.nssurge.com/others/misc-options.html) 原生字段）
+- `FINAL,🐟 漏网之鱼,dns-failed` ✓（[Surge manual rules](https://manual.nssurge.com/rules/overview.html)：DNS 失败时的兜底，Surge 独有特性）
+- `bypass-system`、`tun-excluded-routes`、`hijack-dns`、`udp-policy-not-supported-behaviour` ✓（[misc-options](https://manual.nssurge.com/profile/general.html) 原生字段）
 - Sukka `List/domainset/reject_phishing.conf` ✓（Surge 原生支持 DOMAIN-SET 格式；Loon/QX 要换 `non_ip/`，但 Surge 不用改）
 - `encrypted-dns-server` / `geoip-maxmind-url` / `read-etc-hosts` / `exclude-simple-hostnames` ✓（Surge 独有字段）
 
@@ -484,8 +493,8 @@ Clash classical YAML 的 `payload: \n - DOMAIN-SUFFIX,x` 格式不符合该定�
 
 ### 官方文档证据
 
-- [Surge Ruleset manual](https://manual.nssurge.com/rule/ruleset.html)：ruleset file = "text file, each line containing a rule declaration"（不是 YAML）
-- [Surge misc-options](https://manual.nssurge.com/others/misc-options.html)：`bypass-system` / `tun-excluded-routes` / `hijack-dns` / `udp-policy-not-supported-behaviour` 原生支持
+- [Surge Ruleset manual](https://manual.nssurge.com/rules/ruleset.html)：ruleset file = "text file, each line containing a rule declaration"（不是 YAML）
+- [Surge misc-options](https://manual.nssurge.com/profile/general.html)：`bypass-system` / `tun-excluded-routes` / `hijack-dns` / `udp-policy-not-supported-behaviour` 原生支持
 - [Surge DNS kb](https://kb.nssurge.com/surge-knowledge-base/technotes/dns)：`FINAL, policy, dns-failed` 原生支持
 
 ---

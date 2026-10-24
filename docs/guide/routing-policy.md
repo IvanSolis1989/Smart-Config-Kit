@@ -1,12 +1,19 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../assets/readme/page-routing-policy-mobile.svg">
+  <img src="../assets/readme/page-routing-policy.svg" alt="分流架构与业务策略" width="100%">
+</picture>
+
 # 分流架构与业务策略
 
-了解单一规则源如何编译成各端原生规则，以及区域、业务和最终兜底的关系。
+从同一规则源出发，理解业务用途、地区出口和规则命中的关系。
 
-[← 项目首页](../../README.md) · [文档索引](../README.md)
+[![文档中心](../assets/readme/nav-docs.svg)](../README.md) [![下载目录](../assets/readme/nav-downloads.svg)](downloads.md)
+
+[项目首页](../../README.md) · [文档中心](../README.md) · [导入后验收](dns-and-verification.md#verification)
 
 [架构概览](#architecture) · [业务组与来源](#business-groups) · [覆盖与约束](#coverage)
 
-<a name="architecture"></a>
+## <a id="architecture"></a>从规则源到客户端
 
 <picture>
   <source media="(max-width: 600px)" srcset="../assets/readme/routing-flow-mobile.svg">
@@ -17,9 +24,7 @@
 
 ---
 
-<a name="business-groups"></a>
-
-## 33 个业务组与区域选择
+## <a id="business-groups"></a>33 个业务组与区域选择
 
 业务组负责选择用途，区域组负责选择出口；两层各自维护，规则按顺序命中。Karing 将业务代理适配为当前选择节点，不自动导入此嵌套组结构。
 
@@ -28,7 +33,7 @@
   <img alt="策略关系：33业务组选择区域或家宽，区域组选择实际节点" src="../assets/readme/policy-map.svg" width="1120">
 </picture>
 
-### 🗂️ 代理组与主要 Rule-Providers 对照（source graph 输入）
+### 业务组与规则来源速查
 
 > 表中仅列主要源图输入及来源，不是最终 provider 清单；编译器按策略、顺序和平台能力生成 `rulesets/generated/fused/**/scki-fused-*`。
 
@@ -88,6 +93,9 @@
 | 🛑 广告拦截 | `anti-ad` `sukka-phishing` `hagezi-tif` `advertising` `privacy` `GEOSITE,category-ads-all` `acc-unsupportvpn`<br>来源：DustinWin / SukkaW / Hagezi / blackmatrix7 / MetaCubeX / Accademia |
 
 
+<details>
+<summary>按平台查看最终规则格式</summary>
+
 最终编译输出按平台分发：
 
 - Mihomo / CMFA / OpenClash / FlClash / Stash：`scki-fused-*-domain.mrs`、`scki-fused-*-ipcidr.mrs`、`scki-fused-*-residual.yaml`
@@ -96,12 +104,12 @@
 - v2rayN Xray：由 fused sing-box JSON 展平成 Xray `RuleObject`
 - Passwall / Passwall2：78 条 `rule-set:remote` fused `.srs`，仅用于 sing-box 分流后端
 
+</details>
+
 
 ---
 
-<a name="coverage"></a>
-
-## 规则覆盖与编译约束
+## <a id="coverage"></a>规则覆盖与编译约束
 
 > 最终配置消费 fused 产物；仅端口、逻辑组合、兜底及 DNS/geo 等必要规则保留内联。覆盖审查见[台账](../GEOSITE_COVERAGE_LEDGER.md)。
 

@@ -1,14 +1,21 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="assets/readme/page-docs-mobile.svg">
+  <img src="assets/readme/page-docs.svg" alt="Smart-Config-Kit 文档中心" width="100%">
+</picture>
+
 # 文档中心
 
-从选择客户端开始，按需要阅读分流、DNS 与高级设置。配置下载和使用说明集中维护在仓库内，与代码一起更新。
+从选配置、完整导入到运行验收，按当前任务选择阅读路径。专题与客户端教程随仓库版本统一维护。
 
-[项目首页](../README.md) · [下载配置](guide/downloads.md) · [提交问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[![下载目录](assets/readme/nav-downloads.svg)](guide/downloads.md) [![导入后验收](assets/readme/nav-verify.svg)](guide/dns-and-verification.md#verification)
 
-## 开始使用
+[项目首页](../README.md) · [下载目录](guide/downloads.md) · [客户端选择](guide/client-support.md) · [提交问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
 
-- **[配置下载](guide/downloads.md)**：按内核系列查找全部客户端、Raw 文件与导入教程。
-- **[客户端与协议支持](guide/client-support.md)**：按平台选客户端，核对协议、最低版本和 GUI 导入边界。
-- **[DNS 与导入后验收](guide/dns-and-verification.md)**：了解解析路径，检查规则下载、实际命中与最终出口。
+## 先完成这三步
+
+1. **[找到配置](guide/downloads.md)**：按内核系列查找全部客户端、Raw 文件与导入教程。
+2. **[确认客户端能力](guide/client-support.md)**：按平台选客户端，核对协议、最低版本和 GUI 导入边界。
+3. **[完成导入后验收](guide/dns-and-verification.md)**：了解解析路径，检查规则下载、实际命中与最终出口。
 
 ## 理解分流设计
 
@@ -33,7 +40,7 @@
 - [维护工具](../tools/README.md)：官方文档缓存、生成与验证工具。
 - [规则资产交付](rule-asset-delivery.md)：下载 URL 与完整内容校验。
 - [发布批次](release-batch.md)：生成物、版本与发布验收。
-- [官方版本与兼容证据](upstream/2026-10-19/README.md)：注明日期的官方文档、实际核对结果和未验收项。
+- [官方参考与历史核验](archive/README.md)：客户端 REFERENCE、注明日期的官方版本复核和专题验收原文。
 - [AI Issue 自动回复](ai-issue-responder.md) · [通知说明](telegram.md) · [变更日志](../CHANGELOG.md)
 
 历史核验档案 `upstream/2026-10-19/` 按当时的 `base_commit` 保留原路径；当前客户端位置以[下载目录](guide/downloads.md)为准。

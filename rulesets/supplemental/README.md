@@ -1,7 +1,16 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-rules-source-mobile.svg">
+  <img src="../../docs/assets/readme/page-rules-source.svg" alt="补充规则集：按客户端语法维护的仓库规则与有界例外" width="100%">
+</picture>
+
 # Supplemental Rule Sets
 
 This directory contains small repository-owned rule sets for manual overrides
 that should not stay as scattered inline rules in product profiles.
+
+[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![配置下载](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md)
+
+文档中心：[docs/README.md](../../docs/README.md) · 配置下载：[downloads.md](../../docs/guide/downloads.md)
 
 - `clash/`: Clash classical syntax. Used by Mihomo, CMFA, OpenClash, Stash,
   Shadowrocket, Surge, Loon, and the SingBox generator expansion path.
@@ -40,6 +49,6 @@ The 2026-10-04 logged routing audit records shared certificate-status endpoints 
 
 ## WeChat connection endpoint exceptions
 
-`clash/adfp-direct.list` protects only the exact `DOMAIN` hosts `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, and `hkshort.weixin.qq.com` with DIRECT before the ad feeds. Tencent's first-party [WeChat service-discovery response](https://dns.weixin.qq.com/cgi-bin/micromsg-bin/newgetdns) lists all three connection endpoints; the captured response, hash and [Huawei's independent connection allowance](https://support.huaweicloud.com/qiankuncmn-qiankuncs/qiankuncs_cmn_uaa_01_1011.html) for `szlong.weixin.qq.com` are documented in the [bounded Issue #187 review](../../docs/research/2026-10-16-wechat-issue-187.md).
+`clash/adfp-direct.list` protects only the exact `DOMAIN` hosts `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, and `hkshort.weixin.qq.com` with DIRECT before the ad feeds. Tencent's first-party [captured WeChat service-discovery response](../../docs/research/2026-10-16-wechat-issue-187.md) lists all three connection endpoints; the captured response, hash and [Huawei's independent connection allowance](https://support.huaweicloud.com/qiankuncmn-qiankuncs/qiankuncs_cmn_uaa_01_1011.html) for `szlong.weixin.qq.com` are documented in the [bounded Issue #187 review](../../docs/research/2026-10-16-wechat-issue-187.md).
 
 These exceptions do not cover `weixin.qq.com` or child hosts. The advertising neighbours `ad.weixin.qq.com` and `log.weixin.qq.com` remain rejected. The regression checks first-match policy and matching boundaries; the reporter's real-device recovery still requires verification after reloading the configuration.
