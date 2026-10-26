@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | [官方 meow-rs 核心](#meow) | 原生 YAML / WebUI | v0.26.1 真实 -t 通过；生产订阅/HTTP 下载与路由待验 |
 | [官方 meow-android / meow-ios](#meow-official-apps) | 原生 YAML | 导入接口及旧核心关键能力已核源码；完整 App 导入与连接待验 |
-| [AEROVE Lite](#aerove-lite-meow) | JS 覆写 | 准入候选 74 项 JVM、AndroidTest 编译与 149 资产读回通过；生产接线及 APK/真实路由待验 |
+| [AEROVE Lite](#aerove-lite-meow) | JS 覆写及专用 MRS 分片 | 生产校验链已接通，QuickJS 原子性及命名 HTTP 代理用例已通过；无损三片候选待 App 全资源重验及真实路由验收 |
 
 ## <a id="meow"></a>Meow / meow-rs 通用适配
 
@@ -30,29 +30,36 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
-目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)，专属接口见 [接口依据](../Meow内核系/Aerove%20Lite/REFERENCE-AEROVE-Lite.md)。本轮已读取开发会话、固定 App 源码和保存产物，完整范围与指纹见[联调核查](../Meow内核系/Aerove%20Lite/VALIDATION.md)。
+目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)。最新固定 beta16 `d52726d…`、run 40335340043 的 Smart 用例实际执行后，被广告 MRS 的 411,634 条记录超过 250,000 条上限拒绝。
 
-已通过的候选检查：
+已完成并核对的接线与单项验收：
 
-- Kotlin 准入候选 74 项 JVM 测试通过，覆盖三阶段准入、资源根接口和 proxy/header 合同；尚未执行真实原生转换或接入生产 factory。
-- SDK 36 AndroidTest 候选编译通过，149 个 provider payload 保存读回完成；Android/QuickJS JNI/原生 payload 解析未执行。
-- 新增 4 个原生回归源码并完成严格补丁回放；Rust 尚未执行，保留为“源码准备完成”。
+- 生产 factory 已切换 `forMeow`，source、资源 preflight、prepared 与真实 JNI 校验链已接通；逻辑规则及 provider proxy/header 已准入并传入原生下载器。资源容量已从早期 128 提升为 256，保留 256 MiB bundle 预算。
+- 真实 Android execution 已通过 QuickJS 输入保持/失败原子性、JNI 命名 HTTP 代理及取消所有权，以及四项 JNI 文件规则解析/损坏拒绝用例。
+- 自定义 header 实传、完整逻辑与 Geo/prepared 转换、256 资源边界全流程尚未取得本轮通过结果。固定源码和 execution 行号见[最新联调核查](../Meow内核系/Aerove%20Lite/VALIDATION.md)。
+
+已完成的本地候选检查：
+
+- 保留 250,000 条、500,000 点分标签及其他安全预算，将唯一超限资源派生为 3 个 MRS；原生重新解码后的完整字符串并集等于原 411,634 条。
+- 其他 148 个规则源复用，投影为 151 个规则资源、170 条主规则；引用在原优先级位置连续展开，目标、no-resolve、下载代理和 header 保持。
+- 原生转换、完整资源预算和官方核心 `-t` 均通过；共享 fused、规则权威源和官方 Meow YAML 字节不变。详细 SHA、许可未决项及准确范围见[分片依据](../Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
 
 剩余生产与设备验收：
 
-1. 导入、资源准备和运行路径统一使用 Meow 配置准入；固定 App 提交 5d2c2bb… 仍在生产入口实例化旧 CompatibilityValidator。
-2. 整合候选的 AND/OR/NOT 准入，并将完整校验接上可信 prepared Geo 资源根；5 条 GEOSITE 逻辑规则的 string-only 校验仍有明确阻断。
-3. 接通 provider 命名代理与 header 下载；当前下载器仍强制直连。
-4. 统一导入、资源准备与备份恢复的有界容量，容纳 149 个规则源；固定源码仍有 128 条限制，保留字节预算和超限拒绝。
-5. 在目标 APK 的真实 QuickJS 执行当前 JS，读回最终 YAML，核对组/provider/规则顺序和字段所有权。
-6. 完成固定内核校验、资源更新、Android VPN 与真实路由验收，区分模拟器和真机。旧 APK 或部分 Native 测试通过不代表本轮联调完成。
+1. AEROVE 接取同批脚本、分片和 SHA，更新内置内容、URL 与唯一来源清单，在固定目标 APK 重新运行实际 Smart 用例。
+2. 实际下载所有资源，沿用逐资源预检、不可变保存和字节校验、完整 prepared 校验；把 Geo、订阅和派生记录一并纳入 256 资源/256 MiB 的最终 bundle 预算。
+3. 读回最终 YAML，核对命名代理/header 下载、可信 Geo 上下文、规则顺序、更新及恢复，再验收 Android VPN、广告、国内/国外与业务出口，区分模拟器和真机。
+
+早期 74 项 JVM、AndroidTest 编译及旧 128 资源限制保存在[历史联调核查](../Meow内核系/Aerove%20Lite/VALIDATION.md)；当前接线与单项执行结果以该页最新核查为准，不代替本候选的完整 App 验收。
 
 ## 维护
 
 ```bash
+node tools/generate-aerove-rule-assets.js
 node tools/generate-meow.js
+node tools/generate-aerove-rule-assets.js --check
 node tools/generate-meow.js --check
-node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js
+node --test tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js
 ```
 
 两种生成物已进入上游刷新链和发布批次清单。自动同步或核心通过不会自动把各 App 待验项标为通过。Ruby 用于生成阶段的 YAML 解析，不是客户端依赖。

@@ -6,11 +6,36 @@
 
 ## 核查基线
 
+### 2026-10-27：真实资源拒绝与专版候选
+
+本次已重新读取开发会话，并核对固定 beta16 的生产源码和 Android execution 记录。[run 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043) 已结束，终态为 failure；以下完成项不代表整轮验收通过。
+
+| 已完成项目 | 固定源码或实际运行证据 |
+| --- | --- |
+| Meow 生产校验器接线 | [LiteApplication.kt:122](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/LiteApplication.kt#L122) 已使用 `CompatibilityValidator.forMeow`，注入普通 native、prepared native、规则 preflight 与 verified features。旧文档中的 factory 未迁移项已解决。 |
+| 三阶段与 prepared JNI 链路 | [ResourceBundleManager.kt:139](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/data/ResourceBundleManager.kt#L139) 已接通 source → 资源 preflight → prepared；[MeowProfileValidator.kt:102](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/data/MeowProfileValidator.kt#L102) 在资源封存后调用真实 prepared native。源码链已接通，本次 Smart 用例在到达完整 prepared 前失败。 |
+| 逻辑规则、proxy/header 与容量接线 | [MeowCompatibilityValidator.kt:116](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/data/MeowCompatibilityValidator.kt#L116) 已准入逻辑及 Android 元数据规则；资源管理把 provider proxy/header 传入真实 JNI 下载器；资源容量已统一为 256，bundle 仍限 256 MiB。完整逻辑转换、自定义 header 实传和容量边界全流程仍须运行验收。 |
+| QuickJS 失败原子性 | `realQuickJsPreservesInputAndScriptFailuresCannotCommitPartialOverrides` 在真实 Android execution 中返回 0，保留输入、拒绝部分覆写的用例已通过。 |
+| 真实 JNI 命名 HTTP 代理与取消 | `realJniNamedHttpProxyAndCancellationKeepWritersOwned` 的 execution 返回 0，覆盖 CONNECT、源站不直连、未知代理失败与取消后停止写入；测试请求使用空 headers，未证明自定义 header 实际传输。 |
+| 原生文件规则解析 | `RuleFileNativeTest` 的四项真实 JNI 文件解析及损坏拒绝用例 execution 均返回 0。 |
+
+实际运行依据位于开发环境 `lite125-remaining-readback/`：QuickJS 与命名代理用例分别见 `job-0.log:6422–6428`、`:6436–6442`；文件解析见 `job-0.log:6355,6369`、`job-1.log:6463`、`job-3.log:6398`。`STATUS-RECORDS.json` 按 `phase=execution` 核对，discovery 的返回 0 只表示发现用例。
+
+固定 beta16 `d52726dc24756847b2b268d307a611cc37f994a3` 的 [run 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043) 实际执行 Smart 测试后，被广告资源 411,634 条记录超过单资源 250,000 条的准入拒绝；不能把 discovery 或部分测试通过视为该用例通过。
+
+本仓库已生成无损三片候选，同时保留 500,000 点分标签等全部单资源预算；规则仍在原优先级位置命中同一策略组，共享 fused 及官方 Meow YAML 字节保持。完整 SHA、来源、许可状态、原生检查与 App 剩余验收见 [RESOURCE-SPLITTING](RESOURCE-SPLITTING.md)及 [rule-assets/manifest.json](rule-assets/manifest.json)。这项候选尚未取得固定 App/JNI/Android 的通过结果。
+
+当前待验是：固定 App 接取同批脚本与资源，完整跑通全部资源 preflight、可信 Geo 上下文及 prepared 转换，读回最终 YAML；补齐自定义 header 实传、资源更新/恢复及最终 bundle 预算边界，最后完成 VPN、广告与国内/国外及业务出口验收。源码接线完成不再列作未实施项。
+
+以下保留早期固定提交的历史核查，不将其中旧生产状态推广为 beta16 当前状态。
+
+### 2026-10-24：早期准入候选
+
 核对时间：2026-10-24 11:06 UTC。AEROVE 开发会话仍在运行；App 工作树已提交且干净，固定为 [5d2c2bb550ab54ae485837c1dec55e961e273dab](https://github.com/IvanSolis1989/Aerove/commit/5d2c2bb550ab54ae485837c1dec55e961e273dab)。本页是该时点的核查记录，候选包不等于此提交已整合的代码。
 
 候选来源为开发环境保留的 `smart-config-meow-integration/`。AndroidTest fixture 固定本仓库 `764d275d66123e8ee6aaca393b29dbebe06a91e2`，不是现行文件身份的完整 APK 验收。
 
-## 已完成的候选检查
+## 2026-10-24 历史候选检查
 
 | 项目 | 实际证据与适用范围 |
 | --- | --- |
@@ -21,7 +46,7 @@
 
 这些检查可复用为后续整合依据，不能推导生产接线或实际路由已通过。
 
-## 生产接线与联调剩余项
+## 2026-10-24 历史生产接线与阻断
 
 | 项目 | 固定 App 源码或阻断 | 验收条件 |
 | --- | --- | --- |

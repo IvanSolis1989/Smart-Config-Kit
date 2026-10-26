@@ -23,7 +23,7 @@
 | 普通 Mihomo | [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) Normal / [FlClash](../../Mihomo内核系/FlClash/README.md)：规则语义相同，区域组使用 url-test；Clash Verge Rev 默认选 Normal。 |
 | Android Mihomo | [CMFA](../../Mihomo内核系/Clash%20Meta%20For%20Android/README.md)：原生 YAML，同步产物，不是规则基准。 |
 | 官方 Meow / meow-rs | [Meow](../../Meow内核系/Meow/README.md)：原生 YAML，先替换节点订阅占位 URL；核心配置校验已通过，官方 Android/iOS 导入与连接待验。 |
-| AEROVE Lite（开发联调） | [AEROVE Lite](../../Meow内核系/Aerove%20Lite/README.md)：JS 覆写，节点先展开；校验器候选 JVM 检查已通过，生产接线与 APK/真实路由验收待完成。 |
+| AEROVE Lite（开发联调） | [AEROVE Lite](../../Meow内核系/Aerove%20Lite/README.md)：JS 覆写，节点先展开；生产 Meow 校验已接线，大 MRS 无损分片已通过本地检查，固定 APK 全资源重验及真实路由待完成。 |
 | Stash | [Stash](../../独立内核系/Stash/README.md)：从 CMFA 裁剪生成，保持 Clash Premium 兼容。 |
 | Karing | [Karing](../../Sing-box内核系/Karing/README.md)：按源顺序适配 direct / block / currentSelected；节点组、DNS 与默认动作在 App 设置。 |
 | sing-box / Hiddify / HomeProxy | [sing-box](../../Sing-box内核系/SingBox/README.md)：按实际 1.14 / 1.13 内核选择；GUI 完整配置边界须另验。 |

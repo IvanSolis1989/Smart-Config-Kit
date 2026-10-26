@@ -13,6 +13,11 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-27 — AEROVE Lite 规则资源预算适配
+
+- v6.0.20-meow.4 为真实 APK 拒绝的超限广告 MRS 派生无损三片，保留 Lite 单资源预算、原优先级与完整规则集合；共享 fused 和官方 Meow YAML 不变。分片清单、固定 SHA、许可证事实与 App 剩余验收见 [AEROVE 分片依据](Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
+- 按固定 beta16 源码与真实 Android execution 更新生产校验接线、QuickJS 原子性及命名 HTTP 代理等已完成项，补全 README 与支持队列；完整资源和真实路由仍待验，详见 [联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+
 ## 2026-10-24 — Meow 导航与 AEROVE 配置联调核查
 
 - 补齐首页 Meow 系列卡片、客户端索引及两个独立下载按钮；按固定源码和保存证据同步候选检查结果与剩余阻断，未把生产接线和真实路由标为通过。详见 [AEROVE 联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。

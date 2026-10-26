@@ -129,7 +129,7 @@ Hiddify 4.1.1 优先核对 1.13 兼容文件与完整配置模式；官方内核
 
 ### AEROVE Lite
 
-JS 覆写，需要 main(config) 宿主和已展开节点的订阅。校验器候选已通过 JVM 检查；生产接线、命名代理下载与 APK 真实联调仍见[AEROVE 队列](../support-queue.md#aerove-lite-meow)。
+JS 覆写，需要 main(config) 宿主和已展开节点的订阅；脚本引用同批专版 MRS 分片以保留 Lite 资源预算。生产 Meow 校验链已接通，候选已通过本地原生及预算检查；固定 APK 全资源重验及真实路由进度见[AEROVE 队列](../support-queue.md#aerove-lite-meow)。
 
 [![下载 AEROVE Lite JS](../assets/readme/button-aerove-lite-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/AeroveLite%28meow%29.js) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Aerove%20Lite/README.md)
 

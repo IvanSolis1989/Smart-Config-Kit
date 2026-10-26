@@ -8,6 +8,10 @@ on:
       - 'rulesets/source/**'
       - 'rulesets/generated/fused/manifest.json'
       - 'tools/generate-meow.js'
+      - 'tools/generate-aerove-rule-assets.js'
+      - 'tools/lib/aerove-rule-*.js'
+      - 'tools/tests/aerove-rule-*.test.js'
+      - '.github/actions/setup-aerove-mihomo/**'
       - 'tools/tests/meow-generation.test.js'
       - 'tools/lib/meow-native-profile.js'
       - 'tools/tests/meow-native-profile.test.js'
@@ -21,6 +25,10 @@ on:
       - 'rulesets/source/**'
       - 'rulesets/generated/fused/manifest.json'
       - 'tools/generate-meow.js'
+      - 'tools/generate-aerove-rule-assets.js'
+      - 'tools/lib/aerove-rule-*.js'
+      - 'tools/tests/aerove-rule-*.test.js'
+      - '.github/actions/setup-aerove-mihomo/**'
       - 'tools/tests/meow-generation.test.js'
       - 'tools/lib/meow-native-profile.js'
       - 'tools/tests/meow-native-profile.test.js'
@@ -42,6 +50,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
+      - uses: ./.github/actions/setup-aerove-mihomo
       - name: Prepare official Meow core and geodata for schema validation
         shell: bash
         run: |
@@ -63,6 +72,9 @@ jobs:
           echo "MEOW_GEOSITE_FILE=$work/geosite.dat" >> "$GITHUB_ENV"
           echo "MEOW_MMDB_FILE=$work/Country.mmdb" >> "$GITHUB_ENV"
       - name: Check generation, routing behavior and real core schema (App traffic still pending)
+        env:
+          MIHOMO_BIN: ${{ env.AEROVE_MIHOMO_BIN }}
         run: |
+          node tools/generate-aerove-rule-assets.js --check
           node tools/generate-meow.js --check
-          node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js
+          node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js

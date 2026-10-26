@@ -14,6 +14,10 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## 2026-10-27 — AEROVE Lite 专属资源投影
+
+- Lite 单资源预算适配派生独立 MRS 分片，保持共享规则、fused 资产及 Clash Party/其他客户端行为；不触发共享规则重编。来源、固定 SHA 与平台例外依据见 [AEROVE 分片说明](../../Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
+
 ## 2026-10-24 — Meow 与 AEROVE Lite 客户端归档
 
 - Meow 内核系按官方 Meow 与 AEROVE Lite 并列提供配置、README 和参考文档，共享生成逻辑；规则权威源与 Clash Party 行为不变。详见 [Meow 内核系](../../Meow内核系/README.md)。

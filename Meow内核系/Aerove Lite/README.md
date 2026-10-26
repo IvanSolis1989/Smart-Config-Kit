@@ -5,9 +5,9 @@
 
 # AEROVE Lite 导入指南
 
-为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS；当前用于开发联调，生产准入、代理下载及 APK 真实路由仍待完成。
+为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS，并按 Lite 的单资源安全预算生成无损 MRS 分片；当前仍是待 App 重验的配置候选。
 
-[内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [联调核查](VALIDATION.md) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
+[内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [资源分片与证据](RESOURCE-SPLITTING.md) · [联调核查](VALIDATION.md) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
 ## 开始前
 
@@ -29,11 +29,13 @@ JS 只创建实际有节点的地区组，因此地区与业务组总数可能�
 
 ## 失败行为与待验项目
 
+生产 Meow 校验器、三阶段资源校验与 prepared JNI 链路已接通；固定 beta16 的真实 Android 用例已通过 QuickJS 失败原子性及命名 HTTP 代理/取消检查。完整记录见[联调核查](VALIDATION.md)。自定义 header 实传和完整配置验收仍待完成。
+
 脚本在副本上处理配置，失败抛错，原输入保持不变。若 DNS 引用将被重建的订阅 rule-set，脚本会明确拒绝；先改用独立 DNS 策略，再应用覆写。
 
-校验器候选的 74 项 JVM 测试、AndroidTest 编译和 149 个规则资产读回已经通过。它们尚未证明生产入口完成接线，也未执行此候选的 Android QuickJS/JNI 或真实连接，证据范围见[联调核查](VALIDATION.md)。
+固定 beta16 的真实 Smart 测试曾被广告 MRS 的 411,634 条记录拒绝。本候选保留每资源 250,000 条及 500,000 点分标签上限，将该资源拆为三片；同目标 RULE-SET 在原位置连续展开，完整匹配集合不变。其他 148 个规则源复用，合计 151 个规则资源；脚本和资源必须来自同一发布批次，身份及预算见[资源清单](rule-assets/manifest.json)。
 
-实际剩余条件是：生产导入/资源准备/启动接入 Meow 准入；完整校验获得可信的 Geo 资源目录；接通 provider 的命名代理与 header 下载；统一资源和备份容量以容纳 149 个规则源；在目标 APK 执行当前脚本并读回最终 YAML，完成资源更新、VPN 和真实路由。对应状态见[支持队列](../../docs/support-queue.md#aerove-lite-meow)。
+本地原生 MRS 往返、预算扫描和官方核心配置校验已经通过，不能替代 App 验收。在目标 APK 中仍须执行当前脚本、下载并预检全部资源、读回最终 YAML、通过完整 prepared 校验，再验收 VPN 与真实路由。App 自有的 Geo、订阅及派生资源还要计入最终 bundle 的 256 资源/256 MiB 预算；规则资源的静态合计不能替代该检查。完整范围见[分片依据](RESOURCE-SPLITTING.md)及[支持队列](../../docs/support-queue.md#aerove-lite-meow)。
 
 共享 JS 的本地行为检查与官方核心原生 YAML 校验各有独立证据，均不能替代 Lite 的最终配置和实际连接验收。官方核心验证范围见[官方依据](../Meow/REFERENCE-meow-rs.md)。
 
@@ -42,8 +44,10 @@ JS 只创建实际有节点的地区组，因此地区与业务组总数可能�
 唯一规则权威源为 `rulesets/source/routing-graph.js`。JS 复用维护中的共享分流实现，由仓库根目录的生成器统一输出；不手工编辑生成脚本。
 
 ```bash
+node tools/generate-aerove-rule-assets.js
 node tools/generate-meow.js
+node tools/generate-aerove-rule-assets.js --check
 node tools/generate-meow.js --check
 ```
 
-生成工具需要 Node.js ≥ 18 和 Ruby ≥ 3.0，客户端运行无需 Ruby。共享[适配清单](../adapter-manifest.json)记录官方 Meow YAML 与 AEROVE Lite JS 两个入口、输入哈希和待验状态。客户端接线在 AEROVE 仓库独立维护。
+生成与检查需要 Node.js ≥ 22.15、Ruby ≥ 3.0 和 Mihomo v1.19.32；通过 `AEROVE_MIHOMO_BIN` 或 `MIHOMO_BIN` 指定该转换器，Windows 也可复用仓库缓存。客户端运行无需这些生成工具。共享[适配清单](../adapter-manifest.json)记录脚本与独立资源清单；官方 Meow YAML 保留原生入口，客户端接线在 AEROVE 仓库独立维护。

@@ -23,10 +23,10 @@
 
 [覆写脚本](Aerove%20Lite/AeroveLite%28meow%29.js) · [导入教程](Aerove%20Lite/README.md) · [宿主接口依据](Aerove%20Lite/REFERENCE-AEROVE-Lite.md) · [变更日志](Aerove%20Lite/CHANGELOG.md)
 
-准入候选的 JVM 检查、AndroidTest 编译和规则 fixture 读回已通过；生产接线、可信资源上下文、代理下载与 APK/真实路由尚待完成，详见[联调核查](Aerove%20Lite/VALIDATION.md)。
+专版为 Lite 的单资源预算生成无损 MRS 分片，保留共享规则与优先级。生产 Meow 校验链已接通，真实 QuickJS 失败原子性与命名 HTTP 代理用例已通过；当前分片候选已通过本地原生与预算检查，仍待固定 App 全资源重验和真实路由验收。详见[分片依据](Aerove%20Lite/RESOURCE-SPLITTING.md)与[联调核查](Aerove%20Lite/VALIDATION.md)。
 
 ## 共享维护
 
-两个客户端目录并列，配置由 `node tools/generate-meow.js` 统一生成，[适配清单](adapter-manifest.json)记录输入、输出和各客户端入口。规则权威源仍为 `rulesets/source/routing-graph.js`。
+两个客户端目录并列：先运行 `node tools/generate-aerove-rule-assets.js` 刷新专版派生资产，再运行 `node tools/generate-meow.js` 生成配置。[适配清单](adapter-manifest.json)记录输入、输出和各客户端入口，规则权威源仍为 `rulesets/source/routing-graph.js`。
 
 官方核心配置校验已通过；官方 App 和 AEROVE Lite 的完整导入及真实路由状态分别记录在[支持队列](../docs/support-queue.md#meow)，不因共享规则而自动视为通过。

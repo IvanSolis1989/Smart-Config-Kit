@@ -1,5 +1,5 @@
 // AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
-// 版本：v6.0.20-meow.3 | Build：2026-10-24
+// 版本：v6.0.20-meow.4 | Build：2026-10-27
 // 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.20
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
@@ -8,9 +8,10 @@
 // 前提：已展开节点的订阅；远程 proxy-providers 请先用 SubStore 展平。
 // 目标接口：main(config)，JSON 对象入出；无网络、文件系统或定时器依赖。
 // 官方 Meow 客户端使用相邻 Meow 目录的原生 YAML；不假定官方 App 执行 JS。
+// Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.20-meow.3'
+const VERSION = 'v6.0.20-meow.4'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -722,6 +723,51 @@ function sckiRoutingMain(config) {
   }
 }
 
+const SCKI_AEROVE_RULE_SPLITS = {"scki-fused-010-ad-domain":[{"id":"scki-fused-010-ad-domain-aerove-part-001","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-001.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-002","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-002.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-003","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-003.mrs"}]}
+function projectAeroveRouting(config, splits) {
+  const sourceNames = Object.keys(splits);
+  if (sourceNames.length === 0) return config;
+  const providers = config['rule-providers'] || {};
+  const names = new Set(Object.keys(providers));
+  const used = Object.create(null);
+  for (const original of sourceNames) {
+    if (!Object.prototype.hasOwnProperty.call(providers, original)) throw new Error('Missing split provider: ' + original);
+    if (!Array.isArray(splits[original]) || splits[original].length < 2) throw new Error('Invalid split plan: ' + original);
+    for (const part of splits[original]) {
+      if (!/^[a-z0-9][a-z0-9._-]*$/.test(part.id) || !part.url || !part.cache_path) throw new Error('Invalid split asset: ' + original);
+      if (names.has(part.id)) throw new Error('Split provider identifier collision: ' + part.id);
+      names.add(part.id);
+    }
+    used[original] = 0;
+  }
+  const projectedRules = [];
+  for (const rule of config.rules) {
+    const match = /^RULE-SET,([^,]+)(,.*)$/.exec(rule);
+    const parts = match && Object.prototype.hasOwnProperty.call(splits, match[1]) && splits[match[1]];
+    if (parts) {
+      for (const part of parts) projectedRules.push('RULE-SET,' + part.id + match[2]);
+      used[match[1]]++;
+    } else {
+      for (const original of sourceNames) {
+        if (rule.includes('RULE-SET,' + original + ',') || rule.includes('RULE-SET,' + original + ')')) {
+          throw new Error('Unsupported nested split rule reference: ' + original);
+        }
+      }
+      projectedRules.push(rule);
+    }
+  }
+  const projectedProviders = {};
+  for (const [name, provider] of Object.entries(providers)) {
+    if (!Object.prototype.hasOwnProperty.call(splits, name)) projectedProviders[name] = provider;
+    else {
+      if (!used[name]) throw new Error('Missing RULE-SET reference for split provider: ' + name);
+      for (const part of splits[name]) {
+        projectedProviders[part.id] = Object.assign({}, provider, { url: part.url, path: part.cache_path });
+      }
+    }
+  }
+  return Object.assign({}, config, { 'rule-providers': projectedProviders, rules: projectedRules });
+}
 // DNS rule-set references cannot survive replacement of subscription providers.
 function sckiAssertIndependentDns(value) {
   function check(text) {
@@ -735,5 +781,5 @@ function sckiAssertIndependentDns(value) {
 function main(config) {
   if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('Expected a Meow configuration object')
   sckiAssertIndependentDns(config.dns)
-  return sckiRoutingMain(JSON.parse(JSON.stringify(config)))
+  return projectAeroveRouting(sckiRoutingMain(JSON.parse(JSON.stringify(config))), SCKI_AEROVE_RULE_SPLITS)
 }

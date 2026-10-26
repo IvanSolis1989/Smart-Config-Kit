@@ -241,3 +241,28 @@ test('CLI produces only external receipts and performs no automatic stage', t =>
   const check = spawnSync(process.execPath, [cli, '--repo-root', f.root, '--check', '--receipt', external], { encoding: 'utf8', windowsHide: true });
   assert.equal(check.status, 0, check.stderr);
 });
+
+test('AEROVE shard manifests close the release inventory and bind every binary byte', t => {
+  const adapter = 'Meow内核系/adapter-manifest.json';
+  const manifestPath = 'Meow内核系/Aerove Lite/rule-assets/manifest.json';
+  const assetPath = 'Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-part-001.mrs';
+  const f = fixture(t, { extraStaticOutputs: [adapter] });
+  const contract = JSON.parse(f.read(CONTRACT_PATH));
+  contract.manifests.meow = adapter;
+  f.save(CONTRACT_PATH, contract);
+  const bytes = 'fixture-mrs-binary';
+  const asset = { path: assetPath, bytes: Buffer.byteLength(bytes), sha256: hash(bytes) };
+  f.write(assetPath, bytes);
+  f.save(manifestPath, { schema_version: 1, version: 'v1.0.0-meow.4', assets: [asset] });
+  f.save(adapter, { version: 'v1.0.0-meow.4', aerove_rule_assets: { manifest: manifestPath, assets: [asset] } });
+  f.git('add', '--', '.'); f.git('commit', '-qm', 'adapter baseline');
+  const receipt = f.prepare();
+  assert.ok(receipt.currentOutputs.some(row => row.path === assetPath));
+  assert.ok(receipt.currentOutputs.some(row => row.path === manifestPath));
+  const orphan = 'Meow内核系/Aerove Lite/rule-assets/orphan.mrs';
+  f.write(orphan, 'orphan');
+  assert.throws(() => f.prepare(), /Unexpected changed path: Meow内核系\/Aerove Lite\/rule-assets\/orphan\.mrs/);
+  fs.unlinkSync(path.join(f.root, orphan));
+  f.write(assetPath, 'modified');
+  assert.throws(() => f.prepare(), /AEROVE asset binding/i);
+});

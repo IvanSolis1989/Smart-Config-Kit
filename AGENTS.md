@@ -133,6 +133,10 @@ node tools/generate-egern-from-cmfa.js
 - 生成 Karing 适配：`node tools/generate-karing.js`
 - 只读检查 Karing 适配合同：`node tools/generate-karing.js --check`
 
+### 0B. AEROVE Lite 单资源预算投影
+
+Meow 专属投影使用 `node tools/generate-aerove-rule-assets.js` → `node tools/generate-meow.js`；两条命令的 `--check` 为只读检查。AEROVE 大规则集分片位于客户端 `rule-assets/`，必须保持与共享 MRS 的精确谓词并集和原位同目标引用，保留 App 安全预算；不得为了 Lite 改共享 fused 资产。生成工具需 Node.js ≥ 22.15、Ruby ≥ 3.0 与固定 Mihomo v1.19.32；最终 App 验收不能由这些工具代替。
+
 ### 0.1 辅助目录（不影响产物同步）
 
 | 目录 | 用途 | 是否影响产物 |

@@ -57,7 +57,7 @@
 
 [打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
 
-[Meow 内核系](Meow内核系/README.md)：官方客户端使用原生 YAML，AEROVE Lite 使用 JS 覆写。官方核心配置校验已通过，各 App 与脚本联调的进展和剩余条件见[支持队列](docs/support-queue.md)。
+[Meow 内核系](Meow内核系/README.md)提供两个独立入口：**官方 Meow 原生 YAML**与 **AEROVE Lite JS 覆写**。Lite 配套无损 MRS 分片，遵守客户端的单资源预算；官方核心配置校验已通过，Lite 当前候选仍待 App 重验。导入步骤、已完成项目与连接验收进度见各自教程及[支持队列](docs/support-queue.md)。
 
 ## <a name="routing"></a>一套策略，按客户端落地
 

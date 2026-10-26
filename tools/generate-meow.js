@@ -12,6 +12,7 @@ const { SOURCE_GRAPH_VERSION } = require('../rulesets/source/routing-graph');
 const { trafficSourceFingerprint } = require('./build-fused-rule-sets');
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const { buildNativeProfile } = require('./lib/meow-native-profile');
+const { projectAeroveRouting } = require('./lib/aerove-rule-projection');
 const ROOT = path.resolve(__dirname, '..');
 const SOURCE_PATH = 'Mihomo内核系/FlClash/FlClash(mihomo).js';
 const FAMILY_DIR = 'Meow内核系';
@@ -21,8 +22,11 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.3`;
-const BUILD = '2026-10-24';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
+const BUILD = '2026-10-27';
+// The native client has no Lite per-resource cap; preserve its published bytes.
+const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.3`;
+const NATIVE_BUILD = '2026-10-24';
 const canonical = text => text.replace(/\r\n/g, '\n');
 const hash = text => crypto.createHash('sha256').update(canonical(text)).digest('hex');
 const read = file => canonical(fs.readFileSync(path.join(ROOT, file), 'utf8'));
@@ -41,7 +45,7 @@ function readCmfa() {
 
 function renderNative(profile) {
   return [
-    `# Meow 原生 YAML ${VERSION} | Build: ${BUILD}`,
+    `# Meow 原生 YAML ${NATIVE_VERSION} | Build: ${NATIVE_BUILD}`,
     '# 架构：22 provider-filter 区域组 + 33 业务组；融合 MRS / residual YAML',
     `# 规则源：rulesets/source/routing-graph.js ${SOURCE_GRAPH_VERSION}`,
     '# 生成：node tools/generate-meow.js（禁止手工改生成物）',
@@ -65,7 +69,7 @@ function removeBetween(source, start, end) {
   return source.slice(0, a) + source.slice(b);
 }
 
-function renderScript(input) {
+function renderScript(input, splits) {
   let source = canonical(input);
   const start = source.indexOf('const VERSION = ');
   insist(start >= 0, 'source VERSION anchor missing');
@@ -89,7 +93,15 @@ function renderScript(input) {
     '    var nodeDnsReport = overwriteGeneral(config, nodeDnsHints)\n    logSubscriptionAdapterReport(nodeDnsReport)\n', '');
   source = replaceOnce(source, '    injectSmartFingerprint(config)\n', '');
   source = replaceOnce(source, '    log(`[${VERSION}] Error:`, e)\n    return config', '    throw e');
-  source += '\n// DNS rule-set references cannot survive replacement of subscription providers.\n' +
+  if (splits === undefined) {
+    const routing = readSharedRouting(input);
+    splits = readAeroveAssets(routing.providers).splits;
+  }
+  const runtimeSplits = Object.fromEntries(Object.entries(splits).map(([name, parts]) => [name,
+    parts.map(part => ({ id: part.id, url: part.url, cache_path: part.cache_path }))]));
+  source += '\nconst SCKI_AEROVE_RULE_SPLITS = ' + JSON.stringify(runtimeSplits) + '\n' +
+    canonical(projectAeroveRouting.toString()) + '\n' +
+    '// DNS rule-set references cannot survive replacement of subscription providers.\n' +
     'function sckiAssertIndependentDns(value) {\n' +
     '  function check(text) {\n' +
     "    if (/(^|,)\\s*rule-set\\s*[:,]/i.test(text)) throw new Error('DNS rule-set dependency would be replaced: ' + text + '; use independent DNS policies before applying this adapter')\n" +
@@ -102,7 +114,7 @@ function renderScript(input) {
     'function main(config) {\n' +
     "  if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('Expected a Meow configuration object')\n" +
     '  sckiAssertIndependentDns(config.dns)\n' +
-    '  return sckiRoutingMain(JSON.parse(JSON.stringify(config)))\n}\n';
+    '  return projectAeroveRouting(sckiRoutingMain(JSON.parse(JSON.stringify(config))), SCKI_AEROVE_RULE_SPLITS)\n}\n';
   return [
     '// AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）',
     `// 版本：${VERSION} | Build：${BUILD}`,
@@ -114,16 +126,15 @@ function renderScript(input) {
     '// 前提：已展开节点的订阅；远程 proxy-providers 请先用 SubStore 展平。',
     '// 目标接口：main(config)，JSON 对象入出；无网络、文件系统或定时器依赖。',
     '// 官方 Meow 客户端使用相邻 Meow 目录的原生 YAML；不假定官方 App 执行 JS。',
+    '// Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。',
     '// 客户端联调和真实连接验收状态见支持队列。',
     '', source
   ].join('\n');
 }
 
-function buildOutputs() {
-  const input = read(SOURCE_PATH);
-  const script = renderScript(input);
+function readSharedRouting(input = read(SOURCE_PATH)) {
   const context = vm.createContext({ console: { log() {} } });
-  new vm.Script(script).runInContext(context, { timeout: 3000 });
+  new vm.Script(renderScript(input, {})).runInContext(context, { timeout: 3000 });
   const routing = vm.runInContext(`(function () {
     var config = {};
     applyMihomoFusedRuleSets(config);
@@ -137,17 +148,42 @@ function buildOutputs() {
     'routing consumer/fused manifest drift; regenerate the shared routing chain first');
   insist(routing.business.length === 33, 'unexpected business group topology');
   insist(routing.rules.at(-1) === 'MATCH,🐟 漏网之鱼', 'missing final routing rule');
+  return JSON.parse(JSON.stringify(routing));
+}
+
+function readAeroveAssets(providers) {
+  const { readAssetManifest } = require('./lib/aerove-rule-assets');
+  return readAssetManifest({ repoRoot: ROOT, providers, fusedManifest: JSON.parse(read('rulesets/generated/fused/manifest.json')) });
+}
+
+function buildOutputs() {
+  const input = read(SOURCE_PATH);
+  const routing = readSharedRouting(input);
+  const assetManifest = readAeroveAssets(routing.providers);
+  const script = renderScript(input, assetManifest.splits);
+  const aerove = projectAeroveRouting({ 'rule-providers': routing.providers, rules: routing.rules }, assetManifest.splits);
+  const ruleResourceBytes = assetManifest.sources.filter(source => !assetManifest.splits[source.provider])
+    .reduce((sum, source) => sum + source.bytes, 0) + assetManifest.assets.reduce((sum, asset) => sum + asset.bytes, 0);
+  insist(Object.keys(aerove['rule-providers']).length <= 256 && ruleResourceBytes <= 256 * 1024 * 1024,
+    'AEROVE rule resources exceed the App bundle budget; App-owned/derived resources still require final prepared validation');
   const nativeProfile = buildNativeProfile(readCmfa(), JSON.parse(JSON.stringify(routing)));
   const nativeText = renderNative(nativeProfile);
   const inputs = [SOURCE_PATH, CMFA_PATH, 'rulesets/source/routing-graph.js', 'rulesets/generated/fused/manifest.json',
-    'tools/generate-meow.js', 'tools/lib/meow-native-profile.js'];
+    'tools/generate-meow.js', 'tools/lib/meow-native-profile.js', 'tools/lib/aerove-rule-assets.js',
+    'tools/lib/aerove-rule-projection.js', 'tools/generate-aerove-rule-assets.js',
+    'Meow内核系/Aerove Lite/rule-assets/manifest.json'];
   const manifest = {
     schema_version: 2, version: VERSION, build: BUILD, client: 'Meow', kernel: 'meow-rs',
     status: 'pre-adapted-awaiting-app', source_authority: 'rulesets/source/routing-graph.js',
     queue: 'docs/support-queue.md#meow',
     input_sha256_lf: Object.fromEntries(inputs.map(file => [file, hash(read(file))])),
     output: { path: SCRIPT_PATH, sha256_lf: hash(script) },
-    native_output: { path: NATIVE_PATH, sha256_lf: hash(nativeText), requires_js_host: false },
+    native_output: { path: NATIVE_PATH, version: NATIVE_VERSION, sha256_lf: hash(nativeText), requires_js_host: false },
+    aerove_rule_assets: { manifest: 'Meow内核系/Aerove Lite/rule-assets/manifest.json',
+      assets: assetManifest.assets.map(asset => ({ path: asset.path, sha256: asset.sha256, bytes: asset.bytes })) },
+    aerove_routing: { rule_count: aerove.rules.length, provider_count: Object.keys(aerove['rule-providers']).length,
+      split_provider_count: Object.keys(assetManifest.splits).length, rule_resource_bytes: ruleResourceBytes,
+      app_owned_and_derived_resources: 'not included; final App prepared bundle validation required' },
     client_entries: {
       meow: { name: 'Meow', readme: `${CLIENT_DIR}/README.md`, artifact: NATIVE_PATH },
       aerove_lite: { name: 'AEROVE Lite', readme: `${SCRIPT_CLIENT_DIR}/README.md`, artifact: SCRIPT_PATH }
@@ -180,7 +216,8 @@ function main() {
   console.log(`Meow JS + native YAML ${args.includes('--check') ? 'check OK' : 'generated and read back'}: ${VERSION}; App/core verification recorded separately`);
 }
 
-module.exports = { renderScript, renderNative, readCmfa, buildOutputs, checkOutputs, SCRIPT_PATH, NATIVE_PATH, MANIFEST_PATH, VERSION };
+module.exports = { renderScript, renderNative, readCmfa, readSharedRouting, buildOutputs, checkOutputs,
+  SCRIPT_PATH, NATIVE_PATH, MANIFEST_PATH, VERSION, NATIVE_VERSION };
 if (require.main === module) {
   try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

@@ -8,7 +8,8 @@
     "mrs": "rulesets/generated/mihomo-mrs/manifest.json",
     "fused": "rulesets/generated/fused/manifest.json",
     "egern": "rulesets/generated/egern/manifest.json",
-    "karing": "Sing-box内核系/Karing/adapter-manifest.json"
+    "karing": "Sing-box内核系/Karing/adapter-manifest.json",
+    "meow": "Meow内核系/adapter-manifest.json"
   },
   "staticOutputs": [
     "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js",
@@ -68,6 +69,10 @@
     "rulesets/supplemental/egern/tools-guard.yaml"
   ],
   "validators": [
+    [
+      "tools/generate-aerove-rule-assets.js",
+      "--check"
+    ],
     [
       "tools/generate-meow.js",
       "--check"
