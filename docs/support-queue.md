@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | [官方 meow-rs 核心](#meow) | 原生 YAML / WebUI | v0.26.1 真实 -t 通过；生产订阅/HTTP 下载与路由待验 |
 | [官方 meow-android / meow-ios](#meow-official-apps) | 原生 YAML | 导入接口及旧核心关键能力已核源码；完整 App 导入与连接待验 |
-| [AEROVE Lite](#aerove-lite-meow) | JS 覆写及专用 MRS 分片 | 生产校验链已接通，QuickJS 原子性及命名 HTTP 代理用例已通过；无损三片候选待 App 全资源重验及真实路由验收 |
+| [AEROVE Lite](#aerove-lite-meow) | JS 覆写及专用 MRS 分片 | 生产校验链已接通，QuickJS 原子性及命名 HTTP 代理用例已通过；beta18 拒绝旧三片；新候选待 App 全资源重验及真实路由验收 |
 
 ## <a id="meow"></a>Meow / meow-rs 通用适配
 
@@ -30,7 +30,7 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
-目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)。最新固定 beta16 `d52726d…`、run 40335340043 的 Smart 用例实际执行后，被广告 MRS 的 411,634 条记录超过 250,000 条上限拒绝。
+目标为 Android 13+ 原生 Lite；标准版仍使用 Mihomo。操作步骤见 [AEROVE Lite README](../Meow内核系/Aerove%20Lite/README.md)。固定 beta18 `457fab8…`、[run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068) attempt 1 的 Smart 用例实际执行后，旧广告 part-001 被 500,000 原生点分标签预算拒绝。
 
 已完成并核对的接线与单项验收：
 
@@ -40,9 +40,9 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 
 已完成的本地候选检查：
 
-- 保留 250,000 条、500,000 点分标签及其他安全预算，将唯一超限资源派生为 3 个 MRS；原生重新解码后的完整字符串并集等于原 411,634 条。
-- 其他 148 个规则源复用，投影为 151 个规则资源、170 条主规则；引用在原优先级位置连续展开，目标、no-resolve、下载代理和 header 保持。
-- 原生转换、完整资源预算和官方核心 `-t` 均通过；共享 fused、规则权威源和官方 Meow YAML 字节不变。详细 SHA、许可未决项及准确范围见[分片依据](../Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
+- 保留原单资源安全预算，将广告资源拆为四片、国内站点拆为两片，其他 147 个规则源复用；原位置、目标与 provider 元数据保持。
+- 投影为 153 个规则资源、172 条主规则、55 个 fixture 组，规则资源共 4,496,629 字节；全部 111 个投影 MRS 通过固定 Rust reader 和 App 原样头部/条目预算。两个来源的 canonical 与实际原生 leaf 并集均已确认 `missing=0 / added=0`。
+- 共享 fused、规则权威源和官方 Meow YAML 字节不变，23 项组件测试通过且无跳过；完整 App checked matcher、native preflight、JNI、APK、HTTP 和 VPN 均未由该检查覆盖。详细身份及许可边界见[分片依据](../Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
 
 剩余生产与设备验收：
 

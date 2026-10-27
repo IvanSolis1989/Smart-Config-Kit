@@ -1,5 +1,5 @@
 // AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
-// 版本：v6.0.20-meow.4 | Build：2026-10-27
+// 版本：v6.0.20-meow.5 | Build：2026-10-27
 // 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.20
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
@@ -11,7 +11,7 @@
 // Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.20-meow.4'
+const VERSION = 'v6.0.20-meow.5'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive。
 // 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
@@ -723,7 +723,7 @@ function sckiRoutingMain(config) {
   }
 }
 
-const SCKI_AEROVE_RULE_SPLITS = {"scki-fused-010-ad-domain":[{"id":"scki-fused-010-ad-domain-aerove-part-001","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-001.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-002","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-002.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-003","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.4","cache_path":"./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-003.mrs"}]}
+const SCKI_AEROVE_RULE_SPLITS = {"scki-fused-010-ad-domain":[{"id":"scki-fused-010-ad-domain-aerove-part-001","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-001.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-002","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-002.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-003","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-003.mrs"},{"id":"scki-fused-010-ad-domain-aerove-part-004","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-004.mrs"}],"scki-fused-075-cn-site-domain":[{"id":"scki-fused-075-cn-site-domain-aerove-part-001","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-001.mrs"},{"id":"scki-fused-075-cn-site-domain-aerove-part-002","url":"https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5","cache_path":"./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-002.mrs"}]}
 function projectAeroveRouting(config, splits) {
   const sourceNames = Object.keys(splits);
   if (sourceNames.length === 0) return config;

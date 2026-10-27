@@ -23,7 +23,7 @@
 
 [覆写脚本](Aerove%20Lite/AeroveLite%28meow%29.js) · [导入教程](Aerove%20Lite/README.md) · [宿主接口依据](Aerove%20Lite/REFERENCE-AEROVE-Lite.md) · [变更日志](Aerove%20Lite/CHANGELOG.md)
 
-专版为 Lite 的单资源预算生成无损 MRS 分片，保留共享规则与优先级。生产 Meow 校验链已接通，真实 QuickJS 失败原子性与命名 HTTP 代理用例已通过；当前分片候选已通过本地原生与预算检查，仍待固定 App 全资源重验和真实路由验收。详见[分片依据](Aerove%20Lite/RESOURCE-SPLITTING.md)与[联调核查](Aerove%20Lite/VALIDATION.md)。
+专版为 Lite 的单资源预算生成 MRS 分片，保留共享规则与优先级。历史真实 QuickJS 失败原子性与命名 HTTP 代理用例已通过；固定 beta18 拒绝旧分片，新候选通过固定 Rust reader 与 App 原样头部/条目预算检查，仍待完整 App 全资源重验和真实路由验收。详见[分片依据](Aerove%20Lite/RESOURCE-SPLITTING.md)与[联调核查](Aerove%20Lite/VALIDATION.md)。
 
 ## 共享维护
 

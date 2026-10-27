@@ -14,6 +14,10 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## 2026-10-27 — AEROVE Lite 原生预算修正
+
+- Lite 专版按固定 Rust reader 的展开预算重新分片；共享规则、fused 资产及 Clash Party 行为不变，不触发全平台重生成。详见 [AEROVE Lite 日志](../../Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## 2026-10-27 — AEROVE Lite 专属资源投影
 
 - Lite 单资源预算适配派生独立 MRS 分片，保持共享规则、fused 资产及 Clash Party/其他客户端行为；不触发共享规则重编。来源、固定 SHA 与平台例外依据见 [AEROVE 分片说明](../../Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。

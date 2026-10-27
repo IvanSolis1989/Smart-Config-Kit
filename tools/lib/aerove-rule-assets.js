@@ -14,14 +14,16 @@ const { SOURCE_GRAPH_VERSION } = require('../../rulesets/source/routing-graph');
 
 const ASSET_DIR = 'Meow内核系/Aerove Lite/rule-assets';
 const MANIFEST_PATH = `${ASSET_DIR}/manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
 const COMPILER_VERSION = 'v1.19.32';
 const LIMITS = Object.freeze({ max_entries: 250000, max_entry_bytes: 2048, max_entry_labels: 128,
   max_labels: 500000, max_text_bytes: 64 * 1024 * 1024, max_input_bytes: 64 * 1024 * 1024,
   max_decompressed_bytes: 256 * 1024 * 1024 });
-const POLICY = Object.freeze({ app: 'AEROVE Lite', app_commit: 'd52726dc24756847b2b268d307a611cc37f994a3', limits: LIMITS,
+const POLICY = Object.freeze({ app: 'AEROVE Lite', app_commit: '457fab8455ac8713fc9828e129d2050b11bf1beb', limits: LIMITS,
   source_hash_normalization: 'raw binary MRS; canonical LF for repository text assets',
   entry_normalization: 'trim; UTF-8; labels=entry.split(".").length; text_bytes=sum(UTF8(entry)+1)',
+  native_domain_enumeration: 'Mihomo DumpMrs folds +.domain and domain into one predicate; fixed Rust reader visits both encoded leaves. Budget the unique expanded leaf set before partitioning.',
+  fixed_rust_parser_sha256: '6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3',
   count_semantics: 'domain header_entries equals native traversal entries; ipcidr header_entries is successful pre-merge Insert count and can exceed canonical DumpMrs entries; both counts must be <=250000 in projected resources',
   count_source: 'Mihomo rules/provider/ipcidr_strategy.go: Count, Insert, FinishInsert, FromMrs, DumpMrs; native convert-ruleset full traversal',
   proof: 'Mihomo native MRS full traversal; exact string predicate union after native shard round-trip',
@@ -66,6 +68,19 @@ function measureEntries(entries) {
   return result;
 }
 
+function nativeMrsEntries(entries, behavior) {
+  if (behavior !== 'domain') return entries;
+  const result = new Set();
+  for (const entry of entries) {
+    result.add(entry);
+    if (entry.startsWith('+.')) result.add(entry.slice(2));
+  }
+  return [...result];
+}
+
+const nativeBudget = row => ({ ...row.native_metrics,
+  ...(row.metrics.header_entries === undefined ? {} : { header_entries: row.metrics.header_entries }) });
+
 function assertIndividual(metrics, limits = LIMITS) {
   for (const key of ['entries', 'labels', 'text_bytes', 'max_entry_bytes', 'max_entry_labels']) {
     insist(Number.isSafeInteger(metrics[key]) && metrics[key] >= 0, `Invalid AEROVE resource metric: ${key}`);
@@ -85,15 +100,15 @@ function assertBudget(metrics, bytes, limits = LIMITS) {
   if (metrics.decompressed_bytes !== undefined) insist(metrics.decompressed_bytes <= limits.max_decompressed_bytes, 'AEROVE MRS decompressed budget exceeded');
 }
 
-function partitionEntries(entries, limits = LIMITS) {
-  const result = []; let part = []; let labels = 0; let bytes = 0;
+function partitionEntries(entries, limits = LIMITS, behavior = 'domain') {
+  const result = []; let part = []; let count = 0; let labels = 0; let bytes = 0;
   for (const raw of entries) {
-    const entry = raw.trim(); const metric = measureEntries([entry]); assertIndividual(metric, limits);
-    insist(metric.labels <= limits.max_labels && metric.text_bytes <= limits.max_text_bytes, 'AEROVE indivisible entry exceeds aggregate budget');
-    if (part.length && (part.length + 1 > limits.max_entries || labels + metric.labels > limits.max_labels || bytes + metric.text_bytes > limits.max_text_bytes)) {
-      result.push(part); part = []; labels = 0; bytes = 0;
+    const entry = raw.trim(); const metric = measureEntries(nativeMrsEntries([entry], behavior)); assertIndividual(metric, limits);
+    insist(!exceeds(metric, limits), 'AEROVE indivisible entry exceeds aggregate budget');
+    if (part.length && (count + metric.entries > limits.max_entries || labels + metric.labels > limits.max_labels || bytes + metric.text_bytes > limits.max_text_bytes)) {
+      result.push(part); part = []; count = 0; labels = 0; bytes = 0;
     }
-    part.push(entry); labels += metric.labels; bytes += metric.text_bytes;
+    part.push(entry); count += metric.entries; labels += metric.labels; bytes += metric.text_bytes;
   }
   if (part.length) result.push(part);
   return result;
@@ -114,7 +129,29 @@ function inspectMrs(bytes, behavior) {
   insist(data[4] === ({ domain: 0, ipcidr: 1 })[behavior], 'Invalid MRS behavior');
   const count = data.readBigInt64BE(5); const reserved = data.readBigInt64BE(13);
   insist(count >= 0n && count <= BigInt(Number.MAX_SAFE_INTEGER) && reserved >= 0n && reserved <= BigInt(data.length - 21), 'Invalid MRS header lengths');
-  return { header_entries: Number(count), decompressed_bytes: data.length };
+  const metrics = { header_entries: Number(count), decompressed_bytes: data.length };
+  if (behavior === 'domain') {
+    let offset = 21 + Number(reserved);
+    insist(data[offset++] === 1, 'Invalid MRS domain-set version');
+    const length = () => {
+      insist(offset + 8 <= data.length, 'Truncated MRS domain-set length');
+      const n = data.readBigInt64BE(offset); offset += 8;
+      insist(n >= 0n && n <= BigInt(data.length - offset), 'Invalid MRS domain-set length');
+      return Number(n);
+    };
+    let leaves = 0;
+    for (let vector = 0; vector < 2; vector++) {
+      const words = length(); insist(words * 8 <= data.length - offset, 'Truncated MRS domain-set bitmap');
+      if (vector === 0) for (let i = offset; i < offset + words * 8; i++) {
+        let byte = data[i]; while (byte) { byte &= byte - 1; leaves++; }
+      }
+      offset += words * 8;
+    }
+    const labelBytes = length();
+    insist(offset + labelBytes === data.length, 'Invalid MRS domain-set label bytes/trailing data');
+    Object.assign(metrics, { encoded_leaves: leaves, encoded_label_bytes: labelBytes });
+  }
+  return metrics;
 }
 
 function decodeMrs(mihomoBin, behavior, source, temporary, label) {
@@ -164,16 +201,19 @@ function buildAssetOutputs({ repoRoot, providers, fusedManifest, mihomoBin }) {
         : metrics.header_entries >= metrics.entries, `Native MRS header/traversal count mismatch: ${provider}`);
       insist(metrics.entries > 0, `Empty resource: ${provider}`);
       const source = { provider, original_path: relative, url: definition.url, behavior: definition.behavior, format: definition.format,
-        sha256: hash(bytes), bytes: bytes.length, metrics };
+        sha256: hash(bytes), bytes: bytes.length, metrics,
+        native_metrics: measureEntries(isMrs ? nativeMrsEntries(entries, definition.behavior) : entries) };
+      if (isMrs && definition.behavior === 'domain') insist(header.encoded_leaves === source.native_metrics.entries,
+        `MRS encoded leaf count differs from native enumeration model: ${provider}`);
       const yamlPath = yamlSourceFor(relative, fusedManifest);
       if (yamlPath) {
         const yamlBytes = lfBytes(fs.readFileSync(safeFile(repoRoot, yamlPath)));
         source.source_yaml = { path: yamlPath, sha256: hash(yamlBytes), bytes: yamlBytes.length, normalization: 'canonical LF' };
       }
       sources.push(source);
-      if (!exceeds(metrics)) { assertBudget(metrics, bytes.length); continue; }
+      if (!exceeds(nativeBudget(source))) { assertBudget(nativeBudget(source), bytes.length); continue; }
       insist(isMrs, `Oversized non-MRS resource requires explicit adaptation: ${provider}`);
-      const parts = partitionEntries(entries); const union = []; splits[provider] = [];
+      const parts = partitionEntries(entries, LIMITS, definition.behavior); const union = []; splits[provider] = [];
       for (let index = 0; index < parts.length; index++) {
         const id = `${provider}-aerove-part-${String(index + 1).padStart(3, '0')}`;
         const assetPath = `${ASSET_DIR}/${id}.mrs`; const yaml = path.join(temporary, `${id}.yaml`); const target = path.join(temporary, `${id}.mrs`);
@@ -184,11 +224,13 @@ function buildAssetOutputs({ repoRoot, providers, fusedManifest, mihomoBin }) {
         for (const entry of roundtrip) union.push(entry);
         const shardMetrics = { ...measureEntries(roundtrip), ...inspectMrs(compiled, definition.behavior) };
         insist(shardMetrics.header_entries === shardMetrics.entries, `Native shard header/traversal count mismatch: ${id}`);
-        assertBudget(shardMetrics, compiled.length);
-        const asset = { path: assetPath, sha256: hash(compiled), bytes: compiled.length, metrics: shardMetrics };
+        const asset = { path: assetPath, sha256: hash(compiled), bytes: compiled.length, metrics: shardMetrics,
+          native_metrics: measureEntries(nativeMrsEntries(roundtrip, definition.behavior)) };
+        assertBudget(nativeBudget(asset), compiled.length);
+        if (definition.behavior === 'domain') insist(shardMetrics.encoded_leaves === asset.native_metrics.entries, `MRS shard leaf count mismatch: ${id}`);
         outputs[assetPath] = compiled; assets.push(asset);
         splits[provider].push({ id, asset_path: assetPath, url: repositoryAssetUrl(assetPath, VERSION),
-          cache_path: mihomoAssetCachePath(`${id}.mrs`, VERSION), sha256: asset.sha256, bytes: asset.bytes, metrics: shardMetrics });
+          cache_path: mihomoAssetCachePath(`${id}.mrs`, VERSION), sha256: asset.sha256, bytes: asset.bytes, metrics: shardMetrics, native_metrics: asset.native_metrics });
       }
       assertSamePredicates(entries, union);
       source.exact_union_verified = true;
@@ -221,27 +263,30 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
       && source.url === providers[source.provider].url && source.format === providers[source.provider].format
       && source.behavior === providers[source.provider].behavior, 'AEROVE source inventory mismatch');
     seen.add(source.provider); const original = verify(source, source.original_path, source.format !== 'mrs'); assertIndividual(source.metrics);
-    insist(source.metrics.entries > 0 && source.bytes <= LIMITS.max_input_bytes, 'Invalid AEROVE source budget');
+    insist(source.metrics.entries > 0 && source.bytes <= LIMITS.max_input_bytes, 'Invalid AEROVE source budget'); assertIndividual(source.native_metrics);
     if (source.format === 'mrs') {
       const header = inspectMrs(original, source.behavior);
-      insist(header.header_entries === source.metrics.header_entries && header.decompressed_bytes === source.metrics.decompressed_bytes
+      insist(stable(header) === stable(Object.fromEntries(Object.keys(header).map(key => [key, source.metrics[key]])))
         && (source.behavior === 'domain' ? header.header_entries === source.metrics.entries : header.header_entries >= source.metrics.entries), 'AEROVE source MRS metrics mismatch');
+      if (source.behavior === 'domain') insist(header.encoded_leaves === source.native_metrics.entries, 'AEROVE source native leaf metrics mismatch');
     } else {
       const entries = source.format === 'yaml' ? parsePayloadEntries(original.toString('utf8'))
         : original.toString('utf8').split(/\r?\n/).map(line => line.trim()).filter(line => line && !line.startsWith('#'));
       insist(stable(measureEntries(entries)) === stable(source.metrics), 'AEROVE source text metrics mismatch');
+      insist(stable(source.metrics) === stable(source.native_metrics), 'AEROVE text native metrics mismatch');
     }
     if (source.source_yaml) verify(source.source_yaml, source.source_yaml.path, true);
-    if (!manifest.splits[source.provider]) assertBudget(source.metrics, source.bytes);
-    else insist(source.exact_union_verified === true && exceeds(source.metrics), 'AEROVE invalid split proof');
+    if (!manifest.splits[source.provider]) assertBudget(nativeBudget(source), source.bytes);
+    else insist(source.exact_union_verified === true && exceeds(nativeBudget(source)), 'AEROVE invalid split proof');
   }
   for (const asset of manifest.assets) {
     insist(asset.path.startsWith(`${ASSET_DIR}/`) && /^[-a-zA-Z0-9._]+\.mrs$/.test(asset.path.slice(ASSET_DIR.length + 1)) && !assetMap.has(asset.path), 'AEROVE unsafe/duplicate shard path');
-    const bytes = verify(asset, asset.path); assertBudget(asset.metrics, bytes.length);
+    const bytes = verify(asset, asset.path); assertBudget(nativeBudget(asset), bytes.length);
     const sourceProvider = Object.keys(manifest.splits).find(provider => manifest.splits[provider].some(row => row.asset_path === asset.path));
     insist(sourceProvider, 'AEROVE orphan shard');
     const header = inspectMrs(bytes, providers[sourceProvider].behavior);
-    insist(header.header_entries === asset.metrics.header_entries && header.decompressed_bytes === asset.metrics.decompressed_bytes, 'AEROVE MRS metrics mismatch');
+    insist(stable(header) === stable(Object.fromEntries(Object.keys(header).map(key => [key, asset.metrics[key]]))), 'AEROVE MRS metrics mismatch');
+    if (providers[sourceProvider].behavior === 'domain') insist(header.encoded_leaves === asset.native_metrics.entries, 'AEROVE shard native leaf metrics mismatch');
     assetMap.set(asset.path, asset);
   }
   const referenced = new Set(); const ids = new Set();
@@ -251,7 +296,7 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
       const row = rows[index]; const expectedId = `${provider}-aerove-part-${String(index + 1).padStart(3, '0')}`;
       const asset = assetMap.get(row.asset_path);
       insist(row.id === expectedId && !ids.has(row.id) && asset && row.asset_path === `${ASSET_DIR}/${row.id}.mrs`
-        && row.sha256 === asset.sha256 && row.bytes === asset.bytes && stable(row.metrics) === stable(asset.metrics)
+        && row.sha256 === asset.sha256 && row.bytes === asset.bytes && stable(row.metrics) === stable(asset.metrics) && stable(row.native_metrics) === stable(asset.native_metrics)
         && row.url === repositoryAssetUrl(row.asset_path, VERSION) && row.cache_path === mihomoAssetCachePath(`${row.id}.mrs`, VERSION), 'AEROVE shard mapping mismatch');
       ids.add(row.id); referenced.add(row.asset_path);
     }
@@ -264,4 +309,4 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
 }
 
 module.exports = { ASSET_DIR, MANIFEST_PATH, VERSION, LIMITS, POLICY, buildAssetOutputs, readAssetManifest,
-  partitionEntries, measureEntries, inspectMrs, assertSamePredicates, safeFile };
+  partitionEntries, measureEntries, nativeMrsEntries, inspectMrs, assertSamePredicates, safeFile };

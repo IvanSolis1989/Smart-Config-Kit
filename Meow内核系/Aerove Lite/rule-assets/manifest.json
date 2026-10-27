@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "version": "v6.0.20-meow.4",
+  "version": "v6.0.20-meow.5",
   "policy": {
     "app": "AEROVE Lite",
-    "app_commit": "d52726dc24756847b2b268d307a611cc37f994a3",
+    "app_commit": "457fab8455ac8713fc9828e129d2050b11bf1beb",
     "limits": {
       "max_entries": 250000,
       "max_entry_bytes": 2048,
@@ -15,6 +15,8 @@
     },
     "source_hash_normalization": "raw binary MRS; canonical LF for repository text assets",
     "entry_normalization": "trim; UTF-8; labels=entry.split(\".\").length; text_bytes=sum(UTF8(entry)+1)",
+    "native_domain_enumeration": "Mihomo DumpMrs folds +.domain and domain into one predicate; fixed Rust reader visits both encoded leaves. Budget the unique expanded leaf set before partitioning.",
+    "fixed_rust_parser_sha256": "6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3",
     "count_semantics": "domain header_entries equals native traversal entries; ipcidr header_entries is successful pre-merge Insert count and can exceed canonical DumpMrs entries; both counts must be <=250000 in projected resources",
     "count_source": "Mihomo rules/provider/ipcidr_strategy.go: Count, Insert, FinishInsert, FromMrs, DumpMrs; native convert-ruleset full traversal",
     "proof": "Mihomo native MRS full traversal; exact string predicate union after native shard round-trip",
@@ -32,7 +34,7 @@
     "fused_manifest_sha256": "573931ac31e6f50ab7423df31d3257520a21c14dc1e1036d1fdff91b5aa3bbea",
     "files": {
       "rulesets/source/routing-graph.js": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
-      "tools/lib/aerove-rule-assets.js": "ca3e3c36d9f693ec20a04664a1e8bd718d561632da0d28a6dbc7852ba00719a5",
+      "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
       "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14"
     }
   },
@@ -52,7 +54,16 @@
         "max_entry_bytes": 45,
         "max_entry_labels": 5,
         "header_entries": 29,
-        "decompressed_bytes": 463
+        "decompressed_bytes": 463,
+        "encoded_leaves": 37,
+        "encoded_label_bytes": 297
+      },
+      "native_metrics": {
+        "entries": 37,
+        "labels": 128,
+        "text_bytes": 667,
+        "max_entry_bytes": 45,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
@@ -76,7 +87,16 @@
         "max_entry_bytes": 23,
         "max_entry_labels": 4,
         "header_entries": 3,
-        "decompressed_bytes": 110
+        "decompressed_bytes": 110,
+        "encoded_leaves": 5,
+        "encoded_label_bytes": 40
+      },
+      "native_metrics": {
+        "entries": 5,
+        "labels": 15,
+        "text_bytes": 96,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-002-intl-site-domain.yaml",
@@ -100,7 +120,16 @@
         "max_entry_bytes": 12,
         "max_entry_labels": 3,
         "header_entries": 1,
-        "decompressed_bytes": 74
+        "decompressed_bytes": 74,
+        "encoded_leaves": 2,
+        "encoded_label_bytes": 12
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 5,
+        "text_bytes": 24,
+        "max_entry_bytes": 12,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-003-payments-domain.yaml",
@@ -124,7 +153,16 @@
         "max_entry_bytes": 28,
         "max_entry_labels": 5,
         "header_entries": 5,
-        "decompressed_bytes": 173
+        "decompressed_bytes": 173,
+        "encoded_leaves": 5,
+        "encoded_label_bytes": 87
+      },
+      "native_metrics": {
+        "entries": 5,
+        "labels": 17,
+        "text_bytes": 120,
+        "max_entry_bytes": 28,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
@@ -148,7 +186,16 @@
         "max_entry_bytes": 20,
         "max_entry_labels": 4,
         "header_entries": 11,
-        "decompressed_bytes": 200
+        "decompressed_bytes": 200,
+        "encoded_leaves": 22,
+        "encoded_label_bytes": 106
+      },
+      "native_metrics": {
+        "entries": 22,
+        "labels": 57,
+        "text_bytes": 326,
+        "max_entry_bytes": 20,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-005-cnmedia-domain.yaml",
@@ -172,7 +219,16 @@
         "max_entry_bytes": 21,
         "max_entry_labels": 4,
         "header_entries": 5,
-        "decompressed_bytes": 151
+        "decompressed_bytes": 151,
+        "encoded_leaves": 10,
+        "encoded_label_bytes": 65
+      },
+      "native_metrics": {
+        "entries": 10,
+        "labels": 27,
+        "text_bytes": 154,
+        "max_entry_bytes": 21,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-006-cn-site-domain.yaml",
@@ -196,7 +252,16 @@
         "max_entry_bytes": 18,
         "max_entry_labels": 5,
         "header_entries": 2,
-        "decompressed_bytes": 106
+        "decompressed_bytes": 106,
+        "encoded_leaves": 4,
+        "encoded_label_bytes": 36
+      },
+      "native_metrics": {
+        "entries": 4,
+        "labels": 16,
+        "text_bytes": 72,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-007-stream-jpkr-domain.yaml",
@@ -220,7 +285,16 @@
         "max_entry_bytes": 16,
         "max_entry_labels": 3,
         "header_entries": 2,
-        "decompressed_bytes": 89
+        "decompressed_bytes": 89,
+        "encoded_leaves": 4,
+        "encoded_label_bytes": 27
+      },
+      "native_metrics": {
+        "entries": 4,
+        "labels": 10,
+        "text_bytes": 62,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-008-social-domain.yaml",
@@ -243,6 +317,13 @@
         "text_bytes": 20,
         "max_entry_bytes": 19,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 20,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 1
       }
     },
     {
@@ -260,7 +341,16 @@
         "max_entry_bytes": 19,
         "max_entry_labels": 3,
         "header_entries": 4,
-        "decompressed_bytes": 118
+        "decompressed_bytes": 118,
+        "encoded_leaves": 7,
+        "encoded_label_bytes": 48
+      },
+      "native_metrics": {
+        "entries": 7,
+        "labels": 18,
+        "text_bytes": 102,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-009-tiktok-domain.yaml",
@@ -283,6 +373,13 @@
         "text_bytes": 40,
         "max_entry_bytes": 19,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 2,
+        "text_bytes": 40,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 1
       }
     },
     {
@@ -300,7 +397,16 @@
         "max_entry_bytes": 114,
         "max_entry_labels": 12,
         "header_entries": 411634,
-        "decompressed_bytes": 6028620
+        "decompressed_bytes": 6028620,
+        "encoded_leaves": 652813,
+        "encoded_label_bytes": 4384414
+      },
+      "native_metrics": {
+        "entries": 652813,
+        "labels": 1835979,
+        "text_bytes": 13398845,
+        "max_entry_bytes": 114,
+        "max_entry_labels": 12
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
@@ -327,6 +433,13 @@
         "header_entries": 2,
         "decompressed_bytes": 94
       },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 8,
+        "text_bytes": 37,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-ipcidr.yaml",
         "sha256": "9dff32e401781bfaf91e0bcc070f2dd4bbf93ecc2e4fa42d0621a7c8b2bc8bcc",
@@ -343,6 +456,13 @@
       "sha256": "02f3f7b13c831a3ca0f9f26352d44803c243384d8f064a1528321c545a5947b4",
       "bytes": 1244,
       "metrics": {
+        "entries": 38,
+        "labels": 62,
+        "text_bytes": 1007,
+        "max_entry_bytes": 49,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 38,
         "labels": 62,
         "text_bytes": 1007,
@@ -365,7 +485,16 @@
         "max_entry_bytes": 22,
         "max_entry_labels": 4,
         "header_entries": 5,
-        "decompressed_bytes": 152
+        "decompressed_bytes": 152,
+        "encoded_leaves": 10,
+        "encoded_label_bytes": 66
+      },
+      "native_metrics": {
+        "entries": 10,
+        "labels": 29,
+        "text_bytes": 156,
+        "max_entry_bytes": 22,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-011-tools-domain.yaml",
@@ -389,7 +518,16 @@
         "max_entry_bytes": 23,
         "max_entry_labels": 4,
         "header_entries": 1,
-        "decompressed_bytes": 85
+        "decompressed_bytes": 85,
+        "encoded_leaves": 1,
+        "encoded_label_bytes": 23
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 24,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-012-intl-site-domain.yaml",
@@ -413,7 +551,16 @@
         "max_entry_bytes": 31,
         "max_entry_labels": 4,
         "header_entries": 1,
-        "decompressed_bytes": 93
+        "decompressed_bytes": 93,
+        "encoded_leaves": 1,
+        "encoded_label_bytes": 31
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 32,
+        "max_entry_bytes": 31,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
@@ -437,7 +584,16 @@
         "max_entry_bytes": 21,
         "max_entry_labels": 4,
         "header_entries": 21,
-        "decompressed_bytes": 342
+        "decompressed_bytes": 342,
+        "encoded_leaves": 37,
+        "encoded_label_bytes": 208
+      },
+      "native_metrics": {
+        "entries": 37,
+        "labels": 123,
+        "text_bytes": 576,
+        "max_entry_bytes": 21,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-014-game-cn-domain.yaml",
@@ -461,7 +617,16 @@
         "max_entry_bytes": 27,
         "max_entry_labels": 4,
         "header_entries": 11,
-        "decompressed_bytes": 191
+        "decompressed_bytes": 191,
+        "encoded_leaves": 15,
+        "encoded_label_bytes": 97
+      },
+      "native_metrics": {
+        "entries": 15,
+        "labels": 49,
+        "text_bytes": 268,
+        "max_entry_bytes": 27,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-015-microsoft-domain.yaml",
@@ -484,6 +649,13 @@
         "text_bytes": 32,
         "max_entry_bytes": 31,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 32,
+        "max_entry_bytes": 31,
+        "max_entry_labels": 1
       }
     },
     {
@@ -501,7 +673,16 @@
         "max_entry_bytes": 54,
         "max_entry_labels": 8,
         "header_entries": 550,
-        "decompressed_bytes": 7170
+        "decompressed_bytes": 7170,
+        "encoded_leaves": 743,
+        "encoded_label_bytes": 5180
+      },
+      "native_metrics": {
+        "entries": 743,
+        "labels": 2406,
+        "text_bytes": 13613,
+        "max_entry_bytes": 54,
+        "max_entry_labels": 8
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-016-ad-domain.yaml",
@@ -527,6 +708,13 @@
         "header_entries": 537,
         "decompressed_bytes": 15998
       },
+      "native_metrics": {
+        "entries": 537,
+        "labels": 2136,
+        "text_bytes": 9412,
+        "max_entry_bytes": 40,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-016-ad-ipcidr.yaml",
         "sha256": "2e1248b66e51dd1044f2dfda62e82c27d585103e35c6d5da6331d387f38d8f9a",
@@ -543,6 +731,13 @@
       "sha256": "b5244f35d1c0bff6cb2a4deead930cc9b2a6162be10cce0c42f6593c06aa6693",
       "bytes": 9454,
       "metrics": {
+        "entries": 269,
+        "labels": 598,
+        "text_bytes": 7831,
+        "max_entry_bytes": 46,
+        "max_entry_labels": 5
+      },
+      "native_metrics": {
         "entries": 269,
         "labels": 598,
         "text_bytes": 7831,
@@ -565,7 +760,16 @@
         "max_entry_bytes": 18,
         "max_entry_labels": 3,
         "header_entries": 11,
-        "decompressed_bytes": 204
+        "decompressed_bytes": 204,
+        "encoded_leaves": 22,
+        "encoded_label_bytes": 110
+      },
+      "native_metrics": {
+        "entries": 22,
+        "labels": 55,
+        "text_bytes": 260,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-017-cn-site-domain.yaml",
@@ -589,7 +793,16 @@
         "max_entry_bytes": 74,
         "max_entry_labels": 35,
         "header_entries": 135,
-        "decompressed_bytes": 1271
+        "decompressed_bytes": 1271,
+        "encoded_leaves": 257,
+        "encoded_label_bytes": 889
+      },
+      "native_metrics": {
+        "entries": 257,
+        "labels": 1113,
+        "text_bytes": 5063,
+        "max_entry_bytes": 74,
+        "max_entry_labels": 35
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
@@ -615,6 +828,13 @@
         "header_entries": 1,
         "decompressed_bytes": 62
       },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 16,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-ipcidr-no-resolve.yaml",
         "sha256": "cd58974532f70012534e3cb76dc2eb115f021658bf7845cc0f271a33dd1b0e49",
@@ -636,6 +856,13 @@
         "text_bytes": 2182,
         "max_entry_bytes": 39,
         "max_entry_labels": 2
+      },
+      "native_metrics": {
+        "entries": 83,
+        "labels": 147,
+        "text_bytes": 2182,
+        "max_entry_bytes": 39,
+        "max_entry_labels": 2
       }
     },
     {
@@ -647,6 +874,13 @@
       "sha256": "e5602a76a7f64c1a0cd0e59e32d9a71d46a1cc9558b14026f5599400a93262ee",
       "bytes": 129,
       "metrics": {
+        "entries": 4,
+        "labels": 6,
+        "text_bytes": 96,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 2
+      },
+      "native_metrics": {
         "entries": 4,
         "labels": 6,
         "text_bytes": 96,
@@ -669,7 +903,16 @@
         "max_entry_bytes": 16,
         "max_entry_labels": 3,
         "header_entries": 3,
-        "decompressed_bytes": 113
+        "decompressed_bytes": 113,
+        "encoded_leaves": 6,
+        "encoded_label_bytes": 43
+      },
+      "native_metrics": {
+        "entries": 6,
+        "labels": 15,
+        "text_bytes": 86,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-020-crypto-domain.yaml",
@@ -693,7 +936,16 @@
         "max_entry_bytes": 15,
         "max_entry_labels": 3,
         "header_entries": 4,
-        "decompressed_bytes": 113
+        "decompressed_bytes": 113,
+        "encoded_leaves": 6,
+        "encoded_label_bytes": 43
+      },
+      "native_metrics": {
+        "entries": 6,
+        "labels": 15,
+        "text_bytes": 70,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-021-gfw-domain.yaml",
@@ -717,7 +969,16 @@
         "max_entry_bytes": 22,
         "max_entry_labels": 3,
         "header_entries": 7,
-        "decompressed_bytes": 166
+        "decompressed_bytes": 166,
+        "encoded_leaves": 14,
+        "encoded_label_bytes": 80
+      },
+      "native_metrics": {
+        "entries": 14,
+        "labels": 35,
+        "text_bytes": 202,
+        "max_entry_bytes": 22,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-022-youtube-domain.yaml",
@@ -741,7 +1002,16 @@
         "max_entry_bytes": 46,
         "max_entry_labels": 6,
         "header_entries": 22,
-        "decompressed_bytes": 531
+        "decompressed_bytes": 531,
+        "encoded_leaves": 37,
+        "encoded_label_bytes": 349
+      },
+      "native_metrics": {
+        "entries": 37,
+        "labels": 113,
+        "text_bytes": 722,
+        "max_entry_bytes": 46,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-023-ai-domain.yaml",
@@ -765,7 +1035,16 @@
         "max_entry_bytes": 39,
         "max_entry_labels": 4,
         "header_entries": 10,
-        "decompressed_bytes": 265
+        "decompressed_bytes": 265,
+        "encoded_leaves": 17,
+        "encoded_label_bytes": 155
+      },
+      "native_metrics": {
+        "entries": 17,
+        "labels": 53,
+        "text_bytes": 358,
+        "max_entry_bytes": 39,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-024-google-domain.yaml",
@@ -788,6 +1067,13 @@
         "text_bytes": 88,
         "max_entry_bytes": 33,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 3,
+        "labels": 3,
+        "text_bytes": 88,
+        "max_entry_bytes": 33,
+        "max_entry_labels": 1
       }
     },
     {
@@ -805,7 +1091,16 @@
         "max_entry_bytes": 14,
         "max_entry_labels": 3,
         "header_entries": 1,
-        "decompressed_bytes": 76
+        "decompressed_bytes": 76,
+        "encoded_leaves": 2,
+        "encoded_label_bytes": 14
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 5,
+        "text_bytes": 28,
+        "max_entry_bytes": 14,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-025-work-domain.yaml",
@@ -829,7 +1124,16 @@
         "max_entry_bytes": 35,
         "max_entry_labels": 6,
         "header_entries": 55,
-        "decompressed_bytes": 993
+        "decompressed_bytes": 993,
+        "encoded_leaves": 99,
+        "encoded_label_bytes": 683
+      },
+      "native_metrics": {
+        "entries": 99,
+        "labels": 276,
+        "text_bytes": 1590,
+        "max_entry_bytes": 35,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-026-ai-domain.yaml",
@@ -855,6 +1159,13 @@
         "header_entries": 2,
         "decompressed_bytes": 94
       },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 8,
+        "text_bytes": 34,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-026-ai-ipcidr.yaml",
         "sha256": "451e5512228605325fe7343d546308f66a3eb7c227808deb7cee7daf8e4de613",
@@ -871,6 +1182,13 @@
       "sha256": "6b56f685e8612e86cb641991c0c650cc7d58789b39885b7051c2a15bdc11df99",
       "bytes": 82,
       "metrics": {
+        "entries": 3,
+        "labels": 3,
+        "text_bytes": 55,
+        "max_entry_bytes": 28,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 3,
         "labels": 3,
         "text_bytes": 55,
@@ -893,7 +1211,16 @@
         "max_entry_bytes": 16,
         "max_entry_labels": 3,
         "header_entries": 4,
-        "decompressed_bytes": 105
+        "decompressed_bytes": 105,
+        "encoded_leaves": 6,
+        "encoded_label_bytes": 35
+      },
+      "native_metrics": {
+        "entries": 6,
+        "labels": 16,
+        "text_bytes": 87,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-027-intl-site-domain.yaml",
@@ -917,7 +1244,16 @@
         "max_entry_bytes": 17,
         "max_entry_labels": 4,
         "header_entries": 1,
-        "decompressed_bytes": 79
+        "decompressed_bytes": 79,
+        "encoded_leaves": 1,
+        "encoded_label_bytes": 17
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 18,
+        "max_entry_bytes": 17,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-028-im-domain.yaml",
@@ -941,7 +1277,16 @@
         "max_entry_bytes": 19,
         "max_entry_labels": 4,
         "header_entries": 2,
-        "decompressed_bytes": 102
+        "decompressed_bytes": 102,
+        "encoded_leaves": 3,
+        "encoded_label_bytes": 32
+      },
+      "native_metrics": {
+        "entries": 3,
+        "labels": 10,
+        "text_bytes": 54,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-029-work-domain.yaml",
@@ -965,7 +1310,16 @@
         "max_entry_bytes": 39,
         "max_entry_labels": 6,
         "header_entries": 42,
-        "decompressed_bytes": 707
+        "decompressed_bytes": 707,
+        "encoded_leaves": 67,
+        "encoded_label_bytes": 477
+      },
+      "native_metrics": {
+        "entries": 67,
+        "labels": 223,
+        "text_bytes": 1355,
+        "max_entry_bytes": 39,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-domain.yaml",
@@ -991,6 +1345,13 @@
         "header_entries": 26,
         "decompressed_bytes": 862
       },
+      "native_metrics": {
+        "entries": 26,
+        "labels": 104,
+        "text_bytes": 471,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
         "sha256": "135d3fa9c1a80feb1def8da331653ff69fc669ffc4261e74f7fc04e27070f07a",
@@ -1007,6 +1368,13 @@
       "sha256": "3ad3d6555396e3cf84b5af8020ffba8613d7a349990ef9afdcb755ea5469d7a9",
       "bytes": 49,
       "metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 34,
+        "max_entry_bytes": 33,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 1,
         "labels": 1,
         "text_bytes": 34,
@@ -1029,7 +1397,16 @@
         "max_entry_bytes": 47,
         "max_entry_labels": 4,
         "header_entries": 786,
-        "decompressed_bytes": 10988
+        "decompressed_bytes": 10988,
+        "encoded_leaves": 1555,
+        "encoded_label_bytes": 7950
+      },
+      "native_metrics": {
+        "entries": 1555,
+        "labels": 4213,
+        "text_bytes": 21890,
+        "max_entry_bytes": 47,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-domain.yaml",
@@ -1055,6 +1432,13 @@
         "header_entries": 8495,
         "decompressed_bytes": 40030
       },
+      "native_metrics": {
+        "entries": 8495,
+        "labels": 17657,
+        "text_bytes": 180341,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr-no-resolve.yaml",
         "sha256": "016ccb847a94882b36c223a6d7e70f7a357315d12f17e482386b086bc18f925f",
@@ -1077,7 +1461,16 @@
         "max_entry_bytes": 14,
         "max_entry_labels": 3,
         "header_entries": 1,
-        "decompressed_bytes": 76
+        "decompressed_bytes": 76,
+        "encoded_leaves": 1,
+        "encoded_label_bytes": 14
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 3,
+        "text_bytes": 15,
+        "max_entry_bytes": 14,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-032-tools-domain.yaml",
@@ -1101,7 +1494,16 @@
         "max_entry_bytes": 36,
         "max_entry_labels": 6,
         "header_entries": 142,
-        "decompressed_bytes": 2393
+        "decompressed_bytes": 2393,
+        "encoded_leaves": 277,
+        "encoded_label_bytes": 1699
+      },
+      "native_metrics": {
+        "entries": 277,
+        "labels": 906,
+        "text_bytes": 5822,
+        "max_entry_bytes": 36,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
@@ -1127,6 +1529,13 @@
         "header_entries": 2,
         "decompressed_bytes": 94
       },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 8,
+        "text_bytes": 29,
+        "max_entry_bytes": 14,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr.yaml",
         "sha256": "e22fb0751ada997ee0a9c9619936e536c32e1041793bc0fac9dac4ec24595a7f",
@@ -1151,6 +1560,13 @@
         "header_entries": 1,
         "decompressed_bytes": 62
       },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 13,
+        "max_entry_bytes": 12,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr-no-resolve.yaml",
         "sha256": "f7652370b2bd6f430bf866df28ec311e78991848468bbd1ecfc68cfd0acd788f",
@@ -1167,6 +1583,13 @@
       "sha256": "3a881e5ebbf474ee9aeeb7c144b5a87d9cc9c2d4fa15873bcfa5db04b4478ecb",
       "bytes": 1166,
       "metrics": {
+        "entries": 36,
+        "labels": 36,
+        "text_bytes": 941,
+        "max_entry_bytes": 42,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 36,
         "labels": 36,
         "text_bytes": 941,
@@ -1189,7 +1612,16 @@
         "max_entry_bytes": 52,
         "max_entry_labels": 5,
         "header_entries": 36,
-        "decompressed_bytes": 706
+        "decompressed_bytes": 706,
+        "encoded_leaves": 72,
+        "encoded_label_bytes": 476
+      },
+      "native_metrics": {
+        "entries": 72,
+        "labels": 260,
+        "text_bytes": 1844,
+        "max_entry_bytes": 52,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-034-google-domain.yaml",
@@ -1213,7 +1645,16 @@
         "max_entry_bytes": 50,
         "max_entry_labels": 7,
         "header_entries": 131,
-        "decompressed_bytes": 2542
+        "decompressed_bytes": 2542,
+        "encoded_leaves": 231,
+        "encoded_label_bytes": 1808
+      },
+      "native_metrics": {
+        "entries": 231,
+        "labels": 689,
+        "text_bytes": 4444,
+        "max_entry_bytes": 50,
+        "max_entry_labels": 7
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-domain.yaml",
@@ -1239,6 +1680,13 @@
         "header_entries": 4,
         "decompressed_bytes": 158
       },
+      "native_metrics": {
+        "entries": 4,
+        "labels": 10,
+        "text_bytes": 61,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-ipcidr.yaml",
         "sha256": "1c5d89208d9c28b53d5c15ab466e9b528e23e96ef53df3156bc3acd87a902b39",
@@ -1255,6 +1703,13 @@
       "sha256": "0f18d0c543a691a61c0d9c56d6991ed6396857b39636a8ee084ea4de5916a50e",
       "bytes": 1040,
       "metrics": {
+        "entries": 31,
+        "labels": 46,
+        "text_bytes": 845,
+        "max_entry_bytes": 85,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 31,
         "labels": 46,
         "text_bytes": 845,
@@ -1277,7 +1732,16 @@
         "max_entry_bytes": 33,
         "max_entry_labels": 4,
         "header_entries": 282,
-        "decompressed_bytes": 3800
+        "decompressed_bytes": 3800,
+        "encoded_leaves": 562,
+        "encoded_label_bytes": 2722
+      },
+      "native_metrics": {
+        "entries": 562,
+        "labels": 1429,
+        "text_bytes": 7768,
+        "max_entry_bytes": 33,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-036-crypto-domain.yaml",
@@ -1300,6 +1764,13 @@
         "text_bytes": 201,
         "max_entry_bytes": 24,
         "max_entry_labels": 2
+      },
+      "native_metrics": {
+        "entries": 9,
+        "labels": 12,
+        "text_bytes": 201,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 2
       }
     },
     {
@@ -1317,7 +1788,16 @@
         "max_entry_bytes": 48,
         "max_entry_labels": 5,
         "header_entries": 537,
-        "decompressed_bytes": 7946
+        "decompressed_bytes": 7946,
+        "encoded_leaves": 1074,
+        "encoded_label_bytes": 5740
+      },
+      "native_metrics": {
+        "entries": 1074,
+        "labels": 2943,
+        "text_bytes": 16862,
+        "max_entry_bytes": 48,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-037-payments-domain.yaml",
@@ -1340,6 +1820,13 @@
         "text_bytes": 190,
         "max_entry_bytes": 28,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 8,
+        "labels": 8,
+        "text_bytes": 190,
+        "max_entry_bytes": 28,
+        "max_entry_labels": 1
       }
     },
     {
@@ -1357,7 +1844,16 @@
         "max_entry_bytes": 25,
         "max_entry_labels": 5,
         "header_entries": 35,
-        "decompressed_bytes": 508
+        "decompressed_bytes": 508,
+        "encoded_leaves": 55,
+        "encoded_label_bytes": 326
+      },
+      "native_metrics": {
+        "entries": 55,
+        "labels": 154,
+        "text_bytes": 791,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-039-intl-site-domain.yaml",
@@ -1381,7 +1877,16 @@
         "max_entry_bytes": 18,
         "max_entry_labels": 5,
         "header_entries": 5,
-        "decompressed_bytes": 150
+        "decompressed_bytes": 150,
+        "encoded_leaves": 10,
+        "encoded_label_bytes": 64
+      },
+      "native_metrics": {
+        "entries": 10,
+        "labels": 37,
+        "text_bytes": 152,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-040-direct-domain.yaml",
@@ -1405,7 +1910,16 @@
         "max_entry_bytes": 56,
         "max_entry_labels": 5,
         "header_entries": 93,
-        "decompressed_bytes": 1515
+        "decompressed_bytes": 1515,
+        "encoded_leaves": 186,
+        "encoded_label_bytes": 1061
+      },
+      "native_metrics": {
+        "entries": 186,
+        "labels": 481,
+        "text_bytes": 2752,
+        "max_entry_bytes": 56,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-041-im-domain.yaml",
@@ -1431,6 +1945,13 @@
         "header_entries": 33,
         "decompressed_bytes": 1022
       },
+      "native_metrics": {
+        "entries": 33,
+        "labels": 132,
+        "text_bytes": 538,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr.yaml",
         "sha256": "0e96eb9de4a350b67f6d9cf1f0950f6bd0ad64ba7036a494d3a5362c2a857663",
@@ -1455,6 +1976,13 @@
         "header_entries": 12,
         "decompressed_bytes": 350
       },
+      "native_metrics": {
+        "entries": 12,
+        "labels": 36,
+        "text_bytes": 193,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr-no-resolve.yaml",
         "sha256": "4672b9e1e3eb181c453c4d391b54acebd34a2818ec64befc76c0d7e7283693c0",
@@ -1471,6 +1999,13 @@
       "sha256": "afa1ee269dee8846bfec33a0b3e29e2d6f21889ee908cd07d93ec1ec3f125036",
       "bytes": 78,
       "metrics": {
+        "entries": 2,
+        "labels": 4,
+        "text_bytes": 57,
+        "max_entry_bytes": 32,
+        "max_entry_labels": 3
+      },
+      "native_metrics": {
         "entries": 2,
         "labels": 4,
         "text_bytes": 57,
@@ -1493,7 +2028,16 @@
         "max_entry_bytes": 49,
         "max_entry_labels": 6,
         "header_entries": 645,
-        "decompressed_bytes": 9151
+        "decompressed_bytes": 9151,
+        "encoded_leaves": 1281,
+        "encoded_label_bytes": 6617
+      },
+      "native_metrics": {
+        "entries": 1281,
+        "labels": 3250,
+        "text_bytes": 21278,
+        "max_entry_bytes": 49,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-042-social-domain.yaml",
@@ -1519,6 +2063,13 @@
         "header_entries": 22,
         "decompressed_bytes": 702
       },
+      "native_metrics": {
+        "entries": 22,
+        "labels": 88,
+        "text_bytes": 372,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr.yaml",
         "sha256": "28e5956df1fb88160bb8a157057d01a5af717c09e8ffd94690012ef3cc3239c5",
@@ -1543,6 +2094,13 @@
         "header_entries": 222,
         "decompressed_bytes": 5438
       },
+      "native_metrics": {
+        "entries": 222,
+        "labels": 759,
+        "text_bytes": 3815,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr-no-resolve.yaml",
         "sha256": "44a9d08db1e54044fe66acbd2281ecd95a95bcf4f8629d331c0bd5b2986ac997",
@@ -1559,6 +2117,13 @@
       "sha256": "8379b58eff2a12057e4dba1409cb50e347636d393fe0d5e6a232a3168e027189",
       "bytes": 116,
       "metrics": {
+        "entries": 4,
+        "labels": 4,
+        "text_bytes": 83,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 4,
         "labels": 4,
         "text_bytes": 83,
@@ -1581,7 +2146,16 @@
         "max_entry_bytes": 21,
         "max_entry_labels": 4,
         "header_entries": 33,
-        "decompressed_bytes": 511
+        "decompressed_bytes": 511,
+        "encoded_leaves": 66,
+        "encoded_label_bytes": 329
+      },
+      "native_metrics": {
+        "entries": 66,
+        "labels": 169,
+        "text_bytes": 930,
+        "max_entry_bytes": 21,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-043-cn-site-domain.yaml",
@@ -1605,7 +2179,16 @@
         "max_entry_bytes": 19,
         "max_entry_labels": 4,
         "header_entries": 13,
-        "decompressed_bytes": 252
+        "decompressed_bytes": 252,
+        "encoded_leaves": 26,
+        "encoded_label_bytes": 142
+      },
+      "native_metrics": {
+        "entries": 26,
+        "labels": 67,
+        "text_bytes": 336,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-044-social-domain.yaml",
@@ -1629,7 +2212,16 @@
         "max_entry_bytes": 34,
         "max_entry_labels": 5,
         "header_entries": 84,
-        "decompressed_bytes": 1228
+        "decompressed_bytes": 1228,
+        "encoded_leaves": 163,
+        "encoded_label_bytes": 854
+      },
+      "native_metrics": {
+        "entries": 163,
+        "labels": 422,
+        "text_bytes": 2388,
+        "max_entry_bytes": 34,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-045-work-domain.yaml",
@@ -1655,6 +2247,13 @@
         "header_entries": 7,
         "decompressed_bytes": 254
       },
+      "native_metrics": {
+        "entries": 7,
+        "labels": 16,
+        "text_bytes": 114,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-045-work-ipcidr.yaml",
         "sha256": "64946f9edd5ceb8c82954d732eb164be8b399b33806172f7d060de01613d97fb",
@@ -1671,6 +2270,13 @@
       "sha256": "4d7aecdba33fcfbfe18763f3c4127281c70a879e29ab613e71f205c9bba2b2aa",
       "bytes": 216,
       "metrics": {
+        "entries": 6,
+        "labels": 12,
+        "text_bytes": 171,
+        "max_entry_bytes": 32,
+        "max_entry_labels": 2
+      },
+      "native_metrics": {
         "entries": 6,
         "labels": 12,
         "text_bytes": 171,
@@ -1693,7 +2299,16 @@
         "max_entry_bytes": 24,
         "max_entry_labels": 4,
         "header_entries": 3,
-        "decompressed_bytes": 115
+        "decompressed_bytes": 115,
+        "encoded_leaves": 6,
+        "encoded_label_bytes": 45
+      },
+      "native_metrics": {
+        "entries": 6,
+        "labels": 17,
+        "text_bytes": 98,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-046-direct-domain.yaml",
@@ -1717,7 +2332,16 @@
         "max_entry_bytes": 32,
         "max_entry_labels": 3,
         "header_entries": 53,
-        "decompressed_bytes": 782
+        "decompressed_bytes": 782,
+        "encoded_leaves": 105,
+        "encoded_label_bytes": 528
+      },
+      "native_metrics": {
+        "entries": 105,
+        "labels": 263,
+        "text_bytes": 1421,
+        "max_entry_bytes": 32,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-047-cnmedia-domain.yaml",
@@ -1741,7 +2365,16 @@
         "max_entry_bytes": 42,
         "max_entry_labels": 5,
         "header_entries": 35,
-        "decompressed_bytes": 706
+        "decompressed_bytes": 706,
+        "encoded_leaves": 64,
+        "encoded_label_bytes": 476
+      },
+      "native_metrics": {
+        "entries": 64,
+        "labels": 186,
+        "text_bytes": 1210,
+        "max_entry_bytes": 42,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-048-tiktok-domain.yaml",
@@ -1765,7 +2398,16 @@
         "max_entry_bytes": 38,
         "max_entry_labels": 5,
         "header_entries": 6,
-        "decompressed_bytes": 207
+        "decompressed_bytes": 207,
+        "encoded_leaves": 11,
+        "encoded_label_bytes": 113
+      },
+      "native_metrics": {
+        "entries": 11,
+        "labels": 42,
+        "text_bytes": 304,
+        "max_entry_bytes": 38,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-049-youtube-domain.yaml",
@@ -1789,7 +2431,16 @@
         "max_entry_bytes": 25,
         "max_entry_labels": 4,
         "header_entries": 24,
-        "decompressed_bytes": 523
+        "decompressed_bytes": 523,
+        "encoded_leaves": 47,
+        "encoded_label_bytes": 341
+      },
+      "native_metrics": {
+        "entries": 47,
+        "labels": 119,
+        "text_bytes": 834,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-050-netflix-domain.yaml",
@@ -1815,6 +2466,13 @@
         "header_entries": 952,
         "decompressed_bytes": 21086
       },
+      "native_metrics": {
+        "entries": 952,
+        "labels": 3550,
+        "text_bytes": 15531,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-050-netflix-ipcidr-no-resolve.yaml",
         "sha256": "e85c53714987f1d5ef9c07bbf9aa46a52630bf1f73432592e7787df010c28529",
@@ -1837,7 +2495,16 @@
         "max_entry_bytes": 37,
         "max_entry_labels": 7,
         "header_entries": 170,
-        "decompressed_bytes": 3328
+        "decompressed_bytes": 3328,
+        "encoded_leaves": 340,
+        "encoded_label_bytes": 2378
+      },
+      "native_metrics": {
+        "entries": 340,
+        "labels": 932,
+        "text_bytes": 6200,
+        "max_entry_bytes": 37,
+        "max_entry_labels": 7
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-051-disney-domain.yaml",
@@ -1860,6 +2527,13 @@
         "text_bytes": 91,
         "max_entry_bytes": 55,
         "max_entry_labels": 6
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 9,
+        "text_bytes": 91,
+        "max_entry_bytes": 55,
+        "max_entry_labels": 6
       }
     },
     {
@@ -1877,7 +2551,16 @@
         "max_entry_bytes": 43,
         "max_entry_labels": 6,
         "header_entries": 45,
-        "decompressed_bytes": 884
+        "decompressed_bytes": 884,
+        "encoded_leaves": 90,
+        "encoded_label_bytes": 606
+      },
+      "native_metrics": {
+        "entries": 90,
+        "labels": 289,
+        "text_bytes": 1722,
+        "max_entry_bytes": 43,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-domain.yaml",
@@ -1900,6 +2583,13 @@
         "text_bytes": 28,
         "max_entry_bytes": 27,
         "max_entry_labels": 3
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 3,
+        "text_bytes": 28,
+        "max_entry_bytes": 27,
+        "max_entry_labels": 3
       }
     },
     {
@@ -1917,7 +2607,16 @@
         "max_entry_bytes": 49,
         "max_entry_labels": 6,
         "header_entries": 58,
-        "decompressed_bytes": 925
+        "decompressed_bytes": 925,
+        "encoded_leaves": 115,
+        "encoded_label_bytes": 639
+      },
+      "native_metrics": {
+        "entries": 115,
+        "labels": 310,
+        "text_bytes": 1768,
+        "max_entry_bytes": 49,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-053-hulu-domain.yaml",
@@ -1940,6 +2639,13 @@
         "text_bytes": 27,
         "max_entry_bytes": 26,
         "max_entry_labels": 3
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 3,
+        "text_bytes": 27,
+        "max_entry_bytes": 26,
+        "max_entry_labels": 3
       }
     },
     {
@@ -1957,7 +2663,16 @@
         "max_entry_bytes": 29,
         "max_entry_labels": 3,
         "header_entries": 14,
-        "decompressed_bytes": 300
+        "decompressed_bytes": 300,
+        "encoded_leaves": 20,
+        "encoded_label_bytes": 182
+      },
+      "native_metrics": {
+        "entries": 20,
+        "labels": 54,
+        "text_bytes": 400,
+        "max_entry_bytes": 29,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-054-prime-video-domain.yaml",
@@ -1980,6 +2695,13 @@
         "text_bytes": 25,
         "max_entry_bytes": 24,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 25,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 1
       }
     },
     {
@@ -1997,7 +2719,16 @@
         "max_entry_bytes": 31,
         "max_entry_labels": 4,
         "header_entries": 177,
-        "decompressed_bytes": 2980
+        "decompressed_bytes": 2980,
+        "encoded_leaves": 354,
+        "encoded_label_bytes": 2126
+      },
+      "native_metrics": {
+        "entries": 354,
+        "labels": 921,
+        "text_bytes": 5944,
+        "max_entry_bytes": 31,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-055-intl-site-domain.yaml",
@@ -2023,6 +2754,13 @@
         "header_entries": 14,
         "decompressed_bytes": 478
       },
+      "native_metrics": {
+        "entries": 14,
+        "labels": 56,
+        "text_bytes": 191,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-055-intl-site-ipcidr.yaml",
         "sha256": "1fa97e8114247e04f49318055dcfe6990f58bb4222d0661fc133ef46ce0f7437",
@@ -2039,6 +2777,13 @@
       "sha256": "ed25305eccca9112306da6ab9c61264c75fe9acbd49cd8ec2d01875c107d00f7",
       "bytes": 61,
       "metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 46,
+        "max_entry_bytes": 45,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 1,
         "labels": 4,
         "text_bytes": 46,
@@ -2061,7 +2806,16 @@
         "max_entry_bytes": 39,
         "max_entry_labels": 5,
         "header_entries": 100,
-        "decompressed_bytes": 1443
+        "decompressed_bytes": 1443,
+        "encoded_leaves": 190,
+        "encoded_label_bytes": 1013
+      },
+      "native_metrics": {
+        "entries": 190,
+        "labels": 494,
+        "text_bytes": 2596,
+        "max_entry_bytes": 39,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-056-music-domain.yaml",
@@ -2087,6 +2841,13 @@
         "header_entries": 2,
         "decompressed_bytes": 94
       },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 8,
+        "text_bytes": 31,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-056-music-ipcidr.yaml",
         "sha256": "f7dda4dda04acfee2e05777b972a66c7338934eca8c9d7661de321fe195aff8c",
@@ -2109,7 +2870,16 @@
         "max_entry_bytes": 36,
         "max_entry_labels": 5,
         "header_entries": 50,
-        "decompressed_bytes": 901
+        "decompressed_bytes": 901,
+        "encoded_leaves": 82,
+        "encoded_label_bytes": 615
+      },
+      "native_metrics": {
+        "entries": 82,
+        "labels": 251,
+        "text_bytes": 1528,
+        "max_entry_bytes": 36,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-domain.yaml",
@@ -2135,6 +2905,13 @@
         "header_entries": 12,
         "decompressed_bytes": 350
       },
+      "native_metrics": {
+        "entries": 12,
+        "labels": 48,
+        "text_bytes": 197,
+        "max_entry_bytes": 17,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-ipcidr.yaml",
         "sha256": "dae6eb2fb101220301cf2654b736d453efc1f966e95b26d2ebc0e55b7823d716",
@@ -2151,6 +2928,13 @@
       "sha256": "8f2caf47b83ab47221cb89c8d95c1eeff9dd17e8a5d26946af3a9e41b928f116",
       "bytes": 69,
       "metrics": {
+        "entries": 2,
+        "labels": 2,
+        "text_bytes": 48,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 2,
         "labels": 2,
         "text_bytes": 48,
@@ -2173,7 +2957,16 @@
         "max_entry_bytes": 31,
         "max_entry_labels": 5,
         "header_entries": 27,
-        "decompressed_bytes": 436
+        "decompressed_bytes": 436,
+        "encoded_leaves": 50,
+        "encoded_label_bytes": 278
+      },
+      "native_metrics": {
+        "entries": 50,
+        "labels": 151,
+        "text_bytes": 731,
+        "max_entry_bytes": 31,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-domain.yaml",
@@ -2196,6 +2989,13 @@
         "text_bytes": 72,
         "max_entry_bytes": 38,
         "max_entry_labels": 4
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 7,
+        "text_bytes": 72,
+        "max_entry_bytes": 38,
+        "max_entry_labels": 4
       }
     },
     {
@@ -2213,7 +3013,16 @@
         "max_entry_bytes": 41,
         "max_entry_labels": 5,
         "header_entries": 120,
-        "decompressed_bytes": 1647
+        "decompressed_bytes": 1647,
+        "encoded_leaves": 235,
+        "encoded_label_bytes": 1153
+      },
+      "native_metrics": {
+        "entries": 235,
+        "labels": 668,
+        "text_bytes": 3456,
+        "max_entry_bytes": 41,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-domain.yaml",
@@ -2239,6 +3048,13 @@
         "header_entries": 2,
         "decompressed_bytes": 94
       },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 8,
+        "text_bytes": 32,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-ipcidr.yaml",
         "sha256": "2979033dc337a39a07209601cfea018ac7fa6a506aa6a0ce6e4f607ab2048f06",
@@ -2255,6 +3071,13 @@
       "sha256": "9946911b4cda8741b45218de84568aa408480ba53f5af46c1e99e74cddeda07a",
       "bytes": 95,
       "metrics": {
+        "entries": 3,
+        "labels": 3,
+        "text_bytes": 68,
+        "max_entry_bytes": 22,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 3,
         "labels": 3,
         "text_bytes": 68,
@@ -2277,7 +3100,16 @@
         "max_entry_bytes": 56,
         "max_entry_labels": 7,
         "header_entries": 77,
-        "decompressed_bytes": 1170
+        "decompressed_bytes": 1170,
+        "encoded_leaves": 130,
+        "encoded_label_bytes": 812
+      },
+      "native_metrics": {
+        "entries": 130,
+        "labels": 358,
+        "text_bytes": 2095,
+        "max_entry_bytes": 56,
+        "max_entry_labels": 7
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-domain.yaml",
@@ -2300,6 +3132,13 @@
         "text_bytes": 112,
         "max_entry_bytes": 24,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 5,
+        "labels": 5,
+        "text_bytes": 112,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 1
       }
     },
     {
@@ -2317,7 +3156,16 @@
         "max_entry_bytes": 50,
         "max_entry_labels": 6,
         "header_entries": 515,
-        "decompressed_bytes": 7771
+        "decompressed_bytes": 7771,
+        "encoded_leaves": 1006,
+        "encoded_label_bytes": 5613
+      },
+      "native_metrics": {
+        "entries": 1006,
+        "labels": 2752,
+        "text_bytes": 16981,
+        "max_entry_bytes": 50,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-061-stream-other-domain.yaml",
@@ -2343,6 +3191,13 @@
         "header_entries": 33,
         "decompressed_bytes": 1054
       },
+      "native_metrics": {
+        "entries": 33,
+        "labels": 129,
+        "text_bytes": 540,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-061-stream-other-ipcidr.yaml",
         "sha256": "dcd64ee41333bac1c4336554307ea57c633755b384a6ed984c65b9fcb236fbaa",
@@ -2359,6 +3214,13 @@
       "sha256": "1948535fb09eaf6c2bd0846d659ca0dc12fb27e886142b1bb197370cfc7860a0",
       "bytes": 685,
       "metrics": {
+        "entries": 19,
+        "labels": 50,
+        "text_bytes": 562,
+        "max_entry_bytes": 38,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 19,
         "labels": 50,
         "text_bytes": 562,
@@ -2381,7 +3243,16 @@
         "max_entry_bytes": 23,
         "max_entry_labels": 4,
         "header_entries": 14,
-        "decompressed_bytes": 287
+        "decompressed_bytes": 287,
+        "encoded_leaves": 28,
+        "encoded_label_bytes": 169
+      },
+      "native_metrics": {
+        "entries": 28,
+        "labels": 74,
+        "text_bytes": 424,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-062-tools-domain.yaml",
@@ -2405,7 +3276,16 @@
         "max_entry_bytes": 32,
         "max_entry_labels": 5,
         "header_entries": 231,
-        "decompressed_bytes": 3290
+        "decompressed_bytes": 3290,
+        "encoded_leaves": 461,
+        "encoded_label_bytes": 2356
+      },
+      "native_metrics": {
+        "entries": 461,
+        "labels": 1173,
+        "text_bytes": 6967,
+        "max_entry_bytes": 32,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-063-google-domain.yaml",
@@ -2429,7 +3309,16 @@
         "max_entry_bytes": 72,
         "max_entry_labels": 6,
         "header_entries": 794,
-        "decompressed_bytes": 12040
+        "decompressed_bytes": 12040,
+        "encoded_leaves": 1522,
+        "encoded_label_bytes": 8714
+      },
+      "native_metrics": {
+        "entries": 1522,
+        "labels": 4004,
+        "text_bytes": 24737,
+        "max_entry_bytes": 72,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
@@ -2455,6 +3344,13 @@
         "header_entries": 18,
         "decompressed_bytes": 574
       },
+      "native_metrics": {
+        "entries": 18,
+        "labels": 66,
+        "text_bytes": 280,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-ipcidr.yaml",
         "sha256": "d80539fdf3d88ed57a84960dd0446cc2aa914883c85508a61ea8bf009f2e1a41",
@@ -2471,6 +3367,13 @@
       "sha256": "396f0fa5f57b76afca3820161bbc8254717b7bc214494abd8c141925560ba7c5",
       "bytes": 167,
       "metrics": {
+        "entries": 5,
+        "labels": 6,
+        "text_bytes": 128,
+        "max_entry_bytes": 28,
+        "max_entry_labels": 2
+      },
+      "native_metrics": {
         "entries": 5,
         "labels": 6,
         "text_bytes": 128,
@@ -2493,7 +3396,16 @@
         "max_entry_bytes": 48,
         "max_entry_labels": 5,
         "header_entries": 511,
-        "decompressed_bytes": 8425
+        "decompressed_bytes": 8425,
+        "encoded_leaves": 1014,
+        "encoded_label_bytes": 6083
+      },
+      "native_metrics": {
+        "entries": 1014,
+        "labels": 2541,
+        "text_bytes": 17479,
+        "max_entry_bytes": 48,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
@@ -2516,6 +3428,13 @@
         "text_bytes": 1571,
         "max_entry_bytes": 46,
         "max_entry_labels": 3
+      },
+      "native_metrics": {
+        "entries": 52,
+        "labels": 107,
+        "text_bytes": 1571,
+        "max_entry_bytes": 46,
+        "max_entry_labels": 3
       }
     },
     {
@@ -2533,7 +3452,16 @@
         "max_entry_bytes": 55,
         "max_entry_labels": 9,
         "header_entries": 1533,
-        "decompressed_bytes": 25275
+        "decompressed_bytes": 25275,
+        "encoded_leaves": 3044,
+        "encoded_label_bytes": 18341
+      },
+      "native_metrics": {
+        "entries": 3044,
+        "labels": 7970,
+        "text_bytes": 57616,
+        "max_entry_bytes": 55,
+        "max_entry_labels": 9
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-066-apple-domain.yaml",
@@ -2559,6 +3487,13 @@
         "header_entries": 1,
         "decompressed_bytes": 62
       },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 4,
+        "text_bytes": 11,
+        "max_entry_bytes": 10,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-066-apple-ipcidr.yaml",
         "sha256": "9a44d5f9dda650a444a3d0cc5e64a59db94c84208446171a7d51d7f335e6e98d",
@@ -2575,6 +3510,13 @@
       "sha256": "6836badc6cc4c8f356184b6c397c3e80fdf8e8316a4a005bffb88ba59eeb2819",
       "bytes": 159,
       "metrics": {
+        "entries": 5,
+        "labels": 7,
+        "text_bytes": 120,
+        "max_entry_bytes": 30,
+        "max_entry_labels": 3
+      },
+      "native_metrics": {
         "entries": 5,
         "labels": 7,
         "text_bytes": 120,
@@ -2597,7 +3539,16 @@
         "max_entry_bytes": 54,
         "max_entry_labels": 7,
         "header_entries": 1070,
-        "decompressed_bytes": 16663
+        "decompressed_bytes": 16663,
+        "encoded_leaves": 2079,
+        "encoded_label_bytes": 12081
+      },
+      "native_metrics": {
+        "entries": 2079,
+        "labels": 6249,
+        "text_bytes": 35895,
+        "max_entry_bytes": 54,
+        "max_entry_labels": 7
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-067-download-domain.yaml",
@@ -2623,6 +3574,13 @@
         "header_entries": 29,
         "decompressed_bytes": 734
       },
+      "native_metrics": {
+        "entries": 29,
+        "labels": 104,
+        "text_bytes": 466,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-067-download-ipcidr.yaml",
         "sha256": "1cddd99e168a8818f2320f295abb76e39449ee1cbc53f0feb8ce30074f0a4175",
@@ -2639,6 +3597,13 @@
       "sha256": "06e019b5bd8b2cd8bfd170e5b977bb81ece436a880f823a70b40b891aae2be9b",
       "bytes": 1031,
       "metrics": {
+        "entries": 33,
+        "labels": 48,
+        "text_bytes": 824,
+        "max_entry_bytes": 33,
+        "max_entry_labels": 2
+      },
+      "native_metrics": {
         "entries": 33,
         "labels": 48,
         "text_bytes": 824,
@@ -2661,7 +3626,16 @@
         "max_entry_bytes": 53,
         "max_entry_labels": 5,
         "header_entries": 240,
-        "decompressed_bytes": 4029
+        "decompressed_bytes": 4029,
+        "encoded_leaves": 369,
+        "encoded_label_bytes": 2887
+      },
+      "native_metrics": {
+        "entries": 369,
+        "labels": 1005,
+        "text_bytes": 5785,
+        "max_entry_bytes": 53,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-068-tracker-domain.yaml",
@@ -2687,6 +3661,13 @@
         "header_entries": 58,
         "decompressed_bytes": 1886
       },
+      "native_metrics": {
+        "entries": 58,
+        "labels": 232,
+        "text_bytes": 991,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-068-tracker-ipcidr.yaml",
         "sha256": "6ae56fabf3351a29a3f3c2762c780611aca51998c861b5fded3c89e736d1eba3",
@@ -2703,6 +3684,13 @@
       "sha256": "9d738a139591f922187e6bb71dcb717d27722da229f6265de5529b9f354faca9",
       "bytes": 125,
       "metrics": {
+        "entries": 4,
+        "labels": 4,
+        "text_bytes": 92,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 4,
         "labels": 4,
         "text_bytes": 92,
@@ -2725,7 +3713,16 @@
         "max_entry_bytes": 35,
         "max_entry_labels": 6,
         "header_entries": 5816,
-        "decompressed_bytes": 65779
+        "decompressed_bytes": 65779,
+        "encoded_leaves": 11625,
+        "encoded_label_bytes": 47805
+      },
+      "native_metrics": {
+        "entries": 11625,
+        "labels": 29462,
+        "text_bytes": 167251,
+        "max_entry_bytes": 35,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-069-gfw-domain.yaml",
@@ -2751,6 +3748,13 @@
         "header_entries": 15,
         "decompressed_bytes": 510
       },
+      "native_metrics": {
+        "entries": 15,
+        "labels": 60,
+        "text_bytes": 220,
+        "max_entry_bytes": 15,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-069-gfw-ipcidr.yaml",
         "sha256": "48470c8865ca55acd8895dd41fbf72361f8839c937caf863c735248309050bba",
@@ -2767,6 +3771,13 @@
       "sha256": "c41d7bdb3854089561c6195ac2d026168296ce31a39f30004bb769808e74f6d1",
       "bytes": 467,
       "metrics": {
+        "entries": 16,
+        "labels": 16,
+        "text_bytes": 362,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 16,
         "labels": 16,
         "text_bytes": 362,
@@ -2789,7 +3800,16 @@
         "max_entry_bytes": 48,
         "max_entry_labels": 6,
         "header_entries": 85,
-        "decompressed_bytes": 1320
+        "decompressed_bytes": 1320,
+        "encoded_leaves": 157,
+        "encoded_label_bytes": 922
+      },
+      "native_metrics": {
+        "entries": 157,
+        "labels": 458,
+        "text_bytes": 2612,
+        "max_entry_bytes": 48,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-070-game-cn-domain.yaml",
@@ -2813,7 +3833,16 @@
         "max_entry_bytes": 62,
         "max_entry_labels": 6,
         "header_entries": 1163,
-        "decompressed_bytes": 16886
+        "decompressed_bytes": 16886,
+        "encoded_leaves": 2265,
+        "encoded_label_bytes": 12240
+      },
+      "native_metrics": {
+        "entries": 2265,
+        "labels": 6078,
+        "text_bytes": 37664,
+        "max_entry_bytes": 62,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-071-game-intl-domain.yaml",
@@ -2839,6 +3868,13 @@
         "header_entries": 46,
         "decompressed_bytes": 1470
       },
+      "native_metrics": {
+        "entries": 46,
+        "labels": 184,
+        "text_bytes": 764,
+        "max_entry_bytes": 17,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-071-game-intl-ipcidr.yaml",
         "sha256": "dae2529e00484be919edaca2283d8beb1d2f29fb30527ae54970412519d8a83c",
@@ -2855,6 +3891,13 @@
       "sha256": "eb61be960f277b345cd6c4cb95c843cca1e5f63da86fa7f74e14a1fee488594c",
       "bytes": 114,
       "metrics": {
+        "entries": 3,
+        "labels": 3,
+        "text_bytes": 87,
+        "max_entry_bytes": 30,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 3,
         "labels": 3,
         "text_bytes": 87,
@@ -2877,7 +3920,16 @@
         "max_entry_bytes": 48,
         "max_entry_labels": 6,
         "header_entries": 388,
-        "decompressed_bytes": 5534
+        "decompressed_bytes": 5534,
+        "encoded_leaves": 775,
+        "encoded_label_bytes": 3984
+      },
+      "native_metrics": {
+        "entries": 775,
+        "labels": 2154,
+        "text_bytes": 12570,
+        "max_entry_bytes": 48,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-072-intl-site-domain.yaml",
@@ -2903,6 +3955,13 @@
         "header_entries": 42,
         "decompressed_bytes": 1118
       },
+      "native_metrics": {
+        "entries": 42,
+        "labels": 144,
+        "text_bytes": 681,
+        "max_entry_bytes": 17,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-072-intl-site-ipcidr.yaml",
         "sha256": "1c9b3115725e3c50ce14e03c7d9ceee03fbccf7c50d0fe846bbc00e37c99e75f",
@@ -2919,6 +3978,13 @@
       "sha256": "bffeed38871996adc4c99410c4bd9968f8288ed08221234416581d8d3d41c9c2",
       "bytes": 3754,
       "metrics": {
+        "entries": 106,
+        "labels": 115,
+        "text_bytes": 3109,
+        "max_entry_bytes": 40,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 106,
         "labels": 115,
         "text_bytes": 3109,
@@ -2941,7 +4007,16 @@
         "max_entry_bytes": 19,
         "max_entry_labels": 4,
         "header_entries": 13,
-        "decompressed_bytes": 208
+        "decompressed_bytes": 208,
+        "encoded_leaves": 26,
+        "encoded_label_bytes": 114
+      },
+      "native_metrics": {
+        "entries": 26,
+        "labels": 83,
+        "text_bytes": 360,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-073-payments-domain.yaml",
@@ -2965,7 +4040,16 @@
         "max_entry_bytes": 60,
         "max_entry_labels": 6,
         "header_entries": 2484,
-        "decompressed_bytes": 31799
+        "decompressed_bytes": 31799,
+        "encoded_leaves": 3988,
+        "encoded_label_bytes": 23089
+      },
+      "native_metrics": {
+        "entries": 3988,
+        "labels": 11062,
+        "text_bytes": 65246,
+        "max_entry_bytes": 60,
+        "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-domain.yaml",
@@ -2991,6 +4075,13 @@
         "header_entries": 708,
         "decompressed_bytes": 21470
       },
+      "native_metrics": {
+        "entries": 708,
+        "labels": 2832,
+        "text_bytes": 12082,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-ipcidr.yaml",
         "sha256": "25bbecfb1102b06799ac106bb93b1ee0867a1d575731e7a9eb781abbd24e5db3",
@@ -3007,6 +4098,13 @@
       "sha256": "0eeca768ccd49568a5bf01115dff4d02aedb02a2c554ce0c3261dc9b7f8e24e9",
       "bytes": 379,
       "metrics": {
+        "entries": 11,
+        "labels": 20,
+        "text_bytes": 304,
+        "max_entry_bytes": 37,
+        "max_entry_labels": 4
+      },
+      "native_metrics": {
         "entries": 11,
         "labels": 20,
         "text_bytes": 304,
@@ -3029,14 +4127,24 @@
         "max_entry_bytes": 69,
         "max_entry_labels": 7,
         "header_entries": 115894,
-        "decompressed_bytes": 938021
+        "decompressed_bytes": 938021,
+        "encoded_leaves": 231701,
+        "encoded_label_bytes": 682159
+      },
+      "native_metrics": {
+        "entries": 231701,
+        "labels": 580034,
+        "text_bytes": 3157413,
+        "max_entry_bytes": 69,
+        "max_entry_labels": 7
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.yaml",
         "sha256": "f2db3c7cfb91fe8cb048d0d0bc759139f3261e57a7b903b17e77516ee15de21e",
         "bytes": 2390854,
         "normalization": "canonical LF"
-      }
+      },
+      "exact_union_verified": true
     },
     {
       "provider": "scki-fused-075-cn-site-ipcidr-no-resolve",
@@ -3054,6 +4162,13 @@
         "max_entry_labels": 4,
         "header_entries": 9609,
         "decompressed_bytes": 211070
+      },
+      "native_metrics": {
+        "entries": 9609,
+        "labels": 28098,
+        "text_bytes": 153162,
+        "max_entry_bytes": 19,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.yaml",
@@ -3077,7 +4192,16 @@
         "max_entry_bytes": 10,
         "max_entry_labels": 3,
         "header_entries": 1,
-        "decompressed_bytes": 72
+        "decompressed_bytes": 72,
+        "encoded_leaves": 2,
+        "encoded_label_bytes": 10
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 5,
+        "text_bytes": 20,
+        "max_entry_bytes": 10,
+        "max_entry_labels": 3
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-076-direct-domain.yaml",
@@ -3101,7 +4225,16 @@
         "max_entry_bytes": 24,
         "max_entry_labels": 4,
         "header_entries": 6,
-        "decompressed_bytes": 121
+        "decompressed_bytes": 121,
+        "encoded_leaves": 12,
+        "encoded_label_bytes": 51
+      },
+      "native_metrics": {
+        "entries": 12,
+        "labels": 42,
+        "text_bytes": 246,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 4
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-077-cn-site-domain.yaml",
@@ -3124,6 +4257,13 @@
         "text_bytes": 51,
         "max_entry_bytes": 30,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 2,
+        "labels": 2,
+        "text_bytes": 51,
+        "max_entry_bytes": 30,
+        "max_entry_labels": 1
       }
     },
     {
@@ -3141,7 +4281,16 @@
         "max_entry_bytes": 65,
         "max_entry_labels": 5,
         "header_entries": 11544,
-        "decompressed_bytes": 139415
+        "decompressed_bytes": 139415,
+        "encoded_leaves": 23028,
+        "encoded_label_bytes": 101353
+      },
+      "native_metrics": {
+        "entries": 23028,
+        "labels": 57629,
+        "text_bytes": 362840,
+        "max_entry_bytes": 65,
+        "max_entry_labels": 5
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-domain.yaml",
@@ -3167,6 +4316,13 @@
         "header_entries": 43,
         "decompressed_bytes": 1278
       },
+      "native_metrics": {
+        "entries": 43,
+        "labels": 145,
+        "text_bytes": 662,
+        "max_entry_bytes": 16,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr.yaml",
         "sha256": "ff86dbfa5c560eac9ab7cacca4da511e3fb61ae35a45589bdcb20d7bd68921ac",
@@ -3191,6 +4347,13 @@
         "header_entries": 1085,
         "decompressed_bytes": 29918
       },
+      "native_metrics": {
+        "entries": 1084,
+        "labels": 3880,
+        "text_bytes": 17098,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 4
+      },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr-no-resolve.yaml",
         "sha256": "556908a93f07a5963bdc706b5136a455e14b256dd04db68ab8216352c9dc5d93",
@@ -3212,6 +4375,13 @@
         "text_bytes": 4968,
         "max_entry_bytes": 27,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 248,
+        "labels": 248,
+        "text_bytes": 4968,
+        "max_entry_bytes": 27,
+        "max_entry_labels": 1
       }
     },
     {
@@ -3223,6 +4393,13 @@
       "sha256": "7b60f761ec9ba8a876183c2117fbde4f071b769c589dcf0fae0487e12fa8125c",
       "bytes": 41,
       "metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 26,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 1,
         "labels": 1,
         "text_bytes": 26,
@@ -3244,6 +4421,13 @@
         "text_bytes": 25,
         "max_entry_bytes": 24,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 25,
+        "max_entry_bytes": 24,
+        "max_entry_labels": 1
       }
     },
     {
@@ -3255,6 +4439,13 @@
       "sha256": "9cc17ddb5c9018583ea5113e7a0404050a47371ad1e7517590a8384adb4fb24f",
       "bytes": 72,
       "metrics": {
+        "entries": 2,
+        "labels": 2,
+        "text_bytes": 51,
+        "max_entry_bytes": 25,
+        "max_entry_labels": 1
+      },
+      "native_metrics": {
         "entries": 2,
         "labels": 2,
         "text_bytes": 51,
@@ -3276,50 +4467,153 @@
         "text_bytes": 24,
         "max_entry_bytes": 23,
         "max_entry_labels": 1
+      },
+      "native_metrics": {
+        "entries": 1,
+        "labels": 1,
+        "text_bytes": 24,
+        "max_entry_bytes": 23,
+        "max_entry_labels": 1
       }
     }
   ],
   "assets": [
     {
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
-      "sha256": "624a0bf917c63bbeebc688f607ac2d99ea7a26dfcb07700205cec75c5324d9fc",
-      "bytes": 1384469,
+      "sha256": "6a6010e3d65e579e5200d7bd355501a663f8e743fbea3bc941e0cd9f5ca2661a",
+      "bytes": 852079,
       "metrics": {
-        "entries": 146916,
-        "labels": 499998,
-        "text_bytes": 3249026,
-        "max_entry_bytes": 111,
+        "entries": 85562,
+        "labels": 292779,
+        "text_bytes": 1935486,
+        "max_entry_bytes": 99,
         "max_entry_labels": 12,
-        "header_entries": 146916,
-        "decompressed_bytes": 2517518
+        "header_entries": 85562,
+        "decompressed_bytes": 1555309,
+        "encoded_leaves": 171124,
+        "encoded_label_bytes": 1131095
+      },
+      "native_metrics": {
+        "entries": 171124,
+        "labels": 499996,
+        "text_bytes": 3699848,
+        "max_entry_bytes": 99,
+        "max_entry_labels": 12
       }
     },
     {
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs",
-      "sha256": "ac0d2d3a4821cd818ccf7e19f8acb9541dbaf9bddfcd15e6a75d3f413f4630bc",
-      "bytes": 1436069,
+      "sha256": "35a9f1e5b7f80c12fc08c95ac8e3219261ef0953a8e784d1f866492ee84f40d9",
+      "bytes": 802758,
       "metrics": {
-        "entries": 169023,
-        "labels": 499997,
-        "text_bytes": 3459040,
-        "max_entry_bytes": 114,
+        "entries": 88200,
+        "labels": 294099,
+        "text_bytes": 1881465,
+        "max_entry_bytes": 111,
         "max_entry_labels": 10,
-        "header_entries": 169023,
-        "decompressed_bytes": 2558847
+        "header_entries": 88200,
+        "decompressed_bytes": 1468543,
+        "encoded_leaves": 176400,
+        "encoded_label_bytes": 1067993
+      },
+      "native_metrics": {
+        "entries": 176400,
+        "labels": 499998,
+        "text_bytes": 3586530,
+        "max_entry_bytes": 111,
+        "max_entry_labels": 10
       }
     },
     {
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs",
-      "sha256": "b462023768165df615d1b2752f3fbe88cea206d2223c27fcec39c09a580c0c77",
-      "bytes": 686621,
+      "sha256": "7221c740c9bcc0b81cdcd689021514ee45269ea6e4e78211c4a51a6895c88b64",
+      "bytes": 973407,
       "metrics": {
-        "entries": 95695,
-        "labels": 260204,
-        "text_bytes": 1887631,
-        "max_entry_bytes": 111,
+        "entries": 110661,
+        "labels": 337334,
+        "text_bytes": 2285069,
+        "max_entry_bytes": 108,
+        "max_entry_labels": 10,
+        "header_entries": 110661,
+        "decompressed_bytes": 1740659,
+        "encoded_leaves": 178078,
+        "encoded_label_bytes": 1265893
+      },
+      "native_metrics": {
+        "entries": 178078,
+        "labels": 499998,
+        "text_bytes": 3618790,
+        "max_entry_bytes": 108,
+        "max_entry_labels": 10
+      }
+    },
+    {
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs",
+      "sha256": "6d90a0f30e2eea72164a056e0ff377a55f441bfbeca2057f36f9dfc9d0f1f07d",
+      "bytes": 914795,
+      "metrics": {
+        "entries": 127211,
+        "labels": 335987,
+        "text_bytes": 2493677,
+        "max_entry_bytes": 114,
         "max_entry_labels": 9,
-        "header_entries": 95695,
-        "decompressed_bytes": 1289396
+        "header_entries": 127211,
+        "decompressed_bytes": 1689107,
+        "encoded_leaves": 127211,
+        "encoded_label_bytes": 1228405
+      },
+      "native_metrics": {
+        "entries": 127211,
+        "labels": 335987,
+        "text_bytes": 2493677,
+        "max_entry_bytes": 114,
+        "max_entry_labels": 9
+      }
+    },
+    {
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+      "sha256": "a6d448a0dbecb38c30dd650570b3a0fa04ad459e8393c92be6a7b3062e34c011",
+      "bytes": 487641,
+      "metrics": {
+        "entries": 99852,
+        "labels": 299925,
+        "text_bytes": 1459808,
+        "max_entry_bytes": 50,
+        "max_entry_labels": 7,
+        "header_entries": 99852,
+        "decompressed_bytes": 817953,
+        "encoded_leaves": 199704,
+        "encoded_label_bytes": 594835
+      },
+      "native_metrics": {
+        "entries": 199704,
+        "labels": 499998,
+        "text_bytes": 2719912,
+        "max_entry_bytes": 50,
+        "max_entry_labels": 7
+      }
+    },
+    {
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+      "sha256": "cf5a5b6aa16c102fe11e3e9a0077cf846cf4558c9bacea90e628b612ebafb4e5",
+      "bytes": 95273,
+      "metrics": {
+        "entries": 16042,
+        "labels": 48138,
+        "text_bytes": 235673,
+        "max_entry_bytes": 69,
+        "max_entry_labels": 7,
+        "header_entries": 16042,
+        "decompressed_bytes": 147294,
+        "encoded_leaves": 31997,
+        "encoded_label_bytes": 107080
+      },
+      "native_metrics": {
+        "entries": 31997,
+        "labels": 80036,
+        "text_bytes": 437501,
+        "max_entry_bytes": 69,
+        "max_entry_labels": 7
       }
     }
   ],
@@ -3328,52 +4622,159 @@
       {
         "id": "scki-fused-010-ad-domain-aerove-part-001",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.4",
-        "cache_path": "./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-001.mrs",
-        "sha256": "624a0bf917c63bbeebc688f607ac2d99ea7a26dfcb07700205cec75c5324d9fc",
-        "bytes": 1384469,
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-001.mrs",
+        "sha256": "6a6010e3d65e579e5200d7bd355501a663f8e743fbea3bc941e0cd9f5ca2661a",
+        "bytes": 852079,
         "metrics": {
-          "entries": 146916,
-          "labels": 499998,
-          "text_bytes": 3249026,
-          "max_entry_bytes": 111,
+          "entries": 85562,
+          "labels": 292779,
+          "text_bytes": 1935486,
+          "max_entry_bytes": 99,
           "max_entry_labels": 12,
-          "header_entries": 146916,
-          "decompressed_bytes": 2517518
+          "header_entries": 85562,
+          "decompressed_bytes": 1555309,
+          "encoded_leaves": 171124,
+          "encoded_label_bytes": 1131095
+        },
+        "native_metrics": {
+          "entries": 171124,
+          "labels": 499996,
+          "text_bytes": 3699848,
+          "max_entry_bytes": 99,
+          "max_entry_labels": 12
         }
       },
       {
         "id": "scki-fused-010-ad-domain-aerove-part-002",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.4",
-        "cache_path": "./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-002.mrs",
-        "sha256": "ac0d2d3a4821cd818ccf7e19f8acb9541dbaf9bddfcd15e6a75d3f413f4630bc",
-        "bytes": 1436069,
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-002.mrs",
+        "sha256": "35a9f1e5b7f80c12fc08c95ac8e3219261ef0953a8e784d1f866492ee84f40d9",
+        "bytes": 802758,
         "metrics": {
-          "entries": 169023,
-          "labels": 499997,
-          "text_bytes": 3459040,
-          "max_entry_bytes": 114,
+          "entries": 88200,
+          "labels": 294099,
+          "text_bytes": 1881465,
+          "max_entry_bytes": 111,
           "max_entry_labels": 10,
-          "header_entries": 169023,
-          "decompressed_bytes": 2558847
+          "header_entries": 88200,
+          "decompressed_bytes": 1468543,
+          "encoded_leaves": 176400,
+          "encoded_label_bytes": 1067993
+        },
+        "native_metrics": {
+          "entries": 176400,
+          "labels": 499998,
+          "text_bytes": 3586530,
+          "max_entry_bytes": 111,
+          "max_entry_labels": 10
         }
       },
       {
         "id": "scki-fused-010-ad-domain-aerove-part-003",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.4",
-        "cache_path": "./ruleset/v6.0.20-meow.4/scki-fused-010-ad-domain-aerove-part-003.mrs",
-        "sha256": "b462023768165df615d1b2752f3fbe88cea206d2223c27fcec39c09a580c0c77",
-        "bytes": 686621,
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-003.mrs",
+        "sha256": "7221c740c9bcc0b81cdcd689021514ee45269ea6e4e78211c4a51a6895c88b64",
+        "bytes": 973407,
         "metrics": {
-          "entries": 95695,
-          "labels": 260204,
-          "text_bytes": 1887631,
-          "max_entry_bytes": 111,
+          "entries": 110661,
+          "labels": 337334,
+          "text_bytes": 2285069,
+          "max_entry_bytes": 108,
+          "max_entry_labels": 10,
+          "header_entries": 110661,
+          "decompressed_bytes": 1740659,
+          "encoded_leaves": 178078,
+          "encoded_label_bytes": 1265893
+        },
+        "native_metrics": {
+          "entries": 178078,
+          "labels": 499998,
+          "text_bytes": 3618790,
+          "max_entry_bytes": 108,
+          "max_entry_labels": 10
+        }
+      },
+      {
+        "id": "scki-fused-010-ad-domain-aerove-part-004",
+        "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-004.mrs",
+        "sha256": "6d90a0f30e2eea72164a056e0ff377a55f441bfbeca2057f36f9dfc9d0f1f07d",
+        "bytes": 914795,
+        "metrics": {
+          "entries": 127211,
+          "labels": 335987,
+          "text_bytes": 2493677,
+          "max_entry_bytes": 114,
           "max_entry_labels": 9,
-          "header_entries": 95695,
-          "decompressed_bytes": 1289396
+          "header_entries": 127211,
+          "decompressed_bytes": 1689107,
+          "encoded_leaves": 127211,
+          "encoded_label_bytes": 1228405
+        },
+        "native_metrics": {
+          "entries": 127211,
+          "labels": 335987,
+          "text_bytes": 2493677,
+          "max_entry_bytes": 114,
+          "max_entry_labels": 9
+        }
+      }
+    ],
+    "scki-fused-075-cn-site-domain": [
+      {
+        "id": "scki-fused-075-cn-site-domain-aerove-part-001",
+        "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+        "sha256": "a6d448a0dbecb38c30dd650570b3a0fa04ad459e8393c92be6a7b3062e34c011",
+        "bytes": 487641,
+        "metrics": {
+          "entries": 99852,
+          "labels": 299925,
+          "text_bytes": 1459808,
+          "max_entry_bytes": 50,
+          "max_entry_labels": 7,
+          "header_entries": 99852,
+          "decompressed_bytes": 817953,
+          "encoded_leaves": 199704,
+          "encoded_label_bytes": 594835
+        },
+        "native_metrics": {
+          "entries": 199704,
+          "labels": 499998,
+          "text_bytes": 2719912,
+          "max_entry_bytes": 50,
+          "max_entry_labels": 7
+        }
+      },
+      {
+        "id": "scki-fused-075-cn-site-domain-aerove-part-002",
+        "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
+        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+        "sha256": "cf5a5b6aa16c102fe11e3e9a0077cf846cf4558c9bacea90e628b612ebafb4e5",
+        "bytes": 95273,
+        "metrics": {
+          "entries": 16042,
+          "labels": 48138,
+          "text_bytes": 235673,
+          "max_entry_bytes": 69,
+          "max_entry_labels": 7,
+          "header_entries": 16042,
+          "decompressed_bytes": 147294,
+          "encoded_leaves": 31997,
+          "encoded_label_bytes": 107080
+        },
+        "native_metrics": {
+          "entries": 31997,
+          "labels": 80036,
+          "text_bytes": 437501,
+          "max_entry_bytes": 69,
+          "max_entry_labels": 7
         }
       }
     ]

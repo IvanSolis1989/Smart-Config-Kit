@@ -1,38 +1,45 @@
 {
   "schema_version": 1,
-  "recorded_at_utc": "2026-10-26T17:04:43.020Z",
-  "version": "v6.0.20-meow.4",
-  "basis_commit": "70d4ddbe0b6d52af7acbd503ff1bf556a3bddacd",
+  "recorded_at_utc": "2026-10-27T01:00:30.211Z",
+  "version": "v6.0.20-meow.5",
+  "basis_commit": "23a2c93b6cba799b83f51e56f95b7f378b425503",
   "evidence_status": "fixed candidate snapshot; later generations and App acceptance require new evidence",
   "original_failure": {
-    "app_commit": "d52726dc24756847b2b268d307a611cc37f994a3",
+    "app_commit": "457fab8455ac8713fc9828e129d2050b11bf1beb",
     "core_commit": "727ddcd06f592e2f12c5222c4de6cce328df808c",
-    "actions_run": "40335340043",
-    "shard": 2,
+    "actions_run": "40420651068",
+    "attempt": 1,
+    "source_smart_commit": "23a2c93b6cba799b83f51e56f95b7f378b425503",
+    "source_smart_version": "v6.0.20-meow.4",
     "class": "dev.aerove.lite.overrides.SmartConfigMeowScriptAndroidTest",
     "method": "realQuickJsRepositoryComposerAndAllPinnedRulePayloadsReachNativeValidation",
-    "code": -2,
     "phase": "execution",
-    "current": 7,
-    "total": 97,
-    "statusLog": "job-2.log",
-    "statusLine": 6533,
-    "message": "dev.aerove.lite.data.ConfigValidationException: $.rule-providers.scki-fused-010-ad-domain: Rule resource preflight failed: Rust error: rule_set_invalid: $.payload.mrs.count: official MRS header declares 411634 entries, over 250000",
-    "source_path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs",
-    "sha256": "e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848"
+    "code": -2,
+    "shard": 2,
+    "statusLog": "lite136-remaining-readback27/v2/job-2.log",
+    "statusLines": [
+      6593,
+      6646
+    ],
+    "message": "$.rule-providers.scki-fused-010-ad-domain-aerove-part-001: Rule resource preflight failed: Rust error: rule_set_invalid: $.payload.mrs: rule-provider trie exceeds 500000 nodes",
+    "old_asset": {
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
+      "sha256": "624a0bf917c63bbeebc688f607ac2d99ea7a26dfcb07700205cec75c5324d9fc",
+      "bytes": 1384469
+    }
   },
   "script": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
-    "sha256_lf": "2acc2840a9c1d896672c9933904a4ccf63a61beb8881543b9138c0606e53c88f",
-    "bytes_lf": 115462
+    "sha256_lf": "c80118f8fad6f86ab17a6e2b2ecd9ed8dfe5e15ea27ab6f6d72e8a1b6b9a71a8",
+    "bytes_lf": 116534
   },
   "resource_manifest": {
     "path": "Meow内核系/Aerove Lite/rule-assets/manifest.json",
-    "sha256_lf": "e11cde12d412f29b6d9a306215f92986b1d90158ec6f144091032d3c0a533062"
+    "sha256_lf": "cb9b20dfe9c2557e26b2ab891fc8802b9e1784d86b0aa19e2691c16e43e14656"
   },
   "policy": {
     "app": "AEROVE Lite",
-    "app_commit": "d52726dc24756847b2b268d307a611cc37f994a3",
+    "app_commit": "457fab8455ac8713fc9828e129d2050b11bf1beb",
     "limits": {
       "max_entries": 250000,
       "max_entry_bytes": 2048,
@@ -44,6 +51,8 @@
     },
     "source_hash_normalization": "raw binary MRS; canonical LF for repository text assets",
     "entry_normalization": "trim; UTF-8; labels=entry.split(\".\").length; text_bytes=sum(UTF8(entry)+1)",
+    "native_domain_enumeration": "Mihomo DumpMrs folds +.domain and domain into one predicate; fixed Rust reader visits both encoded leaves. Budget the unique expanded leaf set before partitioning.",
+    "fixed_rust_parser_sha256": "6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3",
     "count_semantics": "domain header_entries equals native traversal entries; ipcidr header_entries is successful pre-merge Insert count and can exceed canonical DumpMrs entries; both counts must be <=250000 in projected resources",
     "count_source": "Mihomo rules/provider/ipcidr_strategy.go: Count, Insert, FinishInsert, FromMrs, DumpMrs; native convert-ruleset full traversal",
     "proof": "Mihomo native MRS full traversal; exact string predicate union after native shard round-trip",
@@ -57,10 +66,10 @@
     }
   },
   "projection": {
-    "rule_count": 170,
-    "provider_count": 151,
-    "split_provider_count": 1,
-    "rule_resource_bytes": 4432545,
+    "rule_count": 172,
+    "provider_count": 153,
+    "split_provider_count": 2,
+    "rule_resource_bytes": 4496629,
     "app_owned_and_derived_resources": "not included; final App prepared bundle validation required"
   },
   "rule_resources": [
@@ -1010,13 +1019,6 @@
       "sha256": "0eeca768ccd49568a5bf01115dff4d02aedb02a2c554ce0c3261dc9b7f8e24e9"
     },
     {
-      "provider": "scki-fused-075-cn-site-domain",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.mrs?scki=v6.0.20",
-      "bytes": 554710,
-      "sha256": "cf85b069fd75f2e319e42786443aa19d4e91f942b0c915e0c76ad78db466277a"
-    },
-    {
       "provider": "scki-fused-075-cn-site-ipcidr-no-resolve",
       "path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.mrs",
       "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.mrs?scki=v6.0.20",
@@ -1103,23 +1105,44 @@
     {
       "provider": "scki-fused-010-ad-domain-aerove-part-001",
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.4",
-      "bytes": 1384469,
-      "sha256": "624a0bf917c63bbeebc688f607ac2d99ea7a26dfcb07700205cec75c5324d9fc"
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
+      "bytes": 852079,
+      "sha256": "6a6010e3d65e579e5200d7bd355501a663f8e743fbea3bc941e0cd9f5ca2661a"
     },
     {
       "provider": "scki-fused-010-ad-domain-aerove-part-002",
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.4",
-      "bytes": 1436069,
-      "sha256": "ac0d2d3a4821cd818ccf7e19f8acb9541dbaf9bddfcd15e6a75d3f413f4630bc"
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
+      "bytes": 802758,
+      "sha256": "35a9f1e5b7f80c12fc08c95ac8e3219261ef0953a8e784d1f866492ee84f40d9"
     },
     {
       "provider": "scki-fused-010-ad-domain-aerove-part-003",
       "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.4",
-      "bytes": 686621,
-      "sha256": "b462023768165df615d1b2752f3fbe88cea206d2223c27fcec39c09a580c0c77"
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.5",
+      "bytes": 973407,
+      "sha256": "7221c740c9bcc0b81cdcd689021514ee45269ea6e4e78211c4a51a6895c88b64"
+    },
+    {
+      "provider": "scki-fused-010-ad-domain-aerove-part-004",
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs?scki=v6.0.20-meow.5",
+      "bytes": 914795,
+      "sha256": "6d90a0f30e2eea72164a056e0ff377a55f441bfbeca2057f36f9dfc9d0f1f07d"
+    },
+    {
+      "provider": "scki-fused-075-cn-site-domain-aerove-part-001",
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
+      "bytes": 487641,
+      "sha256": "a6d448a0dbecb38c30dd650570b3a0fa04ad459e8393c92be6a7b3062e34c011"
+    },
+    {
+      "provider": "scki-fused-075-cn-site-domain-aerove-part-002",
+      "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
+      "bytes": 95273,
+      "sha256": "cf5a5b6aa16c102fe11e3e9a0077cf846cf4558c9bacea90e628b612ebafb4e5"
     }
   ],
   "preservation": {
@@ -1131,7 +1154,7 @@
       "sha256_lf": "2749b55428de72b205f31e29733a979e065064710ea17230611c00144f22ab68",
       "requires_js_host": false
     },
-    "native_predicate_union": "exact string equality after native Mihomo encode/decode"
+    "native_predicate_union": "Both canonical predicates and actual fixed Rust raw-leaf unions equal original sets; missing=added=0"
   },
   "tools": {
     "mihomo_windows": {
@@ -1144,13 +1167,14 @@
   },
   "validation": {
     "components": {
-      "passed": 22,
+      "passed": 23,
       "failed": 0,
       "skipped": 0
     },
     "release_contract": {
       "passed": 25,
-      "failed": 0
+      "failed": 0,
+      "evidence": "reused unchanged release-contract source and test inputs from 23a2c93; no repeat run"
     },
     "official_meow_cli": {
       "version": "v0.26.1",
@@ -1160,8 +1184,8 @@
         "groups": 55
       },
       "lite_js": {
-        "providers": 151,
-        "rules": 170,
+        "providers": 153,
+        "rules": 172,
         "groups": 55
       },
       "input": "local file assets and synthetic nodes; no proxy traffic"
@@ -1171,7 +1195,12 @@
     "final_prepared_bundle": "pending",
     "vpn_and_actual_routing": "pending",
     "windows_lf_serialization": "passed regression",
-    "component_log_sha256": "7d01a010dc540a0c8370e3a5ac6592737f88fa598a84e404e9964d89a96a3090"
+    "component_log_sha256": "e301ce3f95de547b1dc71a6844d5dd82c2b366ecfd9913c4b3e08a0130240e95",
+    "fixed_rust_reader_and_app_budget": {
+      "passed": 111,
+      "failed": 0,
+      "checked_matcher": "not executed"
+    }
   },
   "licenses": {
     "kit_script": {
@@ -1346,6 +1375,107 @@
           "version_state": "legacy-output-only"
         }
       }
-    ]
+    ],
+    "cn_site_segment_origins": [
+      {
+        "provider": "cn",
+        "requested_url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs",
+        "identity": {
+          "id": "metacubex",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/meta-rules-dat",
+          "requested_ref": "meta",
+          "source_path": "geo/geosite/cn.mrs",
+          "declaration": "rulesets/source/upstream-sources.json#metacubex",
+          "license": {
+            "status": "declared",
+            "spdx": "GPL-3.0",
+            "declaration_url": "https://github.com/MetaCubeX/meta-rules-dat/blob/4178770badecb1b349fbcd62c737e0d7a2079729/LICENSE",
+            "declaration_commit": "4178770badecb1b349fbcd62c737e0d7a2079729",
+            "declaration_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+            "declaration_bytes": 35149,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen LICENSE bytes inspected; aggregated feeds retain separate provenance and terms. Declaration commit is not a delivered provider version."
+          },
+          "resolved_commit": null,
+          "version_state": "unknown"
+        }
+      },
+      {
+        "provider": "cn-ip",
+        "requested_url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs",
+        "identity": {
+          "id": "metacubex",
+          "kind": "git",
+          "repository_url": "https://github.com/MetaCubeX/meta-rules-dat",
+          "requested_ref": "meta",
+          "source_path": "geo/geoip/cn.mrs",
+          "declaration": "rulesets/source/upstream-sources.json#metacubex",
+          "license": {
+            "status": "declared",
+            "spdx": "GPL-3.0",
+            "declaration_url": "https://github.com/MetaCubeX/meta-rules-dat/blob/4178770badecb1b349fbcd62c737e0d7a2079729/LICENSE",
+            "declaration_commit": "4178770badecb1b349fbcd62c737e0d7a2079729",
+            "declaration_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+            "declaration_bytes": 35149,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen LICENSE bytes inspected; aggregated feeds retain separate provenance and terms. Declaration commit is not a delivered provider version."
+          },
+          "resolved_commit": null,
+          "version_state": "unknown"
+        }
+      },
+      {
+        "provider": "acc-chinamax",
+        "requested_url": "https://fastly.jsdelivr.net/gh/Accademia/Additional_Rule_For_Clash@main/ChinaMax/ChinaMax.yaml",
+        "identity": {
+          "id": "accademia",
+          "kind": "local",
+          "repository_url": "https://github.com/Accademia/Additional_Rule_For_Clash",
+          "requested_ref": "main",
+          "source_path": "ChinaMax/ChinaMax.yaml",
+          "declaration": "rulesets/source/upstream-sources.json#accademia",
+          "license": {
+            "status": "unknown",
+            "spdx": null,
+            "declaration_url": "https://github.com/Accademia/Additional_Rule_For_Clash",
+            "note": "Repository identity only; license text not yet captured and verified."
+          },
+          "resolved_commit": null,
+          "version_state": "legacy-output-only"
+        }
+      }
+    ],
+    "native_diagnostic": {
+      "upstream_parser": "MIT",
+      "aerove_overlay_and_budget": "GPL-3.0-only",
+      "location": ".cache/meow-trie-20261027/native; source and full license bodies retained"
+    }
+  },
+  "previous_failure": {
+    "app_commit": "d52726dc24756847b2b268d307a611cc37f994a3",
+    "core_commit": "727ddcd06f592e2f12c5222c4de6cce328df808c",
+    "actions_run": "40335340043",
+    "shard": 2,
+    "class": "dev.aerove.lite.overrides.SmartConfigMeowScriptAndroidTest",
+    "method": "realQuickJsRepositoryComposerAndAllPinnedRulePayloadsReachNativeValidation",
+    "code": -2,
+    "phase": "execution",
+    "current": 7,
+    "total": 97,
+    "statusLog": "job-2.log",
+    "statusLine": 6533,
+    "message": "dev.aerove.lite.data.ConfigValidationException: $.rule-providers.scki-fused-010-ad-domain: Rule resource preflight failed: Rust error: rule_set_invalid: $.payload.mrs.count: official MRS header declares 411634 entries, over 250000",
+    "source_path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs",
+    "sha256": "e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848"
+  },
+  "native_budget_evidence": {
+    "path": "Meow内核系/Aerove Lite/native-budget-evidence.json",
+    "sha256_lf": "c31af02572de66637700b241c9ea6ff3ede7e3c3180e304bdab53fd8f6a1ecf8",
+    "mrs_resources_passed": 111,
+    "exact_union_missing": 0,
+    "exact_union_added": 0
   }
 }

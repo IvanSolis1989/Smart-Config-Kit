@@ -7,11 +7,19 @@ const path = require('node:path');
 const api = () => require('../lib/aerove-rule-assets');
 
 test('partitions on aggregate logical labels before the entry limit and preserves exact strings', () => {
-  const entries = ['+.one.example', 'exact.example', '*.wild.example', '.sub.example'];
+  const entries = ['sub.one.example', 'exact.example', '*.wild.example', '.sub.example'];
   const parts = api().partitionEntries(entries, { ...api().LIMITS, max_labels: 6 });
   assert.deepEqual(parts, [entries.slice(0, 2), entries.slice(2, 4)]);
   assert.deepEqual(parts.flat(), entries);
   assert.equal(api().measureEntries(['  中文.example  ']).text_bytes, Buffer.byteLength('中文.example') + 1);
+});
+
+test('budgets the actual MRS wildcard and apex leaves instead of folded Mihomo text', () => {
+  const entries = ['+.one.example', 'two.example'];
+  assert.deepEqual(api().nativeMrsEntries(entries, 'domain'), ['+.one.example', 'one.example', 'two.example']);
+  assert.deepEqual(api().partitionEntries(entries, { ...api().LIMITS, max_entries: 2 }), [[entries[0]], [entries[1]]]);
+  assert.deepEqual(api().partitionEntries(entries, { ...api().LIMITS, max_labels: 5 }), [[entries[0]], [entries[1]]]);
+  assert.deepEqual(api().nativeMrsEntries(['+.example', 'example'], 'domain'), ['+.example', 'example']);
 });
 
 test('rejects indivisible oversized entries and detects omitted or introduced predicates', () => {
@@ -26,7 +34,11 @@ test('validates MRS decompression, magic, behavior and rejects forged/truncated 
   const z = require('node:zlib');
   const header = Buffer.alloc(21); Buffer.from([77, 82, 83, 1]).copy(header);
   header.writeBigInt64BE(3n, 5);
-  const compressed = z.zstdCompressSync(header);
+  const body = Buffer.alloc(42); body[0] = 1;
+  body.writeBigInt64BE(1n, 1); body.writeBigUInt64BE(2n, 9);
+  body.writeBigInt64BE(1n, 17); body.writeBigUInt64BE(6n, 25);
+  body.writeBigInt64BE(1n, 33); body[41] = 97;
+  const compressed = z.zstdCompressSync(Buffer.concat([header, body]));
   assert.equal(api().inspectMrs(compressed, 'domain').header_entries, 3);
   assert.throws(() => api().inspectMrs(compressed, 'ipcidr'), /behavior/i);
   assert.throws(() => api().inspectMrs(Buffer.from('invalid'), 'domain'), /MRS/i);

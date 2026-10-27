@@ -5,7 +5,7 @@
 
 # AEROVE Lite 导入指南
 
-为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS，并按 Lite 的单资源安全预算生成无损 MRS 分片；当前仍是待 App 重验的配置候选。
+为 AEROVE Lite 的 `main(config)` 脚本宿主提供 Meow 分流 JS，并按 Lite 的单资源安全预算生成专版 MRS 分片；当前仍是待 App 重验的配置候选。
 
 [内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [资源分片与证据](RESOURCE-SPLITTING.md) · [联调核查](VALIDATION.md) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
@@ -33,9 +33,9 @@ JS 只创建实际有节点的地区组，因此地区与业务组总数可能�
 
 脚本在副本上处理配置，失败抛错，原输入保持不变。若 DNS 引用将被重建的订阅 rule-set，脚本会明确拒绝；先改用独立 DNS 策略，再应用覆写。
 
-固定 beta16 的真实 Smart 测试曾被广告 MRS 的 411,634 条记录拒绝。本候选保留每资源 250,000 条及 500,000 点分标签上限，将该资源拆为三片；同目标 RULE-SET 在原位置连续展开，完整匹配集合不变。其他 148 个规则源复用，合计 151 个规则资源；脚本和资源必须来自同一发布批次，身份及预算见[资源清单](rule-assets/manifest.json)。
+固定 beta18 的真实 Smart 用例拒绝了旧广告分片。当前本地候选保留每资源 250,000 条及 500,000 点分标签上限，将广告资源拆为四片、国内站点资源拆为两片；同目标 RULE-SET 在原位置连续展开，其他 147 个规则源复用。脚本和资源必须来自同一发布批次，身份及预算见[资源清单](rule-assets/manifest.json)。
 
-本地原生 MRS 往返、预算扫描和官方核心配置校验已经通过，不能替代 App 验收。在目标 APK 中仍须执行当前脚本、下载并预检全部资源、读回最终 YAML、通过完整 prepared 校验，再验收 VPN 与真实路由。App 自有的 Geo、订阅及派生资源还要计入最终 bundle 的 256 资源/256 MiB 预算；规则资源的静态合计不能替代该检查。完整范围见[分片依据](RESOURCE-SPLITTING.md)及[支持队列](../../docs/support-queue.md#aerove-lite-meow)。
+固定 Rust reader 和 App 原样头部/条目预算已通过全部 111 个投影 MRS 的本地检查，不能替代 App 验收。在目标 APK 中仍须执行当前脚本、下载并预检全部资源、读回最终 YAML、通过完整 prepared 校验，再验收 VPN 与真实路由。App 自有的 Geo、订阅及派生资源还要计入最终 bundle 的 256 资源/256 MiB 预算；规则资源的静态合计不能替代该检查。完整范围见[分片依据](RESOURCE-SPLITTING.md)及[支持队列](../../docs/support-queue.md#aerove-lite-meow)。
 
 共享 JS 的本地行为检查与官方核心原生 YAML 校验各有独立证据，均不能替代 Lite 的最终配置和实际连接验收。官方核心验证范围见[官方依据](../Meow/REFERENCE-meow-rs.md)。
 

@@ -22,7 +22,7 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
 const BUILD = '2026-10-27';
 // The native client has no Lite per-resource cap; preserve its published bytes.
 const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.3`;

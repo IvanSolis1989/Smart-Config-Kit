@@ -1,12 +1,18 @@
 # AEROVE Lite / Meow 配置联调核查
 
-记录已通过的候选检查、尚未接通的生产入口和实际设备验收，供支持队列引用。
+记录候选检查、历史生产入口及实际设备验收，供支持队列引用。
 
 [使用说明](README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow) · [接口历史快照](REFERENCE-AEROVE-Lite.md)
 
 ## 核查基线
 
-### 2026-10-27：真实资源拒绝与专版候选
+### 2026-10-27：beta18 真实失败与新本地候选
+
+固定 beta18 [`457fab8455ac8713fc9828e129d2050b11bf1beb`](https://github.com/IvanSolis1989/Aerove/commit/457fab8455ac8713fc9828e129d2050b11bf1beb) 的 [run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068) attempt 1 实际运行全部 Smart 用例，旧三片 `part-001` 报 `rule-provider trie exceeds 500000 nodes`。固定 Rust reader 复现了旧 part-001 和 part-002 的拒绝，并发现 075 国内站点原资源同样超限。原因与计数详见[分片依据](RESOURCE-SPLITTING.md)。
+
+新 `v6.0.20-meow.5` 候选的全部 111 个投影 MRS 已通过固定真实 Rust reader 与 App 原样头部/条目预算检查；两组 canonical 和实际原生叶子集合均为 `missing=0 / added=0`，23 项组件测试通过且无跳过。这不包含完整 App checked matcher、native preflight、JNI、APK、HTTP 或 VPN。固定 Rust 来源、旧拒绝复现及逐资源结果见 [native-budget-evidence.json](native-budget-evidence.json)。
+
+### 历史 beta16：真实资源拒绝与单项执行
 
 本次已重新读取开发会话，并核对固定 beta16 的生产源码和 Android execution 记录。[run 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043) 已结束，终态为 failure；以下完成项不代表整轮验收通过。
 
@@ -23,7 +29,7 @@
 
 固定 beta16 `d52726dc24756847b2b268d307a611cc37f994a3` 的 [run 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043) 实际执行 Smart 测试后，被广告资源 411,634 条记录超过单资源 250,000 条的准入拒绝；不能把 discovery 或部分测试通过视为该用例通过。
 
-本仓库已生成无损三片候选，同时保留 500,000 点分标签等全部单资源预算；规则仍在原优先级位置命中同一策略组，共享 fused 及官方 Meow YAML 字节保持。完整 SHA、来源、许可状态、原生检查与 App 剩余验收见 [RESOURCE-SPLITTING](RESOURCE-SPLITTING.md)及 [rule-assets/manifest.json](rule-assets/manifest.json)。这项候选尚未取得固定 App/JNI/Android 的通过结果。
+旧三片候选后来在 beta18 实际运行中失败，现由四片广告加两片国内站点候选替代；共享 fused 及官方 Meow YAML 字节保持。来源、许可状态和 App 剩余验收见 [RESOURCE-SPLITTING](RESOURCE-SPLITTING.md)及 [rule-assets/manifest.json](rule-assets/manifest.json)。新候选尚未取得固定 App/JNI/Android 的通过结果。
 
 当前待验是：固定 App 接取同批脚本与资源，完整跑通全部资源 preflight、可信 Geo 上下文及 prepared 转换，读回最终 YAML；补齐自定义 header 实传、资源更新/恢复及最终 bundle 预算边界，最后完成 VPN、广告与国内/国外及业务出口验收。源码接线完成不再列作未实施项。
 

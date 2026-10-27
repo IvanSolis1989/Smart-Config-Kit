@@ -13,6 +13,10 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## 2026-10-27 — AEROVE Lite 原生预算修正
+
+- v6.0.20-meow.5 针对 beta18 实际拒绝与固定 Rust reader 的展开计数重新派生 Lite 专版资源；共享 fused 和官方 Meow YAML 不变。完整 App 验收待完成，详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## 2026-10-27 — AEROVE Lite 规则资源预算适配
 
 - v6.0.20-meow.4 为真实 APK 拒绝的超限广告 MRS 派生无损三片，保留 Lite 单资源预算、原优先级与完整规则集合；共享 fused 和官方 Meow YAML 不变。分片清单、固定 SHA、许可证事实与 App 剩余验收见 [AEROVE 分片依据](Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。

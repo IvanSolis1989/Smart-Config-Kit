@@ -7,6 +7,12 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.20-meow.5 (2026-10-27)
+
+- beta18 固定真实 Smart 用例拒绝旧广告分片的 500,000 原生点分标签预算；按固定 Rust reader 的实际展开重新分片，广告四片、国内站点两片，保持安全门槛。
+- 全部 111 个投影 MRS 通过固定 Rust reader 和 App 原样头部/条目预算；新投影为 153 provider / 172 rules / 55 fixture groups。原生 leaf 并集核实、完整 App preflight、JNI、APK、HTTP 和 VPN 仍待验；CI 尚未运行。详见[分片依据](RESOURCE-SPLITTING.md)。
+- 官方 Meow YAML v3、共享 fused 与规则源保持原字节；此为 Lite 平台专属投影。
+
 ## v6.0.20-meow.4 (2026-10-27)
 
 - 针对 beta16 真实 MRS 单资源准入失败，将 411,634 条广告域名按 250,000 条/500,000 点分标签等保留预算无损派生为三片；完整原生往返集合与原资产一致。
