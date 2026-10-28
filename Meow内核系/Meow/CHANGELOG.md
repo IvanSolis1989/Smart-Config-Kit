@@ -7,6 +7,10 @@
 
 [使用说明](README.md) · [支持队列](../../docs/support-queue.md#meow)
 
+## v6.0.21-meow.6 / v6.0.21-meow.4 (2026-10-28)
+
+- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。
+
 ## 2026-10-24 — 官方客户端入口补全
 
 - README 增加官方核心、Android Meow 与 iOS meow 的项目入口；根首页和下载目录补齐 Meow 卡片及原生 YAML 按钮，官方 App 待验状态保持独立。

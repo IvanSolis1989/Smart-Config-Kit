@@ -1,5 +1,7 @@
 # Xray (v2rayN) 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Xray RoutingObject](https://xtls.github.io/config/routing.html)，沿用现有 outboundTag；FCM 从下载 direct 映射迁到 Google proxy 映射。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19：本次核验见[官方版本、原文缓存及本地适配报告](../../docs/upstream/2026-10-19/singbox/report.md)。下方旧摘要保留其获取日期，未整篇当前化。
 
 ## 2026-10-19 现行核验

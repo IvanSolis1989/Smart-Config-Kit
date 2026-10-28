@@ -15,7 +15,7 @@
 
 [开始前](#before-start) · [分步导入](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.20-sing.11` · Build：2026-10-24 · 规则基线：`rulesets/source/routing-graph.js` v6.0.20。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.21-sing.12` · Build：2026-10-28 · 规则基线：`rulesets/source/routing-graph.js` v6.0.21。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>

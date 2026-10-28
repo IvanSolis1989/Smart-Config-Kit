@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-16T01:32:49.862Z",
+  "generated_at": "2026-10-28T05:34:56.851Z",
   "authority": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-  "baseline_version": "v6.0.20",
-  "asset_revision": "v6.0.20",
+  "baseline_version": "v6.0.21",
+  "asset_revision": "v6.0.21",
   "source_provider_count": 525,
   "source_rule_count": 984,
   "fused_provider_count": 149,
@@ -261,15 +261,15 @@
       "policy": "📥 下载更新",
       "source_rules": [
         "RULE-SET,scki-download-guard-domain,📥 下载更新",
-        "RULE-SET,scki-download-guard-classical,📥 下载更新",
-        "RULE-SET,googlefcm-domain,📥 下载更新",
-        "RULE-SET,googlefcm-ipcidr,📥 下载更新"
+        "RULE-SET,scki-download-guard-classical,📥 下载更新"
       ]
     },
     {
       "id": "scki-fused-031-google",
       "policy": "🔍 Google 服务",
       "source_rules": [
+        "RULE-SET,googlefcm-domain,🔍 Google 服务",
+        "RULE-SET,googlefcm-ipcidr,🔍 Google 服务",
         "RULE-SET,google,🔍 Google 服务",
         "RULE-SET,google-ip,🔍 Google 服务,no-resolve"
       ]
@@ -1479,14 +1479,14 @@
     }
   ],
   "optimization": {
-    "input": 766074,
-    "output": 581729,
-    "exactDuplicates": 100761,
-    "domainSubsumed": 69879,
+    "input": 765780,
+    "output": 581714,
+    "exactDuplicates": 100760,
+    "domainSubsumed": 69666,
     "cidrSubsumed": 34,
     "normalized": 0,
-    "globalExactDuplicates": 13671,
-    "removed": 184345
+    "globalExactDuplicates": 13606,
+    "removed": 184066
   },
   "pruned_empty_segments": [
     "scki-fused-038-microsoft",
@@ -5111,20 +5111,13 @@
     {
       "id": "scki-fused-030-download",
       "policy": "📥 下载更新",
-      "source_rules": 4,
+      "source_rules": 2,
       "files": {
         "domain": {
           "behavior": "domain",
           "format": "mrs",
           "file": "scki-fused-030-download-domain.mrs",
           "source": "scki-fused-030-download-domain.yaml"
-        },
-        "ipcidr": {
-          "behavior": "ipcidr",
-          "format": "mrs",
-          "file": "scki-fused-030-download-ipcidr.mrs",
-          "source": "scki-fused-030-download-ipcidr.yaml",
-          "no_resolve": false
         },
         "residual": {
           "behavior": "classical",
@@ -5164,31 +5157,31 @@
         }
       },
       "counts": {
-        "domain": 42,
-        "ipcidr": 26,
+        "domain": 27,
+        "ipcidr": 0,
         "ipcidr_no_resolve": 0,
         "residual": 1
       },
       "optimization": {
-        "input": 70,
-        "output": 69,
-        "exactDuplicates": 1,
+        "input": 28,
+        "output": 28,
+        "exactDuplicates": 0,
         "domainSubsumed": 0,
         "cidrSubsumed": 0,
         "normalized": 0,
-        "removed": 1,
+        "removed": 0,
         "buckets": {
           "domain": {
-            "input": 42,
-            "output": 42,
+            "input": 27,
+            "output": 27,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
             "normalized": 0
           },
           "ipcidr": {
-            "input": 26,
-            "output": 26,
+            "input": 0,
+            "output": 0,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
@@ -5203,28 +5196,27 @@
             "normalized": 0
           },
           "residual": {
-            "input": 2,
+            "input": 1,
             "output": 1,
-            "exactDuplicates": 1,
+            "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
             "normalized": 0
           }
-        },
-        "globalExactDuplicates": 0
+        }
       },
       "target_counts": {
-        "mobile": 69,
-        "sing_box": 69
+        "mobile": 28,
+        "sing_box": 28
       },
       "target_ip_counts": {
-        "mobile": 26,
-        "sing_box": 26
+        "mobile": 0,
+        "sing_box": 0
       },
       "target_optimization": {
         "mobile": {
-          "input": 69,
-          "output": 69,
+          "input": 28,
+          "output": 28,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5232,8 +5224,8 @@
           "globalExactDuplicates": 0
         },
         "sing_box": {
-          "input": 69,
-          "output": 69,
+          "input": 28,
+          "output": 28,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5245,13 +5237,20 @@
     {
       "id": "scki-fused-031-google",
       "policy": "🔍 Google 服务",
-      "source_rules": 2,
+      "source_rules": 4,
       "files": {
         "domain": {
           "behavior": "domain",
           "format": "mrs",
           "file": "scki-fused-031-google-domain.mrs",
           "source": "scki-fused-031-google-domain.yaml"
+        },
+        "ipcidr": {
+          "behavior": "ipcidr",
+          "format": "mrs",
+          "file": "scki-fused-031-google-ipcidr.mrs",
+          "source": "scki-fused-031-google-ipcidr.yaml",
+          "no_resolve": false
         },
         "ipcidr_no_resolve": {
           "behavior": "ipcidr",
@@ -5294,31 +5293,30 @@
       },
       "counts": {
         "domain": 786,
-        "ipcidr": 0,
+        "ipcidr": 26,
         "ipcidr_no_resolve": 8495,
         "residual": 0
       },
       "optimization": {
-        "input": 9570,
-        "output": 9281,
+        "input": 9322,
+        "output": 9307,
         "exactDuplicates": 0,
-        "domainSubsumed": 228,
+        "domainSubsumed": 15,
         "cidrSubsumed": 0,
         "normalized": 0,
-        "removed": 289,
+        "removed": 15,
         "buckets": {
           "domain": {
-            "input": 1075,
+            "input": 801,
             "output": 786,
             "exactDuplicates": 0,
-            "domainSubsumed": 228,
+            "domainSubsumed": 15,
             "cidrSubsumed": 0,
-            "normalized": 0,
-            "globalExactDuplicates": 61
+            "normalized": 0
           },
           "ipcidr": {
-            "input": 0,
-            "output": 0,
+            "input": 26,
+            "output": 26,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
@@ -5340,21 +5338,20 @@
             "cidrSubsumed": 0,
             "normalized": 0
           }
-        },
-        "globalExactDuplicates": 61
+        }
       },
       "target_counts": {
-        "mobile": 9281,
+        "mobile": 9307,
         "sing_box": 9281
       },
       "target_ip_counts": {
-        "mobile": 8495,
+        "mobile": 8521,
         "sing_box": 8495
       },
       "target_optimization": {
         "mobile": {
-          "input": 9281,
-          "output": 9281,
+          "input": 9307,
+          "output": 9307,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5362,11 +5359,11 @@
           "globalExactDuplicates": 0
         },
         "sing_box": {
-          "input": 9281,
+          "input": 9307,
           "output": 9281,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
-          "cidrSubsumed": 0,
+          "cidrSubsumed": 26,
           "normalized": 0,
           "globalExactDuplicates": 0
         }
@@ -11761,8 +11758,8 @@
     "AND,((PROCESS-NAME,Code Helper (Plugin)),(DOMAIN,api.github.com)),🤖 AI 服务",
     "MATCH,🐟 漏网之鱼"
   ],
-  "traffic_source_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44",
-  "payload_fingerprint": "e3d526c00e90c835faab4ce98de1214e88ba54a69188848264a0c3fb43278e31",
+  "traffic_source_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305",
+  "payload_fingerprint": "416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e",
   "generated_passwall_files": 78,
   "generated_xray_rules": 98,
   "generated_xray_fused_segments": 78,

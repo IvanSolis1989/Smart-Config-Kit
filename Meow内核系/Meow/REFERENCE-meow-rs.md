@@ -1,5 +1,7 @@
 # Meow 官方核心与客户端适配依据
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [官方 meow-rs README](https://github.com/meow-rs/meow-rs)，沿用既有 Clash 风格路由投影，不扩大 App/core 兼容或真机验收声明。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-24：从 AEROVE 专属候选改为通用原生 YAML 与可选 JS。核心校验、App 接口源码和 App 运行验收分别记录。
 
 ## 官方入口和版本

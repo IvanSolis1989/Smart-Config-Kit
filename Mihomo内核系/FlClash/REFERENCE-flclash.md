@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用脚本输出的现有 RULE-SET 策略名引用，不改变 App 覆写边界。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [FlClash 官方仓库](https://github.com/chen08209/FlClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次沿用 JS 覆写及相同 policy 字段，不改变 App 托管的 TUN/端口。
 
 > 核对于 2026-10-19：当前 stable v0.9.1（2026-10-17），桌面 TUN 改为按键选择覆写；脚本后仍应用 App patch，DNS/NTP 同样有按键边界。该 tag 实际绑定 `chen08209/Clash.Meta` 的 `8380d0e7462f061a964323e9bf3129a236fcc5d5`，不等同于当前 MetaCubeX stable。已保存发布、脚本执行、DNS/TUN patch 及核心 gitlink 原文，见[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)；设备导入未在本次验证。以下历史摘要未逐段重新校验。

@@ -1,5 +1,7 @@
 # Shadowrocket 配置参考文档
 
+> 2026-10-28 范围核对：本次仅变更现有 RULE-SET 的 FCM 目标策略，沿用当前格式与平台边界。旧 help.shadowrocket.net 本次仍无法读取；不将其作为新的官方兼容性证据，不新增字段或最低版本声明。DNS、fake-IP 与其他推送不变；静态合同通过不能代替 App 验收。
+
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方发布metadata和已取得的正文见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)，下载状态及哈希见[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论

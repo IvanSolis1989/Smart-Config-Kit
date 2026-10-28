@@ -15,7 +15,7 @@
 
 [开始前](#before-start) · [文件选择](#files) · [脚本导入](#3-推荐导入方式) · [手工导入](#4-手工导入方式) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.20-pw.11` · Build：2026-10-24 · 规则基线：Clash Party v6.0.20。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.21-pw.12` · Build：2026-10-28 · 规则基线：Clash Party v6.0.21。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>

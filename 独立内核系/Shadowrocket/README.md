@@ -11,8 +11,8 @@
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-> 配置：`Shadowrocket.conf` · **v6.0.20-SR.11**（Build 2026-10-24）
-> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.20 分流基线。
+> 配置：`Shadowrocket.conf` · **v6.0.21-SR.12**（Build 2026-10-28）
+> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.21 分流基线。
 
 <a id="before-start"></a>
 

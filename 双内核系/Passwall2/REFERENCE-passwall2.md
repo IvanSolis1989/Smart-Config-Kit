@@ -1,5 +1,7 @@
 # Passwall2 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [官方 shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua)，保持 rule-set:remote SRS 条件语法，实际业务出口仍由 LuCI 用户配置。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19：官方稳定标签的 UI 与后端分别核验，见[完整报告与原文缓存](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)。下方为历史摘要，未整篇当前化；以本节后端边界为准。
 
 ## 2026-10-19 现行核验

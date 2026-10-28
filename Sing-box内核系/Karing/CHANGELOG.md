@@ -9,6 +9,10 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## v6.0.21-karing.2 (2026-10-28)
+
+- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 Karing 的 currentSelected 及 App 内最终选择边界不变。
+
 ## v6.0.20-karing.1 (2026-10-24)
 
 - 增加原生 `diversion_rules_custom.json`，保留 SingBox 已生成路由顺序及每段独立名称。

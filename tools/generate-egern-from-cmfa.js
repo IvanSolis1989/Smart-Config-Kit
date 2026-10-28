@@ -27,8 +27,8 @@ const SCKI_BASE = SCKI_REPOSITORY_BASE;
 const ASSET_REVISION = SOURCE_GRAPH_VERSION;
 const META_GEOSITE_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite';
 const META_GEOIP_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip';
-const EGERN_VERSION = 'v6.0.20-egern.11';
-const BUILD_DATE = '2026-10-24';
+const EGERN_VERSION = 'v6.0.21-egern.12';
+const BUILD_DATE = '2026-10-28';
 const FETCH_CONCURRENCY = 3;
 const MIHOMO_MRS_BASE_PATH = '/rulesets/generated/mihomo-mrs/';
 // jsDelivr rejects files at 20 MB. Keep generated Egern-native rule sets below 18 MiB.
@@ -1074,6 +1074,7 @@ function canonicalBlockRules(rules) {
 async function main() {
   const args = process.argv.slice(2);
   const cli = parseCliOptions(args);
+  if (cli.policyRetarget) return require('./retarget-fused-provider').retargetEgern(cli.policyRetarget);
   const reuseAssets = cli.reuseAssets;
   const cmfa = readText(CMFA_FILE);
   const providers = parseProviders(cmfa);
@@ -1126,6 +1127,9 @@ async function main() {
 }
 
 function parseCliOptions(args) {
+  if (args[0] === '--policy-retarget' && args.length === 2 && args[1] && !args[1].startsWith('--')) {
+    return { reuseAssets: false, supplementalPatch: null, policyRetarget: args[1] };
+  }
   let reuseAssets = false;
   let supplementalPatch = null;
   for (let index = 0; index < args.length; index += 1) {
@@ -1151,6 +1155,8 @@ module.exports = {
   parseProviders,
   parseRules,
   renderProfile,
+  renderEgernRuleSet,
+  publishStaged,
   sourceCacheFile,
   sourceInfoForProvider,
   validateStaged,

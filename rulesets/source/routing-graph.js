@@ -5,7 +5,7 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.20';
+const SOURCE_GRAPH_VERSION = 'v6.0.21';
 // Client-facing repository assets use raw GitHub: jsDelivr's repository
 // package-size limit can reject even a small, existing individual rule file.
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
@@ -1361,7 +1361,7 @@ function injectRules(config, quicPolicy) {
     `RULE-SET,${SCKI.GOOGLE_WORK},${BIZ.WORK}`,
     // ── Google / Microsoft 下载更新防吞 ──
     `RULE-SET,${SCKI.DOWNLOAD_GUARD},${BIZ.DOWNLOAD}`,
-    `RULE-SET,googlefcm,${BIZ.DOWNLOAD}`,
+    `RULE-SET,googlefcm,${BIZ.GOOGLE}`,
     // ── Google 基础服务（兜底：MetaCubeX geosite:google 覆盖 google.com/co.*/com.*）──
     `RULE-SET,google,${BIZ.GOOGLE}`,
     `RULE-SET,google-ip,${BIZ.GOOGLE},no-resolve`,

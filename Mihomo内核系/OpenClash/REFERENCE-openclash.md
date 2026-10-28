@@ -1,5 +1,7 @@
 # OpenClash 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用现有 heredoc 的 RULE-SET 策略名引用，不新增 UCI 字段。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [OpenClash 官方入口](https://github.com/vernesong/OpenClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次仍向既有 heredoc 写入相同 nameserver-policy，不新增 UCI 或内核字段。
 
 > 核对于 2026-10-19：当前 stable v0.48.002（2026-10-12），新增模块安全限制、内核校验及 TUN 默认行为调整。已按该 tag 核对固定自定义脚本入口和普通模块的 INI/AST 边界；完整 Shell 脚本仍由固定入口执行。Smart 遗留 `strategy` 已删除。发布记录原文、源码和采用决定见[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。以下旧摘要未在本次逐段重新校验。

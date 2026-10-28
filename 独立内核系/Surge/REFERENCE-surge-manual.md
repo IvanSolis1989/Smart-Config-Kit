@@ -1,5 +1,7 @@
 # Surge 官方手册参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Surge 规则](https://manual.nssurge.com/rule.html)，沿用现有 RULE-SET 目标策略，不新增规则类型。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-20（上次获取 2026-10-19）：为 Issue #190 重新读取官方 [Advanced DNS](https://manual.nssurge.com/dns/advanced.html) 与 [General](https://manual.nssurge.com/profile/general.html#tun-excluded-routes)，补充 VIF/Fake IP 接管约束。旧 `others/misc-options.html` 已返回 404，相关选项以 General 页面为准。
 
 ## VIF 与 Fake IP 接管约束

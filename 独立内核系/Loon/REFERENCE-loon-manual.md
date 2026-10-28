@@ -1,5 +1,7 @@
 # Loon 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Loon 订阅规则](https://nsloon.app/docs/Rule/sub_rule/)，沿用远程规则后的既有策略引用。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：当前官方站由 App Store 开发者链接确认，正文及release metadata已缓存；详见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)和[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论

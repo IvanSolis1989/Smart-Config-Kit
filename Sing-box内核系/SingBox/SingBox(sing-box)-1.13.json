@@ -1491,7 +1491,7 @@
         "type": "remote",
         "tag": "scki-fused-001-direct",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1499,7 +1499,7 @@
         "type": "remote",
         "tag": "scki-fused-002-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1507,7 +1507,7 @@
         "type": "remote",
         "tag": "scki-fused-003-payments",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1515,7 +1515,7 @@
         "type": "remote",
         "tag": "scki-fused-004-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1523,7 +1523,7 @@
         "type": "remote",
         "tag": "scki-fused-005-cnmedia",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1531,7 +1531,7 @@
         "type": "remote",
         "tag": "scki-fused-006-cn-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1539,7 +1539,7 @@
         "type": "remote",
         "tag": "scki-fused-007-stream-jpkr",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1547,7 +1547,7 @@
         "type": "remote",
         "tag": "scki-fused-008-social",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1555,7 +1555,7 @@
         "type": "remote",
         "tag": "scki-fused-009-tiktok",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1563,7 +1563,7 @@
         "type": "remote",
         "tag": "scki-fused-010-ad",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1571,7 +1571,7 @@
         "type": "remote",
         "tag": "scki-fused-011-tools",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1579,7 +1579,7 @@
         "type": "remote",
         "tag": "scki-fused-012-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1587,7 +1587,7 @@
         "type": "remote",
         "tag": "scki-fused-013-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1595,7 +1595,7 @@
         "type": "remote",
         "tag": "scki-fused-014-game-cn",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1603,7 +1603,7 @@
         "type": "remote",
         "tag": "scki-fused-015-microsoft",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1611,7 +1611,7 @@
         "type": "remote",
         "tag": "scki-fused-016-ad",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1619,7 +1619,7 @@
         "type": "remote",
         "tag": "scki-fused-017-cn-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1627,7 +1627,7 @@
         "type": "remote",
         "tag": "scki-fused-018-direct",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1635,7 +1635,7 @@
         "type": "remote",
         "tag": "scki-fused-019-work",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1643,7 +1643,7 @@
         "type": "remote",
         "tag": "scki-fused-020-crypto",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1651,7 +1651,7 @@
         "type": "remote",
         "tag": "scki-fused-021-gfw",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1659,7 +1659,7 @@
         "type": "remote",
         "tag": "scki-fused-022-youtube",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1667,7 +1667,7 @@
         "type": "remote",
         "tag": "scki-fused-023-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1675,7 +1675,7 @@
         "type": "remote",
         "tag": "scki-fused-024-google",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1683,7 +1683,7 @@
         "type": "remote",
         "tag": "scki-fused-025-work",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1691,7 +1691,7 @@
         "type": "remote",
         "tag": "scki-fused-026-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1699,7 +1699,7 @@
         "type": "remote",
         "tag": "scki-fused-027-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1707,7 +1707,7 @@
         "type": "remote",
         "tag": "scki-fused-028-im",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1715,7 +1715,7 @@
         "type": "remote",
         "tag": "scki-fused-029-work",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1723,7 +1723,7 @@
         "type": "remote",
         "tag": "scki-fused-030-download",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1731,7 +1731,7 @@
         "type": "remote",
         "tag": "scki-fused-031-google",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1739,7 +1739,7 @@
         "type": "remote",
         "tag": "scki-fused-032-tools",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1747,7 +1747,7 @@
         "type": "remote",
         "tag": "scki-fused-033-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1755,7 +1755,7 @@
         "type": "remote",
         "tag": "scki-fused-034-google",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1763,7 +1763,7 @@
         "type": "remote",
         "tag": "scki-fused-035-ai",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1771,7 +1771,7 @@
         "type": "remote",
         "tag": "scki-fused-036-crypto",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1779,7 +1779,7 @@
         "type": "remote",
         "tag": "scki-fused-037-payments",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1787,7 +1787,7 @@
         "type": "remote",
         "tag": "scki-fused-039-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1795,7 +1795,7 @@
         "type": "remote",
         "tag": "scki-fused-040-direct",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1803,7 +1803,7 @@
         "type": "remote",
         "tag": "scki-fused-041-im",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1811,7 +1811,7 @@
         "type": "remote",
         "tag": "scki-fused-042-social",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1819,7 +1819,7 @@
         "type": "remote",
         "tag": "scki-fused-043-cn-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1827,7 +1827,7 @@
         "type": "remote",
         "tag": "scki-fused-044-social",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1835,7 +1835,7 @@
         "type": "remote",
         "tag": "scki-fused-045-work",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1843,7 +1843,7 @@
         "type": "remote",
         "tag": "scki-fused-046-direct",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1851,7 +1851,7 @@
         "type": "remote",
         "tag": "scki-fused-047-cnmedia",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1859,7 +1859,7 @@
         "type": "remote",
         "tag": "scki-fused-048-tiktok",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1867,7 +1867,7 @@
         "type": "remote",
         "tag": "scki-fused-049-youtube",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1875,7 +1875,7 @@
         "type": "remote",
         "tag": "scki-fused-050-netflix",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1883,7 +1883,7 @@
         "type": "remote",
         "tag": "scki-fused-051-disney",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1891,7 +1891,7 @@
         "type": "remote",
         "tag": "scki-fused-052-hbo-max",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1899,7 +1899,7 @@
         "type": "remote",
         "tag": "scki-fused-053-hulu",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1907,7 +1907,7 @@
         "type": "remote",
         "tag": "scki-fused-054-prime-video",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1915,7 +1915,7 @@
         "type": "remote",
         "tag": "scki-fused-055-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1923,7 +1923,7 @@
         "type": "remote",
         "tag": "scki-fused-056-music",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1931,7 +1931,7 @@
         "type": "remote",
         "tag": "scki-fused-057-stream-hk",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1939,7 +1939,7 @@
         "type": "remote",
         "tag": "scki-fused-058-stream-tw",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1947,7 +1947,7 @@
         "type": "remote",
         "tag": "scki-fused-059-stream-jpkr",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1955,7 +1955,7 @@
         "type": "remote",
         "tag": "scki-fused-060-stream-eu",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1963,7 +1963,7 @@
         "type": "remote",
         "tag": "scki-fused-061-stream-other",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1971,7 +1971,7 @@
         "type": "remote",
         "tag": "scki-fused-062-tools",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1979,7 +1979,7 @@
         "type": "remote",
         "tag": "scki-fused-063-google",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1987,7 +1987,7 @@
         "type": "remote",
         "tag": "scki-fused-064-tools",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -1995,7 +1995,7 @@
         "type": "remote",
         "tag": "scki-fused-065-microsoft",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2003,7 +2003,7 @@
         "type": "remote",
         "tag": "scki-fused-066-apple",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2011,7 +2011,7 @@
         "type": "remote",
         "tag": "scki-fused-067-download",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2019,7 +2019,7 @@
         "type": "remote",
         "tag": "scki-fused-068-tracker",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2027,7 +2027,7 @@
         "type": "remote",
         "tag": "scki-fused-069-gfw",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2035,7 +2035,7 @@
         "type": "remote",
         "tag": "scki-fused-070-game-cn",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2043,7 +2043,7 @@
         "type": "remote",
         "tag": "scki-fused-071-game-intl",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2051,7 +2051,7 @@
         "type": "remote",
         "tag": "scki-fused-072-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2059,7 +2059,7 @@
         "type": "remote",
         "tag": "scki-fused-073-payments",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2067,7 +2067,7 @@
         "type": "remote",
         "tag": "scki-fused-074-cnmedia",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2075,7 +2075,7 @@
         "type": "remote",
         "tag": "scki-fused-075-cn-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2083,7 +2083,7 @@
         "type": "remote",
         "tag": "scki-fused-076-direct",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2091,7 +2091,7 @@
         "type": "remote",
         "tag": "scki-fused-077-cn-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2099,7 +2099,7 @@
         "type": "remote",
         "tag": "scki-fused-078-intl-site",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },
@@ -2107,7 +2107,7 @@
         "type": "remote",
         "tag": "scki-fused-080-netflix",
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.20",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.21",
         "update_interval": "1d",
         "download_detour": "🌍 全球节点"
       },

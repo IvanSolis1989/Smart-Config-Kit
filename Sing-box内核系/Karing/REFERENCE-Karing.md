@@ -1,5 +1,7 @@
 # Karing 官方兼容性依据
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Karing 分流](https://karing.app/app-manual/diversion)，保持 App 托管选择与域名探测的能力边界，不把业务目标标签当作已导入 selector。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 获取日期：2026-10-24。Karing 当前 main：`60cfb75daaabd179305a1e6c5201c35c91a63cf2`（2026-10-23）；源码版本 `1.2.26+2911`。当时最新稳定 Release 为 `v1.2.25.2802`（2026-09-10）。
 > 本适配不是对上述版本的实机认证。Karing 与同团队的 Mihomo 客户端 Clash Mi 是两个 App。
 

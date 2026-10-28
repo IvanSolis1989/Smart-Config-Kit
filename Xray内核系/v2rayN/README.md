@@ -15,7 +15,7 @@
 
 [选择核心与文件](#before-start) · [下载](#download) · [路径 A：mihomo](#2-路径-amihomo-核心) · [路径 B：sing-box](#3-路径-bsing-box-核心) · [路径 C：Xray](#4-路径-cxray-核心-fallback) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> Xray 路由版本：`v6.0.20-v2n.10` · Build：2026-10-24 · 基线：Clash Party v6.0.20。历史见 [CHANGELOG](CHANGELOG.md)。
+> Xray 路由版本：`v6.0.21-v2n.11` · Build：2026-10-28 · 基线：Clash Party v6.0.21。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="1-先选核心"></a>

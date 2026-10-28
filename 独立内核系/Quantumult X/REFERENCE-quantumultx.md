@@ -1,5 +1,7 @@
 # Quantumult X 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [官方 sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)，沿用现有 filter_remote 的 tag/force-policy 与本地规则策略。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方示例已按Git commit固定并保存实际正文；版本、取舍与验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论

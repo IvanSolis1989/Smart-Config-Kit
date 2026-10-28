@@ -75,11 +75,11 @@
 | --- | --- |
 | 🕹️ 国内游戏 | `mihoyo/yuanshen` `netease` `wegame` `steamcn` `majsoul` `battlenet.com.cn`<br>来源：本地前置 + blackmatrix7 / SCKI supplemental |
 | 🎮 国外游戏 | `steam` `epic` `playstation` `xbox` `riot` `ea` `hoyoverse`<br>来源：blackmatrix7（宽规则在国内游戏之后） |
-| 🔍 Google 服务 | `google` `google-ip` `scholar`（Apple 端另含 `GoogleSearch` `GoogleDrive` `GoogleEarth`）<br>来源：MetaCubeX / blackmatrix7 |
+| 🔍 Google 服务 | `google` `google-ip` `googlefcm` `scholar`（Apple 端另含 `GoogleSearch` `GoogleDrive` `GoogleEarth`）<br>来源：MetaCubeX / blackmatrix7 |
 | 🔧 工具与服务 | `bing` `yandex` `github` `docker` `gitlab` `python` `developer` `szkane-developer`<br>来源：blackmatrix7 / szkane |
 | Ⓜ️ 微软服务 | `onedrive` `microsoft` `microsoftedge` `acc-microsoftapps`<br>来源：blackmatrix7 / Accademia |
 | 🍎 苹果服务 | `apple` `icloud` `appstore` `appletv` `applemusic` `acc-apple` `acc-applenews`<br>来源：blackmatrix7 / Accademia |
-| 📥 下载更新 | `googlefcm` `systemota` `download` `ubuntu` `mozilla` `android` `acc-macappupgrade`<br>来源：blackmatrix7 / Accademia |
+| 📥 下载更新 | `systemota` `download` `ubuntu` `mozilla` `android` `acc-macappupgrade`<br>来源：blackmatrix7 / Accademia |
 | 🛰️ BT/PT Tracker | `privatetracker` `acc-emuleserver`<br>来源：blackmatrix7 / Accademia |
 
 #### 网站、兜底与安全

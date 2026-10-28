@@ -7,6 +7,10 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.21-meow.6 / v6.0.21-meow.4 (2026-10-28)
+
+- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 AEROVE Lite 的 App 验收仍需独立完成。
+
 ## v6.0.20-meow.5 (2026-10-27)
 
 - beta18 固定真实 Smart 用例拒绝旧广告分片的 500,000 原生点分标签预算；按固定 Rust reader 的实际展开重新分片，广告四片、国内站点两片，保持安全门槛。

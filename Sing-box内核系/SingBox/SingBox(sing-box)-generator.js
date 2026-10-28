@@ -8,9 +8,9 @@ const TRAFFIC_OPTIONS = getTrafficOptions();
 // SingBox Smart Full; minimum core: sing-box 1.14.3.
 // 20 regional + 33 business groups + one node selector; source graph stays authoritative.
 // Change history: Sing-box内核系/SingBox/CHANGELOG.md. Metadata belongs here, outside the core JSON schema.
-const VERSION = 'v6.0.20-sing.11';
-const BUILD = '2026-10-24';
-const BASELINE = 'Clash Party v6.0.20';
+const VERSION = 'v6.0.21-sing.12';
+const BUILD = '2026-10-28';
+const BASELINE = 'Clash Party v6.0.21';
 const RULE_SET_HTTP_CLIENT = 'rules-download';
 
 const SMART = {

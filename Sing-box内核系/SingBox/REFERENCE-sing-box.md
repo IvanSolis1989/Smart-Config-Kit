@@ -1,5 +1,7 @@
 # Sing-Box 配置参考文档
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/)，沿用现有 rule_set 与 route 目标出站映射，保留 1.13/1.14 两个既有产物。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19：完成本次涉及字段的官方原文核验，详见[版本、源码、适配与验证报告](../../docs/upstream/2026-10-19/singbox/report.md)及其原文缓存。下方旧摘要未整篇当前化；存在冲突时以下列核验结论为准。
 
 ## 2026-10-19 现行核验

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "v6.0.20-meow.5",
+  "version": "v6.0.21-meow.5",
   "policy": {
     "app": "AEROVE Lite",
     "app_commit": "457fab8455ac8713fc9828e129d2050b11bf1beb",
@@ -30,10 +30,10 @@
     }
   },
   "inputs": {
-    "providers_sha256": "150600b9f478ba1334009b1fcc8c5bde90a5411c3afb2efbae0451d4070d00b0",
-    "fused_manifest_sha256": "573931ac31e6f50ab7423df31d3257520a21c14dc1e1036d1fdff91b5aa3bbea",
+    "providers_sha256": "20e3e6aa4f0aedd47387a28523e925ec0e87914204a83166eb94e0493922dc39",
+    "fused_manifest_sha256": "2ba4e9d992561b6e3ee5a8be271b5bc53ba7cd299249bb3c67391d4068cdb97e",
     "files": {
-      "rulesets/source/routing-graph.js": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
+      "rulesets/source/routing-graph.js": "dc58abcab9a7eed624797fa909a9f3b2f6b87ee0d674bd3abb041a11dfd92e21",
       "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
       "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14"
     }
@@ -42,7 +42,7 @@
     {
       "provider": "scki-fused-001-direct-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "940a8bda33182199c0f7f608e3af90f4a9e82779fe091f7ae160e9ff237fa00b",
@@ -75,7 +75,7 @@
     {
       "provider": "scki-fused-002-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-002-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-002-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-002-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "05ac0dc120126024b6a914895b92ea2cd897679301c447ac4eb74fb678b6cae9",
@@ -108,7 +108,7 @@
     {
       "provider": "scki-fused-003-payments-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-003-payments-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-003-payments-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-003-payments-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "548ea73257a6714f00c2f250826ca4a15d5c67ef448431737cf4771a57e50fb3",
@@ -141,7 +141,7 @@
     {
       "provider": "scki-fused-004-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
@@ -174,7 +174,7 @@
     {
       "provider": "scki-fused-005-cnmedia-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-005-cnmedia-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-005-cnmedia-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-005-cnmedia-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "44bb75304b1eb549d6f9c79c7ed2e7a79842c667d723da68aa0d23f3daabe951",
@@ -207,7 +207,7 @@
     {
       "provider": "scki-fused-006-cn-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-006-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-006-cn-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-006-cn-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "786fe5a41621999a5157f23e2c9d305360f72d87d36579c29e67510afc9a4023",
@@ -240,7 +240,7 @@
     {
       "provider": "scki-fused-007-stream-jpkr-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-007-stream-jpkr-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-007-stream-jpkr-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-007-stream-jpkr-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "71e0295f6912072e8b178e872244484833bc9a66cf0305b354c02c9c87ed21b8",
@@ -273,7 +273,7 @@
     {
       "provider": "scki-fused-008-social-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-008-social-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-008-social-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-008-social-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "fbf4b297be68bc5434fc94d642246993c40c13c0c6ddf250a57fb9936a8da7a9",
@@ -306,7 +306,7 @@
     {
       "provider": "scki-fused-008-social-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-008-social-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-008-social-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-008-social-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "e492ca410720a753c9252b01929eb2eb9d6160f0a22135def1e6396767dce3eb",
@@ -329,7 +329,7 @@
     {
       "provider": "scki-fused-009-tiktok-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-009-tiktok-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-009-tiktok-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-009-tiktok-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "efc8cd3fbc41635688abf731c4fc410891245c2c16c7116bcb17c36bfbf3d459",
@@ -362,7 +362,7 @@
     {
       "provider": "scki-fused-009-tiktok-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-009-tiktok-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-009-tiktok-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-009-tiktok-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "b2375d886d27e3e2b4569afcaeaad02bca79a1fdd3d23abe0ebb6297666b50e0",
@@ -385,7 +385,7 @@
     {
       "provider": "scki-fused-010-ad-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848",
@@ -419,7 +419,7 @@
     {
       "provider": "scki-fused-010-ad-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "12277fd66c2cef0304634b2c65592bad0b8ae0f65ac8297fec48a80b38f04c23",
@@ -450,7 +450,7 @@
     {
       "provider": "scki-fused-010-ad-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-010-ad-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "02f3f7b13c831a3ca0f9f26352d44803c243384d8f064a1528321c545a5947b4",
@@ -473,7 +473,7 @@
     {
       "provider": "scki-fused-011-tools-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-011-tools-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-011-tools-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-011-tools-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "0c76695ebac9848917d952beb2683c03b5c210d9104646a472efcf2eddd8a0cc",
@@ -506,7 +506,7 @@
     {
       "provider": "scki-fused-012-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-012-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-012-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-012-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "3dca719874cbcd75a159ee887f4d8a3e5ead3c38b7e42dbfc4075b214e4a7a51",
@@ -539,7 +539,7 @@
     {
       "provider": "scki-fused-013-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
@@ -572,7 +572,7 @@
     {
       "provider": "scki-fused-014-game-cn-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-014-game-cn-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-014-game-cn-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-014-game-cn-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "69842177547df71ab42b3c6d00f36b7608596ed61ea5e49ecf949ece29bd7271",
@@ -605,7 +605,7 @@
     {
       "provider": "scki-fused-015-microsoft-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-015-microsoft-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-015-microsoft-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-015-microsoft-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "9dca355916f88e5d847ad8f602c83a6803c14ef82b90e4e1b90f4cfb8351d537",
@@ -638,7 +638,7 @@
     {
       "provider": "scki-fused-015-microsoft-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-015-microsoft-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-015-microsoft-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-015-microsoft-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "7a182839e8f740e864ceac99ed1bff83ebdd0308f7781edca91e75c4290814e0",
@@ -661,7 +661,7 @@
     {
       "provider": "scki-fused-016-ad-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-016-ad-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "fa746e40b8133a8709c6e28e901d0301a8de3b8242391a57236072ac3994830a",
@@ -694,7 +694,7 @@
     {
       "provider": "scki-fused-016-ad-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-016-ad-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "880a355882d3835f04f075e40c75091598fdf9abe54cfbe3c3e410f1260381d2",
@@ -725,7 +725,7 @@
     {
       "provider": "scki-fused-016-ad-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-016-ad-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-016-ad-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "b5244f35d1c0bff6cb2a4deead930cc9b2a6162be10cce0c42f6593c06aa6693",
@@ -748,7 +748,7 @@
     {
       "provider": "scki-fused-017-cn-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-017-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-017-cn-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-017-cn-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "5ad292806616100cb05c465e96c7e92b679d22281dc1caf914e9efc33a8b4381",
@@ -781,7 +781,7 @@
     {
       "provider": "scki-fused-018-direct-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "2c3fc4d3c1f368cb49a167d51bc10ec482a28c71038955566db255efd93a5205",
@@ -814,7 +814,7 @@
     {
       "provider": "scki-fused-018-direct-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "4dcd5213906d267121d495b04c44c4a1b425e9e07b0fa78c5fcb04f9972dd4ea",
@@ -845,7 +845,7 @@
     {
       "provider": "scki-fused-018-direct-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-018-direct-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "3b53babd596d872395bc701a8c1e6f6675064f4e07ac666a0a28b0a268e75b93",
@@ -868,7 +868,7 @@
     {
       "provider": "scki-fused-019-work-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-019-work-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-019-work-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-019-work-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "e5602a76a7f64c1a0cd0e59e32d9a71d46a1cc9558b14026f5599400a93262ee",
@@ -891,7 +891,7 @@
     {
       "provider": "scki-fused-020-crypto-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-020-crypto-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-020-crypto-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-020-crypto-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "5d70ad6e82e825c81e7dc3a459a7404226b0872777cb9ec98fb6884fc36148cd",
@@ -924,7 +924,7 @@
     {
       "provider": "scki-fused-021-gfw-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-021-gfw-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-021-gfw-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-021-gfw-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "1f0dcac2e498d0c2f9a3887c3362974c25eb52c3ba71309091330d2978e831d8",
@@ -957,7 +957,7 @@
     {
       "provider": "scki-fused-022-youtube-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-022-youtube-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-022-youtube-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-022-youtube-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "9a062b12cd4dd2200f21ddead3dc4ea30270ea5bb330046a9c12d89963b38f74",
@@ -990,7 +990,7 @@
     {
       "provider": "scki-fused-023-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-023-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-023-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-023-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "b6956ba20144ce4f988baace9872996c81b6afb9b15735a162aff2b418ab69c7",
@@ -1023,7 +1023,7 @@
     {
       "provider": "scki-fused-024-google-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-024-google-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-024-google-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-024-google-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "7f76a0d949963ed15e6db9d86edad39c28dbdc353f5c2a4ceeedd7c0d825bc88",
@@ -1056,7 +1056,7 @@
     {
       "provider": "scki-fused-024-google-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-024-google-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-024-google-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-024-google-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "83918f03969936ae4d43b66c4758556b69f5864dd92930764f1ae88f3a3901ef",
@@ -1079,7 +1079,7 @@
     {
       "provider": "scki-fused-025-work-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-025-work-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-025-work-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-025-work-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "57aa60a35be23fb48b6011ca74ccb53daffe840d834cfdb4ca7e6c798326e374",
@@ -1112,7 +1112,7 @@
     {
       "provider": "scki-fused-026-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-026-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "bd9aa648871dba96839dac0bb9fc6131a1a969dc921741da7a0babb1dc4bdd8b",
@@ -1145,7 +1145,7 @@
     {
       "provider": "scki-fused-026-ai-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-026-ai-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "f395f8f030637bbc9fea291f99ab25d4249522ae2c744e976ac6bd65267c6564",
@@ -1176,7 +1176,7 @@
     {
       "provider": "scki-fused-026-ai-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-026-ai-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-026-ai-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "6b56f685e8612e86cb641991c0c650cc7d58789b39885b7051c2a15bdc11df99",
@@ -1199,7 +1199,7 @@
     {
       "provider": "scki-fused-027-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-027-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-027-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-027-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "e47e5318027a009e7e41edcfaf22601b7d1178b0c404625887fee952aafe41ae",
@@ -1232,7 +1232,7 @@
     {
       "provider": "scki-fused-028-im-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-028-im-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-028-im-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-028-im-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "10d5d3ae8a6b5918c95e81b026eb05d4e48ae8818961ec6b37c4ce68f90fcbac",
@@ -1265,7 +1265,7 @@
     {
       "provider": "scki-fused-029-work-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-029-work-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-029-work-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-029-work-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "00d447efea95634ae0d640294c6bfd20ffb185fcadc3e95eef944d12bf9d1fbb",
@@ -1298,71 +1298,40 @@
     {
       "provider": "scki-fused-030-download-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-030-download-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-030-download-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-030-download-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
-      "sha256": "c501d58d046da59746f9614ba467d1afdbb1d646b13488a597978c4b0a8b7800",
-      "bytes": 528,
+      "sha256": "bae94ba8c48f03c55e7252107c980ca16f107b2f9ac286120d5bc15e0a1b9a08",
+      "bytes": 410,
       "metrics": {
-        "entries": 42,
-        "labels": 150,
-        "text_bytes": 892,
+        "entries": 27,
+        "labels": 104,
+        "text_bytes": 539,
         "max_entry_bytes": 39,
         "max_entry_labels": 6,
-        "header_entries": 42,
-        "decompressed_bytes": 707,
-        "encoded_leaves": 67,
-        "encoded_label_bytes": 477
+        "header_entries": 27,
+        "decompressed_bytes": 550,
+        "encoded_leaves": 52,
+        "encoded_label_bytes": 360
       },
       "native_metrics": {
-        "entries": 67,
-        "labels": 223,
-        "text_bytes": 1355,
+        "entries": 52,
+        "labels": 177,
+        "text_bytes": 1002,
         "max_entry_bytes": 39,
         "max_entry_labels": 6
       },
       "source_yaml": {
         "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-domain.yaml",
-        "sha256": "3872201b81bc078c78e00db48635f0b4a99da2a526e938afa09725de9e51e42d",
-        "bytes": 1153,
-        "normalization": "canonical LF"
-      }
-    },
-    {
-      "provider": "scki-fused-030-download-ipcidr",
-      "original_path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.mrs?scki=v6.0.20",
-      "behavior": "ipcidr",
-      "format": "mrs",
-      "sha256": "b949967cb3fb796c8c7c456634f3c67167cc9a536425f2946a5c9425cb41c267",
-      "bytes": 123,
-      "metrics": {
-        "entries": 26,
-        "labels": 104,
-        "text_bytes": 471,
-        "max_entry_bytes": 18,
-        "max_entry_labels": 4,
-        "header_entries": 26,
-        "decompressed_bytes": 862
-      },
-      "native_metrics": {
-        "entries": 26,
-        "labels": 104,
-        "text_bytes": 471,
-        "max_entry_bytes": 18,
-        "max_entry_labels": 4
-      },
-      "source_yaml": {
-        "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-        "sha256": "135d3fa9c1a80feb1def8da331653ff69fc669ffc4261e74f7fc04e27070f07a",
-        "bytes": 636,
+        "sha256": "057928ac7f387282a617983a488858a5deaa1fb0269c3656e3b08adcece2bdf5",
+        "bytes": 710,
         "normalization": "canonical LF"
       }
     },
     {
       "provider": "scki-fused-030-download-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-030-download-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-030-download-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-030-download-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "3ad3d6555396e3cf84b5af8020ffba8613d7a349990ef9afdcb755ea5469d7a9",
@@ -1385,7 +1354,7 @@
     {
       "provider": "scki-fused-031-google-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-031-google-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-031-google-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-031-google-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "41f28258e7b409f8d14d7bee9cb675b40446a799ead4c134421754dd312e99e7",
@@ -1416,9 +1385,40 @@
       }
     },
     {
+      "provider": "scki-fused-031-google-ipcidr",
+      "original_path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.mrs",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.mrs?scki=v6.0.21",
+      "behavior": "ipcidr",
+      "format": "mrs",
+      "sha256": "b949967cb3fb796c8c7c456634f3c67167cc9a536425f2946a5c9425cb41c267",
+      "bytes": 123,
+      "metrics": {
+        "entries": 26,
+        "labels": 104,
+        "text_bytes": 471,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4,
+        "header_entries": 26,
+        "decompressed_bytes": 862
+      },
+      "native_metrics": {
+        "entries": 26,
+        "labels": 104,
+        "text_bytes": 471,
+        "max_entry_bytes": 18,
+        "max_entry_labels": 4
+      },
+      "source_yaml": {
+        "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+        "sha256": "135d3fa9c1a80feb1def8da331653ff69fc669ffc4261e74f7fc04e27070f07a",
+        "bytes": 636,
+        "normalization": "canonical LF"
+      }
+    },
+    {
       "provider": "scki-fused-031-google-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "bbfe7fef5723dd4e1d7a87037d0ba2f0cdcc614eda62d49fe7eaafe24e958997",
@@ -1449,7 +1449,7 @@
     {
       "provider": "scki-fused-032-tools-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-032-tools-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-032-tools-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-032-tools-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "fb1fba97ef198c62701935da54b0a4c934828cd674e363a20e96c32ef09a216a",
@@ -1482,7 +1482,7 @@
     {
       "provider": "scki-fused-033-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "9ac1a714ebd39e104a7447e2a4835e170c4a36a65ac6c0366437ab51d86d0ef6",
@@ -1515,7 +1515,7 @@
     {
       "provider": "scki-fused-033-ai-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "84c06aa57a3b55f10f7aec81083f756ca364541c37131db6a281c1fb049e21d6",
@@ -1546,7 +1546,7 @@
     {
       "provider": "scki-fused-033-ai-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "03b70d0fe214d834afb5ccd8cbcbb792ffe5d97554be614f7795894a6b46c401",
@@ -1577,7 +1577,7 @@
     {
       "provider": "scki-fused-033-ai-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "3a881e5ebbf474ee9aeeb7c144b5a87d9cc9c2d4fa15873bcfa5db04b4478ecb",
@@ -1600,7 +1600,7 @@
     {
       "provider": "scki-fused-034-google-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-034-google-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-034-google-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-034-google-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "edafdd0d9bbafb02acdb7083f3c46dd54eb39358c452661a139d4356358fbdf0",
@@ -1633,7 +1633,7 @@
     {
       "provider": "scki-fused-035-ai-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "46fae58f5f72efd2a93a185608f9ff6ab7b680c9f8f4708e7a6de17256e888fc",
@@ -1666,7 +1666,7 @@
     {
       "provider": "scki-fused-035-ai-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "6190ee369f14ca9f6f018a8afa5db7254e70f448d4bc90ce7e9efe7ab935f230",
@@ -1697,7 +1697,7 @@
     {
       "provider": "scki-fused-035-ai-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "0f18d0c543a691a61c0d9c56d6991ed6396857b39636a8ee084ea4de5916a50e",
@@ -1720,7 +1720,7 @@
     {
       "provider": "scki-fused-036-crypto-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-036-crypto-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-036-crypto-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-036-crypto-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "7c8654ee38a0806b3f11171a3970e477fc9896e26a59e3dc37ae538fa0c5943e",
@@ -1753,7 +1753,7 @@
     {
       "provider": "scki-fused-036-crypto-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-036-crypto-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-036-crypto-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-036-crypto-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "eaaf72cbb63fc859491531ee8f2d141334e7c99c92447e5c593717fbff3de3d3",
@@ -1776,7 +1776,7 @@
     {
       "provider": "scki-fused-037-payments-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-037-payments-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-037-payments-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-037-payments-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "a2c9feaf89c4989280c67de4867187221de2307ebb5a5fd7b2976d914c52f42f",
@@ -1809,7 +1809,7 @@
     {
       "provider": "scki-fused-037-payments-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-037-payments-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-037-payments-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-037-payments-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "e6f2dcb48798a969b7a41ecbe200976c61a4bb3b1c42225d73fc7507ef9c875a",
@@ -1832,7 +1832,7 @@
     {
       "provider": "scki-fused-039-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-039-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-039-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-039-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "df16998a3e6dfde870490d76710c105268ffcc6ba290c320268c4ce80a174ed9",
@@ -1865,7 +1865,7 @@
     {
       "provider": "scki-fused-040-direct-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-040-direct-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-040-direct-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-040-direct-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "11d624ffab525543df90f7d13cb0ccdc1ade9f023b073ad2ba8ef166c775220d",
@@ -1898,7 +1898,7 @@
     {
       "provider": "scki-fused-041-im-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-041-im-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "0d2274a04821a7b362b6728615a0173808234ad93a65b8beb281104696048fab",
@@ -1931,7 +1931,7 @@
     {
       "provider": "scki-fused-041-im-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "3da8bad5888aaf45ed06275527bcce6eb82239d3aaac8fea21883152383dc610",
@@ -1962,7 +1962,7 @@
     {
       "provider": "scki-fused-041-im-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "d121af95b9aeca3d8c29b2112d5e6685b2a6716383df8ae31b5fbb3408c527b3",
@@ -1993,7 +1993,7 @@
     {
       "provider": "scki-fused-041-im-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-041-im-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-041-im-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "afa1ee269dee8846bfec33a0b3e29e2d6f21889ee908cd07d93ec1ec3f125036",
@@ -2016,7 +2016,7 @@
     {
       "provider": "scki-fused-042-social-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-042-social-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "fbb13346a177ace2c841421f7c6d6bcdaaee13b41413fba730416287591d1763",
@@ -2049,7 +2049,7 @@
     {
       "provider": "scki-fused-042-social-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "6e41c4b5dbb2b75f0c04114122d5484729946dbc9fae0861cf377fef1fdf7a8c",
@@ -2080,7 +2080,7 @@
     {
       "provider": "scki-fused-042-social-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "84c2bd5cc2ccbb0badf0cb155972b5f49b5751fbcbb97501a3346abe1de38d82",
@@ -2111,7 +2111,7 @@
     {
       "provider": "scki-fused-042-social-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-042-social-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-042-social-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "8379b58eff2a12057e4dba1409cb50e347636d393fe0d5e6a232a3168e027189",
@@ -2134,7 +2134,7 @@
     {
       "provider": "scki-fused-043-cn-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-043-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-043-cn-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-043-cn-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "4ff0a389c0b7a210ba52b308cf070fb6b26235f7408fe308e4efdd1d257fc430",
@@ -2167,7 +2167,7 @@
     {
       "provider": "scki-fused-044-social-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-044-social-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-044-social-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-044-social-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "9f8741db0089b321e74901058b043fcea5deff92164e1d44a5d539ee097b82e8",
@@ -2200,7 +2200,7 @@
     {
       "provider": "scki-fused-045-work-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-045-work-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "2d8c1194b63802aea8ee5914f9fa2c23b16b43e110215633f9c69f4fc7b7289e",
@@ -2233,7 +2233,7 @@
     {
       "provider": "scki-fused-045-work-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-045-work-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "2ffaebe7c18da695c2f023bb67e526a7a3d5c575e5a9cc4d3a2c008067073ec1",
@@ -2264,7 +2264,7 @@
     {
       "provider": "scki-fused-045-work-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-045-work-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-045-work-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "4d7aecdba33fcfbfe18763f3c4127281c70a879e29ab613e71f205c9bba2b2aa",
@@ -2287,7 +2287,7 @@
     {
       "provider": "scki-fused-046-direct-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-046-direct-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-046-direct-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-046-direct-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "f6ba44e92924be9c9688cec40ee3bfc2b8a4694dc2554f19c7b84677c68ef2d3",
@@ -2320,7 +2320,7 @@
     {
       "provider": "scki-fused-047-cnmedia-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-047-cnmedia-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-047-cnmedia-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-047-cnmedia-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "5f5329b62eb0f4f27d900f15b085e1d89dd01f21c2613835fbc76fcecf86e0b8",
@@ -2353,7 +2353,7 @@
     {
       "provider": "scki-fused-048-tiktok-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-048-tiktok-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-048-tiktok-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-048-tiktok-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "e89b800565fa72d78901fb96ce4c39cd75860b79f3d28c7d97e148ca5879fedd",
@@ -2386,7 +2386,7 @@
     {
       "provider": "scki-fused-049-youtube-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-049-youtube-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-049-youtube-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-049-youtube-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "fe4b56a7088b64335501ba22de50bd0f6c6b5fa1a993451e7a50c75b48004230",
@@ -2419,7 +2419,7 @@
     {
       "provider": "scki-fused-050-netflix-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-050-netflix-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-050-netflix-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-050-netflix-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "a6fea26ce2168e069fe865f269e86e5e031a51b5b3855fe297e1bc004a3170bd",
@@ -2452,7 +2452,7 @@
     {
       "provider": "scki-fused-050-netflix-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-050-netflix-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-050-netflix-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-050-netflix-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "0e9ea19aff4576a2a2412262db4bc99a69204d08ba6073da9694360190f4df8d",
@@ -2483,7 +2483,7 @@
     {
       "provider": "scki-fused-051-disney-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-051-disney-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-051-disney-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-051-disney-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "01eddb051dbee100127e8a477b59b5816ed4e1019980342cf31775b6ff18f74a",
@@ -2516,7 +2516,7 @@
     {
       "provider": "scki-fused-051-disney-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-051-disney-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-051-disney-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-051-disney-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "3bcbeafdac260712915f805f585b683c5dedff6cd4c56533385149cc4e5fae5c",
@@ -2539,7 +2539,7 @@
     {
       "provider": "scki-fused-052-hbo-max-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "b023f5ff275e3b420f2039a5c63977826e0208894e8434ffaaf0278fd44f83a1",
@@ -2572,7 +2572,7 @@
     {
       "provider": "scki-fused-052-hbo-max-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-052-hbo-max-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "fe52c969cec679ae8b875dc965a6d3c9042475408ce547cde34ed6f19a341589",
@@ -2595,7 +2595,7 @@
     {
       "provider": "scki-fused-053-hulu-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-053-hulu-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-053-hulu-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-053-hulu-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "e2dcf6e6ffcff53d9a5cb4f65df97582807f9ca4920711c43426dfca6fab7df8",
@@ -2628,7 +2628,7 @@
     {
       "provider": "scki-fused-053-hulu-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-053-hulu-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-053-hulu-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-053-hulu-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "f69b63d808c5b3c3af39d66b9fd2d12eed910583c67be263926a5735dd14dd67",
@@ -2651,7 +2651,7 @@
     {
       "provider": "scki-fused-054-prime-video-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-054-prime-video-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-054-prime-video-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-054-prime-video-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "3dd29b29acec3c510fbe30b0e20f02d4783824e1aea1548357a951ba311c2b6c",
@@ -2684,7 +2684,7 @@
     {
       "provider": "scki-fused-054-prime-video-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-054-prime-video-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-054-prime-video-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-054-prime-video-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "65ba36f8541e8780d5f30e7fe624ebc55f4fff159a771e6a349271e3ba329654",
@@ -2707,7 +2707,7 @@
     {
       "provider": "scki-fused-055-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-055-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "5d343fac6ad6cb43723b9c6155d8f652772f03d4dbdb777550016a7c47b1dc35",
@@ -2740,7 +2740,7 @@
     {
       "provider": "scki-fused-055-intl-site-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-055-intl-site-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "93fda7e4588c7acced45eb1a51460392c18601c8a66e433480af4bd57fa43f67",
@@ -2771,7 +2771,7 @@
     {
       "provider": "scki-fused-055-intl-site-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-055-intl-site-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-055-intl-site-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "ed25305eccca9112306da6ab9c61264c75fe9acbd49cd8ec2d01875c107d00f7",
@@ -2794,7 +2794,7 @@
     {
       "provider": "scki-fused-056-music-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-056-music-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-056-music-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-056-music-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "67b25e9e41a91965e9bbe70a07cf421e4be84f43973f12d58fba21677f164a07",
@@ -2827,7 +2827,7 @@
     {
       "provider": "scki-fused-056-music-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-056-music-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-056-music-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-056-music-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "2e3f89d2280fb965c9b3629df621ef14cc72c9a79e3c622c9436b96e33d5c384",
@@ -2858,7 +2858,7 @@
     {
       "provider": "scki-fused-057-stream-hk-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "6e16ef1c82eb16ed3926f57c4447ab3665239110abcb2aa8b3a3492fa1dd1bb2",
@@ -2891,7 +2891,7 @@
     {
       "provider": "scki-fused-057-stream-hk-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "b2dc109d076ca2751d825f010883d53bc128a6c8b1d708f9cb8ca9987a97b33a",
@@ -2922,7 +2922,7 @@
     {
       "provider": "scki-fused-057-stream-hk-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-057-stream-hk-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "8f2caf47b83ab47221cb89c8d95c1eeff9dd17e8a5d26946af3a9e41b928f116",
@@ -2945,7 +2945,7 @@
     {
       "provider": "scki-fused-058-stream-tw-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "4ba29ddf14ed100005eb47cc375b8b3f1febdcaa01ddf385c7cdffa079a77cb1",
@@ -2978,7 +2978,7 @@
     {
       "provider": "scki-fused-058-stream-tw-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-058-stream-tw-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "a34928a92501a6071e78c28a747eeb9d4e553b9e379a57fd12cdb55bfd860d5d",
@@ -3001,7 +3001,7 @@
     {
       "provider": "scki-fused-059-stream-jpkr-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "1cac3004969613fddae76b9fb96c44fe111ccf8f7448635f612d2823e1b8eeb6",
@@ -3034,7 +3034,7 @@
     {
       "provider": "scki-fused-059-stream-jpkr-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "ae64babc1a068a54eeec1b7bcff8a17816b1a0a730138ac9708b115bc9fd79c3",
@@ -3065,7 +3065,7 @@
     {
       "provider": "scki-fused-059-stream-jpkr-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-059-stream-jpkr-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "9946911b4cda8741b45218de84568aa408480ba53f5af46c1e99e74cddeda07a",
@@ -3088,7 +3088,7 @@
     {
       "provider": "scki-fused-060-stream-eu-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "1884d67b14cc328822bfe3b76d7afa1a3f5cefaaf2e0c137d3471394fa5251bf",
@@ -3121,7 +3121,7 @@
     {
       "provider": "scki-fused-060-stream-eu-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-060-stream-eu-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "f0472300e8dacec9439716ff6b68e2a7ffe1e4d03944d32a5ba330abb6f4ab62",
@@ -3144,7 +3144,7 @@
     {
       "provider": "scki-fused-061-stream-other-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-061-stream-other-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "190779b27f65c4e6896b2f8334d633568257727e3883b8669dd8c684b2aa6f6f",
@@ -3177,7 +3177,7 @@
     {
       "provider": "scki-fused-061-stream-other-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-061-stream-other-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "210454849ed7abd6322db963112b53ea67e8fe6ecc9c2e656fb4f8e62f630b39",
@@ -3208,7 +3208,7 @@
     {
       "provider": "scki-fused-061-stream-other-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-061-stream-other-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-061-stream-other-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "1948535fb09eaf6c2bd0846d659ca0dc12fb27e886142b1bb197370cfc7860a0",
@@ -3231,7 +3231,7 @@
     {
       "provider": "scki-fused-062-tools-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-062-tools-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-062-tools-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-062-tools-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "d9a6681fd305a03539a0d8436e96b824bac2333e5f302c354224b981a5e705cb",
@@ -3264,7 +3264,7 @@
     {
       "provider": "scki-fused-063-google-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-063-google-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-063-google-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-063-google-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "6bfc98f35963085b30d5f91935b2aab86a487a630c8aa84aec68d1ed5786f8c2",
@@ -3297,7 +3297,7 @@
     {
       "provider": "scki-fused-064-tools-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "5f154e99854471b7e24f706fc2183ac5a53162f5aa54559bd49a7462981fade5",
@@ -3330,7 +3330,7 @@
     {
       "provider": "scki-fused-064-tools-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "a0accedd735b7ba37cf9ce87d3e8dfdbb17ed7b4e97fd70f8c476bfa6a8dcdaa",
@@ -3361,7 +3361,7 @@
     {
       "provider": "scki-fused-064-tools-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-064-tools-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "396f0fa5f57b76afca3820161bbc8254717b7bc214494abd8c141925560ba7c5",
@@ -3384,7 +3384,7 @@
     {
       "provider": "scki-fused-065-microsoft-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "bd67b4bdc3c5d10a3ecbcf6821b016c150238ca380669e16174b198ce496d8f0",
@@ -3417,7 +3417,7 @@
     {
       "provider": "scki-fused-065-microsoft-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-065-microsoft-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-065-microsoft-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "4835a645db1b2f38ead5ccedd835d70d3da932f36e59e3c7bc7ddceb5036dd8e",
@@ -3440,7 +3440,7 @@
     {
       "provider": "scki-fused-066-apple-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-066-apple-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "dc5b03018043f11c665b3113d239476c7bf319d65d31f7c4c0c9413333b95943",
@@ -3473,7 +3473,7 @@
     {
       "provider": "scki-fused-066-apple-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-066-apple-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "02bbc25da607152726caee9d2b5924548b8e7859b990de6f8f1da6e01bb81b9b",
@@ -3504,7 +3504,7 @@
     {
       "provider": "scki-fused-066-apple-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-066-apple-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-066-apple-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "6836badc6cc4c8f356184b6c397c3e80fdf8e8316a4a005bffb88ba59eeb2819",
@@ -3527,7 +3527,7 @@
     {
       "provider": "scki-fused-067-download-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-067-download-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "18590fa91826053e1689a2eedffea7dceead31205fda2567c5ceef325ae95752",
@@ -3560,7 +3560,7 @@
     {
       "provider": "scki-fused-067-download-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-067-download-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "6e90d81a69b25471b8d5fe0ab8182c7f626982b72bcc0d864aceaaf53028688f",
@@ -3591,7 +3591,7 @@
     {
       "provider": "scki-fused-067-download-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-067-download-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-067-download-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "06e019b5bd8b2cd8bfd170e5b977bb81ece436a880f823a70b40b891aae2be9b",
@@ -3614,7 +3614,7 @@
     {
       "provider": "scki-fused-068-tracker-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-068-tracker-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "b587c0b990dbc4dd408aa21430e0648153a422dc3dd389ecff499afc8adfed65",
@@ -3647,7 +3647,7 @@
     {
       "provider": "scki-fused-068-tracker-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-068-tracker-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "d3b192676ae74c57f76f345e77599f0cfeaac349891440a6c2d8d5451bb17b93",
@@ -3678,7 +3678,7 @@
     {
       "provider": "scki-fused-068-tracker-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-068-tracker-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-068-tracker-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "9d738a139591f922187e6bb71dcb717d27722da229f6265de5529b9f354faca9",
@@ -3701,7 +3701,7 @@
     {
       "provider": "scki-fused-069-gfw-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-069-gfw-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "34ab7cdbfe6741012c54cfb03ba5edc8150439bf5298668206769b994e003360",
@@ -3734,7 +3734,7 @@
     {
       "provider": "scki-fused-069-gfw-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-069-gfw-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "0c8b722fd343989b46ee6896a85ceff239e9a15771bc48ac266d6bd0d27dda3e",
@@ -3765,7 +3765,7 @@
     {
       "provider": "scki-fused-069-gfw-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-069-gfw-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-069-gfw-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "c41d7bdb3854089561c6195ac2d026168296ce31a39f30004bb769808e74f6d1",
@@ -3788,7 +3788,7 @@
     {
       "provider": "scki-fused-070-game-cn-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-070-game-cn-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-070-game-cn-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-070-game-cn-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "4770eda1d375ed3caffe76cbca9775b30b7d668082877c146380e3c8753ec55d",
@@ -3821,7 +3821,7 @@
     {
       "provider": "scki-fused-071-game-intl-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-071-game-intl-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "c5cb5ea089b75011090bd15b32a269c0b86115d90f4feb9cdc206300dfe7dbf2",
@@ -3854,7 +3854,7 @@
     {
       "provider": "scki-fused-071-game-intl-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-071-game-intl-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "2f8e1f0e4b80e8b31e04e8a7c26474dcf8166c5380f237e8a9d04fba83048127",
@@ -3885,7 +3885,7 @@
     {
       "provider": "scki-fused-071-game-intl-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-071-game-intl-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-071-game-intl-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "eb61be960f277b345cd6c4cb95c843cca1e5f63da86fa7f74e14a1fee488594c",
@@ -3908,7 +3908,7 @@
     {
       "provider": "scki-fused-072-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-072-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "3dcbc851ca987a03dc0826d4d195e0fdf327ec3765d2bbce2ebb04cbec2f74a0",
@@ -3941,7 +3941,7 @@
     {
       "provider": "scki-fused-072-intl-site-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-072-intl-site-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "dab720b51a988aa06c347ea634fcc6af7aee366d687152ba8d50096b3fd6840f",
@@ -3972,7 +3972,7 @@
     {
       "provider": "scki-fused-072-intl-site-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-072-intl-site-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-072-intl-site-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "bffeed38871996adc4c99410c4bd9968f8288ed08221234416581d8d3d41c9c2",
@@ -3995,7 +3995,7 @@
     {
       "provider": "scki-fused-073-payments-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-073-payments-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-073-payments-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-073-payments-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "d95850db36b3d7fb3ba5cae8aaf5dd80a760c74b122885e23f7a3dc84febc44c",
@@ -4028,7 +4028,7 @@
     {
       "provider": "scki-fused-074-cnmedia-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "b9e444f3ccdf723730db87dd680e60888fcbecd06ad729d230eb9074a50b545d",
@@ -4061,7 +4061,7 @@
     {
       "provider": "scki-fused-074-cnmedia-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "b79df65e202b3ef590f42d87f5e5100a357c8b11462e82d664faa2e26b2eb824",
@@ -4092,7 +4092,7 @@
     {
       "provider": "scki-fused-074-cnmedia-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-074-cnmedia-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "0eeca768ccd49568a5bf01115dff4d02aedb02a2c554ce0c3261dc9b7f8e24e9",
@@ -4115,7 +4115,7 @@
     {
       "provider": "scki-fused-075-cn-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "cf85b069fd75f2e319e42786443aa19d4e91f942b0c915e0c76ad78db466277a",
@@ -4149,7 +4149,7 @@
     {
       "provider": "scki-fused-075-cn-site-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-075-cn-site-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "d95b3d125f6c74ce3c15e19ef794f142de91e21c3b8fb7767e76aebfabff5149",
@@ -4180,7 +4180,7 @@
     {
       "provider": "scki-fused-076-direct-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-076-direct-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-076-direct-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-076-direct-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "1730e75a1f37d0c9e55b0e25c02c0e7b7e3a61ef627a13013f41dd4290604523",
@@ -4213,7 +4213,7 @@
     {
       "provider": "scki-fused-077-cn-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-077-cn-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-077-cn-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-077-cn-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "87bd877cb0ced158261691983a07e260dd093f4887ba85010a7176caed019d2a",
@@ -4246,7 +4246,7 @@
     {
       "provider": "scki-fused-077-cn-site-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-077-cn-site-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-077-cn-site-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-077-cn-site-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "6133b8fe15b7d219c7f66daf70bec0913d002bfbb4a82ff3202e2acdaf359f61",
@@ -4269,7 +4269,7 @@
     {
       "provider": "scki-fused-078-intl-site-domain",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-domain.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-domain.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-domain.mrs?scki=v6.0.21",
       "behavior": "domain",
       "format": "mrs",
       "sha256": "72f04a47797a2f2f60f12630bc4911623f692dd9795e465f4b4d748801543a3a",
@@ -4302,7 +4302,7 @@
     {
       "provider": "scki-fused-078-intl-site-ipcidr",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "dff1642ec54908d9f871ba758dbac92bfe9e16b1d388b4be87d462048e6db293",
@@ -4333,7 +4333,7 @@
     {
       "provider": "scki-fused-078-intl-site-ipcidr-no-resolve",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr-no-resolve.mrs",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr-no-resolve.mrs?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-ipcidr-no-resolve.mrs?scki=v6.0.21",
       "behavior": "ipcidr",
       "format": "mrs",
       "sha256": "0b03a71e3422e950f23da42dc28786e4ee59886f450b8dd48d41c081384c7fcf",
@@ -4364,7 +4364,7 @@
     {
       "provider": "scki-fused-078-intl-site-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-078-intl-site-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-078-intl-site-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "f38987d2c019349366104b6ab99fea342fe5e098bb8ff0361566d85a93a1f5bf",
@@ -4387,7 +4387,7 @@
     {
       "provider": "scki-fused-079-im-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-079-im-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-079-im-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-079-im-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "7b60f761ec9ba8a876183c2117fbde4f071b769c589dcf0fae0487e12fa8125c",
@@ -4410,7 +4410,7 @@
     {
       "provider": "scki-fused-080-netflix-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-080-netflix-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-080-netflix-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-080-netflix-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "575f04da869bb7bc37960506ba83c640e86659b54a700774d03e1222b23076bd",
@@ -4433,7 +4433,7 @@
     {
       "provider": "scki-fused-081-social-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-081-social-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-081-social-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-081-social-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "9cc17ddb5c9018583ea5113e7a0404050a47371ad1e7517590a8384adb4fb24f",
@@ -4456,7 +4456,7 @@
     {
       "provider": "scki-fused-082-google-residual",
       "original_path": "rulesets/generated/fused/mihomo/scki-fused-082-google-residual.yaml",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-082-google-residual.yaml?scki=v6.0.20",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/scki-fused-082-google-residual.yaml?scki=v6.0.21",
       "behavior": "classical",
       "format": "yaml",
       "sha256": "fa7500fcb0cc80a55ed312e90fa091b4a49616fc92cfe917bdae34bde4b1b9b6",
@@ -4622,8 +4622,8 @@
       {
         "id": "scki-fused-010-ad-domain-aerove-part-001",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-001.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-010-ad-domain-aerove-part-001.mrs",
         "sha256": "6a6010e3d65e579e5200d7bd355501a663f8e743fbea3bc941e0cd9f5ca2661a",
         "bytes": 852079,
         "metrics": {
@@ -4648,8 +4648,8 @@
       {
         "id": "scki-fused-010-ad-domain-aerove-part-002",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-002.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-010-ad-domain-aerove-part-002.mrs",
         "sha256": "35a9f1e5b7f80c12fc08c95ac8e3219261ef0953a8e784d1f866492ee84f40d9",
         "bytes": 802758,
         "metrics": {
@@ -4674,8 +4674,8 @@
       {
         "id": "scki-fused-010-ad-domain-aerove-part-003",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-003.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-010-ad-domain-aerove-part-003.mrs",
         "sha256": "7221c740c9bcc0b81cdcd689021514ee45269ea6e4e78211c4a51a6895c88b64",
         "bytes": 973407,
         "metrics": {
@@ -4700,8 +4700,8 @@
       {
         "id": "scki-fused-010-ad-domain-aerove-part-004",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-010-ad-domain-aerove-part-004.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-010-ad-domain-aerove-part-004.mrs",
         "sha256": "6d90a0f30e2eea72164a056e0ff377a55f441bfbeca2057f36f9dfc9d0f1f07d",
         "bytes": 914795,
         "metrics": {
@@ -4728,8 +4728,8 @@
       {
         "id": "scki-fused-075-cn-site-domain-aerove-part-001",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
         "sha256": "a6d448a0dbecb38c30dd650570b3a0fa04ad459e8393c92be6a7b3062e34c011",
         "bytes": 487641,
         "metrics": {
@@ -4754,8 +4754,8 @@
       {
         "id": "scki-fused-075-cn-site-domain-aerove-part-002",
         "asset_path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
-        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs?scki=v6.0.20-meow.5",
-        "cache_path": "./ruleset/v6.0.20-meow.5/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+        "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs?scki=v6.0.21-meow.5",
+        "cache_path": "./ruleset/v6.0.21-meow.5/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
         "sha256": "cf5a5b6aa16c102fe11e3e9a0077cf846cf4558c9bacea90e628b612ebafb4e5",
         "bytes": 95273,
         "metrics": {

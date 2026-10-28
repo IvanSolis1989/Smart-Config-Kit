@@ -22,11 +22,11 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
-const BUILD = '2026-10-27';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.6`;
+const BUILD = '2026-10-28';
 // The native client has no Lite per-resource cap; preserve its published bytes.
-const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.3`;
-const NATIVE_BUILD = '2026-10-24';
+const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
+const NATIVE_BUILD = '2026-10-28';
 const canonical = text => text.replace(/\r\n/g, '\n');
 const hash = text => crypto.createHash('sha256').update(canonical(text)).digest('hex');
 const read = file => canonical(fs.readFileSync(path.join(ROOT, file), 'utf8'));

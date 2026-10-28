@@ -13,6 +13,10 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+## v6.0.21 (2026-10-28)
+
+- Google FCM 归入 Google 服务，其他推送、DNS 与 fake-IP 保持不变；详见 [Clash Party 变更日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)。
+
 ## 2026-10-27 — AEROVE Lite 原生预算修正
 
 - v6.0.20-meow.5 针对 beta18 实际拒绝与固定 Rust reader 的展开计数重新派生 Lite 专版资源；共享 fused 和官方 Meow YAML 不变。完整 App 验收待完成，详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。

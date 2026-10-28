@@ -1,5 +1,7 @@
 # REFERENCE — Stash Wiki
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Stash 规则类型](https://stash.wiki/rules/rule-types)，沿用规则目标策略和现有 domain/ipcidr 规则集格式。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [DNS](https://stash.wiki/en/features/dns-server#domain-based-custom-dns-service) 与[配置示例](https://stash.wiki/en/configuration/example-config)；既有 nameserver-policy 的域名/geosite 键与服务器数组继续受支持，本次不启用新字段。
 
 > 更新于 2026-10-19（原字段摘要 2026-08-08）：官方实际正文、版本和采用边界见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)，[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)可独立读回。

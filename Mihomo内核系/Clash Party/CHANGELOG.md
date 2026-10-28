@@ -14,6 +14,10 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## v6.0.21-dns.23 / v6.0.21-normal.23 (2026-10-28)
+
+- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。
+
 ## 2026-10-27 — AEROVE Lite 原生预算修正
 
 - Lite 专版按固定 Rust reader 的展开预算重新分片；共享规则、fused 资产及 Clash Party 行为不变，不触发全平台重生成。详见 [AEROVE Lite 日志](../../Meow内核系/Aerove%20Lite/CHANGELOG.md)。

@@ -1,5 +1,7 @@
 # Egern 语法参考与纳入判断
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Egern Rules](https://egernapp.com/docs/configuration/rules/)，沿用原生规则的既有目标和按序匹配语义，不引入 Mihomo MRS。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 更新于 2026-10-19（上次字段复核 2026-09-30）：完整官方正文、版本和验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论

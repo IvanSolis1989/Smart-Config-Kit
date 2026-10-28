@@ -11,7 +11,7 @@ Stash iOS / macOS / tvOS 使用的 YAML 配置。先在本地副本替换节点�
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-> 配置：`Stash.yaml` · **v6.0.20-stash.14**（Build 2026-10-24）
+> 配置：`Stash.yaml` · **v6.0.21-stash.15**（Build 2026-10-28）
 > 由 CMFA 生成，22 区域组 + 33 业务组；不支持 Mihomo Smart / LightGBM。
 
 <a id="before-start"></a>

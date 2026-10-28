@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 CMFA 现有 Mihomo RULE-SET 策略名引用。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与 [CMFA 官方仓库](https://github.com/MetaCubeX/ClashMetaForAndroid)；本次 policy 表继续使用既有 Mihomo 字段，不改变 App 托管边界。
 
 > 核对于 2026-10-19：核对 CMFA stable v2.11.35 / Prerelease-alpha，稳定 App 的核心 gitlink 为 `88dcbf7f1614a67c3b36b848ee3592dfa92ada36`，不将 App 版本当成 Mihomo 版本。已复核 DNS、代理组筛选、MRS、规则及 TUN 官方文档；ClashMi 与 ShellCrash 的覆写边界也列入[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。以下摘要属于各自历史日期，本次未逐段重新校验。
