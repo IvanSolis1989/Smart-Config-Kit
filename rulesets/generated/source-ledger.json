@@ -137062,11 +137062,11 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "f9c3ce7c66ca88a7174fe400fb9358e332c60a1c232bfe371bdcca3b1e3da833",
-    "bytes": 119660,
+    "sha256": "dc58abcab9a7eed624797fa909a9f3b2f6b87ee0d674bd3abb041a11dfd92e21",
+    "bytes": 119658,
     "text_normalization": "LF",
-    "version": "v6.0.20",
-    "semantic_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44"
+    "version": "v6.0.21",
+    "semantic_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305"
   },
   "registry": {
     "path": "rulesets/source/upstream-sources.json",
@@ -137083,8 +137083,8 @@
     },
     {
       "path": "tools/build-fused-rule-sets.js",
-      "sha256": "9d4f1086686a44d1d90d49211ec97b157b9d4de9f38caa0e6ce4f3d5ed774d23",
-      "bytes": 77867,
+      "sha256": "1efb9e5a1b667cafc5a72d7e02d15e1c74b385e3c83afce8fa7fb259bba3199c",
+      "bytes": 77928,
       "text_normalization": "LF"
     },
     {
@@ -137143,7 +137143,7 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "f8a03484f0a6317f26d9aed602f114e26efcfe6451d0791d83c48ed73ee7571b",
+      "sha256": "3da41c404d4bceea89368d172426d7ba909cb89324dc8586abfca865b2e2e5eb",
       "bytes": 9052,
       "text_normalization": "LF"
     },
@@ -137155,25 +137155,25 @@
     },
     {
       "path": "tools/generate-egern-from-cmfa.js",
-      "sha256": "6ceca6e03afda64a5fbf7252f84bc10a212486e615301accc440e538708c70da",
-      "bytes": 51982,
+      "sha256": "a6077122db99b7fb5b4fb06784281e59b75b7a808ef42dd0527ff71c7ddd54c5",
+      "bytes": 52317,
       "text_normalization": "LF"
     },
     {
       "path": "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "1f1d2f84effe0ce6870b8797119aeadd448f1ab0ecbda01fcd5708d4d0973ded",
+      "sha256": "9fe603b7e2f5744be53e5707928351aa776d9dd74882d6237f8b8cb4d2d774d8",
       "bytes": 28958,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "ec00942be48a7f037277e400e63ea09a8e55ad6b0f6f129fc510cda467b06f7a",
+      "sha256": "ddcaf25f0f6ee2bb62f34f0950988a7a7e9df7f6a21798bfa16b1241291f8194",
       "bytes": 26601,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-karing.js",
-      "sha256": "cd549d279aa163ffe441676396c5c8f4924ee4d980619a0bc22a0b0747b5d0f2",
+      "sha256": "891cfc8cae0ba3a7997bdecca1c69c3e45079052a60020ddf5c7ba7d47990cb9",
       "bytes": 23386,
       "text_normalization": "LF"
     },
@@ -137398,14 +137398,14 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-030-download.list",
-      "sha256": "e67ae1973c5bd7686c4eaa128fadabdcdf5b69c4cb43be979216124de3266619",
-      "bytes": 2024,
+      "sha256": "c184edbea128f744ea25c91b26ed5c5d03209c5d38290c8480e7b1f8fd087753",
+      "bytes": 887,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-031-google.list",
-      "sha256": "9c717d2066a65712ba159bb351eed584082618d1c31354a9ba306a88e36e5bc9",
-      "bytes": 368419,
+      "sha256": "7f6c7be0969589183ec88eac0ad4ecfac624eaf94bde5246ebb5117da0693b86",
+      "bytes": 369098,
       "text_normalization": "LF"
     },
     {
@@ -137866,14 +137866,14 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-030-download.yaml",
-      "sha256": "06547edd13a2fc7b6bf18c6457be18a8c7c07cfb2ced2581cbbedfaea5b71dc7",
-      "bytes": 1856,
+      "sha256": "555c63e7f8629206d20979c476331f531fe0ac9b37acab07ac96815d7d18411c",
+      "bytes": 773,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-031-google.yaml",
-      "sha256": "f17b7310549f11e07bb6349b41c9e02ea2b1825599aeb9ae3f8bb6132d28ad42",
-      "bytes": 246495,
+      "sha256": "325efcfdadfa5c643610e46b187445787fbaad1448f24b4e6b45cb7c88e5c41f",
+      "bytes": 247105,
       "text_normalization": "LF"
     },
     {
@@ -138598,26 +138598,14 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-domain.mrs",
-      "sha256": "c501d58d046da59746f9614ba467d1afdbb1d646b13488a597978c4b0a8b7800",
-      "bytes": 528,
+      "sha256": "bae94ba8c48f03c55e7252107c980ca16f107b2f9ac286120d5bc15e0a1b9a08",
+      "bytes": 410,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-domain.yaml",
-      "sha256": "3872201b81bc078c78e00db48635f0b4a99da2a526e938afa09725de9e51e42d",
-      "bytes": 1153,
-      "text_normalization": "LF"
-    },
-    {
-      "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.mrs",
-      "sha256": "b949967cb3fb796c8c7c456634f3c67167cc9a536425f2946a5c9425cb41c267",
-      "bytes": 123,
-      "text_normalization": null
-    },
-    {
-      "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-      "sha256": "135d3fa9c1a80feb1def8da331653ff69fc669ffc4261e74f7fc04e27070f07a",
-      "bytes": 636,
+      "sha256": "057928ac7f387282a617983a488858a5deaa1fb0269c3656e3b08adcece2bdf5",
+      "bytes": 710,
       "text_normalization": "LF"
     },
     {
@@ -138648,6 +138636,18 @@
       "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr-no-resolve.yaml",
       "sha256": "016ccb847a94882b36c223a6d7e70f7a357315d12f17e482386b086bc18f925f",
       "bytes": 231320,
+      "text_normalization": "LF"
+    },
+    {
+      "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.mrs",
+      "sha256": "b949967cb3fb796c8c7c456634f3c67167cc9a536425f2946a5c9425cb41c267",
+      "bytes": 123,
+      "text_normalization": null
+    },
+    {
+      "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+      "sha256": "135d3fa9c1a80feb1def8da331653ff69fc669ffc4261e74f7fc04e27070f07a",
+      "bytes": 636,
       "text_normalization": "LF"
     },
     {
@@ -139870,14 +139870,14 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-030-download.list",
-      "sha256": "6af49b712c44b533728d3db868acbd8cba24be38f7471bd6568f84bef85eb620",
-      "bytes": 2007,
+      "sha256": "161fdd28b59f4d5d39987062001b2f889cb854518c517c9a69e53287b5600496",
+      "bytes": 859,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-031-google.list",
-      "sha256": "53e209999f83eee6be7c81a4ff2c22c1849136ad2f1d64008782507a5a47082d",
-      "bytes": 384623,
+      "sha256": "a75d2f2da0987cdee328ce44d5cd6f2ae3d83696a1befd9f722022fba2d18de2",
+      "bytes": 385328,
       "text_normalization": "LF"
     },
     {
@@ -140512,14 +140512,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-030-download.json",
-      "sha256": "cb0dce9b40ed3f632d18d6d10a47970a0b2ff32a4688955f7d2098083001f95f",
-      "bytes": 2259,
+      "sha256": "6f8fff85a156e0ed34ed142657ea2fa8290d623809b47c5e539bddfd2060bdb8",
+      "bytes": 957,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-030-download.srs",
-      "sha256": "710c65cea0a036f93c91804373538d7099b3dfea0d1207e3acf041e0aae2db35",
-      "bytes": 602,
+      "sha256": "b8168383a56620326a287785a8fb4c66d300458bd9c8051b89754c079f1c1b57",
+      "bytes": 388,
       "text_normalization": null
     },
     {
@@ -141274,14 +141274,14 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-030-download.list",
-      "sha256": "e67ae1973c5bd7686c4eaa128fadabdcdf5b69c4cb43be979216124de3266619",
-      "bytes": 2024,
+      "sha256": "c184edbea128f744ea25c91b26ed5c5d03209c5d38290c8480e7b1f8fd087753",
+      "bytes": 887,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-031-google.list",
-      "sha256": "9c717d2066a65712ba159bb351eed584082618d1c31354a9ba306a88e36e5bc9",
-      "bytes": 368419,
+      "sha256": "7f6c7be0969589183ec88eac0ad4ecfac624eaf94bde5246ebb5117da0693b86",
+      "bytes": 369098,
       "text_normalization": "LF"
     },
     {
@@ -141567,12 +141567,12 @@
       "text_normalization": "LF"
     }
   ],
-  "fused_payload_fingerprint": "e3d526c00e90c835faab4ce98de1214e88ba54a69188848264a0c3fb43278e31",
+  "fused_payload_fingerprint": "416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e",
   "incremental_build_receipt": {
     "path": "rulesets/generated/supplemental-patch.json",
     "sha256": "105c48b2ea0af9942c184a9113f211a53003c1efa720f5bbdd0dce489ab6013c",
     "bytes": 6777,
     "text_normalization": "LF",
-    "status": "current-payload-bound"
+    "status": "historical-stage-only"
   }
 }

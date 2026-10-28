@@ -619,10 +619,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -961,10 +961,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -3609,10 +3609,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -3971,10 +3971,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -4279,10 +4279,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -4622,10 +4622,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -4964,10 +4964,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -5351,7 +5351,7 @@
             "firstDecidableMatch": {
               "entry": "DOMAIN-SUFFIX,googleapis.com",
               "entryIndex": 297,
-              "index": 60,
+              "index": 59,
               "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-domain.yaml",
               "policy": "🔍 Google 服务",
               "provider": "scki-fused-031-google-domain",
@@ -5360,7 +5360,7 @@
             "hit": {
               "entry": "DOMAIN-SUFFIX,googleapis.com",
               "entryIndex": 297,
-              "index": 60,
+              "index": 59,
               "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-domain.yaml",
               "policy": "🔍 Google 服务",
               "provider": "scki-fused-031-google-domain",
@@ -5379,7 +5379,7 @@
             "firstDecidableMatch": {
               "entry": "DOMAIN-SUFFIX,googleapis.com",
               "entryIndex": 297,
-              "index": 60,
+              "index": 59,
               "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-domain.yaml",
               "policy": "🔍 Google 服务",
               "provider": "scki-fused-031-google-domain",
@@ -5391,7 +5391,7 @@
             "overlaps": [],
             "policy": null,
             "status": "unknown",
-            "unknownBlockerCount": 26,
+            "unknownBlockerCount": 25,
             "unknownBlockers": [
               {
                 "entry": "PROCESS-NAME,Lemon8",
@@ -5625,16 +5625,6 @@
                 "policy": "🤖 AI 服务",
                 "provider": "scki-fused-026-ai-residual",
                 "reason": "unsupported predicate IP-ASN",
-                "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
-              },
-              {
-                "entry": "IP-CIDR,64.233.177.188/32",
-                "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
-                "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               }
             ]
@@ -5965,10 +5955,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -6736,10 +6726,10 @@
               {
                 "entry": "IP-CIDR,64.233.177.188/32",
                 "entryIndex": 0,
-                "index": 58,
-                "path": "rulesets/generated/fused/mihomo/scki-fused-030-download-ipcidr.yaml",
-                "policy": "📥 下载更新",
-                "provider": "scki-fused-030-download-ipcidr",
+                "index": 60,
+                "path": "rulesets/generated/fused/mihomo/scki-fused-031-google-ipcidr.yaml",
+                "policy": "🔍 Google 服务",
+                "provider": "scki-fused-031-google-ipcidr",
                 "reason": "destination IP or DNS resolution outcome missing",
                 "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization"
               },
@@ -7235,10 +7225,10 @@
     "No real account sign-in, API call, upload, application update or message was exercised."
   ],
   "policy_gaps": [],
-  "report_identity": "10622b075c3370507c69112d276680eeff32447a722128c87ec346736ad491ee",
+  "report_identity": "0a9cbd4f77078205a17f896ef2d80f86f562525b7c68e283ff9b107ac3cb000e",
   "schema_version": 1,
   "scope": "Claude登录、API、Files API上传、Desktop/Code更新与CDN、可选遥测的静态依赖台账；不执行真实账户或客户端流量。",
-  "semantic_identity": "4d50bbbd02799530047d915e4d178ee78061a136f6748ae176eee9e58387eb91",
+  "semantic_identity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9",
   "sources": [
     {
       "authority": "anthropic",

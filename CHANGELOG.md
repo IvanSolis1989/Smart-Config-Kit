@@ -16,6 +16,7 @@
 ## v6.0.21 (2026-10-28)
 
 - Google FCM 归入 Google 服务，其他推送、DNS 与 fake-IP 保持不变；详见 [Clash Party 变更日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)。
+- 同步本次 FCM 变更的语义审查、来源账本与依赖覆盖记录，并修正 Karing 测试夹具的版本绑定。
 
 ## 2026-10-27 — AEROVE Lite 原生预算修正
 

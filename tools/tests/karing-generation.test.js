@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { SOURCE_GRAPH_VERSION } = require('../../rulesets/source/routing-graph');
 const generatorPath = path.resolve(__dirname, '../generate-karing.js');
 
 function api() {
@@ -28,7 +29,7 @@ function fixture(rules) {
         rule_set: [{ tag: 'scki-fused-001-test', type: 'remote', format: 'binary', url: 'https://example.com/test.srs' }]
       }
     },
-    fusedManifest: { baseline_version: 'v6.0.20', segments: [{ id: 'scki-fused-001-test', policy: 'business' }] },
+    fusedManifest: { baseline_version: SOURCE_GRAPH_VERSION, segments: [{ id: 'scki-fused-001-test', policy: 'business' }] },
     assetUrl: file => `https://example.com/${file}`,
     loadRuleSetSource: () => ({ version: 3, rules: [{ domain_suffix: ['example.com'] }] })
   };

@@ -11767,27 +11767,27 @@
     "schema_version": 1,
     "source_ledger": {
       "path": "rulesets/generated/source-ledger.json",
-      "sha256": "f997a5df09ec48ed3afadcd5de763e9707650bb28f6c39fa0d957b9736e0d1fa",
+      "sha256": "2dc43bcedc99bf0b78984628d6ab67492802a1b5860a14fe2246ebd3859c0d36",
       "mode": "partial-sync",
       "raw_provider_count": 401,
       "normalized_provider_count": 525
     },
     "adfp_exceptions": {
       "path": "rulesets/generated/adfp-exceptions.json",
-      "sha256": "385a4c6d6117e95ee57b7c9c4f0caa56e4f86ece8271eea72278e517d0e0d440",
+      "sha256": "8b3638b5e014b8fdb0566a8a2435ea8f7fcc30beced380ad02c67f7028993b6b",
       "registry_sha256": "f3844f5622fa0d14b085e6d41ce4986c8d36a1681c9f867b0ee52c5bc8e43f72",
       "records": 38
     },
     "claude_service_dependencies": {
       "path": "rulesets/generated/claude-service-dependencies.json",
-      "sha256": "cb4b0ee7a347040fc64da1824576815900a2ccea2d6cf480e46b23308b9e690c",
+      "sha256": "9bd64fe4cea6fcc974314612077390f6b9db5625d7287c2f5e678b316967bc22",
       "inventory": {
         "path": "rulesets/source/claude-service-dependencies.json",
         "sha256": "1c83dac359a22e495170fda36ea5724e693d5bce05f496dbbb01c1daeff9de1a",
         "bytes": 29286,
         "text_normalization": "LF"
       },
-      "semantic_identity": "4d50bbbd02799530047d915e4d178ee78061a136f6748ae176eee9e58387eb91",
+      "semantic_identity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9",
       "coverage": {
         "ok": true,
         "scope": "finite-domain-projection-only",
@@ -11797,10 +11797,10 @@
     },
     "semantic_diff": {
       "path": "rulesets/generated/semantic-diff.json",
-      "sha256": "97fef799d30c3218b89ec28dd3a519803826657a3a8a1be1dc0c593e22a04765",
-      "bytes": 72447,
+      "sha256": "c6464f559a54085c687be3bd648e603b115445fb9140b56fa2e3f52b8f7dc0c3",
+      "bytes": 5386156,
       "text_normalization": "LF",
-      "after_identity": "4d50bbbd02799530047d915e4d178ee78061a136f6748ae176eee9e58387eb91"
+      "after_identity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9"
     }
   },
   "supplemental_patch_receipt": "rulesets/generated/supplemental-patch.json"
