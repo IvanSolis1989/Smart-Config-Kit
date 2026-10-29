@@ -15,6 +15,10 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.2.1 (2026-10-29)
+
+- 修正 FlClash 离线表单的原生无效数值拒绝；共享 CLI 和所有客户端默认行为不变。详见 [FlClash 日志](../FlClash/CHANGELOG.md)。
+
 ## 离线配置表单 v1.2.0 (2026-10-29)
 
 - FlClash 离线入口复用共享参数 schema 与构建期可信常量解析，一次写入业务方案和本地参数；Clash Party 原 CLI、安全写入、默认脚本与业务生成行为保持。全端业务方案与各平台运行时能力分别说明，详见[配置指南](../../docs/configuration.md)。

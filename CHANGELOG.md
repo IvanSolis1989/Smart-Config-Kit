@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 离线配置表单 v1.2.1 (2026-10-29)
+
+- 拒绝浏览器数值输入的原生无效状态，避免不完整指数被误当作关闭倍率筛选；有效留空及默认分流保持。详见 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+
 ## 离线配置表单 v1.2.0 (2026-10-29)
 
 - FlClash 下载合并业务方案与既有测速、QUIC、节点 DNS、倍率及 ZeroTier 参数，双标签共享选择；默认客户端、规则与安全边界保持。详见[配置指南](docs/configuration.md)。

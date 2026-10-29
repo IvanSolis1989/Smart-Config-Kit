@@ -96,3 +96,14 @@ test('one FlClash download combines typed local options and retained business se
   ids.maxNodeMultiplier.value = '-1'; assert.equal(download(), undefined); assert.ok(ids.error.textContent);
   ids.maxNodeMultiplier.value = '2.5'; ids.subscriptionAdapterProfile.value = 'invalid'; assert.equal(download(), undefined); assert.ok(ids.error.textContent);
 });
+
+test('native numeric badInput cannot be mistaken for an empty multiplier', () => {
+  const { ids, download } = runPage(); const field = ids.maxNodeMultiplier;
+  field.value = ''; field.validity = { badInput: true };
+  assert.equal(download(), undefined); assert.ok(ids.error.textContent);
+  assert.equal(download('download-json'), undefined); assert.ok(ids.error.textContent);
+  field.validity.badInput = false;
+  assert.match(download().type, /javascript/);
+  assert.equal(JSON.parse(download('download-json').text).localOptions.maxNodeMultiplier, null);
+  field.value = '2.5'; assert.equal(JSON.parse(download('download-json').text).localOptions.maxNodeMultiplier, 2.5);
+});

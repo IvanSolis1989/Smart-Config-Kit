@@ -13,6 +13,11 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.2.1 (2026-10-29)
+
+- 倍率输入同时检查浏览器原生 `validity.badInput`；不完整指数等无效输入不再被空字符串转成 null，JS/本地参数 JSON 均拒绝下载。
+- 真正留空仍关闭倍率筛选，修正输入后可恢复下载；业务与参数合并、源脚本及默认行为保持。
+
 ## 离线配置表单 v1.2.0 (2026-10-29)
 
 - 业务 Full/Lite/Custom 与测速、QUIC、节点 DNS、倍率及 ZeroTier 合并下载，不再需要 CLI；两个标签共享选择，JSON 高级导出保留独立 schema。
