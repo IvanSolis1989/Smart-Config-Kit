@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { buildOfflineConfigurationBundle, renderOfflineConfigurationExporter } = require('./lib/offline-configuration-export');
 const output = path.join(__dirname, '../docs/configuration.html');
-const FORM_VERSION = '1.4.1';
+const FORM_VERSION = '1.4.2';
 const serialize = value => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 const bundle = buildOfflineConfigurationBundle();
 const fflate = require('./vendor/fflate/umd/index.js');
@@ -23,7 +23,7 @@ const page = `<!doctype html>
 </style></head><body><main><header><div class="brand">SMART CONFIG KIT / 本地配置</div><h1>让配置适合你的使用方式</h1><p>选择客户端、业务方案和可用参数。页面加载后配置在浏览器本地生成，不上传订阅或个人配置，也不会自动应用到设备。</p></header>
 <div class="layout"><section class="panel"><div class="field"><div><label for="client">客户端</label><p class="hint">切换客户端时，各自的参数选择单独保存。</p></div><select id="client"></select></div><div class="tabs" role="tablist" aria-label="配置类型"><button class="tab" id="business-tab" role="tab" aria-selected="true" aria-controls="business-panel">业务方案</button><button class="tab" id="local-tab" role="tab" aria-selected="false" aria-controls="local-panel">可选参数</button></div>
 <div id="local-panel" role="tabpanel" aria-labelledby="local-tab" hidden><h2>可选参数</h2><p class="intro">这里只显示当前客户端支持的选项；默认保留现有行为。</p><div id="fields"></div></div>
-<div id="business-panel" role="tabpanel" aria-labelledby="business-tab"><h2>业务方案</h2><p class="intro">选择保留专属规则与策略组的业务。</p><div class="field"><div><label for="profile">业务方案</label><p class="hint">完整保留全部业务；精简使用预设；自选可逐项配置。</p></div><select id="profile"><option value="full">完整（默认）</option><option value="lite">精简</option><option value="custom">自选</option></select></div><p id="summary" class="hint" aria-live="polite"></p><div id="custom" hidden><h3>保留的业务</h3><div id="services" class="checks"></div></div><p class="notice">广告、安全、直连等基础保护保留；未选业务继续匹配后续基础规则。</p></div></section>
+<div id="business-panel" role="tabpanel" aria-labelledby="business-tab"><h2>业务方案</h2><p class="intro">选择保留专属规则与策略组的业务。</p><div class="field"><div><label for="profile">业务方案</label><p class="hint">完整保留全部业务；精简使用预设；自选可逐项配置。</p></div><select id="profile"><option value="full">完整（Full）</option><option value="lite">精简（Lite）</option><option value="custom">自选（Custom）</option></select></div><p id="summary" class="hint" aria-live="polite"></p><div id="custom" hidden><h3>保留的业务</h3><div id="services" class="checks"></div></div><p class="notice">广告、安全、直连等基础保护保留；未选业务继续匹配后续基础规则。</p></div></section>
 <aside class="panel preview"><h2>下载与使用</h2><p id="baseline" class="hint"></p><p id="selection-summary" class="hint" aria-live="polite"></p><button class="primary" id="download">下载配置</button><p id="error" class="error" role="alert"></p><h3>导入方法</h3><p id="client-help" class="hint"></p><p class="hint">多文件配置以 ZIP 下载，请保留其中的目录结构。页面不会读取个人文件、运行配置或验证设备。</p><details><summary>高级：下载独立设置 JSON</summary><p class="hint">业务与本地参数分别导出，直接下载的配置已包含当前选择。</p><button class="tab" id="download-business-json">下载业务设置 JSON</button><button class="tab" id="download-local-json">下载本地参数 JSON</button><p id="local-json-note" class="hint"></p></details></aside></div></main>
 <script>/*\n${zipLicense}\n*/\n${zipLibrary}</script>
 <script>
