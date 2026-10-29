@@ -5,13 +5,13 @@
 
 # 本地参数与业务方案
 
-默认完整配置保持不变。下载[离线配置表单](configuration.html)，在本机浏览器选择客户端、业务方案及该端支持的参数，直接下载配置，无需 CLI。
+默认完整配置保持不变。打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择客户端、业务方案及该端支持的参数，直接下载配置，无需 CLI。也可下载[离线 HTML](configuration.html)在本机打开。
 
 [项目首页](../README.md) · [文档中心](README.md) · [下载目录](guide/downloads.md) · [导入后验收](guide/dns-and-verification.md#verification)
 
-## 离线下载
+## 选择并下载
 
-1. 下载并打开 `configuration.html`，选择客户端。默认 FlClash / Full。
+1. 打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择客户端。默认 FlClash / Full；也可保存并打开离线 `configuration.html`。
 2. 选择 **Full** 全部业务、**Lite**（AI、即时通讯、会议协作和 YouTube）或 **Custom** 自选业务，按需调整页面提供的参数。
 3. 下载配置并按对应客户端教程导入。单文件保留原扩展名；需要伴随清单、Passwall 列表或 AEROVE 分片和预算的入口以 ZIP 保留目录结构。可选方案的 YAML 使用 JSON 兼容 YAML；Full 保留发布文本的 LF 换行。
 
@@ -27,7 +27,9 @@
 | v2rayN Xray、Karing | QUIC 投影；Karing 仅提供分流，节点、DNS 和最终动作由 App 管理 |
 | Egern、Passwall / Passwall2 | 无上述参数；Egern 保持原生 smart 测速，QUIC 改动需重建资产 |
 
-切换客户端不会携带不支持的参数。表单内嵌可信发布快照及 MIT fflate ZIP 库，生成时不联网、不执行下载脚本、不读取订阅；不增加任意 DNS，也不改 server/SNI/Host 或代理链。它不会自动应用到设备。HTML 是静态快照，更新基线须重新下载；导入后远程规则资源仍需联网。
+切换客户端不会携带不支持的参数。首次打开在线页面时从 GitHub 加载静态资源；选择、生成和下载均在本机完成，不填写或读取订阅和个人配置，不上传数据，也不进行遥测。CSP 限制连接、表单提交和 worker。页面内嵌可信发布快照及 MIT fflate ZIP 库，不执行下载的配置，不增加任意 DNS，也不改 server/SNI/Host 或代理链；它不会自动应用到设备。
+
+页面随 main 发布更新；重新打开或刷新可加载最新发布快照，已打开的页面保持当时快照，不进行后台轮询，也不使用 service worker 缓存。离线 HTML 是保存时的快照，更新时需重新下载。导入客户端后远程规则资源仍需联网。
 
 完整默认值与安全规则保持不变。Meow 和 AEROVE 的设备验收仍需单独进行；没有全端性能基准。其他能力边界见[能力矩阵](client-capability-matrix.md)及[支持队列](support-queue.md)。CLI 仍可用于高级生成或更新已有本地 JS。
 
