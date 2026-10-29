@@ -46,13 +46,23 @@ test('generated page is current and has no executable network or dynamic code ca
   assert.equal(/\bFunction\s*\(/.test(executable), false);
   assert.ok(html.includes(fs.readFileSync(path.join(root, 'tools/vendor/fflate/LICENSE'), 'utf8')));
 });
+test('standalone page sets restrictive CSP and explains local generation', () => {
+  const match = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/);
+  assert.ok(match); const policy = match[1];
+  for (const directive of ["default-src 'none'", "script-src 'unsafe-inline'", "style-src 'unsafe-inline'", "connect-src 'none'", "worker-src 'none'", "object-src 'none'", "base-uri 'none'", "form-action 'none'"]) assert.ok(policy.split(';').map(item => item.trim()).includes(directive));
+  assert.doesNotMatch(policy, /unsafe-eval|frame-ancestors/);
+  assert.match(html, /页面加载后.*浏览器本地生成/); assert.match(html, /不上传订阅或个人配置/);
+  assert.doesNotMatch(html, /<input[^>]+type=["']file["']|navigator\.serviceWorker|localStorage|sessionStorage/);
+});
 test('all 20 clients download all business profiles as exact files or complete ZIPs', () => {
   assert.equal(bundle.clients.length, 20); const page = runPage();
   for (const client of bundle.clients) { select(page, client.id); const actualFields = page.ids.fields.children.flatMap(row => row.children.filter(item => item.id).map(item => item.id)); const keys = Object.entries(client.localOptionSchema || {}).filter(([, def]) => !def.values || def.values.length > 1).map(([key]) => key); assert.deepEqual(actualFields.sort(), keys.sort()); for (const choice of [{profile:'full'}, {profile:'lite'}, {profile:'custom',enable:[bundle.services[0].id]}, {profile:'custom',enable:[]}]) { page.ids.profile.value = choice.profile; page.ids.profile.listeners.change(); if (choice.profile === 'custom') for (const child of page.ids.services.children) child.children[0].checked = choice.enable.includes(child.children[0].value); const actual = page.download(); checkDownload(actual, generateOfflineConfiguration(bundle, { client: client.id, ...choice })); if (actual.type === 'application/zip') assert.deepEqual(page.download().bytes, actual.bytes); } }
 });
 test('per-client parameters remain separate and business selection persists', () => {
   const page = runPage(), { ids } = page; const first = bundle.clients.find(client => client.id === 'flclash');
-  assert.equal(page.download().filename, 'FlClash(mihomo)-full.js');
+  const defaultDownload = page.download(); assert.equal(defaultDownload.filename, 'FlClash(mihomo)-full.js');
+  const canonical = fs.readFileSync(path.join(root, 'Mihomo内核系/FlClash/FlClash(mihomo).js'), 'utf8').replace(/\r\n/g, '\n');
+  assert.equal(defaultDownload.bytes.toString('utf8'), canonical);
   assert.ok(first.localOptionSchema.zeroTierPlanetProxy); ids.zeroTierPlanetProxy.value = 'true'; ids.zeroTierPlanetProxy.listeners.change();
   ids.profile.value = 'lite'; ids.profile.listeners.change();
   const other = bundle.clients.find(client => client.id !== 'flclash' && !Object.hasOwn(client.localOptionSchema, 'zeroTierPlanetProxy'));
