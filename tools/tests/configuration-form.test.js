@@ -54,6 +54,33 @@ test('standalone page sets restrictive CSP and explains local generation', () =>
   assert.match(html, /页面加载后.*浏览器本地生成/); assert.match(html, /不上传订阅或个人配置/);
   assert.doesNotMatch(html, /<input[^>]+type=["']file["']|navigator\.serviceWorker|localStorage|sessionStorage/);
 });
+test('parameter choices display Chinese and original literals without changing values or defaults', () => {
+  const labels = {
+    healthCheckProfile: { standard:'标准（standard）', 'power-save':'省电（power-save）' },
+    quicPolicy: { 'block-foreign':'拦截（block-foreign）', 'follow-rules':'按规则（follow-rules）' },
+    zeroTierPlanetProxy: { true:'开启（true）', false:'关闭（false）' },
+    subscriptionAdapterProfile: { off:'关闭适配（off）', policy:'显式策略（policy）', adaptive:'自适应（adaptive）', 'hosts-only':'精确映射（hosts-only）' },
+  };
+  const page = runPage();
+  for (const client of bundle.clients) {
+    select(page, client.id);
+    for (const [key, definition] of Object.entries(client.localOptionSchema)) {
+      if (!definition.values || definition.values.length <= 1) continue;
+      const control = page.ids[key];
+      assert.equal(control.value, String(definition.default), `${client.id}/${key} default`);
+      assert.deepEqual(control.children.map(option => ({ value:option.value, label:option.textContent })),
+        definition.values.map(value => ({ value:String(value), label:labels[key][String(value)] })), `${client.id}/${key} labels`);
+    }
+  }
+});
+test('bilingual parameter selections preserve typed JSON, configuration bytes and summary meaning', () => {
+  const page = runPage(), options = { healthCheckProfile:'power-save', quicPolicy:'follow-rules', zeroTierPlanetProxy:true, subscriptionAdapterProfile:'hosts-only' };
+  for (const [key, value] of Object.entries(options)) { page.ids[key].value = String(value); page.ids[key].listeners.change(); }
+  const settings = JSON.parse(page.download('download-local-json').bytes);
+  assert.deepEqual(settings.localOptions, { ...options, maxNodeMultiplier:null });
+  checkDownload(page.download(), generateOfflineConfiguration(bundle, { client:'flclash', profile:'full', localOptions:options }));
+  for (const text of ['省电（power-save）','按规则（follow-rules）','开启（true）','精确映射（hosts-only）']) assert.ok(page.ids['selection-summary'].textContent.includes(text), text);
+});
 test('all 20 clients download all business profiles as exact files or complete ZIPs', () => {
   assert.equal(bundle.clients.length, 20); const page = runPage();
   for (const client of bundle.clients) { select(page, client.id); const actualFields = page.ids.fields.children.flatMap(row => row.children.filter(item => item.id).map(item => item.id)); const keys = Object.entries(client.localOptionSchema || {}).filter(([, def]) => !def.values || def.values.length > 1).map(([key]) => key); assert.deepEqual(actualFields.sort(), keys.sort()); for (const choice of [{profile:'full'}, {profile:'lite'}, {profile:'custom',enable:[bundle.services[0].id]}, {profile:'custom',enable:[]}]) { page.ids.profile.value = choice.profile; page.ids.profile.listeners.change(); if (choice.profile === 'custom') for (const child of page.ids.services.children) child.children[0].checked = choice.enable.includes(child.children[0].value); const actual = page.download(); checkDownload(actual, generateOfflineConfiguration(bundle, { client: client.id, ...choice })); if (actual.type === 'application/zip') assert.deepEqual(page.download().bytes, actual.bytes); } }
