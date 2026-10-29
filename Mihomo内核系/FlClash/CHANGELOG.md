@@ -13,6 +13,13 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.1.0 (2026-10-29)
+
+- 选择 Full / Lite / Custom 后可直接下载 FlClash JS，无需 CLI、Node.js 或 Ruby；保留其他客户端的 JSON + CLI 入口。
+- 表单嵌入构建时验证的可信源与共享投影模板，不联网、不运行脚本、不读取个人配置；Full 保持发布源内容，Lite/Custom 与 CLI 同方案一致，下载文本统一 LF。
+- 直接下载仅采用业务选择；测速、QUIC、DNS、倍率及客户端 App 托管边界保持原默认，本地参数页不隐式合并。
+- 正式 `v6.0.21-flclash.25` 脚本及共享资产不变，表单通过独立版本记录工具变化。
+
 ## v6.0.21-flclash.25 (2026-10-29)
 
 - 同步显式 hosts-only 运行时，与两款 Clash Party JS 共用受限模块；默认 adaptive、节点身份、规则及应用 UI 托管边界不变。

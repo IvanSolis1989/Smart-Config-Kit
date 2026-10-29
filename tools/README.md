@@ -17,7 +17,7 @@
 ---
 
 
-[统一配置入口](../docs/configuration.md)：`configure.js`、离线表单、全端业务投影与真实 QuickJS 验证。
+[统一配置入口](../docs/configuration.md)：`configure.js`、FlClash 离线直接下载、全端业务投影与真实 QuickJS 验证。表单从可信源与共享模板生成，维护时运行 `node tools/generate-configuration-form.js --check` 检查快照同步。
 
 ## 先运行相关验证
 

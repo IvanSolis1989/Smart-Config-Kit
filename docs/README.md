@@ -32,7 +32,7 @@
 
 ## 订阅与高级选项
 
-- **[统一配置入口](configuration.md)**：离线参数表单、本地 JS 安全更新与全端可选业务方案。
+- **[统一配置入口](configuration.md)**：FlClash 离线直接下载、本地 JS 安全更新与全端可选业务方案。
 
 - **[Sub-Store 多机场聚合](../SubStore/README.md)**：清洗、命名、去重并生成单一订阅。
 - [浏览器订阅同步助手](../SubStore/edge-extension/README.md)：账号登录、站点授权与订阅更新边界。

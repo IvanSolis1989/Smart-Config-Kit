@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 离线配置表单 v1.1.0 (2026-10-29)
+
+- FlClash 可在离线表单选择 Full / Lite / Custom 后直接下载 JS，复用 CLI 的可信业务投影；默认客户端、源规则图及共享资产不变。详见[配置指南](docs/configuration.md)与 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+
 ## v6.0.21 (2026-10-29)
 
 - 增加真实 QuickJS 门禁、全端可选业务投影、统一离线参数入口及显式 hosts-only 兼容；默认完整分流与共享资产保持。详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md) 和[配置指南](docs/configuration.md)。

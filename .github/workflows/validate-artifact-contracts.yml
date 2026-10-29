@@ -9,6 +9,8 @@ on:
       - 'tools/configure.js'
       - 'tools/lib/configuration-schema.js'
       - 'tools/generate-configuration-form.js'
+      - 'tools/lib/flclash-browser-export.js'
+      - 'tools/tests/flclash-browser-export.test.js'
       - 'tools/tests/business-profile*.test.js'
       - 'tools/tests/configuration*.test.js'
       - 'tools/tests/node-dns-hosts-only*.test.js'
@@ -122,6 +124,8 @@ on:
       - 'tools/configure.js'
       - 'tools/lib/configuration-schema.js'
       - 'tools/generate-configuration-form.js'
+      - 'tools/lib/flclash-browser-export.js'
+      - 'tools/tests/flclash-browser-export.test.js'
       - 'tools/tests/business-profile*.test.js'
       - 'tools/tests/configuration*.test.js'
       - 'tools/tests/node-dns-hosts-only*.test.js'
@@ -256,7 +260,7 @@ jobs:
         run: |
           npm --prefix tools/js-engine-tests ci --ignore-scripts
           node tools/generate-configuration-form.js --check
-          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
+          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/flclash-browser-export.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
 
       - name: Validate Karing generation and client layout
         run: |

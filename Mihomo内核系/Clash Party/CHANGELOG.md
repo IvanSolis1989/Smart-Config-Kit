@@ -15,6 +15,11 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.1.0 (2026-10-29)
+
+- 共享可选业务脚本生成器提取为纯模板，供 CLI 与 FlClash 离线下载复用；Clash Party / AEROVE 的原有可选方案语义与默认产物保持。
+- 本次仅扩展构建工具与表单交付入口，不修改规则、DNS、节点运行时或全端默认版本；详见 [FlClash 日志](../FlClash/CHANGELOG.md)。
+
 ## v6.0.21-dns.24 / v6.0.21-normal.24 (2026-10-29)
 
 - 新增显式本地 hosts-only：仅活动节点精确 FQDN 到合法多 IP，保留节点身份及仓库 hosts 优先，篡改或超限零写入；默认 adaptive 和原规则不变。

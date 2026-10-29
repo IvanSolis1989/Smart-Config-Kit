@@ -3,8 +3,8 @@
 const { spawnSync } = require('node:child_process');
 const { isDeepStrictEqual } = require('node:util');
 const { splitTopLevel } = require('./fused-rule-optimizer');
-const { projectMihomoConfig, rulePolicy, isProtectedRule, rewriteRulePolicy, getBusinessProfileCatalog } = require('./business-profiles');
-const { runBusinessProfile } = require('./business-profile-runtime');
+const { projectMihomoConfig, rulePolicy, isProtectedRule, rewriteRulePolicy } = require('./business-profiles');
+const { projectScript } = require('./business-profile-script');
 
 const encode = value => `${JSON.stringify(value, null, 2)}\n`;
 const insist = (condition, message) => { if (!condition) throw new Error(message); };
@@ -20,25 +20,6 @@ function renderYaml(value) {
   const result = rubyYaml('STDOUT.write(JSON.parse(STDIN.read).to_yaml(line_width: -1))', JSON.stringify(value));
   insist(isDeepStrictEqual(parseYaml(result), value), 'YAML business profile read-back differs from projected object');
   return result;
-}
-
-function projectScript(source, plan, artifact) {
-  const marker = 'function main(config)';
-  insist(source.split(marker).length === 2, 'JS main(config) anchor missing or duplicated');
-  insist(artifact && ['in-place', 'clone'].includes(artifact.runtimeContract), 'Explicit maintained script runtime contract is required');
-  const successMarker = /return config(\r?\n  } catch \(e\) \{)/g;
-  insist([...source.matchAll(successMarker)].length === 1, 'Maintained JS successful-completion anchor missing or duplicated');
-  const catalog = getBusinessProfileCatalog();
-  insist(typeof plan.finalRule === 'string' && plan.finalRule.startsWith('MATCH,'), 'Source final routing rule missing');
-  const runtimePlan = { disabledGroups: plan.disabledGroups, fallbacks: plan.fallbacks, safetyByProvider: plan.safetyByProvider,
-    businessGroups: [...catalog.protectedGroups, ...catalog.services.map(service => service.group)], finalRule: plan.finalRule };
-  const prepared = source.replace(marker, 'function sckiBusinessProfileOriginalMain(config)')
-    .replace(successMarker, 'sckiBusinessProfileCompletedConfig = config;\n    return config$1');
-  return prepared +
-    '\n// Explicit local business profile, generated from the source graph.\n' +
-    '// Subscription fields cannot select or override this plan.\n' + projectMihomoConfig.toString() + '\n' +
-    runBusinessProfile.toString() + '\nvar sckiBusinessProfileCompletedConfig = null;\n' +
-    `function main(config) { return runBusinessProfile(config, ${JSON.stringify(runtimePlan)}, ${JSON.stringify(artifact.runtimeContract)}, sckiBusinessProfileOriginalMain, function () { return sckiBusinessProfileCompletedConfig; }, function () { sckiBusinessProfileCompletedConfig = null; }); }\n`;
 }
 
 function projectOpenClash(source, plan) {
