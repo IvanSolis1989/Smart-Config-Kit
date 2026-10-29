@@ -140,6 +140,10 @@ Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚�
 
 ## 常见问题
 
+### WebRTC 检测为什么显示本地公网 IP？
+
+默认配置让常用 STUN/TURN 端口直连以兼容 NAT 探测，TUN 接管后仍会按规则直连。隐藏浏览器 WebRTC 公网 IP 需显式选择浏览器隐私策略，并核对实际 STUN 连接；关闭客户端二次 DNS 覆写仍是正常用法。参见 [WebRTC 隐私与验收](../../docs/guide/webrtc-privacy.md)，其中说明通话代价及对照测试。
+
 ### Q1：启用脚本后节点为空 / 区域组为空？
 
 - 确认订阅返回的是 **Mihomo / Clash.Meta** 格式（不是 Surge / Quantumult）。

@@ -54,6 +54,19 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 ## 按顺序创建、关联并启动
 
+### 可选：先生成 Lite / Custom 业务方案
+
+默认直接使用下方完整 JS。需要精简业务时，先下载或克隆本仓库，在本机浏览器打开 `docs/configuration.html`，选择「全端业务」：**Lite** 保留 AI、即时通讯、会议协作和 YouTube（`ai,im,work,youtube`）；**Custom** 自行勾选要保留的业务。下载的 `settings.json` 是生成设置，不能直接导入 FlClash。
+
+在仓库根目录运行下面的命令。将路径替换为实际位置，输出目录的父目录须已存在，输出目录本身必须是全新目录；可先加 `--dry-run` 检查，再去掉该参数生成。Node.js、Ruby 等环境要求见[统一配置指南](../../docs/configuration.md)。
+
+```bash
+node tools/configure.js --settings '.../settings.json' --output-dir '.../全新目录' --dry-run
+node tools/configure.js --settings '.../settings.json' --output-dir '.../全新目录'
+```
+
+打开输出目录中的 `Mihomo内核系/FlClash/FlClash(mihomo).js`，复制**全文**，按下面第 1 步创建独立命名的「粘贴」覆写，再按第 2 步关联订阅。不要给这个覆写配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
+
 ### 第 1 步：创建覆写脚本
 
 <img width="360" height="800" alt="c54492ae7abbfa269f1a6cceaca65a7c" src="https://github.com/user-attachments/assets/35be12b0-39a0-43a5-8b4f-01f736c93704" />
@@ -109,7 +122,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 点「代理」标签，应看到：
 - **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过）：🌍 全球节点、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
-- **33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……
+- **完整方案的 33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……Lite / Custom 的可选业务组更少；广告、安全、直连等基础保护保留。
 - 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
 
 检查最终配置的 DNS 与实际连接记录；脚本版本正确不能证明 App patch 后的最终配置正确。详细检查见下方 DNS 说明。

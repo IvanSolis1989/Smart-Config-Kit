@@ -39,6 +39,7 @@
 - [节点过滤与倍率筛选](subscription-node-filter.md)：订阅清洗、家宽识别和筛选语义。
 - [私有节点 DNS](private-node-dns.md)：活动节点域名的受限投影及静态端边界。
 - [测速与 QUIC 选项](traffic-options.md)：可选流量行为与跨端支持范围。
+- [WebRTC 隐私与验收](guide/webrtc-privacy.md)：STUN 直连取舍、浏览器隐私策略与连接证据。
 - [ZeroTier UDP 代理](zerotier-planet-proxy.md)：默认关闭的可选方案与验证方式。
 - [PROCESS-NAME 兼容性](process-name-compatibility.md)：各平台进程规则限制。
 
