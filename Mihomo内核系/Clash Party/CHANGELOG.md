@@ -15,6 +15,10 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.2.0 (2026-10-29)
+
+- FlClash 离线入口复用共享参数 schema 与构建期可信常量解析，一次写入业务方案和本地参数；Clash Party 原 CLI、安全写入、默认脚本与业务生成行为保持。全端业务方案与各平台运行时能力分别说明，详见[配置指南](../../docs/configuration.md)。
+
 ## 离线配置表单 v1.1.0 (2026-10-29)
 
 - 共享可选业务脚本生成器提取为纯模板，供 CLI 与 FlClash 离线下载复用；Clash Party / AEROVE 的原有可选方案语义与默认产物保持。

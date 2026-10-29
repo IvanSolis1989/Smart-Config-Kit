@@ -11,6 +11,9 @@ const { projectScript } = require('../lib/business-profile-platforms');
 const { clientDirectory } = require('../lib/client-layout');
 const { loadQuickJS, executeNode, executeQuickJS, compareExecutions } = require('../validate-js-engines');
 const { scenarios } = require('../lib/js-engine-fixtures');
+const { definitions } = require('../lib/configuration-schema');
+const { parseLocalTrafficOptions, planLocalTrafficOptions } = require('../lib/local-traffic-options');
+const { getQuicRules, getZeroTierPlanetProxyPolicy } = require('../../rulesets/source/routing-graph');
 
 const ROOT = path.resolve(__dirname, '../..');
 const SOURCE = path.join(ROOT, clientDirectory('FlClash'), 'FlClash(mihomo).js');
@@ -92,7 +95,8 @@ test('renderer works without Node, network or code evaluation and does not run c
   const context = vm.createContext({ fetch() { throw new Error('network forbidden'); }, eval() { throw new Error('eval forbidden'); }, Function() { throw new Error('Function forbidden'); } });
   vm.runInContext(renderFlClashBrowserExporter(), context);
   const before = JSON.stringify(bundle);
-  for (const options of [{ profile: 'full' }, { profile: 'lite' }, { profile: 'custom', enable: ['ai'] }]) {
+  for (const options of [{ profile: 'full' }, { profile: 'lite' }, { profile: 'custom', enable: ['ai'] },
+    { profile: 'lite', localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5, zeroTierPlanetProxy: true } }]) {
     const browser = context.generateFlClashScript(bundle, options);
     assert.deepEqual(JSON.parse(JSON.stringify(browser)), generateFlClashScript(bundle, options));
   }
@@ -116,4 +120,120 @@ test('real QuickJS executes exported Lite and Custom with identity and rejection
       }
     }
   }
+});
+
+test('browser export combines each local field with business choices exactly like the CLI', () => {
+  const { buildFlClashBrowserBundle, generateFlClashScript } = api();
+  const bundle = buildFlClashBrowserBundle(), source = fs.readFileSync(SOURCE, 'utf8');
+  const defaults = Object.fromEntries(Object.entries(definitions).map(([key, definition]) => [key, definition.default]));
+  const choices = [
+    { profile: 'full', localOptions: defaults },
+    { profile: 'full', localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5, zeroTierPlanetProxy: true } },
+    { profile: 'lite', localOptions: { healthCheckProfile: 'standard', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'off', maxNodeMultiplier: null } },
+    { profile: 'lite', localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'block-foreign', subscriptionAdapterProfile: 'policy', maxNodeMultiplier: 2.5, zeroTierPlanetProxy: true } },
+    { profile: 'custom', enable: ['ai', 'youtube'], localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'adaptive', maxNodeMultiplier: null } },
+    { profile: 'custom', enable: [], localOptions: { healthCheckProfile: 'standard', quicPolicy: 'block-foreign', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5 } },
+    ...Object.entries(definitions).flatMap(([key, definition]) => (definition.values || [null, 2.5]).map(value => ({ profile: 'full', localOptions: { [key]: value } }))),
+  ];
+  for (const options of choices) {
+    const business = { profile: options.profile, ...(options.enable ? { enable: options.enable } : {}) };
+    const local = planLocalTrafficOptions(source, source, options.localOptions);
+    const expected = options.profile === 'full' ? lf(local.updated) : lf(projectScript(local.updated, buildProfilePlan(business), { runtimeContract: 'in-place' }));
+    const actual = generateFlClashScript(bundle, options);
+    assert.equal(actual.source, expected, JSON.stringify(options));
+    assert.deepEqual(actual.summary.localOptions, local.options);
+    assert.deepEqual(parseLocalTrafficOptions(actual.source).options, local.options);
+    assert.equal(actual.summary.fullCanonicalSourceUnchanged, actual.source === bundle.canonicalSource);
+  }
+  for (const profile of ['full', 'lite', 'custom']) {
+    const baseline = generateFlClashScript(bundle, { profile });
+    assert.equal(generateFlClashScript(bundle, { profile, localOptions: defaults }).source, baseline.source);
+    assert.deepEqual(baseline.summary.localOptions, defaults);
+  }
+});
+
+test('local options reject wrong types, accessors and prototypes without running user code', () => {
+  const { buildFlClashBrowserBundle, generateFlClashScript } = api();
+  const bundle = buildFlClashBrowserBundle();
+  const invalid = [null, [], new Array(1), 'adaptive', { unknown: true },
+    { healthCheckProfile: 900 }, { healthCheckProfile: '900' }, { quicPolicy: false }, { zeroTierPlanetProxy: 'false' },
+    { subscriptionAdapterProfile: null }, { subscriptionAdapterProfile: 'unknown' },
+    ...[NaN, Infinity, -Infinity, 0, -1, '2.5', true, {}, [], undefined].map(value => ({ maxNodeMultiplier: value })),
+    Object.create({ healthCheckProfile: 'power-save' }), JSON.parse('{"__proto__":{"quicPolicy":"follow-rules"}}'),
+  ];
+  for (const localOptions of invalid) assert.throws(() => generateFlClashScript(bundle, { profile: 'lite', localOptions }), /local|option|plain|value|data|profile/i);
+  let executed = 0;
+  const localGetter = Object.defineProperty({}, 'quicPolicy', { enumerable: true, get() { executed++; return 'follow-rules'; } });
+  const hiddenGetter = Object.defineProperty({}, 'maxNodeMultiplier', { get() { executed++; return 2.5; } });
+  const outerGetter = Object.defineProperty({ profile: 'lite' }, 'localOptions', { enumerable: true, get() { executed++; return {}; } });
+  const taggedGetter = Object.defineProperty({}, Symbol.toStringTag, { get() { executed++; return 'Object'; } });
+  const enableGetter = Object.defineProperty([], '0', { get() { executed++; return 'ai'; } });
+  for (const options of [{ profile: 'lite', localOptions: localGetter }, { profile: 'lite', localOptions: hiddenGetter },
+    { profile: 'lite', localOptions: taggedGetter }, { profile: 'custom', enable: enableGetter }, outerGetter]) {
+    assert.throws(() => generateFlClashScript(bundle, options), /local|option|plain|value|data|profile/i);
+  }
+  assert.equal(executed, 0);
+});
+
+test('bundle validates duplicate local declarations and every Node-DNS capability without execution', () => {
+  const { buildFlClashBrowserBundle } = api();
+  const read = fs.readFileSync, source = lf(read(SOURCE, 'utf8'));
+  const transform = text => { fs.readFileSync = function (file, options) {
+    if (path.resolve(String(file)) === SOURCE) return typeof options === 'string' || options?.encoding ? text : Buffer.from(text);
+    return read.call(this, file, options);
+  }; };
+  try {
+    transform(source + '\nconst SCKI_HEALTH_CHECK_PROFILE = "standard";\n');
+    assert.throws(() => buildFlClashBrowserBundle(), /duplicate|invalid JavaScript|declared/i);
+    const withoutHostsOnly = source.replace(/^.*"hosts-only": \{ id: "hosts-only", nodeDnsProjection: "hosts-only" \},?\n/m, '');
+    assert.notEqual(withoutHostsOnly, source);
+    transform(withoutHostsOnly);
+    assert.throws(() => buildFlClashBrowserBundle(), /capability|hosts-only/i);
+    delete globalThis.__sckiBrowserBuildExecuted;
+    transform(source + '\nglobalThis.__sckiBrowserBuildExecuted = true;\n');
+    buildFlClashBrowserBundle();
+    assert.equal(globalThis.__sckiBrowserBuildExecuted, undefined);
+  } finally { fs.readFileSync = read; delete globalThis.__sckiBrowserBuildExecuted; }
+});
+
+test('trusted literal slots retain inline comments exactly like the CLI writer', () => {
+  const { buildFlClashBrowserBundle, generateFlClashScript } = api();
+  const read = fs.readFileSync;
+  const source = lf(read(SOURCE, 'utf8')).replace(/^const SCKI_MAX_NODE_MULTIPLIER = null$/m, 'const SCKI_MAX_NODE_MULTIPLIER = null//trusted source note');
+  fs.readFileSync = function (file, options) {
+    if (path.resolve(String(file)) === SOURCE) return typeof options === 'string' || options?.encoding ? source : Buffer.from(source);
+    return read.call(this, file, options);
+  };
+  let bundle;
+  try { bundle = buildFlClashBrowserBundle(); } finally { fs.readFileSync = read; }
+  const requested = { maxNodeMultiplier: 2.5 };
+  assert.equal(generateFlClashScript(bundle, { profile: 'full', localOptions: requested }).source, planLocalTrafficOptions(source, source, requested).updated);
+});
+
+test('real QuickJS combines power-save, QUIC follow, hosts-only and multiplier safety', async () => {
+  const { buildFlClashBrowserBundle, generateFlClashScript } = api();
+  const bundle = buildFlClashBrowserBundle(), engine = await loadQuickJS().getQuickJS();
+  const cases = scenarios().filter(scenario => ['normal-subscription', 'valid-dialer-chain', 'filtered-dialer-rejected'].includes(scenario.id));
+  for (const profile of ['full', 'lite', 'custom']) {
+    const generated = generateFlClashScript(bundle, { profile,
+      localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5 } });
+    for (const scenario of cases) {
+      const input = structuredClone(scenario.config);
+      input.hosts['unused.fixture.test'] = '198.51.100.7';
+      const node = executeNode(generated.source, input), quickjs = executeQuickJS(engine, generated.source, input);
+      compareExecutions(node, quickjs, { id: 'flclash' }, scenario);
+      if (scenario.unchanged) { assert.deepEqual(quickjs.output, input); continue; }
+      const output = quickjs.output;
+      assert(output['proxy-groups'].filter(group => group.type === 'url-test').every(group => group.interval === 900));
+      assert(!output.rules.some(rule => getQuicRules('block-foreign').includes(rule)));
+      assert.deepEqual(output.hosts['node.fixture.test'], ['192.0.2.3']);
+      assert(!Object.hasOwn(output.hosts, 'unused.fixture.test'));
+      assert(!Object.hasOwn(output.dns['proxy-server-nameserver-policy'] || {}, 'node.fixture.test'));
+      assert(!output.proxies.some(proxy => proxy.name === 'US Home x3'));
+    }
+  }
+  const zeroTier = generateFlClashScript(bundle, { profile: 'lite', localOptions: { zeroTierPlanetProxy: true } });
+  const chain = cases.find(item => item.id === 'valid-dialer-chain');
+  const actual = executeQuickJS(engine, zeroTier.source, chain.config);
+  for (const rule of getZeroTierPlanetProxyPolicy().rules) assert(actual.output.rules.includes(rule));
 });

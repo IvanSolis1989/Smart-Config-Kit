@@ -6,6 +6,8 @@ const crypto = require('node:crypto');
 const { clientDirectory } = require('./client-layout');
 const { getBusinessProfileCatalog, buildProfilePlan } = require('./business-profiles');
 const { buildBusinessProfileScriptTemplate, buildBusinessProfileRuntimePlan, emitBusinessProfileScript } = require('./business-profile-script');
+const { buildFlClashLocalOptionTemplates, readFlClashDataOptions, readFlClashServiceIds,
+  resolveFlClashLocalOptions, formatFlClashLocalLiteral, renderFlClashLocalOptionTemplate } = require('./flclash-browser-local-options');
 
 const ROOT = path.resolve(__dirname, '../..');
 const canonicalLF = value => value.replace(/\r\n/g, '\n');
@@ -18,6 +20,7 @@ function buildFlClashBrowserBundle() {
   const template = buildBusinessProfileScriptTemplate(canonicalSource, { runtimeContract: 'in-place' });
   const scriptTemplate = { prefix: canonicalLF(template.prefix), suffix: canonicalLF(template.suffix) };
   const basePlan = buildBusinessProfileRuntimePlan(plan, catalog);
+  const local = buildFlClashLocalOptionTemplates(canonicalSource, emitBusinessProfileScript(scriptTemplate, basePlan), scriptTemplate.prefix.length);
   if (catalog.services.length !== 24 || new Set(catalog.services.map(service => service.id)).size !== catalog.services.length ||
       catalog.services.some(service => typeof plan.fallbacks[service.group] !== 'string') ||
       catalog.presets.lite.some(id => !catalog.services.some(service => service.id === id))) {
@@ -32,6 +35,7 @@ function buildFlClashBrowserBundle() {
     protectedGroups: catalog.protectedGroups.slice(),
     presets: { lite: catalog.presets.lite.slice() },
     basePlan, scriptTemplate,
+    localOptionSchema: local.schema, trustedLocalOptionTemplates: local.templates, localOptionCapabilities: local.capabilities,
     fallbackExplanation: catalog.fallbackExplanation,
   };
 }
@@ -41,7 +45,7 @@ function buildFlClashBrowserBundle() {
 // This function and the shared emitter are rendered together below.
 function generateFlClashScript(bundle, options) {
   function record(value) {
-    return value && typeof value === 'object' && !Array.isArray(value) && Object.prototype.toString.call(value) === '[object Object]';
+    return value && typeof value === 'object' && !Array.isArray(value);
   }
   if (!record(bundle) || bundle.schemaVersion !== 1 || bundle.client !== 'flclash' || bundle.lineEndings !== 'canonical-lf' ||
       typeof bundle.canonicalSource !== 'string' || bundle.canonicalSource.includes('\r') ||
@@ -49,17 +53,14 @@ function generateFlClashScript(bundle, options) {
       typeof bundle.sourceSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(bundle.sourceSha256) ||
       !Array.isArray(bundle.services) || bundle.services.length !== 24 || !record(bundle.basePlan) ||
       !Array.isArray(bundle.protectedGroups) || !Array.isArray(bundle.presets?.lite)) throw new Error('Invalid trusted FlClash business bundle');
-  if (!record(options) || !Object.prototype.hasOwnProperty.call(options, 'profile') ||
-      Object.keys(options).some(key => !['profile', 'enable'].includes(key)) ||
-      Object.keys(options).some(key => !Object.prototype.hasOwnProperty.call(Object.getOwnPropertyDescriptor(options, key), 'value'))) {
-    throw new Error('Business profile options must be a plain data object with profile and optional enable');
-  }
+  options = readFlClashDataOptions(options, ['profile', 'enable', 'localOptions'], 'business profile');
+  if (!Object.prototype.hasOwnProperty.call(options, 'profile')) throw new Error('Business profile options require profile');
   const profile = options.profile;
   if (typeof profile !== 'string' || !['full', 'lite', 'custom'].includes(profile)) throw new Error('Business profile must be full, lite or custom');
   const supplied = Object.prototype.hasOwnProperty.call(options, 'enable');
   if (profile !== 'custom' && supplied) throw new Error('Business enable is only valid with custom profile');
-  const enable = supplied ? options.enable : [];
-  if (!Array.isArray(enable) || Array.from(enable).some(id => typeof id !== 'string') || new Set(enable).size !== enable.length) throw new Error('Business enable must contain unique string service ids');
+  const enable = readFlClashServiceIds(supplied ? options.enable : []);
+  const localOptions = resolveFlClashLocalOptions(bundle.localOptionSchema, options.localOptions);
   const serviceIds = bundle.services.map(service => service.id);
   if (new Set(serviceIds).size !== serviceIds.length || serviceIds.some(id => typeof id !== 'string' || !/^[a-z][a-z0-9-]*$/.test(id)) ||
       enable.some(id => !serviceIds.includes(id))) throw new Error('Unknown business service');
@@ -77,7 +78,9 @@ function generateFlClashScript(bundle, options) {
     businessGroups: bundle.basePlan.businessGroups,
     finalRule: bundle.basePlan.finalRule,
   };
-  const source = profile === 'full' ? bundle.canonicalSource : emitBusinessProfileScript(bundle.scriptTemplate, runtimePlan);
+  const source = profile === 'full'
+    ? renderFlClashLocalOptionTemplate(bundle.trustedLocalOptionTemplates.canonical, localOptions)
+    : emitBusinessProfileScript({ prefix: renderFlClashLocalOptionTemplate(bundle.trustedLocalOptionTemplates.profilePrefix, localOptions), suffix: bundle.scriptTemplate.suffix }, runtimePlan);
   if (source.includes('\r')) throw new Error('Trusted browser script template must use canonical LF');
   return {
     filename: `FlClash(mihomo)-${profile}.js`, source,
@@ -85,14 +88,16 @@ function generateFlClashScript(bundle, options) {
       profile, enabledServices: enabledServices.map(service => service.id), disabledServices: disabledServices.map(service => service.id),
       disabledGroups: runtimePlan.disabledGroups, protectedGroups: bundle.protectedGroups.slice(),
       sourceVersion: bundle.sourceVersion, sourceSha256: bundle.sourceSha256, runtimeContract: 'in-place',
-      lineEndings: 'canonical-lf', fullCanonicalSourceUnchanged: profile === 'full',
+      localOptions,
+      lineEndings: 'canonical-lf', fullCanonicalSourceUnchanged: source === bundle.canonicalSource,
       sourceContract: 'Canonical LF of the published Git source; Windows checkout CRLF bytes are not preserved.',
     },
   };
 }
 
 function renderFlClashBrowserExporter() {
-  return canonicalLF(`${emitBusinessProfileScript.toString()}\n\n${generateFlClashScript.toString()}\n`);
+  return canonicalLF([emitBusinessProfileScript, readFlClashDataOptions, readFlClashServiceIds, resolveFlClashLocalOptions,
+    formatFlClashLocalLiteral, renderFlClashLocalOptionTemplate, generateFlClashScript].map(fn => fn.toString()).join('\n\n') + '\n');
 }
 
 module.exports = { buildFlClashBrowserBundle, generateFlClashScript, renderFlClashBrowserExporter };

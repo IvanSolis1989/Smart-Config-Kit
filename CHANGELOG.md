@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 离线配置表单 v1.2.0 (2026-10-29)
+
+- FlClash 下载合并业务方案与既有测速、QUIC、节点 DNS、倍率及 ZeroTier 参数，双标签共享选择；默认客户端、规则与安全边界保持。详见[配置指南](docs/configuration.md)。
+
 ## 离线配置表单 v1.1.0 (2026-10-29)
 
 - FlClash 可在离线表单选择 Full / Lite / Custom 后直接下载 JS，复用 CLI 的可信业务投影；默认客户端、源规则图及共享资产不变。详见[配置指南](docs/configuration.md)与 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。

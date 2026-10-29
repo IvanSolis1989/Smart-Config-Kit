@@ -13,6 +13,12 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 离线配置表单 v1.2.0 (2026-10-29)
+
+- 业务 Full/Lite/Custom 与测速、QUIC、节点 DNS、倍率及 ZeroTier 合并下载，不再需要 CLI；两个标签共享选择，JSON 高级导出保留独立 schema。
+- 复用共享定义及可信常量槽，只允许现有 typed 白名单值，不联网、不执行用户或嵌入源代码；默认下载、源脚本、共享资产和运行时拒绝边界保持。
+- 正式默认脚本仍为 `v6.0.21-flclash.25`，工具使用独立版本；说明全端业务能力与 FlClash 直接下载的不同覆盖范围。
+
 ## 离线配置表单 v1.1.0 (2026-10-29)
 
 - 选择 Full / Lite / Custom 后可直接下载 FlClash JS，无需 CLI、Node.js 或 Ruby；保留其他客户端的 JSON + CLI 入口。

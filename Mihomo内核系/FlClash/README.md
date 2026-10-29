@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 打开下载的 JS 并复制**全文**，按下面第 1 步创建独立命名的「粘贴」覆写，再按第 2 步关联订阅。不要给这个覆写配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
 
-直接下载只采用业务选择，本地测速、QUIC、DNS 和倍率保持发布默认；本地参数页的选择不会自动合并。表单内嵌的是下载时的脚本快照，更新基线时需重新下载 HTML。完整边界见[统一配置指南](../../docs/configuration.md)。
+「本地 JS 参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；两个标签保留彼此的选择。不调整时仍采用发布默认。表单内嵌的是下载时的脚本快照，更新基线时需重新下载 HTML。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
 
 <details>
 <summary>仍想用 CLI，或同时生成其他客户端？</summary>
