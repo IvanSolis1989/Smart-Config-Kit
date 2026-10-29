@@ -5,11 +5,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { randomUUID } = require('node:crypto');
 
-const definitions = {
-  healthCheckProfile: { name: 'SCKI_HEALTH_CHECK_PROFILE', values: ['standard', 'power-save'], default: 'standard' },
-  quicPolicy: { name: 'SCKI_QUIC_POLICY', values: ['block-foreign', 'follow-rules'], default: 'block-foreign' },
-  zeroTierPlanetProxy: { name: 'SCKI_ZEROTIER_PLANET_PROXY', values: [true, false], default: false },
-};
+const { definitions, isValidValue } = require('./configuration-schema');
+const NUMBER_LITERAL = '(?:(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?';
 
 // Mask comments and literals without executing the script. Offsets and newlines
 // remain intact so only an actual, complete const declaration can supply a value.
@@ -66,14 +63,15 @@ function parseLocalTrafficOptions(source, label = 'script') {
     const endAt = source.indexOf('\n', at);
     const end = endAt < 0 ? source.length : endAt;
     const line = source.slice(start, end).replace(/\r$/, '');
-    const valuePattern = key === 'zeroTierPlanetProxy' ? '(true|false)' : "(['\"])([^'\"\\r\\n]+)\\1";
+    const numeric = definition.type === 'nullable-positive-number';
+    const valuePattern = numeric ? `(null|${NUMBER_LITERAL})` : key === 'zeroTierPlanetProxy' ? '(true|false)' : "(['\"])([^'\"\\r\\n]+)\\1";
     const match = line.match(new RegExp(`^[\\ufeff \\t]*const ${definition.name}\\s*=\\s*${valuePattern}[ \\t]*;?[ \\t]*(?://[^\\r\\n]*)?$`));
     // A nested declaration is never a trusted local option.
     const prefix = masked.slice(0, at);
     const depth = [...prefix].reduce((n, c) => n + (c === '{' ? 1 : c === '}' ? -1 : 0), 0);
     if (!match || depth !== 0) throw new Error(`${label}: invalid trusted const ${definition.name}`);
-    const value = key === 'zeroTierPlanetProxy' ? match[1] === 'true' : match[2];
-    if (!definition.values.includes(value)) throw new Error(`${label}: invalid ${definition.name} value`);
+    const value = numeric ? match[1] === 'null' ? null : Number(match[1]) : key === 'zeroTierPlanetProxy' ? match[1] === 'true' : match[2];
+    if (!isValidValue(key, value)) throw new Error(`${label}: invalid ${definition.name} value`);
     options[key] = value;
     declarations[key] = { start, end: start + line.length, line };
   }
@@ -87,11 +85,11 @@ function setLocalTrafficOptions(source, values, label = 'script') {
   const missing = [];
   for (const [key, value] of Object.entries(values)) {
     const definition = definitions[key];
-    if (!definition || !definition.values.includes(value)) throw new Error(`Invalid local traffic option: ${key}`);
+    if (!definition || !isValidValue(key, value)) throw new Error(`Invalid local traffic option: ${key}`);
     const declaration = parsed.declarations[key];
-    const literal = typeof value === 'boolean' ? String(value) : `'${value}'`;
+    const literal = value === null || typeof value === 'boolean' || typeof value === 'number' ? String(value) : `'${value}'`;
     if (declaration) {
-      if (parsed.options[key] !== value) edits.push({ ...declaration, text: declaration.line.replace(/(=\s*)(?:true|false|'[^']*'|"[^"]*")/, `$1${literal}`) });
+      if (parsed.options[key] !== value) edits.push({ ...declaration, text: declaration.line.replace(new RegExp(`(=\\s*)(?:true|false|null|${NUMBER_LITERAL}|'[^']*'|"[^"]*")`), `$1${literal}`) });
     } else missing.push(`const ${definition.name} = ${literal}`);
   }
   for (const edit of edits.sort((a, b) => b.start - a.start)) source = source.slice(0, edit.start) + edit.text + source.slice(edit.end);
@@ -110,10 +108,19 @@ function planLocalTrafficOptions(targetSource, source = targetSource, requested 
   const incoming = parseLocalTrafficOptions(source, 'source').options;
   const options = {};
   for (const [key, definition] of Object.entries(definitions)) {
-    const preserve = key === 'zeroTierPlanetProxy' || requested.preserveLocal || source === targetSource;
+    if (definition.optional && !(key in target) && !(key in incoming) && !Object.hasOwn(requested,key)) continue;
+    const preserve = definition.preserveOnUpdate || requested.preserveLocal || source === targetSource;
     options[key] = requested[key] !== undefined ? requested[key]
       : preserve && target[key] !== undefined ? target[key]
       : incoming[key] !== undefined ? incoming[key] : definition.default;
+  }
+  const profile=options.subscriptionAdapterProfile;
+  if(profile && profile!=='off') {
+    const catalog=/\bvar SCKI_SUBSCRIPTION_ADAPTER_PROFILES = \{([\s\S]*?)^\}/m.exec(source);
+    const declaration=new RegExp(`^\\s*"${profile}": \\{ id: "${profile}", nodeDnsProjection: "${profile}" \\},?\\s*$`,'m');
+    if(!/^\/\/ >>> SCKI NODE DNS HINTS: BEGIN/m.test(source) || !catalog || !declaration.test(catalog[1])) {
+      throw new Error(`Source lacks the selected Node-DNS capability: ${profile}; update to a supporting script or explicitly select off`);
+    }
   }
   return { original: targetSource, updated: setLocalTrafficOptions(source, options), options };
 }

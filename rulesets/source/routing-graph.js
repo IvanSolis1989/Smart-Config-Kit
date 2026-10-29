@@ -33,6 +33,11 @@ function getBusinessDnsPolicy() {
   return cloneJson(BUSINESS_DNS_POLICY);
 }
 
+// Trusted build-time choices only; clients never read this from subscriptions.
+function getBusinessProfileDefinitions() {
+  return cloneJson(require('./business-profiles.json'));
+}
+
 function getHealthCheckSettings(profile = getTrafficOptions().healthCheckProfile) {
   if (profile !== 'standard' && profile !== 'power-save') throw new Error('Invalid health check profile');
   return { intervalSeconds: profile === 'power-save' ? 900 : 300, lazy: true };
@@ -2186,6 +2191,7 @@ module.exports = {
   validateTrafficOptions,
   getTrafficOptions,
   getBusinessDnsPolicy,
+  getBusinessProfileDefinitions,
   getHealthCheckSettings,
   getZeroTierPlanetProxyPolicy,
   getQuicRules,

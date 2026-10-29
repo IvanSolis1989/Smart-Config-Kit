@@ -11,10 +11,13 @@
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-> 配置：`Egern.yaml` · **v6.0.21-egern.12**（Build 2026-10-28）
+> 配置：`Egern.yaml` · **v6.0.21-egern.13**（Build 2026-10-29）
 > 22 原生 smart 区域组 + 33 业务组；跟随 Clash Party v6.0.21 分流基线。
 
 <a id="before-start"></a>
+
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
 
 ## 开始前
 

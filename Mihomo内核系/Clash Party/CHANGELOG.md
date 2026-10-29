@@ -14,6 +14,16 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+
+## v6.0.21-dns.24 / v6.0.21-normal.24 (2026-10-29)
+
+- 新增显式本地 hosts-only：仅活动节点精确 FQDN 到合法多 IP，保留节点身份及仓库 hosts 优先，篡改或超限零写入；默认 adaptive 和原规则不变。
+- 三款 JS 增加真实 QuickJS/Node 全输出对照，覆盖节点链、倍率边界和 provider 输入；App 与系统网络仍需独立验收。
+- 统一参数入口复用原子备份与读回，更新源码时保留节点 DNS 和倍率选择。业务 full/lite/custom 在独立目录生成，源图定义服务并保留安全前置、DNS 和引用闭包；覆盖全部当前客户端及能力差异。
+- CMFA、Stash、Egern、SingBox、SR/Surge/Loon/QX、Xray、Passwall、Karing、Meow/AEROVE 的默认规则与共享资产不变；静态端不增加运行时 Node-DNS。
+- Egern 刷新来源收据时修正重复来源注释清理，默认配置语义不变；详见 [Egern 日志](../../独立内核系/Egern/CHANGELOG.md)。
+- AEROVE Lite 同步来源绑定及 App 托管 DNS 说明，保留 off 占位和默认路由；详见 [Lite 日志](../../Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
 ## v6.0.21-dns.23 / v6.0.21-normal.23 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。

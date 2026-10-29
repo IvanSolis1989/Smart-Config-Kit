@@ -1,27 +1,27 @@
 {
   "schema_version": 2,
-  "version": "v6.0.21-meow.6",
-  "build": "2026-10-28",
+  "version": "v6.0.21-meow.7",
+  "build": "2026-10-29",
   "client": "Meow",
   "kernel": "meow-rs",
   "status": "pre-adapted-awaiting-app",
   "source_authority": "rulesets/source/routing-graph.js",
   "queue": "docs/support-queue.md#meow",
   "input_sha256_lf": {
-    "Mihomo内核系/FlClash/FlClash(mihomo).js": "8bbbe11ca809c1c49e56919e4aef4d4480683a7c9d843bd8875947d6c4cd9d9e",
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "f33ea7ef24043899d734f3174000b87f4f620cd35c4328af484c32775ea062bc",
     "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
-    "rulesets/source/routing-graph.js": "dc58abcab9a7eed624797fa909a9f3b2f6b87ee0d674bd3abb041a11dfd92e21",
-    "rulesets/generated/fused/manifest.json": "4b5e1ed220681090f8ae02ad4a2f5ba42b36e5394671d9bd94ad1077e6dff405",
-    "tools/generate-meow.js": "c7576b89e6637ef400ee3f8df253f7df40700514c0b7678558dc4bd50ef207aa",
+    "rulesets/source/routing-graph.js": "37d8002ee8470da52353db9e5e1093ab78b95afc5ca7b394593db304dda0b9a8",
+    "rulesets/generated/fused/manifest.json": "f7da5e10fc18902a1d18642062db2ee55cad8b67fdbe75b16b9750e9fac127cd",
+    "tools/generate-meow.js": "b8402eb7cdb757b521486bc59fcab71c180b285fabecd081ddc32f0254322c06",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
     "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
     "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
     "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
-    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "b81cb2ae4ac84d30b1717aad5a62175fa27fa3d6b744862ba42f1bb7a61cc630"
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "6b1373486ffc79e2f7d5294ad3545aaf79b416cba4a3746fb98b034642543c0a"
   },
   "output": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
-    "sha256_lf": "33f727336ec761744e3f38c583da1d32eb7dcbdf54fe683a3503d6a6e601e93e"
+    "sha256_lf": "96b798d1d01129c0d8552a4a7a39b5108668d9007c6af996cb58b82d0d429586"
   },
   "native_output": {
     "path": "Meow内核系/Meow/Meow(meow).yaml",

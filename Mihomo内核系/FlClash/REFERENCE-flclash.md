@@ -1,5 +1,7 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-29：重新核对 [Mihomo DNS](https://wiki.metacubex.one/config/dns/) 与 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。hosts-only 是脚本的显式可信本地参数，仅增加精确节点 IP hosts；沿用既有 QuickJS 覆写入口及 App 托管的端口/TUN 边界。新增真实锁定 QuickJS 验证，未将其表述为 FlClash 实机通过。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用脚本输出的现有 RULE-SET 策略名引用，不改变 App 覆写边界。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [FlClash 官方仓库](https://github.com/chen08209/FlClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次沿用 JS 覆写及相同 policy 字段，不改变 App 托管的 TUN/端口。

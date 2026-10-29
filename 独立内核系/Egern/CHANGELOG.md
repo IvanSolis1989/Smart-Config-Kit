@@ -7,6 +7,11 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## v6.0.21-egern.13 (2026-10-29)
+
+- 更新源图来源收据；生成器识别内核系列路径，避免重复生成来源说明注释。DNS、策略组和分流规则不变。
+- 可选业务投影与统一配置入口见[配置指南](../../docs/configuration.md)；不为 Egern 添加不支持的进程或运行时 Node-DNS 字段。
+
 ## v6.0.21-egern.12 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。

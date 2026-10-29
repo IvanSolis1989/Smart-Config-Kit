@@ -16,6 +16,9 @@ QX 原生分流教程：导入配置，填写节点订阅，再检查 policy 与
 
 <a id="before-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 准备 Quantumult X、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 1.8.1 要求 iOS 15+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/quantumult-x/id1443988620)为准。

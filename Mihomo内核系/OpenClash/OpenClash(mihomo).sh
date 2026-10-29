@@ -2,8 +2,8 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.21-oc-normal.17 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
-# Build: 2026-10-28
+# Clash Smart v6.0.21-oc-normal.18 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
+# Build: 2026-10-29
 # ============================================================================
 # 定位：与同目录 OpenClash(mihomo-smart).sh 规则 100% 等价的「非 Smart 内核」版本。
 #       两者唯一区别：22 个区域组（11 全部 + 11 家宽）从 type: smart（uselightgbm）换成 type: url-test。
@@ -26,7 +26,7 @@
 
 
 
-VERSION_TAG="v6.0.21-oc-normal.17"
+VERSION_TAG="v6.0.21-oc-normal.18"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_DEFAULT_HEALTH_CHECK_PROFILE="standard"
@@ -36,7 +36,7 @@ SCKI_QUIC_POLICY="${SCKI_QUIC_POLICY:-$SCKI_DEFAULT_QUIC_POLICY}"
 SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-adaptive}"
 SCKI_MAX_NODE_MULTIPLIER="${SCKI_MAX_NODE_MULTIPLIER:-}"
 case "$SCKI_SUBSCRIPTION_ADAPTER_PROFILE" in
-  off|policy|adaptive) ;;
+  off|policy|adaptive|hosts-only) ;;
   *) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="adaptive" ;;
 esac
 case "$SCKI_HEALTH_CHECK_PROFILE" in standard|power-save) ;; *) LOG_OUT "Error" "[Clash-Normal] Invalid SCKI_HEALTH_CHECK_PROFILE"; exit 1 ;; esac
@@ -1907,7 +1907,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.21-oc-normal.17"
+VERSION = "v6.0.21-oc-normal.18"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
@@ -1930,7 +1930,8 @@ module SckiSubscriptionAdapterProfiles
   MODES = {
     "off" => { "id" => "off".freeze, "node_dns_projection" => "off".freeze }.freeze,
     "policy" => { "id" => "policy".freeze, "node_dns_projection" => "policy".freeze }.freeze,
-    "adaptive" => { "id" => "adaptive".freeze, "node_dns_projection" => "adaptive".freeze }.freeze
+    "adaptive" => { "id" => "adaptive".freeze, "node_dns_projection" => "adaptive".freeze }.freeze,
+    "hosts-only" => { "id" => "hosts-only".freeze, "node_dns_projection" => "hosts-only".freeze }.freeze
   }.freeze
 
   module_function
@@ -2319,8 +2320,117 @@ module SckiSubscriptionAdapter
     true
   end
 
+  # Object identity plus a bounded content receipt keeps this local capability
+  # out of serialized subscription data and prevents closure expansion.
+  def strict_host_ips(value, snapshot)
+    values = value.is_a?(Array) ? value : (value.is_a?(String) ? [value] : [])
+    if values.empty? || values.length > NODE_DNS_HINT_LIMITS[:values]
+      record_reject(snapshot)
+      return nil
+    end
+    output = []
+    values.each do |entry|
+      unless entry.is_a?(String) && entry.length <= NODE_DNS_HINT_LIMITS[:string_length]
+        record_reject(snapshot)
+        return nil
+      end
+      raw_ip = entry.strip
+      if (raw_ip.include?('[') || raw_ip.include?(']')) && !ipv6?(raw_ip)
+        record_reject(snapshot)
+        return nil
+      end
+      ip = unbracket_ipv6(raw_ip).downcase
+      ipv4 = ipv4?(ip) && ip.split('.').all? { |part| part == part.to_i.to_s }
+      ipv6 = ipv6?(ip) && !ip.match?(/\A:[^:]/) && !ip.match?(/[^:]:\z/)
+      if ipv6 && ip.include?('.')
+        tail = ip[(ip.rindex(':') + 1)..]
+        ipv6 = tail.include?('.') && tail.split('.').all? { |part| part == part.to_i.to_s }
+      end
+      unless ipv4 || ipv6
+        record_reject(snapshot)
+        return nil
+      end
+      push_unique(output, ip) { |item| item }
+    end
+    output
+  end
+
+  def capture_hosts_only(source_config, active_node_servers, profile)
+    snapshot = create_snapshot(profile)
+    snapshot['hosts_only_version'] = 1
+    blocked = false
+    if plain_hash?(source_config) && active_node_servers.is_a?(Array)
+      blocked = true if active_node_servers.length > NODE_DNS_HINT_LIMITS[:active_node_servers]
+      active_node_servers.take(NODE_DNS_HINT_LIMITS[:active_node_servers]).each do |server|
+        domain = normalize_domain(server)
+        next if domain.empty? || !domain.include?('.') || snapshot['domains'].include?(domain)
+        if snapshot['domains'].length >= NODE_DNS_HINT_LIMITS[:domains]
+          blocked = true
+          next
+        end
+        snapshot['domains'] << domain
+      end
+      source_hosts = plain_hash?(source_config['hosts']) ? source_config['hosts'] : {}
+      scanned = 0
+      source_hosts.each_pair do |raw_domain, raw_value|
+        scanned += 1
+        if scanned > NODE_DNS_HINT_LIMITS[:source_exact_entries]
+          blocked = true
+          break
+        end
+        domain = normalize_domain(raw_domain)
+        next if domain.empty? || !snapshot['domains'].include?(domain)
+        values = strict_host_ips(raw_value, snapshot)
+        next unless values
+        if snapshot['hosts'].key?(domain) && !same_values?(snapshot['hosts'][domain], values)
+          blocked = true
+          next
+        end
+        if !snapshot['hosts'].key?(domain) && snapshot['hosts'].length >= NODE_DNS_HINT_LIMITS[:hosts]
+          blocked = true
+          next
+        end
+        snapshot['hosts'][domain] = values
+      end
+    end
+    if blocked
+      snapshot['hosts'] = {}
+      record_reject(snapshot)
+    end
+    snapshot['stats']['domains'] = snapshot['domains'].length
+    snapshot['stats']['hosts'] = snapshot['hosts'].length
+    @hosts_only_receipts ||= []
+    @hosts_only_receipts << { snapshot: snapshot, content: Marshal.dump(snapshot), blocked: blocked }
+    @hosts_only_receipts.shift if @hosts_only_receipts.length > NODE_DNS_HINT_LIMITS[:hosts]
+    snapshot
+  end
+
+  def validate_hosts_only_snapshot(snapshot)
+    receipt = (@hosts_only_receipts || []).find { |entry| entry[:snapshot].equal?(snapshot) }
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless receipt && !receipt[:blocked]
+    fields = %w[profile domains resolvers policy hosts stats hosts_only_version]
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless snapshot.each_key.all? { |key| fields.include?(key) }
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless snapshot['domains'].is_a?(Array) && snapshot['domains'].length <= NODE_DNS_HINT_LIMITS[:domains] && snapshot['domains'].all? { |domain| domain.is_a?(String) && normalize_domain(domain) == domain && domain.include?('.') }
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless snapshot['hosts_only_version'] == 1 && snapshot['resolvers'].is_a?(Array) && snapshot['resolvers'].empty? && snapshot['policy'].empty? && plain_hash?(snapshot['stats'])
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless snapshot['stats'].all? { |key, value| %w[domains resolvers policies hosts rejected].include?(key) && value.is_a?(Numeric) }
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } if snapshot['hosts'].length > NODE_DNS_HINT_LIMITS[:hosts]
+    host_keys = snapshot['hosts'].keys
+    host_keys.each do |domain|
+      scratch = { 'stats' => { 'rejected' => 0 } }
+      values = strict_host_ips(snapshot['hosts'][domain], scratch)
+      return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless snapshot['domains'].include?(domain) && normalize_domain(domain) == domain && domain.include?('.') && values && same_values?(values, snapshot['hosts'][domain])
+    end
+    begin
+      return { 'ok' => false, 'reason' => 'invalid-snapshot' } unless Marshal.dump(snapshot) == receipt[:content]
+    rescue StandardError
+      return { 'ok' => false, 'reason' => 'invalid-snapshot' }
+    end
+    { 'ok' => true, 'policy_keys' => [], 'host_keys' => host_keys }
+  end
+
   def capture_node_dns(source_config, active_node_servers, runtime_profile)
     profile = resolve_profile(runtime_profile)
+    return capture_hosts_only(source_config, active_node_servers, profile) if profile.fetch('node_dns_projection') == 'hosts-only'
     snapshot = create_snapshot(profile)
     return snapshot if profile.fetch("node_dns_projection") == "off"
     return snapshot unless source_config.is_a?(Hash) && active_node_servers.is_a?(Array)
@@ -2429,6 +2539,8 @@ module SckiSubscriptionAdapter
   def validate_snapshot(snapshot, profile)
     return { "ok" => false, "reason" => "invalid-snapshot" } unless plain_hash?(snapshot) && plain_hash?(snapshot["policy"]) && plain_hash?(snapshot["hosts"])
     return { "ok" => false, "reason" => "profile-mismatch" } unless snapshot["profile"] == profile.fetch("id")
+    return validate_hosts_only_snapshot(snapshot) if profile.fetch('node_dns_projection') == 'hosts-only'
+    return { 'ok' => false, 'reason' => 'invalid-snapshot' } if snapshot.key?('hosts_only_version') || (@hosts_only_receipts || []).any? { |receipt| receipt[:snapshot].equal?(snapshot) }
     return { "ok" => false, "reason" => "invalid-snapshot" } unless snapshot["domains"].is_a?(Array) && snapshot.fetch("domains").length <= NODE_DNS_HINT_LIMITS[:domains]
 
     active_domains = {}
@@ -2474,11 +2586,12 @@ module SckiSubscriptionAdapter
     if policy_keys.any?
       repository_config.fetch("dns")["proxy-server-nameserver-policy"] = {}
       policy_keys.each { |domain| repository_config.fetch("dns")["proxy-server-nameserver-policy"][domain] = snapshot.fetch("policy").fetch(domain).dup }
-    else
+    elsif profile.fetch('node_dns_projection') != 'hosts-only'
       repository_config.fetch("dns").delete("proxy-server-nameserver-policy")
     end
     repository_config["hosts"] = {} unless plain_hash?(repository_config["hosts"])
     host_keys.each do |domain|
+      next if profile.fetch('node_dns_projection') == 'hosts-only' && repository_config.fetch('hosts').keys.any? { |key| pattern = normalize_pattern(key); !pattern.empty? && pattern_matches?(pattern, domain) }
       repository_config.fetch("hosts")[domain] = copy_value(snapshot.fetch("hosts").fetch(domain)) unless repository_config.fetch("hosts").key?(domain)
     end
     build_report(profile, snapshot, true, "applied")
@@ -2489,7 +2602,8 @@ module SckiSubscriptionAdapter
                        :normalize_host_values, :normalize_pattern, :pattern_matches?, :pattern_score,
                        :same_values?, :has_values?, :copy_value, :exact_pattern?, :build_source_view,
                        :select_for_domain, :create_snapshot, :add_policy, :repository_pss_baseline?, :build_report,
-                       :canonical_resolver_values?, :canonical_host_value?, :validate_snapshot
+                       :canonical_resolver_values?, :canonical_host_value?, :validate_snapshot,
+                       :strict_host_ips, :capture_hosts_only, :validate_hosts_only_snapshot
 end
 # <<< SCKI NODE DNS HINTS: END
 

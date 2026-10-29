@@ -1,5 +1,5 @@
 // AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
-// 版本：v6.0.21-meow.6 | Build：2026-10-28
+// 版本：v6.0.21-meow.7 | Build：2026-10-29
 // 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.21
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
@@ -11,10 +11,10 @@
 // Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.21-meow.6'
+const VERSION = 'v6.0.21-meow.7'
 
-// 受信任的本地订阅适配模式：off | policy | adaptive。
-// 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
+// 本候选的 DNS 与 hosts 由 App 托管；不启用订阅 Node-DNS 投影。
+// 保留源参数占位为 off，桌面 JS 的 DNS profile 不适用于此入口。
 const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'off'
 // 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
 const SCKI_MAX_NODE_MULTIPLIER = null

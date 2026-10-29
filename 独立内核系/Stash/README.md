@@ -16,6 +16,9 @@ Stash iOS / macOS / tvOS 使用的 YAML 配置。先在本地副本替换节点�
 
 <a id="before-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 - 准备已安装的 Stash 和机场提供的 Stash / Clash 兼容节点订阅 URL；本模板中的地址是占位符。

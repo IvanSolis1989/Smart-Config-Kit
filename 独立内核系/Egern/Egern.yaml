@@ -1,7 +1,7 @@
 ---
 # ======================================================================
-# Egern Smart v6.0.21-egern.12 - Egern Profile
-# Build: 2026-10-28
+# Egern Smart v6.0.21-egern.13 - Egern Profile
+# Build: 2026-10-29
 # Baseline: Clash Party v6.0.21
 # Architecture: 22 smart region groups + 33 business groups + fused CMFA rule order.
 # Rule parity: generated from CMFA 149 rule-providers and 168 rules.
@@ -310,41 +310,6 @@ policy_groups:
   - select:
       name: 🛑 广告拦截
       policies: [REJECT, DIRECT]
-
-# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
-# Non-supplemental provider rule_set URLs point at generated Egern-native
-# YAML files under rulesets/generated/egern/.
-# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
-# does not document a process-name rule or process-name rule-set field.
-# Target-empty rule sets removed by global first-match deduplication are omitted.
-
-# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
-# Non-supplemental provider rule_set URLs point at generated Egern-native
-# YAML files under rulesets/generated/egern/.
-# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
-# does not document a process-name rule or process-name rule-set field.
-# Target-empty rule sets removed by global first-match deduplication are omitted.
-
-# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
-# Non-supplemental provider rule_set URLs point at generated Egern-native
-# YAML files under rulesets/generated/egern/.
-# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
-# does not document a process-name rule or process-name rule-set field.
-# Target-empty rule sets removed by global first-match deduplication are omitted.
-
-# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
-# Non-supplemental provider rule_set URLs point at generated Egern-native
-# YAML files under rulesets/generated/egern/.
-# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
-# does not document a process-name rule or process-name rule-set field.
-# Target-empty rule sets removed by global first-match deduplication are omitted.
-
-# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
-# Non-supplemental provider rule_set URLs point at generated Egern-native
-# YAML files under rulesets/generated/egern/.
-# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
-# does not document a process-name rule or process-name rule-set field.
-# Target-empty rule sets removed by global first-match deduplication are omitted.
 
 # Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
 # Non-supplemental provider rule_set URLs point at generated Egern-native

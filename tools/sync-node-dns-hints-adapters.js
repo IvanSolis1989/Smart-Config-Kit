@@ -53,9 +53,10 @@ function buildRuntimeSource(language, contract) {
 
 function syncTrustedProfileDefault(relativePath, language, profileDefault, checkOnly) {
   const source = read(relativePath);
+  const ids = profiles.PROFILE_IDS.join('|');
   const declaration = language === 'js'
-    ? /^const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = '(?:off|policy|adaptive)'$/m
-    : /^SCKI_SUBSCRIPTION_ADAPTER_PROFILE="\$\{SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-(?:off|policy|adaptive)\}"$/m;
+    ? new RegExp(`^const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = '(?:${ids})'$`, 'm')
+    : new RegExp(`^SCKI_SUBSCRIPTION_ADAPTER_PROFILE="\\$\\{SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-(?:${ids})\\}"$`, 'm');
   const replacement = language === 'js'
     ? `const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = '${profileDefault}'`
     : `SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${'${'}SCKI_SUBSCRIPTION_ADAPTER_PROFILE:-${profileDefault}}"`;
@@ -64,11 +65,14 @@ function syncTrustedProfileDefault(relativePath, language, profileDefault, check
   }
   let updated = source.replace(declaration, replacement);
   if (language === 'shell') {
-    const invalidFallback = /^  \*\) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="(?:off|policy|adaptive)" ;;$/m;
+    const invalidFallback = new RegExp(`^  \\*\\) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="(?:${ids})" ;;$`, 'm');
     if (!invalidFallback.test(source)) {
       throw new Error(`${relativePath}: shell subscription profile fallback is missing or unsupported`);
     }
     updated = updated.replace(invalidFallback, `  *) SCKI_SUBSCRIPTION_ADAPTER_PROFILE="${profileDefault}" ;;`);
+    const cases = /^  off\|policy\|adaptive(?:\|hosts-only)?\) ;;$/m;
+    if (!cases.test(updated)) throw new Error(`${relativePath}: supported local profile case is missing`);
+    updated = updated.replace(cases, `  ${ids}) ;;`);
   }
   if (updated === source) return false;
   if (checkOnly) throw new Error(`${relativePath}: trusted local subscription profile default is out of sync with ${profiles.PROFILE_SOURCE}`);

@@ -9,6 +9,9 @@
 
 [内核家族入口](../README.md) · [下载脚本](AeroveLite%28meow%29.js) · [资源分片与证据](RESOURCE-SPLITTING.md) · [联调核查](VALIDATION.md) · [接口依据](REFERENCE-AEROVE-Lite.md) · [变更日志](CHANGELOG.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 本仓库不提供节点或订阅。先在 Lite 导入节点订阅，确认配置包含已展开的 `proxies`。纯远程 `proxy-providers` 须先经 [Sub-Store](../../SubStore/README.md) 展平；脚本不能代替宿主下载订阅。

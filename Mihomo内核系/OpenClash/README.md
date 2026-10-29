@@ -15,6 +15,9 @@
 
 <a id="before-you-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前：确认内核并备份
 
 先按 [OpenClash 官方入口](https://github.com/vernesong/OpenClash)安装插件，准备路由器可访问的 Mihomo 节点订阅。备份现有插件设置和自定义脚本；已有逻辑先合并再部署。

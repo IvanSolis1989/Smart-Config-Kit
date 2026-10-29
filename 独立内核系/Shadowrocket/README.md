@@ -16,6 +16,9 @@
 
 <a id="before-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 准备 Shadowrocket、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 2.2.92 要求 iOS 13+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/shadowrocket/id932747118)为准。

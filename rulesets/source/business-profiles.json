@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "protectedBusinessKeys": ["CRYPTO", "PAYMENTS", "DOWNLOAD", "TRACKER", "CN_SITE", "GFW", "INTL_SITE", "FINAL", "AD"],
+  "services": {
+    "ai": "AI", "im": "IM", "social": "SOCIAL", "work": "WORK", "cnmedia": "CNMEDIA",
+    "tiktok": "TOK", "netflix": "NFLX", "disney": "DSNP", "hbo": "HBO", "hulu": "HULU",
+    "prime": "PRIME", "youtube": "YT", "music": "MUSIC", "stream-hk": "STREAM_HK",
+    "stream-tw": "STREAM_TW", "stream-jp": "STREAM_JP", "stream-eu": "STREAM_EU",
+    "stream-other": "STREAM_OTHER", "game-cn": "GAME_CN", "game-intl": "GAME_INTL",
+    "google": "GOOGLE", "tools": "TOOLS", "microsoft": "MS", "apple": "APPLE"
+  },
+  "presets": {"lite": ["ai", "im", "work", "youtube"]},
+  "directFallbackKeys": ["CNMEDIA", "GAME_CN", "APPLE"],
+  "fallbackExplanation": "关闭某项移除它的专属业务规则和选择组；普通流量继续匹配原有后续基础规则，最终仍由漏网之鱼处理。广告、安全、直连、进程、逻辑规则与 QUIC 前置保留；关闭业务的进程和逻辑规则明确改用国内或国外基础组。含安全进程条件的原生复合谓词按原顺序完整保留并改用基础策略，不能剥离其中域名而扩大原谓词，详见 manifest 的 preserved-safety-residual。DNS、节点分类、测速参数和节点链保持原值。"
+}

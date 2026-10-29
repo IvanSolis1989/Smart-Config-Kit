@@ -15,6 +15,9 @@
 
 [下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
 
+
+[统一参数入口](configuration.md)提供离线表单及设备本地 JS 更新，可同时保存测速、QUIC、倍率和节点 DNS 选择。
+
 ## 使用入口
 
 1. 用 `--dry-run` 查看目标产物。

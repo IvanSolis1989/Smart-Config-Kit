@@ -22,8 +22,8 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.6`;
-const BUILD = '2026-10-28';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.7`;
+const BUILD = '2026-10-29';
 // The native client has no Lite per-resource cap; preserve its published bytes.
 const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
 const NATIVE_BUILD = '2026-10-28';
@@ -81,6 +81,9 @@ function renderScript(input, splits) {
   source = removeBetween(source, 'function _simpleHash(str)', 'function sortProxyGroups(config)');
   source = replaceOnce(source, 'function main(config)', 'function sckiRoutingMain(config)');
   source = replaceOnce(source, "const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'", "const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'off'");
+  source = replaceOnce(source,
+    '// 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。\n// 不从机场订阅读取；默认 adaptive 不变；hosts-only 仅显式导入活动节点精确 IP hosts。',
+    '// 本候选的 DNS 与 hosts 由 App 托管；不启用订阅 Node-DNS 投影。\n// 保留源参数占位为 off，桌面 JS 的 DNS profile 不适用于此入口。');
   source = replaceOnce(source, "    if (!config || typeof config !== 'object') return config", '');
   source = replaceOnce(source,
     "      log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)\n      return config",

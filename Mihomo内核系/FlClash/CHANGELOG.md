@@ -12,6 +12,12 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+
+## v6.0.21-flclash.25 (2026-10-29)
+
+- 同步显式 hosts-only 运行时，与两款 Clash Party JS 共用受限模块；默认 adaptive、节点身份、规则及应用 UI 托管边界不变。
+- 新增真实 QuickJS 全配置和桥接引用身份门禁；统一参数入口及可选业务投影见[配置指南](../../docs/configuration.md)。
+
 ## v6.0.21-flclash.24 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。

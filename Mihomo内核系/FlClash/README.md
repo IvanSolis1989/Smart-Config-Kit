@@ -13,6 +13,9 @@
 
 <a id="before-you-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前：确认版本与节点订阅
 
 需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；脚本 API 说明见[官方仓库教程](https://github.com/chen08209/FlClash/issues/1510)。

@@ -16,6 +16,9 @@
 
 <a id="before-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 准备 Surge、可用的机场订阅 URL，以及下方配置直链。截至 2026-10-19，官方稳定版 Surge 5.23.0 要求 iOS 17+；Surge Mac 6.10.0 要求 macOS 12+。商店地区与版本证据见[复核报告](../../docs/upstream/2026-10-19/apple/report.md)。

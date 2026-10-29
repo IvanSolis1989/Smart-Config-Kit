@@ -76,7 +76,11 @@ profile 的唯一源是 `tools/runtime/subscription-adapter-profiles.json`，发
 
 仓库维护者如需改变发布默认值，应修改该 JSON 的 `default`，然后运行 `node tools/sync-node-dns-hints-adapters.js`；同步器会同时更新三份 JS 和两份 OpenClash 适配器。
 
-部署时可以在受信任的本地副本选择 `off / policy / adaptive`，但不要把 profile 写进机场 YAML，也不要用它删除策略组或改写全局 DNS。
+部署时可以在受信任的本地副本选择 `off / policy / adaptive / hosts-only`，但不要把 profile 写进机场 YAML，也不要用它删除策略组或改写全局 DNS。
+
+### `hosts-only`（显式本地选择）
+
+只投影当前活动节点精确 FQDN 对应的合法 IP hosts，保留多 IP 与 IPv6；不投影 resolver/policy，不改节点 server、SNI 或 Host。通配、别名、无关记录及非法值不导入，仓库已有 hosts 优先；篡改或超限快照零写入。默认仍为 `adaptive`，旧三模式边界不变。使用方式见[统一配置入口](configuration.md)。
 
 ## 输入、输出与拒绝规则
 

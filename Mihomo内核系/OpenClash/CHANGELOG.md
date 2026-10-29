@@ -14,6 +14,12 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+
+## v6.0.21-oc-normal.18 / v6.0.21-oc-smart.19 (2026-10-29)
+
+- 两款 shell/Ruby 同步显式 hosts-only profile 与本地环境枚举；仅精确活动节点 IP hosts，保留节点域名、仓库 hosts 和原 DNS/规则。
+- 默认 adaptive 不变；可选业务投影同步处理 heredoc 及 Ruby QUIC 目录，避免保留指向关闭组的运行时引用。详见[配置指南](../../docs/configuration.md)。
+
 ## v6.0.21-oc-normal.17 / v6.0.21-oc-smart.18 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。

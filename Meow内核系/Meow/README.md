@@ -11,6 +11,9 @@
 
 [内核家族入口](../README.md) · [下载目录](../../docs/guide/downloads.md#meow) · [支持队列](../../docs/support-queue.md#meow-official-apps) · [变更日志](CHANGELOG.md)
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前与文件选择
 
 下载 [Meow(meow).yaml](Meow%28meow%29.yaml)。官方客户端使用本目录的原生 YAML；AEROVE Lite 的 JS 覆写和操作说明在并列的 [Aerove Lite 目录](../Aerove%20Lite/README.md)。

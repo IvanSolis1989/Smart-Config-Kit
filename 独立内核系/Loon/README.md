@@ -16,6 +16,9 @@
 
 <a id="before-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前
 
 准备 Loon、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 3.5.2 要求 iOS 15+；官方商店亦允许在 Apple Silicon Mac 上运行 iOS App，这与独立原生 Mac 版本不同。来源见[复核报告](../../docs/upstream/2026-10-19/apple/report.md)。

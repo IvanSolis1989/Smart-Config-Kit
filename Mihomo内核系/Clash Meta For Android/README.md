@@ -15,6 +15,9 @@
 
 <a id="before-you-start"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前：准备客户端与订阅
 
 准备 Android 设备、CMFA APK、Mihomo 节点订阅与本目录 YAML。使用已验收的 **Mihomo v1.19.29 或更新核心**。

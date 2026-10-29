@@ -3,6 +3,16 @@ name: Validate Artifact Contracts
 on:
   pull_request:
     paths:
+      - 'tools/lib/business-profile*.js'
+      - 'tools/generate-business-profile.js'
+      - 'rulesets/source/business-profiles.json'
+      - 'tools/configure.js'
+      - 'tools/lib/configuration-schema.js'
+      - 'tools/generate-configuration-form.js'
+      - 'tools/tests/business-profile*.test.js'
+      - 'tools/tests/configuration*.test.js'
+      - 'tools/tests/node-dns-hosts-only*.test.js'
+      - 'docs/configuration*'
       - 'Mihomo内核系/Clash Party/**/*.js'
       - 'Mihomo内核系/FlClash/**/*.js'
       - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
@@ -106,6 +116,16 @@ on:
   push:
     branches: [main]
     paths:
+      - 'tools/lib/business-profile*.js'
+      - 'tools/generate-business-profile.js'
+      - 'rulesets/source/business-profiles.json'
+      - 'tools/configure.js'
+      - 'tools/lib/configuration-schema.js'
+      - 'tools/generate-configuration-form.js'
+      - 'tools/tests/business-profile*.test.js'
+      - 'tools/tests/configuration*.test.js'
+      - 'tools/tests/node-dns-hosts-only*.test.js'
+      - 'docs/configuration*'
       - 'Mihomo内核系/Clash Party/**/*.js'
       - 'Mihomo内核系/FlClash/**/*.js'
       - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
@@ -231,6 +251,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
+
+      - name: Validate optional configuration and hosts-only across adapters
+        run: |
+          npm --prefix tools/js-engine-tests ci --ignore-scripts
+          node tools/generate-configuration-form.js --check
+          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
 
       - name: Validate Karing generation and client layout
         run: |

@@ -1,5 +1,5 @@
 // FlClash 覆写脚本 — 标准 Mihomo 内核动态分流版
-// 版本：v6.0.21-flclash.24 (2026-10-28)
+// 版本：v6.0.21-flclash.25 (2026-10-29)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.21（规则等价；区域组为 url-test — FlClash 内核为标准 Mihomo，不支持 smart + LightGBM）
 // 适用：FlClash >= v0.8.85（覆盖脚本功能自该版本引入）；其他使用标准 Mihomo 内核的客户端
@@ -34,10 +34,10 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.21-flclash.24'
+const VERSION = 'v6.0.21-flclash.25'
 
-// 受信任的本地订阅适配模式：off | policy | adaptive。
-// 不从机场订阅读取；三档均不会改变 55 组、规则或仓库 DNS 基线。
+// 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。
+// 不从机场订阅读取；默认 adaptive 不变；hosts-only 仅显式导入活动节点精确 IP hosts。
 const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'
 // 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
 const SCKI_MAX_NODE_MULTIPLIER = null
@@ -627,7 +627,8 @@ var SCKI_SUBSCRIPTION_ADAPTER_PROFILE_DEFAULT = "adaptive"
 var SCKI_SUBSCRIPTION_ADAPTER_PROFILES = {
   "off": { id: "off", nodeDnsProjection: "off" },
   "policy": { id: "policy", nodeDnsProjection: "policy" },
-  "adaptive": { id: "adaptive", nodeDnsProjection: "adaptive" }
+  "adaptive": { id: "adaptive", nodeDnsProjection: "adaptive" },
+  "hosts-only": { id: "hosts-only", nodeDnsProjection: "hosts-only" }
 }
 function sckiResolveSubscriptionAdapterProfile(requestedProfile) {
   var requested = typeof requestedProfile === 'string' ? requestedProfile : ''
@@ -997,6 +998,92 @@ var SckiSubscriptionAdapter = (function() {
     }
   }
 
+  // A hosts-only snapshot is an in-process capability, never a serialized
+  // subscription option. Keep a bounded identity/content receipt so callers
+  // cannot expand its active-node closure or forge a new snapshot at apply.
+  var hostsOnlyReceipts = []
+
+  function strictHostIps(value, snapshot) {
+    var values = Array.isArray(value) ? value : (typeof value === 'string' ? [value] : [])
+    if (!values.length || values.length > NODE_DNS_HINT_LIMITS.values) { recordReject(snapshot); return null }
+    var output = []
+    for (var i = 0; i < values.length; i++) {
+      if (typeof values[i] !== 'string' || values[i].length > NODE_DNS_HINT_LIMITS.stringLength) { recordReject(snapshot); return null }
+      var rawIp = values[i].trim()
+      if ((rawIp.indexOf('[') !== -1 || rawIp.indexOf(']') !== -1) && !isIPv6(rawIp)) { recordReject(snapshot); return null }
+      var ip = unbracketIPv6(rawIp).toLowerCase()
+      var ipv4 = isIPv4(ip) && ip.split('.').every(function(part) { return part === String(Number(part)) })
+      var ipv6 = isIPv6(ip) && !/^:[^:]/.test(ip) && !/[^:]:$/.test(ip)
+      if (ipv6 && ip.indexOf('.') !== -1) {
+        var tail = ip.slice(ip.lastIndexOf(':') + 1)
+        ipv6 = tail.indexOf('.') !== -1 && tail.split('.').every(function(part) { return part === String(Number(part)) })
+      }
+      if (!ipv4 && !ipv6) { recordReject(snapshot); return null }
+      pushUnique(output, ip)
+    }
+    return output
+  }
+
+  function captureHostsOnly(sourceConfig, activeNodeServers, profile) {
+    var snapshot = createSnapshot(profile)
+    snapshot.hosts_only_version = 1
+    var blocked = false
+    if (isPlainObject(sourceConfig) && Array.isArray(activeNodeServers)) {
+      if (activeNodeServers.length > NODE_DNS_HINT_LIMITS.activeNodeServers) blocked = true
+      activeNodeServers.slice(0, NODE_DNS_HINT_LIMITS.activeNodeServers).forEach(function(server) {
+        var domain = normaliseDomain(server)
+        if (!domain || domain.indexOf('.') === -1) return
+        if (snapshot.domains.indexOf(domain) !== -1) return
+        if (snapshot.domains.length >= NODE_DNS_HINT_LIMITS.domains) { blocked = true; return }
+        snapshot.domains.push(domain)
+      })
+      var sourceHosts = isPlainObject(sourceConfig.hosts) ? sourceConfig.hosts : Object.create(null)
+      var scanned = 0
+      for (var rawDomain in sourceHosts) {
+        if (!hasOwn(sourceHosts, rawDomain)) continue
+        scanned += 1
+        if (scanned > NODE_DNS_HINT_LIMITS.sourceExactEntries) { blocked = true; break }
+        var exactDomain = normaliseDomain(rawDomain)
+        if (!exactDomain || snapshot.domains.indexOf(exactDomain) === -1) continue
+        var values = strictHostIps(sourceHosts[rawDomain], snapshot)
+        if (!values) continue
+        if (hasOwn(snapshot.hosts, exactDomain) && !sameValues(snapshot.hosts[exactDomain], values)) { blocked = true; continue }
+        if (!hasOwn(snapshot.hosts, exactDomain) && Object.keys(snapshot.hosts).length >= NODE_DNS_HINT_LIMITS.hosts) { blocked = true; continue }
+        snapshot.hosts[exactDomain] = values
+      }
+    }
+    if (blocked) { snapshot.hosts = Object.create(null); recordReject(snapshot) }
+    snapshot.stats.domains = snapshot.domains.length
+    snapshot.stats.hosts = Object.keys(snapshot.hosts).length
+    hostsOnlyReceipts.push({ snapshot: snapshot, content: JSON.stringify(snapshot), blocked: blocked })
+    if (hostsOnlyReceipts.length > NODE_DNS_HINT_LIMITS.hosts) hostsOnlyReceipts.shift()
+    return snapshot
+  }
+
+  function validateHostsOnlySnapshot(snapshot) {
+    var receipt = null
+    for (var i = 0; i < hostsOnlyReceipts.length; i++) {
+      if (hostsOnlyReceipts[i].snapshot === snapshot) receipt = hostsOnlyReceipts[i]
+    }
+    if (!receipt || receipt.blocked) return { ok: false, reason: 'invalid-snapshot' }
+    var allowedFields = ['profile', 'domains', 'resolvers', 'policy', 'hosts', 'stats', 'hosts_only_version']
+    for (var field in snapshot) { if (hasOwn(snapshot, field) && allowedFields.indexOf(field) === -1) return { ok: false, reason: 'invalid-snapshot' } }
+    if (!Array.isArray(snapshot.domains) || snapshot.domains.length > NODE_DNS_HINT_LIMITS.domains || snapshot.domains.some(function(domain) { return typeof domain !== 'string' || normaliseDomain(domain) !== domain || domain.indexOf('.') === -1 })) return { ok: false, reason: 'invalid-snapshot' }
+    if (snapshot.hosts_only_version !== 1 || !Array.isArray(snapshot.resolvers) || snapshot.resolvers.length || !isPlainObject(snapshot.stats)) return { ok: false, reason: 'invalid-snapshot' }
+    for (var policyDomain in snapshot.policy) { if (hasOwn(snapshot.policy, policyDomain)) return { ok: false, reason: 'invalid-snapshot' } }
+    for (var stat in snapshot.stats) { if (hasOwn(snapshot.stats, stat) && (['domains', 'resolvers', 'policies', 'hosts', 'rejected'].indexOf(stat) === -1 || typeof snapshot.stats[stat] !== 'number')) return { ok: false, reason: 'invalid-snapshot' } }
+    var hostKeys = []
+    for (var hostDomain in snapshot.hosts) { if (hasOwn(snapshot.hosts, hostDomain)) { if (hostKeys.length >= NODE_DNS_HINT_LIMITS.hosts) return { ok: false, reason: 'invalid-snapshot' }; hostKeys.push(hostDomain) } }
+    for (var j = 0; j < hostKeys.length; j++) {
+      var domain = hostKeys[j]
+      var scratch = { stats: { rejected: 0 } }
+      var values = strictHostIps(snapshot.hosts[domain], scratch)
+      if (snapshot.domains.indexOf(domain) === -1 || normaliseDomain(domain) !== domain || domain.indexOf('.') === -1 || !values || !sameValues(values, snapshot.hosts[domain])) return { ok: false, reason: 'invalid-snapshot' }
+    }
+    try { if (JSON.stringify(snapshot) !== receipt.content) return { ok: false, reason: 'invalid-snapshot' } } catch (_) { return { ok: false, reason: 'invalid-snapshot' } }
+    return { ok: true, policyKeys: [], hostKeys: hostKeys }
+  }
+
   function addPolicy(snapshot, domain, values) {
     var newResolvers = []
     values.forEach(function(resolver) {
@@ -1028,6 +1115,7 @@ var SckiSubscriptionAdapter = (function() {
 
   function captureNodeDns(sourceConfig, activeNodeServers, runtimeProfile) {
     var profile = resolveProfile(runtimeProfile)
+    if (profile.nodeDnsProjection === 'hosts-only') return captureHostsOnly(sourceConfig, activeNodeServers, profile)
     var snapshot = createSnapshot(profile)
     if (profile.nodeDnsProjection === 'off') return snapshot
     if (!sourceConfig || !Array.isArray(activeNodeServers)) return snapshot
@@ -1136,6 +1224,8 @@ var SckiSubscriptionAdapter = (function() {
   function validateSnapshot(snapshot, profile) {
     if (!snapshot || !isPlainObject(snapshot.policy) || !isPlainObject(snapshot.hosts)) return { ok: false, reason: 'invalid-snapshot' }
     if (snapshot.profile !== profile.id) return { ok: false, reason: 'profile-mismatch' }
+    if (profile.nodeDnsProjection === 'hosts-only') return validateHostsOnlySnapshot(snapshot)
+    if (hasOwn(snapshot, 'hosts_only_version') || hostsOnlyReceipts.some(function(receipt) { return receipt.snapshot === snapshot })) return { ok: false, reason: 'invalid-snapshot' }
     if (!Array.isArray(snapshot.domains) || snapshot.domains.length > NODE_DNS_HINT_LIMITS.domains) return { ok: false, reason: 'invalid-snapshot' }
 
     var activeDomains = Object.create(null)
@@ -1189,11 +1279,12 @@ var SckiSubscriptionAdapter = (function() {
     if (policyKeys.length) {
       repositoryConfig.dns['proxy-server-nameserver-policy'] = Object.create(null)
       policyKeys.forEach(function(domain) { repositoryConfig.dns['proxy-server-nameserver-policy'][domain] = snapshot.policy[domain].slice() })
-    } else {
+    } else if (profile.nodeDnsProjection !== 'hosts-only') {
       delete repositoryConfig.dns['proxy-server-nameserver-policy']
     }
     if (!isPlainObject(repositoryConfig.hosts)) repositoryConfig.hosts = Object.create(null)
     hostKeys.forEach(function(domain) {
+      if (profile.nodeDnsProjection === 'hosts-only' && Object.keys(repositoryConfig.hosts).some(function(key) { var pattern = normalisePattern(key); return pattern && patternMatches(pattern, domain) })) return
       if (!hasOwn(repositoryConfig.hosts, domain)) repositoryConfig.hosts[domain] = copyValue(snapshot.hosts[domain])
     })
     return buildReport(profile, snapshot, true, 'applied')

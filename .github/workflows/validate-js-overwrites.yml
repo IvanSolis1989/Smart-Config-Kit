@@ -11,6 +11,9 @@ on:
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
       - 'tools/lib/local-traffic-options.js'
+      - 'tools/lib/configuration-schema.js'
+      - 'tools/configure.js'
+      - 'tools/tests/configuration-options.test.js'
       - 'tools/tests/local-traffic-options.test.js'
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/tests/traffic-options.test.js'
@@ -20,6 +23,10 @@ on:
       - 'tools/sync-subscription-node-filter.js'
       - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
+      - 'tools/validate-js-engines.js'
+      - 'tools/lib/js-engine-fixtures.js'
+      - 'tools/tests/js-engines.test.js'
+      - 'tools/js-engine-tests/**'
       - 'tools/generate-readme-visuals.js'
       - 'docs/assets/readme/**'
       - 'README.md'
@@ -35,6 +42,9 @@ on:
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
       - 'tools/lib/local-traffic-options.js'
+      - 'tools/lib/configuration-schema.js'
+      - 'tools/configure.js'
+      - 'tools/tests/configuration-options.test.js'
       - 'tools/tests/local-traffic-options.test.js'
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/tests/traffic-options.test.js'
@@ -44,6 +54,10 @@ on:
       - 'tools/sync-subscription-node-filter.js'
       - 'tools/tests/subscription-node-filter.test.js'
       - 'tools/validate-js-overwrites.js'
+      - 'tools/validate-js-engines.js'
+      - 'tools/lib/js-engine-fixtures.js'
+      - 'tools/tests/js-engines.test.js'
+      - 'tools/js-engine-tests/**'
       - 'tools/generate-readme-visuals.js'
       - 'docs/assets/readme/**'
       - 'README.md'
@@ -72,6 +86,14 @@ jobs:
 
       - name: Validate JS overwrite contracts
         run: node tools/validate-js-overwrites.js
+
+      - name: Install isolated QuickJS test dependencies
+        run: npm --prefix tools/js-engine-tests ci --ignore-scripts
+
+      - name: Validate real QuickJS syntax and complete output equivalence
+        run: |
+          node --test tools/tests/js-engines.test.js
+          node tools/validate-js-engines.js
 
       - name: Check synchronized traffic options and JS presets
         run: |

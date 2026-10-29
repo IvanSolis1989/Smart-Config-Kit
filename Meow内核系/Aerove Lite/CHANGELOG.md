@@ -7,6 +7,11 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.21-meow.7 (2026-10-29)
+
+- 明确候选 JS 的 DNS/hosts 由 App 托管，源参数占位固定 off；不宣称支持桌面 hosts-only 运行时。
+- 更新源图及资源来源绑定，规则资产和默认路由不变。新增独立目录的可选业务投影，App 导入与实际连接验收边界保持。
+
 ## v6.0.21-meow.6 / v6.0.21-meow.4 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 AEROVE Lite 的 App 验收仍需独立完成。

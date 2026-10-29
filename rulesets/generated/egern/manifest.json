@@ -4,12 +4,12 @@
   "asset_revision": "v6.0.21",
   "source": {
     "cmfa_sha256": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
-    "routing_graph_sha256": "dc58abcab9a7eed624797fa909a9f3b2f6b87ee0d674bd3abb041a11dfd92e21",
+    "routing_graph_sha256": "37d8002ee8470da52353db9e5e1093ab78b95afc5ca7b394593db304dda0b9a8",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },
   "rendered": {
-    "profile_sha256": "aa3db432ce2653b80a20bb11a5bc3e33a5cf4a8e43549677a2f9a717e1985f2d",
+    "profile_sha256": "60c12f70d7b4aa3f80b78d734d3cd718baed50c9ebe559286170f383649d32af",
     "rule_count": 153,
     "rule_set_ref_count": 136,
     "native_rule_set_count": 141,

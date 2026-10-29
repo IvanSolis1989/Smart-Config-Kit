@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-29：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/) 和 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。显式 hosts-only 仅使用现有精确键及 IP 数组窄子集，不新增内核字段、不改节点 server/SNI/Host；默认 adaptive 与全局 DNS 不变。可选业务投影保留原生规则顺序及必要引用，真实 QuickJS 不代替 App 验收。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 RULE-SET 的既有策略目标字段与从上到下匹配语义。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与[路由规则](https://wiki.metacubex.one/config/rules/)；本次沿用的 policy、精确域名和规则顺序语义无变化，不新增内核字段。

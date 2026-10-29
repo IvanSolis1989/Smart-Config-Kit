@@ -13,6 +13,11 @@
 
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
+
+## v6.0.21 (2026-10-29)
+
+- 增加真实 QuickJS 门禁、全端可选业务投影、统一离线参数入口及显式 hosts-only 兼容；默认完整分流与共享资产保持。详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md) 和[配置指南](docs/configuration.md)。
+
 ## v6.0.21 (2026-10-28)
 
 - Google FCM 归入 Google 服务，其他推送、DNS 与 fake-IP 保持不变；详见 [Clash Party 变更日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)。

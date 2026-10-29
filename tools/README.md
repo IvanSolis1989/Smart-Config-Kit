@@ -16,6 +16,9 @@
 
 ---
 
+
+[统一配置入口](../docs/configuration.md)：`configure.js`、离线表单、全端业务投影与真实 QuickJS 验证。
+
 ## 先运行相关验证
 
 Meow / AEROVE 工具需要 Node.js ≥ 22.15、Ruby ≥ 3.0 及固定 Mihomo v1.19.32。先运行 `node tools/generate-aerove-rule-assets.js`，再运行 `node tools/generate-meow.js`；两者的 `--check` 只读核对。转换器通过 `AEROVE_MIHOMO_BIN` 或 `MIHOMO_BIN` 指定，客户端运行不需要生成工具。相关测试为 `node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js`；原生 MRS 测试使用 `MIHOMO_BIN`，核心校验另需 `MEOW_BIN`、`MEOW_GEOSITE_FILE`、`MEOW_MMDB_FILE`。入口、独立分片清单及 App 验收边界见 [Meow 内核系](../Meow内核系/README.md)。

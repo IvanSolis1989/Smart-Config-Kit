@@ -20,6 +20,9 @@
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>
 
+
+[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+
 ## 开始前：确认后端并备份
 
 本目录提供 UCI 批量应用脚本和 fused SRS 分流参考，**仅支持 `type=sing-box`、`protocol=_shunt` 的分流节点**。文件名保留历史 `xray+sing-box` 以保持下载链接有效，不能据此判断支持 Xray。
