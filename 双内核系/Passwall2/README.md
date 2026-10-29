@@ -55,6 +55,12 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%
 
 `shunt-rules/*.list` 每个文件只保留一个非注释行。不要在这里手写 `domain:` / `geoip:` / Clash 前缀。
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Passwall2** 和 Full、Lite 或 Custom 业务方案；该入口没有测速或 QUIC 参数。下载 ZIP 后完整解压并保留目录结构及 `shunt-rules/` 列表，使用其中的本地 `Passwall2(xray+sing-box)-apply.sh` 按下方脚本步骤应用，或按手工步骤将列表逐项导入 LuCI。确认使用 sing-box 分流后端，并为各规则选择目标节点。
+
+更新时刷新页面，重新选择业务并下载；备份 UCI 后使用新解压包替换同类本地规则，检查节点映射并保存应用。不要从官方 URL 重新拉取默认脚本覆盖定制内容。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+
 <a id="3-推荐导入方式"></a>
 
 ## 分步导入：脚本

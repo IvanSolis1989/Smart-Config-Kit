@@ -33,6 +33,12 @@
 
 按钮打开 Raw 文件，可复制链接或另存为。普通导入只需这一份 JSON；它会引用远程融合 SRS 和复杂条件的标准 sing-box source 规则集。
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Karing 分流**、Full、Lite 或 Custom 业务方案及 QUIC 参数，下载后按下方步骤导入分流 JSON。若下载为 ZIP，先完整解压，再选择其中的 `diversion_rules_custom.json`；伴随清单供参考。此文件只包含分流适配，节点、DNS 和最终默认动作仍需在 App 中设置。
+
+更新时刷新页面，重新选择业务和参数并下载；备份现有设置，移除旧 `SCKI` 项后导入新的同类本地分流文件。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+
 <a id="import"></a>
 <a id="导入"></a>
 

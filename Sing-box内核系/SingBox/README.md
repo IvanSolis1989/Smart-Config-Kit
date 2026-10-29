@@ -42,6 +42,12 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E
 
 规则更新需要能访问 GitHub Raw 的网络或可用代理，排查见[规则下载说明](../../docs/rule-asset-delivery.md)。
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 **sing-box 1.14**（Full JSON 要求 1.14.3+）或 **sing-box 1.13**，再选择 Full、Lite 或 Custom 业务方案及测速、QUIC 参数，下载 JSON。按照下方步骤替换示例节点、检查配置，并从客户端支持的完整自定义配置入口加载。Hiddify 和 HomeProxy 的完整 JSON 保留能力及验收边界见各自章节。
+
+更新时刷新页面，重新选择版本、业务和参数并下载；备份原配置及节点设置后替换同类本地配置，重新核对节点引用和实际加载结果。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+
 <a id="import"></a>
 <a id="选择配置与接入节点"></a>
 

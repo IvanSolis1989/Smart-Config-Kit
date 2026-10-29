@@ -22,6 +22,12 @@
 
 ## 导入与关联
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **AEROVE Lite JS 候选**、Full / Lite / Custom 及支持的测速、QUIC、倍率或 ZeroTier 参数，下载 ZIP 并完整解压。使用 `Meow内核系/Aerove Lite/AeroveLite(meow).js` 按下文添加覆写并关联已展开节点的订阅；保留包内 `rule-assets/` 和清单作为同批资源与预算的核对依据，不将 ZIP 当作可直接导入的配置。DNS 保持 off，由 App 管理；页面不读取或上传订阅及个人配置。
+
+更新时刷新页面，重新选择原业务方案与参数，下载新包，备份后替换本地副本并更新关联的 JS 覆写。脚本、资源与预算清单须保持同一发布批次，再按下文完成资源准备、最终配置与实际连接验收；不要用官方完整脚本 URL 自动更新定制副本。生成和下载不改变候选状态，也不代替目标 APK 验收。业务范围见[统一配置指南](../../docs/configuration.md)。
+
 1. 下载 [AeroveLite(meow).js](AeroveLite%28meow%29.js)。
 2. 在 Lite 的覆写管理中添加脚本，关联需要处理的节点订阅并刷新。具体界面以验收 APK 为准。
 3. 确认宿主通过 `OverridePipeline` 将 YAML 转为 JSON，调用 `main(config)` 后再转回 YAML。该接口使用 QuickJS；[接口快照](REFERENCE-AEROVE-Lite.md)记录已核对的源码位置。

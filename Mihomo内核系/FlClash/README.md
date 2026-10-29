@@ -62,6 +62,8 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 「可选参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；不调整时仍采用发布默认。在线页面加载静态快照，更新后重新打开或刷新即可加载最新发布版本；也可保存[离线 HTML](../../docs/configuration.html)备用。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
 
+更新定制覆写时，刷新页面并重新选择原业务方案与参数，下载新 JS；备份现有覆写后用新脚本全文替换，确认仍关联原订阅，再刷新配置并核对最终 DNS 与出口。页面不会自动恢复上次选择，也不读取或上传订阅及个人配置；节点订阅的正常刷新与脚本本身的更新分开进行。
+
 <details>
 <summary>使用 CLI 高级生成</summary>
 

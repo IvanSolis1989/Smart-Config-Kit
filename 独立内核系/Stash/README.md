@@ -17,8 +17,6 @@ Stash iOS / macOS / tvOS 使用的 YAML 配置。先在本地副本替换节点�
 <a id="before-start"></a>
 
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
-
 ## 开始前
 
 - 准备已安装的 Stash 和机场提供的 Stash / Clash 兼容节点订阅 URL；本模板中的地址是占位符。
@@ -42,6 +40,14 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%
 下载 YAML 后，按下文替换 `proxy-providers.Subscribe.url` 再导入。
 
 配置下载和远程规则更新需要访问 GitHub Raw；失败时参见[下载排错](../../docs/rule-asset-delivery.md)。本地定制先保留副本，远程更新可能覆盖修改。
+
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Stash** 和 Full、Lite 或 Custom 业务方案，可按需设置测速和 QUIC；此静态配置不提供运行时节点 DNS 或倍率适配。Stash 配置由 CMFA 裁剪生成，使用原生 `url-test`，不提供 Mihomo Smart / LightGBM。
+
+下载 YAML 后按下方步骤替换 `proxy-providers.Subscribe.url`，通过本地文件打开或自己的 HTTPS 地址导入并选中，再检查节点和规则。
+
+Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线。更新时刷新在线页面，重新选择相同业务方案和参数并下载；先备份已有配置及节点定制，再按上述方式替换或重新导入。不要用本仓库完整配置直链刷新覆盖定制文件。选择和生成在本机完成，不读取或上传订阅和个人配置。含订阅地址的配置应妥善保管，托管时避免公开暴露。详见[在线配置指南](../../docs/configuration.md)。
 
 <a id="import"></a>
 

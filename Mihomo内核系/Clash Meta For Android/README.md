@@ -39,6 +39,12 @@
 
 ## 选择并下载文件
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 CMFA / ClashMi、Full / Lite / Custom 和支持的参数，下载 YAML。按下文在本地填写节点订阅并导入；ClashMi 按其[导入说明](#九兼容客户端clashmi跨平台)接入同一 YAML，检查 App 覆写及实际连接。页面在本机生成，不读取或上传订阅及个人配置。
+
+更新时刷新页面，重新选择相同业务方案与参数，下载新副本，按原方法重新接入节点并替换本地配置。官方远程 URL 指向完整默认配置，不能自动保留定制；业务范围见[统一配置指南](../../docs/configuration.md)。
+
 [![下载 CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
 点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。

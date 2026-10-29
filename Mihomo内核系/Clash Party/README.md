@@ -48,6 +48,12 @@ MetaCubeX Alpha 不等于 Smart。两份脚本规则、DNS 与业务组相同，
 
 ## 选择并下载文件
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 Clash Party Smart 或 Normal，选择 Full / Lite / Custom 和该端支持的参数并下载 JS。按下文创建 JavaScript 覆写、粘贴全文并关联订阅；通常关闭客户端二次 DNS 覆写。Clash Verge Rev 官方内核使用 Normal。页面在本机生成，不读取或上传订阅及个人配置。
+
+更新时刷新页面，重新选择相同业务方案与参数，下载并替换本地覆写。官方远程 URL 指向完整默认脚本，不能自动保留定制；业务范围见[统一配置指南](../../docs/configuration.md)。
+
 [![下载 Smart JS](../../docs/assets/readme/button-smart-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![下载 Normal JS](../../docs/assets/readme/button-normal-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js)
 
 点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。

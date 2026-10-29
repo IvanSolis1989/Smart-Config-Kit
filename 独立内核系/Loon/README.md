@@ -17,8 +17,6 @@
 <a id="before-start"></a>
 
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
-
 ## 开始前
 
 准备 Loon、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 3.5.2 要求 iOS 15+；官方商店亦允许在 Apple Silicon Mac 上运行 iOS App，这与独立原生 Mac 版本不同。来源见[复核报告](../../docs/upstream/2026-10-19/apple/report.md)。
@@ -44,6 +42,14 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%
 复制配置直链，按下文导入并接入节点订阅。
 
 配置下载和远程规则更新需要访问 GitHub Raw；失败时参见[下载排错](../../docs/rule-asset-delivery.md)。本地定制先保留副本，远程更新可能覆盖修改。
+
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Loon** 和 Full、Lite 或 Custom 业务方案，可按需设置测速和 QUIC。禁用 QUIC 会限制全部 UDP/443，包括国内及其他服务。此静态配置不提供运行时节点 DNS 或倍率适配。
+
+下载 `.conf` 后可将副本放到自己的 HTTPS 地址，按下方配置管理的 URL 入口下载并启用；再在订阅管理中添加节点订阅。
+
+Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线。更新时刷新在线页面，重新选择相同业务方案和参数并下载；先备份已有配置及节点定制，再按上述方式替换或重新导入。不要用本仓库完整配置直链刷新覆盖定制文件。选择和生成在本机完成，不读取或上传订阅和个人配置。详见[在线配置指南](../../docs/configuration.md)。
 
 <a id="import"></a>
 

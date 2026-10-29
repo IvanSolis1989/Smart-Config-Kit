@@ -16,6 +16,12 @@
 
 ## 开始前与文件选择
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Meow 原生 YAML**，再选 Full / Lite / Custom 及可用的测速、QUIC 参数。若下载为 ZIP，先解压并保留清单，使用 `Meow内核系/Meow/` 中的 YAML；单个 YAML 可直接用于下文步骤。先在本地替换节点订阅占位地址，再通过官方 App 的本地 YAML 导入入口加载。页面不读取或上传订阅及个人配置；不要把订阅填到在线页面 URL 中。
+
+更新时刷新页面，重新选择原业务方案和参数，下载新副本，备份原配置后重新填写自己的订阅并导入。官方模板 URL 指向完整默认方案且含不可用占位地址，不能作为个人配置的自动更新源。业务范围见[统一配置指南](../../docs/configuration.md)；官方 App 的 DNS、平台设置和真实连接仍按下文单独验收。
+
 下载 [Meow(meow).yaml](Meow%28meow%29.yaml)。官方客户端使用本目录的原生 YAML；AEROVE Lite 的 JS 覆写和操作说明在并列的 [Aerove Lite 目录](../Aerove%20Lite/README.md)。
 
 本仓库不提供节点或订阅。模板中的 `proxy-providers.Subscribe.url` 是不可用的占位地址，先替换为自己的 Clash 格式节点订阅。原文件不能直接启动，也不能将仓库模板 URL 当成个人可运行配置。

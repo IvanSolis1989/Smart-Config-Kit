@@ -36,6 +36,12 @@
 
 ## 选择并下载文件
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 OpenClash Smart 或 Normal，再选 Full / Lite / Custom 和支持的参数，下载 Shell 脚本。按下文先备份固定自定义入口，再部署下载的脚本并重载；运行环境变量仍优先于脚本内的默认参数。页面在本机生成，不读取或上传订阅及个人配置。
+
+更新时刷新页面，重新选择相同业务方案与参数，下载并按下文备份、替换本地脚本。官方远程 URL 指向完整默认脚本，不能自动保留定制。ShellClash 用户可按自身流程复用适配的 Mihomo YAML 或脚本中的 YAML 内容，仍需在设备上验证；业务范围见[统一配置指南](../../docs/configuration.md)。
+
 [![下载 Smart SH](../../docs/assets/readme/button-smart-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh) [![下载 Normal SH](../../docs/assets/readme/button-normal-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh) [![下载 UI CONF](../../docs/assets/readme/button-ui-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.conf)
 
 点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。

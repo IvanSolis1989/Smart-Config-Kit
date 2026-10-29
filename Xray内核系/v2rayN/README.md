@@ -66,6 +66,12 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Xray%E5%86
 
 规则下载需能访问 GitHub Raw 的网络或可用代理；故障排查见[规则下载说明](../../docs/rule-asset-delivery.md)。
 
+### 在线选择与本地导入
+
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按核心选择：路径 A 选 **CMFA / ClashMi**，路径 B 根据内核选 **sing-box 1.14** 或 **sing-box 1.13**，路径 C 选 **v2rayN · Xray 路由**。选择 Full、Lite 或 Custom 业务方案及页面提供的该端参数后下载，按下方对应路径加载本地文件。Xray 文件仅为包含 `proxy`、`direct`、`block` 三种出站目标的路由规则，需在路由设置导入；节点和 DNS 由 App 管理，它不是订阅或完整运行配置。
+
+更新时刷新页面，重新选择客户端、业务和参数并下载；备份现有配置及节点设置后替换同类本地配置或路由，再核对实际加载结果。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+
 <a id="2-路径-amihomo-核心"></a>
 
 ## 路径 A：mihomo 完整配置
