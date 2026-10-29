@@ -5,7 +5,7 @@
 
 # 测速与 QUIC 策略选项
 
-选择节点健康检查频率与海外 QUIC 行为。先预览生成影响，再保存选择并在客户端读回实际配置。
+选择客户端支持的节点健康检查频率与海外 QUIC 行为，下载配置后在客户端读回实际结果。
 
 <p>
   <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
@@ -20,13 +20,13 @@
 
 ## 使用入口
 
-1. 用 `--dry-run` 查看目标产物。
-2. 选择健康检查和 QUIC 两个独立参数，保存后重新导入或加载。
-3. 在同一网络、节点和应用上检查 TCP/443、UDP/443 与命中日志。
+1. 下载并打开[离线表单](configuration.html)，选择客户端和业务方案。
+2. 按该客户端提供的选项调整健康检查和 QUIC，下载配置并导入或加载。
+3. 在客户端读回实际配置，并在同一网络、节点和应用上检查 TCP/443、UDP/443 与命中日志。
 
 本仓库提供两个彼此独立的选项：节点健康检查频率与海外 QUIC 的处理方式。它们只改变测速时机或 UDP/443 的前置处理；最终仍需由实际客户端、节点和目标网站共同验证效果。
 
-## 选择并生成
+## 维护者生成
 
 在仓库根目录运行：
 
@@ -62,7 +62,7 @@ Clash Party Smart/Normal 与 FlClash 的 JS 覆写可分别修改文件顶部的
 
 OpenClash Smart/Normal 的 shell 脚本可在运行环境用 `SCKI_HEALTH_CHECK_PROFILE=standard|power-save`、`SCKI_QUIC_POLICY=block-foreign|follow-rules` 覆盖构建默认值，变量须由启动脚本的进程继承。
 
-静态 YAML/CONF/JSON 文件使用上面的生成命令切换后重新导入。导入后检查客户端实际加载的配置和命中日志，避免仍在使用旧缓存。
+静态 YAML/CONF/JSON 文件可通过离线表单下载后重新导入。导入后检查客户端实际加载的配置和命中日志，避免仍在使用旧缓存。
 
 ## 节点健康检查
 
@@ -80,19 +80,19 @@ OpenClash Smart/Normal 的 shell 脚本可在运行环境用 `SCKI_HEALTH_CHECK_
 
 ### Surge
 
-- **`standard` / `power-save` 的实现**：两档均保留现有原生按使用触发的复测方式和间隔；网络变化仍可能触发复测。本次不添加 Mihomo 的 `lazy` 字段。
+- **`standard` / `power-save` 的实现**：两档测速间隔分别为 300 / 900 秒；网络变化仍可能触发复测。本次不添加 Mihomo 的 `lazy` 字段。
 
 ### Shadowrocket、Loon
 
-- **`standard` / `power-save` 的实现**：两档均维持各自现有测速间隔和调度；两端没有本次采用的原生 `lazy` 字段。
+- **`standard` / `power-save` 的实现**：两档测速间隔分别为 300 / 900 秒；两端没有本次采用的原生 `lazy` 字段。
 
 ### Quantumult X
 
-- **`standard` / `power-save` 的实现**：两档均维持现有 `url-latency-benchmark` 调度和参数；不将 Mihomo `lazy` 字段移植到 QX。
+- **`standard` / `power-save` 的实现**：两档分别设置 `alive-checking: true` / `false`；不将 Mihomo `lazy` 字段移植到 QX。
 
 ### sing-box
 
-- **`standard` / `power-save` 的实现**：两档均维持现有 `urltest.interval` 与 `idle_timeout`；后者是空闲超时，不等于 Mihomo `lazy`。
+- **`standard` / `power-save` 的实现**：两档 `urltest.interval` 分别为 5 / 15 分钟；`idle_timeout` 是空闲超时，不等于 Mihomo `lazy`。
 
 ### Egern
 

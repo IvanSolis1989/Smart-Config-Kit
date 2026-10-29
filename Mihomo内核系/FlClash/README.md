@@ -56,14 +56,14 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 ### 可选：先生成 Lite / Custom 业务方案
 
-默认直接使用下方完整 JS。需要精简业务时，下载[离线配置表单](../../docs/configuration.html)，在本机浏览器打开并选择「全端业务」：**Lite** 保留 AI、即时通讯、会议协作和 YouTube（`ai,im,work,youtube`）；**Custom** 自行勾选要保留的业务。点击「下载 FlClash 脚本」即可保存 JS，无需 CLI、Node.js 或 Ruby。
+默认直接使用下方完整 JS。需要精简业务时，下载[离线配置表单](../../docs/configuration.html)，在本机浏览器打开并选择「业务方案」：**Lite** 保留 AI、即时通讯、会议协作和 YouTube（`ai,im,work,youtube`）；**Custom** 自行勾选要保留的业务。选择 FlClash 后点击下载按钮即可保存 JS，无需 CLI、Node.js 或 Ruby。
 
 打开下载的 JS 并复制**全文**，按下面第 1 步创建独立命名的「粘贴」覆写，再按第 2 步关联订阅。不要给这个覆写配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
 
-「本地 JS 参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；两个标签保留彼此的选择。不调整时仍采用发布默认。表单内嵌的是下载时的脚本快照，更新基线时需重新下载 HTML。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
+「可选参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；不调整时仍采用发布默认。表单内嵌的是下载时的脚本快照，更新基线时需重新下载 HTML。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
 
 <details>
-<summary>仍想用 CLI，或同时生成其他客户端？</summary>
+<summary>使用 CLI 高级生成</summary>
 
 表单保留 `settings.json` 下载；它是生成设置，不能直接导入 FlClash。在仓库根目录运行以下命令，替换实际路径；输出目录的父目录须已存在，输出目录本身必须是全新目录。Node.js、Ruby 等环境要求见[统一配置指南](../../docs/configuration.md)。
 

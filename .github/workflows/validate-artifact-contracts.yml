@@ -11,6 +11,9 @@ on:
       - 'tools/generate-configuration-form.js'
       - 'tools/lib/flclash-browser-export.js'
       - 'tools/lib/flclash-browser-local-options.js'
+      - 'tools/lib/offline-*.js'
+      - 'tools/tests/offline-*.test.js'
+      - 'tools/vendor/fflate/**'
       - 'tools/tests/flclash-browser-export.test.js'
       - 'tools/tests/business-profile*.test.js'
       - 'tools/tests/configuration*.test.js'
@@ -127,6 +130,9 @@ on:
       - 'tools/generate-configuration-form.js'
       - 'tools/lib/flclash-browser-export.js'
       - 'tools/lib/flclash-browser-local-options.js'
+      - 'tools/lib/offline-*.js'
+      - 'tools/tests/offline-*.test.js'
+      - 'tools/vendor/fflate/**'
       - 'tools/tests/flclash-browser-export.test.js'
       - 'tools/tests/business-profile*.test.js'
       - 'tools/tests/configuration*.test.js'
@@ -262,7 +268,7 @@ jobs:
         run: |
           npm --prefix tools/js-engine-tests ci --ignore-scripts
           node tools/generate-configuration-form.js --check
-          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/flclash-browser-export.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
+          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/flclash-browser-export.test.js tools/tests/offline-configuration-export.test.js tools/tests/offline-client-options.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
 
       - name: Validate Karing generation and client layout
         run: |

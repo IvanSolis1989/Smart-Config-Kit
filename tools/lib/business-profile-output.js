@@ -203,4 +203,4 @@ function generateBusinessProfile(options = {}) {
   }
 }
 
-module.exports = { artifactInventory, generateBusinessProfile, validateOutputDirectory, assertNoSymlinkAncestors, publishDirectory };
+module.exports = { artifactInventory, generateBusinessProfile, validateOutputDirectory, assertNoSymlinkAncestors, publishDirectory, addLocalDependencies, safeSource };

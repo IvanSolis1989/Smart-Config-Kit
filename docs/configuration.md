@@ -5,55 +5,31 @@
 
 # 本地参数与业务方案
 
-默认下载仍提供完整业务分流。FlClash 可在离线表单一起选择业务和本地参数后直接下载 JS；其他客户端可通过 CLI 把业务方案生成到全新的目录。
+默认完整配置保持不变。下载[离线配置表单](configuration.html)，在本机浏览器选择客户端、业务方案及该端支持的参数，直接下载配置，无需 CLI。
 
 [项目首页](../README.md) · [文档中心](README.md) · [下载目录](guide/downloads.md) · [导入后验收](guide/dns-and-verification.md#verification)
 
-## 先选一条路径
+## 离线下载
 
-| 需求 | 使用入口 | 影响范围 |
-| --- | --- | --- |
-| FlClash 业务与参数 | [离线表单](configuration.html) | 合并下载 JS |
-| 更新已有本地 JS | 本地 CLI | 指定脚本 |
-| 其他客户端方案 | 全端 CLI | 全新目录 |
+1. 下载并打开 `configuration.html`，选择客户端。默认 FlClash / Full。
+2. 选择 **Full** 全部业务、**Lite**（AI、即时通讯、会议协作和 YouTube）或 **Custom** 自选业务，按需调整页面提供的参数。
+3. 下载配置并按对应客户端教程导入。单文件保留原扩展名；需要伴随清单、Passwall 列表或 AEROVE 分片和预算的入口以 ZIP 保留目录结构。可选方案的 YAML 使用 JSON 兼容 YAML；Full 保留发布文本的 LF 换行。
 
-本地 JS 保存前可预览，保存时备份并读回。业务方案独立输出，正式下载与共享规则资产不变。表单也保留设置 JSON 下载，供 CLI 生成其他客户端方案或更新本地 JS。
-
-表单从同一参数定义和源图业务目录生成，无需联网，不读取或执行本地脚本。GitHub 文件页面显示 HTML 源码；下载仓库后在本机打开该文件使用。
-
-## FlClash：选好后直接下载
-
-只下载 `configuration.html` 也能使用，不需要安装 Node.js 或 Ruby：
-
-1. 在「全端业务」选择 **Full** 保留全部业务，**Lite** 保留 AI、即时通讯、会议协作和 YouTube，或选 **Custom** 自行勾选。
-2. 在「本地 JS 参数」设置测速、QUIC、订阅节点 DNS、倍率上限及可选 ZeroTier。两个标签保留彼此的选择，先设置哪一页都可以；不修改时继续采用发布默认值。
-3. 在任一标签点「下载 FlClash 脚本」，保存同时包含业务方案和本地参数的 `.js` 文件。右侧摘要显示当前合并选择。
-4. 打开下载的 JS，复制全文。在 FlClash 新建独立命名的「粘贴」覆写，关联到自己的节点订阅，关闭客户端「DNS 覆写」，刷新配置。
-
-自选覆写不要使用官方完整脚本 URL 自动更新。重新选择时重新下载 JS，再替换该独立覆写；导入界面与验收步骤见 [FlClash 教程](../Mihomo内核系/FlClash/README.md#import)。
-
-页面内嵌发布基线的可信脚本、参数定义与业务投影模板。下载时只替换构建时验证的常量值并组装文本，不执行脚本、不接收订阅、不发网络请求。Full 加全部默认参数时与正式发布脚本内容相同；其他选择与现有 CLI 参数写入及业务投影的组合结果一致，统一使用 LF 换行。HTML 是下载时的静态快照；需要新的规则源或脚本逻辑时，重新下载新版 HTML。
-
-节点 DNS 选项只控制现有受限的订阅节点提示，不开放任意订阅 DNS 合并或改写 server/SNI/Host。倍率只能是有限正数或关闭，未知或矛盾倍率继续保留；代理链、DNS 快照与原位引用保护继续由既有运行时执行。
-
-设置 JSON 是可选的高级入口：按当前标签分别导出本地参数或业务设置，保持原 CLI 的两种独立 schema；它不是两页选择的合并存档。直接下载的 JS 始终采用两页合并选择。
-
-离线只指表单生成阶段。导入客户端后，远程规则资产仍按原配置下载；生成成功也不能代替 App 的实际连接验收。
-
-## 哪些改进覆盖其他 App
-
-这些是按能力借鉴的改进，不是把 MyClash 整份脚本套到所有客户端：
-
-| 改进 | 覆盖范围 |
+| 客户端 | 可选参数 |
 | --- | --- |
-| 业务按需方案 | 20 个维护入口；FlClash 离线下载，其他平台通过 CLI 生成 |
-| 精确 hosts-only | Clash Party 两版、FlClash、OpenClash 两版 |
-| 真实 QuickJS | 三份 Mihomo JS；业务检查另含 AEROVE JS |
-| 离线合并下载 | 当前只针对 FlClash |
+| Clash Party Smart / Normal、FlClash | 测速、QUIC、节点 DNS、倍率、ZeroTier |
+| AEROVE Lite | 测速、QUIC、倍率、ZeroTier；DNS 由 App 托管并保持 off |
+| OpenClash 两版 | 测速、QUIC、节点 DNS、倍率；运行环境变量仍优先于下载副本默认值 |
+| CMFA、Stash、Meow | 测速、QUIC |
+| Shadowrocket、Surge、Loon | 测速、QUIC；QUIC 原生规则范围较宽，涉及 all-proxy 或全部 UDP/443 |
+| Quantumult X | 测速；没有 QUIC 开关 |
+| sing-box 1.14 / 1.13 | 测速 5 / 15 分钟、原生 QUIC 规则 |
+| v2rayN Xray、Karing | QUIC 投影；Karing 仅提供分流，节点、DNS 和最终动作由 App 管理 |
+| Egern、Passwall / Passwall2 | 无上述参数；Egern 保持原生 smart 测速，QUIC 改动需重建资产 |
 
-其他 App 使用各自的配置产物，不能直接套用 FlClash JS。静态端没有读取原订阅的运行时，hosts 仍按对应教程配置。QuickJS 属于正确性验证，不能代替设备连接验收。
+切换客户端不会携带不支持的参数。表单内嵌可信发布快照及 MIT fflate ZIP 库，生成时不联网、不执行下载脚本、不读取订阅；不增加任意 DNS，也不改 server/SNI/Host 或代理链。它不会自动应用到设备。HTML 是静态快照，更新基线须重新下载；导入后远程规则资源仍需联网。
 
-20 个入口包括 14 个既有客户端对应的 17 份文件，以及 Karing、Meow、AEROVE Lite 各一份。Xray 保留三出站 fallback；Passwall/2 保留后端与手工目标选择要求；Karing 只导入分流规则。Meow/AEROVE 的生成候选与 App 验收仍分开，详见[能力矩阵](client-capability-matrix.md)及[支持队列](support-queue.md)。没有进行全端性能基准，不把这些改进等同于所有 App 都更快或更省内存。
+完整默认值与安全规则保持不变。Meow 和 AEROVE 的设备验收仍需单独进行；没有全端性能基准。其他能力边界见[能力矩阵](client-capability-matrix.md)及[支持队列](support-queue.md)。CLI 仍可用于高级生成或更新已有本地 JS。
 
 ## 修改本地 JS
 

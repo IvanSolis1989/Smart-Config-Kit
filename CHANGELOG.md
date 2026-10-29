@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 配置工具 v1.3.0 (2026-10-29)
+
+- 离线表单支持 20 个维护入口，按客户端能力选择业务方案和参数并下载配置。默认客户端配置和规则源保持不变。
+
 ## 离线配置表单 v1.2.1 (2026-10-29)
 
 - 拒绝浏览器数值输入的原生无效状态，避免不完整指数被误当作关闭倍率筛选；有效留空及默认分流保持。详见 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
