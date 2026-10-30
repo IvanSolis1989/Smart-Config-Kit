@@ -6,7 +6,7 @@
   "authority": "rulesets/source/routing-graph.js -> fused manifest -> generated SingBox 1.13 route",
   "input_hashes": {
     "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json": "863f50e671eef16d50c6381755ea2dfac86ca7dff0375c49b29264998afe6251",
-    "rulesets/generated/fused/manifest.json": "f7da5e10fc18902a1d18642062db2ee55cad8b67fdbe75b16b9750e9fac127cd",
+    "rulesets/generated/fused/manifest.json": "d5a1c627eed0e072736fa29889a47cbe7e2b0cd0458fdfbd79dabb0a35903eb1",
     "rulesets/source/karing-support/manifest.json": "414065959125b3ef83e39af6ee99396a83db22d813eba81a0e2c08d60b3a3c5c",
     "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
     "tools/generate-karing.js": "891cfc8cae0ba3a7997bdecca1c69c3e45079052a60020ddf5c7ba7d47990cb9",
