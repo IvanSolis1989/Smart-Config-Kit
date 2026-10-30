@@ -18,10 +18,10 @@
 
 ## 开始前：确认版本与节点订阅
 
-需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；脚本 API 说明见[官方仓库教程](https://github.com/chen08209/FlClash/issues/1510)。
+需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；按下方[界面版本](#ui-version)选择操作路径。
 
 - 单机场优先使用原生订阅链接；多机场按 [Sub-Store 教程](../../SubStore/README.md)输出一条 `Clash.Meta(mihomo)` URL。
-- 创建覆写后必须关联到对应 Profile；只粘贴或保存脚本不会生效。
+- 创建脚本后必须在对应配置（Profile）中选择「脚本」模式并关联脚本；只粘贴或保存不会生效。多个订阅需要分别关联。
 - 规则下载需要 GitHub Raw 可达或可用代理。备选静态 YAML 按 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)编辑后导入。
 
 <a id="-规则下载链接"></a>
@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%
 
 默认直接使用下方完整 JS。需要精简业务时，打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)并选择「业务方案」：**Lite** 保留 AI、即时通讯、会议协作和 YouTube（`ai,im,work,youtube`）；**Custom** 自行勾选要保留的业务。选择 FlClash 后点击下载按钮即可保存 JS，无需 CLI、Node.js 或 Ruby。
 
-打开下载的 JS 并复制**全文**，按下面第 1 步创建独立命名的「粘贴」覆写，再按第 2 步关联订阅。不要给这个覆写配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
+打开下载的 JS 并复制**全文**，按下面第 1 步创建独立命名的本地脚本，再按第 2 步关联订阅。不要给这个脚本配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
 
 「可选参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；不调整时仍采用发布默认。在线页面加载静态快照，更新后重新打开或刷新即可加载最新发布版本；也可保存[离线 HTML](../../docs/configuration.html)备用。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
 
@@ -78,28 +78,53 @@ node tools/configure.js --settings '.../settings.json' --output-dir '.../全新�
 
 </details>
 
-### 第 1 步：创建覆写脚本
+<a id="ui-version"></a>
 
-<img width="360" height="800" alt="c54492ae7abbfa269f1a6cceaca65a7c" src="https://github.com/user-attachments/assets/35be12b0-39a0-43a5-8b4f-01f736c93704" />
+### 先确认界面：新版「扩展」与旧版「覆写」
 
-1. FlClash → 底部「配置」→ 顶部 **「覆写脚本」**
-2. 点右上角 **+**
-3. 输入名称（如 `Smart分流`），选择加载方式：
-   - **URL**：填入 `https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js`
-   - **粘贴**：浏览器打开 Raw 链接，全选复制粘贴；第一行必须是 `// FlClash 覆写脚本`
-4. 保存
+**v0.9.0 / v0.9.1 扩展界面：** 从「配置」中打开对应配置的菜单，选择「扩展」。**旧版覆写界面：** 从配置页顶部「覆写脚本」管理脚本，再从订阅菜单关联。先对照实际界面，再按下面两步操作。
 
-> 如果 FlClash 弹出 `SyntaxError: unexpected token '<'`，说明当前导入内容是 HTML 页面，不是 JS 脚本。删除这个覆写脚本，改用上面的 Raw 链接或粘贴方式重新创建。
+> 官方 [v0.9.0 源码](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/profiles/extend/extend.dart)已经包含「扩展 → 脚本」；[v0.9.1](https://github.com/chen08209/FlClash/releases/tag/v0.9.1)继续使用该入口。最低脚本支持版本仍为 v0.8.85。下方新版截图由 [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194) 提供；旧版截图保留供对照。
+
+<a id="第-1-步创建覆写脚本"></a>
+
+### 第 1 步：进入脚本管理并创建脚本
+
+**新版扩展界面（v0.9.0 / v0.9.1）：**
+
+1. 打开「配置」，打开要使用本脚本的配置菜单，点 **「扩展」**。
+2. 在「扩展模式」中选 **「脚本」**，点 **「前往配置脚本」** 进入脚本管理页。
+3. 在脚本管理页点 **+**，完整方案选择 **「通过URL导入」** 并填入上方 JS Raw 直链；本地或定制方案选择 **「从零开始」**，删除默认内容后粘贴 JS **全文**，命名为 `Smart分流` 并保存。已有下载文件也可选择 **「通过文件导入」**。
+4. 返回这份配置的「扩展」页，继续完成第 2 步的关联。
+
+<img width="360" alt="FlClash v0.9.1 配置菜单，扩展入口位于编辑下方" src="https://github.com/user-attachments/assets/e8544989-b1f2-49a1-9d6a-700e966d97bd" />
+
+**旧版覆写界面：**
+
+1. 「配置」→ 顶部 **「覆写脚本」** → **+**。
+2. 选择 **「通过URL导入」** 并填入上方 JS Raw 直链；或选 **「从零开始」**，清空默认内容、粘贴 JS 全文并命名保存。已有文件可选 **「通过文件导入」**。粘贴是编辑操作，不是菜单选项；v0.8.99 的按钮名称与新版相同。
+
+<img width="360" alt="FlClash 旧版配置页顶部的覆写脚本入口及脚本创建界面" src="https://github.com/user-attachments/assets/35be12b0-39a0-43a5-8b4f-01f736c93704" />
+
+> 两种界面都要导入 JS 原文；第一行应为 `// FlClash 覆写脚本`。`SyntaxError: unexpected token '<'` 通常表示误导入了 HTML 页面，改用 Raw 直链或复制脚本全文重新创建。
 
 ### 第 2 步：关联到订阅
 
-<img width="360" height="800" alt="5cea3c38d68a4f179fd4c3871052fd01" src="https://github.com/user-attachments/assets/f133d259-3841-4719-9396-db2488a507fc" />
+**新版扩展界面（v0.9.0 / v0.9.1）：**
 
-1. 返回配置页 → 点订阅卡片右上角 ⋮
-2. **更多** → **覆写**
-3. 选择刚才创建的覆写脚本 → 确定
-4. 返回首页 → 下拉刷新（或重启 FlClash）
+1. 「配置」→ 对应配置的菜单 → **「扩展」**。
+2. 确认「扩展模式」选中 **「脚本」**，在下方 **「扩展脚本」** 中点选刚创建的 `Smart分流`，确认该项出现勾选。
+3. 返回配置页，选中这份配置并重新应用；若正在运行，停止后再启动。多个配置分别选择需要使用的脚本。
 
+<img width="360" alt="FlClash v0.9.1 扩展页：脚本模式已勾选，下方选择扩展脚本，底部可前往配置脚本" src="https://github.com/user-attachments/assets/4afbd5d6-6c59-420b-8fab-3fe36cb06831" />
+
+**旧版覆写界面：**
+
+1. 返回配置页 → 订阅卡片右上角 **⋮** → **更多** → **覆写**。
+2. 选择脚本模式及刚创建的脚本，确认保存。
+3. 返回首页 → 下拉刷新，必要时停止后再启动。
+
+<img width="360" alt="FlClash 旧版订阅菜单的覆写入口与脚本关联界面" src="https://github.com/user-attachments/assets/f133d259-3841-4719-9396-db2488a507fc" />
 
 <a id="应用层设置与-dns-所有权"></a>
 
@@ -143,6 +168,10 @@ node tools/configure.js --settings '.../settings.json' --output-dir '.../全新�
 <a id="faq"></a>
 
 ## 常见问题
+
+### Q: 找不到「覆写脚本」，只看到「扩展」？
+
+按[新版界面步骤](#ui-version)进入「扩展」，选择「脚本」，再点「前往配置脚本」。创建后返回同一份配置选择脚本；保持「标准」模式或只创建脚本都不会执行本仓库 JS。旧版用户继续按旧版截图操作，无需为了导入脚本更换客户端版本。
 
 ### Q: 代理/规则标签消失了？
 
@@ -235,7 +264,7 @@ UI 保存的旧值不能证明当前生效状态；合并顺序与版本边界�
 </details>
 
 <details>
-<summary>配置界面补充示例</summary>
+<summary>旧版配置界面补充示例</summary>
 
 <img width="160" alt="FlClash 配置示例 1" src="https://github.com/user-attachments/assets/e88e0724-2bc0-4111-851e-e8aa0a9141d3">
 <img width="160" alt="FlClash 配置示例 2" src="https://github.com/user-attachments/assets/530d9f3a-e793-423b-a4d6-85a2d4a75054">

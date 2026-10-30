@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 文档：FlClash 新旧界面导入指南 (2026-10-31)
+
+- 补齐「扩展 → 脚本」入口、按配置关联步骤及新版截图，保留旧版图解；详见 [FlClash 变更日志](Mihomo内核系/FlClash/CHANGELOG.md)。本次不改变运行时与规则基线。
+
 ## 配置工具 v1.4.2 (2026-10-29)
 
 - 业务方案下拉选项统一为“完整（Full）”“精简（Lite）”“自选（Custom）”；保留原始方案值、默认完整方案及生成行为。

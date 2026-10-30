@@ -8,7 +8,7 @@
   "source_authority": "rulesets/source/routing-graph.js",
   "queue": "docs/support-queue.md#meow",
   "input_sha256_lf": {
-    "Mihomo内核系/FlClash/FlClash(mihomo).js": "f33ea7ef24043899d734f3174000b87f4f620cd35c4328af484c32775ea062bc",
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "50243448f3cf9bfa50ff3154f8dad635a0909f12c05e5ef09b87207e465aa5c7",
     "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
     "rulesets/source/routing-graph.js": "37d8002ee8470da52353db9e5e1093ab78b95afc5ca7b394593db304dda0b9a8",
     "rulesets/generated/fused/manifest.json": "f7da5e10fc18902a1d18642062db2ee55cad8b67fdbe75b16b9750e9fac127cd",

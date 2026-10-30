@@ -1,5 +1,9 @@
 # FlClash 参考文档
 
+> 核对于 2026-10-31（界面文案）：核对 [v0.8.99 配置菜单](https://github.com/chen08209/FlClash/blob/v0.8.99/lib/views/profiles/profiles.dart#L315-L354)的「更多 → 覆写」和 [v0.9.1 脚本菜单](https://github.com/chen08209/FlClash/blob/v0.9.1/lib/views/config/scripts.dart#L282-L320)。[中文资源](https://github.com/chen08209/FlClash/blob/v0.9.1/arb/intl_zh_CN.arb)中三个创建选项为「从零开始」「通过URL导入」「通过文件导入」，v0.8.99 也使用相同选项；没有名为「粘贴」的导入菜单。
+
+> 核对于 2026-10-31（Issue #194）：[v0.9.0](https://github.com/chen08209/FlClash/releases/tag/v0.9.0)（2026-10-14）已提供按配置选择的「扩展 → 脚本」，[v0.9.1](https://github.com/chen08209/FlClash/releases/tag/v0.9.1)（2026-10-17）延续该入口；不能将入口变化限定为 v0.9.1。[扩展模式](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/profiles/extend/extend.dart)保存 `extendType`，[脚本选择器](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/profiles/extend/script.dart)保存当前 Profile 的 `scriptId`，并通过 `goToConfigureScript` 打开脚本管理；[脚本管理](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/config/scripts.dart)支持 URL 获取脚本文本及同步。其 [Rust 脚本入口](https://github.com/chen08209/FlClash/blob/v0.9.0/plugins/rust_api/rust/src/script/mod.rs)仍为 `main(config)`，本次只修正文档和头部注释，不改变脚本 API 或 v0.8.85 最低要求。新版界面截图取自 [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194)，源码核对与文档渲染不代替设备导入验收；内存占用未在本次测量。
+
 > 核对于 2026-10-29：重新核对 [Mihomo DNS](https://wiki.metacubex.one/config/dns/) 与 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。hosts-only 是脚本的显式可信本地参数，仅增加精确节点 IP hosts；沿用既有 QuickJS 覆写入口及 App 托管的端口/TUN 边界。新增真实锁定 QuickJS 验证，未将其表述为 FlClash 实机通过。
 
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用脚本输出的现有 RULE-SET 策略名引用，不改变 App 覆写边界。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
