@@ -51,7 +51,7 @@ function buildOfflineConfigurationBundle() {
     let help = '下载原生配置后，按对应客户端教程接入自己的节点或订阅；保留各端既有能力边界。';
     if (id === 'smart') help = '使用 Smart 内核，新建独立 JS 覆写并关联节点订阅，再刷新配置。';
     if (id === 'normal') help = '使用标准 Mihomo 内核，新建独立 JS 覆写并关联节点订阅，再刷新配置。';
-    if (id === 'flclash') help = '新建独立的粘贴覆写，粘贴下载的脚本并关联订阅；关闭 DNS 覆写后刷新配置。';
+    if (id === 'flclash') help = '在扩展的脚本管理中新建本地脚本、粘贴下载内容，返回对应配置选择脚本；旧版按覆写入口关联。关闭 DNS 覆写后重新应用配置。';
     if (id === 'aerove-lite') help = '将候选 JS 覆写关联已展开节点的订阅；DNS、TUN 等设置由 App 管理，仍待目标设备验收。';
     if (artifact.kind === 'openclash') help = '用 WinSCP 等文件工具先备份，再上传到 /etc/openclash/custom/openclash_custom_overwrite.sh 并设置执行权限，在 LuCI 重启。此为完整自定义脚本；配套 UCI 设置、订阅和内核仍按 OpenClash 教程核对。';
     if (artifact.kind === 'passwall') help = 'ZIP 中列表可在 LuCI 手工导入并选择目标节点；仅适用于 sing-box 分流后端，apply.sh 为可选维护者自动应用脚本。';

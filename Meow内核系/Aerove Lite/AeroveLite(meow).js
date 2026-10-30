@@ -1,5 +1,5 @@
 // AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
-// 版本：v6.0.21-meow.7 | Build：2026-10-29
+// 版本：v6.0.21-meow.8 | Build：2026-10-31
 // 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.21
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
@@ -11,7 +11,7 @@
 // Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.21-meow.7'
+const VERSION = 'v6.0.21-meow.8'
 
 // 本候选的 DNS 与 hosts 由 App 托管；不启用订阅 Node-DNS 投影。
 // 保留源参数占位为 off，桌面 JS 的 DNS profile 不适用于此入口。
@@ -23,6 +23,7 @@ const SCKI_MAX_NODE_MULTIPLIER = null
 const SCKI_HEALTH_CHECK_PROFILE = 'standard'
 const SCKI_QUIC_POLICY = 'block-foreign'
 const SCKI_ZEROTIER_PLANET_PROXY = false
+// Windows Chrome/Edge/Firefox only: explicit local opt-in rejects all browser UDP.
 
 // >>> SCKI TRAFFIC OPTIONS: BEGIN — generated from tools/runtime/traffic-options.js, routing-graph.js and traffic-options.json.
 // Browser and QuickJS safe. Synchronize rule data from routing-graph.js with tools/sync-traffic-options.js.
@@ -36,12 +37,16 @@ var SckiTrafficOptions = (function() {
   // >>> SCKI ZEROTIER PLANET: BEGIN
   var ZEROTIER_PLANET_PROXY_POLICY = {"targetGroup":"🇺🇸 美国节点","rules":["AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,103.195.103.66/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,79.127.159.187/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,84.17.53.155/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,185.152.67.145/32,no-resolve)),🇺🇸 美国节点"]};
   // <<< SCKI ZEROTIER PLANET: END
+  // >>> SCKI BROWSER UDP: BEGIN
+  var BROWSER_UDP_PRIVACY_POLICY = {"processNames":["chrome.exe","msedge.exe","firefox.exe"],"rules":["AND,((NETWORK,UDP),(PROCESS-NAME,chrome.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,msedge.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,firefox.exe)),REJECT"]};
+  // <<< SCKI BROWSER UDP: END
 
   function validate(options) {
     if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
         (options.healthCheckProfile !== 'standard' && options.healthCheckProfile !== 'power-save') ||
         (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules') ||
-        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean')) {
+        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean') ||
+        (Object.prototype.hasOwnProperty.call(options, 'browserUdpPolicy') && options.browserUdpPolicy !== 'off' && options.browserUdpPolicy !== 'reject')) {
       throw new Error('Invalid SCKI traffic options');
     }
     return options;
@@ -97,7 +102,22 @@ var SckiTrafficOptions = (function() {
     return rules;
   }
 
-  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy };
+  function applyBrowserUdpPolicy(rules, mode) {
+    if (mode !== 'off' && mode !== 'reject') throw new Error('Invalid SCKI browser UDP policy');
+    if (!Array.isArray(rules)) throw new Error('SCKI rules must be an array');
+    var ownedRules = BROWSER_UDP_PRIVACY_POLICY.rules;
+    for (var i = rules.length - 1; i >= 0; i--) {
+      if (ownedRules.indexOf(rules[i]) >= 0) rules.splice(i, 1);
+    }
+    if (mode === 'reject') {
+      // Explicit local safety choice overrides all routing, including DIRECT
+      // policy groups, QUIC service exceptions and local ZeroTier routing.
+      for (var j = ownedRules.length - 1; j >= 0; j--) rules.unshift(ownedRules[j]);
+    }
+    return rules;
+  }
+
+  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy, applyBrowserUdpPolicy: applyBrowserUdpPolicy };
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;

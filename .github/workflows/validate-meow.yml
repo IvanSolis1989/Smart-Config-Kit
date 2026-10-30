@@ -13,6 +13,7 @@ on:
       - 'tools/tests/aerove-rule-*.test.js'
       - '.github/actions/setup-aerove-mihomo/**'
       - 'tools/tests/meow-generation.test.js'
+      - 'tools/tests/browser-udp-aerove-boundary.test.js'
       - 'tools/lib/meow-native-profile.js'
       - 'tools/tests/meow-native-profile.test.js'
       - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
@@ -30,6 +31,7 @@ on:
       - 'tools/tests/aerove-rule-*.test.js'
       - '.github/actions/setup-aerove-mihomo/**'
       - 'tools/tests/meow-generation.test.js'
+      - 'tools/tests/browser-udp-aerove-boundary.test.js'
       - 'tools/lib/meow-native-profile.js'
       - 'tools/tests/meow-native-profile.test.js'
       - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
@@ -77,4 +79,4 @@ jobs:
         run: |
           node tools/generate-aerove-rule-assets.js --check
           node tools/generate-meow.js --check
-          node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js
+          node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js tools/tests/browser-udp-aerove-boundary.test.js

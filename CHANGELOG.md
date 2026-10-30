@@ -14,6 +14,11 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 配置工具 v1.4.3：Windows 浏览器 UDP 保护 (2026-10-31)
+
+- 处理 [Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193)：新增默认关闭的可信本地浏览器 UDP 拒绝选项，提供在线配置、离线下载及 CLI；详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)与[WebRTC 指南](docs/guide/webrtc-privacy.md)。共享默认规则、DNS 和其他应用的兼容策略不变。
+- 窄屏关闭面板背景模糊，修复滚动后的下载区空白；保留桌面布局与配色。
+
 ## 文档：FlClash 新旧界面导入指南 (2026-10-31)
 
 - 补齐「扩展 → 脚本」入口、按配置关联步骤及新版截图，保留旧版图解；详见 [FlClash 变更日志](Mihomo内核系/FlClash/CHANGELOG.md)。本次不改变运行时与规则基线。

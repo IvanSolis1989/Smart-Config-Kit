@@ -110,7 +110,7 @@ test('nondefault native parameters are applied before business projection', () =
   const data = bundle(), plan = buildProfilePlan({ profile: 'lite' });
   for (const id of ['flclash','cmfa','stash','meow','openclash-normal','singbox-1.13']) {
     const client = data.clients.find(item => item.id === id);
-    const values = { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5, zeroTierPlanetProxy: false };
+    const values = { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', browserUdpPolicy: 'reject', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5, zeroTierPlanetProxy: false };
     const selected = Object.fromEntries(Object.keys(client.localOptionSchema).map(key => [key, values[key]]));
     const changed = applyClientOptions(client.optionSpec, client.canonicalSource, selected);
     const expected = projectPlatform(changed, client.kind, plan, { runtimeContract: client.runtimeContract });

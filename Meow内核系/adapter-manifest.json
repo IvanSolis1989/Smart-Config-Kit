@@ -1,27 +1,27 @@
 {
   "schema_version": 2,
-  "version": "v6.0.21-meow.7",
-  "build": "2026-10-29",
+  "version": "v6.0.21-meow.8",
+  "build": "2026-10-31",
   "client": "Meow",
   "kernel": "meow-rs",
   "status": "pre-adapted-awaiting-app",
   "source_authority": "rulesets/source/routing-graph.js",
   "queue": "docs/support-queue.md#meow",
   "input_sha256_lf": {
-    "Mihomo内核系/FlClash/FlClash(mihomo).js": "50243448f3cf9bfa50ff3154f8dad635a0909f12c05e5ef09b87207e465aa5c7",
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "1c692381d0069d89edab73a31a43afa13e1d2079e2c58eb0852597e498df1e14",
     "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
-    "rulesets/source/routing-graph.js": "37d8002ee8470da52353db9e5e1093ab78b95afc5ca7b394593db304dda0b9a8",
+    "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
     "rulesets/generated/fused/manifest.json": "f7da5e10fc18902a1d18642062db2ee55cad8b67fdbe75b16b9750e9fac127cd",
-    "tools/generate-meow.js": "b8402eb7cdb757b521486bc59fcab71c180b285fabecd081ddc32f0254322c06",
+    "tools/generate-meow.js": "d32d48d0ed788740196168186cc0423f8291fac416278592d2ef5851423ec23a",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
     "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
     "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
     "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
-    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "6b1373486ffc79e2f7d5294ad3545aaf79b416cba4a3746fb98b034642543c0a"
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "c49a49991f7edb2310d95f1de60c74c33e1eb5a5974df676cd1abf47b02f6771"
   },
   "output": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
-    "sha256_lf": "96b798d1d01129c0d8552a4a7a39b5108668d9007c6af996cb58b82d0d429586"
+    "sha256_lf": "e6e451d7f85bd7a7151e9048daa5294ebaea8b65dda73d38d6af1d150941c6fc"
   },
   "native_output": {
     "path": "Meow内核系/Meow/Meow(meow).yaml",

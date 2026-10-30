@@ -22,8 +22,8 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.7`;
-const BUILD = '2026-10-29';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.8`;
+const BUILD = '2026-10-31';
 // The native client has no Lite per-resource cap; preserve its published bytes.
 const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
 const NATIVE_BUILD = '2026-10-28';
@@ -75,6 +75,11 @@ function renderScript(input, splits) {
   insist(start >= 0, 'source VERSION anchor missing');
   source = source.slice(start);
   source = replaceOnce(source, source.split('\n')[0], `const VERSION = '${VERSION}'`);
+  // This adapter has no verified Windows process discovery. Do not expose a
+  // privacy setting that its host cannot enforce.
+  source = replaceOnce(source, "const SCKI_BROWSER_UDP_POLICY = 'off'\n", '');
+  source = replaceOnce(source, ', browserUdpPolicy: SCKI_BROWSER_UDP_POLICY', '');
+  source = replaceOnce(source, '    SckiTrafficOptions.applyBrowserUdpPolicy(config.rules, SCKI_BROWSER_UDP_POLICY)\n', '');
   // Delete the complete Node-DNS/global-settings module. Do not copy unsupported
   // Mihomo fields and then silently strip them from the user's configuration.
   source = removeBetween(source, '// >>> SCKI NODE DNS HINTS: BEGIN', 'function cleanupSubscription(config)');

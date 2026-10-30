@@ -8,7 +8,8 @@ const { planLocalTrafficOptions, writeLocalTrafficOptions } = require('./lib/loc
 
 const usage = [
   'Local script: node tools/configure.js --target local.js [--settings settings.json] [--source new.js] [--preserve-local] [--dry-run]',
-  'Options: --health-check standard|power-save --quic block-foreign|follow-rules --dns-profile off|policy|adaptive|hosts-only --max-multiplier off|<positive number> --zerotier on|off',
+  'Options: --health-check standard|power-save --quic block-foreign|follow-rules --browser-udp off|reject --dns-profile off|policy|adaptive|hosts-only --max-multiplier off|<positive number> --zerotier on|off',
+  'Browser UDP: Windows Chrome/Edge/Firefox only; requires TUN and process detection. TCP unchanged; HTTP/3 and UDP calls may fail or fall back; not a complete WebRTC guarantee.',
   'Business profile: node tools/configure.js --profile full|lite|custom [--enable ai,youtube] --output-dir <new-directory> [--dry-run]',
   'Offline form: open docs/configuration.html, save settings.json, then use --settings with --target or --output-dir.',
 ].join('\n');
@@ -37,7 +38,7 @@ function validateSettings(settings) {
 function parseArgs(args) {
   const options = { dryRun:false, localOptions:{} };
   const seen = new Set();
-  const fields = {'--target':'target','--source':'source','--settings':'settings','--output-dir':'outputDir','--profile':'profile','--enable':'enable','--health-check':'healthCheckProfile','--quic':'quicPolicy','--dns-profile':'subscriptionAdapterProfile','--max-multiplier':'maxNodeMultiplier','--zerotier':'zeroTierPlanetProxy'};
+  const fields = {'--target':'target','--source':'source','--settings':'settings','--output-dir':'outputDir','--profile':'profile','--enable':'enable','--health-check':'healthCheckProfile','--quic':'quicPolicy','--browser-udp':'browserUdpPolicy','--dns-profile':'subscriptionAdapterProfile','--max-multiplier':'maxNodeMultiplier','--zerotier':'zeroTierPlanetProxy'};
   for(let i=0;i<args.length;i++) {
     const arg=args[i];
     if (seen.has(arg)) throw new Error(`Duplicate argument: ${arg}`);

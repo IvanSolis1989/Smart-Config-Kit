@@ -87,6 +87,10 @@ function setLocalTrafficOptions(source, values, label = 'script') {
     const definition = definitions[key];
     if (!definition || !isValidValue(key, value)) throw new Error(`Invalid local traffic option: ${key}`);
     const declaration = parsed.declarations[key];
+    if (key === 'browserUdpPolicy' && !declaration) {
+      if (value === 'reject') throw new Error('Source lacks the selected browser UDP capability: reject; update to a supporting script or explicitly select off');
+      continue;
+    }
     const literal = value === null || typeof value === 'boolean' || typeof value === 'number' ? String(value) : `'${value}'`;
     if (declaration) {
       if (parsed.options[key] !== value) edits.push({ ...declaration, text: declaration.line.replace(new RegExp(`(=\\s*)(?:true|false|null|${NUMBER_LITERAL}|'[^']*'|"[^"]*")`), `$1${literal}`) });
@@ -113,6 +117,12 @@ function planLocalTrafficOptions(targetSource, source = targetSource, requested 
     options[key] = requested[key] !== undefined ? requested[key]
       : preserve && target[key] !== undefined ? target[key]
       : incoming[key] !== undefined ? incoming[key] : definition.default;
+  }
+  if (!Object.hasOwn(incoming, 'browserUdpPolicy')) {
+    if (options.browserUdpPolicy === 'reject') throw new Error('Source lacks the selected browser UDP capability: reject; update to a supporting script or explicitly select off');
+    // Older and App-managed scripts cannot gain this behavior by inserting an
+    // unused constant. Keep their supported off behavior and bytes unchanged.
+    delete options.browserUdpPolicy;
   }
   const profile=options.subscriptionAdapterProfile;
   if(profile && profile!=='off') {

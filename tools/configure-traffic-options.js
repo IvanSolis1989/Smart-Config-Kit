@@ -44,10 +44,16 @@ function parseArgs(args) {
     }
     else if ((arg === '--health-check-profile' || arg === '--health-check') && args[i + 1]) options.healthCheckProfile = args[++i];
     else if ((arg === '--quic-policy' || arg === '--quic') && args[i + 1]) options.quicPolicy = args[++i];
+    else if (arg === '--browser-udp' && args[i + 1]) {
+      const value = args[++i];
+      if (!['off', 'reject'].includes(value)) throw new Error('Browser UDP must be off or reject');
+      if ('browserUdpPolicy' in options) throw new Error('Duplicate browser UDP option');
+      options.browserUdpPolicy = value;
+    }
     else throw new Error(`Unknown or incomplete argument: ${arg}`);
   }
-  if (!options.target && ('zeroTierPlanetProxy' in options || options.source || options.preserveLocal)) {
-    throw new Error('--zerotier-planet-proxy, --source and --preserve-local require --target; ZeroTier is a local option');
+  if (!options.target && ('zeroTierPlanetProxy' in options || 'browserUdpPolicy' in options || options.source || options.preserveLocal)) {
+    throw new Error('--zerotier-planet-proxy, --browser-udp, --source and --preserve-local require --target; ZeroTier and browser UDP are local options');
   }
   if (!options.target && !('healthCheckProfile' in options) && !('quicPolicy' in options)) {
     throw new Error('Specify --health-check-profile and/or --quic-policy');

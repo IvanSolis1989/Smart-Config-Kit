@@ -53,6 +53,16 @@ function getZeroTierPlanetProxyPolicy() {
   };
 }
 
+// Trusted Windows browser opt-in, separate from the shared default graph.
+// Process matching requires the desktop TUN path and working process discovery.
+function getBrowserUdpPrivacyPolicy() {
+  const processNames = ['chrome.exe', 'msedge.exe', 'firefox.exe'];
+  return {
+    processNames,
+    rules: processNames.map(name => `AND,((NETWORK,UDP),(PROCESS-NAME,${name})),REJECT`),
+  };
+}
+
 let SCKI_DISABLE_MIHOMO_MRS_OVERRIDES = false;
 
 function sourceGraphLog() {
@@ -2194,6 +2204,7 @@ module.exports = {
   getBusinessProfileDefinitions,
   getHealthCheckSettings,
   getZeroTierPlanetProxyPolicy,
+  getBrowserUdpPrivacyPolicy,
   getQuicRules,
   buildMihomoRoutingGraph,
   getRawRoutingGraph,

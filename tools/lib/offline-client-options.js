@@ -25,7 +25,7 @@ function buildClientOptionSpec(clientId, source) {
   bindClientOptionSource(spec,source);
   const js = ['smart','normal','flclash','aerove-lite'].includes(clientId);
   const shell = clientId.startsWith('openclash-');
-  let keys = js ? Object.keys(definitions).filter(key => clientId !== 'aerove-lite' || key !== 'subscriptionAdapterProfile')
+  let keys = js ? Object.keys(definitions).filter(key => clientId !== 'aerove-lite' || !['subscriptionAdapterProfile','browserUdpPolicy'].includes(key))
     : shell ? ['healthCheckProfile','quicPolicy','subscriptionAdapterProfile','maxNodeMultiplier']
     : ['cmfa','stash','meow','shadowrocket','surge','loon','singbox-1.14','singbox-1.13'].includes(clientId) ? ['healthCheckProfile','quicPolicy']
     : clientId === 'quantumultx' ? ['healthCheckProfile'] : ['karing','v2rayn'].includes(clientId) ? ['quicPolicy'] : [];

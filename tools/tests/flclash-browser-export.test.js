@@ -210,13 +210,13 @@ test('trusted literal slots retain inline comments exactly like the CLI writer',
   assert.equal(generateFlClashScript(bundle, { profile: 'full', localOptions: requested }).source, planLocalTrafficOptions(source, source, requested).updated);
 });
 
-test('real QuickJS combines power-save, QUIC follow, hosts-only and multiplier safety', async () => {
+test('real QuickJS combines browser UDP privacy with power-save, QUIC, hosts-only and multiplier safety', async () => {
   const { buildFlClashBrowserBundle, generateFlClashScript } = api();
   const bundle = buildFlClashBrowserBundle(), engine = await loadQuickJS().getQuickJS();
   const cases = scenarios().filter(scenario => ['normal-subscription', 'valid-dialer-chain', 'filtered-dialer-rejected'].includes(scenario.id));
   for (const profile of ['full', 'lite', 'custom']) {
     const generated = generateFlClashScript(bundle, { profile,
-      localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5 } });
+      localOptions: { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules', subscriptionAdapterProfile: 'hosts-only', maxNodeMultiplier: 2.5, browserUdpPolicy: 'reject' } });
     for (const scenario of cases) {
       const input = structuredClone(scenario.config);
       input.hosts['unused.fixture.test'] = '198.51.100.7';
@@ -224,6 +224,11 @@ test('real QuickJS combines power-save, QUIC follow, hosts-only and multiplier s
       compareExecutions(node, quickjs, { id: 'flclash' }, scenario);
       if (scenario.unchanged) { assert.deepEqual(quickjs.output, input); continue; }
       const output = quickjs.output;
+      assert.deepEqual(output.rules.slice(0, 3), [
+        'AND,((NETWORK,UDP),(PROCESS-NAME,chrome.exe)),REJECT',
+        'AND,((NETWORK,UDP),(PROCESS-NAME,msedge.exe)),REJECT',
+        'AND,((NETWORK,UDP),(PROCESS-NAME,firefox.exe)),REJECT',
+      ]);
       assert(output['proxy-groups'].filter(group => group.type === 'url-test').every(group => group.interval === 900));
       assert(!output.rules.some(rule => getQuicRules('block-foreign').includes(rule)));
       assert.deepEqual(output.hosts['node.fixture.test'], ['192.0.2.3']);

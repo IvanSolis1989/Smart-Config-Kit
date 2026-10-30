@@ -1,5 +1,5 @@
 // Clash 覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.21-normal.24 (2026-10-29)
+// 版本：v6.0.21-normal.25 (2026-10-31)
 // 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 // 规则源：rulesets/source/routing-graph.js v6.0.21（与 Smart 版规则等价，仅区域组从 smart 改为 url-test）
 // 适用：Mihomo / Clash.Meta 稳定版内核、不支持 smart + LightGBM 的分支；也适用于想完全关闭 ML 评估的用户
@@ -9,7 +9,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.21-normal.24'
+const VERSION = 'v6.0.21-normal.25'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。
 // 不从机场订阅读取；默认 adaptive 不变；hosts-only 仅显式导入活动节点精确 IP hosts。
@@ -21,6 +21,8 @@ const SCKI_MAX_NODE_MULTIPLIER = null
 const SCKI_HEALTH_CHECK_PROFILE = 'standard'
 const SCKI_QUIC_POLICY = 'block-foreign'
 const SCKI_ZEROTIER_PLANET_PROXY = false
+// Windows Chrome/Edge/Firefox only: explicit local opt-in rejects all browser UDP.
+const SCKI_BROWSER_UDP_POLICY = 'off'
 
 // >>> SCKI TRAFFIC OPTIONS: BEGIN — generated from tools/runtime/traffic-options.js, routing-graph.js and traffic-options.json.
 // Browser and QuickJS safe. Synchronize rule data from routing-graph.js with tools/sync-traffic-options.js.
@@ -34,12 +36,16 @@ var SckiTrafficOptions = (function() {
   // >>> SCKI ZEROTIER PLANET: BEGIN
   var ZEROTIER_PLANET_PROXY_POLICY = {"targetGroup":"🇺🇸 美国节点","rules":["AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,103.195.103.66/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,79.127.159.187/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,84.17.53.155/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,185.152.67.145/32,no-resolve)),🇺🇸 美国节点"]};
   // <<< SCKI ZEROTIER PLANET: END
+  // >>> SCKI BROWSER UDP: BEGIN
+  var BROWSER_UDP_PRIVACY_POLICY = {"processNames":["chrome.exe","msedge.exe","firefox.exe"],"rules":["AND,((NETWORK,UDP),(PROCESS-NAME,chrome.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,msedge.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,firefox.exe)),REJECT"]};
+  // <<< SCKI BROWSER UDP: END
 
   function validate(options) {
     if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
         (options.healthCheckProfile !== 'standard' && options.healthCheckProfile !== 'power-save') ||
         (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules') ||
-        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean')) {
+        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean') ||
+        (Object.prototype.hasOwnProperty.call(options, 'browserUdpPolicy') && options.browserUdpPolicy !== 'off' && options.browserUdpPolicy !== 'reject')) {
       throw new Error('Invalid SCKI traffic options');
     }
     return options;
@@ -95,7 +101,22 @@ var SckiTrafficOptions = (function() {
     return rules;
   }
 
-  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy };
+  function applyBrowserUdpPolicy(rules, mode) {
+    if (mode !== 'off' && mode !== 'reject') throw new Error('Invalid SCKI browser UDP policy');
+    if (!Array.isArray(rules)) throw new Error('SCKI rules must be an array');
+    var ownedRules = BROWSER_UDP_PRIVACY_POLICY.rules;
+    for (var i = rules.length - 1; i >= 0; i--) {
+      if (ownedRules.indexOf(rules[i]) >= 0) rules.splice(i, 1);
+    }
+    if (mode === 'reject') {
+      // Explicit local safety choice overrides all routing, including DIRECT
+      // policy groups, QUIC service exceptions and local ZeroTier routing.
+      for (var j = ownedRules.length - 1; j >= 0; j--) rules.unshift(ownedRules[j]);
+    }
+    return rules;
+  }
+
+  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy, applyBrowserUdpPolicy: applyBrowserUdpPolicy };
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;
@@ -1533,7 +1554,7 @@ function sortProxyGroups(config) {
 function main(config) {
   try {
     if (!config || typeof config !== 'object') return config
-    SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY })
+    SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY, browserUdpPolicy: SCKI_BROWSER_UDP_POLICY })
     var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
       console.log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)
@@ -1615,6 +1636,7 @@ function main(config) {
     SckiTrafficOptions.applyHealthCheckProfile(config, SCKI_HEALTH_CHECK_PROFILE, 'normal')
     SckiTrafficOptions.applyQuicPolicy(config.rules, SCKI_QUIC_POLICY)
     SckiTrafficOptions.applyZeroTierPlanetProxy(config.rules, SCKI_ZEROTIER_PLANET_PROXY, config['proxy-groups'].map(function(group) { return group.name }))
+    SckiTrafficOptions.applyBrowserUdpPolicy(config.rules, SCKI_BROWSER_UDP_POLICY)
     sortProxyGroups(config)
     console.log(`[${VERSION}] Done! Groups: ${config['proxy-groups'].length}, Rules: ${config.rules.length}, Providers: ${Object.keys(config['rule-providers']).length}`)
     return config

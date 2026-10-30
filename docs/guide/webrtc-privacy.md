@@ -5,7 +5,7 @@
 
 # WebRTC 隐私与连接验收
 
-规则分流保留直连流量。网页走代理，并不代表同页发起的 WebRTC 也使用代理出口；需要隐藏本地公网 IP 时，还须明确选择浏览器的 WebRTC 隐私策略。
+规则分流保留直连流量。网页走代理，并不代表同页发起的 WebRTC 也使用代理出口。Windows 用户可按需拒绝指定浏览器的 UDP，并结合浏览器隐私策略和实际连接记录验收。
 
 [文档中心](../README.md) · [DNS 与导入后验收](dns-and-verification.md) · [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) · [FlClash](../../Mihomo内核系/FlClash/README.md)
 
@@ -17,11 +17,34 @@ TUN 接管连接后仍按规则选择出口，所以“进入 TUN”与“通过
 
 **关闭客户端「DNS 覆写」是关联本仓库脚本后的正常用法。** 关闭的是 App 的二次覆盖，脚本生成的 Mihomo DNS 仍启用。不能仅凭这个开关判定 DNS 已失效，须核对实际生效配置。
 
+## Windows：启用浏览器 UDP 保护
+
+适用于 **Windows 上的 Clash Party Smart / Normal 与 FlClash JS**，只匹配 `chrome.exe`、`msedge.exe`、`firefox.exe`。默认关闭；启用后拒绝这三个进程的全部 UDP，包含 UDP/19302、其他 STUN 端口及 HTTP/3，不依赖 STUN 域名清单或节点是否支持 UDP。
+
+1. 打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择对应客户端，在本地参数中将 **「Windows 浏览器 UDP」** 设为 **「拒绝（reject）」**，下载 JS。也可使用[离线配置页](../configuration.html)。
+2. 将下载内容保存为独立命名的本地覆写并关联节点订阅，保留这次选择；不要用官方 Raw URL 的自动更新覆盖本地选项。Clash Party Smart / Normal 选用其一，导入步骤见各客户端教程。
+3. 开启 TUN、使用规则模式，重新应用配置；确认最终配置的 `find-process-mode: strict` 仍生效，并能识别浏览器进程。客户端排除浏览器、进程识别失败或绕过 TUN 时，此规则无法提供保护。
+4. 重测并核对浏览器 UDP 连接命中 `AND` 拒绝规则、出站为 `REJECT`；网页 TCP 请求继续按业务规则处理。随后检查日常网页通话与屏幕共享是否可用。
+
+此选项来自可信本地常量 `SCKI_BROWSER_UDP_POLICY`，订阅内容和环境变量不能代为开启。它在常规分流和 QUIC 服务例外之前拒绝浏览器 UDP；其他应用继续使用原规则，包括默认的 STUN/TURN 兼容直连。需要恢复时改为「关闭（off）」并重新下载、关联、应用。
+
+高级用户可对已有支持该选项的本地 JS 先预览，再保存；保存会备份原文件并读回：
+
+```powershell
+node tools/configure.js --target 'D:\Configs\local.js' --browser-udp reject --dry-run
+node tools/configure.js --target 'D:\Configs\local.js' --browser-udp reject
+```
+
+旧脚本缺少此能力时，工具会拒绝开启；应先更新到支持该选项的版本。更新本地脚本时会保留已选择的保护，不能静默降为关闭。
+
+**这不是禁用全部 WebRTC。** UDP 通话可能失败或改用 TCP/TURN；TCP/TURN、浏览器 host candidate 与未进入核心的连接仍需浏览器策略和实际验收。Android / macOS / Linux 的浏览器进程名称和识别能力不同，此 Windows 选项不适用；AEROVE Lite、OpenClash 及其他原生配置本轮不提供此选项，不能把它们的导入成功当作已启用保护。
+
 ## 选择适合自己的方式
 
 | 需求 | 做法 | 代价 |
 | --- | --- | --- |
 | 通话、打洞优先 | 保持默认分流 | STUN 可显示本地公网 IP |
+| Windows 指定浏览器不发 UDP | 开启上面的浏览器 UDP 保护 | 浏览器 HTTP/3 和 UDP 通话受影响 |
 | 限制浏览器 UDP | 使用浏览器 WebRTC 策略 | 部分通话失败或改用中继 |
 | 完全不使用 WebRTC | 在支持的浏览器禁用 PeerConnection | 网页通话和屏幕共享会受影响 |
 
@@ -50,4 +73,4 @@ Firefox 桌面版需要完全关闭时，可在 `about:config` 记录 `media.pee
 
 反馈时附上操作系统、浏览器版本、客户端及核心版本、脚本版本、TUN/规则模式，以及上面两次测试的候选类型和一条 STUN 连接记录。实际生效配置只需相关 DNS、规则和出站片段；删除订阅 URL、token、密码及设备路径，脱敏本机和代理出口公网 IP。保留公开 STUN 目的域名/IP、端口、命中规则与出站链，方便定位。
 
-[Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193)的静态核查已确认上述默认直连策略；用户设备上是哪条连接触发，仍需其日志确认。本文不把本地源码检查等同于用户设备已恢复。
+[Issue #193 的补充截图](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193#issuecomment-6499914068)已确认三条 Chrome 到 `stun.l.google.com` 的 UDP/19302 连接通过 TUN、命中 `DstPort(19302) → DIRECT`，且有实际收发；同页 HTTPS 请求使用代理。这支持前述路由原因，但不能把截图之外的全部流量或本次保护启用后的设备状态视为已验证。截图含公网地址和节点信息，反馈时请按需进一步脱敏。

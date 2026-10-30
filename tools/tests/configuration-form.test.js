@@ -58,6 +58,7 @@ test('parameter choices display Chinese and original literals without changing v
   const labels = {
     healthCheckProfile: { standard:'标准（standard）', 'power-save':'省电（power-save）' },
     quicPolicy: { 'block-foreign':'拦截（block-foreign）', 'follow-rules':'按规则（follow-rules）' },
+    browserUdpPolicy: { off:'关闭（off）', reject:'拒绝（reject）' },
     zeroTierPlanetProxy: { true:'开启（true）', false:'关闭（false）' },
     subscriptionAdapterProfile: { off:'关闭适配（off）', policy:'显式策略（policy）', adaptive:'自适应（adaptive）', 'hosts-only':'精确映射（hosts-only）' },
   };
@@ -74,12 +75,12 @@ test('parameter choices display Chinese and original literals without changing v
   }
 });
 test('bilingual parameter selections preserve typed JSON, configuration bytes and summary meaning', () => {
-  const page = runPage(), options = { healthCheckProfile:'power-save', quicPolicy:'follow-rules', zeroTierPlanetProxy:true, subscriptionAdapterProfile:'hosts-only' };
+  const page = runPage(), options = { healthCheckProfile:'power-save', quicPolicy:'follow-rules', browserUdpPolicy:'reject', zeroTierPlanetProxy:true, subscriptionAdapterProfile:'hosts-only' };
   for (const [key, value] of Object.entries(options)) { page.ids[key].value = String(value); page.ids[key].listeners.change(); }
   const settings = JSON.parse(page.download('download-local-json').bytes);
   assert.deepEqual(settings.localOptions, { ...options, maxNodeMultiplier:null });
   checkDownload(page.download(), generateOfflineConfiguration(bundle, { client:'flclash', profile:'full', localOptions:options }));
-  for (const text of ['省电（power-save）','按规则（follow-rules）','开启（true）','精确映射（hosts-only）']) assert.ok(page.ids['selection-summary'].textContent.includes(text), text);
+  for (const text of ['省电（power-save）','按规则（follow-rules）','拒绝（reject）','开启（true）','精确映射（hosts-only）']) assert.ok(page.ids['selection-summary'].textContent.includes(text), text);
 });
 test('all 20 clients download all business profiles as exact files or complete ZIPs', () => {
   assert.equal(bundle.clients.length, 20); const page = runPage();

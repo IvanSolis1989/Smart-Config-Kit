@@ -7,9 +7,10 @@ const read = p => fs.readFileSync(p, 'utf8');
 test('desktop typed slots preserve defaults and reject unknown/injected values', () => {
  const source=read('Mihomo内核系/FlClash/FlClash(mihomo).js');
  const spec=buildClientOptionSpec('flclash',source);
- assert.equal(Object.keys(spec.schema).length,5);
+ assert.equal(Object.keys(spec.schema).length,6);
  assert.equal(applyClientOptions(spec,source,{}),source);
  assert.match(applyClientOptions(spec,source,{maxNodeMultiplier:2}),/SCKI_MAX_NODE_MULTIPLIER = 2/);
+ assert.match(applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/SCKI_BROWSER_UDP_POLICY = 'reject'/);
  assert.throws(()=>applyClientOptions(spec,source,{quicPolicy:"';evil()"}));
  assert.throws(()=>applyClientOptions(spec,source,{unknown:true}));
  assert.doesNotMatch(browserRuntimeSource(),/eval\(|new Function/);
@@ -19,8 +20,10 @@ test('AEROVE locks DNS while OpenClash preserves environment priority',()=>{
  const spec=buildClientOptionSpec('aerove-lite',source);
  assert.equal(Object.keys(spec.schema).length,4);
  assert.throws(()=>applyClientOptions(spec,source,{subscriptionAdapterProfile:'adaptive'}));
+ assert.throws(()=>applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/Unknown local option/);
  const oc=read('Mihomo内核系/OpenClash/OpenClash(mihomo).sh');
  const out=applyClientOptions(buildClientOptionSpec('openclash-normal',oc),oc,{maxNodeMultiplier:2,healthCheckProfile:'power-save'});
+ assert.throws(()=>applyClientOptions(buildClientOptionSpec('openclash-normal',oc),oc,{browserUdpPolicy:'reject'}),/Unknown local option/);
  assert.match(out,/SCKI_MAX_NODE_MULTIPLIER="\$\{SCKI_MAX_NODE_MULTIPLIER:-2\}"/);
  assert.match(out,/SCKI_DEFAULT_HEALTH_CHECK_PROFILE="power-save"/);
 });
@@ -39,6 +42,8 @@ test('native matrix keeps defaults exact and supported presets serialize in brow
  const entries={cmfa:'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml',stash:'独立内核系/Stash/Stash.yaml',meow:'Meow内核系/Meow/Meow(meow).yaml',egern:'独立内核系/Egern/Egern.yaml',shadowrocket:'独立内核系/Shadowrocket/Shadowrocket.conf',surge:'独立内核系/Surge/Surge.conf',loon:'独立内核系/Loon/Loon.conf',quantumultx:'独立内核系/Quantumult X/QuantumultX.conf','singbox-1.14':'Sing-box内核系/SingBox/SingBox(sing-box)-full.json','singbox-1.13':'Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json',v2rayn:'Xray内核系/v2rayN/v2rayN(xray).json',karing:'Sing-box内核系/Karing/diversion_rules_custom.json'};
  for(const [id,path] of Object.entries(entries)) {
    const source=read(path),spec=buildClientOptionSpec(id,source);
+   assert.equal(spec.schema.browserUdpPolicy,undefined,id);
+   assert.throws(()=>applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/Unknown local option/);
    if(id==='v2rayn') assert(Buffer.byteLength(JSON.stringify(spec))<10000,'Xray option spec must not duplicate large source');
    assert.equal(applyClientOptions(spec,source,{}),source,id);
    const requested={};
@@ -56,6 +61,18 @@ test('native matrix keeps defaults exact and supported presets serialize in brow
    }
  }
  assert.throws(()=>buildClientOptionSpec('unknown',''));
+});
+test('only the three desktop JS clients advertise browser UDP typed slots',()=>{
+ const entries={smart:'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',normal:'Mihomo内核系/Clash Party/ClashParty(mihomo).js',flclash:'Mihomo内核系/FlClash/FlClash(mihomo).js'};
+ for(const [id,path] of Object.entries(entries)) {
+   const source=read(path),spec=buildClientOptionSpec(id,source);
+   assert.deepEqual(spec.schema.browserUdpPolicy.values,['off','reject']);
+   assert.equal(spec.schema.browserUdpPolicy.default,'off');
+   assert.match(spec.schema.browserUdpPolicy.description,/Windows.*Chrome.*Edge.*Firefox.*TUN.*进程识别/);
+   assert.equal(applyClientOptions(spec,source,{}),source);
+   assert.match(applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/SCKI_BROWSER_UDP_POLICY = 'reject'/);
+   assert.throws(()=>buildClientOptionSpec(id,source.replace(/^const SCKI_BROWSER_UDP_POLICY[^\r\n]*\r?\n/m,'')),/Missing trusted option browserUdpPolicy/);
+ }
 });
 test('OpenClash positive decimals do not silently become unsupported exponent syntax',()=>{
  const source=read('Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh');

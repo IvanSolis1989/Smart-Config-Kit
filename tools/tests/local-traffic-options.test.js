@@ -65,10 +65,11 @@ test('sync keeps an existing on/off const and defaults only missing declarations
 });
 
 test('local CLI rejects global ZeroTier and unrelated options before writing', () => {
-  for (const args of [['--zerotier', 'on'], ['--source', 'source.js'], ['--preserve-local'], ['--target', 'x.js', '--no-generate'], ['--target', 'x.js', '--zerotier', 'true']]) {
+  for (const args of [['--zerotier', 'on'], ['--browser-udp','reject'], ['--source', 'source.js'], ['--preserve-local'], ['--target', 'x.js', '--no-generate'], ['--target', 'x.js', '--zerotier', 'true'], ['--target','x.js','--browser-udp','proxy'], ['--target','x.js','--browser-udp','reject','--browser-udp','off']]) {
     assert.throws(() => parseArgs(args));
   }
   assert.equal(parseArgs(['--target', 'x.js', '--zerotier', 'off']).zeroTierPlanetProxy, false);
+  assert.equal(parseArgs(['--target','x.js','--browser-udp','reject']).browserUdpPolicy, 'reject');
 });
 
 test('CLI dry-run has no writes, deployment backs up original, and repeated calls are idempotent', t => {

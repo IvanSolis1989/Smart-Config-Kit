@@ -15,6 +15,13 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## v6.0.21-dns.25 / v6.0.21-normal.25 (2026-10-31)
+
+- Issue #193：新增 `SCKI_BROWSER_UDP_POLICY` / `browserUdpPolicy`，默认 `off`；Windows 用户显式选择 `reject` 时，在现有分流之前拒绝 Chrome、Edge、Firefox 的任意 UDP，避免 UDP/19302 及其他 STUN 端口被兼容直连或 QUIC 服务例外放行。
+- 复用可信本地参数、原子保存、备份与读回流程，支持在线/离线表单 v1.4.3 及 `--browser-udp`；更新保留本地选择，缺少能力的来源拒绝启用或静默降级。订阅和环境变量不能开启。
+- 默认 providers/rules、55 组、DNS、STUN/TURN 兼容直连不变；共享 MRS/SRS 无语义变化。FlClash 同步；AEROVE Lite 明确剥离该桌面能力，其他原生入口不暴露此参数。源绑定清单重新生成，未改变原生配置行为。
+- 此选项仅覆盖进入核心且正确识别的三个 Windows 浏览器进程；HTTP/3 和 UDP 通话可能失败或回退，不等于禁用全部 WebRTC。实际设备仍按指南复测；已有截图只证明原问题连接直连。
+
 ## 配置工具 v1.4.2 (2026-10-29)
 
 - 配置表单的业务方案选项补齐 Full / Lite / Custom 英文名；默认选择、配置生成与客户端脚本保持不变。

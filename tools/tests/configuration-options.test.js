@@ -30,6 +30,48 @@ test('source updates preserve trusted DNS and multiplier choices by default', ()
   assert.throws(()=>planLocalTrafficOptions(local,older),/Node-DNS capability/);
 });
 
+test('browser UDP choice is typed, preserved on updates and explicit options take priority', () => {
+  const supported = source() + "const SCKI_BROWSER_UDP_POLICY = 'off'\n";
+  const enabled = supported.replace("SCKI_BROWSER_UDP_POLICY = 'off'", "SCKI_BROWSER_UDP_POLICY = 'reject'");
+  assert.equal(parseArgs(['--target','x.js','--browser-udp','reject']).localOptions.browserUdpPolicy, 'reject');
+  assert.deepEqual(validateSettings({schema_version:1,localOptions:{browserUdpPolicy:'reject'}}).localOptions, {browserUdpPolicy:'reject'});
+  assert.equal(planLocalTrafficOptions(enabled, supported).options.browserUdpPolicy, 'reject');
+  assert.equal(planLocalTrafficOptions(enabled, supported, {browserUdpPolicy:'off'}).options.browserUdpPolicy, 'off');
+  assert.match(planLocalTrafficOptions(supported, supported, {browserUdpPolicy:'reject'}).updated, /SCKI_BROWSER_UDP_POLICY = 'reject'/);
+  for (const value of ['true','proxy',true,null]) {
+    assert.throws(() => validateSettings({schema_version:1,localOptions:{browserUdpPolicy:value}}), /Invalid trusted local option/);
+  }
+});
+
+test('browser UDP reject cannot silently deploy to an older or App-managed script without the slot', () => {
+  const older = source();
+  const enabled = older + "const SCKI_BROWSER_UDP_POLICY = 'reject'\n";
+  const defaultPlan = planLocalTrafficOptions(older, older);
+  assert.equal(defaultPlan.options.browserUdpPolicy, undefined);
+  assert.equal(defaultPlan.updated, older);
+  assert.doesNotMatch(planLocalTrafficOptions(older, older, {browserUdpPolicy:'off'}).updated, /SCKI_BROWSER_UDP_POLICY/);
+  assert.throws(() => planLocalTrafficOptions(older, older, {browserUdpPolicy:'reject'}), /browser UDP capability/i);
+  assert.throws(() => planLocalTrafficOptions(enabled, older), /browser UDP capability/i);
+  assert.doesNotMatch(planLocalTrafficOptions(enabled, older, {browserUdpPolicy:'off'}).updated, /SCKI_BROWSER_UDP_POLICY/);
+});
+
+test('browser UDP settings save with readback and reject unsupported updates before backup or write', t => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-browser-udp-'));
+  t.after(() => fs.rmSync(directory, {recursive:true,force:true}));
+  const target = path.join(directory,'local.js'), settings = path.join(directory,'settings.json'), incoming = path.join(directory,'older.js');
+  fs.writeFileSync(target,source() + "const SCKI_BROWSER_UDP_POLICY = 'off'\n");
+  fs.writeFileSync(settings,JSON.stringify({schema_version:1,localOptions:{browserUdpPolicy:'reject'}}));
+  fs.writeFileSync(incoming,source());
+  main(['--target',target,'--settings',settings]);
+  const saved = fs.readFileSync(target,'utf8'), before = fs.readdirSync(directory).sort();
+  assert.equal(parseLocalTrafficOptions(saved).options.browserUdpPolicy,'reject');
+  assert.throws(() => main(['--target',target,'--source',incoming]), /browser UDP capability/i);
+  assert.equal(fs.readFileSync(target,'utf8'),saved);
+  assert.deepEqual(fs.readdirSync(directory).sort(),before);
+  main(['--target',target,'--source',incoming,'--browser-udp','off']);
+  assert.equal(parseLocalTrafficOptions(fs.readFileSync(target,'utf8')).options.browserUdpPolicy,undefined);
+});
+
 test('settings reject unknown fields, mixed modes, and subscription-controlled values', () => {
   const valid = {schema_version:1,localOptions:{subscriptionAdapterProfile:'hosts-only',maxNodeMultiplier:2}};
   assert.deepEqual(validateSettings(valid), valid);

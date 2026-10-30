@@ -4,7 +4,7 @@ const { definitions } = require('./configuration-schema');
 const { parseLocalTrafficOptions, planLocalTrafficOptions } = require('./local-traffic-options');
 
 // Build-time only. The maintained CLI parser compiles but never executes the
-// trusted source, and supplies the exact five top-level declaration offsets.
+// trusted source, and supplies the exact top-level declaration offsets.
 function buildFlClashLocalOptionTemplates(canonicalSource, profileSource, profilePrefixLength) {
   const schema = JSON.parse(JSON.stringify(definitions));
   const parsed = parseLocalTrafficOptions(canonicalSource, 'canonical FlClash');

@@ -18,6 +18,7 @@ on:
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/tests/traffic-options.test.js'
       - 'tools/tests/zerotier-planet-proxy.test.js'
+      - 'tools/tests/browser-udp-privacy.test.js'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/sync-node-dns-hints-adapters.js'
       - 'tools/sync-subscription-node-filter.js'
@@ -49,6 +50,7 @@ on:
       - 'tools/lib/write-repository-artifact.js'
       - 'tools/tests/traffic-options.test.js'
       - 'tools/tests/zerotier-planet-proxy.test.js'
+      - 'tools/tests/browser-udp-privacy.test.js'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/sync-node-dns-hints-adapters.js'
       - 'tools/sync-subscription-node-filter.js'
@@ -98,7 +100,7 @@ jobs:
       - name: Check synchronized traffic options and JS presets
         run: |
           node tools/sync-traffic-options.js --check
-          node --test tools/tests/local-traffic-options.test.js tools/tests/traffic-options.test.js tools/tests/zerotier-planet-proxy.test.js
+          node --test tools/tests/local-traffic-options.test.js tools/tests/traffic-options.test.js tools/tests/zerotier-planet-proxy.test.js tools/tests/browser-udp-privacy.test.js
 
       - name: Check synchronized Node-DNS runtime adapters
         run: node tools/sync-node-dns-hints-adapters.js --check

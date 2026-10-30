@@ -1,5 +1,7 @@
 # Mihomo (MetaCubeX) 官方配置文档参考
 
+> 核对于 2026-10-31（Issue #193）：重新读取 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，使用既有 `AND`、`NETWORK`、`PROCESS-NAME`、`REJECT` 语法；UDP 选择不支持 UDP 的代理可能继续匹配，故显式本地保护使用拒绝而非代理目标。新增选项只覆盖 Windows `chrome.exe` / `msedge.exe` / `firefox.exe`，依赖 TUN 接管及有效进程识别，默认关闭，不新增内核字段或最低版本。浏览器侧取舍另见 [Chrome 官方 privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy)。配置/核心语法检查不代替用户设备恢复验收。
+
 > 核对于 2026-10-29：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/) 和 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。显式 hosts-only 仅使用现有精确键及 IP 数组窄子集，不新增内核字段、不改节点 server/SNI/Host；默认 adaptive 与全局 DNS 不变。可选业务投影保留原生规则顺序及必要引用，真实 QuickJS 不代替 App 验收。
 
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 RULE-SET 的既有策略目标字段与从上到下匹配语义。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。

@@ -181,6 +181,10 @@ node tools/configure.js --settings '.../settings.json' --output-dir '.../全新�
 
 FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart / LightGBM；MetaCubeX Alpha 也不等于 Smart。
 
+### Q: Windows 的 WebRTC 测试显示了本地公网 IP？
+
+在[在线配置页](https://ivansolis1989.github.io/Smart-Config-Kit/)选择 FlClash，将「Windows 浏览器 UDP」设为「拒绝（reject）」，下载为独立本地脚本并按上方步骤关联。此选项仅拒绝 Windows Chrome / Edge / Firefox 的 UDP，默认关闭；HTTP/3 和 UDP 通话可能受影响，Android 不适用。需开启 TUN、确认进程识别并核对拒绝记录；浏览器隐私设置、恢复及完整边界见[WebRTC 隐私与验收](../../docs/guide/webrtc-privacy.md)。
+
 ### Q: 换机场后需要重新配置吗？
 
 不需要。覆写脚本换订阅后自动重新执行。

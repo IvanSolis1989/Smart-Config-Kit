@@ -13,6 +13,11 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## v6.0.21-flclash.26 (2026-10-31)
+
+- 跟随 Clash Party 增加默认关闭的 Windows 浏览器 UDP 保护：可信本地 `browserUdpPolicy=reject` 拒绝 Chrome / Edge / Firefox 的任意 UDP；在线/离线表单与 CLI 可选，更新保留选择。
+- 默认规则和 DNS 不变；Android 不适用。需 TUN 及有效进程识别，HTTP/3 和 UDP 通话可能受影响；不宣称禁用全部 WebRTC。见 [Issue #193 指南](../../docs/guide/webrtc-privacy.md)。
+
 ## 文档：新旧界面导入指南 (2026-10-31)
 
 - 处理 [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194)：并列说明 v0.9.0 / v0.9.1 的「扩展 → 脚本」和旧版「覆写」入口，补充新版截图，保留旧版步骤与截图。

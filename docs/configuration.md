@@ -17,7 +17,7 @@
 
 | 客户端 | 可选参数 |
 | --- | --- |
-| Clash Party Smart / Normal、FlClash | 测速、QUIC、节点 DNS、倍率、ZeroTier |
+| Clash Party Smart / Normal、FlClash | 测速、QUIC、节点 DNS、倍率、ZeroTier；Windows 指定浏览器 UDP 保护 |
 | AEROVE Lite | 测速、QUIC、倍率、ZeroTier；DNS 由 App 托管并保持 off |
 | OpenClash 两版 | 测速、QUIC、节点 DNS、倍率；运行环境变量仍优先于下载副本默认值 |
 | CMFA、Stash、Meow | 测速、QUIC |
@@ -52,13 +52,14 @@ node tools/configure.js --settings 'D:\Configs\settings.json' --target 'D:\Confi
 | --- | --- | --- |
 | `--health-check` | `standard` / `power-save` | 默认标准；省电档改变测速时机，不等于业务精简 |
 | `--quic` | `block-foreign` / `follow-rules` | 默认保留现有海外 QUIC 策略及服务例外 |
+| `--browser-udp` | `off` / `reject` | 默认关闭；Windows Chrome / Edge / Firefox 全部 UDP 拒绝，通话和 HTTP/3 可能受影响 |
 | `--max-multiplier` | 正数 / `off` | 默认关闭；未知或矛盾倍率不据此删除 |
 | `--dns-profile` | `off` / `policy` / `adaptive` / `hosts-only` | 默认 `adaptive`；仅可信本地设置有效 |
 | `--zerotier` | `on` / `off` | 默认关闭；设备本地选择 |
 
 保存使用原有原子替换、并发检查、原件备份和读回机制。目标脚本仅作语法及可信常量解析，不执行目标代码。
 
-更新源码时可显式提供 `--source`。已有 ZeroTier、节点 DNS profile 和倍率上限自动保留；`--preserve-local` 同时保留测速及 QUIC，显式参数优先：
+更新源码时可显式提供 `--source`。已有浏览器 UDP 保护、ZeroTier、节点 DNS profile 和倍率上限自动保留；`--preserve-local` 同时保留测速及 QUIC，显式参数优先：
 
 ```powershell
 node tools/configure.js --target 'D:\Configs\local.js' --source 'D:\Configs\new.js' --preserve-local --dry-run
@@ -67,6 +68,8 @@ node tools/configure.js --target 'D:\Configs\local.js' --source 'D:\Configs\new.
 若新源码不具备已选的节点 DNS 模式，更新会在保存前拒绝；不会把 `hosts-only` 静默降为 `adaptive`。AEROVE 的 App 托管 DNS 占位保持 `off`。
 
 这些选项只适用于含对应能力的本仓库 JS；静态端的 DNS 与系统网络设置仍按客户端教程配置。原 `configure-traffic-options.js` 入口继续可用。
+
+浏览器 UDP 保护仅适用于 Windows 三个指定进程，需 TUN 接管及有效进程识别；默认 `off`，订阅不能开启。AEROVE Lite 和其他原生入口不提供该参数。启用、恢复和 WebRTC 边界见[WebRTC 隐私与连接验收](guide/webrtc-privacy.md)。
 
 ## 生成可选业务方案
 

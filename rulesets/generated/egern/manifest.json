@@ -4,7 +4,7 @@
   "asset_revision": "v6.0.21",
   "source": {
     "cmfa_sha256": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
-    "routing_graph_sha256": "37d8002ee8470da52353db9e5e1093ab78b95afc5ca7b394593db304dda0b9a8",
+    "routing_graph_sha256": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },

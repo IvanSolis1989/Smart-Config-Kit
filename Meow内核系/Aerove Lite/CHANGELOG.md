@@ -7,6 +7,11 @@
 
 [使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.21-meow.8 (2026-10-31)
+
+- 显式剥离上游新增的 Windows 浏览器 UDP 本地常量和应用调用；此候选宿主尚无已验证的桌面进程识别能力，不暴露无法兑现的保护参数。
+- 保留原有默认分流和 App 托管边界，刷新来源绑定；资源精确谓词并集与安全预算不变。共享 MRS/SRS、Meow 原生 YAML 规则不变，App 验收仍需独立完成。
+
 ## v6.0.21-meow.7 (2026-10-29)
 
 - 明确候选 JS 的 DNS/hosts 由 App 托管，源参数占位固定 off；不宣称支持桌面 hosts-only 运行时。
