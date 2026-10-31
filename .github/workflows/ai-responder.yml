@@ -65,6 +65,7 @@ concurrency:
 jobs:
   respond:
     if: |
+      vars.LOCAL_CODEX_ENABLED != 'true' && (
       (github.event_name == 'issues' && (
         github.event.label.name == 'question' ||
         github.event.label.name == 'faq' ||
@@ -79,7 +80,7 @@ jobs:
           github.event.comment.author_association == 'OWNER' ||
           github.event.comment.author_association == 'MEMBER' ||
           github.event.comment.author_association == 'COLLABORATOR'
-        ))
+        )))
 
     runs-on: ubuntu-latest
     timeout-minutes: 15

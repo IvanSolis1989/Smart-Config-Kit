@@ -1,0 +1,122 @@
+name: Queue Local Codex Issue Task
+
+on:
+  issues:
+    types: [opened, reopened, labeled]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number
+        required: true
+        type: string
+      mode:
+        description: Task mode
+        required: true
+        type: choice
+        options:
+          - handle
+          - smoke
+        default: handle
+
+concurrency:
+  group: local-codex-issue-${{ github.event.issue.number || inputs.issue_number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  enqueue:
+    if: |
+      vars.LOCAL_CODEX_ENABLED == 'true' &&
+      github.event.issue.pull_request == null &&
+      (
+        (github.event_name == 'issues' && (
+          ((github.event.action == 'opened' || github.event.action == 'reopened') && (
+            contains(github.event.issue.labels.*.name, 'question') ||
+            contains(github.event.issue.labels.*.name, 'faq') ||
+            contains(github.event.issue.labels.*.name, 'help wanted') ||
+            contains(github.event.issue.labels.*.name, 'bug') ||
+            contains(github.event.issue.labels.*.name, 'enhancement') ||
+            contains(github.event.issue.labels.*.name, 'documentation')
+          )) ||
+          (github.event.action == 'labeled' && github.event.label.name == 'codex')
+        )) ||
+        (github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/codex') && (
+          github.event.comment.author_association == 'OWNER' ||
+          github.event.comment.author_association == 'MEMBER' ||
+          github.event.comment.author_association == 'COLLABORATOR'
+        )) ||
+        github.event_name == 'workflow_dispatch'
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: read
+
+    steps:
+      - name: Check explicit trigger actor repository permission
+        id: actor
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          INPUT_ISSUE_NUMBER: ${{ inputs.issue_number }}
+        run: |
+          if [ "$EVENT_NAME" = "issues" ] && { [ "$EVENT_ACTION" = "opened" ] || [ "$EVENT_ACTION" = "reopened" ]; }; then
+            echo "authorized=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          PERMISSION=$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq '.permission' 2>/dev/null || true)
+          case "$PERMISSION" in
+            write|maintain|admin)
+              if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+                case "$INPUT_ISSUE_NUMBER" in
+                  ''|*[!0-9]*) echo "authorized=false" >> "$GITHUB_OUTPUT"; exit 0 ;;
+                esac
+                TARGET_KIND=$(gh api "repos/$REPO/issues/$INPUT_ISSUE_NUMBER" --jq 'if has("pull_request") then "pull_request" else "issue" end' 2>/dev/null || true)
+                if [ "$TARGET_KIND" != "issue" ]; then echo "authorized=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+              fi
+              echo "authorized=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *) echo "authorized=false" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Checkout main without persisting credentials
+        if: steps.actor.outputs.authorized == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        if: steps.actor.outputs.authorized == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Create metadata-only task manifest
+        if: steps.actor.outputs.authorized == 'true'
+        id: queue
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: node tools/queue-local-codex-issue.js
+
+      - name: Upload one task artifact
+        if: steps.queue.outputs.queued == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-codex-issue-${{ steps.queue.outputs.issue_number }}
+          path: task.json
+          if-no-files-found: error
+          retention-days: 90

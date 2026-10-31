@@ -17,6 +17,51 @@
 
 ## 使用入口
 
+当前处理后端由仓库 Actions Variable `LOCAL_CODEX_ENABLED` 选择：设为 `true` 时使用本机 Codex，旧 MiMo 自动回复器跳过；其他值继续使用下文的 MiMo 路径。两套处理器互斥，避免同一 Issue 产生两份补丁和回复。
+
+### 本机 Codex 自动处理
+
+`local-codex-issue.yml` 只在 GitHub 保存任务元数据 artifact，本机主动每 60 秒领取一次。每条任务建立独立工作目录及持久 Codex 会话。本机将候选提交推到 `codex/issue-*` 临时分支，调用 `validate-local-codex-candidate.yml` 在 GitHub 临时 runner 运行四项固定检查；确认每项实际通过后，才串行正常推送同一提交到 `main` 并回复 Issue，遵守现有分支保护，不强推或自动关闭 Issue。
+
+- 自动入口：新建或重开、带 `question`、`faq`、`help wanted`、`bug`、`enhancement` 或 `documentation` 标签的 Issue。安装前的历史 Issue 不会被自动重放。
+- 维护者入口：在 Issue 评论中以 `/codex` 开头派单，或添加 `codex` 标签；事件操作者须具有仓库 write/maintain/admin 权限。
+- 手动入口：Actions → **Queue Local Codex Issue Task** → Run workflow → 填写 Issue 编号。`handle` 正常处理，`smoke` 只验收派单及模型响应，不改业务代码、提交或公开回复。
+- 已投递的事件以任务 key 去重；显式再次评论 `/codex` 会建立新的任务。单个仓库由一个本地 worker 串行处理。
+- Issue 与评论作为非可信资料传入，不允许据此改变派单权限、读取秘密、修改维护契约、`.github/` 或派单基础设施。需要这些改动时会报告阻断。
+
+Windows 需要 Node.js 22+、Git、已登录的 GitHub CLI 和 Codex CLI；复用本机登录，不上传或复制 `auth.json`，不需要把 OpenAI API key 放进 Actions。安装命令：
+
+```powershell
+pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1
+```
+
+安装到 `%LOCALAPPDATA%\Smart-Config-Kit\codex-issue-bridge`，其中 `runtime` 是受控脚本快照，`config.json` 保存本机路径，`state` 保存收据和任务状态，`worktrees` 保存独立 Git 目录。当前用户登录自启任务为 `Smart-Config-Kit-Codex-Issue-Worker`；计划任务注册失败时使用当前用户 HKCU Run，实际方式写入 `install-receipt.json`。电脑关机、休眠、未登录、网络或登录凭据失效时无法处理；队列 artifact 保留 90 天。
+
+状态和无副作用验收：
+
+```powershell
+$bridge = Join-Path $env:LOCALAPPDATA 'Smart-Config-Kit\codex-issue-bridge'
+node "$bridge\runtime\local-codex-issue-worker.js" --config "$bridge\config.json" --status
+# 单次运行/验收前先停止常驻 worker，避免实例锁冲突。
+node "$bridge\runtime\local-codex-issue-worker.js" --config "$bridge\config.json" --smoke
+```
+
+`--status` 会给出真实 PID、最近领取时间、任务终态、会话链接、提交和回复 ID；进程存活本身不代表任务完成。可在桌面 App 打开记录的 `codex://threads/<threadId>`。发布前验证日志保存在对应 GitHub Actions 运行中；发布回复追加实际提交链接、通过的检查名称和运行链接。候选代码不由外层程序直接在本机执行。
+
+暂停领取：在 `state` 目录新建空文件 `PAUSED`，删除此文件后恢复；暂停不会中断已经执行中的任务。将仓库变量改为 `false` 会恢复 MiMo 后端，切换前应先暂停并处理本地待办，避免两个后端重复处理。
+
+崩溃或超时中的模型任务标记为 `interrupted`，保留会话、工作目录和错误；不会自动重跑。检查后可停掉常驻实例，再运行 `--retry <taskKey> --once`。已生成提交但推送确认失败时使用 `--resume-publish <taskKey>`：重新验证、核对远端基线后尝试正常推送；远端已经包含提交时只补核回复。main 已前进且不包含该提交时保留现场，须人工整合。推送或评论确认丢失会先核对真实远端状态和回复标记，不重复运行模型。
+
+```powershell
+pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1 -Uninstall
+```
+
+卸载只停止该 worker 及其子进程、移除自启，保留配置、工作目录和状态。更新脚本快照前同样先停 worker，再重新运行安装命令；安装保留原来的任务起始时间。
+
+参考与复用：[官方 App Server](https://learn.chatgpt.com/docs/app-server)、[官方命令](https://learn.chatgpt.com/docs/developer-commands)、[WakeWire](https://github.com/glenncalleja/wakewire)（MIT）、[Wake](https://github.com/Abyssinia-Labs/wake)（MIT）。本实现使用官方协议和现有 GitHub artifact/GitHub CLI；仅实现本仓库需要的 Windows 领取、持久状态及发布约束，不引入这些项目的完整 webhook 服务或 npm 依赖。
+
+### MiMo 后端
+
 1. 在 Issue 标签触发首轮分析，需要深度分析时由维护者、成员或协作者评论 `/ai-help`。
 2. 配置 Actions 凭据与端点，核对完整上下文和补丁权限。
 3. 先运行离线测试；真实 API 验收只在显式授权后执行。

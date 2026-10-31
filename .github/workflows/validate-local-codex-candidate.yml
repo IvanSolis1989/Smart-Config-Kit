@@ -1,0 +1,75 @@
+name: Validate Local Codex Candidate
+run-name: Local Codex candidate ${{ inputs.commit_sha }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Full commit SHA already pushed to a controlled codex/issue staging branch
+        required: true
+        type: string
+
+concurrency:
+  group: validate-local-codex-candidate-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: vars.LOCAL_CODEX_ENABLED == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+
+    steps:
+      - name: Verify requested SHA is present on a controlled staging branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$COMMIT_SHA" =~ ^[a-f0-9]{40}$ ]]; then
+            echo "commit_sha must be exactly 40 lowercase hexadecimal characters" >&2
+            exit 1
+          fi
+
+          MATCH_COUNT=$(gh api --paginate --slurp \
+            "repos/${REPOSITORY}/git/matching-refs/heads/codex/issue-" \
+            | jq --arg sha "$COMMIT_SHA" '[.[][] | select(.ref | test("^refs/heads/codex/issue-[0-9]+-[a-f0-9]{20}$")) | select(.object.sha == $sha)] | length')
+
+          if [[ "$MATCH_COUNT" -lt 1 ]]; then
+            echo "commit_sha was not found on a controlled codex/issue staging branch" >&2
+            exit 1
+          fi
+
+      - name: Checkout the exact candidate commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify Ruby runtime
+        run: ruby --version
+
+      - name: Check candidate diff whitespace
+        run: git diff --check HEAD^ HEAD
+
+      - name: Validate JS overwrites
+        run: node tools/validate-js-overwrites.js
+
+      - name: Validate artifact contracts
+        run: node tools/validate-artifact-contracts.js
+
+      - name: Validate process direct
+        run: node tools/validate-process-name-direct.js
+
+      - name: Check Karing generation
+        run: node tools/generate-karing.js --check

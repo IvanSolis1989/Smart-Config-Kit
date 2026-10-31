@@ -4,20 +4,32 @@ on:
   pull_request:
     paths:
       - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/local-codex-issue.yml'
+      - '.github/workflows/validate-local-codex-candidate.yml'
       - '.github/workflows/validate-ai-responder.yml'
       - 'tools/*ai-issue*.js'
       - 'tools/lib/ai-issue-*.js'
       - 'tools/tests/ai-issue-*.test.js'
       - 'tools/tests/ai-responder-workflow.test.js'
+      - 'tools/queue-local-codex-issue.js'
+      - 'tools/*local-codex*'
+      - 'tools/lib/local-codex-*.js'
+      - 'tools/tests/local-codex-*.test.js'
   push:
     branches: [main]
     paths:
       - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/local-codex-issue.yml'
+      - '.github/workflows/validate-local-codex-candidate.yml'
       - '.github/workflows/validate-ai-responder.yml'
       - 'tools/*ai-issue*.js'
       - 'tools/lib/ai-issue-*.js'
       - 'tools/tests/ai-issue-*.test.js'
       - 'tools/tests/ai-responder-workflow.test.js'
+      - 'tools/queue-local-codex-issue.js'
+      - 'tools/*local-codex*'
+      - 'tools/lib/local-codex-*.js'
+      - 'tools/tests/local-codex-*.test.js'
 
 permissions:
   contents: read
@@ -31,4 +43,4 @@ jobs:
         with:
           node-version: '22'
       - name: Test context selection and provider response handling (offline)
-        run: node --test tools/tests/ai-issue-*.test.js tools/tests/ai-responder-workflow.test.js
+        run: node --test tools/tests/ai-issue-*.test.js tools/tests/ai-responder-workflow.test.js tools/tests/local-codex-*.test.js

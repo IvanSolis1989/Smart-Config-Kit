@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 自动化：本地 Codex Issue 派单 v1.0.0 (2026-11-01)
+
+- Issue 任务通过 Actions artifact 交给本机 Codex 独立会话处理，加入事件去重、串行验证发布、状态恢复与 Windows 登录自启；与 MiMo 后端互斥，详见[自动处理说明](docs/ai-issue-responder.md)。本次仅改变维护自动化，不修改客户端规则、DNS 或产物版本。
+
 ## 配置工具 v1.4.3：Windows 浏览器 UDP 保护 (2026-10-31)
 
 - 处理 [Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193)：新增默认关闭的可信本地浏览器 UDP 拒绝选项，提供在线配置、离线下载及 CLI；详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)与[WebRTC 指南](docs/guide/webrtc-privacy.md)。共享默认规则、DNS 和其他应用的兼容策略不变。
