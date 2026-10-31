@@ -62,6 +62,8 @@ pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1 -Uninstall
 
 参考与复用：[官方 App Server](https://learn.chatgpt.com/docs/app-server)、[官方命令](https://learn.chatgpt.com/docs/developer-commands)、[WakeWire](https://github.com/glenncalleja/wakewire)（MIT）、[Wake](https://github.com/Abyssinia-Labs/wake)（MIT）。本实现使用官方协议和现有 GitHub artifact/GitHub CLI；仅实现本仓库需要的 Windows 领取、持久状态及发布约束，不引入这些项目的完整 webhook 服务或 npm 依赖。
 
+实际派单、固定模型和发布门禁的验证证据见[验收收据](research/2026-11-01-local-codex-issue-bridge-acceptance.md)。
+
 ### MiMo 后端
 
 1. 在 Issue 标签触发首轮分析，需要深度分析时由维护者、成员或协作者评论 `/ai-help`。
