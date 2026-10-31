@@ -1,0 +1,17 @@
+name: Pinned AEROVE MRS compiler
+description: Download the official Mihomo version used for reproducible Lite shards
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        set -euo pipefail
+        work="$RUNNER_TEMP/aerove-mrs-compiler"
+        mkdir -p "$work"
+        archive="$work/mihomo-v1.19.32.gz"
+        curl -fLSs --retry 2 --max-time 90 https://github.com/MetaCubeX/mihomo/releases/download/v1.19.32/mihomo-linux-amd64-compatible-v1.19.32.gz -o "$archive"
+        echo "ba3ce607747a07f948fc35780e108a4a7c7f552a38b9bd4d115f313ebcb89c20  $archive" | sha256sum -c -
+        gzip -dc "$archive" > "$work/mihomo"
+        chmod +x "$work/mihomo"
+        "$work/mihomo" -v
+        echo "AEROVE_MIHOMO_BIN=$work/mihomo" >> "$GITHUB_ENV"

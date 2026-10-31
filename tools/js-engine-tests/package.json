@@ -1,0 +1,12 @@
+{
+  "name": "scki-js-engine-tests",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Isolated, mandatory real QuickJS validation dependencies",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test ../tests/js-engines.test.js",
+    "validate": "node ../validate-js-engines.js"
+  },
+  "dependencies": { "quickjs-emscripten": "0.32.0" }
+}

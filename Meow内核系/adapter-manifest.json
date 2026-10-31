@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "version": "v6.0.21-meow.8",
+  "build": "2026-10-31",
+  "client": "Meow",
+  "kernel": "meow-rs",
+  "status": "pre-adapted-awaiting-app",
+  "source_authority": "rulesets/source/routing-graph.js",
+  "queue": "docs/support-queue.md#meow",
+  "input_sha256_lf": {
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "1c692381d0069d89edab73a31a43afa13e1d2079e2c58eb0852597e498df1e14",
+    "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
+    "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
+    "rulesets/generated/fused/manifest.json": "d5a1c627eed0e072736fa29889a47cbe7e2b0cd0458fdfbd79dabb0a35903eb1",
+    "tools/generate-meow.js": "d32d48d0ed788740196168186cc0423f8291fac416278592d2ef5851423ec23a",
+    "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
+    "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
+    "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
+    "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "3d7a7d849cea0fa41e39f3e38fc50a60c820532c425522dd21cb3a3bfcd88b8b"
+  },
+  "output": {
+    "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
+    "sha256_lf": "e6e451d7f85bd7a7151e9048daa5294ebaea8b65dda73d38d6af1d150941c6fc"
+  },
+  "native_output": {
+    "path": "Meow内核系/Meow/Meow(meow).yaml",
+    "version": "v6.0.21-meow.4",
+    "sha256_lf": "a8b576fda653ffbd4e32660e1b8b2ce366b8e3d7aac4c57ac348dad4b1201ec1",
+    "requires_js_host": false
+  },
+  "aerove_rule_assets": {
+    "manifest": "Meow内核系/Aerove Lite/rule-assets/manifest.json",
+    "assets": [
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-001.mrs",
+        "sha256": "6a6010e3d65e579e5200d7bd355501a663f8e743fbea3bc941e0cd9f5ca2661a",
+        "bytes": 852079
+      },
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-002.mrs",
+        "sha256": "35a9f1e5b7f80c12fc08c95ac8e3219261ef0953a8e784d1f866492ee84f40d9",
+        "bytes": 802758
+      },
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-003.mrs",
+        "sha256": "7221c740c9bcc0b81cdcd689021514ee45269ea6e4e78211c4a51a6895c88b64",
+        "bytes": 973407
+      },
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-aerove-part-004.mrs",
+        "sha256": "6d90a0f30e2eea72164a056e0ff377a55f441bfbeca2057f36f9dfc9d0f1f07d",
+        "bytes": 914795
+      },
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-001.mrs",
+        "sha256": "a6d448a0dbecb38c30dd650570b3a0fa04ad459e8393c92be6a7b3062e34c011",
+        "bytes": 487641
+      },
+      {
+        "path": "Meow内核系/Aerove Lite/rule-assets/scki-fused-075-cn-site-domain-aerove-part-002.mrs",
+        "sha256": "cf5a5b6aa16c102fe11e3e9a0077cf846cf4558c9bacea90e628b612ebafb4e5",
+        "bytes": 95273
+      }
+    ]
+  },
+  "aerove_routing": {
+    "rule_count": 172,
+    "provider_count": 153,
+    "split_provider_count": 2,
+    "rule_resource_bytes": 4496511,
+    "app_owned_and_derived_resources": "not included; final App prepared bundle validation required"
+  },
+  "client_entries": {
+    "meow": {
+      "name": "Meow",
+      "readme": "Meow内核系/Meow/README.md",
+      "artifact": "Meow内核系/Meow/Meow(meow).yaml"
+    },
+    "aerove_lite": {
+      "name": "AEROVE Lite",
+      "readme": "Meow内核系/Aerove Lite/README.md",
+      "artifact": "Meow内核系/Aerove Lite/AeroveLite(meow).js"
+    }
+  },
+  "consumers": [
+    "meow-rs core",
+    "meow-android (YAML; App verification pending)",
+    "meow-ios (YAML; App verification pending)",
+    "AEROVE Lite (JS; App verification pending)"
+  ],
+  "routing": {
+    "rule_count": 168,
+    "provider_count": 149,
+    "business_group_count": 33,
+    "maximum_region_group_count": 22
+  },
+  "js_managed_fields": [
+    "proxies",
+    "proxy-providers (inline flattening only)",
+    "proxy-groups",
+    "rule-providers",
+    "rules"
+  ],
+  "js_preserved_fields": [
+    "dns",
+    "hosts",
+    "sniffer",
+    "tun",
+    "ports",
+    "mode",
+    "external-controller",
+    "secret",
+    "geodata"
+  ],
+  "native_managed_fields": [
+    "mixed-port",
+    "allow-lan",
+    "bind-address",
+    "mode",
+    "log-level",
+    "ipv6",
+    "strict",
+    "hosts",
+    "dns",
+    "proxy-groups",
+    "proxy-providers",
+    "rule-providers",
+    "rules",
+    "geodata"
+  ],
+  "verification": {
+    "node_vm": "covered-by-tests",
+    "native_core": "requires-actual-core-test",
+    "quickjs_android": "pending",
+    "app_import": "pending",
+    "actual_routing": "pending"
+  }
+}

@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
+const { clientDirectory } = require('../lib/client-layout');
 const { spawnSync } = require('node:child_process');
 const root = path.resolve(__dirname, '../..');
 const shell = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : '/bin/sh';
@@ -15,7 +16,7 @@ function runScript(t, app, backend, mode = '--replace', options = {}) {
   const config = path.join(temp, 'config').replace(/\\/g, '/');
   const log = path.join(temp, 'writes').replace(/\\/g, '/');
   fs.writeFileSync(config, 'fixture');
-  const file = `${app}/${app}(xray+sing-box)-apply.sh`;
+  const file = `${clientDirectory(app)}/${app}(xray+sing-box)-apply.sh`;
   let source = fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
   // Redirect only the router config existence probe to the isolated fixture.
   // The generated preflight, cleanup, add calls and commit execute unmodified.

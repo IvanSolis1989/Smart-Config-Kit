@@ -5,7 +5,7 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.20';
+const SOURCE_GRAPH_VERSION = 'v6.0.21';
 // Client-facing repository assets use raw GitHub: jsDelivr's repository
 // package-size limit can reject even a small, existing individual rule file.
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
@@ -33,6 +33,11 @@ function getBusinessDnsPolicy() {
   return cloneJson(BUSINESS_DNS_POLICY);
 }
 
+// Trusted build-time choices only; clients never read this from subscriptions.
+function getBusinessProfileDefinitions() {
+  return cloneJson(require('./business-profiles.json'));
+}
+
 function getHealthCheckSettings(profile = getTrafficOptions().healthCheckProfile) {
   if (profile !== 'standard' && profile !== 'power-save') throw new Error('Invalid health check profile');
   return { intervalSeconds: profile === 'power-save' ? 900 : 300, lazy: true };
@@ -45,6 +50,16 @@ function getZeroTierPlanetProxyPolicy() {
   return {
     targetGroup,
     rules: rootAddresses.map(address => `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,${address}/32,no-resolve)),${targetGroup}`),
+  };
+}
+
+// Trusted Windows browser opt-in, separate from the shared default graph.
+// Process matching requires the desktop TUN path and working process discovery.
+function getBrowserUdpPrivacyPolicy() {
+  const processNames = ['chrome.exe', 'msedge.exe', 'firefox.exe'];
+  return {
+    processNames,
+    rules: processNames.map(name => `AND,((NETWORK,UDP),(PROCESS-NAME,${name})),REJECT`),
   };
 }
 
@@ -1361,7 +1376,7 @@ function injectRules(config, quicPolicy) {
     `RULE-SET,${SCKI.GOOGLE_WORK},${BIZ.WORK}`,
     // ── Google / Microsoft 下载更新防吞 ──
     `RULE-SET,${SCKI.DOWNLOAD_GUARD},${BIZ.DOWNLOAD}`,
-    `RULE-SET,googlefcm,${BIZ.DOWNLOAD}`,
+    `RULE-SET,googlefcm,${BIZ.GOOGLE}`,
     // ── Google 基础服务（兜底：MetaCubeX geosite:google 覆盖 google.com/co.*/com.*）──
     `RULE-SET,google,${BIZ.GOOGLE}`,
     `RULE-SET,google-ip,${BIZ.GOOGLE},no-resolve`,
@@ -2186,8 +2201,10 @@ module.exports = {
   validateTrafficOptions,
   getTrafficOptions,
   getBusinessDnsPolicy,
+  getBusinessProfileDefinitions,
   getHealthCheckSettings,
   getZeroTierPlanetProxyPolicy,
+  getBrowserUdpPrivacyPolicy,
   getQuicRules,
   buildMihomoRoutingGraph,
   getRawRoutingGraph,

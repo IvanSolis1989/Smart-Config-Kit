@@ -8,7 +8,7 @@
 
 ## 0. 背景
 
-`Sgraqwq/Proxy-override` 是一个"极简零配置"分流仓库（3 文件、16 组、9 规则集，面向 FlClash/Mihomo/Egern）。两轮深度研究后，其 80% 设计我们已具备且更强（区域分组、Smart/LightGBM、家宽细分、52 组、384 providers 全是我们的优势，**绝不退化**）。真正的"净增量"是 7 个借鉴点，owner 决定落地其中 6 个（#7 Egern 暂不做）。
+`Sgraqwq/Proxy-override` 是一个"极简零配置"分流仓库（3 文件、16 组、9 规则集，面向 Mihomo内核系/FlClash/Mihomo/Egern）。两轮深度研究后，其 80% 设计我们已具备且更强（区域分组、Smart/LightGBM、家宽细分、52 组、384 providers 全是我们的优势，**绝不退化**）。真正的"净增量"是 7 个借鉴点，owner 决定落地其中 6 个（#7 Egern 暂不做）。
 
 ---
 
@@ -66,7 +66,7 @@ DOMAIN-SUFFIX,upaiyun.com,DIRECT    # 又拍云
 ### #6 节点过滤关键词补充（批 B）
 **改法**：INFO_PATTERNS / 各产物 exclude 增补：`免费 | 试用 | 应急 | Sign | Login | Register | Help | FAQ`。
 **不加**：`更新`（误伤"更新节点"）、`地址`（误伤）——Proxy-override 有但对我们风险高。
-**产物范围**：§1.5 全产物同构（JS REGION_DB/INFO_PATTERNS + CMFA filter + OpenClash Ruby + SR/Surge/Loon/QX exclude）。
+**产物范围**：§1.5 全产物同构（JS REGION_DB/INFO_PATTERNS + CMFA filter + OpenClash Ruby + SR/独立内核系/Surge/Loon/QX exclude）。
 **风险**：中。可能误伤含 Login/Sign 的合法节点名（罕见）。**需写回归测试**（仿 test-kr-boundary.js）。
 
 ### #4 DoH-over-IP 加密 bootstrap（批 D，先研究透）
@@ -117,7 +117,7 @@ AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,cn)))),REJECT
 | **A** | #2 + #3 + #5 | 🟢低 | #5 先查 follow-policy 文档 |
 | **B** | #6 过滤关键词 | 🟡中 | 写回归测试 |
 | **C** | #1 QUIC 精细化 | 🟡中 | 逐产物核对 AND/NOT 语法 |
-| **D** | #4 DoH-over-IP bootstrap | 🟡中 | 先核对 sing-box/v2rayN/Passwall（见 #4 待办）|
+| **D** | #4 DoH-over-IP bootstrap | 🟡中 | 先核对 sing-box/Xray内核系/v2rayN/Passwall（见 #4 待办）|
 
 每批必须遵守 AGENTS.md：§1 全产物联动、§1.5 同构审计（#6 节点分类）、§2 官方文档核对、§5 自检、§1.3 版本+CHANGELOG。
 
@@ -127,9 +127,9 @@ AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,cn)))),REJECT
 
 1. **#5**：WebFetch mihomo wiki 确认 `direct-nameserver-follow-policy` 字段语义 + 最低版本，更新 REFERENCE。
 2. **#4 sing-box**：WebFetch `/configuration/dns/server/https/`，确认 DoH-over-IP server 写法 + 1.11/1.12 语法差异 + 我们 generator.js 当前输出。
-3. **#4 v2rayN/Passwall**：核对其 DNS bootstrap 是否支持加密 IP。
+3. **#4 Xray内核系/v2rayN/Passwall**：核对其 DNS bootstrap 是否支持加密 IP。
 4. **#4 兜底语义**：验证 mihomo default-nameserver 多上游是并发还是顺序（决定明文兜底是否有效）。
-5. **#1**：逐产物核对 AND/NOT 在 Surge/Loon/QX/SR/SingBox 的精确语法。
+5. **#1**：逐产物核对 AND/NOT 在 独立内核系/Surge/Loon/QX/SR/SingBox 的精确语法。
 
 ---
 

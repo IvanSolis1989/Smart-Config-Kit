@@ -1,0 +1,82 @@
+name: Validate Meow Adapters
+
+on:
+  pull_request:
+    paths:
+      - 'Meow内核系/**'
+      - 'Mihomo内核系/FlClash/**/*.js'
+      - 'rulesets/source/**'
+      - 'rulesets/generated/fused/manifest.json'
+      - 'tools/generate-meow.js'
+      - 'tools/generate-aerove-rule-assets.js'
+      - 'tools/lib/aerove-rule-*.js'
+      - 'tools/tests/aerove-rule-*.test.js'
+      - '.github/actions/setup-aerove-mihomo/**'
+      - 'tools/tests/meow-generation.test.js'
+      - 'tools/tests/browser-udp-aerove-boundary.test.js'
+      - 'tools/lib/meow-native-profile.js'
+      - 'tools/tests/meow-native-profile.test.js'
+      - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
+      - '.github/workflows/validate-meow.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Meow内核系/**'
+      - 'Mihomo内核系/FlClash/**/*.js'
+      - 'rulesets/source/**'
+      - 'rulesets/generated/fused/manifest.json'
+      - 'tools/generate-meow.js'
+      - 'tools/generate-aerove-rule-assets.js'
+      - 'tools/lib/aerove-rule-*.js'
+      - 'tools/tests/aerove-rule-*.test.js'
+      - '.github/actions/setup-aerove-mihomo/**'
+      - 'tools/tests/meow-generation.test.js'
+      - 'tools/tests/browser-udp-aerove-boundary.test.js'
+      - 'tools/lib/meow-native-profile.js'
+      - 'tools/tests/meow-native-profile.test.js'
+      - 'Mihomo内核系/Clash Meta For Android/**/*.yaml'
+      - '.github/workflows/validate-meow.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - uses: ./.github/actions/setup-aerove-mihomo
+      - name: Prepare official Meow core and geodata for schema validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/meow-validation"
+          mkdir -p "$work/core"
+          cd "$work"
+          archive=meow-v0.26.1-x86_64-unknown-linux-gnu.tar.gz
+          base=https://github.com/meow-rs/meow-rs/releases/download/v0.26.1
+          curl -fLSs --retry 2 --max-time 60 "$base/$archive" -o "$archive"
+          curl -fLSs --retry 2 --max-time 60 "$base/$archive.sha256" -o "$archive.sha256"
+          sha256sum -c "$archive.sha256"
+          tar -xzf "$archive" -C core
+          core=$(find "$work/core" -type f -name meow -print -quit)
+          test -x "$core"
+          curl -fLSs --retry 2 --max-time 60 https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat -o geosite.dat
+          curl -fLSs --retry 2 --max-time 60 https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb -o Country.mmdb
+          echo "MEOW_BIN=$core" >> "$GITHUB_ENV"
+          echo "MEOW_GEOSITE_FILE=$work/geosite.dat" >> "$GITHUB_ENV"
+          echo "MEOW_MMDB_FILE=$work/Country.mmdb" >> "$GITHUB_ENV"
+      - name: Check generation, routing behavior and real core schema (App traffic still pending)
+        env:
+          MIHOMO_BIN: ${{ env.AEROVE_MIHOMO_BIN }}
+        run: |
+          node tools/generate-aerove-rule-assets.js --check
+          node tools/generate-meow.js --check
+          node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js tools/tests/browser-udp-aerove-boundary.test.js

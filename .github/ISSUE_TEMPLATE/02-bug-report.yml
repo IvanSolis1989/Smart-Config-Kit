@@ -28,17 +28,22 @@ body:
       label: 出问题的产物
       description: 是哪一份配置文件出了 bug？
       options:
-        - Clash Party/Clash Smart内核覆写脚本.js（基线）
-        - Clash Meta For Android/clash-smart-cmfa.yaml
-        - OpenClash/openclash_custom_overwrite.sh (normal)
-        - OpenClash/openclash_custom_overwrite_full.sh (smart)
-        - Shadowrocket/shadowrocket-smart.conf
-        - SingBox/SingBox(sing-box)-full.json
-        - Surge/surge-smart.conf
-        - Loon/loon-smart.conf
-        - Quantumult X/qx-smart.conf
-        - v2rayN/v2rayn-smart-xray-routing.json
-        - Passwall2/*.conf
+        - Clash Party（Smart / Normal JS 覆写）
+        - CMFA / ClashMi（CMFA(mihomo).yaml）
+        - OpenClash Normal（OpenClash(mihomo).sh）
+        - OpenClash Smart（OpenClash(mihomo-smart).sh）
+        - FlClash（FlClash(mihomo).js）
+        - SingBox（Full / 1.13 JSON）
+        - Karing（diversion_rules_custom.json）
+        - v2rayN（Xray 路由 JSON）
+        - Passwall（apply.sh / shunt-rules）
+        - Passwall2（apply.sh / shunt-rules）
+        - Shadowrocket（Shadowrocket.conf）
+        - Surge（Surge.conf）
+        - Loon（Loon.conf）
+        - Quantumult X（QuantumultX.conf）
+        - Stash（Stash.yaml）
+        - Egern（Egern.yaml）
         - 多个产物都有（跨客户端不一致）
         - 文档 / CHANGELOG / AGENTS.md
     validations:

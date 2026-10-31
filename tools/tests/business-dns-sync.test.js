@@ -9,7 +9,7 @@ const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '../..');
 const cli = path.join(root, 'tools/sync-business-dns-policy.js');
-const jsTargets = ['Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js', 'FlClash/FlClash(mihomo).js'];
+const jsTargets = ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
 const expected = {
   '+.jsdelivr.net': ['https://cloudflare-dns.com/dns-query', 'https://dns.google/dns-query'],
   '+.github.com': ['https://cloudflare-dns.com/dns-query', 'https://dns.google/dns-query'],
@@ -96,7 +96,7 @@ test('one source resolver edit reaches all six prepared projections without touc
 test('CMFA, both OpenClash heredocs and generated Stash parse to the original policy map', context => {
   const ruby = process.env.RUBY || 'ruby';
   if (spawnSync(ruby, ['--version'], { encoding: 'utf8', windowsHide: true }).status !== 0) return context.skip('Ruby unavailable');
-  const files = ['Clash Meta For Android/CMFA(mihomo).yaml', 'OpenClash/OpenClash(mihomo).sh', 'OpenClash/OpenClash(mihomo-smart).sh', 'Stash/Stash.yaml'];
+  const files = ['Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'Mihomo内核系/OpenClash/OpenClash(mihomo).sh', 'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh', '独立内核系/Stash/Stash.yaml'];
   const inputs = files.map(file => {
     let source = fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
     if (file.endsWith('.sh')) {

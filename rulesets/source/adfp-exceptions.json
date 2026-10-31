@@ -65,7 +65,7 @@
       "reason": "The NVIDIA China account sign-in host has a recorded exact-host exception ahead of the broad NVIDIA download route; other NVIDIA download hosts retain their normal download policy.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "login.nvidia.cn` 进入首段 `scki-adfp-direct`，在 NVIDIA 下载宽规则之前精确命中 `DIRECT`",
           "level": "historical-owner-decision"
         },
@@ -96,7 +96,7 @@
       "reason": "The WeChat HTTPDNS endpoint is explicitly protected from the generic BlockHttpDNS rejection; only the named host is exempted.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
           "level": "historical-owner-decision"
         },
@@ -127,7 +127,7 @@
       "reason": "The second named WeChat HTTPDNS endpoint is explicitly protected from generic BlockHttpDNS rejection; the exception does not cover sibling hosts.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
           "level": "historical-owner-decision"
         },
@@ -158,7 +158,7 @@
       "reason": "A reported NetEase game-service host is allowed through the early direct guard; the recorded decision limits the rule to the two named hosts instead of the shared parent domain.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
           "level": "historical-owner-decision"
         },
@@ -189,7 +189,7 @@
       "reason": "A reported NetEase game-service host is allowed through the early direct guard; the recorded decision limits the rule to the two named hosts instead of the shared parent domain.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
           "level": "historical-owner-decision"
         },
@@ -509,7 +509,7 @@
       "reason": "The repository records JPush as a domestic push SDK whose endpoints were treated as trackers by broad ad/privacy lists; owner retained a suffix-wide exception for service continuity.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "延续 #2 jpush/umeng——被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行保推送可达",
           "level": "historical-owner-decision"
         },
@@ -594,7 +594,7 @@
       "reason": "Getui push-SDK domains were retained because broad ad/privacy lists classify them as trackers while apps depend on push delivery; the owner explicitly accepted this namespace-wide exception.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "owner 选放行保推送可达",
           "level": "historical-owner-decision"
         }
@@ -621,7 +621,7 @@
       "reason": "Getui push-SDK domains were retained because broad ad/privacy lists classify them as trackers while apps depend on push delivery; the owner explicitly accepted this namespace-wide exception.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "owner 选放行保推送可达",
           "level": "historical-owner-decision"
         }
@@ -648,7 +648,7 @@
       "reason": "The Getui-related gepush namespace shares the reviewed push-delivery exception; suffix scope is the existing explicit owner choice.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "owner 选放行保推送可达",
           "level": "historical-owner-decision"
         }
@@ -675,12 +675,12 @@
       "reason": "Sukka phishing includes the Cloudflare storage namespace, while Cloudflare documents R2 API and presigned-URL hosts under that namespace. The maintained rule deliberately routes the shared root and all subdomains to the international-site policy.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "当前 Sukka `reject_phishing` domainset 含 `+.cloudflarestorage.com`；本仓库原有 `🌐 国外网站` 规则位于广告段之后，无法覆盖首匹配",
           "level": "historical-owner-decision"
         },
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "Cloudflare R2 官方文档确认 `*.r2.cloudflarestorage.com` 是 R2 S3 API / presigned URL 正常访问域",
           "level": "static"
         }
@@ -707,7 +707,7 @@
       "reason": "The recorded ad false positive is analytics.paddle.com used by the Antigravity account licensing/payment flow. The accepted rule routes the entire paddle.com suffix to payments, including sibling subdomains, as a deliberate shared-root exception.",
       "evidence": [
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "当前 anti-AD/DustinWin 源包含 `analytics.paddle.com`，因此必须放在广告/钓鱼/TIF 规则之前",
           "level": "historical-owner-decision"
         },
@@ -744,7 +744,7 @@
           "level": "static"
         },
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
           "level": "historical-owner-decision"
         }
@@ -775,7 +775,7 @@
           "level": "static"
         },
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
           "level": "historical-owner-decision"
         }
@@ -806,7 +806,7 @@
           "level": "static"
         },
         {
-          "path": "Clash Party/CHANGELOG.md",
+          "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
           "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
           "level": "historical-owner-decision"
         }

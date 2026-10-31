@@ -1,6 +1,13 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-changelog-mobile.svg">
+  <img src="../docs/assets/readme/page-changelog.svg" alt="SubStore 变更日志" width="100%">
+</picture>
+
 # SubStore 变更日志
 
 > SubStore 是辅助脚本目录，不参与 14 类客户端正式分流产物的生成。
+
+[![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [返回 README](../README.md) · [仓库文档中心](../docs/README.md)
 
 ## 浏览器扩展 v1.8.1 / 证据复核与并发失败保护 (2026-10-23)
 
@@ -14,17 +21,17 @@
 
 - 为显式允许的本地空 URL 条目提供一次性抓取、双端各自 local 预览、content 单字段写入/读回及条件恢复；不将一次性链接持久化为远程来源。Cloudflare 专用策略和 revision 限制独立于既有 remote 限期快照。
 - 配套 `local-snapshot.mjs` / `patch-local-snapshot-worker.mjs` v1.0.0，以 `SUB_STORE_LOCAL_SNAPSHOT_POLICIES` 和专用 `/api/local-snapshot/:name` GET/POST 约束受限入口；完整 revision 检查、原生预览与 content 单字段提交置于同一 DO 串行操作内，不开放通用内容管理权限。
-- 旧内容备份属于敏感本机数据；关闭本机不影响云端输出已存 local 内容，但刷新下一份一次性来源仍需本机。原发布者、Gist 和手机副本不会自动切换；详见[扩展日志](./edge-extension/CHANGELOG.md)。仅辅助订阅管理，不修改分流产物。
+- 旧内容备份属于敏感本机数据；关闭本机不影响云端输出已存 local 内容，但刷新下一份一次性来源仍需本机。原发布者、Gist 和手机副本不会自动切换；详见[扩展日志](edge-extension/CHANGELOG.md)。仅辅助订阅管理，不修改分流产物。
 
 ## 浏览器扩展 v1.7.0 / 受阻源原始快照 (2026-10-18)
 
 - 增加策略限定的单源原始快照链路：本机严格 `noCache` 的 `original` 节点经私密入口上传，Cloudflare 校验来源、最低数量、精确 URL 与配置绑定后限期保存，并执行云端原有处理器。24 小时有效期与 120 秒候选预览窗口分离；仅直连确证 403 challenge 或网关 530 后直连得到的确证 403 challenge 回退，不覆盖网关 200 包装上游 403。
 - 准备阶段仅去掉精确套餐元数据且保留全部真实原始节点；服务端只收全真实节点，其他无效、超限占位和最低数量不足继续拒绝。CI 增加扩展快照准备与 Worker 模块回归，真实 seed 和发布链路仍须独立验收。
-- 原始节点不入扩展永久存储，不上传本机已处理 Fusion；受阻源刷新仍依赖本机运行一次，健康来源不依赖本机，无需 VPS。不修改 Gist / Fusion 发布者、已发布客户端副本或分流产物；详细边界见[扩展日志](./edge-extension/CHANGELOG.md)。
+- 原始节点不入扩展永久存储，不上传本机已处理 Fusion；受阻源刷新仍依赖本机运行一次，健康来源不依赖本机，无需 VPS。不修改 Gist / Fusion 发布者、已发布客户端副本或分流产物；详细边界见[扩展日志](edge-extension/CHANGELOG.md)。
 
 ## 浏览器扩展 v1.6.0 (2026-10-18)
 
-- 本机中转改为 offscreen 隐藏 iframe，保留前端自然 Origin 与写入保护，不再打开可见标签；后台恢复、断线重绑定与 15 文件打包闭包同步更新。详见[扩展日志](./edge-extension/CHANGELOG.md)。
+- 本机中转改为 offscreen 隐藏 iframe，保留前端自然 Origin 与写入保护，不再打开可见标签；后台恢复、断线重绑定与 15 文件打包闭包同步更新。详见[扩展日志](edge-extension/CHANGELOG.md)。
 - 308 项 Node 与 33 项隔离 Edge 业务流程通过，另有真实 worker 重启等 7 项探针。仅修改辅助订阅管理工具，不影响分流产物或 Gist 发布者。
 
 ## 独立网页管理别名模块 v1.0.0 (2026-10-18)
@@ -50,7 +57,7 @@
 
 ## 浏览器扩展 v1.5.0 (2026-10-18)
 
-- 新增默认关闭的独立 Cloudflare Sub-Store 目标、私密后端连接配置与 JSON 导入；两端分别验证、更新和恢复，支持部分成功且不自动重试已发送 PATCH。详见[扩展日志](./edge-extension/CHANGELOG.md)。仅更新辅助订阅管理工具，不改分流产物。
+- 新增默认关闭的独立 Cloudflare Sub-Store 目标、私密后端连接配置与 JSON 导入；两端分别验证、更新和恢复，支持部分成功且不自动重试已发送 PATCH。详见[扩展日志](edge-extension/CHANGELOG.md)。仅更新辅助订阅管理工具，不改分流产物。
 - 修复浏览器权限查询异常造成已许可站点记录被永久删除的问题，异常时暂停访问并保留许可；同 origin 新文档和后台重启无需再次授予。
 - 增加从已提交 Git ref 生成 13 文件安装目录的打包 CLI 和只读检查；33 项隔离 Edge 流程通过，包含双端成功与部分成功，真实账号和权限对话框仍独立验收。
 
@@ -63,21 +70,21 @@
 
 ## 浏览器扩展 v1.4.1 (2026-10-18)
 
-- DOM 控件撤下会失效并清空待办；预渲染激活重新握手，正常恢复无需刷新。缓存编码审查项的实际后端验证与范围见[扩展日志](./edge-extension/CHANGELOG.md)。
+- DOM 控件撤下会失效并清空待办；预渲染激活重新握手，正常恢复无需刷新。缓存编码审查项的实际后端验证与范围见[扩展日志](edge-extension/CHANGELOG.md)。
 
 ## 浏览器扩展 v1.4.0 (2026-10-18)
 
-- 处理 PR #189 第二轮审查：站点信任与浏览器访问权限分开，首次许可后继续自动提取、匹配和写回；修复跨响应歧义、未监听目标页面的文档失效及失败中转页泄漏。详见[扩展日志](./edge-extension/CHANGELOG.md)。
+- 处理 PR #189 第二轮审查：站点信任与浏览器访问权限分开，首次许可后继续自动提取、匹配和写回；修复跨响应歧义、未监听目标页面的文档失效及失败中转页泄漏。详见[扩展日志](edge-extension/CHANGELOG.md)。
 
 ## 浏览器扩展 v1.3.2 (2026-10-18)
 
-- 处理 PR #189 的四项 Codex Review：晚到歧义取消尚未发送的写入、账户参数保真、相对锚点及完整回环地址识别。实现与回归详见[扩展日志](./edge-extension/CHANGELOG.md)。
+- 处理 PR #189 的四项 Codex Review：晚到歧义取消尚未发送的写入、账户参数保真、相对锚点及完整回环地址识别。实现与回归详见[扩展日志](edge-extension/CHANGELOG.md)。
 
 ## 浏览器扩展 v1.3.1 (2026-10-18)
 
 - 新增 `edge-extension/`：授权域名/IP上的通用订阅与品牌提取，自动匹配本机 Sub-Store 现有名称；验证原始及处理后节点后仅 PATCH 对应 URL，备份并独立读回其他字段。不依赖六家预设，不需正常流程手动点按钮。
 - 使用本机 Sub-Store 前端标签页的正常 Origin 完成通信，兼容内置后端 CORS；六家实际账号均完成自动流程验收，处理步骤及其他字段保持一致。
-- 新增 Node 提取、消息、路由、权限、通信与回写回归及 CI。详细历史见 [扩展 CHANGELOG](./edge-extension/CHANGELOG.md)。不包含已取消的密码/API 登录脚本或私人配置。
+- 新增 Node 提取、消息、路由、权限、通信与回写回归及 CI。详细历史见 [扩展 CHANGELOG](edge-extension/CHANGELOG.md)。不包含已取消的密码/API 登录脚本或私人配置。
 - 同步结果绑定当前版本并展示页面阶段；升级后的历史成功记录不计为本轮验收。真实 Edge 复现跨 world 文件 URL 去重后，改为源码生成两个独立入口并加入真实无账号浏览器自动流程回归；逐站实测通过后才提交或推送。
 - 六家真实自动流程均有成功收据，处理步骤和非 URL 字段保持一致；158 项 Node 回归及 15 项真实 Edge 独立流程通过。[验收范围](../docs/research/2026-10-18-substore-auto-sync-acceptance.md)明确复用记录与 Chrome 未实测边界。
 

@@ -11,9 +11,9 @@ const { prepareUpdates, replaceMarked } = require('../sync-traffic-options.js');
 
 const root = path.resolve(__dirname, '../..');
 const targets = [
-  ['Clash Party/ClashParty(mihomo-smart).js', 'smart'],
-  ['Clash Party/ClashParty(mihomo).js', 'url-test'],
-  ['FlClash/FlClash(mihomo).js', 'url-test'],
+  ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'smart'],
+  ['Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'url-test'],
+  ['Mihomo内核系/FlClash/FlClash(mihomo).js', 'url-test'],
 ];
 const five = graph.getQuicRules('block-foreign');
 const ids = require('../lib/fused-contract-segments').resolveContractSegments();

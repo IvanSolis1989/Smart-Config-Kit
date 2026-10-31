@@ -1,0 +1,2785 @@
+{
+  "schema_version": 1,
+  "version": "v6.0.21-karing.2",
+  "build": "2026-10-28",
+  "baseline_version": "v6.0.21",
+  "authority": "rulesets/source/routing-graph.js -> fused manifest -> generated SingBox 1.13 route",
+  "input_hashes": {
+    "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json": "863f50e671eef16d50c6381755ea2dfac86ca7dff0375c49b29264998afe6251",
+    "rulesets/generated/fused/manifest.json": "d5a1c627eed0e072736fa29889a47cbe7e2b0cd0458fdfbd79dabb0a35903eb1",
+    "rulesets/source/karing-support/manifest.json": "414065959125b3ef83e39af6ee99396a83db22d813eba81a0e2c08d60b3a3c5c",
+    "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
+    "tools/generate-karing.js": "891cfc8cae0ba3a7997bdecca1c69c3e45079052a60020ddf5c7ba7d47990cb9",
+    "tools/client-layout.json": "83e85a68844c27cf0e758699bf8e496c20cad0305acca24d0b6d3e476d4b6eab",
+    "rulesets/generated/fused/sing-box/scki-fused-001-direct.srs": "e59b2c7e8ba6fbb6c4c8f57c0ad232a997973197a1c78cc42c651b8a01d4ee1b",
+    "rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs": "edf71214c63c6536ba6468d711dd844191e94488ef310881768a3ba0c1e9185c",
+    "rulesets/generated/fused/sing-box/scki-fused-003-payments.srs": "28591d608fa4da769d5e9efad2a6284fb1eae81ad9eb4baa964b4ba71598dc8e",
+    "rulesets/generated/fused/sing-box/scki-fused-004-ai.srs": "2a492981f5fa8c0d83594ef999efd34ba98fe55445474d533df9f4dde5ca2ce5",
+    "rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs": "47a411707970c95ef675d47a51e366b02ef968721fe8ec03c971ec95699c36a8",
+    "rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs": "2bb9da59370462ad44ec65ccb53914f9ea029c35c93b55120f4e6c5c1f79c8ee",
+    "rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs": "a7a9feceb8a92455ad5a09710f2686b755db52d7f1245da40891309be2968f9e",
+    "rulesets/generated/fused/sing-box/scki-fused-008-social.srs": "0eaa018fb421093f323426069d3cb3ebce5524f0cbe7d37009ad742cf78e1557",
+    "rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs": "d7fb51b6ecbb2b4c29ee57ff91adad83dbdbcf6350199c1a57c1e4e28cce6cf3",
+    "rulesets/generated/fused/sing-box/scki-fused-010-ad.srs": "feadb6d6439f2f1dc5b9ae21d5589eeeb3bec9e7c4bf9f62a102ccabe0a56b84",
+    "rulesets/generated/fused/sing-box/scki-fused-011-tools.srs": "04cda244dd5c31cb0b2c39c78f353fbc3983ecf3755eef5bafad1adfdaaaafb2",
+    "rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs": "4388cd8b415cd757f55caaeaecf2e87bc48624e850920e1fffe8f11a8f4e299e",
+    "rulesets/generated/fused/sing-box/scki-fused-013-ai.srs": "c2f47a38d003556188df60c3b9f0d0b7a5a9dba3d1824a0ab71439b8bcf1f94b",
+    "rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs": "0501c0d7dd449cf8d30a0563ecbdc46c3ebb6b73a151dbe7206f808139ba6638",
+    "rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs": "ec1ab60f51b79fcd090c3bc45a2c5415a893819da6c3e6853d342defb89933b3",
+    "rulesets/generated/fused/sing-box/scki-fused-016-ad.srs": "bcfb0f4ea4208c3fde9b6bb404ad08a5446ac18826e4eabc5916501345c2acb6",
+    "rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs": "2b8e80041e2d9f06d8cc9d3fd976af988973fe0cb4eb5c14ff56cab69c3aa8d3",
+    "rulesets/generated/fused/sing-box/scki-fused-018-direct.srs": "e55f4af700b3ae30e3fc8d7f00da59a83768125ef8f79bd8fdab9d147a1a6482",
+    "rulesets/generated/fused/sing-box/scki-fused-019-work.srs": "4fca44273d75878e8a1d41c52a6d37a1bdb4022353ec3b93ac7d90e0c5f8ac2b",
+    "rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs": "438c6e5d1801225ce9ad5ba212d487cd418821e99f0b5746d173c03ac9dba1fc",
+    "rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs": "d57390bc6cc72632d8a989f0a701e1551eaec69bcce5b9ff615d3590eebe9d75",
+    "rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs": "ccfc4d7a582856fe30124f5ccb4616d32d30d9b24612ec8c19fd5d6396f1e447",
+    "rulesets/generated/fused/sing-box/scki-fused-023-ai.srs": "74e23874c580d5a1b23d91091f9faefa062391b5b9a70239ebfbdea1755ebb98",
+    "rulesets/generated/fused/sing-box/scki-fused-024-google.srs": "129d108829f3e412cc1ee2b3139bbf01e4e4eb91e33ebf52fc159fd2150a5ba5",
+    "rulesets/generated/fused/sing-box/scki-fused-025-work.srs": "8f3347f5c81899d70c93edf1801d214956a9ec970de7c370c550948d53205ded",
+    "rulesets/generated/fused/sing-box/scki-fused-026-ai.srs": "171839d4f1e6c4902521e27f53de21e6bc38531b590bdb14c86962fdc9d0f101",
+    "rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs": "d516db5a0ed5ec684c7626cd0c799a4312f400ad635d79b69f69d28012f1866d",
+    "rulesets/generated/fused/sing-box/scki-fused-028-im.srs": "633f14a2286b89064c20079bb8608d3bfca63c6d759b0783145f01f7dbbc8a56",
+    "rulesets/generated/fused/sing-box/scki-fused-029-work.srs": "560ceb0442b06985a72cbf70ade68b73bf9b2d1679a249247ca839a8d125a491",
+    "rulesets/generated/fused/sing-box/scki-fused-030-download.srs": "b8168383a56620326a287785a8fb4c66d300458bd9c8051b89754c079f1c1b57",
+    "rulesets/generated/fused/sing-box/scki-fused-031-google.srs": "3b862f3227c97c0c65e528cf16dd4fed3796d9b2038ac5d101e7245d72635af4",
+    "rulesets/generated/fused/sing-box/scki-fused-032-tools.srs": "a532638c449357a9688da827624cbe551021a721192ecba60ebbdfeb15204737",
+    "rulesets/generated/fused/sing-box/scki-fused-033-ai.srs": "674277119791b57594d7387a48462e279e6f6d998a416e267f2adc6727b9a833",
+    "rulesets/generated/fused/sing-box/scki-fused-034-google.srs": "f72dc9b999533684983b16a76c67976776c9930cc37ba2a26d9bfbdd876af705",
+    "rulesets/generated/fused/sing-box/scki-fused-035-ai.srs": "ec31ecfac9f37bee68dd83189347a54fa3b9673b36dbe3660ddfdc017e03710d",
+    "rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs": "ad60441eafccef9f95cf730e33548c4574f3612f0232aeddd3748948cc7a08b5",
+    "rulesets/generated/fused/sing-box/scki-fused-037-payments.srs": "b250a5754cb2d5865442b3e28f02ff1f1e024cfeb12633d2c675376e9b88cf0b",
+    "rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs": "5b65570ccc5ca9fc173971ed6084524825afbc519841029b6cf4e9be9e89f587",
+    "rulesets/generated/fused/sing-box/scki-fused-040-direct.srs": "52127f29b832f04e1e9bd70c393be339ff750fbf0cf979ce8cd562915b57866f",
+    "rulesets/generated/fused/sing-box/scki-fused-041-im.srs": "e96a2a5423c4fe0ac2f7e0cf90c4249a0ff393c5d0257bacbcc85b2d9c10822e",
+    "rulesets/generated/fused/sing-box/scki-fused-042-social.srs": "ca719379ac5118566179126a92ef7ca441e1e5030b7a9dbe0ef6227f53a9180b",
+    "rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs": "58477ca80ec439ed6d0f846e29e3735288abc2f80c6a89b180a2a8bdda77371c",
+    "rulesets/generated/fused/sing-box/scki-fused-044-social.srs": "6bec1aa1a7876bc2728b06805a6ade6bb3520b7e48d9e5e1fc30d589bf650acd",
+    "rulesets/generated/fused/sing-box/scki-fused-045-work.srs": "f46b5b4f88ad0ed5d858df43b663e31b5ced2d344fd279ce8d74e2e874c5e073",
+    "rulesets/generated/fused/sing-box/scki-fused-046-direct.srs": "b546ae95e023c02dc315da0983f54010acc82f569e36235e68640d514f88f13a",
+    "rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs": "217555916f18df6f399b8e335465369678732a1efaf34e6c737430c54b39e028",
+    "rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs": "232fdd3fbfcb4cc37f88b8ed9104832eab05b0fb8f52c32398e98dbf5457d0be",
+    "rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs": "a004bcdd4fbd84b6cedd359de2c0026bccdd58bc8d2d82a0947e69a6e9457493",
+    "rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs": "dd938f6f71ac90a24e652ba6b8bc8ac08535739e06518a9fbd8063257afef063",
+    "rulesets/generated/fused/sing-box/scki-fused-051-disney.srs": "81296da3f3d5bc3959b61f3605411b01ee6bb28cea4425494421325ff49fe088",
+    "rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs": "23df7297d81b8106502e21180aca1f75d3c2726e02d4fe2a8bfffced40940467",
+    "rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs": "848345540455b4ce9700efa50dada308c49628d0b11e9e196989dc7c02e2f3c8",
+    "rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs": "a3e6151aa5f8c8f6199ce5d4da3ca9c5a7f877516b09ee1dc26e510f54351ecb",
+    "rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs": "58977a6da9490cb2252804d710e10539743200733f37f24203d8c6fb2616a8cc",
+    "rulesets/generated/fused/sing-box/scki-fused-056-music.srs": "341fc3233e0042cdb74f0c3ed2312377c46d8abf0bf3bd2c512556ef628b8417",
+    "rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs": "72958533b50ffce2f459beae0018deb84953650fecca81b7404dcc824ec2071e",
+    "rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs": "7392fc66d38c4c0bb868afe598afe8f46b308f9c1ba9779221a5fb133683e8bc",
+    "rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs": "314cbbc982e8fb4038a9dcb2fee815f73c1652ac769df299cb5fb8ecb58ef4a6",
+    "rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs": "b04350c71313fb1a366af68ad6cb0169532122f24c2427283f9f224cdc54b57e",
+    "rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs": "ae9ad75139cdcc1536a42073d5059cf26197ecc20419938414c644251c7d6829",
+    "rulesets/generated/fused/sing-box/scki-fused-062-tools.srs": "594ec997e765e66331c5b055b975838fe86fd820cee58ef29fa801969d940bbc",
+    "rulesets/generated/fused/sing-box/scki-fused-063-google.srs": "517ffa032fa2990d147a4a405b53cdce1d45d8c0bff4e8f48bf47cd9ee495cae",
+    "rulesets/generated/fused/sing-box/scki-fused-064-tools.srs": "4e87df7d6d326d676de36488eadb8c1d08db4a92f28ecc426527fe516dfc6fb8",
+    "rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs": "5c58ccebd7b8d15a417c9a58047c690144e8e5598a0f5ade2fc9bd635075c778",
+    "rulesets/generated/fused/sing-box/scki-fused-066-apple.srs": "3d1a5358646e9db45000e7452dd698f83852abd4a4a54633e9709612dcea6c5f",
+    "rulesets/generated/fused/sing-box/scki-fused-067-download.srs": "ad8b7e3770f12fbd7deb7de1436e162adf9c2e8fa0a6b52a99992065da546a2c",
+    "rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs": "601438f5ad1243c7b71c13a1592e7a98d6177331b6415abf9ba75cf56b10926d",
+    "rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs": "b7b1b62b629115be79d08d100272a71a8e39f9281b9659fb65c46de00ca26f9b",
+    "rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs": "c990e9719194052a81891f6ea05dcca7ecc3c65b3bf085ffaadfb60ede7aecad",
+    "rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs": "5e80f26a9a481bbaad3b1ccfa7953d7cf0e7579b72b8dffd0b544d6bf4aca911",
+    "rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs": "860524bc71f7d8f08789eddb3e279f4a72abecc0a9c7587c963f8f927ddaa983",
+    "rulesets/generated/fused/sing-box/scki-fused-073-payments.srs": "ff9aa57baff58506cf54f6a5f085c2491658e93813ce5aca732848a6d689bae2",
+    "rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs": "724770b48e650eb3cc614ce0c6e0942c4deb284149cc38cfce76e84ba8b78cae",
+    "rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs": "748dc9feb59afbe99aab61cbb96a1ce8c5098d7df839e1615c8725073e20fc82",
+    "rulesets/generated/fused/sing-box/scki-fused-076-direct.srs": "d24a63392d64c089d3b565b1e9b9051e905bce782fb94c5ac72946c73938ed10",
+    "rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs": "1f7c091b224a165c2cfc239ecd0892875179903fe71737da2c9fb8c3393a92c4",
+    "rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs": "1c7d272850235bff6faff1b5b9e76d2c7e5e781915ee0a47e68143913385d428",
+    "rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs": "eb7d38ab64ccc4ebe4950f789be98aaf9f2f220e2439fa278d5166735e11d0d3",
+    "rulesets/source/karing-support/geosite-youtube.json.gz": "d05559e59c1e1591983aae757e6a116b6ee840e9714c5031769d759e4a284334",
+    "rulesets/source/karing-support/geosite-google.json.gz": "a358b15145d7e01445733dd1e3880aef08802a758d8f49b6ec8dde890b91e01d",
+    "rulesets/source/karing-support/geosite-microsoft.json.gz": "a7c0bd68b51ec4d1263c47cbad9588570c443d263217341b7041069cb073bd9a",
+    "rulesets/source/karing-support/geosite-apple.json.gz": "679a4ca9fb5c27d2ff360edd7f4596a3a863f73a3a797bb5c8cce00c245e269f",
+    "rulesets/source/karing-support/geosite-cn.json.gz": "0c3f161a757baf6a4e7d1f29c70167b3d9d767ae1854de548826f29409e50616"
+  },
+  "source_rule_count": 98,
+  "generated_rule_count": 97,
+  "generated_source_asset_count": 19,
+  "profile_sha256": "2fdd529ec74a61636ca8765b8a022d14ff60483e662a836874ad198730fb9a79",
+  "manual_final": {
+    "source_outbound": "🐟 漏网之鱼",
+    "outbound": "currentSelected",
+    "path": [
+      "🐟 漏网之鱼",
+      "🌍 全球节点"
+    ],
+    "instruction": "在 Karing 分流规则中设置最终默认动作；原生导入不输出空匹配 FINAL。"
+  },
+  "mappings": [
+    {
+      "source_rule_index": 1,
+      "name": "SCKI 002 scki-fused-001-direct · DIRECT",
+      "segment_id": "scki-fused-001-direct",
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-001-direct"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 2,
+      "name": "SCKI 003 scki-fused-002-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-002-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-002-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 3,
+      "name": "SCKI 004 scki-fused-003-payments · 🏦 金融支付",
+      "segment_id": "scki-fused-003-payments",
+      "source_action": "route",
+      "source_outbound": "🏦 金融支付",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🏦 金融支付",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-003-payments"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 4,
+      "name": "SCKI 005 scki-fused-004-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-004-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-004-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 5,
+      "name": "SCKI 006 scki-fused-005-cnmedia · 📺 国内流媒体",
+      "segment_id": "scki-fused-005-cnmedia",
+      "source_action": "route",
+      "source_outbound": "📺 国内流媒体",
+      "outbound": "direct",
+      "outbound_path": [
+        "📺 国内流媒体",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-005-cnmedia"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 6,
+      "name": "SCKI 007 scki-fused-006-cn-site · 🏠 国内网站",
+      "segment_id": "scki-fused-006-cn-site",
+      "source_action": "route",
+      "source_outbound": "🏠 国内网站",
+      "outbound": "direct",
+      "outbound_path": [
+        "🏠 国内网站",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-006-cn-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 7,
+      "name": "SCKI 008 scki-fused-007-stream-jpkr · 🇯🇵 日韩流媒体",
+      "segment_id": "scki-fused-007-stream-jpkr",
+      "source_action": "route",
+      "source_outbound": "🇯🇵 日韩流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🇯🇵 日韩流媒体",
+        "🇯🇵 日韩节点",
+        "proxy-jp-1"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-007-stream-jpkr"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 8,
+      "name": "SCKI 009 scki-fused-008-social · 📱 社交媒体",
+      "segment_id": "scki-fused-008-social",
+      "source_action": "route",
+      "source_outbound": "📱 社交媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📱 社交媒体",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-008-social"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 9,
+      "name": "SCKI 010 scki-fused-009-tiktok · 🎵 TikTok",
+      "segment_id": "scki-fused-009-tiktok",
+      "source_action": "route",
+      "source_outbound": "🎵 TikTok",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎵 TikTok",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-009-tiktok"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 10,
+      "name": "SCKI 011 scki-fused-010-ad · REJECT",
+      "segment_id": "scki-fused-010-ad",
+      "source_action": "reject",
+      "source_outbound": "REJECT",
+      "outbound": "block",
+      "outbound_path": [],
+      "source_rule_set_tags": [
+        "scki-fused-010-ad"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 11,
+      "name": "SCKI 012 scki-fused-011-tools · 🔧 工具与服务",
+      "segment_id": "scki-fused-011-tools",
+      "source_action": "route",
+      "source_outbound": "🔧 工具与服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔧 工具与服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-011-tools"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 12,
+      "name": "SCKI 013 scki-fused-012-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-012-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-012-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 13,
+      "name": "SCKI 014 scki-fused-013-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-013-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-013-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 14,
+      "name": "SCKI 015 scki-fused-014-game-cn · 🕹️ 国内游戏",
+      "segment_id": "scki-fused-014-game-cn",
+      "source_action": "route",
+      "source_outbound": "🕹️ 国内游戏",
+      "outbound": "direct",
+      "outbound_path": [
+        "🕹️ 国内游戏",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-014-game-cn"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 15,
+      "name": "SCKI 016 scki-fused-015-microsoft · Ⓜ️ 微软服务",
+      "segment_id": "scki-fused-015-microsoft",
+      "source_action": "route",
+      "source_outbound": "Ⓜ️ 微软服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "Ⓜ️ 微软服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-015-microsoft"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 16,
+      "name": "SCKI 017 scki-fused-016-ad · REJECT",
+      "segment_id": "scki-fused-016-ad",
+      "source_action": "reject",
+      "source_outbound": "REJECT",
+      "outbound": "block",
+      "outbound_path": [],
+      "source_rule_set_tags": [
+        "scki-fused-016-ad"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 17,
+      "name": "SCKI 018 scki-fused-017-cn-site · 🏠 国内网站",
+      "segment_id": "scki-fused-017-cn-site",
+      "source_action": "route",
+      "source_outbound": "🏠 国内网站",
+      "outbound": "direct",
+      "outbound_path": [
+        "🏠 国内网站",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-017-cn-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 18,
+      "name": "SCKI 019 inline · 📹 YouTube",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "📹 YouTube",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📹 YouTube",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "geosite-youtube"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-019-26287fc185de.json"
+    },
+    {
+      "source_rule_index": 19,
+      "name": "SCKI 020 inline · 🔍 Google 服务",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "🔍 Google 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔍 Google 服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "geosite-google"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-020-8f1b4443197b.json"
+    },
+    {
+      "source_rule_index": 20,
+      "name": "SCKI 021 inline · Ⓜ️ 微软服务",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "Ⓜ️ 微软服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "Ⓜ️ 微软服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "geosite-microsoft"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-021-998683cfd02e.json"
+    },
+    {
+      "source_rule_index": 21,
+      "name": "SCKI 022 inline · 🍎 苹果服务",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "🍎 苹果服务",
+      "outbound": "direct",
+      "outbound_path": [
+        "🍎 苹果服务",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "geosite-apple"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json"
+    },
+    {
+      "source_rule_index": 22,
+      "name": "SCKI 023 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "geosite-cn"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-023-28525b585d4e.json"
+    },
+    {
+      "source_rule_index": 23,
+      "name": "SCKI 024 inline · REJECT",
+      "segment_id": null,
+      "source_action": "reject",
+      "source_outbound": "REJECT",
+      "outbound": "block",
+      "outbound_path": [],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json"
+    },
+    {
+      "source_rule_index": 24,
+      "name": "SCKI 025 inline · REJECT",
+      "segment_id": null,
+      "source_action": "reject",
+      "source_outbound": "REJECT",
+      "outbound": "block",
+      "outbound_path": [],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-025-fc1506634023.json"
+    },
+    {
+      "source_rule_index": 25,
+      "name": "SCKI 026 scki-fused-018-direct · DIRECT",
+      "segment_id": "scki-fused-018-direct",
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-018-direct"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 26,
+      "name": "SCKI 027 scki-fused-019-work · 🧑‍💼 会议协作",
+      "segment_id": "scki-fused-019-work",
+      "source_action": "route",
+      "source_outbound": "🧑‍💼 会议协作",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🧑‍💼 会议协作",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-019-work"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 27,
+      "name": "SCKI 028 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-028-6f843f30639e.json"
+    },
+    {
+      "source_rule_index": 28,
+      "name": "SCKI 029 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-029-463bda8b2b68.json"
+    },
+    {
+      "source_rule_index": 29,
+      "name": "SCKI 030 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json"
+    },
+    {
+      "source_rule_index": 30,
+      "name": "SCKI 031 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-031-247ef6d0b532.json"
+    },
+    {
+      "source_rule_index": 31,
+      "name": "SCKI 032 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-032-bf849617bb18.json"
+    },
+    {
+      "source_rule_index": 32,
+      "name": "SCKI 033 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json"
+    },
+    {
+      "source_rule_index": 33,
+      "name": "SCKI 034 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-034-dde12ff2b951.json"
+    },
+    {
+      "source_rule_index": 34,
+      "name": "SCKI 035 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-035-e26d38b4416a.json"
+    },
+    {
+      "source_rule_index": 35,
+      "name": "SCKI 036 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-036-797b5a134fb7.json"
+    },
+    {
+      "source_rule_index": 36,
+      "name": "SCKI 037 inline · DIRECT",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json"
+    },
+    {
+      "source_rule_index": 37,
+      "name": "SCKI 038 scki-fused-020-crypto · 💰 加密货币",
+      "segment_id": "scki-fused-020-crypto",
+      "source_action": "route",
+      "source_outbound": "💰 加密货币",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "💰 加密货币",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-020-crypto"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 38,
+      "name": "SCKI 039 scki-fused-021-gfw · 🚫 受限网站",
+      "segment_id": "scki-fused-021-gfw",
+      "source_action": "route",
+      "source_outbound": "🚫 受限网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🚫 受限网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-021-gfw"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 39,
+      "name": "SCKI 040 scki-fused-022-youtube · 📹 YouTube",
+      "segment_id": "scki-fused-022-youtube",
+      "source_action": "route",
+      "source_outbound": "📹 YouTube",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📹 YouTube",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-022-youtube"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 40,
+      "name": "SCKI 041 scki-fused-023-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-023-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-023-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 41,
+      "name": "SCKI 042 scki-fused-024-google · 🔍 Google 服务",
+      "segment_id": "scki-fused-024-google",
+      "source_action": "route",
+      "source_outbound": "🔍 Google 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔍 Google 服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-024-google"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 42,
+      "name": "SCKI 043 scki-fused-025-work · 🧑‍💼 会议协作",
+      "segment_id": "scki-fused-025-work",
+      "source_action": "route",
+      "source_outbound": "🧑‍💼 会议协作",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🧑‍💼 会议协作",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-025-work"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 43,
+      "name": "SCKI 044 scki-fused-026-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-026-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-026-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 44,
+      "name": "SCKI 045 scki-fused-027-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-027-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-027-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 45,
+      "name": "SCKI 046 scki-fused-028-im · 💬 即时通讯",
+      "segment_id": "scki-fused-028-im",
+      "source_action": "route",
+      "source_outbound": "💬 即时通讯",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "💬 即时通讯",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-028-im"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 46,
+      "name": "SCKI 047 scki-fused-029-work · 🧑‍💼 会议协作",
+      "segment_id": "scki-fused-029-work",
+      "source_action": "route",
+      "source_outbound": "🧑‍💼 会议协作",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🧑‍💼 会议协作",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-029-work"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 47,
+      "name": "SCKI 048 scki-fused-030-download · 📥 下载更新",
+      "segment_id": "scki-fused-030-download",
+      "source_action": "route",
+      "source_outbound": "📥 下载更新",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📥 下载更新",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-030-download"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 48,
+      "name": "SCKI 049 scki-fused-031-google · 🔍 Google 服务",
+      "segment_id": "scki-fused-031-google",
+      "source_action": "route",
+      "source_outbound": "🔍 Google 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔍 Google 服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-031-google"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 49,
+      "name": "SCKI 050 inline · 🤖 AI 服务",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-050-e6463a01dabf.json"
+    },
+    {
+      "source_rule_index": 50,
+      "name": "SCKI 051 inline · 🤖 AI 服务",
+      "segment_id": null,
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.21"
+      ],
+      "generated_asset": "rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json"
+    },
+    {
+      "source_rule_index": 51,
+      "name": "SCKI 052 scki-fused-032-tools · 🔧 工具与服务",
+      "segment_id": "scki-fused-032-tools",
+      "source_action": "route",
+      "source_outbound": "🔧 工具与服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔧 工具与服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-032-tools"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 52,
+      "name": "SCKI 053 scki-fused-033-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-033-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-033-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 53,
+      "name": "SCKI 054 scki-fused-034-google · 🔍 Google 服务",
+      "segment_id": "scki-fused-034-google",
+      "source_action": "route",
+      "source_outbound": "🔍 Google 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔍 Google 服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-034-google"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 54,
+      "name": "SCKI 055 scki-fused-035-ai · 🤖 AI 服务",
+      "segment_id": "scki-fused-035-ai",
+      "source_action": "route",
+      "source_outbound": "🤖 AI 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🤖 AI 服务",
+        "🏡 全球家宽"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-035-ai"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 55,
+      "name": "SCKI 056 scki-fused-036-crypto · 💰 加密货币",
+      "segment_id": "scki-fused-036-crypto",
+      "source_action": "route",
+      "source_outbound": "💰 加密货币",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "💰 加密货币",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-036-crypto"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 56,
+      "name": "SCKI 057 scki-fused-037-payments · 🏦 金融支付",
+      "segment_id": "scki-fused-037-payments",
+      "source_action": "route",
+      "source_outbound": "🏦 金融支付",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🏦 金融支付",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-037-payments"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 57,
+      "name": "SCKI 058 scki-fused-039-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-039-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-039-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 58,
+      "name": "SCKI 059 scki-fused-040-direct · DIRECT",
+      "segment_id": "scki-fused-040-direct",
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-040-direct"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 59,
+      "name": "SCKI 060 scki-fused-041-im · 💬 即时通讯",
+      "segment_id": "scki-fused-041-im",
+      "source_action": "route",
+      "source_outbound": "💬 即时通讯",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "💬 即时通讯",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-041-im"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 60,
+      "name": "SCKI 061 scki-fused-042-social · 📱 社交媒体",
+      "segment_id": "scki-fused-042-social",
+      "source_action": "route",
+      "source_outbound": "📱 社交媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📱 社交媒体",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-042-social"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 61,
+      "name": "SCKI 062 scki-fused-043-cn-site · 🏠 国内网站",
+      "segment_id": "scki-fused-043-cn-site",
+      "source_action": "route",
+      "source_outbound": "🏠 国内网站",
+      "outbound": "direct",
+      "outbound_path": [
+        "🏠 国内网站",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-043-cn-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 62,
+      "name": "SCKI 063 scki-fused-044-social · 📱 社交媒体",
+      "segment_id": "scki-fused-044-social",
+      "source_action": "route",
+      "source_outbound": "📱 社交媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📱 社交媒体",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-044-social"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 63,
+      "name": "SCKI 064 scki-fused-045-work · 🧑‍💼 会议协作",
+      "segment_id": "scki-fused-045-work",
+      "source_action": "route",
+      "source_outbound": "🧑‍💼 会议协作",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🧑‍💼 会议协作",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-045-work"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 64,
+      "name": "SCKI 065 scki-fused-046-direct · DIRECT",
+      "segment_id": "scki-fused-046-direct",
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-046-direct"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 65,
+      "name": "SCKI 066 scki-fused-047-cnmedia · 📺 国内流媒体",
+      "segment_id": "scki-fused-047-cnmedia",
+      "source_action": "route",
+      "source_outbound": "📺 国内流媒体",
+      "outbound": "direct",
+      "outbound_path": [
+        "📺 国内流媒体",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-047-cnmedia"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 66,
+      "name": "SCKI 067 scki-fused-048-tiktok · 🎵 TikTok",
+      "segment_id": "scki-fused-048-tiktok",
+      "source_action": "route",
+      "source_outbound": "🎵 TikTok",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎵 TikTok",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-048-tiktok"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 67,
+      "name": "SCKI 068 scki-fused-049-youtube · 📹 YouTube",
+      "segment_id": "scki-fused-049-youtube",
+      "source_action": "route",
+      "source_outbound": "📹 YouTube",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📹 YouTube",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-049-youtube"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 68,
+      "name": "SCKI 069 scki-fused-050-netflix · 🎥 Netflix",
+      "segment_id": "scki-fused-050-netflix",
+      "source_action": "route",
+      "source_outbound": "🎥 Netflix",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎥 Netflix",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-050-netflix"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 69,
+      "name": "SCKI 070 scki-fused-051-disney · 🎬 Disney+",
+      "segment_id": "scki-fused-051-disney",
+      "source_action": "route",
+      "source_outbound": "🎬 Disney+",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎬 Disney+",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-051-disney"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 70,
+      "name": "SCKI 071 scki-fused-052-hbo-max · 📡 HBO/Max",
+      "segment_id": "scki-fused-052-hbo-max",
+      "source_action": "route",
+      "source_outbound": "📡 HBO/Max",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📡 HBO/Max",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-052-hbo-max"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 71,
+      "name": "SCKI 072 scki-fused-053-hulu · 📺 Hulu",
+      "segment_id": "scki-fused-053-hulu",
+      "source_action": "route",
+      "source_outbound": "📺 Hulu",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📺 Hulu",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-053-hulu"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 72,
+      "name": "SCKI 073 scki-fused-054-prime-video · 🎬 Prime Video",
+      "segment_id": "scki-fused-054-prime-video",
+      "source_action": "route",
+      "source_outbound": "🎬 Prime Video",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎬 Prime Video",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-054-prime-video"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 73,
+      "name": "SCKI 074 scki-fused-055-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-055-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-055-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 74,
+      "name": "SCKI 075 scki-fused-056-music · 🎵 音乐流媒体",
+      "segment_id": "scki-fused-056-music",
+      "source_action": "route",
+      "source_outbound": "🎵 音乐流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎵 音乐流媒体",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-056-music"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 75,
+      "name": "SCKI 076 scki-fused-057-stream-hk · 🇭🇰 香港流媒体",
+      "segment_id": "scki-fused-057-stream-hk",
+      "source_action": "route",
+      "source_outbound": "🇭🇰 香港流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🇭🇰 香港流媒体",
+        "🇭🇰 香港节点",
+        "proxy-hk-1"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-057-stream-hk"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 76,
+      "name": "SCKI 077 scki-fused-058-stream-tw · 🇹🇼 台湾流媒体",
+      "segment_id": "scki-fused-058-stream-tw",
+      "source_action": "route",
+      "source_outbound": "🇹🇼 台湾流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🇹🇼 台湾流媒体",
+        "🇹🇼 台湾节点",
+        "proxy-tw-1"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-058-stream-tw"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 77,
+      "name": "SCKI 078 scki-fused-059-stream-jpkr · 🇯🇵 日韩流媒体",
+      "segment_id": "scki-fused-059-stream-jpkr",
+      "source_action": "route",
+      "source_outbound": "🇯🇵 日韩流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🇯🇵 日韩流媒体",
+        "🇯🇵 日韩节点",
+        "proxy-jp-1"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-059-stream-jpkr"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 78,
+      "name": "SCKI 079 scki-fused-060-stream-eu · 🇪🇺 欧洲流媒体",
+      "segment_id": "scki-fused-060-stream-eu",
+      "source_action": "route",
+      "source_outbound": "🇪🇺 欧洲流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🇪🇺 欧洲流媒体",
+        "🇪🇺 欧洲节点",
+        "proxy-eu-1"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-060-stream-eu"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 79,
+      "name": "SCKI 080 scki-fused-061-stream-other · 🌐 其他国外流媒体",
+      "segment_id": "scki-fused-061-stream-other",
+      "source_action": "route",
+      "source_outbound": "🌐 其他国外流媒体",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 其他国外流媒体",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-061-stream-other"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 80,
+      "name": "SCKI 081 scki-fused-062-tools · 🔧 工具与服务",
+      "segment_id": "scki-fused-062-tools",
+      "source_action": "route",
+      "source_outbound": "🔧 工具与服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔧 工具与服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-062-tools"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 81,
+      "name": "SCKI 082 scki-fused-063-google · 🔍 Google 服务",
+      "segment_id": "scki-fused-063-google",
+      "source_action": "route",
+      "source_outbound": "🔍 Google 服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔍 Google 服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-063-google"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 82,
+      "name": "SCKI 083 scki-fused-064-tools · 🔧 工具与服务",
+      "segment_id": "scki-fused-064-tools",
+      "source_action": "route",
+      "source_outbound": "🔧 工具与服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🔧 工具与服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-064-tools"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 83,
+      "name": "SCKI 084 scki-fused-065-microsoft · Ⓜ️ 微软服务",
+      "segment_id": "scki-fused-065-microsoft",
+      "source_action": "route",
+      "source_outbound": "Ⓜ️ 微软服务",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "Ⓜ️ 微软服务",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-065-microsoft"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 84,
+      "name": "SCKI 085 scki-fused-066-apple · 🍎 苹果服务",
+      "segment_id": "scki-fused-066-apple",
+      "source_action": "route",
+      "source_outbound": "🍎 苹果服务",
+      "outbound": "direct",
+      "outbound_path": [
+        "🍎 苹果服务",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-066-apple"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 85,
+      "name": "SCKI 086 scki-fused-067-download · 📥 下载更新",
+      "segment_id": "scki-fused-067-download",
+      "source_action": "route",
+      "source_outbound": "📥 下载更新",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "📥 下载更新",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-067-download"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 86,
+      "name": "SCKI 087 scki-fused-068-tracker · 🛰️ BT/PT Tracker",
+      "segment_id": "scki-fused-068-tracker",
+      "source_action": "route",
+      "source_outbound": "🛰️ BT/PT Tracker",
+      "outbound": "block",
+      "outbound_path": [
+        "🛰️ BT/PT Tracker",
+        "REJECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-068-tracker"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 87,
+      "name": "SCKI 088 scki-fused-069-gfw · 🚫 受限网站",
+      "segment_id": "scki-fused-069-gfw",
+      "source_action": "route",
+      "source_outbound": "🚫 受限网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🚫 受限网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-069-gfw"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 88,
+      "name": "SCKI 089 scki-fused-070-game-cn · 🕹️ 国内游戏",
+      "segment_id": "scki-fused-070-game-cn",
+      "source_action": "route",
+      "source_outbound": "🕹️ 国内游戏",
+      "outbound": "direct",
+      "outbound_path": [
+        "🕹️ 国内游戏",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-070-game-cn"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 89,
+      "name": "SCKI 090 scki-fused-071-game-intl · 🎮 国外游戏",
+      "segment_id": "scki-fused-071-game-intl",
+      "source_action": "route",
+      "source_outbound": "🎮 国外游戏",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎮 国外游戏",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-071-game-intl"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 90,
+      "name": "SCKI 091 scki-fused-072-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-072-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-072-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 91,
+      "name": "SCKI 092 scki-fused-073-payments · 🏦 金融支付",
+      "segment_id": "scki-fused-073-payments",
+      "source_action": "route",
+      "source_outbound": "🏦 金融支付",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🏦 金融支付",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-073-payments"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 92,
+      "name": "SCKI 093 scki-fused-074-cnmedia · 📺 国内流媒体",
+      "segment_id": "scki-fused-074-cnmedia",
+      "source_action": "route",
+      "source_outbound": "📺 国内流媒体",
+      "outbound": "direct",
+      "outbound_path": [
+        "📺 国内流媒体",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-074-cnmedia"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 93,
+      "name": "SCKI 094 scki-fused-075-cn-site · 🏠 国内网站",
+      "segment_id": "scki-fused-075-cn-site",
+      "source_action": "route",
+      "source_outbound": "🏠 国内网站",
+      "outbound": "direct",
+      "outbound_path": [
+        "🏠 国内网站",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-075-cn-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 94,
+      "name": "SCKI 095 scki-fused-076-direct · DIRECT",
+      "segment_id": "scki-fused-076-direct",
+      "source_action": "route",
+      "source_outbound": "DIRECT",
+      "outbound": "direct",
+      "outbound_path": [
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-076-direct"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 95,
+      "name": "SCKI 096 scki-fused-077-cn-site · 🏠 国内网站",
+      "segment_id": "scki-fused-077-cn-site",
+      "source_action": "route",
+      "source_outbound": "🏠 国内网站",
+      "outbound": "direct",
+      "outbound_path": [
+        "🏠 国内网站",
+        "DIRECT"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-077-cn-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 96,
+      "name": "SCKI 097 scki-fused-078-intl-site · 🌐 国外网站",
+      "segment_id": "scki-fused-078-intl-site",
+      "source_action": "route",
+      "source_outbound": "🌐 国外网站",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🌐 国外网站",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-078-intl-site"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.21"
+      ]
+    },
+    {
+      "source_rule_index": 97,
+      "name": "SCKI 098 scki-fused-080-netflix · 🎥 Netflix",
+      "segment_id": "scki-fused-080-netflix",
+      "source_action": "route",
+      "source_outbound": "🎥 Netflix",
+      "outbound": "currentSelected",
+      "outbound_path": [
+        "🎥 Netflix",
+        "🌍 全球节点"
+      ],
+      "source_rule_set_tags": [
+        "scki-fused-080-netflix"
+      ],
+      "rule_set": [
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.21"
+      ]
+    }
+  ],
+  "rule_assets": [
+    {
+      "tag": "scki-fused-001-direct",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-002-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-003-payments",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-004-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-005-cnmedia",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-006-cn-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-007-stream-jpkr",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-008-social",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-009-tiktok",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-010-ad",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-011-tools",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-012-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-013-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-014-game-cn",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-015-microsoft",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-016-ad",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-017-cn-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "geosite-youtube",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "headless-source-input"
+      ]
+    },
+    {
+      "tag": "scki-karing-019-26287fc185de",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-019-26287fc185de.json",
+      "sha256": "26287fc185de65b1abd598cc85d4368d3af9cda8f637f8cec6671e4424da2949",
+      "bytes": 5345
+    },
+    {
+      "tag": "geosite-google",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "headless-source-input"
+      ]
+    },
+    {
+      "tag": "scki-karing-020-8f1b4443197b",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-020-8f1b4443197b.json",
+      "sha256": "8f1b4443197b24745d2b583d6ec628bda065b33cfa6447fa89f1fab6bb716386",
+      "bytes": 32389
+    },
+    {
+      "tag": "geosite-microsoft",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "headless-source-input"
+      ]
+    },
+    {
+      "tag": "scki-karing-021-998683cfd02e",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-021-998683cfd02e.json",
+      "sha256": "998683cfd02e092fe75bbbd366cfde67cdbc215f70691e66bc5481c599dfe0f6",
+      "bytes": 25707
+    },
+    {
+      "tag": "geosite-apple",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "headless-source-input"
+      ]
+    },
+    {
+      "tag": "scki-karing-022-c54a9ebd198a",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json",
+      "sha256": "c54a9ebd198a2a8e43b3950f3a91b3ccb6d2c672186e3ad10985d084a0128aa8",
+      "bytes": 60845
+    },
+    {
+      "tag": "geosite-cn",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "headless-source-input"
+      ]
+    },
+    {
+      "tag": "scki-karing-023-28525b585d4e",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-023-28525b585d4e.json",
+      "sha256": "28525b585d4e88aa6f27652cd4b07494bf2fa1af1e1bf11703c660fb099d5c6e",
+      "bytes": 3054372
+    },
+    {
+      "tag": "scki-karing-024-47f6ab4b491a",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json",
+      "sha256": "47f6ab4b491aea508e22123fe3c3995269918e5bf3e0e7e1c7374ef68556cc73",
+      "bytes": 109
+    },
+    {
+      "tag": "scki-karing-025-fc1506634023",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-025-fc1506634023.json",
+      "sha256": "fc1506634023d00ff4ff5cdc89d49aa2526aa55e4c2bcaa629c2dc0689980e87",
+      "bytes": 86
+    },
+    {
+      "tag": "scki-fused-018-direct",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-019-work",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-karing-028-6f843f30639e",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-028-6f843f30639e.json",
+      "sha256": "6f843f30639e17d8edfa0e7798ef52b6ff027096fa811ff50b97be57e6c65b0f",
+      "bytes": 87
+    },
+    {
+      "tag": "scki-karing-029-463bda8b2b68",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-029-463bda8b2b68.json",
+      "sha256": "463bda8b2b68cd1c9d55ccde36bc61ff2a7984cde7d0e0ab1ae6fe82bf85f7a4",
+      "bytes": 86
+    },
+    {
+      "tag": "scki-karing-030-e634e1dd63f1",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json",
+      "sha256": "e634e1dd63f1cf2fc5cfef17e40f720491025c942ec0916edcf5d09e60328384",
+      "bytes": 87
+    },
+    {
+      "tag": "scki-karing-031-247ef6d0b532",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-031-247ef6d0b532.json",
+      "sha256": "247ef6d0b532e4362ffbb72672ec7090b25f52b82f1b6b4a219a9772cfde9763",
+      "bytes": 85
+    },
+    {
+      "tag": "scki-karing-032-bf849617bb18",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-032-bf849617bb18.json",
+      "sha256": "bf849617bb1878991dc171df5919ea85d6172e0ab33b93a98125a6a3afd44967",
+      "bytes": 86
+    },
+    {
+      "tag": "scki-karing-033-45c71d1b4aa1",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json",
+      "sha256": "45c71d1b4aa1f4fe56ca09e5b3732dc080d1f9959ce48944ea8b07af3a0ed2f4",
+      "bytes": 86
+    },
+    {
+      "tag": "scki-karing-034-dde12ff2b951",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-034-dde12ff2b951.json",
+      "sha256": "dde12ff2b9510fa93fdf01dbacc2942e34f473625c59c41e35f082c90a266343",
+      "bytes": 86
+    },
+    {
+      "tag": "scki-karing-035-e26d38b4416a",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-035-e26d38b4416a.json",
+      "sha256": "e26d38b4416a64e2361eb4d5ee7cd15bc27b91e6aef13dfac5c4cf87ade10d25",
+      "bytes": 87
+    },
+    {
+      "tag": "scki-karing-036-797b5a134fb7",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-036-797b5a134fb7.json",
+      "sha256": "797b5a134fb7966b8ea725acfe375f069ddcd1c78ffa6d6153df9656c6ec68ec",
+      "bytes": 87
+    },
+    {
+      "tag": "scki-karing-037-cd2a7e346dfc",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json",
+      "sha256": "cd2a7e346dfce94fd52fa8e61bab747a477583278dcd35e8b0a21b776f99e5ca",
+      "bytes": 87
+    },
+    {
+      "tag": "scki-fused-020-crypto",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-021-gfw",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-022-youtube",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-023-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-024-google",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-025-work",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-026-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-027-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-028-im",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-029-work",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-030-download",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-031-google",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-karing-050-e6463a01dabf",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-050-e6463a01dabf.json",
+      "sha256": "e6463a01dabfc29176dc82c2067f05d0c172383b0996189b3dbaf42ffacb4d6c",
+      "bytes": 155
+    },
+    {
+      "tag": "scki-karing-051-6a9f1e564bbb",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.21",
+      "format": "source",
+      "kind": "generated",
+      "path": "rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json",
+      "sha256": "6a9f1e564bbb9702df1e7e0747ea3cbc2188809f1b262e8d584f21062da0bdc9",
+      "bytes": 164
+    },
+    {
+      "tag": "scki-fused-032-tools",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-033-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-034-google",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-035-ai",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-036-crypto",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-037-payments",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-039-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-040-direct",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-041-im",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-042-social",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-043-cn-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-044-social",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-045-work",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-046-direct",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-047-cnmedia",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-048-tiktok",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-049-youtube",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-050-netflix",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-051-disney",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-052-hbo-max",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-053-hulu",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-054-prime-video",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-055-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-056-music",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-057-stream-hk",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-058-stream-tw",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-059-stream-jpkr",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-060-stream-eu",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-061-stream-other",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-062-tools",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-063-google",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-064-tools",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-065-microsoft",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-066-apple",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-067-download",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-068-tracker",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-069-gfw",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-070-game-cn",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-071-game-intl",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-072-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-073-payments",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-074-cnmedia",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-075-cn-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-076-direct",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-077-cn-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-078-intl-site",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    },
+    {
+      "tag": "scki-fused-080-netflix",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.21",
+      "format": "binary",
+      "kind": "reused",
+      "usage": [
+        "profile-reference"
+      ]
+    }
+  ],
+  "omitted_operations": [
+    {
+      "source_rule_index": 0,
+      "action": "sniff",
+      "reason": "App-managed non-terminal operation",
+      "source": {
+        "inbound": [
+          "tun-in"
+        ],
+        "action": "sniff"
+      }
+    }
+  ],
+  "ip_resolution": {
+    "status": "requires-client-readback",
+    "source_segments_with_no_resolve": [
+      "scki-fused-018-direct",
+      "scki-fused-031-google",
+      "scki-fused-033-ai",
+      "scki-fused-041-im",
+      "scki-fused-042-social",
+      "scki-fused-050-netflix",
+      "scki-fused-075-cn-site",
+      "scki-fused-078-intl-site"
+    ],
+    "note": "SRS 无独立 no-resolve 匹配项；当前派生链已有的 IP 解析差异不能由原生导入 JSON 修复。"
+  },
+  "manual_settings": [
+    "先导入节点订阅，再在设置 → 分流 → 分流规则 → 编辑 → 自定义分流组菜单导入 diversion_rules_custom.json。",
+    "首次导入使用干净的自定义规则列表；更新前备份并移除旧 SCKI 项，核对顺序。不要按相同业务名称合并不同序号段。",
+    "代理业务映射 currentSelected；导入不会恢复业务/区域节点组，需要在 App 逐项绑定自定义节点组。",
+    "DNS、TUN、嗅探、最终动作、规则下载路径和更新周期由 App 配置；按需关闭会抢先命中的 ISP/内置地区规则。",
+    "IP 规则 no-resolve 与先解析行为、进程匹配平台权限、远程规则下载成功及最终生成配置须在 App 读回核验。"
+  ],
+  "client_validation": {
+    "status": "not-run",
+    "reason": "未下载或运行 Karing；本地生成/读回和标准 headless schema 检查不构成实机验收。"
+  }
+}

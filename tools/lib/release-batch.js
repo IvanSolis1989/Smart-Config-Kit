@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync, spawnSync } = require('node:child_process');
+const { clientDirectory } = require('./client-layout');
 
 const VERSION = '1.0.1';
 const CONTRACT_PATH = 'rulesets/source/release-batch-contract.json';
@@ -79,8 +80,11 @@ function json(read, file) { return JSON.parse(read(file).toString('utf8')); }
 function leaf(file, pattern) { assert(typeof file === 'string' && pattern.test(file), `Illegal manifest filename: ${file}`); return file; }
 function inventoryFromManifests(contract, read) {
   assert(contract.schemaVersion === 1 && contract.version === VERSION && contract.purpose === 'upstream-refresh', 'Unsupported release contract');
-  const files = new Set([...contract.staticOutputs, contract.sourceGraph, ...Object.values(contract.manifests)].map(safePath));
-  assert(files.size === contract.staticOutputs.length + 4, 'Duplicate contract outputs');
+  // The optional adapter manifest may also be a static profile companion.
+  const manifestPaths = Object.values(contract.manifests).filter(file => !contract.staticOutputs.includes(file));
+  const inputs = [...contract.staticOutputs, contract.sourceGraph, ...manifestPaths].map(safePath);
+  const files = new Set(inputs);
+  assert(files.size === inputs.length, 'Duplicate contract outputs');
   const mrs = json(read, contract.manifests.mrs);
   for (const bucket of ['converted', 'split', 'partial']) {
     assert(Array.isArray(mrs[bucket]), `Missing MRS ${bucket}`);
@@ -116,7 +120,7 @@ function inventoryFromManifests(contract, read) {
     assert(segment.files && typeof segment.files === 'object', 'Missing fused file records');
     for (const [bucket, asset] of Object.entries(segment.files)) {
       if (bucket === 'xray') {
-        assert(asset.file === 'v2rayN/v2rayN(xray).json' && asset.source === `sing-box/${segment.id}.json`, 'Invalid Xray file mapping');
+        assert(asset.file === 'Xray内核系/v2rayN/v2rayN(xray).json' && asset.source === `sing-box/${segment.id}.json`, 'Invalid Xray file mapping');
         continue;
       }
       const spec = dimensions[bucket]; assert(spec, `Unknown fused dimension: ${bucket}`);
@@ -127,7 +131,7 @@ function inventoryFromManifests(contract, read) {
         files.add(`rulesets/generated/fused/${spec[0]}/${asset.source}`);
       } else if (bucket === 'passwall') {
         assert(asset.source === `sing-box/${segment.id}.srs`, 'Invalid Passwall source');
-        for (const app of ['Passwall', 'Passwall2']) files.add(`${app}/shunt-rules/${asset.file}`);
+        for (const app of ['Passwall', 'Passwall2']) files.add(`${clientDirectory(app)}/shunt-rules/${asset.file}`);
       } else assert(!asset.source, `Unexpected source mapping: ${bucket}`);
     }
   }
@@ -137,7 +141,39 @@ function inventoryFromManifests(contract, read) {
     leaf(asset.file, /^(?:geosite-[a-z0-9-]+|provider-scki-fused-\d{3}-[a-z0-9-]+)\.yaml$/);
     files.add(`rulesets/generated/egern/${asset.file}`);
   }
-  return { paths: sorted(files), mrs, fused, egern };
+  if (contract.manifests.karing) {
+    const karing = json(read, contract.manifests.karing);
+    assert(Array.isArray(karing.rule_assets), 'Missing Karing rule assets');
+    for (const asset of karing.rule_assets.filter(asset => asset.kind === 'generated')) {
+      safePath(asset.path);
+      assert(/^rulesets\/generated\/karing\/[a-z0-9][a-z0-9._-]*\.json$/.test(asset.path), `Invalid Karing source asset: ${asset.path}`);
+      files.add(asset.path);
+    }
+  }
+  let aerove;
+  if (contract.manifests.meow) {
+    const adapter = json(read, contract.manifests.meow);
+    const descriptor = adapter.aerove_rule_assets;
+    assert(descriptor?.manifest === 'Meow内核系/Aerove Lite/rule-assets/manifest.json', 'Invalid AEROVE asset manifest');
+    const manifest = json(read, descriptor.manifest);
+    assert(manifest.schema_version === 1 && manifest.version === adapter.version, 'AEROVE manifest version binding failed');
+    const identities = assets => {
+      assert(Array.isArray(assets) && assets.length <= 256, 'Invalid AEROVE assets');
+      const unique = new Set();
+      return sorted(assets.map(asset => {
+        safePath(asset.path);
+        assert(/^Meow内核系\/Aerove Lite\/rule-assets\/scki-fused-\d{3}-[a-z0-9-]+-part-\d{3}\.mrs$/.test(asset.path), 'Invalid AEROVE shard path');
+        assert(!unique.has(asset.path), 'Duplicate AEROVE asset'); unique.add(asset.path);
+        assert(Number.isSafeInteger(asset.bytes) && asset.bytes > 0 && /^[a-f0-9]{64}$/.test(asset.sha256), 'Invalid AEROVE asset identity');
+        return `${asset.path}\0${asset.bytes}\0${asset.sha256}`;
+      }));
+    };
+    assert(same(identities(manifest.assets), identities(descriptor.assets)), 'AEROVE asset inventories differ');
+    files.add(descriptor.manifest);
+    for (const asset of manifest.assets) files.add(asset.path);
+    aerove = manifest;
+  }
+  return { paths: sorted(files), mrs, fused, egern, aerove };
 }
 function stripGeneratedBlock(bytes, block) {
   const text = normalized(bytes).toString();
@@ -166,11 +202,15 @@ function checkBindings(contract, manifests, read) {
   const version = /const SOURCE_GRAPH_VERSION = ['"]([^'"]+)/.exec(source)?.[1];
   assert(version && fused.baseline_version === version && fused.asset_revision === egern.asset_revision, 'Source graph / derived manifest version binding failed');
   const bindings = [[egern.source?.routing_graph_sha256, contract.sourceGraph],
-    [egern.source?.cmfa_sha256, 'Clash Meta For Android/CMFA(mihomo).yaml'], [egern.rendered?.profile_sha256, 'Egern/Egern.yaml']];
+    [egern.source?.cmfa_sha256, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'], [egern.rendered?.profile_sha256, '独立内核系/Egern/Egern.yaml']];
   for (const [hash, file] of bindings) assert(hash === sha256(normalized(read(file))), `Egern source binding failed: ${file}`);
   for (const asset of egern.assets.files) {
     const bytes = normalized(read(`rulesets/generated/egern/${asset.file}`));
     assert(asset.sha256 === sha256(bytes) && asset.bytes === bytes.length, `Egern asset binding failed: ${asset.file}`);
+  }
+  for (const asset of manifests.aerove?.assets || []) {
+    const bytes = read(asset.path);
+    assert(asset.bytes === bytes.length && asset.sha256 === sha256(bytes), `AEROVE asset binding failed: ${asset.path}`);
   }
 }
 function changedPaths(root, base) {
@@ -178,8 +218,8 @@ function changedPaths(root, base) {
     ...zpaths(git(root, ['diff', '--name-only', '--no-renames', '-z', '--'])),
     ...zpaths(git(root, ['ls-files', '--others', '--exclude-standard', '-z']))]);
 }
-const ASSET_DIRECTORIES = ['rulesets/generated/mihomo-mrs', 'rulesets/generated/fused', 'rulesets/generated/egern',
-  'rulesets/supplemental/egern', 'Passwall/shunt-rules', 'Passwall2/shunt-rules'];
+const ASSET_DIRECTORIES = ['rulesets/generated/mihomo-mrs', 'rulesets/generated/fused', 'rulesets/generated/egern', 'rulesets/generated/karing',
+  'rulesets/supplemental/egern', '双内核系/Passwall/shunt-rules', '双内核系/Passwall2/shunt-rules', 'Meow内核系/Aerove Lite/rule-assets'];
 function assertInventoryCoverage(root, beforeTree, before, current) {
   const covered = file => ASSET_DIRECTORIES.some(dir => file.startsWith(`${dir}/`));
   assert(same(sorted([...beforeTree.keys()].filter(covered)), before.paths.filter(covered)),

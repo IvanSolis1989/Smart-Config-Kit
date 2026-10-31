@@ -15,6 +15,8 @@ const {
   validateGeneratedRemoteAssetSizes,
 } = require('./validate-generated-remote-asset-size');
 const { validateEgernGenerationManifest } = require('./lib/egern-generation-manifest');
+const { buildKaring, readInputs: readKaringInputs, checkKaringOutputs,
+  PROFILE_PATH: KARING_PROFILE_PATH, MANIFEST_PATH: KARING_MANIFEST_PATH } = require('./generate-karing');
 const { parseCidr } = require('./lib/fused-rule-optimizer');
 const { prepareUpdates: prepareBusinessDnsUpdates, renderBlock: renderBusinessDnsBlock } = require('./sync-business-dns-policy');
 const { compileBusinessDnsPolicy } = require('./lib/business-dns-policy');
@@ -254,26 +256,28 @@ const LOON_REGION_GROUP_TO_FILTER = {
 };
 
 const ARTIFACT_FILES = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
-  'Clash Meta For Android/CMFA(mihomo).yaml',
-  'Stash/Stash.yaml',
-  'OpenClash/OpenClash(mihomo).conf',
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
-  'Shadowrocket/Shadowrocket.conf',
-  'Surge/Surge.conf',
-  'Loon/Loon.conf',
-  'Quantumult X/QuantumultX.conf',
-  'SingBox/SingBox(sing-box)-full.json',
-  'SingBox/SingBox(sing-box)-1.13.json',
-  'Egern/Egern.yaml',
-  'v2rayN/v2rayN(xray).json',
-  'Passwall/Passwall(xray+sing-box)-apply.sh',
-  'Passwall/Passwall(xray+sing-box).conf',
-  'Passwall2/Passwall2(xray+sing-box)-apply.sh',
-  'Passwall2/Passwall2(xray+sing-box).conf',
+  KARING_PROFILE_PATH,
+  KARING_MANIFEST_PATH,
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml',
+  '独立内核系/Stash/Stash.yaml',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).conf',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
+  '独立内核系/Shadowrocket/Shadowrocket.conf',
+  '独立内核系/Surge/Surge.conf',
+  '独立内核系/Loon/Loon.conf',
+  '独立内核系/Quantumult X/QuantumultX.conf',
+  'Sing-box内核系/SingBox/SingBox(sing-box)-full.json',
+  'Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json',
+  '独立内核系/Egern/Egern.yaml',
+  'Xray内核系/v2rayN/v2rayN(xray).json',
+  '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh',
+  '双内核系/Passwall/Passwall(xray+sing-box).conf',
+  '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh',
+  '双内核系/Passwall2/Passwall2(xray+sing-box).conf',
 ];
 
 function usage() {
@@ -402,21 +406,21 @@ function validateGeneratedAssetRevision(record) {
   });
 
   const products = [
-    { id: 'clash-party-smart', file: 'Clash Party/ClashParty(mihomo-smart).js', mihomo: true },
-    { id: 'clash-party-normal', file: 'Clash Party/ClashParty(mihomo).js', mihomo: true },
-    { id: 'flclash', file: 'FlClash/FlClash(mihomo).js', mihomo: true },
-    { id: 'cmfa', file: 'Clash Meta For Android/CMFA(mihomo).yaml', mihomo: true },
-    { id: 'stash', file: 'Stash/Stash.yaml', mihomo: true },
-    { id: 'openclash-normal', file: 'OpenClash/OpenClash(mihomo).sh', mihomo: true },
-    { id: 'openclash-smart', file: 'OpenClash/OpenClash(mihomo-smart).sh', mihomo: true },
-    { id: 'shadowrocket', file: 'Shadowrocket/Shadowrocket.conf' },
-    { id: 'surge', file: 'Surge/Surge.conf' },
-    { id: 'loon', file: 'Loon/Loon.conf' },
-    { id: 'quantumult-x', file: 'Quantumult X/QuantumultX.conf' },
-    { id: 'egern', file: 'Egern/Egern.yaml' },
-    { id: 'sing-box', file: 'SingBox/SingBox(sing-box)-full.json' },
-    { id: 'passwall', file: 'Passwall/Passwall(xray+sing-box)-apply.sh' },
-    { id: 'passwall2', file: 'Passwall2/Passwall2(xray+sing-box)-apply.sh' },
+    { id: 'clash-party-smart', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', mihomo: true },
+    { id: 'clash-party-normal', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', mihomo: true },
+    { id: 'flclash', file: 'Mihomo内核系/FlClash/FlClash(mihomo).js', mihomo: true },
+    { id: 'cmfa', file: 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', mihomo: true },
+    { id: 'stash', file: '独立内核系/Stash/Stash.yaml', mihomo: true },
+    { id: 'openclash-normal', file: 'Mihomo内核系/OpenClash/OpenClash(mihomo).sh', mihomo: true },
+    { id: 'openclash-smart', file: 'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh', mihomo: true },
+    { id: 'shadowrocket', file: '独立内核系/Shadowrocket/Shadowrocket.conf' },
+    { id: 'surge', file: '独立内核系/Surge/Surge.conf' },
+    { id: 'loon', file: '独立内核系/Loon/Loon.conf' },
+    { id: 'quantumult-x', file: '独立内核系/Quantumult X/QuantumultX.conf' },
+    { id: 'egern', file: '独立内核系/Egern/Egern.yaml' },
+    { id: 'sing-box', file: 'Sing-box内核系/SingBox/SingBox(sing-box)-full.json' },
+    { id: 'passwall', file: '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh' },
+    { id: 'passwall2', file: '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh' },
   ];
   for (const product of products) {
     const source = readText(product.file);
@@ -526,9 +530,9 @@ function validateMihomoMrsRuleSets(record) {
   checkMihomoQuicPolicy(record, 'source-graph', (normalizedGraph.rules || []).join('\n'));
 
   for (const spec of [
-    { id: 'js-smart', file: 'Clash Party/ClashParty(mihomo-smart).js' },
-    { id: 'js-normal', file: 'Clash Party/ClashParty(mihomo).js' },
-    { id: 'flclash', file: 'FlClash/FlClash(mihomo).js' },
+    { id: 'js-smart', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js' },
+    { id: 'js-normal', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo).js' },
+    { id: 'flclash', file: 'Mihomo内核系/FlClash/FlClash(mihomo).js' },
   ]) {
     const source = readText(spec.file);
     record.check(`mihomo-mrs.${spec.id}.no-source-mrs-block`, !source.includes('SCKI_DISABLE_MIHOMO_MRS_OVERRIDES'), {
@@ -745,7 +749,7 @@ function validateFusedRuleSets(record) {
     record.check(`fused.segment-passwall.${id}`, Boolean(segment && segment.files && segment.files.passwall && segment.files.passwall.file === `${id}.list`), {
       message: `missing Passwall fused mapping for ${id}`,
     });
-    record.check(`fused.segment-xray.${id}`, Boolean(segment && segment.files && segment.files.xray && segment.files.xray.file === 'v2rayN/v2rayN(xray).json'), {
+    record.check(`fused.segment-xray.${id}`, Boolean(segment && segment.files && segment.files.xray && segment.files.xray.file === 'Xray内核系/v2rayN/v2rayN(xray).json'), {
       message: `missing Xray fused mapping for ${id}`,
     });
   }
@@ -1263,9 +1267,9 @@ function checkMihomoQuicPolicy(record, id, rulesText, expectedRules = EXPECTED_Q
 }
 
 function validateJsProducts(record) {
-  const smart = compileJs('Clash Party/ClashParty(mihomo-smart).js');
-  const normal = compileJs('Clash Party/ClashParty(mihomo).js');
-  const flclash = compileJs('FlClash/FlClash(mihomo).js');
+  const smart = compileJs('Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js');
+  const normal = compileJs('Mihomo内核系/Clash Party/ClashParty(mihomo).js');
+  const flclash = compileJs('Mihomo内核系/FlClash/FlClash(mihomo).js');
   const runtimeVersion = extractJsVersion(smart);
   // A runtime-only Adapter can receive a platform suffix without changing the
   // source routing-graph revision consumed by static client artifacts.
@@ -1273,7 +1277,7 @@ function validateJsProducts(record) {
   const normalVersion = extractJsVersion(normal);
   const flclashVersion = extractJsVersion(flclash);
   record.check('js.smart.no-removed-strategy', !/strategy:\s*['"]sticky-sessions['"]/.test(smart));
-  record.check('openclash.smart.no-removed-strategy', !/"strategy"\s*=>\s*"sticky-sessions"/.test(readText('OpenClash/OpenClash(mihomo-smart).sh')));
+  record.check('openclash.smart.no-removed-strategy', !/"strategy"\s*=>\s*"sticky-sessions"/.test(readText('Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh')));
 
   record.check('js.smart.version', /^v\d+\.\d+\.\d+(?:-[a-z0-9]+(?:\.[a-z0-9]+)*)?$/.test(String(runtimeVersion)), { value: runtimeVersion, message: `got ${runtimeVersion}` });
   record.check('js.smart.routing-baseline', Boolean(baselineVersion), { value: baselineVersion, message: `cannot extract routing baseline from ${runtimeVersion}` });
@@ -1309,7 +1313,7 @@ function validateJsProducts(record) {
 }
 
 function validateClashYaml(record, baselineVersion, options) {
-  const file = 'Clash Meta For Android/CMFA(mihomo).yaml';
+  const file = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
   const source = readText(file);
   validateYamlGroupFilterSyntax(record, 'cmfa', extractYamlGroupFilters(source));
   const providersBlock = extractYamlBlock(source, 'rule-providers');
@@ -1426,7 +1430,7 @@ function validateClashYaml(record, baselineVersion, options) {
 }
 
 function validateStashYaml(record, baselineVersion, options) {
-  const file = 'Stash/Stash.yaml';
+  const file = '独立内核系/Stash/Stash.yaml';
   const source = readText(file);
   validateYamlGroupFilterSyntax(record, 'stash', extractYamlGroupFilters(source));
   const generator = readText('tools/generate-stash-from-cmfa.js');
@@ -1448,7 +1452,7 @@ function validateStashYaml(record, baselineVersion, options) {
     message: `missing Stash Smart ${baselineVersion}-stash.*`,
   });
   record.check('stash.generated-header', source.includes('node tools/generate-stash-from-cmfa.js'));
-  record.check('stash.generator-from-cmfa', generator.includes('Clash Meta For Android/CMFA(mihomo).yaml'));
+  record.check('stash.generator-from-cmfa', generator.includes('Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'));
   record.check('stash.generator-not-reading-generated-output', !/readFileSync\([^)]*Stash\/Stash\.yaml/.test(generator));
   record.check('stash.rule-provider-singleton', countMatches(source, /^rule-providers:$/gm) === 1, { value: countMatches(source, /^rule-providers:$/gm) });
   record.check('stash.rules-singleton', countMatches(source, /^rules:$/gm) === 1, { value: countMatches(source, /^rules:$/gm) });
@@ -1588,7 +1592,7 @@ function validateStashYaml(record, baselineVersion, options) {
 }
 
 function validateOpenClash(record, baselineVersion, options) {
-  const conf = readText('OpenClash/OpenClash(mihomo).conf');
+  const conf = readText('Mihomo内核系/OpenClash/OpenClash(mihomo).conf');
   if (!conf.includes(baselineVersion)) {
     record.warn('openclash.conf.baseline', `OpenClash(mihomo).conf does not advertise ${baselineVersion}; primary .sh artifacts remain authoritative`);
   }
@@ -1603,8 +1607,8 @@ function validateOpenClash(record, baselineVersion, options) {
   }
 
   for (const spec of [
-    { id: 'normal', file: 'OpenClash/OpenClash(mihomo).sh', suffix: 'oc-normal', minProviders: MIN_FULL_PROVIDERS, minRules: MIN_FULL_RULES },
-    { id: 'smart', file: 'OpenClash/OpenClash(mihomo-smart).sh', suffix: 'oc-smart', minProviders: MIN_FULL_PROVIDERS, minRules: MIN_FULL_RULES },
+    { id: 'normal', file: 'Mihomo内核系/OpenClash/OpenClash(mihomo).sh', suffix: 'oc-normal', minProviders: MIN_FULL_PROVIDERS, minRules: MIN_FULL_RULES },
+    { id: 'smart', file: 'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh', suffix: 'oc-smart', minProviders: MIN_FULL_PROVIDERS, minRules: MIN_FULL_RULES },
   ]) {
     const source = readText(spec.file);
     const yaml = extractOpenClashOverride(spec.file);
@@ -1726,10 +1730,10 @@ function validateOpenClash(record, baselineVersion, options) {
 function validateConfProducts(record, baselineVersion) {
   const fusedManifest = readJson('rulesets/generated/fused/manifest.json');
   const specs = [
-    { id: 'shadowrocket', file: 'Shadowrocket/Shadowrocket.conf', regex: / = select,|= url-test,/g },
-    { id: 'surge', file: 'Surge/Surge.conf', regex: / = select,|= url-test,/g },
-    { id: 'loon', file: 'Loon/Loon.conf', regex: / = select,|= url-test,/g },
-    { id: 'qx', file: 'Quantumult X/QuantumultX.conf', regex: /^(url-latency-benchmark|static)=/gm },
+    { id: 'shadowrocket', file: '独立内核系/Shadowrocket/Shadowrocket.conf', regex: / = select,|= url-test,/g },
+    { id: 'surge', file: '独立内核系/Surge/Surge.conf', regex: / = select,|= url-test,/g },
+    { id: 'loon', file: '独立内核系/Loon/Loon.conf', regex: / = select,|= url-test,/g },
+    { id: 'qx', file: '独立内核系/Quantumult X/QuantumultX.conf', regex: /^(url-latency-benchmark|static)=/gm },
   ];
   for (const spec of specs) {
     const source = readText(spec.file);
@@ -1750,10 +1754,10 @@ function validateConfProducts(record, baselineVersion) {
     });
   }
 
-  const shadowrocket = readText('Shadowrocket/Shadowrocket.conf');
-  const surge = readText('Surge/Surge.conf');
-  const loon = readText('Loon/Loon.conf');
-  const qx = readText('Quantumult X/QuantumultX.conf');
+  const shadowrocket = readText('独立内核系/Shadowrocket/Shadowrocket.conf');
+  const surge = readText('独立内核系/Surge/Surge.conf');
+  const loon = readText('独立内核系/Loon/Loon.conf');
+  const qx = readText('独立内核系/Quantumult X/QuantumultX.conf');
   // Surge DNS responders and Fake IP destinations must remain inside VIF.
   // https://manual.nssurge.com/dns/advanced.html (issue #190)
   const surgeFakeIpPool = parseCidr('198.18.0.0/15');
@@ -1869,15 +1873,15 @@ function validateConfProducts(record, baselineVersion) {
 
 function validateRuntimeNodeNameProducts(record) {
   for (const spec of [
-    { id: 'cmfa', file: 'Clash Meta For Android/CMFA(mihomo).yaml' },
-    { id: 'stash', file: 'Stash/Stash.yaml' },
-    { id: 'egern', file: 'Egern/Egern.yaml' },
+    { id: 'cmfa', file: 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml' },
+    { id: 'stash', file: '独立内核系/Stash/Stash.yaml' },
+    { id: 'egern', file: '独立内核系/Egern/Egern.yaml' },
   ]) {
     const filters = extractYamlGroupFilters(readText(spec.file));
     validateNumberedLowercaseRegionFilters(record, spec.id, (groupName) => filters.get(groupName));
   }
 
-  const loon = readText('Loon/Loon.conf');
+  const loon = readText('独立内核系/Loon/Loon.conf');
   validateNumberedLowercaseRegionFilters(
     record,
     'loon',
@@ -1885,9 +1889,9 @@ function validateRuntimeNodeNameProducts(record) {
   );
 
   for (const spec of [
-    { id: 'shadowrocket', file: 'Shadowrocket/Shadowrocket.conf', key: 'policy-regex-filter' },
-    { id: 'surge', file: 'Surge/Surge.conf', key: 'policy-regex-filter' },
-    { id: 'qx', file: 'Quantumult X/QuantumultX.conf', key: 'server-tag-regex' },
+    { id: 'shadowrocket', file: '独立内核系/Shadowrocket/Shadowrocket.conf', key: 'policy-regex-filter' },
+    { id: 'surge', file: '独立内核系/Surge/Surge.conf', key: 'policy-regex-filter' },
+    { id: 'qx', file: '独立内核系/Quantumult X/QuantumultX.conf', key: 'server-tag-regex' },
   ]) {
     const source = readText(spec.file);
     validateNumberedLowercaseRegionFilters(
@@ -1904,9 +1908,9 @@ function validateRuntimeNodeNameProducts(record) {
 }
 
 function validateJsonProducts(record, baselineVersion) {
-  const singbox = readJson('SingBox/SingBox(sing-box)-full.json');
-  const singboxCompat = readJson('SingBox/SingBox(sing-box)-1.13.json');
-  const singboxGenerator = readText('SingBox/SingBox(sing-box)-generator.js');
+  const singbox = readJson('Sing-box内核系/SingBox/SingBox(sing-box)-full.json');
+  const singboxCompat = readJson('Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json');
+  const singboxGenerator = readText('Sing-box内核系/SingBox/SingBox(sing-box)-generator.js');
   const generatorVersion = (singboxGenerator.match(/const\s+VERSION\s*=\s*'([^']+)'/) || [])[1];
   const generatorBuild = (singboxGenerator.match(/const\s+BUILD(?:_DATE)?\s*=\s*'([^']+)'/) || [])[1];
   const generatorBaseline = (singboxGenerator.match(/const\s+BASELINE\s*=\s*'([^']+)'/) || [])[1];
@@ -1920,10 +1924,10 @@ function validateJsonProducts(record, baselineVersion) {
   const dnsRules = ((singbox.dns || {}).rules || []);
   const dnsServers = ((singbox.dns || {}).servers || []);
   const dnsServerByTag = Object.fromEntries(dnsServers.filter((server) => server && server.tag).map((server) => [server.tag, server]));
-  const singboxReadme = readText('SingBox/README.md');
+  const singboxReadme = readText('Sing-box内核系/SingBox/README.md');
   record.check('singbox.no-unknown-meta', !Object.hasOwn(singbox, '_meta'));
   record.check('singbox.generator-version-documented', Boolean(generatorVersion && generatorVersion.startsWith(`${baselineVersion}-sing.`))
-    && singboxReadme.includes(generatorVersion) && readText('SingBox/CHANGELOG.md').includes(`## ${generatorVersion} (${generatorBuild})`));
+    && singboxReadme.includes(generatorVersion) && readText('Sing-box内核系/SingBox/CHANGELOG.md').includes(`## ${generatorVersion} (${generatorBuild})`));
   record.check('singbox.generator-build-documented', /^\d{4}-\d{2}-\d{2}$/.test(generatorBuild) && singboxReadme.includes(generatorBuild));
   record.check('singbox.generator-baseline', generatorBaseline === `Clash Party ${baselineVersion}`, { value: generatorBaseline });
   const downloadClient = (singbox.http_clients || []).find(client => client.tag === 'rules-download');
@@ -2077,7 +2081,7 @@ function validateJsonProducts(record, baselineVersion) {
     value: { cnGame: singboxCnGameIndex, intlGame: singboxIntlGameIndex },
   });
 
-  const v2rayn = readJson('v2rayN/v2rayN(xray).json');
+  const v2rayn = readJson('Xray内核系/v2rayN/v2rayN(xray).json');
   const allowedTags = new Set(['proxy', 'direct', 'block']);
   record.check('v2rayn.top-level-array', Array.isArray(v2rayn));
   record.check('v2rayn.rule-count', Array.isArray(v2rayn) && v2rayn.length === EXPECTED_XRAY_RULES, { value: Array.isArray(v2rayn) ? v2rayn.length : null });
@@ -2150,7 +2154,7 @@ function validateJsonProducts(record, baselineVersion) {
 }
 
 function validateEgern(record, baselineVersion, options) {
-  const file = 'Egern/Egern.yaml';
+  const file = '独立内核系/Egern/Egern.yaml';
   const source = readText(file);
   const rulesStart = source.search(/\r?\nrules:\r?\n/);
   const rulesSource = rulesStart === -1 ? '' : source.slice(rulesStart);
@@ -2169,7 +2173,7 @@ function validateEgern(record, baselineVersion, options) {
   record.check('egern.not-preview', !/Preview/i.test(source), {
     message: 'Egern is a formal generated artifact, not a Preview profile',
   });
-  record.check('egern.generated-from-cmfa', source.includes('Generated from Clash Meta For Android/CMFA(mihomo).yaml.'), {
+  record.check('egern.generated-from-cmfa', source.includes('Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.'), {
     message: 'missing CMFA generation marker',
   });
   record.check('egern.rule-parity-header', source.includes(`Rule parity: generated from CMFA ${MIN_FULL_PROVIDERS} rule-providers and ${MIN_FULL_RULES} rules.`), {
@@ -2201,7 +2205,7 @@ function validateEgern(record, baselineVersion, options) {
   if (egernGenerationManifest) {
     const generationValidation = validateEgernGenerationManifest({
       manifest: egernGenerationManifest,
-      cmfaSource: readText('Clash Meta For Android/CMFA(mihomo).yaml'),
+      cmfaSource: readText('Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'),
       routingGraphSource: readText(SOURCE_GRAPH_FILE),
       profileSource: source,
       generatedRuleSetDirectory: generatedEgernDirectory,
@@ -2291,8 +2295,8 @@ function validatePasswall(record, baselineVersion) {
   });
 
   const specs = [
-    { id: 'passwall', file: 'Passwall/Passwall(xray+sing-box)-apply.sh', reference: 'Passwall/Passwall(xray+sing-box).conf', dir: 'Passwall/shunt-rules' },
-    { id: 'passwall2', file: 'Passwall2/Passwall2(xray+sing-box)-apply.sh', reference: 'Passwall2/Passwall2(xray+sing-box).conf', dir: 'Passwall2/shunt-rules' },
+    { id: 'passwall', file: '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh', reference: '双内核系/Passwall/Passwall(xray+sing-box).conf', dir: '双内核系/Passwall/shunt-rules' },
+    { id: 'passwall2', file: '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh', reference: '双内核系/Passwall2/Passwall2(xray+sing-box).conf', dir: '双内核系/Passwall2/shunt-rules' },
   ];
 
   for (const spec of specs) {
@@ -2405,14 +2409,14 @@ function validatePasswall(record, baselineVersion) {
     }
   }
 
-  const passwallLists = listFiles('Passwall/shunt-rules').filter((file) => file.endsWith('.list')).map((file) => path.basename(file)).sort();
-  const passwall2Lists = listFiles('Passwall2/shunt-rules').filter((file) => file.endsWith('.list')).map((file) => path.basename(file)).sort();
+  const passwallLists = listFiles('双内核系/Passwall/shunt-rules').filter((file) => file.endsWith('.list')).map((file) => path.basename(file)).sort();
+  const passwall2Lists = listFiles('双内核系/Passwall2/shunt-rules').filter((file) => file.endsWith('.list')).map((file) => path.basename(file)).sort();
   record.check('passwall2.same-list-names-as-passwall', JSON.stringify(passwall2Lists) === JSON.stringify(passwallLists), {
     value: { passwall: passwallLists, passwall2: passwall2Lists },
   });
   for (const fileName of passwallLists) {
-    const pwRules = meaningfulRuleLines(path.join('Passwall/shunt-rules', fileName));
-    const pw2Rules = meaningfulRuleLines(path.join('Passwall2/shunt-rules', fileName));
+    const pwRules = meaningfulRuleLines(path.join('双内核系/Passwall/shunt-rules', fileName));
+    const pw2Rules = meaningfulRuleLines(path.join('双内核系/Passwall2/shunt-rules', fileName));
     record.check(`passwall2.${fileName}.same-rules-as-passwall`, JSON.stringify(pw2Rules) === JSON.stringify(pwRules), {
       message: `${fileName} differs between Passwall and Passwall2`,
     });
@@ -2481,19 +2485,19 @@ function validateDomesticAuthorityPriorityAcrossArtifacts(record) {
   const cnMihomoRule = cnId ? `RULE-SET,${cnId}-domain,🏠 国内网站` : '';
   const internationalGeoMihomoRule = internationalGeoId ? `RULE-SET,${internationalGeoId}-residual,🌐 国外网站` : '';
   for (const spec of [
-    { id: 'clash-party-smart', file: 'Clash Party/ClashParty(mihomo-smart).js' },
-    { id: 'clash-party-normal', file: 'Clash Party/ClashParty(mihomo).js' },
-    { id: 'flclash', file: 'FlClash/FlClash(mihomo).js' },
+    { id: 'clash-party-smart', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js' },
+    { id: 'clash-party-normal', file: 'Mihomo内核系/Clash Party/ClashParty(mihomo).js' },
+    { id: 'flclash', file: 'Mihomo内核系/FlClash/FlClash(mihomo).js' },
   ]) {
     const rules = extractMihomoFusedRules(spec.file);
     checkDomesticAuthorityPriorityOrder(record, spec.id, rules.indexOf(cnMihomoRule), rules.indexOf(internationalGeoMihomoRule), cnMihomoRule, internationalGeoMihomoRule);
   }
 
   const mihomoProducts = [
-    { id: 'cmfa', source: readText('Clash Meta For Android/CMFA(mihomo).yaml') },
-    { id: 'stash', source: readText('Stash/Stash.yaml') },
-    { id: 'openclash-normal', source: extractOpenClashOverride('OpenClash/OpenClash(mihomo).sh') },
-    { id: 'openclash-smart', source: extractOpenClashOverride('OpenClash/OpenClash(mihomo-smart).sh') },
+    { id: 'cmfa', source: readText('Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml') },
+    { id: 'stash', source: readText('独立内核系/Stash/Stash.yaml') },
+    { id: 'openclash-normal', source: extractOpenClashOverride('Mihomo内核系/OpenClash/OpenClash(mihomo).sh') },
+    { id: 'openclash-smart', source: extractOpenClashOverride('Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh') },
   ];
   for (const product of mihomoProducts) {
     const rules = extractYamlBlock(product.source, 'rules');
@@ -2503,21 +2507,21 @@ function validateDomesticAuthorityPriorityAcrossArtifacts(record) {
   const cnMobileNeedle = cnId ? `${cnId}.list` : '';
   const internationalGeoMobileNeedle = internationalGeoId ? `${internationalGeoId}.list` : '';
   for (const spec of [
-    { id: 'shadowrocket', file: 'Shadowrocket/Shadowrocket.conf', section: 'Rule' },
-    { id: 'surge', file: 'Surge/Surge.conf', section: 'Rule' },
-    { id: 'loon', file: 'Loon/Loon.conf', section: 'Remote Rule' },
-    { id: 'quantumult-x', file: 'Quantumult X/QuantumultX.conf', section: 'filter_remote' },
+    { id: 'shadowrocket', file: '独立内核系/Shadowrocket/Shadowrocket.conf', section: 'Rule' },
+    { id: 'surge', file: '独立内核系/Surge/Surge.conf', section: 'Rule' },
+    { id: 'loon', file: '独立内核系/Loon/Loon.conf', section: 'Remote Rule' },
+    { id: 'quantumult-x', file: '独立内核系/Quantumult X/QuantumultX.conf', section: 'filter_remote' },
   ]) {
     const section = extractConfSection(readText(spec.file), spec.section);
     checkDomesticAuthorityPriorityOrder(record, spec.id, section.indexOf(cnMobileNeedle), section.indexOf(internationalGeoMobileNeedle), cnMobileNeedle, internationalGeoMobileNeedle);
   }
 
-  const egernRules = extractYamlBlock(readText('Egern/Egern.yaml'), 'rules');
+  const egernRules = extractYamlBlock(readText('独立内核系/Egern/Egern.yaml'), 'rules');
   const cnEgernNeedle = cnId ? `provider-${cnId}-domain.yaml` : '';
   const internationalGeoEgernNeedle = internationalGeoId ? `provider-${internationalGeoId}-residual.yaml` : '';
   checkDomesticAuthorityPriorityOrder(record, 'egern', egernRules.indexOf(cnEgernNeedle), egernRules.indexOf(internationalGeoEgernNeedle), cnEgernNeedle, internationalGeoEgernNeedle);
 
-  const singBox = readJson('SingBox/SingBox(sing-box)-full.json');
+  const singBox = readJson('Sing-box内核系/SingBox/SingBox(sing-box)-full.json');
   const singBoxRules = singBox.route && Array.isArray(singBox.route.rules) ? singBox.route.rules : [];
   const singBoxRuleIndex = (segmentId) => segmentId ? singBoxRules.findIndex((rule) => {
     const ruleSets = Array.isArray(rule.rule_set) ? rule.rule_set : [rule.rule_set];
@@ -2525,13 +2529,13 @@ function validateDomesticAuthorityPriorityAcrossArtifacts(record) {
   }) : -1;
   checkDomesticAuthorityPriorityOrder(record, 'sing-box', singBoxRuleIndex(cnId), singBoxRuleIndex(internationalGeoId), cnId, internationalGeoId);
 
-  const xrayRules = readJson('v2rayN/v2rayN(xray).json');
+  const xrayRules = readJson('Xray内核系/v2rayN/v2rayN(xray).json');
   const xrayRuleIndex = (segmentId) => segmentId ? (Array.isArray(xrayRules) ? xrayRules : []).findIndex((rule) => rule.id === segmentId) : -1;
   checkDomesticAuthorityPriorityOrder(record, 'v2rayn-xray', xrayRuleIndex(cnId), xrayRuleIndex(internationalGeoId), cnId, internationalGeoId);
 
   for (const spec of [
-    { id: 'passwall', file: 'Passwall/Passwall(xray+sing-box)-apply.sh' },
-    { id: 'passwall2', file: 'Passwall2/Passwall2(xray+sing-box)-apply.sh' },
+    { id: 'passwall', file: '双内核系/Passwall/Passwall(xray+sing-box)-apply.sh' },
+    { id: 'passwall2', file: '双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh' },
   ]) {
     const source = readText(spec.file);
     const cnNeedle = cnId ? `add_fused_shunt_rule '${cnId} | 🏠 国内网站'` : '';
@@ -2571,6 +2575,21 @@ function validateClientCapabilityMatrixContract(record) {
     record.check('client-capability-matrix.schema-and-evidence', false, {
       message: error && error.message ? error.message : String(error),
     });
+  }
+}
+
+function validateKaringProducts(record, baselineVersion) {
+  try {
+    const built = buildKaring(readKaringInputs(REPO_ROOT));
+    const drift = checkKaringOutputs(REPO_ROOT, built);
+    record.check('karing.source-bound-native-profile', drift.length === 0, {
+      message: drift.join('; '),
+    });
+    record.check('karing.baseline-version', built.manifest.baseline_version === baselineVersion, {
+      value: built.manifest.baseline_version,
+    });
+  } catch (error) {
+    record.check('karing.source-bound-native-profile', false, { message: error.message });
   }
 }
 
@@ -2614,7 +2633,7 @@ function main() {
       message: stale.map(item => path.relative(REPO_ROOT, item.file)).join(', '),
     });
     const projection = compileBusinessDnsPolicy(require('../rulesets/source/routing-graph').getBusinessDnsPolicy(), getRawRoutingGraph());
-    record.check('stash.dns.business-policy-source', readText('Stash/Stash.yaml').includes(renderBusinessDnsBlock(projection.yaml, 'yaml')), {
+    record.check('stash.dns.business-policy-source', readText('独立内核系/Stash/Stash.yaml').includes(renderBusinessDnsBlock(projection.yaml, 'yaml')), {
       message: 'Stash must inherit the source-generated business DNS policy from CMFA',
     });
   } catch (error) {
@@ -2635,6 +2654,7 @@ function main() {
   validateDomesticAuthorityPriorityAcrossArtifacts(record);
   validateSubscriptionAdapterProfileContract(record);
   validateClientCapabilityMatrixContract(record);
+  validateKaringProducts(record, baselineVersion);
   const remoteAssetValidation = validateGeneratedRemoteAssetSizes();
   record.check('generated-remote-assets.size-limit', remoteAssetValidation.failures.length === 0, {
     value: { referenced_assets: remoteAssetValidation.references.size, max_bytes: MAX_JSDELIVR_ASSET_BYTES },

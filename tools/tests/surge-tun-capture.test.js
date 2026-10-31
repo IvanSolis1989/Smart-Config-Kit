@@ -7,7 +7,7 @@ const test = require('node:test');
 const { parseCidr } = require('../lib/fused-rule-optimizer');
 const { applyMobileTrafficOptions } = require('../build-fused-rule-sets');
 
-const source = fs.readFileSync(path.resolve(__dirname, '../../Surge/Surge.conf'), 'utf8');
+const source = fs.readFileSync(path.resolve(__dirname, '../../独立内核系/Surge/Surge.conf'), 'utf8');
 
 function assertFakeIpCaptured(config) {
   const general = config.split(/^\s*\[General\]\s*$/mi)[1]?.split(/^\s*\[/m)[0];

@@ -1,0 +1,946 @@
+---
+# ======================================================================
+# Egern Smart v6.0.21-egern.13 - Egern Profile
+# Build: 2026-10-29
+# Baseline: Clash Party v6.0.21
+# Architecture: 22 smart region groups + 33 business groups + fused CMFA rule order.
+# Rule parity: generated from CMFA 149 rule-providers and 168 rules.
+# Egern rule sets: 141 generated native YAML files.
+# Platform limit: Egern official rules do not expose Clash PROCESS-NAME.
+# Change history: see 独立内核系/Egern/CHANGELOG.md
+# ======================================================================
+
+ipv6: false
+http_port: 3080
+socks_port: 3090
+allow_external_connections: false
+vif_only: false
+block_quic: false
+close_connections_on_policy_change: true
+proxy_latency_test_url: http://www.gstatic.com/generate_204
+direct_latency_test_url: http://www.gstatic.com/generate_204
+default_subscription_group: Subscribe
+default_proxy_group: 🚀 节点选择
+
+bypass_tunnel_proxy:
+  - "*.local"
+  - "localhost"
+  - "127.0.0.0/8"
+  - "10.0.0.0/8"
+  - "172.16.0.0/12"
+  - "192.168.0.0/16"
+  - "169.254.0.0/16"
+
+real_ip_domains:
+  - "*.lan"
+  - "*.local"
+  - "*.push.apple.com"
+  - "*.rustdesk.com"
+
+hijack_dns:
+  - "*"
+
+dns:
+  bootstrap:
+    - system
+    - 223.5.5.5
+    - 119.29.29.29
+    - 1.1.1.1
+    - 8.8.8.8
+  upstreams:
+    domestic:
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+    foreign:
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+  proxy_nameservers:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+  forward:
+    - domain_suffix:
+        match: "cn"
+        value: domestic
+    - domain_suffix:
+        match: "local"
+        value: bootstrap
+    - domain_suffix:
+        match: "lan"
+        value: bootstrap
+    - domain_keyword:
+        match: "taobao"
+        value: domestic
+    - domain_keyword:
+        match: "alicdn"
+        value: domestic
+    - domain_keyword:
+        match: "tencent"
+        value: domestic
+    - domain_keyword:
+        match: "google"
+        value: foreign
+    - domain_keyword:
+        match: "youtube"
+        value: foreign
+    - domain_wildcard:
+        match: "*"
+        value: foreign
+
+policy_groups:
+  - external:
+      name: Subscribe
+      type: select
+      urls:
+        - "https://example.com/your-subscription-url"
+      update_interval: 86400
+      icon: tray.and.arrow.down
+
+  - smart:
+      name: 🇭🇰 香港节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)香港|HK|Hong Kong"
+  - smart:
+      name: 🇹🇼 台湾节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)台湾|TW|Taiwan"
+  - smart:
+      name: 🇯🇵 日韩节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)日本|韩国|JP|KR|Japan|Korea|Tokyo|Seoul"
+  - smart:
+      name: 🇸🇬 狮城节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)新加坡|SG|Singapore"
+  - smart:
+      name: 🌏 亚太节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)香港|台湾|日本|韩国|新加坡|泰国|越南|印尼|菲律宾|HK|TW|JP|KR|SG|TH|VN|ID|PH|Asia"
+  - smart:
+      name: 🇺🇸 美国节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)美国|US|USA|United States|Los Angeles|San Jose|New York"
+  - smart:
+      name: 🇪🇺 欧洲节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)欧洲|英国|德国|法国|荷兰|EU|UK|DE|FR|NL|Europe|London|Frankfurt|Paris|Amsterdam"
+  - smart:
+      name: 🌎 美洲节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)美国|加拿大|墨西哥|巴西|阿根廷|智利|US|CA|MX|BR|AR|CL|America|Canada|Mexico|Brazil"
+  - smart:
+      name: 🌍 非洲节点
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)非洲|南非|埃及|尼日利亚|肯尼亚|ZA|EG|NG|KE|Africa"
+  - smart:
+      name: 🌍 全球节点
+      policies: [Subscribe]
+      flatten: true
+      filter: ".*"
+  - smart:
+      name: 🌏 其他节点
+      policies: [Subscribe]
+      flatten: true
+      filter: ".*"
+  - smart:
+      name: 🏡 香港家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(香港|HK|Hong Kong).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(香港|HK|Hong Kong)"
+  - smart:
+      name: 🏡 台湾家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(台湾|TW|Taiwan).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(台湾|TW|Taiwan)"
+  - smart:
+      name: 🏡 日韩家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(日本|韩国|JP|KR|Japan|Korea|Tokyo|Seoul).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(日本|韩国|JP|KR|Japan|Korea|Tokyo|Seoul)"
+  - smart:
+      name: 🏡 狮城家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(新加坡|SG|Singapore).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(新加坡|SG|Singapore)"
+  - smart:
+      name: 🏡 亚太家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(香港|台湾|日本|韩国|新加坡|泰国|越南|印尼|菲律宾|HK|TW|JP|KR|SG|TH|VN|ID|PH|Asia).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(香港|台湾|日本|韩国|新加坡|泰国|越南|印尼|菲律宾|HK|TW|JP|KR|SG|TH|VN|ID|PH|Asia)"
+  - smart:
+      name: 🏡 美国家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(美国|US|USA|United States|Los Angeles|San Jose|New York).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(美国|US|USA|United States|Los Angeles|San Jose|New York)"
+  - smart:
+      name: 🏡 欧洲家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(欧洲|英国|德国|法国|荷兰|EU|UK|DE|FR|NL|Europe|London|Frankfurt|Paris|Amsterdam).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(欧洲|英国|德国|法国|荷兰|EU|UK|DE|FR|NL|Europe|London|Frankfurt|Paris|Amsterdam)"
+  - smart:
+      name: 🏡 美洲家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(美国|加拿大|墨西哥|巴西|阿根廷|智利|US|CA|MX|BR|AR|CL|America|Canada|Mexico|Brazil).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(美国|加拿大|墨西哥|巴西|阿根廷|智利|US|CA|MX|BR|AR|CL|America|Canada|Mexico|Brazil)"
+  - smart:
+      name: 🏡 非洲家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)(非洲|南非|埃及|尼日利亚|肯尼亚|ZA|EG|NG|KE|Africa).*(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线)|(家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线).*(非洲|南非|埃及|尼日利亚|肯尼亚|ZA|EG|NG|KE|Africa)"
+  - smart:
+      name: 🏡 其他家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线"
+  - smart:
+      name: 🏡 全球家宽
+      policies: [Subscribe]
+      flatten: true
+      filter: "(?i)家宽|住宅|宽带|resi|residential|home|broadband|isp|iplc|iepl|专线"
+
+  - select:
+      name: 🚀 节点选择
+      policies: [🌍 全球节点, 🏡 全球家宽, 🇭🇰 香港节点, 🏡 香港家宽, 🇹🇼 台湾节点, 🏡 台湾家宽, 🇯🇵 日韩节点, 🏡 日韩家宽, 🇸🇬 狮城节点, 🏡 狮城家宽, 🌏 亚太节点, 🏡 亚太家宽, 🇺🇸 美国节点, 🏡 美国家宽, 🇪🇺 欧洲节点, 🏡 欧洲家宽, 🌎 美洲节点, 🏡 美洲家宽, 🌍 非洲节点, 🏡 非洲家宽, 🌏 其他节点, 🏡 其他家宽, DIRECT]
+      icon: globe
+
+  - select:
+      name: 🤖 AI 服务
+      policies: [🚀 节点选择, 🇺🇸 美国节点, 🌍 全球节点, 🏡 全球家宽, 🇯🇵 日韩节点, 🇸🇬 狮城节点, 🇭🇰 香港节点, DIRECT]
+  - select:
+      name: 💰 加密货币
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇭🇰 香港节点, 🇸🇬 狮城节点, DIRECT]
+  - select:
+      name: 🏦 金融支付
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇭🇰 香港节点, 🇸🇬 狮城节点, DIRECT]
+  - select:
+      name: 💬 即时通讯
+      policies: [🚀 节点选择, 🌍 全球节点, 🇭🇰 香港节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, DIRECT]
+  - select:
+      name: 📱 社交媒体
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, DIRECT]
+  - select:
+      name: 🧑‍💼 会议协作
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, DIRECT]
+  - select:
+      name: 📺 国内流媒体
+      policies: [DIRECT, 🏠 国内网站, 🚀 节点选择]
+  - select:
+      name: 🎵 TikTok
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点]
+  - select:
+      name: 🎥 Netflix
+      policies: [🚀 节点选择, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, 🌍 全球节点]
+  - select:
+      name: 🎬 Disney+
+      policies: [🚀 节点选择, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, 🌍 全球节点]
+  - select:
+      name: 📡 HBO/Max
+      policies: [🚀 节点选择, 🇺🇸 美国节点, 🌍 全球节点, DIRECT]
+  - select:
+      name: 📺 Hulu
+      policies: [🚀 节点选择, 🇯🇵 日韩节点, 🇺🇸 美国节点, 🌍 全球节点, DIRECT]
+  - select:
+      name: 🎬 Prime Video
+      policies: [🚀 节点选择, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点, 🌍 全球节点]
+  - select:
+      name: 📹 YouTube
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, 🇸🇬 狮城节点]
+  - select:
+      name: 🎵 音乐流媒体
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, DIRECT]
+  - select:
+      name: 🇭🇰 香港流媒体
+      policies: [🇭🇰 香港节点, 🚀 节点选择, DIRECT]
+  - select:
+      name: 🇹🇼 台湾流媒体
+      policies: [🇹🇼 台湾节点, 🚀 节点选择, DIRECT]
+  - select:
+      name: 🇯🇵 日韩流媒体
+      policies: [🇯🇵 日韩节点, 🚀 节点选择, DIRECT]
+  - select:
+      name: 🇪🇺 欧洲流媒体
+      policies: [🇪🇺 欧洲节点, 🚀 节点选择, DIRECT]
+  - select:
+      name: 🌐 其他国外流媒体
+      policies: [🚀 节点选择, 🌍 全球节点, DIRECT]
+  - select:
+      name: 🕹️ 国内游戏
+      policies: [DIRECT, 🏠 国内网站, 🚀 节点选择]
+  - select:
+      name: 🎮 国外游戏
+      policies: [🚀 节点选择, 🌍 全球节点, 🇯🇵 日韩节点, 🇺🇸 美国节点, DIRECT]
+  - select:
+      name: 🔍 Google 服务
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, DIRECT]
+  - select:
+      name: 🔧 工具与服务
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, DIRECT]
+  - select:
+      name: Ⓜ️ 微软服务
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, DIRECT]
+  - select:
+      name: 🍎 苹果服务
+      policies: [DIRECT, 🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点]
+  - select:
+      name: 📥 下载更新
+      policies: [DIRECT, 🚀 节点选择, 🌍 全球节点]
+  - select:
+      name: 🛰️ BT/PT Tracker
+      policies: [DIRECT, 🚀 节点选择]
+  - select:
+      name: 🏠 国内网站
+      policies: [DIRECT, 🚀 节点选择]
+  - select:
+      name: 🚫 受限网站
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点]
+  - select:
+      name: 🌐 国外网站
+      policies: [🚀 节点选择, 🌍 全球节点, 🇺🇸 美国节点, 🇯🇵 日韩节点, DIRECT]
+  - select:
+      name: 🐟 漏网之鱼
+      policies: [🚀 节点选择, 🌍 全球节点, DIRECT]
+  - select:
+      name: 🛑 广告拦截
+      policies: [REJECT, DIRECT]
+
+# Generated from Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml.
+# Non-supplemental provider rule_set URLs point at generated Egern-native
+# YAML files under rulesets/generated/egern/.
+# PROCESS-NAME supplemental rule sets and process-scoped logic rules are omitted because Egern
+# does not document a process-name rule or process-name rule-set field.
+# Target-empty rule sets removed by global first-match deduplication are omitted.
+rules:
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-001-direct-domain.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-002-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-003-payments-domain.yaml?scki=v6.0.21"
+      policy: "🏦 金融支付"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-004-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-005-cnmedia-domain.yaml?scki=v6.0.21"
+      policy: "📺 国内流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-006-cn-site-domain.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-007-stream-jpkr-domain.yaml?scki=v6.0.21"
+      policy: "🇯🇵 日韩流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-008-social-domain.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-009-tiktok-domain.yaml?scki=v6.0.21"
+      policy: "🎵 TikTok"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-010-ad-domain.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-010-ad-ipcidr.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-010-ad-residual.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-011-tools-domain.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-012-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-013-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-014-game-cn-domain.yaml?scki=v6.0.21"
+      policy: "🕹️ 国内游戏"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-015-microsoft-domain.yaml?scki=v6.0.21"
+      policy: "Ⓜ️ 微软服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-015-microsoft-residual.yaml?scki=v6.0.21"
+      policy: "Ⓜ️ 微软服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-016-ad-domain.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-016-ad-ipcidr.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-016-ad-residual.yaml?scki=v6.0.21"
+      policy: "🛑 广告拦截"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-017-cn-site-domain.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - and:
+      match:
+        - dest_port:
+            match: "443"
+        - protocol:
+            match: "udp"
+        - rule_set:
+            match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/geosite-youtube.yaml?scki=v6.0.21"
+      policy: "📹 YouTube"
+  - and:
+      match:
+        - dest_port:
+            match: "443"
+        - protocol:
+            match: "udp"
+        - rule_set:
+            match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/geosite-google.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+  - and:
+      match:
+        - dest_port:
+            match: "443"
+        - protocol:
+            match: "udp"
+        - rule_set:
+            match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/geosite-microsoft.yaml?scki=v6.0.21"
+      policy: "Ⓜ️ 微软服务"
+  - and:
+      match:
+        - dest_port:
+            match: "443"
+        - protocol:
+            match: "udp"
+        - rule_set:
+            match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/geosite-apple.yaml?scki=v6.0.21"
+      policy: "🍎 苹果服务"
+  - and:
+      match:
+        - dest_port:
+            match: "443"
+        - protocol:
+            match: "udp"
+        - not:
+            match:
+              rule_set:
+                match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/geosite-cn.yaml?scki=v6.0.21"
+      policy: "REJECT"
+  - dest_port:
+      match: "7680"
+      policy: "REJECT"
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-018-direct-domain.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-018-direct-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-018-direct-residual.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - dest_port:
+      match: "26880"
+      policy: "DIRECT"
+  - dest_port:
+      match: "6540"
+      policy: "DIRECT"
+  - dest_port:
+      match: "33068"
+      policy: "DIRECT"
+  - dest_port:
+      match: "123"
+      policy: "DIRECT"
+  - dest_port:
+      match: "3478"
+      policy: "DIRECT"
+  - dest_port:
+      match: "3479"
+      policy: "DIRECT"
+  - dest_port:
+      match: "5349"
+      policy: "DIRECT"
+  - dest_port:
+      match: "19302"
+      policy: "DIRECT"
+  - dest_port:
+      match: "19305"
+      policy: "DIRECT"
+  - dest_port:
+      match: "19307"
+      policy: "DIRECT"
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-020-crypto-domain.yaml?scki=v6.0.21"
+      policy: "💰 加密货币"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-021-gfw-domain.yaml?scki=v6.0.21"
+      policy: "🚫 受限网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-023-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-024-google-domain.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-024-google-residual.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-025-work-domain.yaml?scki=v6.0.21"
+      policy: "🧑‍💼 会议协作"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-026-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-026-ai-ipcidr.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-026-ai-residual.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-027-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-028-im-domain.yaml?scki=v6.0.21"
+      policy: "💬 即时通讯"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-029-work-domain.yaml?scki=v6.0.21"
+      policy: "🧑‍💼 会议协作"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-030-download-domain.yaml?scki=v6.0.21"
+      policy: "📥 下载更新"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-030-download-residual.yaml?scki=v6.0.21"
+      policy: "📥 下载更新"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-031-google-domain.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-031-google-ipcidr.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-031-google-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-032-tools-domain.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-033-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-033-ai-ipcidr.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-033-ai-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-033-ai-residual.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-034-google-domain.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-035-ai-domain.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-035-ai-ipcidr.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-035-ai-residual.yaml?scki=v6.0.21"
+      policy: "🤖 AI 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-036-crypto-domain.yaml?scki=v6.0.21"
+      policy: "💰 加密货币"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-036-crypto-residual.yaml?scki=v6.0.21"
+      policy: "💰 加密货币"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-037-payments-domain.yaml?scki=v6.0.21"
+      policy: "🏦 金融支付"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-037-payments-residual.yaml?scki=v6.0.21"
+      policy: "🏦 金融支付"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-039-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-040-direct-domain.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-041-im-domain.yaml?scki=v6.0.21"
+      policy: "💬 即时通讯"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-041-im-ipcidr.yaml?scki=v6.0.21"
+      policy: "💬 即时通讯"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-041-im-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "💬 即时通讯"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-041-im-residual.yaml?scki=v6.0.21"
+      policy: "💬 即时通讯"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-042-social-domain.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-042-social-ipcidr.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-042-social-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-042-social-residual.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-043-cn-site-domain.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-044-social-domain.yaml?scki=v6.0.21"
+      policy: "📱 社交媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-045-work-domain.yaml?scki=v6.0.21"
+      policy: "🧑‍💼 会议协作"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-045-work-ipcidr.yaml?scki=v6.0.21"
+      policy: "🧑‍💼 会议协作"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-046-direct-domain.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-047-cnmedia-domain.yaml?scki=v6.0.21"
+      policy: "📺 国内流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-048-tiktok-domain.yaml?scki=v6.0.21"
+      policy: "🎵 TikTok"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-050-netflix-domain.yaml?scki=v6.0.21"
+      policy: "🎥 Netflix"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-050-netflix-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "🎥 Netflix"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-051-disney-domain.yaml?scki=v6.0.21"
+      policy: "🎬 Disney+"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-052-hbo-max-domain.yaml?scki=v6.0.21"
+      policy: "📡 HBO/Max"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-053-hulu-domain.yaml?scki=v6.0.21"
+      policy: "📺 Hulu"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-054-prime-video-domain.yaml?scki=v6.0.21"
+      policy: "🎬 Prime Video"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-054-prime-video-residual.yaml?scki=v6.0.21"
+      policy: "🎬 Prime Video"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-055-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-055-intl-site-ipcidr.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-056-music-domain.yaml?scki=v6.0.21"
+      policy: "🎵 音乐流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-056-music-ipcidr.yaml?scki=v6.0.21"
+      policy: "🎵 音乐流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-057-stream-hk-domain.yaml?scki=v6.0.21"
+      policy: "🇭🇰 香港流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-057-stream-hk-ipcidr.yaml?scki=v6.0.21"
+      policy: "🇭🇰 香港流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-057-stream-hk-residual.yaml?scki=v6.0.21"
+      policy: "🇭🇰 香港流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-058-stream-tw-domain.yaml?scki=v6.0.21"
+      policy: "🇹🇼 台湾流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-058-stream-tw-residual.yaml?scki=v6.0.21"
+      policy: "🇹🇼 台湾流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-059-stream-jpkr-domain.yaml?scki=v6.0.21"
+      policy: "🇯🇵 日韩流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-059-stream-jpkr-ipcidr.yaml?scki=v6.0.21"
+      policy: "🇯🇵 日韩流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-059-stream-jpkr-residual.yaml?scki=v6.0.21"
+      policy: "🇯🇵 日韩流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-060-stream-eu-domain.yaml?scki=v6.0.21"
+      policy: "🇪🇺 欧洲流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-060-stream-eu-residual.yaml?scki=v6.0.21"
+      policy: "🇪🇺 欧洲流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-061-stream-other-domain.yaml?scki=v6.0.21"
+      policy: "🌐 其他国外流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-061-stream-other-ipcidr.yaml?scki=v6.0.21"
+      policy: "🌐 其他国外流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-061-stream-other-residual.yaml?scki=v6.0.21"
+      policy: "🌐 其他国外流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-062-tools-domain.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-063-google-domain.yaml?scki=v6.0.21"
+      policy: "🔍 Google 服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-064-tools-domain.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-064-tools-ipcidr.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-064-tools-residual.yaml?scki=v6.0.21"
+      policy: "🔧 工具与服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-065-microsoft-domain.yaml?scki=v6.0.21"
+      policy: "Ⓜ️ 微软服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-065-microsoft-residual.yaml?scki=v6.0.21"
+      policy: "Ⓜ️ 微软服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-066-apple-domain.yaml?scki=v6.0.21"
+      policy: "🍎 苹果服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-066-apple-ipcidr.yaml?scki=v6.0.21"
+      policy: "🍎 苹果服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-066-apple-residual.yaml?scki=v6.0.21"
+      policy: "🍎 苹果服务"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-067-download-domain.yaml?scki=v6.0.21"
+      policy: "📥 下载更新"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-067-download-ipcidr.yaml?scki=v6.0.21"
+      policy: "📥 下载更新"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-067-download-residual.yaml?scki=v6.0.21"
+      policy: "📥 下载更新"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-068-tracker-domain.yaml?scki=v6.0.21"
+      policy: "🛰️ BT/PT Tracker"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-068-tracker-ipcidr.yaml?scki=v6.0.21"
+      policy: "🛰️ BT/PT Tracker"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-068-tracker-residual.yaml?scki=v6.0.21"
+      policy: "🛰️ BT/PT Tracker"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-069-gfw-domain.yaml?scki=v6.0.21"
+      policy: "🚫 受限网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-069-gfw-ipcidr.yaml?scki=v6.0.21"
+      policy: "🚫 受限网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-069-gfw-residual.yaml?scki=v6.0.21"
+      policy: "🚫 受限网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-070-game-cn-domain.yaml?scki=v6.0.21"
+      policy: "🕹️ 国内游戏"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-071-game-intl-domain.yaml?scki=v6.0.21"
+      policy: "🎮 国外游戏"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-071-game-intl-ipcidr.yaml?scki=v6.0.21"
+      policy: "🎮 国外游戏"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-071-game-intl-residual.yaml?scki=v6.0.21"
+      policy: "🎮 国外游戏"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-072-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-072-intl-site-ipcidr.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-072-intl-site-residual.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-073-payments-domain.yaml?scki=v6.0.21"
+      policy: "🏦 金融支付"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-074-cnmedia-domain.yaml?scki=v6.0.21"
+      policy: "📺 国内流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-074-cnmedia-ipcidr.yaml?scki=v6.0.21"
+      policy: "📺 国内流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-074-cnmedia-residual.yaml?scki=v6.0.21"
+      policy: "📺 国内流媒体"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-075-cn-site-domain.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-075-cn-site-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-076-direct-domain.yaml?scki=v6.0.21"
+      policy: "DIRECT"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-077-cn-site-domain.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-077-cn-site-residual.yaml?scki=v6.0.21"
+      policy: "🏠 国内网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-078-intl-site-domain.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-078-intl-site-ipcidr.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-078-intl-site-ipcidr-no-resolve.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-078-intl-site-residual.yaml?scki=v6.0.21"
+      policy: "🌐 国外网站"
+      update_interval: 86400
+  - rule_set:
+      match: "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/egern/provider-scki-fused-080-netflix-residual.yaml?scki=v6.0.21"
+      policy: "🎥 Netflix"
+      update_interval: 86400
+  - default:
+      policy: "🐟 漏网之鱼"

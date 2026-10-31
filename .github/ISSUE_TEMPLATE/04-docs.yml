@@ -18,7 +18,7 @@ body:
     attributes:
       label: 出问题的文档位置
       description: 哪个文件？哪一段？可以贴链接（带行号更好）
-      placeholder: "例：README.md#dns-净化 / Shadowrocket/README.md §3"
+      placeholder: "例：README.md#dns-净化 / 独立内核系/Shadowrocket/README.md §3"
     validations:
       required: true
 
@@ -29,7 +29,7 @@ body:
       description: 哪里错了 / 不清楚 / 过时了？
       placeholder: |
         例：
-        Shadowrocket/README.md 第 3 节说"导入后第一条规则应为 DOMAIN,captive.apple.com,DIRECT"，
+        独立内核系/Shadowrocket/README.md 第 3 节说"导入后第一条规则应为 DOMAIN,captive.apple.com,DIRECT"，
         但实际 v5.2.5 里第一条是广告拦截 rule-set，和文档对不上。
     validations:
       required: true

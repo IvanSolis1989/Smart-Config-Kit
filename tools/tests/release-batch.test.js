@@ -7,12 +7,13 @@ const os = require('node:os');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { execFileSync, spawnSync } = require('node:child_process');
-const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH } = require('../lib/release-batch');
+const { VERSION, createReleaseBatch, checkReleaseBatch, writeExternalJson, CONTRACT_PATH, inventoryFromManifests } = require('../lib/release-batch');
+const { clientDirectory } = require('../lib/client-layout');
 const cli = path.resolve(__dirname, '../validate-release-batch.js');
 const hash = text => crypto.createHash('sha256').update(text.replace(/\r\n/g, '\n')).digest('hex');
 const SOURCE = 'rulesets/source/routing-graph.js';
-const CMFA = 'Clash Meta For Android/CMFA(mihomo).yaml';
-const PROFILE = 'Egern/Egern.yaml';
+const CMFA = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
+const PROFILE = '独立内核系/Egern/Egern.yaml';
 const MRS = 'rulesets/generated/mihomo-mrs/manifest.json';
 const FUSED = 'rulesets/generated/fused/manifest.json';
 const EGERN = 'rulesets/generated/egern/manifest.json';
@@ -56,15 +57,19 @@ test('published repository contract and CLI use the supported release gate versi
   const contract = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../..', CONTRACT_PATH), 'utf8'));
   assert.equal(contract.version, VERSION);
   assert.ok(contract.staticOutputs.includes('rulesets/generated/mihomo-mrs/source-ledger.json'), 'MRS source receipts must be covered by the release batch');
-  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-full.json'));
-  assert.ok(contract.staticOutputs.includes('SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
+  assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-full.json'));
+  assert.ok(contract.staticOutputs.includes('Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json'), 'Both generated sing-box schemas must be frozen in automatic refreshes');
+  assert.ok(contract.staticOutputs.includes('Meow内核系/Aerove Lite/AeroveLite(meow).js'));
+  assert.ok(contract.staticOutputs.includes('Meow内核系/Meow/Meow(meow).yaml'), 'Official clients need native YAML independently of a JS host');
+  assert.ok(contract.staticOutputs.includes('Meow内核系/adapter-manifest.json'), 'Sibling client artifacts and shared provenance must refresh together');
+  assert.ok(contract.validators.some(command => command[0] === 'tools/generate-meow.js' && command[1] === '--check'));
   const result = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', windowsHide: true });
   assert.equal(result.status, 0, result.stderr);
   assert.ok(result.stdout.startsWith(`Release batch v${contract.version}:`));
 });
 
 test('automatic refresh freezes and requires both generated sing-box profiles', t => {
-  const profiles = ['SingBox/SingBox(sing-box)-full.json', 'SingBox/SingBox(sing-box)-1.13.json'];
+  const profiles = ['Sing-box内核系/SingBox/SingBox(sing-box)-full.json', 'Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json'];
   const f = fixture(t, { extraStaticOutputs: profiles });
   for (const file of profiles) f.write(file, '{"revision":"updated-asset"}\n');
   const receipt = f.prepare();
@@ -92,7 +97,7 @@ test('no-op coverage is complete and validation never stages the workset', t => 
   f.stage(modified); assert.equal(f.check(modified).ok, true);
 });
 
-for (const file of ['rulesets/generated/mihomo-mrs/unexpected.mrs', 'Egern/unexpected.yaml', 'outside.txt', 'secret.env']) {
+for (const file of ['rulesets/generated/mihomo-mrs/unexpected.mrs', '独立内核系/Egern/unexpected.yaml', 'outside.txt', 'secret.env']) {
   test(`rejects unknown path without staging: ${file}`, t => {
     const f = fixture(t); f.write(file, 'sensitive fixture data\n');
     assert.throws(() => f.prepare(), /Unexpected changed path/);
@@ -127,19 +132,35 @@ test('fused manifest derives precise native/source/shunt output names for a new 
     clash: { file: `${id}.list` }, surge: { file: `${id}.list` }, quantumultx: { file: `${id}.list` },
     egern: { file: `${id}.yaml` }, sing_box: { file: `${id}.srs`, source: `${id}.json` },
     passwall: { file: `${id}.list`, source: `sing-box/${id}.srs` },
-    xray: { file: 'v2rayN/v2rayN(xray).json', source: `sing-box/${id}.json` } };
+    xray: { file: 'Xray内核系/v2rayN/v2rayN(xray).json', source: `sing-box/${id}.json` } };
   f.fused.segments = [{ id, files }];
   for (const [family, names] of Object.entries({ mihomo: [`${id}-domain.mrs`, `${id}-domain.yaml`],
     clash: [`${id}.list`], surge: [`${id}.list`], quantumultx: [`${id}.list`], egern: [`${id}.yaml`],
     'sing-box': [`${id}.srs`, `${id}.json`], passwall: [`${id}.list`] })) {
     for (const name of names) f.write(`rulesets/generated/fused/${family}/${name}`, `fixture ${name}\n`);
   }
-  for (const app of ['Passwall', 'Passwall2']) f.write(`${app}/shunt-rules/${id}.list`, 'fixture shunt\n');
+  for (const app of ['Passwall', 'Passwall2']) f.write(`${clientDirectory(app)}/shunt-rules/${id}.list`, 'fixture shunt\n');
   f.bind(); const receipt = f.prepare();
   assert.equal(receipt.currentOutputs.length - receipt.baselineOutputs.length, 11);
   f.stage(receipt); assert.equal(f.check(receipt).ok, true);
   files.domain.source = 'unexpected.yaml'; f.bind();
   assert.throws(() => f.prepare(), /Missing fused source/);
+});
+
+test('optional Karing manifest contributes exact generated source assets to release inventory', t => {
+  const f = fixture(t);
+  const contract = JSON.parse(f.read(CONTRACT_PATH));
+  const manifestPath = `${clientDirectory('Karing')}/adapter-manifest.json`;
+  contract.manifests.karing = manifestPath;
+  contract.staticOutputs.push(`${clientDirectory('Karing')}/diversion_rules_custom.json`, manifestPath);
+  const source = 'rulesets/generated/karing/compound-001.json';
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: source }, { kind: 'reused', url: 'https://example.invalid/existing.srs' }] });
+  const read = file => Buffer.from(f.read(file));
+  assert.ok(inventoryFromManifests(contract, read).paths.includes(source));
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: 'rulesets/generated/karing/../outside.json' }] });
+  assert.throws(() => inventoryFromManifests(contract, read), /Unsafe|Karing/);
+  f.save(manifestPath, { rule_assets: [{ kind: 'generated', path: 'rulesets/generated/fused/outside.json' }] });
+  assert.throws(() => inventoryFromManifests(contract, read), /Karing/);
 });
 test('baseline manifest inventory is frozen and detects undeclared tracked assets', t => {
   const f = fixture(t); f.write('rulesets/generated/mihomo-mrs/undeclared.mrs', 'fixture\n');
@@ -219,4 +240,29 @@ test('CLI produces only external receipts and performs no automatic stage', t =>
   assert(!fs.existsSync(path.join(f.root, 'receipt.json')));
   const check = spawnSync(process.execPath, [cli, '--repo-root', f.root, '--check', '--receipt', external], { encoding: 'utf8', windowsHide: true });
   assert.equal(check.status, 0, check.stderr);
+});
+
+test('AEROVE shard manifests close the release inventory and bind every binary byte', t => {
+  const adapter = 'Meow内核系/adapter-manifest.json';
+  const manifestPath = 'Meow内核系/Aerove Lite/rule-assets/manifest.json';
+  const assetPath = 'Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-part-001.mrs';
+  const f = fixture(t, { extraStaticOutputs: [adapter] });
+  const contract = JSON.parse(f.read(CONTRACT_PATH));
+  contract.manifests.meow = adapter;
+  f.save(CONTRACT_PATH, contract);
+  const bytes = 'fixture-mrs-binary';
+  const asset = { path: assetPath, bytes: Buffer.byteLength(bytes), sha256: hash(bytes) };
+  f.write(assetPath, bytes);
+  f.save(manifestPath, { schema_version: 1, version: 'v1.0.0-meow.4', assets: [asset] });
+  f.save(adapter, { version: 'v1.0.0-meow.4', aerove_rule_assets: { manifest: manifestPath, assets: [asset] } });
+  f.git('add', '--', '.'); f.git('commit', '-qm', 'adapter baseline');
+  const receipt = f.prepare();
+  assert.ok(receipt.currentOutputs.some(row => row.path === assetPath));
+  assert.ok(receipt.currentOutputs.some(row => row.path === manifestPath));
+  const orphan = 'Meow内核系/Aerove Lite/rule-assets/orphan.mrs';
+  f.write(orphan, 'orphan');
+  assert.throws(() => f.prepare(), /Unexpected changed path: Meow内核系\/Aerove Lite\/rule-assets\/orphan\.mrs/);
+  fs.unlinkSync(path.join(f.root, orphan));
+  f.write(assetPath, 'modified');
+  assert.throws(() => f.prepare(), /AEROVE asset binding/i);
 });

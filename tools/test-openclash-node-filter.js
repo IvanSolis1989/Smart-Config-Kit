@@ -105,7 +105,7 @@ const jsBehavior = sharedCases.map(({ config, max }) => {
 assert.deepEqual(JSON.parse(rubyBehavior.stdout), JSON.parse(JSON.stringify(jsBehavior)), 'JS/Ruby inline and support-proxy parity');
 
 for (const target of targets) {
-  const source = fs.readFileSync(path.join(root, 'OpenClash', target), 'utf8');
+  const source = fs.readFileSync(path.join(root, 'Mihomo内核系/OpenClash', target), 'utf8');
   assert.equal(extract(source, begin, end).replace(/\r/g, ''), runtime, `${target}: embedded runtime drift`);
   assert(source.includes('"$SCKI_MAX_NODE_MULTIPLIER" "$SCKI_HEALTH_CHECK_PROFILE" "$SCKI_QUIC_POLICY" 2>>'), `${target}: shell traffic arguments missing`);
   const processor = extract(source, 'cat > "$RUBY_SCRIPT" << \'RUBY_EOF\'', '\nRUBY_EOF');

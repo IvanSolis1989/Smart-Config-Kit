@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="230" viewBox="0 0 420 230" role="img" aria-labelledby="title desc">
+<title id="title">Smart-Config-Kit</title><desc id="desc">同一规则源，多端原生分流。桌面、移动端与 OpenWrt。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="418" height="228" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="357" cy="15" rx="151.2" ry="172.5" fill="url(#aura)"/><path d="M28 1H392" stroke="#ffffff" stroke-width="2"/>
+<g fill="none" stroke="#aac7e2" stroke-width="1.3" opacity=".66"><path d="M333 102L423 158L333 214L291 158ZM333 102V214M291 158H423M333 102L382 158L333 214"/><circle cx="333" cy="158" r="7" fill="#f3fbff"/></g>
+  <text x="25" y="72" font-size="34" font-weight="650" fill="#18324f" >Smart-Config-Kit</text>
+  <text x="26" y="114" font-size="22" font-weight="500" fill="#18324f" >同一规则源，多端原生分流。</text>
+  <text x="26" y="160" font-size="18" font-weight="400" fill="#506780" >桌面 · 移动端 · OpenWrt</text>
+  <rect x="26" y="191" width="83" height="4" rx="2" fill="url(#ribbon)"/>
+</g></svg>

@@ -9,12 +9,16 @@ var SckiTrafficOptions = (function() {
   // >>> SCKI ZEROTIER PLANET: BEGIN
   var ZEROTIER_PLANET_PROXY_POLICY = {"targetGroup":"🇺🇸 美国节点","rules":["AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,103.195.103.66/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,79.127.159.187/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,84.17.53.155/32,no-resolve)),🇺🇸 美国节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,185.152.67.145/32,no-resolve)),🇺🇸 美国节点"]};
   // <<< SCKI ZEROTIER PLANET: END
+  // >>> SCKI BROWSER UDP: BEGIN
+  var BROWSER_UDP_PRIVACY_POLICY = {"processNames":["chrome.exe","msedge.exe","firefox.exe"],"rules":["AND,((NETWORK,UDP),(PROCESS-NAME,chrome.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,msedge.exe)),REJECT","AND,((NETWORK,UDP),(PROCESS-NAME,firefox.exe)),REJECT"]};
+  // <<< SCKI BROWSER UDP: END
 
   function validate(options) {
     if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
         (options.healthCheckProfile !== 'standard' && options.healthCheckProfile !== 'power-save') ||
         (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules') ||
-        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean')) {
+        (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean') ||
+        (Object.prototype.hasOwnProperty.call(options, 'browserUdpPolicy') && options.browserUdpPolicy !== 'off' && options.browserUdpPolicy !== 'reject')) {
       throw new Error('Invalid SCKI traffic options');
     }
     return options;
@@ -70,7 +74,22 @@ var SckiTrafficOptions = (function() {
     return rules;
   }
 
-  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy };
+  function applyBrowserUdpPolicy(rules, mode) {
+    if (mode !== 'off' && mode !== 'reject') throw new Error('Invalid SCKI browser UDP policy');
+    if (!Array.isArray(rules)) throw new Error('SCKI rules must be an array');
+    var ownedRules = BROWSER_UDP_PRIVACY_POLICY.rules;
+    for (var i = rules.length - 1; i >= 0; i--) {
+      if (ownedRules.indexOf(rules[i]) >= 0) rules.splice(i, 1);
+    }
+    if (mode === 'reject') {
+      // Explicit local safety choice overrides all routing, including DIRECT
+      // policy groups, QUIC service exceptions and local ZeroTier routing.
+      for (var j = ownedRules.length - 1; j >= 0; j--) rules.unshift(ownedRules[j]);
+    }
+    return rules;
+  }
+
+  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy, applyBrowserUdpPolicy: applyBrowserUdpPolicy };
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;

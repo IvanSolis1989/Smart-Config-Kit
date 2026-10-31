@@ -25,7 +25,7 @@ function readText(relativePath) {
 }
 
 function parseFusedRules() {
-  return parseRules(readText('Clash Party/ClashParty(mihomo-smart).js'));
+  return parseRules(readText('Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js'));
 }
 
 // Deliberate domain-provider projection; this does not assert full connection routing.
@@ -90,12 +90,12 @@ test('generated clients route generic GitHub API traffic to Tools while retainin
     assert.ok(index < genericRuleIndex, `${rule} must precede generic Tools route`);
   }
 
-  const egern = readText('Egern/Egern.yaml');
+  const egern = readText('独立内核系/Egern/Egern.yaml');
   assert.match(egern, new RegExp(`provider-${genericRoute.provider}\\.yaml\\?scki=${SOURCE_GRAPH_VERSION}`));
   assert.match(readText(`rulesets/generated/egern/provider-${genericRoute.provider}.yaml`), /api\.github\.com/);
   assert.doesNotMatch(egern, /Code Helper/, 'Egern must omit unsupported process-scoped rules');
 
-  const singBox = JSON.parse(readText('SingBox/SingBox(sing-box)-full.json'));
+  const singBox = JSON.parse(readText('Sing-box内核系/SingBox/SingBox(sing-box)-full.json'));
   for (const processName of ['Code Helper', 'Code Helper (Plugin)']) {
     assert.ok((singBox.route.rules || []).some((rule) => (
       Array.isArray(rule.process_name)
@@ -106,7 +106,7 @@ test('generated clients route generic GitHub API traffic to Tools while retainin
     )), `Sing-box must retain the ${processName} AI exception`);
   }
 
-  const xray = JSON.parse(readText('v2rayN/v2rayN(xray).json'));
+  const xray = JSON.parse(readText('Xray内核系/v2rayN/v2rayN(xray).json'));
   const genericSegmentId = genericRoute.provider.replace(/-domain$/, '');
   const genericXrayIndex = xray.findIndex((rule) => rule.id === genericSegmentId);
   assert.ok(genericXrayIndex >= 0, 'Xray fallback must include the generic Tools segment');

@@ -9,12 +9,12 @@ const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 
 const ROOT = path.resolve(__dirname, '..');
 const TARGETS = [
-  ['Clash Party/ClashParty(mihomo-smart).js', 'javascript'],
-  ['Clash Party/ClashParty(mihomo).js', 'javascript'],
-  ['FlClash/FlClash(mihomo).js', 'javascript'],
-  ['Clash Meta For Android/CMFA(mihomo).yaml', 'yaml'],
-  ['OpenClash/OpenClash(mihomo).sh', 'yaml'],
-  ['OpenClash/OpenClash(mihomo-smart).sh', 'yaml'],
+  ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'javascript'],
+  ['Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'javascript'],
+  ['Mihomo内核系/FlClash/FlClash(mihomo).js', 'javascript'],
+  ['Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'yaml'],
+  ['Mihomo内核系/OpenClash/OpenClash(mihomo).sh', 'yaml'],
+  ['Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh', 'yaml'],
 ];
 const BEGIN = '>>> SCKI BUSINESS DNS POLICY: BEGIN';
 const END = '<<< SCKI BUSINESS DNS POLICY: END';

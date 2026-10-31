@@ -68,3 +68,16 @@ test('raw GitHub branch content is fetched from a resolved commit URL', async t 
   assert.throws(() => inside(directory, '../escape'), /outside/);
   assert.throws(() => verifyRecord(directory, source, { ...record, file: '../escape' }), /Invalid body path/);
 });
+
+test('verification rejects archived manifest edits even when the active cache remains valid', async t => {
+  const { directory } = fixture(t);
+  const fetchImpl = async () => new Response('manual');
+  await snapshot(directory, { fetchImpl });
+  await snapshot(directory, { fetchImpl });
+  const archived = path.join(directory, 'manifests', fs.readdirSync(path.join(directory, 'manifests'))[0]);
+  const original = fs.readFileSync(archived, 'utf8');
+  fs.writeFileSync(archived, original.replace(/\n/g, '\r\n'));
+  assert.equal(verify(directory).verified, 1, 'Git line-ending conversion preserves canonical archive identity');
+  fs.writeFileSync(archived, original.replace('docs.example.com', 'docs.changed.invalid'));
+  assert.throws(() => verify(directory), /Archived manifest hash mismatch/);
+});

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="744" viewBox="0 0 420 744" role="img" aria-labelledby="title desc">
+<title id="title">同源编译与规则命中</title><desc id="desc">窄屏版：规则源图经 MRS 与 fused 编译为原生配置；运行时按规则顺序检查并选择出口。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="418" height="742" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="357" cy="15" rx="151.2" ry="558" fill="url(#aura)"/><path d="M28 1H392" stroke="#ffffff" stroke-width="2"/>
+<text x="24" y="42" font-size="25" font-weight="650" fill="#18324f" >同源编译，按序命中</text>
+  <rect x="24" y="65" width="372" height="69" rx="18" fill="#e0edff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="65.5" width="371" height="68" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="93" font-size="21" font-weight="650" fill="#18324f" >唯一规则源</text><text x="44" y="120" font-size="18" font-weight="400" fill="#506780" >routing-graph.js</text>
+  <path d="M210 140L210 155" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="166" width="372" height="76" rx="18" fill="#d9f4f0" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="166.5" width="371" height="75" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="195" font-size="21" font-weight="650" fill="#18324f" >MRS 归一化 → fused 编译</text><text x="44" y="224" font-size="18" font-weight="400" fill="#506780" >按策略、顺序与平台能力输出</text>
+  <path d="M210 249L210 264" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="275" width="372" height="76" rx="18" fill="#e9e4fc" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="275.5" width="371" height="75" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="304" font-size="21" font-weight="650" fill="#18324f" >各端原生规则资产</text><text x="44" y="333" font-size="18" font-weight="400" fill="#506780" >.mrs / .srs / 文本 / YAML / Xray</text>
+  <text x="24" y="390" font-size="21" font-weight="650" fill="#18324f" >运行时：请求按源图顺序检查</text>
+  <rect x="24" y="408" width="372" height="87" rx="18" fill="#e0f3f0" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="408.5" width="371" height="86" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="44" y="438" font-size="21" font-weight="650" fill="#18324f" >fused 规则 + 必要内联</text><text x="44" y="468" font-size="18" font-weight="400" fill="#506780" >含安全前置、业务细分与直连规则</text>
+  <path d="M210 502L210 517" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="528" width="372" height="58" rx="18" fill="#eee7fa" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="528.5" width="371" height="57" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="210" y="564" font-size="21" font-weight="600" fill="#18324f" text-anchor="middle">命中目标策略</text>
+  <path d="M210 593L210 608" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="24" y="619" width="372" height="58" rx="18" fill="#e2edf9" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="24.5" y="619.5" width="371" height="57" rx="18" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="210" y="655" font-size="21" font-weight="600" fill="#18324f" text-anchor="middle">选择实际出口</text>
+  <text x="24" y="708" font-size="18" font-weight="500" fill="#18324f" >未命中 → MATCH / FINAL 漏网之鱼</text><text x="24" y="733" font-size="18" font-weight="500" fill="#5b5e93" >界面组顺序 ≠ 规则匹配顺序</text>
+</g></svg>

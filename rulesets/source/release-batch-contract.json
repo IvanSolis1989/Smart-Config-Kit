@@ -7,28 +7,35 @@
   "manifests": {
     "mrs": "rulesets/generated/mihomo-mrs/manifest.json",
     "fused": "rulesets/generated/fused/manifest.json",
-    "egern": "rulesets/generated/egern/manifest.json"
+    "egern": "rulesets/generated/egern/manifest.json",
+    "karing": "Sing-box内核系/Karing/adapter-manifest.json",
+    "meow": "Meow内核系/adapter-manifest.json"
   },
   "staticOutputs": [
-    "Clash Party/ClashParty(mihomo-smart).js",
-    "Clash Party/ClashParty(mihomo).js",
-    "Clash Meta For Android/CMFA(mihomo).yaml",
-    "FlClash/FlClash(mihomo).js",
-    "OpenClash/OpenClash(mihomo).sh",
-    "OpenClash/OpenClash(mihomo-smart).sh",
-    "Shadowrocket/Shadowrocket.conf",
-    "Stash/Stash.yaml",
-    "Egern/Egern.yaml",
-    "SingBox/SingBox(sing-box)-full.json",
-    "SingBox/SingBox(sing-box)-1.13.json",
-    "v2rayN/v2rayN(xray).json",
-    "Surge/Surge.conf",
-    "Loon/Loon.conf",
-    "Quantumult X/QuantumultX.conf",
-    "Passwall/Passwall(xray+sing-box)-apply.sh",
-    "Passwall/Passwall(xray+sing-box).conf",
-    "Passwall2/Passwall2(xray+sing-box)-apply.sh",
-    "Passwall2/Passwall2(xray+sing-box).conf",
+    "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js",
+    "Mihomo内核系/Clash Party/ClashParty(mihomo).js",
+    "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml",
+    "Mihomo内核系/FlClash/FlClash(mihomo).js",
+    "Meow内核系/Aerove Lite/AeroveLite(meow).js",
+    "Meow内核系/Meow/Meow(meow).yaml",
+    "Meow内核系/adapter-manifest.json",
+    "Mihomo内核系/OpenClash/OpenClash(mihomo).sh",
+    "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh",
+    "独立内核系/Shadowrocket/Shadowrocket.conf",
+    "独立内核系/Stash/Stash.yaml",
+    "独立内核系/Egern/Egern.yaml",
+    "Sing-box内核系/SingBox/SingBox(sing-box)-full.json",
+    "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json",
+    "Sing-box内核系/Karing/diversion_rules_custom.json",
+    "Sing-box内核系/Karing/adapter-manifest.json",
+    "Xray内核系/v2rayN/v2rayN(xray).json",
+    "独立内核系/Surge/Surge.conf",
+    "独立内核系/Loon/Loon.conf",
+    "独立内核系/Quantumult X/QuantumultX.conf",
+    "双内核系/Passwall/Passwall(xray+sing-box)-apply.sh",
+    "双内核系/Passwall/Passwall(xray+sing-box).conf",
+    "双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh",
+    "双内核系/Passwall2/Passwall2(xray+sing-box).conf",
     "rulesets/generated/egern-traffic-snapshot.json.gz",
     "rulesets/generated/source-ledger.json",
     "rulesets/generated/mihomo-mrs/source-ledger.json",
@@ -62,6 +69,18 @@
     "rulesets/supplemental/egern/tools-guard.yaml"
   ],
   "validators": [
+    [
+      "tools/generate-aerove-rule-assets.js",
+      "--check"
+    ],
+    [
+      "tools/generate-meow.js",
+      "--check"
+    ],
+    [
+      "tools/generate-karing.js",
+      "--check"
+    ],
     [
       "tools/validate-js-overwrites.js"
     ],

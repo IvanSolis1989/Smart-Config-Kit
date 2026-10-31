@@ -121,7 +121,7 @@ test('Issue #176 CN domain guards precede generic international Geo/CDN fallback
 });
 
 test('iOS fused payload stays within the repository Network Extension budget', () => {
-  const config = read('Shadowrocket/Shadowrocket.conf');
+  const config = read('独立内核系/Shadowrocket/Shadowrocket.conf');
   const urls = [...config.matchAll(/^RULE-SET,(https:\/\/[^,]+),/gm)].map((match) => match[1]);
   const uniqueUrls = [...new Set(urls)];
   const files = uniqueUrls.map((url) => {
@@ -196,7 +196,7 @@ test('fusion manifest does not publish empty source or target rule sets', () => 
 
 test('Passwall marks every fused SRS containing IP rules as an IP payload', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(FUSED_ROOT, 'manifest.json'), 'utf8'));
-  const script = read('Passwall/Passwall(xray+sing-box)-apply.sh');
+  const script = read('双内核系/Passwall/Passwall(xray+sing-box)-apply.sh');
   for (const segment of manifest.segments.filter((row) => row.files.sing_box)) {
     const sourceFile = segment.files.sing_box.source;
     const source = JSON.parse(fs.readFileSync(path.join(FUSED_ROOT, 'sing-box', sourceFile), 'utf8'));
@@ -213,7 +213,7 @@ test('Passwall marks every fused SRS containing IP rules as an IP payload', () =
 
 test('Sing-box uses each non-empty fused SRS exactly once', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(FUSED_ROOT, 'manifest.json'), 'utf8'));
-  const config = JSON.parse(read('SingBox/SingBox(sing-box)-full.json'));
+  const config = JSON.parse(read('Sing-box内核系/SingBox/SingBox(sing-box)-full.json'));
   const expectedTags = manifest.segments
     .filter((segment) => segment.files.sing_box)
     .map((segment) => segment.id);
@@ -233,6 +233,10 @@ test('formal remote-asset validator enforces aggregate client budgets', () => {
   const result = validateGeneratedRemoteAssetSizes();
   assert.deepEqual(result.failures, []);
   assert.ok(result.clientAggregates instanceof Map);
+  for (const client of ['Passwall', 'Passwall2', 'Surge', 'Stash', 'SingBox', 'Karing']) {
+    assert.ok(result.clientAggregates.has(client), `missing separate client budget: ${client}`);
+  }
+  assert.ok([...result.clientAggregates.keys()].every(client => !client.includes('内核系')));
   const shadowrocket = result.clientAggregates.get('Shadowrocket');
   assert.ok(shadowrocket);
   assert.ok(shadowrocket.bytes <= shadowrocket.budget.maxBytes);
@@ -288,7 +292,7 @@ test('Issue #176 keeps native Egern authority segments valid across upstream ref
   assertNonEmptyAsset(intlTail.segment, 'ipcidr-no-resolve', true);
   assertNonEmptyAsset(intlTail.segment, 'residual', true);
 
-  const egernProfile = read('Egern/Egern.yaml');
+  const egernProfile = read('独立内核系/Egern/Egern.yaml');
   const profilePosition = (segment) => egernProfile.indexOf('provider-' + segment.id + '-');
   const lateCnsitePosition = profilePosition(lateCnsite.segment);
   const intlTailPosition = profilePosition(intlTail.segment);
@@ -435,7 +439,7 @@ test('generated Egern payloads contain no removable duplicate rules', () => {
 });
 
 test('later Egern rule-set assets do not repeat an exact rule already matched earlier', () => {
-  const config = read('Egern/Egern.yaml');
+  const config = read('独立内核系/Egern/Egern.yaml');
   const marker = '/rulesets/generated/egern/';
   const files = [...config.matchAll(/^\s+match:\s+("[^"]+")\s*$/gm)]
     .map((match) => JSON.parse(match[1]))

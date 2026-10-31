@@ -11,7 +11,7 @@ const generator = require('../generate-egern-from-cmfa');
 const { getQuicRules } = require('../../rulesets/source/routing-graph');
 
 const ROOT = path.resolve(__dirname, '../..');
-const CMFA = path.join(ROOT, 'Clash Meta For Android/CMFA(mihomo).yaml');
+const CMFA = path.join(ROOT, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml');
 const ids = require('../lib/fused-contract-segments').resolveContractSegments();
 
 function withStage(callback) {

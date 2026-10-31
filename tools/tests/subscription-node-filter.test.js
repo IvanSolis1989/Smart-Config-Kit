@@ -9,9 +9,9 @@ const { getTrafficOptions, getQuicRules } = require('../../rulesets/source/routi
 
 const root = path.resolve(__dirname, '../..');
 const targets = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 
 function node(name, extra = {}) {

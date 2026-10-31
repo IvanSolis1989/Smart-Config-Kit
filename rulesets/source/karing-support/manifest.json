@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "purpose": "Exact decoded support SRS snapshots for Karing compound matchers; refresh only explicitly.",
+  "assets": [
+    {
+      "tag": "geosite-youtube",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs",
+      "retrieved_at": "2026-10-23T23:55:13.873Z",
+      "binary_sha256": "ae9a576c046627c01bc1488f526775dfe919f1152c3ce6f75b678fce92498b3f",
+      "binary_bytes": 1144,
+      "source_file": "rulesets/source/karing-support/geosite-youtube.json.gz",
+      "source_sha256": "11cb2090a9cc7c7ea550b47c66489b2a34c5d4a17a1b80f0d1eeb921d3e7fc5d",
+      "source_gzip_sha256": "d05559e59c1e1591983aae757e6a116b6ee840e9714c5031769d759e4a284334",
+      "source_bytes": 4437,
+      "source_gzip_bytes": 652,
+      "source_version": 2
+    },
+    {
+      "tag": "geosite-google",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs",
+      "retrieved_at": "2026-10-23T23:55:14.432Z",
+      "binary_sha256": "1f1a046775fbf136da45ab4435cee9450e0b98cab1f429e79d54604f073f8b15",
+      "binary_bytes": 7991,
+      "source_file": "rulesets/source/karing-support/geosite-google.json.gz",
+      "source_sha256": "dc51bd6e55a37eab09444b4bd937a0b2e154c5bd10ef2f2742ca89c7901c4538",
+      "source_gzip_sha256": "a358b15145d7e01445733dd1e3880aef08802a758d8f49b6ec8dde890b91e01d",
+      "source_bytes": 27973,
+      "source_gzip_bytes": 4889,
+      "source_version": 2
+    },
+    {
+      "tag": "geosite-microsoft",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs",
+      "retrieved_at": "2026-10-23T23:55:15.178Z",
+      "binary_sha256": "5eb7acbd3deec3fa22ee04d0bfff18250ea8201d76bd80e7be1ce9fd1cae6937",
+      "binary_bytes": 6935,
+      "source_file": "rulesets/source/karing-support/geosite-microsoft.json.gz",
+      "source_sha256": "064a5ad0c80b6768a09aa0666e15a6673b2bb32c9d0b3956056e207443134312",
+      "source_gzip_sha256": "a7c0bd68b51ec4d1263c47cbad9588570c443d263217341b7041069cb073bd9a",
+      "source_bytes": 22507,
+      "source_gzip_bytes": 4285,
+      "source_version": 2
+    },
+    {
+      "tag": "geosite-apple",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
+      "retrieved_at": "2026-10-23T23:55:15.871Z",
+      "binary_sha256": "3993417e868f49f4375771139a7c243e34977e73fb2389dff635b4098735579f",
+      "binary_bytes": 15674,
+      "source_file": "rulesets/source/karing-support/geosite-apple.json.gz",
+      "source_sha256": "f2c738004a50d8821a00b11397aa0b9673e1e5c8c8a7cbc875efdb7a3e516472",
+      "source_gzip_sha256": "679a4ca9fb5c27d2ff360edd7f4596a3a863f73a3a797bb5c8cce00c245e269f",
+      "source_bytes": 53485,
+      "source_gzip_bytes": 9182,
+      "source_version": 2
+    },
+    {
+      "tag": "geosite-cn",
+      "url": "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+      "retrieved_at": "2026-10-23T23:55:19.913Z",
+      "binary_sha256": "03285c606d3f413fcc268aae6d0e22e5f7ab133fa7730264081696e8cf5c7f55",
+      "binary_bytes": 441612,
+      "source_file": "rulesets/source/karing-support/geosite-cn.json.gz",
+      "source_sha256": "65cf5484c7a612e2ef68a984b4a4eba00e0d2164862f3997ed6f4d2d7042654f",
+      "source_gzip_sha256": "0c3f161a757baf6a4e7d1f29c70167b3d9d767ae1854de548826f29409e50616",
+      "source_bytes": 2612392,
+      "source_gzip_bytes": 490624,
+      "source_version": 2
+    }
+  ]
+}

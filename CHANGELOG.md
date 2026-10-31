@@ -1,10 +1,101 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/readme/page-changelog-mobile.svg">
+  <img src="docs/assets/readme/page-changelog.svg" alt="Smart-Config-Kit 仓库 变更日志" width="100%">
+</picture>
+
 # Smart-Config-Kit — 变更日志
 
 > 仓库级变更摘要。各产物的详细变更见对应子目录 `CHANGELOG.md`。
 > 主版本号由 `rulesets/source/routing-graph.js` 的 `SOURCE_GRAPH_VERSION` 与客户端产物版本共同维护；规则权威源是 `rulesets/source/routing-graph.js`。
-> 覆盖 14 个客户端形态的等价实现：Clash Party JS / CMFA / Stash / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / SingBox / Egern / v2rayN / Passwall / Passwall2 / FlClash。
+> 覆盖 14 个既有客户端配置产物，并提供 Karing sing-box 分流适配入口；各产物按所属内核系列归档。
 
 ---
+
+[![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
+
+
+## 配置工具 v1.4.3：Windows 浏览器 UDP 保护 (2026-10-31)
+
+- 处理 [Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193)：新增默认关闭的可信本地浏览器 UDP 拒绝选项，提供在线配置、离线下载及 CLI；详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)与[WebRTC 指南](docs/guide/webrtc-privacy.md)。共享默认规则、DNS 和其他应用的兼容策略不变。
+- 窄屏关闭面板背景模糊，修复滚动后的下载区空白；保留桌面布局与配色。
+
+## 文档：FlClash 新旧界面导入指南 (2026-10-31)
+
+- 补齐「扩展 → 脚本」入口、按配置关联步骤及新版截图，保留旧版图解；详见 [FlClash 变更日志](Mihomo内核系/FlClash/CHANGELOG.md)。本次不改变运行时与规则基线。
+
+## 配置工具 v1.4.2 (2026-10-29)
+
+- 业务方案下拉选项统一为“完整（Full）”“精简（Lite）”“自选（Custom）”；保留原始方案值、默认完整方案及生成行为。
+
+## 配置工具 v1.4.1 (2026-10-29)
+
+- 在线与离线表单的参数选项及选择摘要使用“中文（英文原值）”；底层枚举、布尔值、默认配置和客户端能力保持不变。
+
+## 配置工具 v1.4.0 (2026-10-29)
+
+- 增加 GitHub Pages 在线配置入口，页面生成与下载在本机完成，不读取或上传订阅；离线 HTML 继续提供。默认客户端配置和规则源保持不变。
+
+## 配置工具 v1.3.0 (2026-10-29)
+
+- 离线表单支持 20 个维护入口，按客户端能力选择业务方案和参数并下载配置。默认客户端配置和规则源保持不变。
+
+## 离线配置表单 v1.2.1 (2026-10-29)
+
+- 拒绝浏览器数值输入的原生无效状态，避免不完整指数被误当作关闭倍率筛选；有效留空及默认分流保持。详见 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+
+## 离线配置表单 v1.2.0 (2026-10-29)
+
+- FlClash 下载合并业务方案与既有测速、QUIC、节点 DNS、倍率及 ZeroTier 参数，双标签共享选择；默认客户端、规则与安全边界保持。详见[配置指南](docs/configuration.md)。
+
+## 离线配置表单 v1.1.0 (2026-10-29)
+
+- FlClash 可在离线表单选择 Full / Lite / Custom 后直接下载 JS，复用 CLI 的可信业务投影；默认客户端、源规则图及共享资产不变。详见[配置指南](docs/configuration.md)与 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+
+## v6.0.21 (2026-10-29)
+
+- 增加真实 QuickJS 门禁、全端可选业务投影、统一离线参数入口及显式 hosts-only 兼容；默认完整分流与共享资产保持。详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md) 和[配置指南](docs/configuration.md)。
+
+## v6.0.21 (2026-10-28)
+
+- Google FCM 归入 Google 服务，其他推送、DNS 与 fake-IP 保持不变；详见 [Clash Party 变更日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)。
+- 同步本次 FCM 变更的语义审查、来源账本与依赖覆盖记录，并修正 Karing 测试夹具的版本绑定。
+
+## 2026-10-27 — AEROVE Lite 原生预算修正
+
+- v6.0.20-meow.5 针对 beta18 实际拒绝与固定 Rust reader 的展开计数重新派生 Lite 专版资源；共享 fused 和官方 Meow YAML 不变。完整 App 验收待完成，详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
+## 2026-10-27 — AEROVE Lite 规则资源预算适配
+
+- v6.0.20-meow.4 为真实 APK 拒绝的超限广告 MRS 派生无损三片，保留 Lite 单资源预算、原优先级与完整规则集合；共享 fused 和官方 Meow YAML 不变。分片清单、固定 SHA、许可证事实与 App 剩余验收见 [AEROVE 分片依据](Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
+- 按固定 beta16 源码与真实 Android execution 更新生产校验接线、QuickJS 原子性及命名 HTTP 代理等已完成项，补全 README 与支持队列；完整资源和真实路由仍待验，详见 [联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+
+## 2026-10-24 — Meow 导航与 AEROVE 配置联调核查
+
+- 补齐首页 Meow 系列卡片、客户端索引及两个独立下载按钮；按固定源码和保存证据同步候选检查结果与剩余阻断，未把生产接线和真实路由标为通过。详见 [AEROVE 联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+
+## 2026-10-24 — Meow 与 AEROVE Lite 并列客户端目录
+
+- v6.0.20-meow.3 将官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自维护 README、参考文档和日志，共享生成器与清单；分流语义不变。详见 [官方 Meow 日志](Meow内核系/Meow/CHANGELOG.md)及 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
+## 2026-10-24 — Meow 通用原生与 JS 入口
+
+- 新增 v6.0.20-meow.2 原生 YAML，将 AEROVE 专属目录改为通用 Meow；核对官方 Android/iOS 输入与版本，真实官方核心校验接入 CI。App 与连接待验，详见 [Meow 日志](Meow内核系/Meow/CHANGELOG.md)。
+
+## 2026-10-24 — AEROVE Lite / meow-rs 预适配
+
+- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+
+## 2026-10-24 — README 首页与专题导航
+
+- 统一客户端教程、下载专题与现行文档版式，历史资料保留原文并集中导航。
+
+- 将根 README 重排为快速入门、客户端系列入口和单张架构概览；下载目录、协议矩阵、规则来源、DNS 验收与致谢迁入 `docs/guide/`。保留既有下载地址，拆分长表，并在 `AGENTS.md` §10 固化内容分层、视觉风格与发布验收契约。
+
+## 2026-10-24 — 客户端目录按内核系列归档
+
+- 将 14 个既有客户端目录归档到五类内核系列，并新增 Karing sing-box 分流适配入口；规则源主版本保持 v6.0.20。旧客户端产物 Raw URL 随路径变化，需重新导入；共享 `rulesets/` 资产 URL 不变。详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
+- 顶层目录使用短内核系列名称，APP 清单保留在 README；恢复历史核验档案原文，并让官方缓存校验覆盖历史清单哈希。
+- README 下载按钮与架构、策略、DNS 图统一为圆角玻璃质感 SVG，由 `tools/generate-readme-visuals.js` 生成；发布前检查 GitHub GFM 渲染、亮暗主题与窄屏布局。
 
 ## 2026-10-23 — SubStore v1.8.1 验证边界与失败保护
 
@@ -12,7 +103,7 @@
 
 ## 2026-10-23 — Issue #187 下载分流复核
 
-- 确认 `dldir1.qq.com` 已精确收录，补充跨端载荷、下载组出口及微信进程优先级回归与排障说明；规则行为不变。详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)。
+- 确认 `dldir1.qq.com` 已精确收录，补充跨端载荷、下载组出口及微信进程优先级回归与排障说明；规则行为不变。详见 [Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
 
 ## v6.0.20-dns.21 (2026-10-20)
 
@@ -21,122 +112,122 @@
 
 ## 2026-10-20 — Surge Fake IP 接管修复
 
-- FIX#190：Surge `v6.0.20-Surge.12` 移除覆盖自身 Fake IP 池的 TUN 排除路由，增加 CIDR 交集门禁与回归；规则源及其他客户端保持原基线。详见 [Surge 日志](./Surge/CHANGELOG.md)。
+- FIX#190：Surge `v6.0.20-Surge.12` 移除覆盖自身 Fake IP 池的 TUN 排除路由，增加 CIDR 交集门禁与回归；规则源及其他客户端保持原基线。详见 [Surge 日志](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/CHANGELOG.md)。
 
 ## 2026-10-19 — 官方版本研究与必要兼容适配
 
-- 缓存全客户端相关官方发布、配置文档与固定源码；修复 Smart 失效参数、Surge/QX DNS 写法、Passwall SRS 后端门禁和 sing-box 两版 schema。保持源规则图与业务规则载荷；版本、采用决策、原文收据和验证见[研究总览](./docs/upstream/2026-10-19/README.md)，各端细节见对应目录 CHANGELOG。
+- 缓存全客户端相关官方发布、配置文档与固定源码；修复 Smart 失效参数、Surge/QX DNS 写法、Passwall SRS 后端门禁和 sing-box 两版 schema。保持源规则图与业务规则载荷；版本、采用决策、原文收据和验证见[研究总览](docs/upstream/2026-10-19/README.md)，各端细节见对应目录 CHANGELOG。
 - 二次复核修正合法 Socks 节点被后端预检误拦的问题，将 1.13 产物纳入自动刷新清单，并把缓存、真实内核和后端回归接入 CI；精简 README 正文，保留图表、下载入口及必要操作边界。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.8.0
 
-- 增加来源策略限定的持久 local 内容快照同步与条件恢复，一次性链接不保存为远程源；详见[SubStore 日志](./SubStore/CHANGELOG.md)。既有远程快照与发布链路保持独立，不改分流产物或客户端版本。
+- 增加来源策略限定的持久 local 内容快照同步与条件恢复，一次性链接不保存为远程源；详见[SubStore 日志](SubStore/CHANGELOG.md)。既有远程快照与发布链路保持独立，不改分流产物或客户端版本。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.7.0
 
-- 增加严格限期的受阻源原始快照与云端独立处理，保留健康源自行下载和既有发布链路；受阻源刷新仍需本机运行，详见[SubStore 日志](./SubStore/CHANGELOG.md)。仅辅助订阅管理改动，不改路由或客户端产物版本。
+- 增加严格限期的受阻源原始快照与云端独立处理，保留健康源自行下载和既有发布链路；受阻源刷新仍需本机运行，详见[SubStore 日志](SubStore/CHANGELOG.md)。仅辅助订阅管理改动，不改路由或客户端产物版本。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.6.0
 
-- 本机通信改为隐藏 iframe，移除可见中转标签，并补充后台恢复与打包闭包验收；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+- 本机通信改为隐藏 iframe，移除可见中转标签，并补充后台恢复与打包闭包验收；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
 
 ## 2026-10-18 — Sub-Store 独立网页管理别名模块 v1.0.0
 
-- 为已审查 Worker 增加独立授权的完整管理前缀，保留旧入口与扩展受限入口；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物。
+- 为已审查 Worker 增加独立授权的完整管理前缀，保留旧入口与扩展受限入口；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物。
 
 ## 2026-10-18 — Sub-Store 下载网关 530 恢复模块 v1.0.0
 
-- 增加限定 GET/HEAD 的网关 530 单次直连恢复与精确 Worker 补丁；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+- 增加限定 GET/HEAD 的网关 530 单次直连恢复与精确 Worker 补丁；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.1
 
-- 修复 Cloudflare Worker 请求参数与空 GET JSON 解析的兼容问题；详见[SubStore 日志](./SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+- 修复 Cloudflare Worker 请求参数与空 GET JSON 解析的兼容问题；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.0
 
-- 支持本机与可选独立 Cloudflare Sub-Store 分别验证更新、分目标恢复及私密连接配置导入；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+- 支持本机与可选独立 Cloudflare Sub-Store 分别验证更新、分目标恢复及私密连接配置导入；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
 
 ## 2026-10-18 — Sub-Store Fusion 发布完整性模块 v1.0.0
 
-- 新增订阅数量/来源/错误占位校验与已审查 Worker 的合同补丁，补充严格发布文档和 CI；详见 [SubStore 日志](./SubStore/CHANGELOG.md)。仅属辅助订阅发布保护，不改路由或客户端产物版本。
+- 新增订阅数量/来源/错误占位校验与已审查 Worker 的合同补丁，补充严格发布文档和 CI；详见 [SubStore 日志](SubStore/CHANGELOG.md)。仅属辅助订阅发布保护，不改路由或客户端产物版本。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.1
 
-- 修复 DOM 候选撤下后的旧写入与预渲染激活握手，缓存编码审查项依据实际后端验证后保持不改；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。
+- 修复 DOM 候选撤下后的旧写入与预渲染激活握手，缓存编码审查项依据实际后端验证后保持不改；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.0
 
-- 为站点自动写入增加首次明确许可，修复跨响应歧义、离开未监听页面的旧写入及失败中转页泄漏；详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)。辅助扩展不改变分流产物。
+- 为站点自动写入增加首次明确许可，修复跨响应歧义、离开未监听页面的旧写入及失败中转页泄漏；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。辅助扩展不改变分流产物。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.2
 
-- 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](./SubStore/edge-extension/CHANGELOG.md)与[修复验证](./docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。
+- 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)与[修复验证](docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。
 
 ## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.1
 
-- 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](./SubStore/CHANGELOG.md)及[扩展说明](./SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。
-- 六家真实自动流程、158 项 Node 测试及 15 项独立浏览器流程通过，证据与 Chrome 待验边界见[验收记录](./docs/research/2026-10-18-substore-auto-sync-acceptance.md)。
+- 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](SubStore/CHANGELOG.md)及[扩展说明](SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。
+- 六家真实自动流程、158 项 Node 测试及 15 项独立浏览器流程通过，证据与 Chrome 待验边界见[验收记录](docs/research/2026-10-18-substore-auto-sync-acceptance.md)。
 
 ## v6.0.20 — 微信连接端点精确例外 (2026-10-16)
 
-- Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](./docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)。
-- 文档：补充 [Windows 11 Microsoft Store 排障](./docs/microsoft-store-windows.md)，区分本机代理回环入口与图片 CDN 出口，保留机器和网络适用边界。
+- Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
+- 文档：补充 [Windows 11 Microsoft Store 排障](docs/microsoft-store-windows.md)，区分本机代理回环入口与图片 CDN 出口，保留机器和网络适用边界。
 
 ## 2026-10-16 Issue 自动回复诊断与过滤处理
 
-- AUTOMATION：按任务选择 MiMo 上下文，将完整维护契约与用户报告分属 developer/user 消息；无完整编辑目标时仅分析，过滤或截断禁止补丁。#186 分析和文档补丁已真实验收，新增离线回归及独立 CI，详见[自动回复维护说明](./docs/ai-issue-responder.md)和[实测收据](./docs/research/2026-10-16-mimo-issue-responder-acceptance.md)；客户端规则及版本保持原有基线。
+- AUTOMATION：按任务选择 MiMo 上下文，将完整维护契约与用户报告分属 developer/user 消息；无完整编辑目标时仅分析，过滤或截断禁止补丁。#186 分析和文档补丁已真实验收，新增离线回归及独立 CI，详见[自动回复维护说明](docs/ai-issue-responder.md)和[实测收据](docs/research/2026-10-16-mimo-issue-responder-acceptance.md)；客户端规则及版本保持原有基线。
 
 ## v6.0.19 — JS fake-ip 继承与 CRLF 同步修复 (2026-10-16)
 
-- Smart/Normal/FlClash 仅继承缺省或 `blacklist` 模式的合法 fake-ip 豁免项，防止 `whitelist` / `rule` 语义反转；修复同步器丢失 CRLF 的 CR，并补齐模式与字节精确换行回归。详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)和 [FlClash 日志](./FlClash/CHANGELOG.md)。
+- Smart/Normal/FlClash 仅继承缺省或 `blacklist` 模式的合法 fake-ip 豁免项，防止 `whitelist` / `rule` 语义反转；修复同步器丢失 CRLF 的 CR，并补齐模式与字节精确换行回归。详见 [Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)和 [FlClash 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)。
 
 ## v6.0.19 — 远程规则下载修复 (2026-10-15)
 
-- FIX#186：自有规则下载统一改用 GitHub raw，消除 jsDelivr 仓库大小门槛；复用规则载荷并同步全部客户端和下载验证。详见[Clash Party 日志](./Clash%20Party/CHANGELOG.md)与[诊断及下载说明](./docs/rule-asset-delivery.md)。
+- FIX#186：自有规则下载统一改用 GitHub raw，消除 jsDelivr 仓库大小门槛；复用规则载荷并同步全部客户端和下载验证。详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)与[诊断及下载说明](docs/rule-asset-delivery.md)。
 - 在线验收工具支持显式代理、可配置请求/连接时限和串行验证，修复空正文传输错误的有限重试；实际 Shadowrocket 77 个 URL 均取得完整 GET 与哈希匹配收据，保留失败批次和补验时间。
 
 ## v6.0.18 — 首匹配规则质量整合 (2026-10-14)
 
-- 整合跨服务首匹配修复、八类业务补充规则和六条误伤例外，并同步全部客户端；保留 Claude、QUIC/测速与 ZeroTier 行为。详见 [Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)、[来源与整合说明](./docs/research/2026-10-14-wip-main-integration.md)及 [发布批次检查](./docs/release-batch.md)。
+- 整合跨服务首匹配修复、八类业务补充规则和六条误伤例外，并同步全部客户端；保留 Claude、QUIC/测速与 ZeroTier 行为。详见 [Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[来源与整合说明](docs/research/2026-10-14-wip-main-integration.md)及 [发布批次检查](docs/release-batch.md)。
 
 ## v6.0.17 — ZeroTier 设备选项持久化 (2026-10-14)
 
-- [Clash Party](./Clash%20Party/CHANGELOG.md) / [FlClash](./FlClash/CHANGELOG.md) 的同步与本地更新保留设备明确开关，新增只读真实 UDP 回包验收；默认图和静态客户端无对应 JS 入口，无需改变资产。命令、固定选择缓存条件及平台范围见 [使用说明](./docs/zerotier-planet-proxy.md)。
+- [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) / [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 的同步与本地更新保留设备明确开关，新增只读真实 UDP 回包验收；默认图和静态客户端无对应 JS 入口，无需改变资产。命令、固定选择缓存条件及平台范围见 [使用说明](docs/zerotier-planet-proxy.md)。
 
 ## v6.0.17 — Claude Desktop 端点保护与发布门禁 (2026-10-13)
 
 - 现有 `scki-adfp-ai` 增加两个官方 Desktop 必需主机的精确匹配；客户端规则集及原生格式维持现有实现。共享 source 语义检查、29 条 ADFP 例外校验、Claude 阶段依赖台账与文件级发布批次门禁。
-- 详见[Claude 服务依赖台账](./docs/claude-service-dependencies.md)、[文件级发布检查](./docs/release-batch.md)及[Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)。未进行真机故障复现或测量，未推送。
+- 详见[Claude 服务依赖台账](docs/claude-service-dependencies.md)、[文件级发布检查](docs/release-batch.md)及[Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。未进行真机故障复现或测量，未推送。
 
 ## v6.0.16 — 规则质量台账 (2026-10-12)
 
-- 为共同 source graph 和生成链登记来源/版本与 MRS→fused 收据，新增有序 domain-projection 三态差分及既有 ADFP 例外双向覆盖、来源图目标/广告前置检查；各客户端格式和运行时规则维持原有实现。详见[规则质量台账](./docs/rule-quality.md)。
+- 为共同 source graph 和生成链登记来源/版本与 MRS→fused 收据，新增有序 domain-projection 三态差分及既有 ADFP 例外双向覆盖、来源图目标/广告前置检查；各客户端格式和运行时规则维持原有实现。详见[规则质量台账](docs/rule-quality.md)。
 - 复用当前 fused 载荷；旧资产原始远端输入 SHA 无法反推，不宣称完整历史追溯。本次未改路由策略或进行真机流量测量。
 ## v6.0.15 — 可信本地 ZeroTier 根节点 UDP 选项 (2026-10-12)
 
-- [Clash Party](./Clash%20Party/CHANGELOG.md) 与 [FlClash](./FlClash/CHANGELOG.md) 提供默认关闭的四根 UDP/9993 代理开关；默认分流和静态资产保持不变。范围、官方规则字段与启用方法见 [使用说明](./docs/zerotier-planet-proxy.md)。Egern 清单只刷新真实来源哈希。
+- [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) 与 [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 提供默认关闭的四根 UDP/9993 代理开关；默认分流和静态资产保持不变。范围、官方规则字段与启用方法见 [使用说明](docs/zerotier-planet-proxy.md)。Egern 清单只刷新真实来源哈希。
 - JS 验证工作流纳入四根规则、本地开关边界与写前预检回归。
 
 ## v6.0.15 — 默认测速组按需检查 (2026-10-07)
 
-- 根据实际使用选择，Mihomo 与 Stash 的默认档保持 300 秒并启用 `lazy: true`；900 秒仍是可选省电档。其他客户端沿用各自原生测速调度；海外 QUIC 默认档不变。详见[测速与 QUIC 策略选项](./docs/traffic-options.md)。
-- 本次更新 [Clash Party](./Clash%20Party/CHANGELOG.md)、[CMFA](./Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](./OpenClash/CHANGELOG.md)、[FlClash](./FlClash/CHANGELOG.md) 与 [Stash](./Stash/CHANGELOG.md) 的客户端尾号；Egern 只刷新 CMFA 生成来源元数据。
+- 根据实际使用选择，Mihomo 与 Stash 的默认档保持 300 秒并启用 `lazy: true`；900 秒仍是可选省电档。其他客户端沿用各自原生测速调度；海外 QUIC 默认档不变。详见[测速与 QUIC 策略选项](docs/traffic-options.md)。
+- 本次更新 [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 与 [Stash](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/CHANGELOG.md) 的客户端尾号；Egern 只刷新 CMFA 生成来源元数据。
 
 ## v6.0.15 — 测速与海外 QUIC 策略可选 (2026-10-07)
 
-- 增加 `standard` / `power-save` 健康检查档与 `block-foreign` / `follow-rules` 海外 UDP/443 档，集中保存并联动客户端配置；使用方法及各平台限制见 [测速与 QUIC 策略选项](./docs/traffic-options.md)。
+- 增加 `standard` / `power-save` 健康检查档与 `block-foreign` / `follow-rules` 海外 UDP/443 档，集中保存并联动客户端配置；使用方法及各平台限制见 [测速与 QUIC 策略选项](docs/traffic-options.md)。
 - 选项生成复用已发布融合资产，并改进 Windows 上生成文件的原子写入可靠性；规则源变更仍走完整构建链。
-- 各客户端实现与版本记录见 [Clash Party](./Clash%20Party/CHANGELOG.md)、[CMFA](./Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](./OpenClash/CHANGELOG.md)、[FlClash](./FlClash/CHANGELOG.md) 及其他对应目录的 CHANGELOG。
+- 各客户端实现与版本记录见 [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 及其他对应目录的 CHANGELOG。
 
 ## v6.0.14 — inline 订阅兼容与测速候选隔离 (2026-09-30)
 
 - 横向研究 HotKids、Repcz 与其他高星脚本后，五个订阅处理器支持受控 inline payload 展平；具名直连/拒绝出站保留依赖但不进入测速组。CMFA 同步原生类型过滤，Stash 明确平台限制，Egern 刷新派生清单。
-- 补齐写前结构检查、FlClash 规则集容器修复及内置名称检查；详见 [后续优化与逐端验收](./docs/research/2026-09-30-routing-runtime-followup.md) 和各目录 CHANGELOG。规则权威源与融合资产保持 v6.0.14。
+- 补齐写前结构检查、FlClash 规则集容器修复及内置名称检查；详见 [后续优化与逐端验收](docs/research/2026-09-30-routing-runtime-followup.md) 和各目录 CHANGELOG。规则权威源与融合资产保持 v6.0.14。
 
 ## v6.0.14 — 订阅节点预检与可选倍率筛选 (2026-09-30)
 
-- 研究 MyClash 等分流仓库后，统一三个 JS 与两个 OpenClash 脚本的预检、默认关闭的倍率上限及空节点处理，修复 OpenClash 对正常线路的误过滤。规则权威源与融合资产保持 v6.0.14；逐端适用性及源码取舍见 [研究报告](./docs/research/2026-09-30-routing-script-research.md)。
-- 详情：[Clash Party](./Clash%20Party/CHANGELOG.md)、[FlClash](./FlClash/CHANGELOG.md)、[OpenClash](./OpenClash/CHANGELOG.md)；使用方法见 [节点筛选指南](./docs/subscription-node-filter.md)。
+- 研究 MyClash 等分流仓库后，统一三个 JS 与两个 OpenClash 脚本的预检、默认关闭的倍率上限及空节点处理，修复 OpenClash 对正常线路的误过滤。规则权威源与融合资产保持 v6.0.14；逐端适用性及源码取舍见 [研究报告](docs/research/2026-09-30-routing-script-research.md)。
+- 详情：[Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)；使用方法见 [节点筛选指南](docs/subscription-node-filter.md)。
 
 ## v6.0.14 — 微信 HTTPDNS 精确直连例外 (2026-09-29)
 
@@ -149,7 +240,7 @@
 - FIX#183：兼容 Clash Party v2.0.3+ 订阅 DNS 覆写保护；明确客户端内置 `controlDns` 自动关闭与本仓库 JS DNS 写入是两个不同层次。
 - SYNC：Smart / Normal JS 在原始订阅含受保护 DNS 字段时输出脱敏边界诊断，随后继续应用仓库 DNS 基线；FlClash 不引入 Clash Party 专属 guard。
 - VERIFY：新增受保护源 DNS 字段 fixture，确认 `nameserver`、`proxy-server-nameserver`、`nameserver-policy` 等最终字段仍由仓库脚本控制。
-- DOCS：同步 Clash Party 使用教程、根 DNS 指南、私有节点 DNS 指南及 `AGENTS.md` 陷阱/自检条目；详见 [Clash Party 变更日志](./Clash%20Party/CHANGELOG.md)。
+- DOCS：同步 Clash Party 使用教程、根 DNS 指南、私有节点 DNS 指南及 `AGENTS.md` 陷阱/自检条目；详见 [Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
 
 ## v6.0.13-dns.7 / v6.0.13-normal.8 / v6.0.13-flclash.10 (2026-09-21)
 
@@ -172,7 +263,7 @@
 
 ## v6.0.11-flclash.7 应用层配置修正 (2026-08-31)
 
-- FIX#181：纠正 FlClash DNS 二次覆盖、Android VPN HTTP 代理与应用排除的使用说明；保留规则与 DNS 运行时基线。详见 [FlClash 变更日志](./FlClash/CHANGELOG.md)。
+- FIX#181：纠正 FlClash DNS 二次覆盖、Android VPN HTTP 代理与应用排除的使用说明；保留规则与 DNS 运行时基线。详见 [FlClash 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)。
 
 ## v6.0.11 Gemini / Accademia Gemini Google 路由 (2026-08-22)
 
@@ -216,7 +307,7 @@
 
 - RUNTIME-NODE-DNS：Clash Party Smart/Normal、FlClash 与 OpenClash Normal/Smart 新增同一受限 Node-DNS Adapter。它只为活动节点 FQDN 物化精确 `proxy-server-nameserver-policy` 和必要 bootstrap hosts；订阅不能替换全局业务 DNS、fake-ip 或固定 PSS 基线。
 - HARDENING：保留 Mihomo hosts 的标量域名重定向语义，支持 IPv4 / IPv6 / IPv4-mapped IPv6 bootstrap，`*.` 优先于更宽的 `+.` / `.`，resolver hosts 在容量上限前收集；输入与输出均有确定性上限。
-- CROSS-CLIENT-AUDIT：CMFA、Stash、Egern、Shadowrocket、Surge、Loon、Quantumult X、Sing-box、v2rayN Xray、Passwall / Passwall2 是静态或路由产物，没有订阅运行时 seam，明确不宣称自动接管私有节点 DNS；详见 [私有节点 DNS 指南](./docs/private-node-dns.md)。
+- CROSS-CLIENT-AUDIT：CMFA、Stash、Egern、Shadowrocket、Surge、Loon、Quantumult X、Sing-box、v2rayN Xray、Passwall / Passwall2 是静态或路由产物，没有订阅运行时 seam，明确不宣称自动接管私有节点 DNS；详见 [私有节点 DNS 指南](docs/private-node-dns.md)。
 - VERIFY：新增同步漂移检查、JS 运行时回归与两份真实 OpenClash Ruby heredoc 合同；源规则图、MRS/fused/SRS 资产与静态产物版本不变。
 
 ## v6.0.9 平台修复 (2026-07-24)
@@ -346,13 +437,13 @@
 
 - SCKI-SUPPLEMENTAL：新增 `rulesets/supplemental/` 公共补充规则集，将广告误伤、抖音 Web、RustDesk、Google Workspace、下载更新等零星直写域名/IP/进程整理为规则集引用。
 - MIHOMO-MRS：支持 `.mrs` 的 Mihomo 产物（Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash）迁移上游规则源：35 个复用上游 `.mrs`，255 个纯 domain/ipcidr provider 转为本仓库 `.mrs`，38 个混合 provider 拆分为 domain/ipcidr 双 `.mrs`，48 个含 GEOIP/端口/进程等不支持类型的 provider 保留原格式。
-- EGERN：`Egern/` 从 Preview 升级为正式同步产物，由 CMFA 生成 22 个 `smart` 区域组、33 个业务组、882 条 Egern 主规则与 439 个顶层 `rule_set`；Egern 不直接消费 Mihomo `.mrs`，而是映射到本仓库生成的 Egern 原生 YAML 规则集。
+- EGERN：`独立内核系/Egern/` 从 Preview 升级为正式同步产物，由 CMFA 生成 22 个 `smart` 区域组、33 个业务组、882 条 Egern 主规则与 439 个顶层 `rule_set`；Egern 不直接消费 Mihomo `.mrs`，而是映射到本仓库生成的 Egern 原生 YAML 规则集。
 - SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash、Egern、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2 元数据和产物同步到 v5.4.38。
 - VERIFY：合同校验改为检查 `scki-*` 补充规则集引用、`.mrs` 清单、正式 Egern YAML 结构；JS 产物为 55 组、884 条规则、429 providers。
 
 ## v5.4.37-stash.1 (2026-07-07)
 
-- FEAT#173-STASH：新增 Stash 专用目录，包含由 CMFA 自动裁剪生成的 `Stash/Stash.yaml`、使用说明、CHANGELOG 与 Stash Wiki 字段参考。
+- FEAT#173-STASH：新增 Stash 专用目录，包含由 CMFA 自动裁剪生成的 `独立内核系/Stash/Stash.yaml`、使用说明、CHANGELOG 与 Stash Wiki 字段参考。
 - TOOLING：新增 `tools/generate-stash-from-cmfa.js`，并把 Stash YAML 纳入 `validate-artifact-contracts.js` 与 CI 路径触发。
 - COMPAT：Stash 产物保留 22 区域组、33 业务组、376 rule-provider 与规则顺序；删除 Stash Wiki 未确认的 Mihomo 扩展字段和 provider 下载代理字段。
 
@@ -377,7 +468,7 @@
 - CLEAN#170-DIRECT：删除 3 条已被前置 Douyin 国内流媒体守卫同目标覆盖的后置直写规则：`douyin.com`、`douyinpic.com`、`douyinvod.com`。
 - SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；SingBox Full 由 generator 重新生成。
 - SCOPE：`privacy` 不删，因仍有 `IP-CIDR,0.0.0.1/32` 未被前序覆盖；Passwall/Passwall2 保留展平静态 `domain:encoretvb.com`，仅做基线元数据对齐。
-- VERIFY：全量 Mihomo provider 数 384 → 376；SR/Surge/Loon 远程规则 288 → 283；QX `filter_remote` 285 → 280。
+- VERIFY：全量 Mihomo provider 数 384 → 376；SR/独立内核系/Surge/Loon 远程规则 288 → 283；QX `filter_remote` 285 → 280。
 
 ## v5.4.34 (2026-06-28)
 
@@ -425,13 +516,13 @@
   - **🇪🇺 欧洲流媒体** (3): itv.com/itvstatic.com/britbox.com
   - **🌐 其他国外流媒体** (6): wetv.vip/wetvinfo.com/viki.com/viki.io/mewatch.sg/discoveryplus.com
   - **🎮 国外游戏** (12): ubisoft.com/ubi.com/riotgames.com/leagueoflegends.com/valorant.com/rockstargames.com/gog.com/gogalaxy.com/supercell.com/garena.com/hoyoverse.com/hoyolab.com
-- **全产物联动**：Clash Party / FlClash / CMFA / OpenClash Normal+Smart / Shadowrocket / Surge / Loon / Quantumult X 同步清理；SingBox（需修改生成器，本轮豁免）/ v2rayN（无此冗余）/ Passwall/Passwall2（规则语法不同，不适用）。
-- 详见 `Clash Party/CHANGELOG.md`。
+- **全产物联动**：Clash Party / FlClash / CMFA / OpenClash Normal+Smart / Shadowrocket / Surge / Loon / Quantumult X 同步清理；SingBox（需修改生成器，本轮豁免）/ v2rayN（无此冗余）/ 双内核系/Passwall/Passwall2（规则语法不同，不适用）。
+- 详见 `Mihomo内核系/Clash Party/CHANGELOG.md`。
 
 ## v5.4.27 (2026-06-07)
 
 - CLEAN#165：全量下载 348 个可文本解析的上游规则集（`.mrs` 二进制仅计入覆盖来源、不作为删除证据），解析 244,417 条上游规则；发现 365 条直写域名/IP 与上游存在重叠。
-- 本轮只删除”移除后首个命中仍为同策略上游规则集”的冗余项：Clash/mihomo 家族 7 条直写域名（Claude/PayPal/HBO/Hulu/Xbox 覆盖）+ Passwall/Passwall2 2 条 HBO/Max `geosite:hbo` 本地兜底。
+- 本轮只删除”移除后首个命中仍为同策略上游规则集”的冗余项：Clash/mihomo 家族 7 条直写域名（Claude/PayPal/HBO/Hulu/Xbox 覆盖）+ 双内核系/Passwall/Passwall2 2 条 HBO/Max `geosite:hbo` 本地兜底。
 - SYNC：Clash Party(Smart+Normal) / CMFA / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / FlClash 同步删除；SingBox Full 已由 generator 重新生成；v2rayN Xray 路由无本轮直写候选，仅元数据对齐。
 
 ## v5.4.26 (2026-06-07)
@@ -464,7 +555,7 @@
 ## v5.4.23 (2026-06-02)
 
 - FIX#161：zhimg.com / zhihu.co 加入国内网站直连（知乎图片 CDN + 短链未被 geosite:cn 覆盖）
-- FIX#162：SR/Surge/Loon/QX 修复失效远程规则 URL（HaGeZi TIF 403 / RemoteDesktop 不存在 / BiliIntl 路径更名）
+- FIX#162：SR/独立内核系/Surge/Loon/QX 修复失效远程规则 URL（HaGeZi TIF 403 / RemoteDesktop 不存在 / BiliIntl 路径更名）
 - 同步：全 12 产物
 
 ## v5.4.22 (2026-05-31)
@@ -605,7 +696,7 @@
 ## v5.2.10 (2026-04-25)
 
 - FIX#39：境外 DoH 端点（dns.google / cloudflare-dns.com）从云与CDN改路由到受限网站（防 CDN 组被设直连导致 DoH 失败）
-- 同构联动全产物；v2rayN/Passwall/Passwall2 标记平台例外
+- 同构联动全产物；v2rayN/双内核系/Passwall/Passwall2 标记平台例外
 
 ## v5.2.9 (2026-04-25)
 
@@ -613,7 +704,7 @@
   - P0 FIX#30：PROCESS-NAME 规则硬编码常量引用失效
   - P1 FIX#31：APAC_OTHER iso 列表缺 IN/IND（印度节点归类失败）
   - P1 FIX#32：jsdelivr 规则注释与代码矛盾
-  - iOS 同构 FIX#33~#36：SR/Surge/Loon/QX 裸子串 US/PL/SE 跨匹配 + nowtv typo + 日期
+  - iOS 同构 FIX#33~#36：SR/独立内核系/Surge/Loon/QX 裸子串 US/PL/SE 跨匹配 + nowtv typo + 日期
   - CMFA FIX#37：补齐 nameserver-policy
   - Passwall2 FIX#38：geosite:kakaotalk -> geosite:kakao
 
@@ -730,4 +821,4 @@
 
 ---
 
-> 更早版本（v4.5.7 及之前）见 `Clash Party/CHANGELOG.md`。
+> 更早版本（v4.5.7 及之前）见 `Mihomo内核系/Clash Party/CHANGELOG.md`。

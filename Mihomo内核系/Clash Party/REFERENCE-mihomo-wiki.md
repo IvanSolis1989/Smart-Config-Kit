@@ -1,0 +1,353 @@
+# Mihomo (MetaCubeX) 官方配置文档参考
+
+> 核对于 2026-10-31（Issue #193）：重新读取 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，使用既有 `AND`、`NETWORK`、`PROCESS-NAME`、`REJECT` 语法；UDP 选择不支持 UDP 的代理可能继续匹配，故显式本地保护使用拒绝而非代理目标。新增选项只覆盖 Windows `chrome.exe` / `msedge.exe` / `firefox.exe`，依赖 TUN 接管及有效进程识别，默认关闭，不新增内核字段或最低版本。浏览器侧取舍另见 [Chrome 官方 privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy)。配置/核心语法检查不代替用户设备恢复验收。
+
+> 核对于 2026-10-29：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/) 和 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。显式 hosts-only 仅使用现有精确键及 IP 数组窄子集，不新增内核字段、不改节点 server/SNI/Host；默认 adaptive 与全局 DNS 不变。可选业务投影保留原生规则顺序及必要引用，真实 QuickJS 不代替 App 验收。
+
+> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 RULE-SET 的既有策略目标字段与从上到下匹配语义。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+
+> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与[路由规则](https://wiki.metacubex.one/config/rules/)；本次沿用的 policy、精确域名和规则顺序语义无变化，不新增内核字段。
+
+> 核对于 2026-10-19：本次核对 Mihomo v1.19.32、滚动 Alpha、vernesong Smart 与 Clash Party v2.0.4 的发布记录及配置生成源码。当前 SmartOption 不含 `strategy`，MetaCubeX Alpha 与 Smart 分支必须区分。官方原文缓存、具体适配决定与验证范围见[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。以下既有摘要仍保留各自历史日期，本次未逐段重新校验。
+
+> 核对于 2026-10-16（上次 2026-10-15）：[fake-ip-filter-mode 官方定义](https://wiki.metacubex.one/config/dns/#fake-ip-filter-mode) 仍为 `blacklist` / `whitelist` / `rule`，默认 `blacklist`；`whitelist` 仅匹配项返回 fake IP，`rule` 使用规则语法。JS 继承须先检查源模式，不能只清洗条目后改成 blacklist。本次不新增内核字段。
+
+> 2026-10-15 URL 兼容性复核：[官方 rule-provider 文档](https://wiki.metacubex.one/en/config/rule-providers/)要求 `type: http` 配置 `url`，并示例 HTTPS raw URL；本次只更换自有规则集 URL 主机，不增删 Mihomo 字段。Clash Party、CMFA、OpenClash、FlClash 共用此 Mihomo 字段依据。详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+
+> 核对于 2026-10-14（上次 2026-10-12）：复核 [路由规则](https://wiki.metacubex.one/config/rules/) 与 [store-selected](https://wiki.metacubex.one/config/general/#_28)。本次只修复可信本地选项的同步/部署保留，不增加内核字段。Smart fork [API 选择缓存](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/route/proxies.go#L74) 和 [配置刷新恢复](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/executor/executor.go#L449) 支持已有 `store-selected=true`；`fixed` 是 API 状态，不能新增为 Smart 配置。缓存、组名和成员存在是恢复条件，UDP 必须实测回包。
+
+> 核对于 2026-10-12：[路由规则](https://wiki.metacubex.one/config/rules/) 页面仍标注 2026-07-08。`AND`、`NETWORK`、`DST-PORT`、`IP-CIDR` 与 `no-resolve` 的字段及从上至下优先级没有变化。本地 ZeroTier 选项使用这组已有字段；官方说明 UDP 目标不支持 UDP 时会继续向下匹配，所以启用设备须实际验证已有目标组的 UDP 能力。
+
+> 同日补充复核：[`type: inline` / `payload`](https://wiki.metacubex.one/config/proxy-providers/) 为正式集合字段，HTTP/file 的 payload 只是失败备份，不代表远端节点已展开。[具名 direct](https://wiki.metacubex.one/config/proxies/direct/) 保留接口/拨号作用，分类时排除；[`PASS-RULE`](https://wiki.metacubex.one/config/proxies/built-in/) 是保留的内置策略。组 `exclude-type` 在 [v1.19.31 GroupBase](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) 对已合并成员过滤，已用 v1.19.29 的 use-provider controller 验证；详见 [验收证据](../../docs/research/2026-09-30-routing-runtime-followup.md)。
+
+> 更新于 2026-09-30（上次核对 2026-07-25）：复核 [Mihomo v1.19.31](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.31) 与 [代理组字段](https://wiki.metacubex.one/config/proxy-groups/)。`use` 引入 provider；`include-all-proxies` 只覆盖显式节点；组内 `url` 不代替 provider 的健康检查。空组的 `empty-fallback` 默认是 `COMPATIBLE`，节点筛选结果为空时使用已有内置策略 `REJECT` 作为显式成员。本次预检/倍率解析仅在 JS 执行，不引入新内核字段；最低版本保持原要求。[DNS 字段](https://wiki.metacubex.one/config/dns/) 的节点解析与业务解析边界保持原设计。
+
+> 抓取自 https://wiki.metacubex.one/ (2026-04-26)
+> 更新于 2026-04-30：最新稳定版 v1.19.24（2026-04-20）。v1.19.17 已移除 relay 组类型（改用 dialer-proxy）——本仓库未使用 relay，无影响。Smart/LightGBM 字段无变更。
+> 更新于 2026-05-30：批 A #5 落地——WebFetch `wiki/config/dns` + WebSearch 确认 `direct-nameserver-follow-policy` 语义：默认 `false`（忽略 nameserver-policy），`true` 时 direct 出口域名解析也遵守 nameserver-policy，仅当 direct-nameserver 非空时生效；官方 use case 即「direct 用国内 DoH + policy 指定域名走指定 DNS」。与 `direct-nameserver` 同字段族（耦合添加），本仓库已使用 direct-nameserver，故置 true 不抬高最低内核要求。
+> 更新于 2026-05-30：default-nameserver 由"必须为 IP，不能为域名"修正为"必须为 IP，**可为加密 DNS**"——host 须为 IP，但 scheme 可为 tls://IP / https://IP/dns-query（官方原文"必须为 IP, 可为加密 DNS"）。
+> 更新于 2026-07-14：复核官方“路由规则”页面（页面更新时间 2026-07-08）。`PROCESS-NAME,<进程名>,<策略>` 仍为正式规则类型，支持精确进程名匹配；本仓库使用的 `WorkPro.exe` / `WorkProWebProcess.exe` 写法无字段或语义变更。
+> 更新于 2026-07-25：复核官方 DNS 页面（页面更新时间 2026-07-18）。`proxy-server-nameserver`、`proxy-server-nameserver-policy`、`nameserver-policy` 与 `hosts` 的字段语义仍兼容；本仓库的 profile 只在订阅覆写运行时物化活动节点的精确 policy，不引入新的 Mihomo DNS 字段或放宽全局 DNS 基线。
+> 本文件为本地参考，用于审核本仓库各配置文件与官方文档的兼容性。
+
+---
+
+## 1. 代理组配置 (proxy-groups)
+
+**文档源**: https://wiki.metacubex.one/config/proxy-groups/
+
+### 通用字段 (Common Options)
+
+| 字段 | 类型 | 必需 | 说明 |
+|------|------|------|------|
+| `name` | string | 是 | 代理组名称；含特殊字符需加引号 |
+| `type` | string | 是 | 代理组类型（见下方 `type` 有效值） |
+| `proxies` | list | 否 | 引用出站代理或其他代理组 |
+| `use` | list | 否 | 引用代理集合 (proxy-providers) |
+| `url` | string | 否 | 测试地址；仅对 `proxies` 字段中的节点进行测试 |
+| `interval` | int | 否 | 测试间隔（秒） |
+| `lazy` | bool | 否 | 默认 true；当前组未被选择时不测试 |
+| `timeout` | int | 否 | 测试超时（毫秒） |
+| `max-failed-times` | int | 否 | 最大失败次数，默认 5 |
+| `disable-udp` | bool | 否 | 禁用 UDP |
+| `interface-name` | string | 否 | **已废弃**，请使用节点级别配置 |
+| `routing-mark` | int | 否 | **已废弃**，请使用节点级别配置 |
+| `include-all` | bool | 否 | 包含所有出站代理和代理集合（不含其他组） |
+| `include-all-proxies` | bool | 否 | 包含所有出站代理（不含其他组） |
+| `include-all-providers` | bool | 否 | 包含所有代理集合（会使 `use` 失效） |
+| `filter` | string | 否 | 正则包含筛选；可用 `` ` `` 分隔多个；仅对 `use` 和 `include-all-*` 生效 |
+| `exclude-filter` | string | 否 | 正则排除筛选；可用 `` ` `` 分隔多个 |
+| `exclude-type` | string | 否 | 按类型排除（`|` 分隔）；不支持正则 |
+| `expected-status` | string | 否 | 期望 HTTP 状态码；`/` 匹配多个，`-` 匹配范围 |
+| `hidden` | bool | 否 | 在 API 中隐藏 |
+| `icon` | string | 否 | 图标 URL |
+
+### `type` 有效值
+
+| 值 | 说明 |
+|----|------|
+| `select` | 手动选择 |
+| `url-test` | 自动测试延迟，选最低延迟节点 |
+| `fallback` | 按优先级选第一个可用节点 |
+| `load-balance` | 轮询负载均衡 |
+| `relay` | 中继链 |
+| `smart` | AI 智能选择（Smart 内核 v1.18.0+） |
+
+### Smart 类型特有字段
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `uselightgbm` | bool/string | 是否使用 LightGBM 模型预测权重；`false` 或 `smart` |
+| `collectdata` | bool | 是否收集数据用于模型训练 |
+| `strategy` | string | 选择策略：`sticky-sessions`（默认，基于哈希）或 `round-robin` |
+| `policy-priority` | string | 手动分配权重：`"Premium:0.9;SG:1.3"` |
+| `tolerance` | int | 延迟容差（毫秒），避免频繁切换 |
+
+### `filter` 字段语法
+
+- 使用 Go RE2 正则语法
+- 多个正则用反引号 `` ` `` 分隔
+- 是**子串匹配**（非 word boundary）
+- 例：`TW` 会匹配 `TWN`、`TW01` 等
+- 例：`(?i)港|hk|hongkong|hong kong`
+
+### YAML 锚点/别名支持
+
+- mihomo 使用 `gopkg.in/yaml.v3`，**支持** YAML 锚点 (`&anchor`) 和别名 (`*anchor`)
+- 支持 map merging (`<<:`)
+- 官方通过 `rule-anchor` 字段提供模板化支持
+
+---
+
+## 2. 代理集合配置 (proxy-providers)
+
+**文档源**: https://wiki.metacubex.one/config/proxy-providers/
+
+### 字段说明
+
+| 字段 | 说明 |
+|------|------|
+| `type` | 必需：`http` / `file` / `inline` |
+| `url` | type 为 `http` 时必需 |
+| `path` | 文件路径，必须唯一；不填则使用 URL MD5 作为文件名 |
+| `interval` | 更新间隔（秒） |
+| `proxy` | 通过指定代理下载/更新 |
+| `size-limit` | 最大下载大小限制（字节），0 为不限制 |
+| `header` | 自定义 HTTP 请求头 |
+| `health-check` | 延迟测试配置 |
+| `override` | 覆盖节点内容（additional-prefix, additional-suffix, proxy-name 等） |
+| `filter` | 正则包含筛选节点；可用 `` ` `` 分隔多个 |
+| `exclude-filter` | 正则排除筛选节点；可用 `` ` `` 分隔多个 |
+| `exclude-type` | 按类型排除（`|` 分隔，不支持正则） |
+| `payload` | type 为 `inline` 时生效；也可作为 http/file 解析失败的备用 |
+
+### health-check 子字段
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `enable` | bool | 是否启用 |
+| `url` | string | 测试地址，推荐 `https://cp.cloudflare.com` 或 `https://www.gstatic.com/generate_204` |
+| `interval` | int | 测试间隔（秒） |
+| `timeout` | int | 测试超时（毫秒） |
+| `lazy` | bool | 默认 true；当前节点未被使用时不做测试 |
+| `expected-status` | string | 期望状态码 |
+
+---
+
+## 3. 规则集合配置 (rule-providers)
+
+**文档源**: https://wiki.metacubex.one/config/rule-providers/
+
+### 字段说明
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `type` | string | 必需：`http` / `file` / `inline` |
+| `url` | string | type 为 `http` 时必需 |
+| `path` | string | 可选，文件路径；不填则使用 URL MD5 作为文件名 |
+| `interval` | int | 更新间隔（秒） |
+| `proxy` | string | 通过指定代理下载/更新 |
+| `behavior` | string | `domain` / `ipcidr` / `classical` |
+| `format` | string | `yaml`（默认）/ `text` / `mrs` |
+| `size-limit` | int | 最大下载大小（字节），0 为不限制 |
+| `header` | object | 自定义 HTTP 请求头 |
+| `payload` | list | type 为 `inline` 时有效 |
+
+### behavior 说明
+
+| 值 | 说明 |
+|----|------|
+| `domain` | 域名规则文件 |
+| `ipcidr` | IP/CIDR 规则文件 |
+| `classical` | 经典 Clash 规则格式（含 `DOMAIN-`/`DOMAIN-SUFFIX`/`IP-CIDR` 等类型前缀） |
+
+### format 说明
+
+| 值 | 说明 |
+|----|------|
+| `yaml` | YAML 格式（默认） |
+| `text` | 文本格式（一行一条规则） |
+| `mrs` | 二进制规则集格式；behavior 只能为 `domain` / `ipcidr` |
+
+### RULE-SET 引用语法
+
+```yaml
+rules:
+  - RULE-SET,google,🤖 AI 服务
+  - RULE-SET,tiktok,📱 社交媒体
+  - MATCH,🐟 漏网之鱼
+```
+
+---
+
+## 4. DNS 配置
+
+**文档源**: https://wiki.metacubex.one/config/dns/
+
+### 字段说明
+
+| 字段 | 说明 |
+|------|------|
+| `enable` | 是否启用 |
+| `cache-algorithm` | 缓存算法：`lru`（默认）/ `arc` |
+| `prefer-h3` | DOH 优先使用 HTTP/3 |
+| `listen` | DNS 服务监听地址 |
+| `ipv6` | 是否解析 IPv6 |
+| `enhanced-mode` | `fake-ip` / `redir-host`（默认） |
+| `fake-ip-range` | fakeip 地址范围，默认 `198.18.0.1/16` |
+| `fake-ip-range6` | IPv6 fakeip 范围 |
+| `fake-ip-filter` | fakeip 过滤；支持域名通配符和导入域名集 |
+| `fake-ip-filter-mode` | `blacklist`（默认）/ `whitelist` / `rule` |
+| `fake-ip-ttl` | fakeip 查询返回的 TTL |
+| `use-hosts` | 是否响应配置的 hosts，默认 true |
+| `use-system-hosts` | 是否查询系统 hosts，默认 true |
+| `respect-rules` | DNS 连接遵守路由规则；需配置 `proxy-server-nameserver` |
+| `default-nameserver` | 默认 DNS，**必须为 IP，可为加密 DNS**（host 须为 IP，scheme 可 tls:// / https://；如 `tls://223.5.5.5`、`https://223.5.5.5/dns-query` 均合法，仅 host 为域名时不合法） |
+| `nameserver-policy` | 特定域名使用特定 DNS 服务器；key 支持域名通配符和 geosite |
+| `nameserver` | 默认域名解析服务器 |
+| `fallback` | 备用域名解析服务器 |
+| `proxy-server-nameserver` | 代理节点域名解析服务器 |
+| `proxy-server-nameserver-policy` | 节点域名解析策略 |
+| `direct-nameserver` | 直连出口的 DNS 服务器 |
+| `direct-nameserver-follow-policy` | 是否遵守 nameserver-policy（默认 **false** = 忽略；仅当 direct-nameserver 非空时生效。本仓库 v5.4.19 起置 `true`，使 direct 出口域名解析也遵守 policy） |
+| `fallback-filter` | 备用 DNS 过滤器；含 `geoip` / `geoip-code` / `geosite` / `ipcidr` / `domain` |
+
+### 2026-07-25：私有节点 DNS Adapter 的官方字段复核
+
+复核来源：[Mihomo DNS 配置](https://wiki.metacubex.one/en/config/dns/)、[hosts](https://wiki.metacubex.one/en/config/dns/hosts/) 与 [Mihomo 域名通配符语法](https://wiki.metacubex.one/en/handbook/syntax/)。
+
+- `proxy-server-nameserver` 只解析代理节点域名；`proxy-server-nameserver-policy` 也只作用于节点域名，并且只有前者非空时才生效。
+- `default-nameserver` 用于解析 DNS server hostname；其 DNS endpoint host 必须是 IP，因此私有 resolver hostname 必须由可信 hosts 或 IP bootstrap 解决，不能依赖自身。
+- 域名 key 的 `+.` 匹配根域及全部子域，`.` 只匹配子域，`*.` 恰好匹配一个 label。运行时 Adapter 只把命中的结果物化为当前活动节点的精确 FQDN，避免把订阅通配符扩大到业务 DNS。
+- `hosts` 的域名重定向只能是标量，不能写成数组；完整域名优先于通配符，`*.example.com` 优先于 `.example.com`。Adapter 因此保留单个域名 redirect 为标量，并在 `*.` 与更宽的 `+.` / `.` 同时命中时选择前者。
+- 仓库的 Node-DNS Adapter 只读取订阅的 `proxy-server-nameserver`、节点 policy，以及为活动节点/resolver hostname 精确匹配的 hosts。订阅 PSS 仅在没有更具体 policy 时被物化为对应活动节点的精确 node policy，绝不替换最终全局 PSS；仅在节点 policy 未命中时，会把匹配该节点的全局 `nameserver-policy` 物化为精确节点 policy。普通 `nameserver`、`fallback`、fake-ip 和其余全局 DNS 设置没有导入 seam。
+
+### fake-ip-filter-mode: rule 模式
+
+当 `fake-ip-filter-mode` 设为 `rule` 时，`fake-ip-filter` 语法变更：
+
+```yaml
+dns:
+  fake-ip-filter-mode: rule
+  fake-ip-filter:
+    - RULE-SET,reject-domain,fake-ip
+    - RULE-SET,proxy-domain,fake-ip
+    - GEOSITE,gfw,fake-ip
+    - DOMAIN,www.baidu.com,real-ip
+    - DOMAIN-SUFFIX,qq.com,real-ip
+    - DOMAIN-SUFFIX,jd.com,fake-ip
+    - MATCH,fake-ip
+```
+
+### DNS 附加参数
+
+DNS 服务器地址后可附加参数（用 `#` 添加，`&` 连接）：
+
+- `proxy` — 通过指定代理连接
+- `interface` — 通过指定接口连接
+- `h3` — 强制 HTTP/3
+- `skip-cert-verify` — 跳过 TLS 证书验证
+- `ecs` — 指定 EDNS Client Subnet
+- `ecs-override` — 强制覆盖 ECS
+- `disable-ipv4` / `disable-ipv6`
+- `disable-qtype-<int>`
+
+---
+
+## 5. Sniffer 配置
+
+**文档源**: https://deepwiki.com/muink/mihomo/4.4-process-detection
+
+### 顶层字段
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `enable` | bool | 主开关 |
+| `sniffing` | list | 要嗅探的协议：`tls` / `http` / `quic` |
+| `force-domain` | list | 始终触发嗅探的域名 |
+| `skip-domain` | list | 跳过嗅探的域名 |
+| `skip-src-address` | list | 排除的源 IP |
+| `skip-dst-address` | list | 排除的目标 IP |
+| `port-whitelist` | list | 启用嗅探的端口范围 |
+| `force-dns-mapping` | bool | 在 FakeIP/DNSMapping 模式下嗅探连接 |
+| `parse-pure-ip` | bool | 嗅探无主机名的连接（纯 IP） |
+
+### 协议嗅探器配置
+
+每个协议（TLS / HTTP / QUIC）支持：
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `override-destination` | bool | 用嗅探到的域名替换 metadata.Host，清除原 DstIP |
+| `ports` | list | 端口范围 |
+
+### 配置示例
+
+```yaml
+sniffer:
+  enable: true
+  sniffing:
+    - tls:
+        override-destination: true
+        ports: [443, 8443]
+    - http:
+        override-destination: true
+        ports: [80, 8080]
+    - quic:
+        override-destination: true
+        ports: [443, 8443]
+  force-domain:
+    - '*.example.com'
+  skip-domain:
+    - '*.apple.com'
+  port-whitelist:
+    - 443
+    - 80
+  force-dns-mapping: true
+  parse-pure-ip: false
+```
+
+---
+
+## 6. Smart 内核特有功能
+
+### type: smart
+
+- 引入版本: MetaCubeX/mihomo v1.18.0+
+- 使用 AI 模型选择最优节点
+- 支持 `uselightgbm` 启用 LightGBM 梯度提升模型进行动态权重预测
+- 支持 `collectdata` 收集性能数据用于模型训练
+- 支持 `strategy`: `sticky-sessions` / `round-robin`
+- 支持 `policy-priority`: 手动分配优先级权重
+
+### 与常规 `type: url-test` 的区别
+
+| 特性 | `url-test` | `smart` |
+|------|-----------|---------|
+| 选择逻辑 | 当前最低延迟 | AI 历史预测 |
+| 触发方式 | 定时测试 | 自适应 |
+| 适用场景 | 节点质量差异大 | 多不稳定节点 |
+| 自学习 | 否 | 是 |
+| LightGBM | 不支持 | 支持 (`uselightgbm`) |
+
+---
+
+## 7. 跨版本兼容性注意事项
+
+1. **Go RE2 正则**: filter 字段使用 Go RE2（不支持 backreference 和 lookahead）
+2. **子串匹配**: mihomo 的 `filter` 是子串匹配，`TW` 会匹配 `TWN`
+3. **YAML 锚点**: mihomo 基于 `gopkg.in/yaml.v3`，完全支持 YAML 1.2 锚点和别名
+4. **`MATCH` vs `FINAL`**: Clash/mihomo 使用 `MATCH`，Shadowrocket/Surge 使用 `FINAL`
+5. **GEOIP/GEOSITE**: 需要 `geodata-mode: true` 在 general 中配置
+6. **`interface-name`/`routing-mark` 在 proxy-groups 级别已废弃**: 应使用节点级别配置
+7. **`respect-rules`**: 需配合 `proxy-server-nameserver` 使用，且不建议与 `prefer-h3` 共用
+8. **`include-all-providers`**: 会使 `use` 字段失效
+
+---
+
+*最后更新: 2026-04-26*
+*源文档: https://wiki.metacubex.one/config/*
+
+### 2026-10-20 业务 DNS policy 复核
+
+Mihomo 官方 [DNS 文档](https://wiki.metacubex.one/config/dns/)说明 `nameserver-policy` 的查询优先级高于 `nameserver` / `fallback`，节点域名解析使用独立的 proxy-server DNS 配置；启用 `respect-rules` 时需配置 `proxy-server-nameserver`。本次业务 policy 表由同一源数据投影，不改变上述原生 DNS 处理顺序。

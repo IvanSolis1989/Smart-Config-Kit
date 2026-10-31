@@ -70,7 +70,8 @@ function prepareQualityArtifacts({ sourceReceipts = {}, sourceReads = null, requ
     'tools/lib/ordered-rule-semantics.js', 'tools/lib/adfp-exceptions.js', 'tools/lib/fused-rule-optimizer.js',
     'tools/lib/mihomo-domain-payload.js', 'tools/validate-ordered-rule-semantics.js',
     'tools/generate-stash-from-cmfa.js', 'tools/generate-egern-supplemental.js', 'tools/generate-egern-from-cmfa.js',
-    'SingBox/SingBox(sing-box)-generator.js', 'tools/generate-fused-fallback-artifacts.js',
+    'Sing-box内核系/SingBox/SingBox(sing-box)-generator.js', 'tools/generate-fused-fallback-artifacts.js',
+    'tools/generate-karing.js', 'tools/lib/client-layout.js', 'tools/client-layout.json',
     'tools/lib/claude-service-dependencies.js', 'tools/validate-claude-service-dependencies.js',
     'tools/lib/snapshot-supplemental-patch.js', 'tools/apply-supplemental-to-snapshot.js'].map(fileRecord);
   ledger.mrs_manifest = fileRecord(MRS_MANIFEST);

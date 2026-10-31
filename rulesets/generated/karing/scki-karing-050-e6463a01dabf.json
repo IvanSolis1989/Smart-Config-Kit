@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "process_name": [
+        "Code Helper"
+      ],
+      "domain": [
+        "api.github.com"
+      ]
+    }
+  ]
+}

@@ -16,8 +16,8 @@ const { planLocalTrafficOptions, writeLocalTrafficOptions } = require('./lib/loc
 const root = path.resolve(__dirname, '..');
 const configFile = path.join(root, 'rulesets/source/traffic-options.json');
 const openClashFiles = [
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
 ];
 const commands = [
   ['tools/sync-traffic-options.js'],
@@ -25,7 +25,7 @@ const commands = [
   ['tools/generate-stash-from-cmfa.js'],
   ['tools/generate-egern-supplemental.js'],
   ['tools/generate-egern-from-cmfa.js', '--reuse-assets'],
-  ['SingBox/SingBox(sing-box)-generator.js'],
+  ['Sing-box内核系/SingBox/SingBox(sing-box)-generator.js'],
   ['tools/generate-fused-fallback-artifacts.js'],
 ];
 
@@ -44,10 +44,16 @@ function parseArgs(args) {
     }
     else if ((arg === '--health-check-profile' || arg === '--health-check') && args[i + 1]) options.healthCheckProfile = args[++i];
     else if ((arg === '--quic-policy' || arg === '--quic') && args[i + 1]) options.quicPolicy = args[++i];
+    else if (arg === '--browser-udp' && args[i + 1]) {
+      const value = args[++i];
+      if (!['off', 'reject'].includes(value)) throw new Error('Browser UDP must be off or reject');
+      if ('browserUdpPolicy' in options) throw new Error('Duplicate browser UDP option');
+      options.browserUdpPolicy = value;
+    }
     else throw new Error(`Unknown or incomplete argument: ${arg}`);
   }
-  if (!options.target && ('zeroTierPlanetProxy' in options || options.source || options.preserveLocal)) {
-    throw new Error('--zerotier-planet-proxy, --source and --preserve-local require --target; ZeroTier is a local option');
+  if (!options.target && ('zeroTierPlanetProxy' in options || 'browserUdpPolicy' in options || options.source || options.preserveLocal)) {
+    throw new Error('--zerotier-planet-proxy, --browser-udp, --source and --preserve-local require --target; ZeroTier and browser UDP are local options');
   }
   if (!options.target && !('healthCheckProfile' in options) && !('quicPolicy' in options)) {
     throw new Error('Specify --health-check-profile and/or --quic-policy');

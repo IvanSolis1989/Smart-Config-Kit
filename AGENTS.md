@@ -1,3 +1,8 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/readme/page-contract-mobile.svg">
+  <img src="docs/assets/readme/page-contract.svg" alt="Smart-Config-Kit 维护契约" width="100%">
+</picture>
+
 # AGENTS.md — 仓库维护与多代理协作契约
 
 > 目录简介：这里是 Smart-Config-Kit 的唯一维护手册，定义仓库定位、产物同步规则、平台陷阱、自检命令和多代理协作约定。
@@ -36,6 +41,8 @@ node tools/validate-artifact-contracts.js --strict-ruby  # 含 Ruby YAML 解析
 # 验证 PROCESS-NAME 直连白名单
 node tools/validate-process-name-direct.js
 
+node tools/generate-karing.js --check    # Karing 适配源/生成物合同
+
 # §5 自检脚本（完整版见下方 §5 节）
 ```
 
@@ -51,12 +58,12 @@ node tools/build-fused-rule-sets.js
 node tools/generate-fused-fallback-artifacts.js
 
 # 重新生成 SingBox Full JSON（禁止手工改）
-node "SingBox/SingBox(sing-box)-generator.js"
+node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
 
-# 重新生成 Stash YAML（禁止手工改 Stash/Stash.yaml）
+# 重新生成 Stash YAML（禁止手工改 独立内核系/Stash/Stash.yaml）
 node tools/generate-stash-from-cmfa.js
 
-# 重新生成 Egern YAML（禁止手工改 Egern/Egern.yaml）
+# 重新生成 Egern YAML（禁止手工改 独立内核系/Egern/Egern.yaml）
 node tools/generate-egern-supplemental.js
 node tools/generate-egern-from-cmfa.js
 ```
@@ -65,51 +72,52 @@ node tools/generate-egern-from-cmfa.js
 
 ## 0. 仓库定位
 
-本仓库维护「**同一套 Mihomo Smart 分流策略**」在 14 个客户端形态下的等价实现：
+本仓库维护「**同一套 Mihomo Smart 分流策略**」在 14 个既有客户端配置产物中的等价实现，并新增 Karing 原生分流适配入口（语义与完整 SingBox JSON 导入边界单独说明）：
 
 | # | 形态 | 文件 | 角色 |
 |---|------|------|------|
 | 0 | **源规则图** | `rulesets/source/routing-graph.js` | **规则权威源 / 编译器输入** |
-| 0A | **Clash Party**（JS 覆写脚本） | `Clash Party/ClashParty(mihomo-smart).js` | 客户端产物（Smart 内核，消费融合规则集） |
-| 1 | Clash Meta For Android（原生 YAML） | `Clash Meta For Android/CMFA(mihomo).yaml` | 从属 |
-| 2 | OpenClash 轻量版（shell + heredoc YAML） | `OpenClash/OpenClash(mihomo).sh` | 从属（低内存裁剪） |
-| 3 | OpenClash 完整版（shell + heredoc YAML） | `OpenClash/OpenClash(mihomo-smart).sh` | 从属（全量） |
-| 4 | Shadowrocket（iOS SR 私有 conf） | `Shadowrocket/Shadowrocket.conf` | 从属 |
-| 5 | SingBox Full（JSON，由脚本生成） | `SingBox/SingBox(sing-box)-full.json` + `SingBox/SingBox(sing-box)-generator.js` | 从属（生成产物） |
-| 6 | v2rayN Xray 路由 JSON | `v2rayN/v2rayN(xray).json` | 从属（由 fused sing-box JSON 展平成 Xray RuleObject；v2rayN 推荐用 mihomo/sing-box 核心直接加载 #1 或 #5） |
-| 7 | Surge（iOS / macOS 付费正版 `.conf`） | `Surge/Surge.conf` | 从属（独立引擎） |
-| 8 | Loon（iOS 付费正版 `.conf`） | `Loon/Loon.conf` | 从属（独立引擎） |
-| 9 | Quantumult X（iOS 付费正版 `.conf`） | `Quantumult X/QuantumultX.conf` | 从属（独立引擎） |
-| 10 | Passwall（OpenWrt 全功能 LuCI） | `Passwall/Passwall(xray+sing-box)-apply.sh` + `Passwall/shunt-rules/*.list` | 从属（fused `.srs` shunt rule 降级） |
-| 10B | Passwall2（OpenWrt 精简分流 LuCI） | `Passwall2/Passwall2(xray+sing-box)-apply.sh` + `Passwall2/shunt-rules/*.list` | 从属（fused `.srs` shunt rule 降级；与 #10 共享规则语法） |
-| 11 | FlClash（JS 覆写脚本） | `FlClash/FlClash(mihomo).js` | 从属（Clash Party Normal JS 的 FlClash 移植版；url-test 区域组，无 Smart+LightGBM） |
-| 12 | Stash（Clash Premium 兼容 YAML） | `Stash/Stash.yaml` + `tools/generate-stash-from-cmfa.js` | 从属（由 CMFA 自动裁剪生成；无 Smart+LightGBM） |
-| 13 | Egern（iOS / macOS YAML） | `Egern/Egern.yaml` + `tools/generate-egern-from-cmfa.js` | 从属（由 CMFA 生成；`.mrs` 映射为 Egern 兼容 YAML / 文本规则源） |
+| 0A | **Clash Party**（JS 覆写脚本） | `Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js` | 客户端产物（Smart 内核，消费融合规则集） |
+| 1 | Clash Meta For Android（原生 YAML） | `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml` | 从属 |
+| 2 | OpenClash 轻量版（shell + heredoc YAML） | `Mihomo内核系/OpenClash/OpenClash(mihomo).sh` | 从属（低内存裁剪） |
+| 3 | OpenClash 完整版（shell + heredoc YAML） | `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh` | 从属（全量） |
+| 4 | Shadowrocket（iOS SR 私有 conf） | `独立内核系/Shadowrocket/Shadowrocket.conf` | 从属 |
+| 5 | SingBox Full（JSON，由脚本生成） | `Sing-box内核系/SingBox/SingBox(sing-box)-full.json` + `Sing-box内核系/SingBox/SingBox(sing-box)-generator.js` | 从属（生成产物） |
+| 6 | v2rayN Xray 路由 JSON | `Xray内核系/v2rayN/v2rayN(xray).json` | 从属（由 fused sing-box JSON 展平成 Xray RuleObject；v2rayN 推荐用 mihomo/sing-box 核心直接加载 #1 或 #5） |
+| 7 | Surge（iOS / macOS 付费正版 `.conf`） | `独立内核系/Surge/Surge.conf` | 从属（独立引擎） |
+| 8 | Loon（iOS 付费正版 `.conf`） | `独立内核系/Loon/Loon.conf` | 从属（独立引擎） |
+| 9 | Quantumult X（iOS 付费正版 `.conf`） | `独立内核系/Quantumult X/QuantumultX.conf` | 从属（独立引擎） |
+| 10 | Passwall（OpenWrt 全功能 LuCI） | `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh` + `双内核系/Passwall/shunt-rules/*.list` | 从属（fused `.srs` shunt rule 降级） |
+| 10B | Passwall2（OpenWrt 精简分流 LuCI） | `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh` + `双内核系/Passwall2/shunt-rules/*.list` | 从属（fused `.srs` shunt rule 降级；与 #10 共享规则语法） |
+| 11 | FlClash（JS 覆写脚本） | `Mihomo内核系/FlClash/FlClash(mihomo).js` | 从属（Clash Party Normal JS 的 FlClash 移植版；url-test 区域组，无 Smart+LightGBM） |
+| 12 | Stash（Clash Premium 兼容 YAML） | `独立内核系/Stash/Stash.yaml` + `tools/generate-stash-from-cmfa.js` | 从属（由 CMFA 自动裁剪生成；无 Smart+LightGBM） |
+| 13 | Egern（iOS / macOS YAML） | `独立内核系/Egern/Egern.yaml` + `tools/generate-egern-from-cmfa.js` | 从属（由 CMFA 生成；`.mrs` 映射为 Egern 兼容 YAML / 文本规则源） |
+| 14 | Karing（sing-box 分流适配 JSON） | `Sing-box内核系/Karing/diversion_rules_custom.json` + `tools/generate-karing.js` | 原生分流规则入口；节点组、DNS 与最终默认动作由 Karing App 设置，不代表完整 SingBox JSON 无损导入 |
 
 **基线原则：** `rulesets/source/routing-graph.js` 是唯一的「**规则权威源**」。Clash Party / CMFA / Stash / Egern / SingBox / v2rayN / Passwall 等都是派生或消费产物；仅在平台能力受限处允许差异（见 §3）。
 
-> **关于 v2rayN：** v2rayN 是多核调度器，不是独立内核。推荐使用路径是在 v2rayN 里切到 mihomo 或 sing-box 核心，然后加载 #1 / #5；这种情况下 v2rayN 本身不是独立产物，无需单独同步。仅当 v2rayN 用户坚持走 Xray 核心时才用到 `v2rayN/v2rayN(xray).json`（由 `tools/generate-fused-fallback-artifacts.js` 从 fused sing-box JSON 展平成 Xray RuleObject，只有 proxy/direct/block 三出站），此文件是独立产物，受本文约束。
+> **关于 v2rayN：** v2rayN 是多核调度器，不是独立内核。推荐使用路径是在 v2rayN 里切到 mihomo 或 sing-box 核心，然后加载 #1 / #5；这种情况下 v2rayN 本身不是独立产物，无需单独同步。仅当 v2rayN 用户坚持走 Xray 核心时才用到 `Xray内核系/v2rayN/v2rayN(xray).json`（由 `tools/generate-fused-fallback-artifacts.js` 从 fused sing-box JSON 展平成 Xray RuleObject，只有 proxy/direct/block 三出站），此文件是独立产物，受本文约束。
 >
-> **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `SingBox/SingBox(sing-box)-full.json`，**不需要**独立产物；`SingBox/README.md §2a` 提供 Hiddify 专用导入说明。
+> **关于 Hiddify：** Hiddify 内核即 sing-box（修改版 `hiddify-sing-box`），直接消费 `Sing-box内核系/SingBox/SingBox(sing-box)-full.json`，**不需要**独立产物；`Sing-box内核系/SingBox/README.md §2a` 提供 Hiddify 专用导入说明。
 >
-> **关于 ClashMi（`KaringX/clashmi`，KaringX 跨平台 Flutter GUI，覆盖 iOS/macOS/Android/Windows/Linux）：** bundle 的是 **MetaCubeX mihomo mainline**（**非** `vernesong/mihomo` Smart fork），与 CMFA 内核同源，直接消费 `Clash Meta For Android/CMFA(mihomo).yaml`，**不需要**独立产物；`Clash Meta For Android/README.md §九` 提供 ClashMi 专用导入说明。注意 ClashMi 的内核定制会把 `GEOIP,*` / `GEOSITE,*` 规则**强制转换**为对应 rule-set、iOS 端不支持 IP-ASN 数据库、`tun:` 由 App UI 托管不在 YAML 手写（官方 [FAQ](https://clashmi.app/guide/faq)）——这三点对本仓库 YAML **零影响**（0 条 GEOIP、0 条 GEOSITE、0 条 ASN、无 `tun:` 块）。与 Hiddify 对称：Hiddify 是 sing-box 的跨平台 GUI / ClashMi 是 mihomo 的跨平台 GUI。
+> **关于 ClashMi（`KaringX/clashmi`，KaringX 跨平台 Flutter GUI，覆盖 iOS/macOS/Android/Windows/Linux）：** bundle 的是 **MetaCubeX mihomo mainline**（**非** `vernesong/mihomo` Smart fork），与 CMFA 内核同源，直接消费 `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml`，**不需要**独立产物；`Mihomo内核系/Clash Meta For Android/README.md §九` 提供 ClashMi 专用导入说明。注意 ClashMi 的内核定制会把 `GEOIP,*` / `GEOSITE,*` 规则**强制转换**为对应 rule-set、iOS 端不支持 IP-ASN 数据库、`tun:` 由 App UI 托管不在 YAML 手写（官方 [FAQ](https://clashmi.app/guide/faq)）——这三点对本仓库 YAML **零影响**（0 条 GEOIP、0 条 GEOSITE、0 条 ASN、无 `tun:` 块）。与 Hiddify 对称：Hiddify 是 sing-box 的跨平台 GUI / ClashMi 是 mihomo 的跨平台 GUI。
 >
-> **关于 ShellClash（`juewuy/ShellCrash`）：** 内核是 mihomo，直接复用 `Clash Meta For Android/CMFA(mihomo).yaml` 或 `OpenClash/OpenClash(mihomo).sh` 里的 heredoc YAML 块，**不需要**独立产物。
+> **关于 ShellClash（`juewuy/ShellCrash`）：** 内核是 mihomo，直接复用 `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml` 或 `Mihomo内核系/OpenClash/OpenClash(mihomo).sh` 里的 heredoc YAML 块，**不需要**独立产物。
 >
-> **关于 HomeProxy（OpenWrt 官方 sing-box LuCI 插件）：** 内核就是 sing-box，直接导入 `SingBox/SingBox(sing-box)-full.json`，**不需要**独立产物；`SingBox/README.md §2b` 提供 HomeProxy 专用导入说明。
+> **关于 HomeProxy（OpenWrt 官方 sing-box LuCI 插件）：** 内核就是 sing-box，直接导入 `Sing-box内核系/SingBox/SingBox(sing-box)-full.json`，**不需要**独立产物；`Sing-box内核系/SingBox/README.md §2b` 提供 HomeProxy 专用导入说明。
 >
-> **关于 FlClash（`chen08209/FlClash`，跨平台 Flutter GUI，覆盖 Android/Windows/macOS/Linux）：** 内核是标准 Mihomo（**非** Smart fork），自 v0.8.85 起支持 JS 覆写脚本。本仓库提供两条路径：（1）**覆写脚本** `FlClash/FlClash(mihomo).js`（推荐；动态节点分类 + 订阅垃圾清理 + 家宽识别）；（2）**静态 YAML** `Clash Meta For Android/CMFA(mihomo).yaml`（备选；直接导入无需脚本）。两者规则等价，仅区域组类型不同（url-test）。FlClash 覆写脚本与 Clash Party Normal JS 同构（同 REGION_DB + 同 rule-providers + 同 rules），差异仅在于 overwriteGeneral 裁剪（TUN/端口由 FlClash App UI 托管）和 console.log 条件包装（兼容 QuickJS）。
+> **关于 FlClash（`chen08209/FlClash`，跨平台 Flutter GUI，覆盖 Android/Windows/macOS/Linux）：** 内核是标准 Mihomo（**非** Smart fork），自 v0.8.85 起支持 JS 覆写脚本。本仓库提供两条路径：（1）**覆写脚本** `Mihomo内核系/FlClash/FlClash(mihomo).js`（推荐；动态节点分类 + 订阅垃圾清理 + 家宽识别）；（2）**静态 YAML** `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml`（备选；直接导入无需脚本）。两者规则等价，仅区域组类型不同（url-test）。FlClash 覆写脚本与 Clash Party Normal JS 同构（同 REGION_DB + 同 rule-providers + 同 rules），差异仅在于 overwriteGeneral 裁剪（TUN/端口由 FlClash App UI 托管）和 console.log 条件包装（兼容 QuickJS）。
 >
-> **关于 Stash：** Stash 兼容 Clash Premium 配置，但不等于 Mihomo Smart，也不支持本仓库的 LightGBM Smart 择路。`Stash/Stash.yaml` 是从 CMFA 自动裁剪生成的独立 YAML 产物，必须通过 `node tools/generate-stash-from-cmfa.js` 重新生成，禁止手工改生成结果。裁剪规则见 `Stash/REFERENCE-Stash-wiki.md`：保留 `proxy-groups` / `rule-providers` / `rules` / `nameserver-policy`，删除 Stash Wiki 未确认的 Mihomo GeoX、sniffer、provider health-check / exclude-filter、rule-provider 下载 `proxy` 等字段。
+> **关于 Stash：** Stash 兼容 Clash Premium 配置，但不等于 Mihomo Smart，也不支持本仓库的 LightGBM Smart 择路。`独立内核系/Stash/Stash.yaml` 是从 CMFA 自动裁剪生成的独立 YAML 产物，必须通过 `node tools/generate-stash-from-cmfa.js` 重新生成，禁止手工改生成结果。裁剪规则见 `独立内核系/Stash/REFERENCE-Stash-wiki.md`：保留 `proxy-groups` / `rule-providers` / `rules` / `nameserver-policy`，删除 Stash Wiki 未确认的 Mihomo GeoX、sniffer、provider health-check / exclude-filter、rule-provider 下载 `proxy` 等字段。
 >
-> **关于 Egern：** Egern 是正式同步产物，`Egern/Egern.yaml` 必须通过 `node tools/generate-egern-from-cmfa.js` 从 CMFA 生成，禁止手工改生成结果。Mihomo `.mrs` 继续保留给 Clash Party / CMFA 使用；Egern 官方文档没有声明可消费 `.mrs`，生成器会映射为 Egern 可消费的 YAML / 文本 `rule_set` URL。Egern 官方规则类型不含 Clash 风格 `PROCESS-NAME`，因此两条桌面进程补充规则是明确的平台例外。
+> **关于 Egern：** Egern 是正式同步产物，`独立内核系/Egern/Egern.yaml` 必须通过 `node tools/generate-egern-from-cmfa.js` 从 CMFA 生成，禁止手工改生成结果。Mihomo `.mrs` 继续保留给 Clash Party / CMFA 使用；Egern 官方文档没有声明可消费 `.mrs`，生成器会映射为 Egern 可消费的 YAML / 文本 `rule_set` URL。Egern 官方规则类型不含 Clash 风格 `PROCESS-NAME`，因此两条桌面进程补充规则是明确的平台例外。
 >
 > **关于 Passwall / Passwall2：** 这两款是 [`Openwrt-Passwall`](https://github.com/Openwrt-Passwall) 组织（原 `xiaorouji` 个人仓库已于 2025 年前后迁入该组织，访问旧 URL 会 301 跳转）**并行维护**的两款独立 OpenWrt 插件（**不是**新旧关系；2026-04 两者发版仅差 4 天）。**Passwall** = 全功能（直连/屏蔽/GFW/代理 4 列表 + 分流 + ACL + `trojan-plus` 节点 + TCP/UDP 节点分选）；**Passwall2** = 精简分流（砍掉四列表 + ACL，只保留 keyword/domain/geosite/geoip 匹配 + 统一节点选择）。两者底层都是 **xray-core + sing-box 双栈**（都**不打包** mihomo），都**没有** mihomo 的 proxy-groups 嵌套选择器（两级 `select`/`url-test` + Smart + LightGBM）——Lua CBI 表单式 UI 没有 YAML 嵌套组语义。**规则语法两者完全相同**（共用 [`shunt_rules.lua`](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua)：纯字符串 / `domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote|local:` / `geoip:` + CIDR；**不支持** Clash 的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` / `IP-CIDR,` 前缀）。本仓库不再维护手写域名/IP 展平列表，而是用 `tools/generate-fused-fallback-artifacts.js` 生成 64 条非空 fused `.srs` shunt rule。**本仓库提供两个独立目录**：
 >
-> - **`Passwall/`** — Passwall 全功能版参考（`CONFIG_NAME="passwall"`；含四列表/ACL/TCP-UDP 分选说明）
-> - **`Passwall2/`** — Passwall2 精简版参考（`CONFIG_NAME="passwall2"`）
+> - **`双内核系/Passwall/`** — Passwall 全功能版参考（`CONFIG_NAME="passwall"`；含四列表/ACL/TCP-UDP 分选说明）
+> - **`双内核系/Passwall2/`** — Passwall2 精简版参考（`CONFIG_NAME="passwall2"`）
 >
-> 两者 `.list` 文件内容互通、规则语法同源。想要 mihomo 完整体验（嵌套组 + Smart + LightGBM）请迁移到 **OpenClash**（本仓库 `OpenClash/`）。
+> 两者 `.list` 文件内容互通、规则语法同源。想要 mihomo 完整体验（嵌套组 + Smart + LightGBM）请迁移到 **OpenClash**（本仓库 `Mihomo内核系/OpenClash/`）。
 >
 > **关于 SSR Plus+：** 架构老旧 + 已停止维护，没有 geosite/rule_set 层能力。**不提供产物**，建议直接换 OpenClash。
 >
@@ -117,6 +125,17 @@ node tools/generate-egern-from-cmfa.js
 > - Surge 与 Shadowrocket 语法最接近（~90% 兼容），从 Shadowrocket 迁移改动最小
 > - Loon 兼容 Surge 的 `[Rule] RULE-SET` 语法，但 [General] DNS 字段和 MMDB 配置方式不同
 > - Quantumult X 使用完全独立的 `[policy]` / `[filter_remote]` / `[filter_local]` 结构；当前作为独立产物手工维护，仓库无 `tools/srk_to_qx.py`，恢复自动转换前必须先提交并验证脚本
+
+### 0A. 内核系列目录与 Karing 适配
+
+14 个既有客户端目录按五类内核系列归档；各 APP 原有子目录和文件名保留。新增 Karing 是第 15 个语义产品入口，提供 sing-box 分流适配 JSON，仅导入分流规则；节点组、DNS 与最终默认动作由 Karing App 手工设置。它不是 JS 覆写脚本，也不承诺完整 sing-box JSON 无损导入。`SubStore/`、`rulesets/`、`tools/`、`docs/` 仍是仓库级共享目录，不归入客户端内核系列。
+
+- 生成 Karing 适配：`node tools/generate-karing.js`
+- 只读检查 Karing 适配合同：`node tools/generate-karing.js --check`
+
+### 0B. AEROVE Lite 单资源预算投影
+
+Meow 专属投影使用 `node tools/generate-aerove-rule-assets.js` → `node tools/generate-meow.js`；两条命令的 `--check` 为只读检查。AEROVE 大规则集分片位于客户端 `rule-assets/`，必须保持与共享 MRS 的精确谓词并集和原位同目标引用，保留 App 安全预算；不得为了 Lite 改共享 fused 资产。生成工具需 Node.js ≥ 22.15、Ruby ≥ 3.0 与固定 Mihomo v1.19.32；最终 App 验收不能由这些工具代替。
 
 ### 0.1 辅助目录（不影响产物同步）
 
@@ -150,11 +169,11 @@ node tools/generate-egern-from-cmfa.js
 3. **派生产物生成链路**：
    - `node tools/generate-stash-from-cmfa.js` 只裁剪 CMFA 的融合结果生成 Stash，不改变基线。
    - `node tools/generate-egern-from-cmfa.js` 只把 CMFA 的融合顺序映射为 Egern 原生 YAML，不直接消费 Mihomo `.mrs`。
-   - `node SingBox/SingBox(sing-box)-generator.js` 只把融合 rule-provider 映射到本仓库 `.srs`。
+   - `node Sing-box内核系/SingBox/SingBox(sing-box)-generator.js` 只把融合 rule-provider 映射到本仓库 `.srs`。
    - `node tools/generate-fused-fallback-artifacts.js` 只把 fused manifest 映射为 v2rayN Xray RuleObject 与 Passwall / Passwall2 `.srs` shunt rule。
    - Egern 官方规则类型不含 Clash 风格 `PROCESS-NAME`，相关补充规则是明确的平台例外。
 
-**强制顺序**：改 rule-provider / 规则集后，先更新 `rulesets/source/routing-graph.js`，再运行 `.mrs` 同步与应用，然后运行融合规则集编译器，再生成 Stash/Egern/SingBox/fallback 产物，最后跑 §5 自检。禁止反向从 Clash Party / CMFA / Stash / Egern / SingBox / v2rayN / Passwall 手工改回源规则图。
+**强制顺序**：改 rule-provider / 规则集后，先更新 `rulesets/source/routing-graph.js`，再运行 `.mrs` 同步与应用，然后运行融合规则集编译器，再生成 Stash、Egern、SingBox、Karing 与 fallback 产物，最后跑 §5 自检。禁止反向从 Clash Party / CMFA / Stash / Egern / SingBox / v2rayN / Passwall 手工改回源规则图。
 
 ---
 
@@ -178,21 +197,21 @@ node tools/generate-egern-from-cmfa.js
 若本次改动命中上述任一触发条件，PR 必须：
 
 1. **先改源规则图**（`rulesets/source/routing-graph.js`），作为唯一规则权威源。
-2. **同步修改全部 14 个目录产物**（或明确在 PR 说明里标注为何某个产物不受影响）：
-   - `Clash Meta For Android/CMFA(mihomo).yaml`
-   - `Stash/Stash.yaml`（通过 `node tools/generate-stash-from-cmfa.js` 从 CMFA 重新生成，不允许手工改）
-   - `OpenClash/OpenClash(mihomo).sh`
-   - `OpenClash/OpenClash(mihomo-smart).sh`
-   - `Shadowrocket/Shadowrocket.conf`
-   - `SingBox/SingBox(sing-box)-full.json`（通过 `node SingBox/SingBox(sing-box)-generator.js` 重新生成，不允许手工改）
-   - `v2rayN/v2rayN(xray).json`（通过 `node tools/generate-fused-fallback-artifacts.js` 从 fused sing-box JSON 展平成 Xray RuleObject；Xray 只有 proxy/direct/block 三出站）
-   - `Surge/Surge.conf`（与 Shadowrocket 保持 ~1:1 规则行；仅 [General] DNS/MMDB 不同）
-   - `Loon/Loon.conf`（从 Surge 迁移；头部 + [General] 不同，[Rule] 段基本同 Surge）
-   - `Quantumult X/QuantumultX.conf`（独立 QX 产物；policy / filter_remote / filter_local 三段结构；当前手工维护并由合同验证覆盖）
-   - `Egern/Egern.yaml`（通过 `node tools/generate-egern-from-cmfa.js` 从 CMFA 重新生成，不允许手工改）
-   - `Passwall/Passwall(xray+sing-box)-apply.sh` + `Passwall/shunt-rules/*.list`（通过 `node tools/generate-fused-fallback-artifacts.js` 生成 fused `.srs` shunt rule）
-   - `Passwall2/Passwall2(xray+sing-box)-apply.sh` + `Passwall2/shunt-rules/*.list`（同上；与 Passwall 同步联动）
-   - `FlClash/FlClash(mihomo).js`（Clash Party Normal JS 的 FlClash 移植版；规则/组/DNS 与主线对齐，overwriteGeneral 裁剪 TUN/端口）
+2. **同步修改全部 14 个既有目录产物**；涉及 Karing 适配语义时一并运行 `node tools/generate-karing.js` 并检查生成结果（或在 PR 说明里标注不受影响的产物）：
+   - `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml`
+   - `独立内核系/Stash/Stash.yaml`（通过 `node tools/generate-stash-from-cmfa.js` 从 CMFA 重新生成，不允许手工改）
+   - `Mihomo内核系/OpenClash/OpenClash(mihomo).sh`
+   - `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh`
+   - `独立内核系/Shadowrocket/Shadowrocket.conf`
+   - `Sing-box内核系/SingBox/SingBox(sing-box)-full.json`（通过 `node Sing-box内核系/SingBox/SingBox(sing-box)-generator.js` 重新生成，不允许手工改）
+   - `Xray内核系/v2rayN/v2rayN(xray).json`（通过 `node tools/generate-fused-fallback-artifacts.js` 从 fused sing-box JSON 展平成 Xray RuleObject；Xray 只有 proxy/direct/block 三出站）
+   - `独立内核系/Surge/Surge.conf`（与 Shadowrocket 保持 ~1:1 规则行；仅 [General] DNS/MMDB 不同）
+   - `独立内核系/Loon/Loon.conf`（从 Surge 迁移；头部 + [General] 不同，[Rule] 段基本同 Surge）
+   - `独立内核系/Quantumult X/QuantumultX.conf`（独立 QX 产物；policy / filter_remote / filter_local 三段结构；当前手工维护并由合同验证覆盖）
+   - `独立内核系/Egern/Egern.yaml`（通过 `node tools/generate-egern-from-cmfa.js` 从 CMFA 重新生成，不允许手工改）
+   - `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh` + `双内核系/Passwall/shunt-rules/*.list`（通过 `node tools/generate-fused-fallback-artifacts.js` 生成 fused `.srs` shunt rule）
+   - `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh` + `双内核系/Passwall2/shunt-rules/*.list`（同上；与 Passwall 同步联动）
+   - `Mihomo内核系/FlClash/FlClash(mihomo).js`（Clash Party Normal JS 的 FlClash 移植版；规则/组/DNS 与主线对齐，overwriteGeneral 裁剪 TUN/端口）
 3. **涉及上游 rule-provider 时必须执行生成链路**：
    - `node tools/sync-mihomo-mrs-rule-providers.js`
    - `node tools/apply-mihomo-mrs-overrides.js`
@@ -200,7 +219,7 @@ node tools/generate-egern-from-cmfa.js
    - `node tools/generate-stash-from-cmfa.js`
    - `node tools/generate-egern-supplemental.js`
    - `node tools/generate-egern-from-cmfa.js`
-   - `node "SingBox/SingBox(sing-box)-generator.js"`
+   - `node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"`
    - `node tools/generate-fused-fallback-artifacts.js`
 4. **同步更新每个产物头部的「介绍 / 更新日志 / 版本号」注释块**（见 §1.3 强制注释字段）。
 5. **同步更新文档**：根 `README.md` + 对应子目录的 `README.md`（原 `使用方法.md` / `使用教程.md` 已统一重命名为 `README.md`，GitHub 子目录视图会自动渲染），必要时 `CHANGELOG`。
@@ -238,20 +257,20 @@ node tools/generate-egern-from-cmfa.js
 
 | 文件 | 头部位置 | 版本变量/字段 | CHANGELOG.md |
 |------|----------|---------------|--------------|
-| `Clash Party/ClashParty(mihomo-smart).js` | 顶部 `//` 注释 | JS 内 `const VERSION` | `Clash Party/CHANGELOG.md` |
-| `Clash Meta For Android/CMFA(mihomo).yaml` | 顶部 `#` 注释块 | 第一行 `# Clash Smart vX.Y.Z - CMFA` | `Clash Meta For Android/CHANGELOG.md` |
-| `Stash/Stash.yaml` | 顶部 `#` 注释块 | 第一行 `# Stash Smart vX.Y.Z-stash.N`（由生成器注入） | `Stash/CHANGELOG.md` |
-| `OpenClash/OpenClash(mihomo).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-normal"` | `OpenClash/CHANGELOG.md` (Normal 段) |
-| `OpenClash/OpenClash(mihomo-smart).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-smart"` + Ruby 脚本里 `VERSION` | `OpenClash/CHANGELOG.md` (Smart 段) |
-| `Shadowrocket/Shadowrocket.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Shadowrocket Smart vX.Y.Z-SR.N` | `Shadowrocket/CHANGELOG.md` |
-| `SingBox/SingBox(sing-box)-full.json` / `SingBox(sing-box)-1.13.json` | 严格内核 JSON 不写 `_meta`；元信息在生成器常量及 README | 生成器 `VERSION` / `BUILD` / `BASELINE` | `SingBox/CHANGELOG.md` |
-| `v2rayN/v2rayN(xray).json` | 顶层禁用 meta 规则（`id:"scki-000-meta"` + `remarks` 版本信息）| meta `remarks` | `v2rayN/CHANGELOG.md` |
-| `Surge/Surge.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Surge Smart vX.Y.Z-Surge.N` | `Surge/CHANGELOG.md` |
-| `Loon/Loon.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Loon Smart vX.Y.Z-Loon.N` | `Loon/CHANGELOG.md` |
-| `Quantumult X/QuantumultX.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Quantumult X Smart vX.Y.Z-QX.N` | `Quantumult X/CHANGELOG.md` |
-| `Passwall/Passwall(xray+sing-box)-apply.sh` | `#!/bin/sh` 下方 `# ══…` 块 | `VERSION_TAG="vX.Y.Z-pw.N"` | `Passwall/CHANGELOG.md` |
-| `Passwall2/Passwall2(xray+sing-box)-apply.sh` | `#!/bin/sh` 下方 `# ══…` 块 | `VERSION_TAG="vX.Y.Z-pw2.N"` | `Passwall2/CHANGELOG.md` |
-| `FlClash/FlClash(mihomo).js` | 顶部 `//` 注释块 | JS 内 `const VERSION` | `FlClash/CHANGELOG.md` |
+| `Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js` | 顶部 `//` 注释 | JS 内 `const VERSION` | `Mihomo内核系/Clash Party/CHANGELOG.md` |
+| `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml` | 顶部 `#` 注释块 | 第一行 `# Clash Smart vX.Y.Z - CMFA` | `Mihomo内核系/Clash Meta For Android/CHANGELOG.md` |
+| `独立内核系/Stash/Stash.yaml` | 顶部 `#` 注释块 | 第一行 `# Stash Smart vX.Y.Z-stash.N`（由生成器注入） | `独立内核系/Stash/CHANGELOG.md` |
+| `Mihomo内核系/OpenClash/OpenClash(mihomo).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-normal"` | `Mihomo内核系/OpenClash/CHANGELOG.md` (Normal 段) |
+| `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh` | `#!/bin/bash` 下方 `# ==` 块 | `VERSION_TAG="vX.Y.Z-oc-smart"` + Ruby 脚本里 `VERSION` | `Mihomo内核系/OpenClash/CHANGELOG.md` (Smart 段) |
+| `独立内核系/Shadowrocket/Shadowrocket.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Shadowrocket Smart vX.Y.Z-SR.N` | `独立内核系/Shadowrocket/CHANGELOG.md` |
+| `Sing-box内核系/SingBox/SingBox(sing-box)-full.json` / `SingBox(sing-box)-1.13.json` | 严格内核 JSON 不写 `_meta`；元信息在生成器常量及 README | 生成器 `VERSION` / `BUILD` / `BASELINE` | `Sing-box内核系/SingBox/CHANGELOG.md` |
+| `Xray内核系/v2rayN/v2rayN(xray).json` | 顶层禁用 meta 规则（`id:"scki-000-meta"` + `remarks` 版本信息）| meta `remarks` | `Xray内核系/v2rayN/CHANGELOG.md` |
+| `独立内核系/Surge/Surge.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Surge Smart vX.Y.Z-Surge.N` | `独立内核系/Surge/CHANGELOG.md` |
+| `独立内核系/Loon/Loon.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Loon Smart vX.Y.Z-Loon.N` | `独立内核系/Loon/CHANGELOG.md` |
+| `独立内核系/Quantumult X/QuantumultX.conf` | 顶部 `# ══…` 双线框 | 第 2 行 `# Quantumult X Smart vX.Y.Z-QX.N` | `独立内核系/Quantumult X/CHANGELOG.md` |
+| `双内核系/Passwall/Passwall(xray+sing-box)-apply.sh` | `#!/bin/sh` 下方 `# ══…` 块 | `VERSION_TAG="vX.Y.Z-pw.N"` | `双内核系/Passwall/CHANGELOG.md` |
+| `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh` | `#!/bin/sh` 下方 `# ══…` 块 | `VERSION_TAG="vX.Y.Z-pw2.N"` | `双内核系/Passwall2/CHANGELOG.md` |
+| `Mihomo内核系/FlClash/FlClash(mihomo).js` | 顶部 `//` 注释块 | JS 内 `const VERSION` | `Mihomo内核系/FlClash/CHANGELOG.md` |
 
 **CHANGELOG.md 的推荐格式：**
 
@@ -286,12 +305,13 @@ node tools/generate-egern-from-cmfa.js
 - `README.md`（根目录 + 各子目录）的定位是**项目介绍 / 使用指南 / 导入说明**。
 - **严禁**在 README 中写版本变更历史（如「v5.4.X 修复了…」「近期 DNS 加固」等），这类内容只属于 `CHANGELOG.md`。
 - 若在 README 中发现 changelog 内容，必须立即移到对应 `CHANGELOG.md` 并从 README 删除。
+- **README 发布前视觉验收**：按 §10 执行；完成视觉检查后才可推送 GitHub。
 
 **每次更新必须同步所有 CHANGELOG ⚠️：**
 
 - 每次发版（任何版本号 bump）必须同时更新以下所有 CHANGELOG 文件：
   1. 根 `CHANGELOG.md`（仓库级摘要）
-  2. `Clash Party/CHANGELOG.md`（主线详细日志）
+  2. `Mihomo内核系/Clash Party/CHANGELOG.md`（主线详细日志）
   3. 每个被改动的产物对应的 `<子目录>/CHANGELOG.md`
 - 根 CHANGELOG.md 只记录仓库级摘要（一行说明 + 详见链接），不重复子目录 CHANGELOG 的全部细节。
 
@@ -313,7 +333,7 @@ Ruby 共 4 份产物都存在同构漏洞（见 v5.2.6 补丁），教训记在�
 
 ### 1.5 同构 bug 全产物审计（自 v5.2.6 起强制）⚠️
 
-**触发条件**：只要本次修复命中以下任一运行时逻辑点，**必须对全部 14 份产物做同构审计**：
+**触发条件**：只要本次修复命中以下任一运行时逻辑点，**必须对全部 14 份既有产物及 Karing 适配做同构审计（按运行时能力确认适用性）**：
 
 1. **节点名 → 区域分类**：`REGION_DB` / `REGIONS` / `filter:` / `policy-regex-filter` / `server-tag-regex` / `NameRegex FilterKey`
 2. **区域组 fallback 链**：区域为空时回落到 `apacNodes` / `c.ALL` / 全局组
@@ -423,19 +443,19 @@ Ruby 共 4 份产物都存在同构漏洞（见 v5.2.6 补丁），教训记在�
 
 | 产物目录 | 本地参考文档 | 源 URL |
 |----------|-------------|--------|
-| `Clash Party/` | `REFERENCE-mihomo-wiki.md` | https://wiki.metacubex.one/ |
-| `Clash Meta For Android/` | `REFERENCE-mihomo-wiki.md` | https://wiki.metacubex.one/ |
-| `Stash/` | `REFERENCE-Stash-wiki.md` | https://stash.wiki/ |
-| `OpenClash/` | `REFERENCE-openclash.md` | https://github.com/vernesong/OpenClash/wiki |
-| `Surge/` | `REFERENCE-surge-manual.md` | https://manual.nssurge.com/ |
-| `Shadowrocket/` | `REFERENCE-shadowrocket.md` | https://help.shadowrocket.net/ |
-| `Loon/` | `REFERENCE-loon-manual.md` | https://github.com/Loon0x00/LoonManual |
-| `Quantumult X/` | `REFERENCE-quantumultx.md` | https://github.com/crossutility/Quantumult-X |
-| `SingBox/` | `REFERENCE-sing-box.md` | https://sing-box.sagernet.org/configuration/ |
-| `v2rayN/` | `REFERENCE-xray.md` | https://xtls.github.io/ |
-| `Passwall/` | `REFERENCE-passwall.md` | https://github.com/Openwrt-Passwall/openwrt-passwall |
-| `Passwall2/` | `REFERENCE-passwall2.md` | https://github.com/Openwrt-Passwall/openwrt-passwall2 |
-| `FlClash/` | `REFERENCE-flclash.md` | https://github.com/chen08209/FlClash |
+| `Mihomo内核系/Clash Party/` | `REFERENCE-mihomo-wiki.md` | https://wiki.metacubex.one/ |
+| `Mihomo内核系/Clash Meta For Android/` | `REFERENCE-mihomo-wiki.md` | https://wiki.metacubex.one/ |
+| `独立内核系/Stash/` | `REFERENCE-Stash-wiki.md` | https://stash.wiki/ |
+| `Mihomo内核系/OpenClash/` | `REFERENCE-openclash.md` | https://github.com/vernesong/OpenClash/wiki |
+| `独立内核系/Surge/` | `REFERENCE-surge-manual.md` | https://manual.nssurge.com/ |
+| `独立内核系/Shadowrocket/` | `REFERENCE-shadowrocket.md` | https://help.shadowrocket.net/ |
+| `独立内核系/Loon/` | `REFERENCE-loon-manual.md` | https://github.com/Loon0x00/LoonManual |
+| `独立内核系/Quantumult X/` | `REFERENCE-quantumultx.md` | https://github.com/crossutility/Quantumult-X |
+| `Sing-box内核系/SingBox/` | `REFERENCE-sing-box.md` | https://sing-box.sagernet.org/configuration/ |
+| `Xray内核系/v2rayN/` | `REFERENCE-xray.md` | https://xtls.github.io/ |
+| `双内核系/Passwall/` | `REFERENCE-passwall.md` | https://github.com/Openwrt-Passwall/openwrt-passwall |
+| `双内核系/Passwall2/` | `REFERENCE-passwall2.md` | https://github.com/Openwrt-Passwall/openwrt-passwall2 |
+| `Mihomo内核系/FlClash/` | `REFERENCE-flclash.md` | https://github.com/chen08209/FlClash |
 
 #### 2.3.2 强制检查流程
 
@@ -507,7 +527,7 @@ done
 
 - 基线（Clash Party v5.2.2 起）：`RP_PROXY = BIZ.GFW = '🚫 受限网站'`
 - Clash 家族（CMFA / OpenClash Normal / OpenClash Smart）必须全部使用 `proxy: '🚫 受限网站'`。
-- Stash Wiki 未记录 rule-provider 下载代理字段；`Stash/Stash.yaml` 删除该字段并在 `Stash/REFERENCE-Stash-wiki.md` 说明风险，豁免。
+- Stash Wiki 未记录 rule-provider 下载代理字段；`独立内核系/Stash/Stash.yaml` 删除该字段并在 `独立内核系/Stash/REFERENCE-Stash-wiki.md` 说明风险，豁免。
 - Shadowrocket 不走 rule-provider，自动由 App 更新，豁免。
 - sing-box 通过 `route.rule_set` 远程拉取；1.14 产物引用命名 `http_clients`，1.13 兼容产物使用该版本合法的 `download_detour`，两者下载均经 `🌍 全球节点`，不复制 Mihomo `proxy` 字段。
 
@@ -536,7 +556,7 @@ done
 | **Shadowrocket** | `dns-server=223.5.5.5,https://doh.pub/dns-query`（IP+URL 可逗号混排） | 同左（`dns-server=` 字段直接接受 URL，无独立 DoH 字段） | 走规则 / sgmodule | `fallback-dns-server=...` 用于解析失败回退；`hijack-dns=8.8.8.8:53` 用于劫持硬编码 DNS |
 | **Surge** | `dns-server=223.5.5.5, system` | `encrypted-dns-server=https://doh.pub/dns-query`（**独立字段**，禁止混在 `dns-server=` 里） | `[Host]` 段 `*.apple.com = server:system` | DoH 字段与 SR 不同，与 Loon/QX 也不同——三家三种写法 |
 | **Loon** | `dns-server=system, 223.5.5.5` | `doh-server=https://doh.pub/dns-query`（**独立字段**，同 QX） | `[Host]` 段 `*.apple.com = server:system` | DoH 字段名同 QX，但 [Host] 段语法跟 Surge |
-| **Clash 家族（mihomo / CMFA / OpenClash）** | YAML `dns.nameserver: [223.5.5.5, 119.29.29.29]` | YAML `dns.nameserver: [https://doh.pub/dns-query, ...]`（与 IP 同一数组） | `dns.fake-ip-filter` / `hosts:` | 还有 `direct-nameserver` / `proxy-server-nameserver` / `nameserver-policy` 等多层 |
+| **Mihomo 客户端（Clash Party / CMFA / OpenClash / FlClash）** | YAML `dns.nameserver: [223.5.5.5, 119.29.29.29]` | YAML `dns.nameserver: [https://doh.pub/dns-query, ...]`（与 IP 同一数组） | `dns.fake-ip-filter` / `hosts:` | 还有 `direct-nameserver` / `proxy-server-nameserver` / `nameserver-policy` 等多层 |
 | **Stash** | YAML `dns.default-nameserver` 只放 IP；`dns.nameserver` 可放 IP/DoH | DoH 放 `dns.nameserver` / `dns.nameserver-policy` | `dns.fake-ip-filter` / `hosts:` | 不复制 Mihomo `proxy-server-nameserver` / `direct-nameserver` / `fallback-filter`；见 `REFERENCE-Stash-wiki.md` |
 | **sing-box** | typed server：`type: udp` / `server` | typed server：`type: https` / `server` / `path` | `dns.rules[]`；1.14 响应匹配用 `evaluate` / `match_response` | 1.12 引入 typed DNS；本仓库 Full 验收 1.14.3，兼容变体验收 1.13.14；不输出旧 `address` / `address_resolver` |
 
@@ -590,11 +610,11 @@ done
 | **OpenClash full override YAML** | 顶层 `rule-providers:` / `rules:` | 各自**只能出现 1 次**（Ruby Psych last-wins 会静默丢内容） | §5 自检 4b |
 | **Passwall / Passwall2 shunt_rules** | 不支持 Clash 前缀 | 必须用 `domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote\|local:` / 裸 CIDR；**禁止** `DOMAIN-SUFFIX,` | shunt_rules.lua |
 | **sing-box rule_set** | `format` 字段 | `binary`（配 `.srs` 文件）或 `source`（配 JSON）；不能反着配 | sagernet.org 文档 |
-| **Stash rule-providers** | provider 下载代理 / health-check / exclude-filter | Stash Wiki 未列出这些 Mihomo 字段；从 CMFA 生成时删除 | `Stash/REFERENCE-Stash-wiki.md` |
+| **Stash rule-providers** | provider 下载代理 / health-check / exclude-filter | Stash Wiki 未列出这些 Mihomo 字段；从 CMFA 生成时删除 | `独立内核系/Stash/REFERENCE-Stash-wiki.md` |
 | **Shadowrocket** | rule-provider 节 | **不支持**；必须把 URL 直接写在 `RULE-SET,<url>,<policy>` 中 | §3.2 + §3.5.2 |
 | **Surge / Loon / QX** | 进程匹配 | iOS 进程命名空间不支持 `PROCESS-NAME`；Surge/Loon iOS 14+ 部分支持，QX 不支持 | 各官方 wiki |
 | **Mihomo `.mrs`** | 规则类型 | 只允许 `domain` / `ipcidr`；混合 classical 必须拆分；部分可转必须生成 `.mrs` + `-classical.yaml` 残余；全量不可转才保留原格式 | `tools/sync-mihomo-mrs-rule-providers.js` + MetaCubeX docs |
-| **Egern** | Mihomo `.mrs` | 官方文档未声明支持，禁止把 `.mrs` URL 直接写进 Egern；必须经 `tools/generate-egern-from-cmfa.js` 输出 Egern 原生 YAML | `Egern/REFERENCE-Egern.md` |
+| **Egern** | Mihomo `.mrs` | 官方文档未声明支持，禁止把 `.mrs` URL 直接写进 Egern；必须经 `tools/generate-egern-from-cmfa.js` 输出 Egern 原生 YAML | `独立内核系/Egern/REFERENCE-Egern.md` |
 | **Clash Party v2.0.3+** | 原始订阅 `dns` 中的 `proxy-server-nameserver` / `proxy-server-nameserver-policy` / `nameserver-policy` | 客户端会在 JS 覆写前保护性关闭内置 `controlDns`；不要把“自动关闭 DNS 覆写”误判为脚本未执行，仓库 JS 随后仍写入自身 DNS 基线 | Issue #183；Clash Party `dnsOverrideGuard.ts` / `factory.ts` |
 | **vernesong Smart** | `strategy: sticky-sessions` | 当前 SmartOption 已移除此参数；不等同于普通 load-balance 的合法 `strategy` | [固定 Smart 源码](https://github.com/vernesong/mihomo/blob/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/adapter/outboundgroup/smart.go) |
 | **Surge** | `[DNS]`、`fallback-dns-server`、`dns-direct-fallback-proxy` | 不属于当前官方语法；加密 DNS 放在 `[General]`，多个服务并发首答，不能声称直连失败后转代理 | [官方格式](https://manual.nssurge.com/profile/format.html)、[加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html) |
@@ -633,37 +653,37 @@ node tools/build-fused-rule-sets.js
 node tools/generate-stash-from-cmfa.js
 node tools/generate-egern-supplemental.js
 node tools/generate-egern-from-cmfa.js
-node "SingBox/SingBox(sing-box)-generator.js"
+node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
 node tools/generate-fused-fallback-artifacts.js
 
 # 1) 数代理组数（必须为 33 业务组 + 22 区域组；sing-box 另加 1 个顶层节点选择）
 #    CMFA：业务组用 "- name:"、区域组用 "- type: url-test" + 缩进 "  name:"，需两种模式
-grep -cE "^- name: |^  name: " "Clash Meta For Android/CMFA(mihomo).yaml"  # 期望 55
-grep -cE "^- name: |^  name: " "Stash/Stash.yaml"                          # 期望 55
+grep -cE "^- name: |^  name: " "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml"  # 期望 55
+grep -cE "^- name: |^  name: " "独立内核系/Stash/Stash.yaml"                          # 期望 55
 #    OpenClash：33 业务组是静态 "- name:"；22 区域组由 Ruby make_smart_group() 动态生成，静态 grep 只能数到 33
-grep -cE "^- name: " "OpenClash/OpenClash(mihomo).sh"                  # 期望 33（静态业务组）
-grep -cE "^- name: " "OpenClash/OpenClash(mihomo-smart).sh"             # 期望 33（静态业务组）
-grep -cE " = select,|= url-test," "Shadowrocket/Shadowrocket.conf"        # 期望 55
-grep -cE " = select,|= url-test," "Surge/Surge.conf"                      # 期望 55
-grep -cE " = select,|= url-test," "Loon/Loon.conf"                        # 期望 55
-grep -cE "^(url-latency-benchmark|static)=" "Quantumult X/QuantumultX.conf"        # 期望 55
-node -e "const d=JSON.parse(require('fs').readFileSync('SingBox/SingBox(sing-box)-full.json','utf8'));const n=d.outbounds.filter(o=>o.type==='selector'||o.type==='urltest').length;console.log(n);process.exit(n===54?0:1)"  # 期望 54（无「其他」区域组）
+grep -cE "^- name: " "Mihomo内核系/OpenClash/OpenClash(mihomo).sh"                  # 期望 33（静态业务组）
+grep -cE "^- name: " "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh"             # 期望 33（静态业务组）
+grep -cE " = select,|= url-test," "独立内核系/Shadowrocket/Shadowrocket.conf"        # 期望 55
+grep -cE " = select,|= url-test," "独立内核系/Surge/Surge.conf"                      # 期望 55
+grep -cE " = select,|= url-test," "独立内核系/Loon/Loon.conf"                        # 期望 55
+grep -cE "^(url-latency-benchmark|static)=" "独立内核系/Quantumult X/QuantumultX.conf"        # 期望 55
+node -e "const d=JSON.parse(require('fs').readFileSync('Sing-box内核系/SingBox/SingBox(sing-box)-full.json','utf8'));const n=d.outbounds.filter(o=>o.type==='selector'||o.type==='urltest').length;console.log(n);process.exit(n===54?0:1)"  # 期望 54（无「其他」区域组）
 
 # 2) RP 代理字段
-grep -c "proxy: DIRECT" "OpenClash/OpenClash(mihomo).sh"                    # 期望 0
-grep -c "proxy: '☁️ 云与CDN'" "Clash Meta For Android/CMFA(mihomo).yaml"         # 期望 0
-grep -c "proxy: '🚫 受限网站'" "Clash Meta For Android/CMFA(mihomo).yaml"        # 期望 113（最终融合 provider）
-grep -c "proxy: '🚫 受限网站'" "Stash/Stash.yaml"                              # 期望 0（Stash Wiki 未记录 provider proxy 字段）
-grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "OpenClash/OpenClash(mihomo).sh"               # 期望 ≥ 113
-grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "OpenClash/OpenClash(mihomo-smart).sh"  # 期望 ≥ 113
+grep -c "proxy: DIRECT" "Mihomo内核系/OpenClash/OpenClash(mihomo).sh"                    # 期望 0
+grep -c "proxy: '☁️ 云与CDN'" "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml"         # 期望 0
+grep -c "proxy: '🚫 受限网站'" "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml"        # 期望 113（最终融合 provider）
+grep -c "proxy: '🚫 受限网站'" "独立内核系/Stash/Stash.yaml"                              # 期望 0（Stash Wiki 未记录 provider proxy 字段）
+grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "Mihomo内核系/OpenClash/OpenClash(mihomo).sh"               # 期望 ≥ 113
+grep -c "proxy: \"\\\\U0001F6AB 受限网站\"" "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh"  # 期望 ≥ 113
 
 # 3) 禁止死引用（旗帜 emoji 与组名 emoji 必须匹配；忽略注释行）
-grep -nE "^[^#].*🇸🇬 亚太节点" "Shadowrocket/Shadowrocket.conf"                  # 必须无输出
-grep -cE "^🎵 TikTok = " "Shadowrocket/Shadowrocket.conf"                   # 期望 1（v5.4.7 新增独立组）
+grep -nE "^[^#].*🇸🇬 亚太节点" "独立内核系/Shadowrocket/Shadowrocket.conf"                  # 必须无输出
+grep -cE "^🎵 TikTok = " "独立内核系/Shadowrocket/Shadowrocket.conf"                   # 期望 1（v5.4.7 新增独立组）
 
 # 4) JSON 合法性（sing-box + v2rayN 路由；优先 node，备选 python3）
-node -e "JSON.parse(require('fs').readFileSync('SingBox/SingBox(sing-box)-full.json','utf8'));console.log('SingBox JSON: VALID')"
-node -e "const a=JSON.parse(require('fs').readFileSync('v2rayN/v2rayN(xray).json','utf8'));const m=a[0];console.log('v2rayN JSON: VALID, items:',a.length,'version:',m.remarks?.match(/v[0-9]+\\.[0-9.]+-v2n\\.[0-9]+/)?.[0])"
+node -e "JSON.parse(require('fs').readFileSync('Sing-box内核系/SingBox/SingBox(sing-box)-full.json','utf8'));console.log('SingBox JSON: VALID')"
+node -e "const a=JSON.parse(require('fs').readFileSync('Xray内核系/v2rayN/v2rayN(xray).json','utf8'));const m=a[0];console.log('v2rayN JSON: VALID, items:',a.length,'version:',m.remarks?.match(/v[0-9]+\\.[0-9.]+-v2n\\.[0-9]+/)?.[0])"
 
 # 4b) OpenClash full 生成的 override YAML：必须只有 1 个 rule-providers + 1 个 rules 顶层键
 #     （Ruby Psych 对重复顶层键 last-wins，会静默丢掉前面的全量内容——本仓库曾在此犯错）
@@ -672,7 +692,7 @@ awk '
   /^cat >> "\$OVERRIDE_YAML" << .OVERRIDE_EOF./ { inblock=1; next }
   /^OVERRIDE_EOF$/ { inblock=0; next }
   inblock { print }
-' "OpenClash/OpenClash(mihomo-smart).sh" > /tmp/oc_full_override_probe.yaml
+' "Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh" > /tmp/oc_full_override_probe.yaml
 grep -cE "^rule-providers:$" /tmp/oc_full_override_probe.yaml   # 期望 1
 grep -cE "^rules:$" /tmp/oc_full_override_probe.yaml             # 期望 1
 ruby -ryaml -e '
@@ -682,14 +702,14 @@ ruby -ryaml -e '
   puts "OC full override yaml: providers=#{d["rule-providers"].size} rules=#{d["rules"].size}"
 '
 
-# 5) 产物合同验证（--strict-ruby 会实际解析 CMFA/OpenClash/Egern YAML，并检查 .mrs manifest）
+# 5) 产物合同验证（--strict-ruby 会实际解析 CMFA、Stash、OpenClash、Egern YAML，并检查 .mrs manifest）
 node tools/validate-artifact-contracts.js --strict-ruby
 
 # 6) JS 覆写与 PROCESS-NAME 合同
 # FIX#182：上述命令包含 fake-ip-filter 规则模式 / 悬空 rule-set 引用回归检查
 # FIX#183：上述命令包含 Clash Party v2.0.3+ 原始订阅 DNS guard 边界与脱敏诊断回归检查
-rg -n "sanitizeFakeIpFilterEntries|fake-ip-filter-mode.*blacklist" "Clash Party/ClashParty(mihomo-smart).js" "Clash Party/ClashParty(mihomo).js" "FlClash/FlClash(mihomo).js"
-rg -n "logClashPartyDnsGuardBoundary|Clash Party v2\.0\.3\+ DNS guard" "Clash Party/ClashParty(mihomo-smart).js" "Clash Party/ClashParty(mihomo).js"
+rg -n "sanitizeFakeIpFilterEntries|fake-ip-filter-mode.*blacklist" "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js" "Mihomo内核系/Clash Party/ClashParty(mihomo).js" "Mihomo内核系/FlClash/FlClash(mihomo).js"
+rg -n "logClashPartyDnsGuardBoundary|Clash Party v2\.0\.3\+ DNS guard" "Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js" "Mihomo内核系/Clash Party/ClashParty(mihomo).js"
 node tools/validate-js-overwrites.js
 node tools/validate-process-name-direct.js
 
@@ -751,8 +771,8 @@ node --test tools/tests/official-docs-cache.test.js tools/tests/singbox-current-
 
 以下内容改动前必须获得 maintainer 明确同意：
 
-- `Clash Party/ClashParty(mihomo-smart).js` 中 `SMART` / `BIZ` 常量定义（§3.1 的 55 组命名：22 区域 + 33 业务）
-- `SingBox/SingBox(sing-box)-generator.js` 的生成策略
+- `Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js` 中 `SMART` / `BIZ` 常量定义（§3.1 的 55 组命名：22 区域 + 33 业务）
+- `Sing-box内核系/SingBox/SingBox(sing-box)-generator.js` 的生成策略
 - `tools/generate-stash-from-cmfa.js` 的生成策略
 - 本 `AGENTS.md` 维护契约
 
@@ -770,7 +790,7 @@ node --test tools/tests/official-docs-cache.test.js tools/tests/singbox-current-
 | 把详细变更日志塞回产物文件头 | v5.2.3 及之前 | 配置头被历史淹没，多处日志容易漂移 | 文件头只保留轻量元信息，详情只写 CHANGELOG |
 | 单边修改 Clash Party JS 或任一派生产物 | 多次 | 跨设备策略语义不一致 | 从源规则图出发，按 §1 全端联动 |
 | 凭训练数据判断 sing-box 或其他客户端字段 | 潜在 | 字段与版本持续变化 | 按 §2 引用最新官方文档和字段锚点 |
-| 手工修改 `Stash/Stash.yaml` | Issue #173 | 未经裁剪的 Mihomo 字段可能导致 Stash 导入失败 | 只改 CMFA / 生成器，再运行 `generate-stash-from-cmfa.js` |
+| 手工修改 `独立内核系/Stash/Stash.yaml` | Issue #173 | 未经裁剪的 Mihomo 字段可能导致 Stash 导入失败 | 只改 CMFA / 生成器，再运行 `generate-stash-from-cmfa.js` |
 | 把 Mihomo `.mrs` 直接写进 Egern | v5.4.38-egern.2 | Egern 官方文档未声明支持 `.mrs` | 经 Egern 生成器转换为原生 YAML 规则集 |
 | 增加上游 provider 后不跑 `.mrs` 同步 | v5.4.38-mrs | Mihomo 产物退回低效格式或各端漂移 | 依次执行 MRS 同步、映射、融合和完整生成链路 |
 | QX `[dns] server=https://...` | v5.2.10-QX.2 | QX 的 DoH 必须使用独立 `doh-server=` 字段 | 按 §3.5.1 使用 `doh-server=https://...` |
@@ -795,16 +815,16 @@ node --test tools/tests/official-docs-cache.test.js tools/tests/singbox-current-
 PR 提交后会自动运行两个验证工作流：
 
 1. **Validate JS Overwrites** — 验证 Clash Party / FlClash JS 覆写脚本
-   - 触发条件：PR/push 修改 `Clash Party/**/*.js`、`FlClash/**/*.js`、`tools/validate-js-overwrites.js`
+   - 触发条件：PR/push 修改 `Mihomo内核系/Clash Party/**/*.js`、`Mihomo内核系/FlClash/**/*.js`、`tools/validate-js-overwrites.js`
    - 验证内容：节点分类、组顺序、规则引用、订阅清理、TikTok 目标隔离等
 2. **Validate Artifact Contracts** — 跨客户端产物一致性验证（含 Ruby YAML 解析）
    - 触发条件：PR/push 修改任何产物文件（JS/YAML/JSON/conf）
-   - 验证内容：JS 覆写 + CMFA/Stash/OpenClash/SR/Surge/Loon/QX/SingBox/v2rayN/Passwall/Egern 组计数 + Mihomo `.mrs` manifest + JSON 合法性 + YAML 重复键
+   - 验证内容：JS 覆写、CMFA、OpenClash、Shadowrocket、Surge、Loon、QX、SingBox、Karing、v2rayN、Passwall、Passwall2、Stash、Egern 的规则/组合同；Mihomo `.mrs` manifest、JSON 合法性与 YAML 重复键。Karing 的专属生成合同由 `node tools/generate-karing.js --check` 覆盖。
 3. **Sync All Fused Rule Sets**（`.github/workflows/sync-mihomo-mrs-rule-providers.yml`）— 定时同步全部上游规则并发布最终融合产物
    - 触发条件：每周定时 + 手动 workflow_dispatch
-   - 固定顺序：sync `.mrs` → apply overrides → build fused（含原生 fallback）→ regenerate Stash/Egern/SingBox/fallback → 完整合同/去重/预算验证 → 中文提交
+   - 固定顺序：sync `.mrs` → apply overrides → build fused（含原生 fallback）→ regenerate Stash/Egern/SingBox/Karing/fallback → 完整合同/去重/预算验证 → 中文提交
    - Egern 生成清单对 CMFA、源规则图、Profile、每个原生 YAML 资产哈希和引用清单做双向校验；上游去重使规则数量发生正常变化时，不得再使用固定快照数字阻断同步。
-   - 提交范围必须覆盖源规则图、`rulesets/generated/fused/`、MRS、Egern 规则集和所有 14 类客户端产物；工作流级并发组禁止两个刷新任务同时写入 `main`。
+   - 提交范围必须覆盖源规则图、`rulesets/generated/fused/`、MRS、Egern 规则集和14 类既有客户端产物与 Karing 适配；工作流级并发组禁止两个刷新任务同时写入 `main`。
 
 任一工作流失败 → PR 不得合入。
 
@@ -826,3 +846,40 @@ PR 提交后会自动运行两个验证工作流：
 
 - **代码修改模式**：AI 输出结构化响应（`<!-- AI_REPLY -->` + `<!-- AI_PATCH -->` + `<!-- AI_PR -->`），workflow 自动提取补丁、创建分支、提交并开 PR
 - **所需 Secrets / Variables**：`MIMO_API_KEY`（必填）、`TAVILY_API_KEY`（可选，联网搜索）；可选 Actions Variable `MIMO_BASE_URL` 覆盖标准端点 `https://api.xiaomimimo.com/v1`。Token Plan 的 key 不能与标准套餐混用，`MIMO_BASE_URL` 应填写控制台提供的完整 base URL。
+
+---
+
+## 10. README 与文档编写契约
+
+### 10.1 根 README 的职责与信息顺序
+
+根 `README.md` 是项目首页和快速入口，优先帮助读者判断项目价值、开始使用并找到对应客户端。推荐按以下顺序组织：
+
+1. 主视觉与项目价值：说明解决什么问题、适合谁，并使用 `tools/generate-readme-visuals.js` 生成的自包含现代玻璃风 SVG。
+2. 三步入门：以简短步骤引导读者选客户端、导入配置并完成基本检查。
+3. 按客户端家族排列的下载入口：提供清晰分类目录和按钮，覆盖仓库提供的全部产物。
+4. 单张核心设计概览：解释同源规则如何按客户端落地，不重复专题页的详细图表。
+5. 专题导航：链接到 `docs/guide/` 下的 downloads、client-support、routing-policy、dns-and-verification、acknowledgements 等指南。
+6. 参与方式与 License。
+
+根 README 不重复长目录路径、参数、维护命令、详细协议/规则来源、DNS 排障步骤或变更历史。将这些内容放在二级指南、客户端教程或相应单一事实源中；升级时同步修正文档链接，并核对文中可验证事实仍与源文件、生成物或官方资料一致。wiki 不作为本仓库需要另行维护的内容副本。
+
+### 10.2 首页布局与媒体
+
+- 根 README 表格建议不超过三列，每张表聚焦一种比较；长矩阵按客户端家族拆到对应二级文档。避免首列文字逐字竖排、极窄教程列、无必要的横向滚动，以及在表格单元格中嵌入长代码。
+- 下载内容可按客户端家族使用分类目录和按钮；保证每个正式产物都能从入口发现，并明确区分 Raw 文件（直接获取配置/规则）与教程（说明选择、导入和设置）。
+- 视觉应优先适配手机；至少在 390px 宽视口检查图表文字、按钮与导航可读。图片提供有意义的 alt 文本；关键信息须保留为可检索文本，不得只放在图片里，也不得用一张大图承载全部说明。
+- 首页视觉使用 `tools/generate-readme-visuals.js` 生成的自包含 SVG。保持 SVG 自包含，不依赖 inline CSS/JavaScript 或 GitHub 不支持的功能；需要修改图形时更新生成器并重生成资源，不手工编辑生成结果。
+
+### 10.3 渲染、链接与发布验收
+
+每次修改 README 的布局、表格、SVG 或链接，在推送前必须完成实际 GitHub GFM 或等效渲染验收：检查桌面亮色、桌面暗色和 390px 窄屏；确认页面整体无溢出、图文无截断、按钮可读。核对本地文件链接与页内锚点，对新增或改变的下载 URL 检查实际响应；地址和内容未变的链接可复用已有完整下载与哈希校验结果。可将截图或验收报告保存在 `.cache/` 作为证据。
+
+生成器的 `--check` 可用于发现生成文件漂移，但不能替代视觉验收。仅在本次授权包含发布时推送；发布后检查 GitHub 上的实际渲染效果，并核对对应提交的 CI 结果。纯文档与 SVG 表现层修改不触发 §1 的全客户端版本更新或规则再生成；若改动同时影响规则、DNS、运行时行为或生成产物，仍按 §1 执行。
+
+### 10.4 客户端教程与现行文档统一
+
+- 客户端 README、下载专题、文档中心、规则维护页和 CHANGELOG 使用同一套配色、响应式页头与导航；顶部按「页头 → 可检索 H1 → 一句用途 → 同行导航」排列。按钮在桌面并排，手机自然换行。
+- 客户端教程按「开始前与文件选择 → 完整导入步骤 → 必要设置 → 验收 → 常见问题 → 进阶参考」组织。关键导入步骤直接展示；重复原理和低频维护细节可折叠，但不得省略命令、订阅接入、关联启用、版本条件或平台限制。
+- 兼容旧锚点时把 ID 放在实际对应内容前，不能集中堆放在页尾；新增页面同步加入文档中心。
+- CHANGELOG 统一展示与返回导航，历史版本条目原样保留。官方 REFERENCE 快照和历史审计档案保留原文，通过 `docs/archive/README.md` 统一入口；不为美化改写证据正文。

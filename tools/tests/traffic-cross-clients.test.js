@@ -13,7 +13,7 @@ const { prepareUpdates, replaceMarked } = require('../sync-traffic-options');
 const root = path.resolve(__dirname, '../..');
 
 test('traffic runtime preflight prepares all targets without writes and rejects bad markers', () => {
-  const files = ['tools/runtime/traffic-options.js', 'Clash Party/ClashParty(mihomo-smart).js', 'Clash Party/ClashParty(mihomo).js', 'FlClash/FlClash(mihomo).js'];
+  const files = ['tools/runtime/traffic-options.js', 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
   const before = files.map(file => fs.readFileSync(path.join(root, file)));
   const prepared = prepareUpdates({ healthCheckProfile: 'power-save', quicPolicy: 'follow-rules' });
   assert.equal(prepared.length, files.length);
@@ -44,7 +44,7 @@ test('follow-rules removes the source UDP 443 override while standard preserves 
 test('static platform presets switch reversibly and preserve UDP capability fallback', () => {
   const standard = { healthCheckProfile: 'standard', quicPolicy: 'block-foreign' };
   const saving = { healthCheckProfile: 'power-save', quicPolicy: 'follow-rules' };
-  const cmfa = fs.readFileSync(path.join(root, 'Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8');
+  const cmfa = fs.readFileSync(path.join(root, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8');
   const cmfaSaving = applyCmfaTrafficOptions(cmfa, saving);
   assert.match(cmfaSaving, /health-check:\n      enable: true\n      url: [^\n]+\n      interval: 900\n      lazy: true/);
   assert.match(cmfaSaving, /proxy-groups:\n- type: url-test[\s\S]*?  interval: 900\n  tolerance: 10\n  lazy: true/);
@@ -53,9 +53,9 @@ test('static platform presets switch reversibly and preserve UDP capability fall
   assert.equal((cmfaStandard.match(/^  lazy: true$/gm) || []).length, 22);
 
   for (const [platform, relative, blocked] of [
-    ['shadowrocket', 'Shadowrocket/Shadowrocket.conf', 'block-quic = all-proxy'],
-    ['surge', 'Surge/Surge.conf', 'block-quic = all-proxy'],
-    ['loon', 'Loon/Loon.conf', 'disable-udp-ports = 443'],
+    ['shadowrocket', '独立内核系/Shadowrocket/Shadowrocket.conf', 'block-quic = all-proxy'],
+    ['surge', '独立内核系/Surge/Surge.conf', 'block-quic = all-proxy'],
+    ['loon', '独立内核系/Loon/Loon.conf', 'disable-udp-ports = 443'],
   ]) {
     const source = fs.readFileSync(path.join(root, relative), 'utf8');
     const follow = applyMobileTrafficOptions(source, platform, saving);
@@ -65,7 +65,7 @@ test('static platform presets switch reversibly and preserve UDP capability fall
     assert.equal(restored.includes(blocked), true, platform);
     assert.match(restored, /url-test,[^\n]*interval=300/);
   }
-  const qx = fs.readFileSync(path.join(root, 'Quantumult X/QuantumultX.conf'), 'utf8');
+  const qx = fs.readFileSync(path.join(root, '独立内核系/Quantumult X/QuantumultX.conf'), 'utf8');
   const qxSaving = applyMobileTrafficOptions(qx, 'quantumultx', saving);
   assert.match(qxSaving, /url-latency-benchmark=[^\n]*check-interval=900[^\n]*alive-checking=false/);
   assert.match(qxSaving, /fallback_udp_policy=reject/);
@@ -76,7 +76,7 @@ test('OpenClash Ruby option block routes both modes from one generated source ma
   const ruby = spawnSync('ruby', ['--version'], { encoding: 'utf8' });
   if (ruby.error || ruby.status !== 0) return context.skip('Ruby unavailable');
   for (const name of ['OpenClash(mihomo).sh', 'OpenClash(mihomo-smart).sh']) {
-    const source = fs.readFileSync(path.join(root, 'OpenClash', name), 'utf8').replace(/\r\n/g, '\n');
+    const source = fs.readFileSync(path.join(root, 'Mihomo内核系/OpenClash', name), 'utf8').replace(/\r\n/g, '\n');
     assert.match(source, /raise ArgumentError, 'invalid health check profile'/);
     assert.match(source, /raise ArgumentError, 'invalid QUIC policy'/);
     assert.match(source, /"interval"\s*=> health_profile == 'power-save' \? 900 : 300/);

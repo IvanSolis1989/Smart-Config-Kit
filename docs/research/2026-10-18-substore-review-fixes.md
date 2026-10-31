@@ -27,6 +27,6 @@ Node 回归先复现旧实现失败，再验证修复。真实 Edge 浏览器新
 
 ## 范围
 
-本轮浏览器测试使用独立无账号 Edge profile 和虚构面板/假 Sub-Store，阻断外网。六家真实账号的前轮验收仍见[原记录](./2026-10-18-substore-auto-sync-acceptance.md)，不冒称这些账号已重新加载 v1.3.2。Chrome 账号环境仍未实测。
+本轮浏览器测试使用独立无账号 Edge profile 和虚构面板/假 Sub-Store，阻断外网。六家真实账号的前轮验收仍见[原记录](2026-10-18-substore-auto-sync-acceptance.md)，不冒称这些账号已重新加载 v1.3.2。Chrome 账号环境仍未实测。
 
 SubStore 辅助工具以外只更新相关日志；未改规则源、DNS、策略组或客户端分流配置。

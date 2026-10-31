@@ -316,9 +316,9 @@ jobs:
 
           # 白名单：仅允许写入这些目录/文件前缀（D11-01）
           ALLOWED_PREFIXES = [
-              'Clash Party/', 'Clash Meta For Android/', 'OpenClash/',
-              'Shadowrocket/', 'Stash/', 'SingBox/', 'v2rayN/', 'Surge/', 'Loon/',
-              'Quantumult X/', 'Passwall/', 'Passwall2/', 'FlClash/',
+              'Mihomo内核系/Clash Party/', 'Mihomo内核系/Clash Meta For Android/', 'Mihomo内核系/OpenClash/',
+              '独立内核系/Shadowrocket/', '独立内核系/Stash/', 'Sing-box内核系/SingBox/', 'Xray内核系/v2rayN/', '独立内核系/Surge/', '独立内核系/Loon/',
+              '独立内核系/Quantumult X/', '双内核系/Passwall/', '双内核系/Passwall2/', 'Mihomo内核系/FlClash/',
               'CHANGELOG.md', 'README.md', 'docs/', 'tools/'
           ]
 

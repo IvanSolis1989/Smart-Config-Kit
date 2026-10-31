@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="180" viewBox="0 0 1000 180" role="img" aria-labelledby="title desc">
+<title id="title">维护契约</title><desc id="desc">生成、文档与协作约定</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="998" height="178" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="850" cy="15" rx="360" ry="135" fill="url(#aura)"/><path d="M28 1H972" stroke="#ffffff" stroke-width="2"/>
+<path d="M30 148H608" stroke="#a5c9ed" stroke-opacity=".45"/>
+    <rect x="688" y="25" width="280" height="130" rx="25" fill="#e0efff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="688.5" y="25.5" width="279" height="129" rx="25" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><g transform="translate(711 40) scale(1)" fill="none" stroke-linejoin="round">
+    <path d="M0 50H52M160 20H210M160 50H232M160 80H210" stroke="#a5c9ed" stroke-width="2"/>
+    <path d="M52 50L106 17L160 50L106 83Z" fill="#2869b2" fill-opacity=".06" stroke="#2869b2" stroke-opacity=".6" stroke-width="1.7"/>
+    <path d="M106 17V83M52 50H160M106 17L133 50L106 83" stroke="#2869b2" stroke-opacity=".3" stroke-width="1.3"/>
+    <circle cx="106" cy="50" r="7" fill="#ffffff" fill-opacity=".8" stroke="#2869b2" stroke-width="1.6"/>
+    <g fill="#ffffff" stroke="#2869b2" stroke-width="1.6"><circle cx="0" cy="50" r="4"/><circle cx="210" cy="20" r="4"/><circle cx="232" cy="50" r="4"/><circle cx="210" cy="80" r="4"/></g>
+    </g>
+    <text x="34" y="76" font-size="36" font-weight="650" fill="#18324f" >维护契约</text><text x="36" y="116" font-size="22" font-weight="400" fill="#506780" >生成、文档与协作约定</text>
+    <rect x="36" y="147" width="70" height="3" rx="1.5" fill="url(#ribbon)"/>
+</g></svg>

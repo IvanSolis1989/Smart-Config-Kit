@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="250" viewBox="0 0 1120 250" role="img" aria-labelledby="title desc">
+<title id="title">Smart-Config-Kit</title><desc id="desc">同一规则源，多端原生分流。桌面、移动端与 OpenWrt。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="1118" height="248" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="952" cy="15" rx="403.2" ry="187.5" fill="url(#aura)"/><path d="M28 1H1092" stroke="#ffffff" stroke-width="2"/>
+<path d="M755 52L1000 126L755 201L682 126Z" fill="none" stroke="#98b9dc" stroke-width="1.5"/>
+  <path d="M755 52L755 201M682 126H1000M755 52L895 126L755 201" fill="none" stroke="#b7cfeb"/>
+  <rect x="696" y="78" width="140" height="96" rx="24" fill="#d8eeff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="696.5" y="78.5" width="139" height="95" rx="24" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="766" y="117" font-size="25" font-weight="650" fill="#18324f" text-anchor="middle">同源</text><text x="766" y="147" font-size="17" font-weight="400" fill="#506780" text-anchor="middle">Source graph</text>
+  <rect x="891" y="44" width="112" height="48" rx="15" fill="#e7e9ff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="891.5" y="44.5" width="111" height="47" rx="15" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="947" y="75" font-size="18" font-weight="600" fill="#18324f" text-anchor="middle">.mrs</text><rect x="952" y="108" width="112" height="48" rx="15" fill="#e7e9ff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="952.5" y="108.5" width="111" height="47" rx="15" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="1008" y="139" font-size="18" font-weight="600" fill="#18324f" text-anchor="middle">.srs</text><rect x="891" y="172" width="112" height="48" rx="15" fill="#e7e9ff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="891.5" y="172.5" width="111" height="47" rx="15" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><text x="947" y="203" font-size="18" font-weight="600" fill="#18324f" text-anchor="middle">Native</text>
+  <text x="48" y="96" font-size="49" font-weight="650" fill="#18324f" >Smart-Config-Kit</text><text x="50" y="139" font-size="26" font-weight="500" fill="#18324f" >同一规则源，多端原生分流。</text>
+  <text x="50" y="190" font-size="19" font-weight="400" fill="#506780" >桌面 · 移动端 · OpenWrt</text>
+  <rect x="50" y="214" width="104" height="4" rx="2" fill="url(#ribbon)"/>
+</g></svg>

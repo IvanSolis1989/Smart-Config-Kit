@@ -131,7 +131,7 @@ test('extracts only the latest root changelog section and announces its immutabl
 
 test('expands the matching linked changelog instead of announcing a pointer', async () => {
   const repo = 'IvanSolis1989/Smart-Config-Kit';
-  const root = '# 日志\n## 2026-10-23 下载复核\n- 详见 [Clash Party 日志](./Clash%20Party/CHANGELOG.md)。\n';
+  const root = '# 日志\n## 2026-10-23 下载复核\n- 详见 [Clash Party 日志](./Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。\n';
   const child = '# Clash Party\n## 2026-10-23 下载复核\n- 确认下载域名命中下载策略；补充微信进程 DIRECT 回归；规则行为不变。\n## 旧版\n- 旧更新\n';
   const api = async path => path.startsWith('/commits/') ? { sha, commit: { committer: { date: release.published_at } } }
     : { encoding: 'base64', content: Buffer.from(path.includes('Clash%20Party') ? child : root).toString('base64') };

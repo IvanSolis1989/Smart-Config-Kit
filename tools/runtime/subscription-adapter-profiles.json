@@ -19,6 +19,10 @@
     "adaptive": {
       "node_dns_projection": "adaptive",
       "label": "显式 policy 加受限代理节点 DNS 回退"
+    },
+    "hosts-only": {
+      "node_dns_projection": "hosts-only",
+      "label": "仅投影活动节点精确域名的 IP hosts"
     }
   }
 }

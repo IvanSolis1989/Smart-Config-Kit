@@ -21,8 +21,8 @@ const RUNTIME = [
 const BEGIN = '# >>> SCKI NODE DNS HINTS: BEGIN';
 const END = '# <<< SCKI NODE DNS HINTS: END';
 const TARGETS = [
-  { id: 'normal', file: path.join('OpenClash', 'OpenClash(mihomo).sh') },
-  { id: 'smart', file: path.join('OpenClash', 'OpenClash(mihomo-smart).sh') },
+  { id: 'normal', file: path.join('Mihomo内核系/OpenClash', 'OpenClash(mihomo).sh') },
+  { id: 'smart', file: path.join('Mihomo内核系/OpenClash', 'OpenClash(mihomo-smart).sh') },
 ];
 
 function findRuby() {

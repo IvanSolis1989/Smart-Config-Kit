@@ -46,6 +46,8 @@ jobs:
         id: baseline
         run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
+      - uses: ./.github/actions/setup-aerove-mihomo
+
       - name: Synchronize traffic presets before the full build
         run: |
           node tools/sync-traffic-options.js
@@ -68,11 +70,17 @@ jobs:
           node tools/generate-stash-from-cmfa.js
           node tools/generate-egern-supplemental.js
           node tools/generate-egern-from-cmfa.js
-          node "SingBox/SingBox(sing-box)-generator.js"
+          node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
           node tools/generate-fused-fallback-artifacts.js
+          node tools/generate-karing.js
+          node tools/generate-aerove-rule-assets.js
+          node tools/generate-meow.js
 
       - name: Validate complete fused release chain
         run: |
+          node tools/generate-aerove-rule-assets.js --check
+          node tools/generate-meow.js --check
+          MIHOMO_BIN="$AEROVE_MIHOMO_BIN" node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js
           node tools/validate-adfp-exceptions.js
           node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           node tools/sync-business-dns-policy.js --check
@@ -109,6 +117,11 @@ jobs:
           fi
           node tools/validate-ordered-rule-semantics.js --baseline-ref "$SCKI_RELEASE_BASE" --mode domain-projection --check --output rulesets/generated/semantic-diff.json "${approval_args[@]}"
           node tools/refresh-rule-quality.js
+          node tools/generate-karing.js
+          node tools/generate-karing.js --check
+          node tools/generate-aerove-rule-assets.js
+          node tools/generate-meow.js
+          node tools/generate-meow.js --check
           node tools/refresh-rule-quality.js --check
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
 

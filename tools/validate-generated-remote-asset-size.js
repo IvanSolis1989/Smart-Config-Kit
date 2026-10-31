@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REPOSITORY_URL_PREFIXES } = require('./lib/repository-rule-asset');
+const { clientDirectory, clientIdForPath } = require('./lib/client-layout');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const MAX_JSDELIVR_ASSET_BYTES = 18 * 1024 * 1024;
@@ -16,23 +17,25 @@ const CLIENT_BUDGETS = new Map([
   ['Egern', { maxBytes: 32 * 1024 * 1024, maxTextRules: 1_000_000 }],
   ['Stash', { maxBytes: 32 * 1024 * 1024, maxTextRules: 1_000_000 }],
   ['SingBox', { maxBytes: 64 * 1024 * 1024, maxTextRules: 2_000_000 }],
+  ['Karing', { maxBytes: 32 * 1024 * 1024, maxTextRules: 1_000_000 }],
 ]);
 const REPOSITORY_URL_RE = new RegExp(`(?:${REPOSITORY_URL_PREFIXES.map((prefix) => prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})[^\\s,"'\\\\]+`, 'g');
 const CLIENT_FILES = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'Clash Meta For Android/CMFA(mihomo).yaml',
-  'Egern/Egern.yaml',
-  'FlClash/FlClash(mihomo).js',
-  'Loon/Loon.conf',
-  'OpenClash/OpenClash(mihomo).sh',
-  'OpenClash/OpenClash(mihomo-smart).sh',
-  'Quantumult X/QuantumultX.conf',
-  'Shadowrocket/Shadowrocket.conf',
-  'SingBox/SingBox(sing-box)-full.json',
-  'Stash/Stash.yaml',
-  'Surge/Surge.conf',
-  'v2rayN/v2rayN(xray).json',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml',
+  '独立内核系/Egern/Egern.yaml',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
+  '独立内核系/Loon/Loon.conf',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo).sh',
+  'Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh',
+  '独立内核系/Quantumult X/QuantumultX.conf',
+  '独立内核系/Shadowrocket/Shadowrocket.conf',
+  'Sing-box内核系/SingBox/SingBox(sing-box)-full.json',
+  'Sing-box内核系/Karing/diversion_rules_custom.json',
+  '独立内核系/Stash/Stash.yaml',
+  '独立内核系/Surge/Surge.conf',
+  'Xray内核系/v2rayN/v2rayN(xray).json',
 ];
 const CLIENT_DIRECTORIES = [
   'Passwall',
@@ -42,7 +45,7 @@ const CLIENT_DIRECTORIES = [
 function collectClientFiles() {
   const files = CLIENT_FILES.map((relative) => path.join(REPO_ROOT, relative));
   for (const relativeDirectory of CLIENT_DIRECTORIES) {
-    const directory = path.join(REPO_ROOT, relativeDirectory);
+    const directory = path.join(REPO_ROOT, clientDirectory(relativeDirectory));
     for (const entry of fs.readdirSync(directory, { recursive: true, withFileTypes: true })) {
       if (entry.isFile() && (entry.name.endsWith('.conf') || entry.name.endsWith('.sh') || entry.name.endsWith('.list'))) {
         files.push(path.join(entry.parentPath, entry.name));
@@ -101,7 +104,8 @@ function validateGeneratedRemoteAssetSizes() {
       failures.push(`oversized generated asset: ${relativeAsset} = ${size} bytes, limit = ${MAX_JSDELIVR_ASSET_BYTES} bytes (referenced by ${[...new Set(consumers)].join(', ')})`);
     }
     for (const consumer of consumers) {
-      const client = consumer.split('/')[0];
+      const client = clientIdForPath(consumer);
+      if (!client) throw new Error(`Unknown client consumer: ${consumer}`);
       const assets = clientAssets.get(client) || new Set();
       assets.add(relativeAsset);
       clientAssets.set(client, assets);

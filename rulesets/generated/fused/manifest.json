@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-16T01:32:49.862Z",
+  "generated_at": "2026-10-28T05:34:56.851Z",
   "authority": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-  "baseline_version": "v6.0.20",
-  "asset_revision": "v6.0.20",
+  "baseline_version": "v6.0.21",
+  "asset_revision": "v6.0.21",
   "source_provider_count": 525,
   "source_rule_count": 984,
   "fused_provider_count": 149,
@@ -261,15 +261,15 @@
       "policy": "📥 下载更新",
       "source_rules": [
         "RULE-SET,scki-download-guard-domain,📥 下载更新",
-        "RULE-SET,scki-download-guard-classical,📥 下载更新",
-        "RULE-SET,googlefcm-domain,📥 下载更新",
-        "RULE-SET,googlefcm-ipcidr,📥 下载更新"
+        "RULE-SET,scki-download-guard-classical,📥 下载更新"
       ]
     },
     {
       "id": "scki-fused-031-google",
       "policy": "🔍 Google 服务",
       "source_rules": [
+        "RULE-SET,googlefcm-domain,🔍 Google 服务",
+        "RULE-SET,googlefcm-ipcidr,🔍 Google 服务",
         "RULE-SET,google,🔍 Google 服务",
         "RULE-SET,google-ip,🔍 Google 服务,no-resolve"
       ]
@@ -1479,14 +1479,14 @@
     }
   ],
   "optimization": {
-    "input": 766074,
-    "output": 581729,
-    "exactDuplicates": 100761,
-    "domainSubsumed": 69879,
+    "input": 765780,
+    "output": 581714,
+    "exactDuplicates": 100760,
+    "domainSubsumed": 69666,
     "cidrSubsumed": 34,
     "normalized": 0,
-    "globalExactDuplicates": 13671,
-    "removed": 184345
+    "globalExactDuplicates": 13606,
+    "removed": 184066
   },
   "pruned_empty_segments": [
     "scki-fused-038-microsoft",
@@ -1536,7 +1536,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-001-direct.json"
         }
       },
@@ -1658,7 +1658,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-002-intl-site.json"
         }
       },
@@ -1780,7 +1780,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-003-payments.json"
         }
       },
@@ -1902,7 +1902,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-004-ai.json"
         }
       },
@@ -2024,7 +2024,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-005-cnmedia.json"
         }
       },
@@ -2146,7 +2146,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-006-cn-site.json"
         }
       },
@@ -2268,7 +2268,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-007-stream-jpkr.json"
         }
       },
@@ -2395,7 +2395,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-008-social.json"
         }
       },
@@ -2522,7 +2522,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-009-tiktok.json"
         }
       },
@@ -2656,7 +2656,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-010-ad.json"
         }
       },
@@ -2779,7 +2779,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-011-tools.json"
         }
       },
@@ -2901,7 +2901,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-012-intl-site.json"
         }
       },
@@ -3023,7 +3023,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-013-ai.json"
         }
       },
@@ -3145,7 +3145,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-014-game-cn.json"
         }
       },
@@ -3272,7 +3272,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-015-microsoft.json"
         }
       },
@@ -3406,7 +3406,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-016-ad.json"
         }
       },
@@ -3531,7 +3531,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-017-cn-site.json"
         }
       },
@@ -3665,7 +3665,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-018-direct.json"
         }
       },
@@ -3786,7 +3786,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-019-work.json"
         }
       },
@@ -3908,7 +3908,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-020-crypto.json"
         }
       },
@@ -4030,7 +4030,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-021-gfw.json"
         }
       },
@@ -4152,7 +4152,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-022-youtube.json"
         }
       },
@@ -4274,7 +4274,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-023-ai.json"
         }
       },
@@ -4402,7 +4402,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-024-google.json"
         }
       },
@@ -4524,7 +4524,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-025-work.json"
         }
       },
@@ -4658,7 +4658,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-026-ai.json"
         }
       },
@@ -4781,7 +4781,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-027-intl-site.json"
         }
       },
@@ -4903,7 +4903,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-028-im.json"
         }
       },
@@ -5025,7 +5025,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-029-work.json"
         }
       },
@@ -5111,20 +5111,13 @@
     {
       "id": "scki-fused-030-download",
       "policy": "📥 下载更新",
-      "source_rules": 4,
+      "source_rules": 2,
       "files": {
         "domain": {
           "behavior": "domain",
           "format": "mrs",
           "file": "scki-fused-030-download-domain.mrs",
           "source": "scki-fused-030-download-domain.yaml"
-        },
-        "ipcidr": {
-          "behavior": "ipcidr",
-          "format": "mrs",
-          "file": "scki-fused-030-download-ipcidr.mrs",
-          "source": "scki-fused-030-download-ipcidr.yaml",
-          "no_resolve": false
         },
         "residual": {
           "behavior": "classical",
@@ -5159,36 +5152,36 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-030-download.json"
         }
       },
       "counts": {
-        "domain": 42,
-        "ipcidr": 26,
+        "domain": 27,
+        "ipcidr": 0,
         "ipcidr_no_resolve": 0,
         "residual": 1
       },
       "optimization": {
-        "input": 70,
-        "output": 69,
-        "exactDuplicates": 1,
+        "input": 28,
+        "output": 28,
+        "exactDuplicates": 0,
         "domainSubsumed": 0,
         "cidrSubsumed": 0,
         "normalized": 0,
-        "removed": 1,
+        "removed": 0,
         "buckets": {
           "domain": {
-            "input": 42,
-            "output": 42,
+            "input": 27,
+            "output": 27,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
             "normalized": 0
           },
           "ipcidr": {
-            "input": 26,
-            "output": 26,
+            "input": 0,
+            "output": 0,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
@@ -5203,28 +5196,27 @@
             "normalized": 0
           },
           "residual": {
-            "input": 2,
+            "input": 1,
             "output": 1,
-            "exactDuplicates": 1,
+            "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
             "normalized": 0
           }
-        },
-        "globalExactDuplicates": 0
+        }
       },
       "target_counts": {
-        "mobile": 69,
-        "sing_box": 69
+        "mobile": 28,
+        "sing_box": 28
       },
       "target_ip_counts": {
-        "mobile": 26,
-        "sing_box": 26
+        "mobile": 0,
+        "sing_box": 0
       },
       "target_optimization": {
         "mobile": {
-          "input": 69,
-          "output": 69,
+          "input": 28,
+          "output": 28,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5232,8 +5224,8 @@
           "globalExactDuplicates": 0
         },
         "sing_box": {
-          "input": 69,
-          "output": 69,
+          "input": 28,
+          "output": 28,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5245,13 +5237,20 @@
     {
       "id": "scki-fused-031-google",
       "policy": "🔍 Google 服务",
-      "source_rules": 2,
+      "source_rules": 4,
       "files": {
         "domain": {
           "behavior": "domain",
           "format": "mrs",
           "file": "scki-fused-031-google-domain.mrs",
           "source": "scki-fused-031-google-domain.yaml"
+        },
+        "ipcidr": {
+          "behavior": "ipcidr",
+          "format": "mrs",
+          "file": "scki-fused-031-google-ipcidr.mrs",
+          "source": "scki-fused-031-google-ipcidr.yaml",
+          "no_resolve": false
         },
         "ipcidr_no_resolve": {
           "behavior": "ipcidr",
@@ -5288,37 +5287,36 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-031-google.json"
         }
       },
       "counts": {
         "domain": 786,
-        "ipcidr": 0,
+        "ipcidr": 26,
         "ipcidr_no_resolve": 8495,
         "residual": 0
       },
       "optimization": {
-        "input": 9570,
-        "output": 9281,
+        "input": 9322,
+        "output": 9307,
         "exactDuplicates": 0,
-        "domainSubsumed": 228,
+        "domainSubsumed": 15,
         "cidrSubsumed": 0,
         "normalized": 0,
-        "removed": 289,
+        "removed": 15,
         "buckets": {
           "domain": {
-            "input": 1075,
+            "input": 801,
             "output": 786,
             "exactDuplicates": 0,
-            "domainSubsumed": 228,
+            "domainSubsumed": 15,
             "cidrSubsumed": 0,
-            "normalized": 0,
-            "globalExactDuplicates": 61
+            "normalized": 0
           },
           "ipcidr": {
-            "input": 0,
-            "output": 0,
+            "input": 26,
+            "output": 26,
             "exactDuplicates": 0,
             "domainSubsumed": 0,
             "cidrSubsumed": 0,
@@ -5340,21 +5338,20 @@
             "cidrSubsumed": 0,
             "normalized": 0
           }
-        },
-        "globalExactDuplicates": 61
+        }
       },
       "target_counts": {
-        "mobile": 9281,
+        "mobile": 9307,
         "sing_box": 9281
       },
       "target_ip_counts": {
-        "mobile": 8495,
+        "mobile": 8521,
         "sing_box": 8495
       },
       "target_optimization": {
         "mobile": {
-          "input": 9281,
-          "output": 9281,
+          "input": 9307,
+          "output": 9307,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
           "cidrSubsumed": 0,
@@ -5362,11 +5359,11 @@
           "globalExactDuplicates": 0
         },
         "sing_box": {
-          "input": 9281,
+          "input": 9307,
           "output": 9281,
           "exactDuplicates": 0,
           "domainSubsumed": 0,
-          "cidrSubsumed": 0,
+          "cidrSubsumed": 26,
           "normalized": 0,
           "globalExactDuplicates": 0
         }
@@ -5411,7 +5408,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-032-tools.json"
         }
       },
@@ -5552,7 +5549,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-033-ai.json"
         }
       },
@@ -5677,7 +5674,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-034-google.json"
         }
       },
@@ -5812,7 +5809,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-035-ai.json"
         }
       },
@@ -5942,7 +5939,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-036-crypto.json"
         }
       },
@@ -6070,7 +6067,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-037-payments.json"
         }
       },
@@ -6193,7 +6190,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-039-intl-site.json"
         }
       },
@@ -6316,7 +6313,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-040-direct.json"
         }
       },
@@ -6457,7 +6454,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-041-im.json"
         }
       },
@@ -6599,7 +6596,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-042-social.json"
         }
       },
@@ -6723,7 +6720,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-043-cn-site.json"
         }
       },
@@ -6845,7 +6842,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-044-social.json"
         }
       },
@@ -6980,7 +6977,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-045-work.json"
         }
       },
@@ -7104,7 +7101,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-046-direct.json"
         }
       },
@@ -7226,7 +7223,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-047-cnmedia.json"
         }
       },
@@ -7348,7 +7345,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-048-tiktok.json"
         }
       },
@@ -7471,7 +7468,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-049-youtube.json"
         }
       },
@@ -7601,7 +7598,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-050-netflix.json"
         }
       },
@@ -7728,7 +7725,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-051-disney.json"
         }
       },
@@ -7856,7 +7853,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-052-hbo-max.json"
         }
       },
@@ -7984,7 +7981,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-053-hulu.json"
         }
       },
@@ -8111,7 +8108,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-054-prime-video.json"
         }
       },
@@ -8245,7 +8242,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-055-intl-site.json"
         }
       },
@@ -8377,7 +8374,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-056-music.json"
         }
       },
@@ -8511,7 +8508,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-057-stream-hk.json"
         }
       },
@@ -8639,7 +8636,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-058-stream-tw.json"
         }
       },
@@ -8774,7 +8771,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-059-stream-jpkr.json"
         }
       },
@@ -8902,7 +8899,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-060-stream-eu.json"
         }
       },
@@ -9037,7 +9034,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-061-stream-other.json"
         }
       },
@@ -9160,7 +9157,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-062-tools.json"
         }
       },
@@ -9283,7 +9280,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-063-google.json"
         }
       },
@@ -9417,7 +9414,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-064-tools.json"
         }
       },
@@ -9545,7 +9542,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-065-microsoft.json"
         }
       },
@@ -9680,7 +9677,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-066-apple.json"
         }
       },
@@ -9815,7 +9812,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-067-download.json"
         }
       },
@@ -9950,7 +9947,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-068-tracker.json"
         }
       },
@@ -10085,7 +10082,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-069-gfw.json"
         }
       },
@@ -10210,7 +10207,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-070-game-cn.json"
         }
       },
@@ -10345,7 +10342,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-071-game-intl.json"
         }
       },
@@ -10480,7 +10477,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-072-intl-site.json"
         }
       },
@@ -10605,7 +10602,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-073-payments.json"
         }
       },
@@ -10739,7 +10736,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-074-cnmedia.json"
         }
       },
@@ -10871,7 +10868,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-075-cn-site.json"
         }
       },
@@ -10994,7 +10991,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-076-direct.json"
         }
       },
@@ -11121,7 +11118,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-077-cn-site.json"
         }
       },
@@ -11263,7 +11260,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-078-intl-site.json"
         }
       },
@@ -11476,7 +11473,7 @@
         },
         "xray": {
           "format": "inline-json",
-          "file": "v2rayN/v2rayN(xray).json",
+          "file": "Xray内核系/v2rayN/v2rayN(xray).json",
           "source": "sing-box/scki-fused-080-netflix.json"
         }
       },
@@ -11761,8 +11758,8 @@
     "AND,((PROCESS-NAME,Code Helper (Plugin)),(DOMAIN,api.github.com)),🤖 AI 服务",
     "MATCH,🐟 漏网之鱼"
   ],
-  "traffic_source_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44",
-  "payload_fingerprint": "e3d526c00e90c835faab4ce98de1214e88ba54a69188848264a0c3fb43278e31",
+  "traffic_source_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305",
+  "payload_fingerprint": "416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e",
   "generated_passwall_files": 78,
   "generated_xray_rules": 98,
   "generated_xray_fused_segments": 78,
@@ -11770,27 +11767,27 @@
     "schema_version": 1,
     "source_ledger": {
       "path": "rulesets/generated/source-ledger.json",
-      "sha256": "4678a64a2794db914aad6bf17a26e9687fc0f2b70fce5aebc7a346f9777c0685",
+      "sha256": "4521241b8bc723a6047989d9b7f529050859490b289020fd84f9b664b5cf1da8",
       "mode": "partial-sync",
       "raw_provider_count": 401,
       "normalized_provider_count": 525
     },
     "adfp_exceptions": {
       "path": "rulesets/generated/adfp-exceptions.json",
-      "sha256": "78f797c97af2e8082b5299be3508884268f2bc090a891b9314d08bbcceb6ddf9",
-      "registry_sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
+      "sha256": "8b3638b5e014b8fdb0566a8a2435ea8f7fcc30beced380ad02c67f7028993b6b",
+      "registry_sha256": "f3844f5622fa0d14b085e6d41ce4986c8d36a1681c9f867b0ee52c5bc8e43f72",
       "records": 38
     },
     "claude_service_dependencies": {
       "path": "rulesets/generated/claude-service-dependencies.json",
-      "sha256": "43f9528e67ea7fd56b86d69e1b072a67c41d4da86de1ef2b3b9d9a0e1d69f086",
+      "sha256": "9bd64fe4cea6fcc974314612077390f6b9db5625d7287c2f5e678b316967bc22",
       "inventory": {
         "path": "rulesets/source/claude-service-dependencies.json",
         "sha256": "1c83dac359a22e495170fda36ea5724e693d5bce05f496dbbb01c1daeff9de1a",
         "bytes": 29286,
         "text_normalization": "LF"
       },
-      "semantic_identity": "4d50bbbd02799530047d915e4d178ee78061a136f6748ae176eee9e58387eb91",
+      "semantic_identity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9",
       "coverage": {
         "ok": true,
         "scope": "finite-domain-projection-only",
@@ -11800,10 +11797,10 @@
     },
     "semantic_diff": {
       "path": "rulesets/generated/semantic-diff.json",
-      "sha256": "97fef799d30c3218b89ec28dd3a519803826657a3a8a1be1dc0c593e22a04765",
-      "bytes": 72447,
+      "sha256": "c6464f559a54085c687be3bd648e603b115445fb9140b56fa2e3f52b8f7dc0c3",
+      "bytes": 5386156,
       "text_normalization": "LF",
-      "after_identity": "4d50bbbd02799530047d915e4d178ee78061a136f6748ae176eee9e58387eb91"
+      "after_identity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9"
     }
   },
   "supplemental_patch_receipt": "rulesets/generated/supplemental-patch.json"

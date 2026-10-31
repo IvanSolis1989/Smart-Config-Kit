@@ -268,4 +268,4 @@ if (require.main === module && process.argv.includes('--adopt-head')) {
   try { console.log(JSON.stringify(adoptPublishedHead())); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 
-module.exports = { SNAPSHOT_FILE, adoptPublishedHead, currentFusedHashes, freezeCurrentOutput, freezeStagedOutput, packStagedOutput, saveSnapshot, hash, loadSnapshot, loadSupplementalPatchSnapshot, validateSupplementalPatch, validateSnapshotBindings };
+module.exports = { SNAPSHOT_FILE, adoptPublishedHead, currentFusedHashes, freezeCurrentOutput, freezeStagedOutput, packStagedOutput, saveSnapshot, hash, loadSnapshot, loadSupplementalPatchSnapshot, validateSupplementalPatch, validateSnapshotBindings, validateSnapshotAssets };

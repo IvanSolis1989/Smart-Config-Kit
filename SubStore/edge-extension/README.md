@@ -1,10 +1,28 @@
-# Sub-Store 自动订阅同步助手（Edge / Chrome）
+<picture>
+  <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-substore-mobile.svg">
+  <img src="../../docs/assets/readme/page-substore.svg" alt="Sub-Store · Edge / Chrome 同步助手：首次允许机场网站后，打开已登录仪表盘，自动匹配并验证已有订阅。" width="100%">
+</picture>
+
+# Sub-Store · Edge / Chrome 同步助手
+
+首次允许机场网站后，打开已登录仪表盘，自动匹配并验证已有订阅。
+
+<p>
+  <a href="../../docs/guide/downloads.md"><img src="../../docs/assets/readme/nav-downloads.svg" alt="配置下载" width="145" height="38"></a>
+  <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a>
+</p>
+
+[安装与首次许可](#使用) · [连接 Cloudflare](#同时连接独立-cloudflare-sub-store) · [写入与隐私](#写入及隐私) · [开发验证](#开发与验证) · [返回聚合教程](../README.md)
+
+---
 
 **首次允许机场网站后，打开已登录仪表盘即可自动提取、匹配并验证订阅，更新本机及可选 Cloudflare 的已有条目。**
 
-支持用户明确允许的 HTTP/HTTPS 域名、IPv4、IPv6 和自托管面板；不以六家测试样本限制范围。浏览器访问权限和扩展内的站点信任同时有效才会同步。当前版本见 `manifest.json`，历史见 [CHANGELOG.md](./CHANGELOG.md)。
+支持用户明确允许的 HTTP/HTTPS 域名、IPv4、IPv6 和自托管面板；不以六家测试样本限制范围。浏览器访问权限和扩展内的站点信任同时有效才会同步。当前版本见 `manifest.json`，历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 使用
+
+先完成安装和首次站点许可；日常使用只需正常打开已登录面板。
 
 1. 启动 Clash Party，确保已有相应机场的单条远程订阅；一次性链接来源只使用下节显式允许的本地内容快照条目。
 2. 解压扩展包。在 `edge://extensions` / `chrome://extensions` 开启开发人员模式，加载包含 `manifest.json` 的扩展文件夹。
@@ -84,27 +102,6 @@
 
 启用前应分别核对本机原始预览、云端保存后的单源处理结果及过期拒绝行为。云端原有 Gist / Fusion 发布者与客户端已发布副本是另一条链路，快照上传成功不会自行改写发布者或促使手机立即拉取。私密入口、来源策略和节点内容不得写入公共仓库、安装包或诊断截图。
 
-### 已审查 Worker 的专用受限入口
-
-对于本仓库已审查的 Worker wrapper，可使用 [`extension-sync-route.mjs`](../scripts/extension-sync-route.mjs) 与纯源码补丁 [`patch-extension-sync-worker.mjs`](../scripts/patch-extension-sync-worker.mjs) 增加独立扩展连接。部署者通过 secret `SUB_STORE_EXTENSION_BACKEND_PATH` 配置 `/ext-` 后接 64 位小写十六进制随机值的专用前缀；用户导入的 `cloudBackendUrl` 使用 Worker HTTPS origin 加此前缀，不复用客户端 download 链接。旧管理前缀不能通过现有 API 读回时，也不应猜测或公开它。
-
-专用前缀下仅允许以下业务接口及必要的 OPTIONS 预检：
-
-| 方法与路径 | 用途与限制 |
-|---|---|
-| `GET /api/subs` | 读取现有订阅目录 |
-| `GET /api/sub/:name` | 读取单条订阅及写后核对 |
-| `POST /api/preview/sub?target=JSON` | 原始与处理后节点预览，JSON 请求须含有效名称与订阅 URL |
-| `PATCH /api/sub/:name` | 请求体只能有 `url` 字段；不允许修改处理器等其他字段 |
-| `GET /api/source-snapshot/:name` | 仅启用快照模块时提供；查询该源策略及快照可用性、计数和有效期，不返回原始节点或私密订阅 URL |
-| `POST /api/source-snapshot/:name` | 请求体仅含 `url`、`expectedUrl`、`original`；按服务端来源策略校验全部真实的单源原始节点、URL、配置绑定、数量与有效期，不修改订阅处理器 |
-| `GET /api/local-snapshot/:name` | 仅启用受控本地快照模块时提供；严格原生预览当前 content，返回是否允许、名称、最低节点数、`originalNodes` / `processedNodes` 及当前完整配置 revision |
-| `POST /api/local-snapshot/:name` | 严格接受三种独立形状：写入 `{expectedRevision, original}`；恢复 `{expectedRevision, restoreContent}`；仅验证 `{expectedRevision, original, dryRun: true}`。服务端自行 local 预览，仅验证不提交 content 或备份 |
-
-此前缀下的其他路径、方法或 query 被拒绝，不能借此调用删除、设置、集合修改或 Gist 发布接口；Worker 原有入口保留原路由。route 模块按界限检查请求并交给原后端，patcher 只改审查匹配的源码，不生成 secret、不部署或写配置。部署与连接配置须由部署者另行准备；这两个模块不是任意第三方 Worker 的通用安装器。
-
-受控本地快照另由服务端 `SUB_STORE_LOCAL_SNAPSHOT_POLICIES` 指定名称 allowlist 和最低节点数；只允许既有 local 空 URL 条目。revision 绑定完整持久配置（含旧 `content`），写入前不一致返回冲突，不能由客户端指定 `source`、候选 URL 或处理器，也不把专用入口扩大为普通 `PATCH {content}` 管理权限。云端当前内容复核与仅验证均使用该专用入口，通用 remote preview 仍拒绝 local。恢复必须仍通过同一策略、配置版本和节点校验。
-
 ## 自动识别与名称匹配
 
 - 在明确的订阅接口中识别 `subscribe_url` / `subscription_url` / `sub_url`；支持 V2Board/XBoard v1、Kitty v3 等路径，但不主动请求机场 API。
@@ -128,15 +125,93 @@
 
 远程写前重新比较配置，仅 `PATCH {url}`，写后独立 GET 核对链接及所有其他字段。本地内容按上述受控流程更新与恢复；两端分别保存旧 URL 或旧 `content` 备份，撤销要求当前状态仍匹配对应目标上次写入结果。本机原生 Sub-Store 不提供原子条件更新接口，比较与 PATCH 间仍有窄并发窗口，应避免同时编辑同一条订阅；Cloudflare 专用 local 入口额外使用串行 revision 检查。
 
+### 候选失效与页面生命周期
+
 同一文档不同 fetch / XHR 响应中的候选会累计判断；不同账户形成持续歧义，只有新文档才重新开始。验证期间出现新的候选或歧义，会使旧验证失效；写入发送前再次检查，歧义不会排在旧写入之后才生效。已经发送的请求不能由后来才出现的候选或页面变化撤回。
 
 DOM 控件是唯一来源时，页面撤下全部订阅控件会取消尚未发送的写入并清除重试待办；相同链接重新出现后也需重新验证。预渲染页面在真正激活时重新检查站点许可并重放已观察的候选，不需手动刷新。
+
+### 私密数据与故障恢复
 
 不读取机场密码、Cookie、登录 token、浏览器保存的账号、剪贴板或整页脚本。现有订阅目录仅在扩展内部内存中用于匹配。待办链接、未确认页面观察状态保存在会话存储；成功/失败诊断只保留安全名称、origin、时间和计数，不显示云端私密路径或原始异常。本机扩展备份可能含旧订阅 URL 或旧 `content` 中的完整私密节点，勿导出或公开；不使用浏览器云同步，订阅数据只发往用户启用的 Sub-Store 后端。
 
 插件不自动登录、重置机场订阅、解除超限或增加设备额度。页面关闭后不巡检机场；页面存活且后端离线时，会话候选最多保留30分钟。目录读取前的本机通信初始化失败会有限自动重试，不对可能已经执行的 PATCH 自动重试。
 
 关闭或替换文档会使该文档尚未写入的候选失效，离开到浏览器内部页、本机 Sub-Store 或其他不受监听页面也如此；发送前检查实际当前文档及权限。再次正常打开仪表盘时重新捕获。已发送的写入若遇到后续页面变化，保留条件备份并停止旧结果覆盖新的页面状态。初始化失败会清理本次创建且尚未发送请求的隐藏文档；在途请求保留原上下文，连接失败后通过读回核对结果。
+
+## 已审查 Worker 的专用受限入口
+
+对于本仓库已审查的 Worker wrapper，可使用 [`extension-sync-route.mjs`](../scripts/extension-sync-route.mjs) 与纯源码补丁 [`patch-extension-sync-worker.mjs`](../scripts/patch-extension-sync-worker.mjs) 增加独立扩展连接。部署者通过 secret `SUB_STORE_EXTENSION_BACKEND_PATH` 配置 `/ext-` 后接 64 位小写十六进制随机值的专用前缀；用户导入的 `cloudBackendUrl` 使用 Worker HTTPS origin 加此前缀，不复用客户端 download 链接。旧管理前缀不能通过现有 API 读回时，也不应猜测或公开它。
+
+专用前缀下仅允许以下业务接口及必要的 OPTIONS 预检：
+
+### 读取订阅目录
+
+```http
+GET /api/subs
+```
+
+读取现有订阅目录。
+
+### 读取单条订阅
+
+```http
+GET /api/sub/:name
+```
+
+读取单条订阅及写后核对。
+
+### 预览远程订阅
+
+```http
+POST /api/preview/sub?target=JSON
+```
+
+原始与处理后节点预览，JSON 请求须含有效名称与订阅 URL。
+
+### 更新远程 URL
+
+```http
+PATCH /api/sub/:name
+```
+
+请求体只能有 `url` 字段；不允许修改处理器等其他字段。
+
+### 查询远程快照
+
+```http
+GET /api/source-snapshot/:name
+```
+
+仅启用快照模块时提供；查询该源策略及快照可用性、计数和有效期，不返回原始节点或私密订阅 URL。
+
+### 上传远程快照
+
+```http
+POST /api/source-snapshot/:name
+```
+
+请求体仅含 `url`、`expectedUrl`、`original`；按服务端来源策略校验全部真实的单源原始节点、URL、配置绑定、数量与有效期，不修改订阅处理器。
+
+### 查询本地快照
+
+```http
+GET /api/local-snapshot/:name
+```
+
+仅启用受控本地快照模块时提供；严格原生预览当前 content，返回是否允许、名称、最低节点数、`originalNodes` / `processedNodes` 及当前完整配置 revision。
+
+### 更新、恢复或验证本地快照
+
+```http
+POST /api/local-snapshot/:name
+```
+
+严格接受三种独立形状：写入 `{expectedRevision, original}`；恢复 `{expectedRevision, restoreContent}`；仅验证 `{expectedRevision, original, dryRun: true}`。服务端自行 local 预览，仅验证不提交 content 或备份。
+
+此前缀下的其他路径、方法或 query 被拒绝，不能借此调用删除、设置、集合修改或 Gist 发布接口；Worker 原有入口保留原路由。route 模块按界限检查请求并交给原后端，patcher 只改审查匹配的源码，不生成 secret、不部署或写配置。部署与连接配置须由部署者另行准备；这两个模块不是任意第三方 Worker 的通用安装器。
+
+受控本地快照另由服务端 `SUB_STORE_LOCAL_SNAPSHOT_POLICIES` 指定名称 allowlist 和最低节点数；只允许既有 local 空 URL 条目。revision 绑定完整持久配置（含旧 `content`），写入前不一致返回冲突，不能由客户端指定 `source`、候选 URL 或处理器，也不把专用入口扩大为普通 `PATCH {content}` 管理权限。云端当前内容复核与仅验证均使用该专用入口，通用 remote preview 仍拒绝 local。恢复必须仍通过同一策略、配置版本和节点校验。
 
 ## 开发与验证
 
@@ -152,7 +227,7 @@ node --test SubStore/edge-extension/*.test.mjs SubStore/edge-extension/*.test.cj
 
 ### 生成可安装目录
 
-[`package.mjs`](./package.mjs) 从 Git 已提交版本收集 manifest、导入依赖及动态 bundle，生成仅含运行文件的安装目录。`--out` 必须是绝对路径，`--ref` 默认 `HEAD`，不会读取未提交工作区作为发布源；需要其他已审查提交时显式指定 `--ref <commit>`。Windows 通用示例：
+[`package.mjs`](package.mjs) 从 Git 已提交版本收集 manifest、导入依赖及动态 bundle，生成仅含运行文件的安装目录。`--out` 必须是绝对路径，`--ref` 默认 `HEAD`，不会读取未提交工作区作为发布源；需要其他已审查提交时显式指定 `--ref <commit>`。Windows 通用示例：
 
 ```powershell
 node SubStore/edge-extension/package.mjs --out "C:\Extensions\SubStore-AutoSync"

@@ -7,7 +7,7 @@ const path = require('node:path');
 // host platform's path separator. path.join(repoRoot, PROFILE_SOURCE) still
 // resolves it correctly on Windows and POSIX hosts.
 const PROFILE_SOURCE = 'tools/runtime/subscription-adapter-profiles.json';
-const PROFILE_IDS = ['off', 'policy', 'adaptive'];
+const PROFILE_IDS = ['off', 'policy', 'adaptive', 'hosts-only'];
 const PROJECTION_MODES = new Set(PROFILE_IDS);
 
 function readProfileContract(repoRoot) {

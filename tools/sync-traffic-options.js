@@ -9,9 +9,9 @@ const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const { parseLocalTrafficOptions, setLocalTrafficOptions } = require('./lib/local-traffic-options');
 const runtimePath = 'tools/runtime/traffic-options.js';
 const targets = [
-  'Clash Party/ClashParty(mihomo-smart).js',
-  'Clash Party/ClashParty(mihomo).js',
-  'FlClash/FlClash(mihomo).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
+  'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
+  'Mihomo内核系/FlClash/FlClash(mihomo).js',
 ];
 const ruleBegin = '  // >>> SCKI QUIC RULES: BEGIN';
 const ruleEnd = '  // <<< SCKI QUIC RULES: END';
@@ -19,6 +19,8 @@ const healthBegin = '  // >>> SCKI HEALTH CHECK: BEGIN';
 const healthEnd = '  // <<< SCKI HEALTH CHECK: END';
 const zeroTierBegin = '  // >>> SCKI ZEROTIER PLANET: BEGIN';
 const zeroTierEnd = '  // <<< SCKI ZEROTIER PLANET: END';
+const browserUdpBegin = '  // >>> SCKI BROWSER UDP: BEGIN';
+const browserUdpEnd = '  // <<< SCKI BROWSER UDP: END';
 const embedBegin = '// >>> SCKI TRAFFIC OPTIONS: BEGIN';
 const embedEnd = '// <<< SCKI TRAFFIC OPTIONS: END';
 
@@ -45,7 +47,9 @@ function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.read
   const profiles = { standard: graph.getHealthCheckSettings('standard'), 'power-save': graph.getHealthCheckSettings('power-save') };
   const healthBlock = healthBegin + '\n  var HEALTH_CHECK_PROFILES = ' + JSON.stringify(profiles) + ';\n' + healthEnd;
   const zeroTierBlock = zeroTierBegin + '\n  var ZEROTIER_PLANET_PROXY_POLICY = ' + JSON.stringify(graph.getZeroTierPlanetProxyPolicy()) + ';\n' + zeroTierEnd;
-  const runtime = replaceMarked(replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock.replace(/\n/g, runtimeEol), runtimePath), healthBegin, healthEnd, healthBlock.replace(/\n/g, runtimeEol), runtimePath), zeroTierBegin, zeroTierEnd, zeroTierBlock.replace(/\n/g, runtimeEol), runtimePath);
+  const browserUdpBlock = browserUdpBegin + '\n  var BROWSER_UDP_PRIVACY_POLICY = ' + JSON.stringify(graph.getBrowserUdpPrivacyPolicy()) + ';\n' + browserUdpEnd;
+  let runtime = replaceMarked(replaceMarked(replaceMarked(originalRuntime, ruleBegin, ruleEnd, ruleBlock.replace(/\n/g, runtimeEol), runtimePath), healthBegin, healthEnd, healthBlock.replace(/\n/g, runtimeEol), runtimePath), zeroTierBegin, zeroTierEnd, zeroTierBlock.replace(/\n/g, runtimeEol), runtimePath);
+  runtime = replaceMarked(runtime, browserUdpBegin, browserUdpEnd, browserUdpBlock.replace(/\n/g, runtimeEol), runtimePath);
   updates.push({ file: runtimeFile, original: originalRuntime, updated: runtime });
 
   for (const target of targets) {
@@ -69,6 +73,7 @@ function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.read
       healthCheckProfile: defaults.healthCheckProfile,
       quicPolicy: defaults.quicPolicy,
       zeroTierPlanetProxy: localOptions.zeroTierPlanetProxy ?? false,
+      browserUdpPolicy: localOptions.browserUdpPolicy ?? 'off',
     }, target);
     updates.push({ file, original, updated });
   }

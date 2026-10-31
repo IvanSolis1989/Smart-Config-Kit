@@ -15,7 +15,7 @@ if (process.argv.slice(2).some(arg => arg !== '--check')) {
 let drift = false;
 
 for (const file of files) {
-  const target = path.join(root, 'OpenClash', file);
+  const target = path.join(root, 'Mihomo内核系/OpenClash', file);
   const source = fs.readFileSync(target, 'utf8');
   const start = source.indexOf(begin);
   const finish = source.indexOf(end, start);

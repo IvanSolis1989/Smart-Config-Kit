@@ -14,7 +14,7 @@
  *
  * 修复（各自贴合所在文件既有风格，不机械统一 —— 见 AGENTS.md §3.5）
  *   · OpenClash Ruby×2  → `\bKR\b`               （同文件 HK/TW/JP/SG/US 均用 \b）
- *   · Loon/SR/Surge/QX  → `(?<![a-zA-Z])KR(?![a-zA-Z])` （同文件 US/SG 均用此写法）
+ *   · 独立内核系/Loon/SR/独立内核系/Surge/QX  → `(?<![a-zA-Z])KR(?![a-zA-Z])` （同文件 US/SG 均用此写法）
  *
  * 语义差异（故意保留，已记录）
  *   `\b` 把数字视为单词字符 → "KR01"（数字紧邻）不命中；与同文件 HK01/TW01 一致。
@@ -23,7 +23,7 @@
  *
  * 覆盖差异（既有、非本次回归）
  *   OpenClash Ruby 的 KR 分支只列 韩国/韓國/Korea/Seoul，未含中文 "首尔/釜山/仁川"；
- *   conf 产物（SR/Surge/Loon/QX）含之。故中文城市样例只对 conf 断言命中。
+ *   conf 产物（SR/独立内核系/Surge/独立内核系/Loon/QX）含之。故中文城市样例只对 conf 断言命中。
  *
  * 跑法：node tools/test-kr-boundary.js     （退出码 0 = 全过；1 = 有失败）
  */
@@ -31,12 +31,12 @@
 // ── KR 分支隔离正则（仅取各产物日韩组里与 KR 命中相关的片段）──────────────
 const OLD = {
   ruby_ci: /韩国|韓國|KR|KOR|Korea|🇰🇷|Seoul/i,                              // 旧 OpenClash Ruby / Loon
-  cs:      /🇰🇷|KR|Korea|korea|KOR|Seoul|seoul|韩国|首尔/,                    // 旧 SR/Surge/QX（敏感）
+  cs:      /🇰🇷|KR|Korea|korea|KOR|Seoul|seoul|韩国|首尔/,                    // 旧 SR/独立内核系/Surge/QX（敏感）
 };
 const NEW = {
   ruby:    /韩国|韓國|\bKR\b|KOR|Korea|🇰🇷|Seoul/i,                          // 新 OpenClash Ruby（\b, 不敏感）
   look_ci: /🇰🇷|(?<![a-zA-Z])KR(?![a-zA-Z])|Korea|KOR|Seoul|韩国|首尔/i,      // 新 Loon（lookbehind, 不敏感）
-  look_cs: /🇰🇷|(?<![a-zA-Z])KR(?![a-zA-Z])|Korea|korea|KOR|Seoul|seoul|韩国|首尔/, // 新 SR/Surge/QX（敏感）
+  look_cs: /🇰🇷|(?<![a-zA-Z])KR(?![a-zA-Z])|Korea|korea|KOR|Seoul|seoul|韩国|首尔/, // 新 SR/独立内核系/Surge/QX（敏感）
 };
 
 // ── 测试样例 ──────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ console.log('\n=== 新正则：Loon (lookbehind, 不敏感) ===');
 [...REAL_COMMON, ...REAL_CN_CITY].forEach(n => expect(`accept "${n}"`, NEW.look_ci.test(n), true));
 REAL_DIGIT.forEach(n => expect(`lookbehind 匹配数字紧邻 "${n}"`, NEW.look_ci.test(n), true));
 
-console.log('\n=== 新正则：SR/Surge/QX (lookbehind, 大小写敏感) ===');
+console.log('\n=== 新正则：SR/独立内核系/Surge/QX (lookbehind, 大小写敏感) ===');
 DECOY_UPPER.forEach(n => expect(`reject "${n}"`, NEW.look_cs.test(n), false));
 [...REAL_COMMON, ...REAL_CN_CITY].forEach(n => expect(`accept "${n}"`, NEW.look_cs.test(n), true));
 REAL_DIGIT.forEach(n => expect(`accept "${n}"`, NEW.look_cs.test(n), true));

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "families": [
+    { "directory": "Mihomo内核系", "clients": ["Clash Party", "Clash Meta For Android", "OpenClash", "FlClash"] },
+    { "directory": "Sing-box内核系", "clients": ["SingBox", "Karing"] },
+    { "directory": "Xray内核系", "clients": ["v2rayN"] },
+    { "directory": "双内核系", "clients": ["Passwall", "Passwall2"] },
+    { "directory": "独立内核系", "clients": ["Shadowrocket", "Surge", "Loon", "Quantumult X", "Stash", "Egern"] }
+  ]
+}

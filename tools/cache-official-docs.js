@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-// Official documentation snapshot tool v1.0.0. Bodies retain exact downloaded
+// Official documentation snapshot tool v1.0.1. Bodies retain exact downloaded
 // bytes inside gzip; receipts reuse the repository's source-provenance contract.
 const fs = require('node:fs');
 const path = require('node:path');
@@ -10,7 +10,7 @@ const { execFile } = require('node:child_process');
 const { promisify } = require('node:util');
 const { createSourceReceipt, assertReceiptMatches, sha256 } = require('./lib/source-provenance');
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const ROOT = path.resolve(__dirname, '..');
 const LIMIT = 20 * 1024 * 1024;
 const slug = /^[a-z0-9][a-z0-9-]*$/;
@@ -195,6 +195,17 @@ function verify(directory) {
   if (!manifest || manifest.schema_version !== 1 || manifest.group !== config.group || manifest.sources.length !== config.sources.length
       || manifest.inventory_normalization !== 'LF' || manifest.sources_sha256 !== inventoryHash(directory)) throw new Error('Inventory/manifest mismatch');
   if (new Set(manifest.sources.map(x => x.id)).size !== manifest.sources.length) throw new Error('Duplicate manifest IDs');
+  const archiveDirectory = inside(directory, 'manifests');
+  if (fs.existsSync(archiveDirectory)) {
+    for (const filename of fs.readdirSync(archiveDirectory).filter(name => name.endsWith('.json'))) {
+      // Archives use canonical LF JSON. Git checkout EOL conversion may differ;
+      // any other historical content change must invalidate verification.
+      const bytes = Buffer.from(fs.readFileSync(inside(archiveDirectory, filename), 'utf8').replace(/\r\n/g, '\n'));
+      if (!/^[a-f0-9]{64}\.json$/.test(filename) || `${sha256(bytes)}.json` !== filename) {
+        throw new Error(`Archived manifest hash mismatch: ${filename}`);
+      }
+    }
+  }
   const failures = [];
   for (const source of config.sources) {
     const record = manifest.sources.find(item => item.id === source.id);

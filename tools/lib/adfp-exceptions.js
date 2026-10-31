@@ -17,7 +17,7 @@ const ALLOWED_EVIDENCE_PATHS = new Set([
   'rulesets/supplemental/README.md',
   'docs/GEOSITE_COVERAGE_LEDGER.md',
   'docs/2026-05-30-proxy-override-借鉴设计.md',
-  'Clash Party/CHANGELOG.md',
+  'Mihomo内核系/Clash Party/CHANGELOG.md',
   'tools/tests/domestic-route-regression.test.js',
   'rulesets/source/routing-graph.js',
   ...REQUIRED_PROVIDERS.map(provider => `rulesets/supplemental/clash/${provider.replace('scki-', '')}.list`),

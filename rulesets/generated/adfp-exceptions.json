@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.20",
-  "registry_sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
+  "source_graph_version": "v6.0.21",
+  "registry_sha256": "f3844f5622fa0d14b085e6d41ce4986c8d36a1681c9f867b0ee52c5bc8e43f72",
   "total_records": 38,
   "coverage": {
     "scki-adfp-direct": 29,
@@ -19,8 +19,8 @@
   "scope": "Registered payload coverage, matching boundaries and static early first-match probes; no live-client claim.",
   "registry": {
     "path": "rulesets/source/adfp-exceptions.json",
-    "sha256": "361159c905a72a93cc5f4a705ec20e0335ee1981fc7dd1eb0f384e72a5f4833d",
-    "bytes": 39351,
+    "sha256": "f3844f5622fa0d14b085e6d41ce4986c8d36a1681c9f867b0ee52c5bc8e43f72",
+    "bytes": 39591,
     "text_normalization": "LF"
   },
   "payloads": [
