@@ -28,14 +28,14 @@
 
 ## 任务与验收
 
-- [ ] 队列：`local-codex-issue.yml`、`local-codex-queue.js`、入口及测试；确认触发/权限/模式/metadata校验；MiMo 模式互斥。
-- [ ] 协议：`local-codex-app-server.js` 及测试；真实 JSONL RPC、终态/超时/审批拒绝、保存 threadId。
-- [ ] Worker：`local-codex-worker.js`、CLI及测试；轮询、持久状态/单实例锁、独立 checkout、验证发布、幂等回复和中断恢复。
-- [ ] Windows：安装/卸载、隐藏运行、登录自启、独立 runtime/config；保留 state 与 enabledAfter。
-- [ ] 文档：更新现有自动处理说明与仓库变更摘要；给出状态/暂停/重试入口及边界。
+- [x] 队列：`local-codex-issue.yml`、`local-codex-queue.js`、入口及测试；确认触发/权限/模式/metadata校验；MiMo 模式互斥。
+- [x] 协议：`local-codex-app-server.js` 及测试；真实 JSONL RPC、终态/超时/审批拒绝、保存 threadId。
+- [x] Worker：`local-codex-worker.js`、CLI及测试；轮询、持久状态/单实例锁、独立 checkout、验证发布、幂等回复和中断恢复。
+- [x] Windows：安装/卸载、隐藏运行、登录自启、独立 runtime/config；保留 state 与 enabledAfter。
+- [x] 文档：更新现有自动处理说明与仓库变更摘要；给出状态/暂停/重试入口及边界。
 - [ ] 验收：相关离线测试、仓库规定提交前检查；本机真实只读会话；云端 smoke artifact→本机 session→成功收据；检查无公开评论或业务修改。
 - [ ] 发布启用：提交本次路径并推 main，核对 CI，配置 `LOCAL_CODEX_ENABLED`，注册并启动本地 worker，保留真实状态。
 
 ## 当前状态
 
-队列、协议、Worker、Windows 脚本及文档已实现并复核；本机真实只读会话通过，桌面 App 可读取。Windows 沙箱无法禁止回环连接，发布门禁改用 GitHub 临时 runner。相关测试已通过；原 main 的 Stash/Karing/能力矩阵生成漂移仍存在（相关源及生成物本次均无修改），不能将全仓库合同检查声称为通过。待发布及云端派单验收，尚未启用。
+已推送 `23cea9c3` 并开启 `LOCAL_CODEX_ENABLED=true`。真实云端队列运行 `41253355774` 成功，本机领取 `issue-193-manual-41253355774`，会话 `01a19454-77f8-70a2-acd5-9e98be8eb7ab` 返回 `BRIDGE_SMOKE_OK`，未向 Issue 发测试评论。Windows 计划任务本机启动失败，已实测回退 HKCU Run 并运行 worker；重登录启动仍需用户下次登录观察。Linux CI 首轮只有子进程退出判定失败，补丁已补充真实退出与停止心跳检查，待推送后的 CI。原 main 的 Stash/Karing/能力矩阵生成漂移仍存在，本次不修改这些来源或产物；发布门禁保持阻断，不能声称全仓库合同通过。

@@ -12,6 +12,7 @@ const fs = require('node:fs');
 const readline = require('node:readline');
 const mode = process.argv[2];
 const log = process.argv[3];
+fs.writeFileSync(log + '.server', String(process.pid));
 const send = x => process.stdout.write(JSON.stringify(x) + '\r\n');
 const note = (method, params) => send({ method, params });
 const complete = (status = 'completed') => note('turn/completed', {
@@ -49,7 +50,9 @@ readline.createInterface({ input: process.stdin }).on('line', line => {
   if (mode !== 'early') send(started);
   note('turn/started', { threadId: 'thread-1', turn: { id: 'turn-1', status: 'inProgress', items: [], error: null } });
   if (mode === 'descendant') {
-    const child = require('node:child_process').spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { stdio: 'ignore', windowsHide: true });
+    const child = require('node:child_process').spawn(process.execPath, ['-e',
+      'const fs = require("node:fs"); const beat = () => fs.appendFileSync(process.argv[1], "tick\\n"); beat(); setInterval(beat, 10);',
+      log + '.heartbeat'], { stdio: 'ignore', windowsHide: true });
     fs.writeFileSync(log + '.child', String(child.pid));
     return;
   }
@@ -191,7 +194,32 @@ test('timeout terminates a real descendant process as well as the server', async
   const f = fixture(t, 'descendant');
   await assert.rejects(require('../lib/local-codex-app-server').runCodexTask({ ...f.options, timeoutMs: 600 }), /timed out/);
   const pid = Number(fs.readFileSync(f.log + '.child', 'utf8'));
-  let alive = true;
-  try { process.kill(pid, 0); } catch (error) { if (error.code === 'ESRCH') alive = false; else throw error; }
-  assert.equal(alive, false, 'tool descendant must not continue after the task rejects');
+  const heartbeat = fs.readFileSync(f.log + '.heartbeat', 'utf8');
+  assert(heartbeat.length > 0, 'the descendant must have executed before cancellation');
+  function processState(processId) {
+    if (process.platform === 'linux') {
+      try {
+        // kill(pid, 0) succeeds for an unreaped zombie as well as a live process.
+        // /proc/pid/stat field 3 distinguishes actual death (Z/X) from R/S/D/T.
+        const stat = fs.readFileSync(`/proc/${processId}/stat`, 'utf8');
+        const match = stat.slice(stat.lastIndexOf(') ') + 2).match(/^([A-Za-z]) /);
+        assert(match, 'the kernel process-state record must be readable');
+        return match[1];
+      } catch (error) { if (error.code === 'ENOENT' || error.code === 'ESRCH') return 'absent'; throw error; }
+    }
+    try { process.kill(processId, 0); return 'present'; }
+    catch (error) { if (error.code === 'ESRCH') return 'absent'; throw error; }
+  }
+  const terminal = state => ['absent', 'Z', 'X', 'x'].includes(state);
+  const deadline = Date.now() + 1000;
+  let state = processState(pid);
+  while (!terminal(state) && Date.now() < deadline) {
+    await new Promise(resolve => setTimeout(resolve, 10));
+    state = processState(pid);
+  }
+  t.diagnostic(`descendant final state: ${state}`);
+  assert(terminal(state), `tool descendant must not execute after task rejection (state=${state})`);
+  assert.equal(processState(Number(fs.readFileSync(f.log + '.server', 'utf8'))), 'absent', 'the direct server child must be reaped before rejection');
+  await new Promise(resolve => setTimeout(resolve, 60));
+  assert.equal(fs.readFileSync(f.log + '.heartbeat', 'utf8'), heartbeat, 'the descendant must produce no further heartbeat after rejection');
 });

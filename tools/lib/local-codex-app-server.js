@@ -42,6 +42,20 @@ function killTreeSync(child) {
   }
 }
 
+async function waitForChildExit(child) {
+  if (!child.pid || child.exitCode !== null || child.signalCode !== null) return;
+  // POSIX kill only queues a signal. Wait for Node to observe/reap our direct
+  // child instead of returning from task cancellation immediately after kill().
+  await new Promise((resolve, reject) => {
+    const onClose = () => { clearTimeout(timer); resolve(); };
+    const timer = setTimeout(() => {
+      child.removeListener('close', onClose);
+      reject(new Error('Codex app-server termination timed out'));
+    }, 1000);
+    child.once('close', onClose);
+  });
+}
+
 /**
  * Start one persistent Codex thread and await its first complete turn.
  * Returns {threadId, turnId, status:'completed', text}; all other terminal states
@@ -245,7 +259,8 @@ async function runCodexTask({ command, args = [], cwd, prompt, title,
       child.stdin.destroy();
       child.stdout.destroy();
       child.stderr.destroy();
-      process.removeListener('exit', onParentExit);
+      try { await waitForChildExit(child); }
+      finally { process.removeListener('exit', onParentExit); }
     }
   }
 }

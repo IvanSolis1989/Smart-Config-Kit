@@ -15,7 +15,7 @@ New-Item -ItemType Directory -Force -Path $logs | Out-Null
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $stdout = Join-Path $logs "worker-$stamp.out.log"
 $stderr = Join-Path $logs "worker-$stamp.err.log"
-$arguments = @('"' + $entry + '"','--config','"' + (Resolve-Path -LiteralPath $ConfigPath).Path + '"')
-$process = Start-Process -FilePath $node -ArgumentList $arguments -WorkingDirectory ([string]$config.repositoryPath) -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+$arguments = @(('"' + $entry + '"'), '--config', ('"' + (Resolve-Path -LiteralPath $ConfigPath).Path + '"'))
+$process = Start-Process -FilePath $node -ArgumentList $arguments -WorkingDirectory $runtime -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
 $process.WaitForExit()
 exit $process.ExitCode

@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 自动化：本地 Codex Issue 派单 v1.0.1 (2026-11-01)
+
+- 实测 GitHub 派单到本机新会话；修正 Windows 计划任务启动失败的登录自启回退，并用实际退出与停止心跳核验 Linux 子进程清理。
+
 ## 自动化：本地 Codex Issue 派单 v1.0.0 (2026-11-01)
 
 - Issue 任务通过 Actions artifact 交给本机 Codex 独立会话处理，加入事件去重、串行验证发布、状态恢复与 Windows 登录自启；与 MiMo 后端互斥，详见[自动处理说明](docs/ai-issue-responder.md)。本次仅改变维护自动化，不修改客户端规则、DNS 或产物版本。

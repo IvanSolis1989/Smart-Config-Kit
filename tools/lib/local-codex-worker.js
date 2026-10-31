@@ -1,5 +1,5 @@
 'use strict';
-// Local Issue bridge v1.0.0. GitHub is the durable inbox; only this process publishes.
+// Local Issue bridge v1.0.1. GitHub is the durable inbox; only this process publishes.
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');

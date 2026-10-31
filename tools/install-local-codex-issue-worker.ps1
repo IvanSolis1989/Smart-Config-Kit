@@ -18,6 +18,16 @@ function Get-CommandPath([string]$Name) {
     return $null
 }
 
+function Test-BridgeWorkerRunning([string]$StatePath, [string]$ConfigFile) {
+    $workerLockPath = Join-Path $StatePath 'worker.lock'
+    if (-not (Test-Path -LiteralPath $workerLockPath)) { return $false }
+    try {
+        $workerLock = Get-Content -LiteralPath $workerLockPath -Raw | ConvertFrom-Json
+        $workerProcess = Get-CimInstance Win32_Process -Filter "ProcessId=$([int]$workerLock.pid)" -ErrorAction SilentlyContinue
+        return [bool]($workerProcess -and $workerProcess.CommandLine -like '*local-codex-issue-worker.js*' -and $workerProcess.CommandLine -like "*--config*$ConfigFile*")
+    } catch { return $false }
+}
+
 if ($Uninstall) {
     $configPath = Join-Path $InstallRoot 'config.json'
     $lockPath = Join-Path (Join-Path $InstallRoot 'state') 'worker.lock'
@@ -111,9 +121,9 @@ $config = [ordered]@{
 }
 $config | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $configPath -Encoding UTF8
 $runScript = Join-Path $runtime 'run-local-codex-issue-worker.ps1'
-$shell = Get-CommandPath 'pwsh.exe'
-if (-not $shell) { $shell = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe' }
-$action = New-ScheduledTaskAction -Execute $shell -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$runScript`" -ConfigPath `"$configPath`""
+# Use the stable Windows host for logon tasks, independent of app-bundled pwsh updates.
+$shell = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
+$action = New-ScheduledTaskAction -Execute $shell -WorkingDirectory $runtime -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$runScript`" -ConfigPath `"$configPath`""
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
 $settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero) -StartWhenAvailable -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 $principal = New-ScheduledTaskPrincipal -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited
@@ -129,7 +139,32 @@ try {
     $receipt.taskRegistration = 'fallback-HKCU-Run'
     $receipt.registrationError = $_.Exception.Message
 }
-if (-not $NoStart) { if ($receipt.taskRegistration -eq 'registered') { Start-ScheduledTask -TaskName $taskName } else { $fallbackArgs = @('-NoProfile','-NonInteractive','-WindowStyle','Hidden','-ExecutionPolicy','Bypass','-File','"' + $runScript + '"','-ConfigPath','"' + $configPath + '"'); Start-Process -FilePath $shell -ArgumentList $fallbackArgs -WindowStyle Hidden } }
+if (-not $NoStart) {
+    if ($receipt.taskRegistration -eq 'registered') {
+        Start-ScheduledTask -TaskName $taskName
+        for ($attempt = 0; $attempt -lt 5; $attempt++) {
+            if (Test-BridgeWorkerRunning $stateDir $configPath) { break }
+            Start-Sleep -Seconds 1
+        }
+        if (-not (Test-BridgeWorkerRunning $stateDir $configPath)) {
+            $receipt.startFailure = (Get-ScheduledTaskInfo -TaskName $taskName).LastTaskResult
+            Disable-ScheduledTask -TaskName $taskName | Out-Null
+            $receipt.taskRegistration = 'fallback-HKCU-Run'
+            $escaped = '"' + $shell + '" ' + $action.Arguments
+            New-Item -Path $runKeyPath -Force | Out-Null
+            Set-ItemProperty -Path $runKeyPath -Name $runValueName -Value $escaped
+        }
+    }
+    if ($receipt.taskRegistration -eq 'fallback-HKCU-Run') {
+        $receipt.startMode = 'HKCU Run'
+        Start-Process -FilePath $shell -ArgumentList $action.Arguments -WorkingDirectory $runtime -WindowStyle Hidden | Out-Null
+        for ($attempt = 0; $attempt -lt 5; $attempt++) {
+            if (Test-BridgeWorkerRunning $stateDir $configPath) { break }
+            Start-Sleep -Seconds 1
+        }
+    }
+    $receipt.workerStarted = Test-BridgeWorkerRunning $stateDir $configPath
+}
 $sourceHead = & git -C $resolvedRepo rev-parse HEAD
 $sourceStatus = & git -C $resolvedRepo status --porcelain
 $receipt.sourceCommit = [string]$sourceHead
@@ -141,3 +176,4 @@ Get-ChildItem -LiteralPath $runtime -File -Recurse | ForEach-Object {
 }
 $receipt | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $InstallRoot 'install-receipt.json') -Encoding UTF8
 Write-Output "Installed runtime at $runtime; configuration at $configPath; mode=$($receipt.startMode); registration=$($receipt.taskRegistration)."
+if (-not $NoStart -and -not $receipt.workerStarted) { throw 'Worker did not start; inspect the installation receipt and state/logs.' }
