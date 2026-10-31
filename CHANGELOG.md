@@ -97,6 +97,10 @@
 - 顶层目录使用短内核系列名称，APP 清单保留在 README；恢复历史核验档案原文，并让官方缓存校验覆盖历史清单哈希。
 - README 下载按钮与架构、策略、DNS 图统一为圆角玻璃质感 SVG，由 `tools/generate-readme-visuals.js` 生成；发布前检查 GitHub GFM 渲染、亮暗主题与窄屏布局。
 
+## 2026-10-23 — SubStore v1.8.1 验证边界与失败保护
+
+- 补充 local 快照并发检查与跨模块回归，区分旧真实收据、隔离 CI 和待完成的 Cloudflare/发布/手机验收；详见 [SubStore 日志](./SubStore/CHANGELOG.md)。规则与客户端产物不变。
+
 ## 2026-10-23 — Issue #187 下载分流复核
 
 - 确认 `dldir1.qq.com` 已精确收录，补充跨端载荷、下载组出口及微信进程优先级回归与排障说明；规则行为不变。详见 [Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。

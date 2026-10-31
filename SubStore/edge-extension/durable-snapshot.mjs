@@ -1,4 +1,4 @@
-// Restricted durable snapshots v1.8.0. Burn URLs are transient preview inputs.
+// Restricted durable snapshots v1.8.1. Burn URLs are transient preview inputs.
 import { SubStoreClient, SyncError, candidateURL, withoutCacheKey, realNodeCount, canonical, sha256 } from './core.mjs';
 import { exactBrandName } from './auto-match.mjs';
 const SITE = 'https://therun.6128888.xyz', NAME = '都是梦', LIMIT = 4 * 1024 * 1024;
@@ -70,11 +70,16 @@ export async function syncDurableSnapshot({settings,policy,capture,fetcher,saveB
   if(canonical(after)!==canonical(before)||checked?.status!=='dry_run'||checked.name!==policy.name||checked.revision!==remotePolicy.revision||checked.originalNodes!==original.length||!Number.isSafeInteger(checked.processedNodes)||checked.processedNodes<policy.minNodes)throw new SyncError('writeback_verification_failed');
   return {status:'dry_run',...metadata,originalNodes:checked.originalNodes,processedNodes:checked.processedNodes};
  }
+ const current=await read(client,policy);await checkpoint();if(canonical(current)!==canonical(before))throw new SyncError('concurrent_change');
  if(content===before.content && !cloud)return {status:'unchanged',...metadata,revision:await sha256(before)};
  if(dryRun)return {status:'dry_run',...metadata};
- const current=await read(client,policy);await checkpoint();if(canonical(current)!==canonical(before))throw new SyncError('concurrent_change');
  const backup={kind:'content',at:new Date().toISOString(),subscriptionName:policy.name,backendUrl:settings.backendUrl,targetId:settings.targetId||'local',previousContent:before.content,expectedContentHash:await sha256(content),otherFieldsHash:await sha256(withoutContent(before))};
  await checkpoint();await saveBackup(backup);await checkpoint();
+ // Backup storage and authorization checks yield. Reject edits made while
+ // awaiting them before sending any content write (including restoration).
+ // The local API has no conditional PATCH: this narrows, not removes, its race.
+ const dispatchState=await read(client,policy);await checkpoint();
+ if(canonical(dispatchState)!==canonical(before))throw new SyncError('concurrent_change');
  let result;
  if(cloud){result=await client.request('/api/local-snapshot/'+encodeURIComponent(policy.name),'POST',restoreContent===undefined?{expectedRevision:remotePolicy.revision,original}:{expectedRevision:remotePolicy.revision,restoreContent:content});}
  else await client.request(path,'PATCH',{content});

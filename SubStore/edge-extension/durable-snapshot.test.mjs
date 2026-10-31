@@ -7,6 +7,49 @@ const nodes = Array.from({ length: 18 }, (_, i) => ({name:'Node '+i,type:'ss',se
 const sub = () => ({name,source:'local',url:'',content:JSON.stringify({proxies:nodes.map(n=>({...n,password:'OLD'}))}),process:[{type:'Sort Operator'}],custom:{keep:true}});
 const settings = {...settingsFrom(),subscriptionName:name};
 const reply = data => new Response(JSON.stringify({status:'success',data}));
+test('preview-time edits cannot be reported as unchanged or a successful dry run', async () => {
+ for (const dryRun of [false,true]) {
+  let current=sub(),writes=0,backups=0;
+  if(!dryRun)current.content=JSON.stringify({proxies:nodes});
+  const fetcher=async(_url,req)=>{
+   if(req.method==='POST'){current.process.push({type:'User Edit'});return reply({original:nodes,processed:nodes})}
+   if(req.method==='PATCH')writes++;
+   return reply(current);
+  };
+  await assert.rejects(syncDurableSnapshot({settings,policy:snapshotPolicy(origin,name),capture:async()=>nodes,
+   fetcher,dryRun,saveBackup:async()=>{backups++}}),{code:'concurrent_change'});
+  assert.equal(writes,0);assert.equal(backups,0);
+  assert.equal(current.process.at(-1).type,'User Edit');
+ }
+});
+test('edits while backup storage yields block update and restore before dispatch', async () => {
+ for(const restore of [false,true])for(const field of ['content','process']){
+  let current=sub(),writes=0,backups=0;
+  const fetcher=async(_url,req)=>{
+   if(req.method==='POST')return reply({original:nodes,processed:nodes});
+   if(req.method==='PATCH'){writes++;current.content=JSON.parse(req.body).content;return reply({})}
+   return reply(current);
+  };
+  const args=restore?{restoreContent:JSON.stringify({proxies:nodes})}:{capture:async()=>nodes};
+  await assert.rejects(syncDurableSnapshot({settings,policy:snapshotPolicy(origin,name),...args,fetcher,
+   saveBackup:async()=>{backups++;await Promise.resolve();if(field==='content')current.content='USER EDIT';else current.process.push({type:'User Edit'})}}),{code:'concurrent_change'});
+  assert.equal(backups,1);assert.equal(writes,0);
+  if(field==='content')assert.equal(current.content,'USER EDIT');else assert.equal(current.process.at(-1).type,'User Edit');
+ }
+});
+test('backup failure prevents all content writes; readback rejects acknowledgements without persistence', async () => {
+ for(const failure of ['backup','readback']){
+  const current=sub();let writes=0;
+  const fetcher=async(_url,req)=>{
+   if(req.method==='POST')return reply({original:nodes,processed:nodes});
+   if(req.method==='PATCH'){writes++;return reply({})}
+   return reply(current);
+  };
+  await assert.rejects(syncDurableSnapshot({settings,policy:snapshotPolicy(origin,name),capture:async()=>nodes,fetcher,
+   saveBackup:async()=>{if(failure==='backup')throw Error('synthetic storage failure')}}),failure==='readback'?{code:'writeback_verification_failed'}: /synthetic storage failure/);
+  assert.equal(writes,failure==='backup'?0:1);assert.equal(current.content,sub().content);
+ }
+});
 test('snapshot matching is restricted to exact site, brand and local-only empty-URL subscription', () => {
  const catalog=[sub()];assert.equal(chooseSnapshotSubscription({origin,siteNames:[name],catalog}).status,'matched');
  for(const input of [{origin:'https://other.example'},{siteNames:['Other']},{catalog:[{...sub(),source:'remote'}]},{catalog:[{...sub(),url:'https://old.example'}]}])assert.equal(chooseSnapshotSubscription({origin,siteNames:[name],catalog,...input}).status,'none');

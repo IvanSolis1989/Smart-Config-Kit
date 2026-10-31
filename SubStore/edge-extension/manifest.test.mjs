@@ -8,7 +8,7 @@ const root=new URL('.',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url),'utf8'));
 
 test('local durable snapshot release keeps fresh-install access optional',()=>{
- assert.equal(manifest.version,'1.8.0');
+ assert.equal(manifest.version,'1.8.1');
  assert.equal(manifest.minimum_chrome_version,'111');
  assert.match(manifest.description,/本机/);
  assert.match(manifest.description,/Cloudflare/);

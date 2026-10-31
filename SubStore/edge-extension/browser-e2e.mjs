@@ -158,7 +158,7 @@ function fixtures() {
       brand: '都是梦', name: '都是梦', mode: 'import', dual: true, durableSnapshot: true, providerFailure,
       expectedStatus: providerFailure ? 'error' : 'updated', expectedCode: providerFailure ? 'snapshot_nodes_invalid' : undefined,
       operations: providerFailure ? ['GET:catalog', 'GET:sub', 'POST:preview'] :
-        ['GET:catalog', 'GET:sub', 'POST:preview', 'POST:preview', 'GET:sub', 'PATCH:sub', 'GET:sub'] };
+        ['GET:catalog', 'GET:sub', 'POST:preview', 'POST:preview', 'GET:sub', 'GET:sub', 'PATCH:sub', 'GET:sub'] };
   });
   const cases = [...good, ...bad, untrusted, ...crossResponse, ...leaving, ...withdrawn, ...dual, ...durable, offline]
     .map(fixture => ({ ...fixture, pageURL: fixture.origin + '/__scki_fixture__/' + fixture.id }));
@@ -716,7 +716,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             }
             const expectedCloud = fixture.providerFailure
               ? ['GET:catalog', 'GET:sub', 'GET:durable-policy']
-              : ['GET:catalog', 'GET:sub', 'GET:durable-policy', 'GET:sub', 'POST:durable-upload', 'GET:sub'];
+              : ['GET:catalog', 'GET:sub', 'GET:durable-policy', 'GET:sub', 'GET:sub', 'POST:durable-upload', 'GET:sub'];
             check(equal(cloudOperations.slice(cloudCallsBefore).map(item => item.method + ':' + item.kind), expectedCloud), 'durable_cloud_sequence_failed');
             if (fixture.durableSnapshot && !fixture.providerFailure) {
               const localAfter = services.state.operations.length, cloudAfter = cloudOperations.length;
