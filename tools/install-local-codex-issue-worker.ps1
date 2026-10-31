@@ -11,6 +11,36 @@ $ErrorActionPreference = 'Stop'
 $taskName = 'Smart-Config-Kit-Codex-Issue-Worker'
 $runKeyPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 $runValueName = 'SmartConfigKitCodexIssueWorker'
+$requestedInstallRoot = [System.IO.Path]::GetFullPath($InstallRoot)
+
+function Get-PhysicalFilePath([string]$FilePath) {
+    if (-not ('SckiPhysicalPath' -as [type])) {
+        Add-Type -TypeDefinition @'
+using System;
+using System.Text;
+using System.Runtime.InteropServices;
+public static class SckiPhysicalPath {
+    [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+    public static extern uint GetFinalPathNameByHandle(IntPtr handle, StringBuilder path, uint length, uint flags);
+}
+'@
+    }
+    $stream = [System.IO.File]::Open($FilePath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+    try {
+        $buffer = New-Object System.Text.StringBuilder 32768
+        $length = [SckiPhysicalPath]::GetFinalPathNameByHandle($stream.SafeFileHandle.DangerousGetHandle(), $buffer, $buffer.Capacity, 0)
+        if ($length -eq 0 -or $length -ge $buffer.Capacity) { throw 'Could not resolve physical installation path.' }
+        $resolved = $buffer.ToString()
+        if ($resolved.StartsWith('\\?\UNC\')) { return '\\' + $resolved.Substring(8) }
+        if ($resolved.StartsWith('\\?\')) { return $resolved.Substring(4) }
+        return $resolved
+    } finally { $stream.Dispose() }
+}
+
+# A packaged desktop app can virtualize LocalAppData. Task Scheduler runs outside
+# that package, so its executable/script/config paths must use real filesystem names.
+$existingConfig = Join-Path $InstallRoot 'config.json'
+if (Test-Path -LiteralPath $existingConfig) { $InstallRoot = Split-Path -Parent (Get-PhysicalFilePath $existingConfig) }
 
 function Get-CommandPath([string]$Name) {
     $command = Get-Command $Name -ErrorAction SilentlyContinue | Where-Object { $_.CommandType -eq 'Application' } | Select-Object -First 1
@@ -36,7 +66,8 @@ if ($Uninstall) {
             $lock = Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json
             $cfg = (Resolve-Path -LiteralPath $configPath).Path
             $proc = Get-CimInstance Win32_Process -Filter "ProcessId=$([int]$lock.pid)" -ErrorAction SilentlyContinue
-            if ($proc -and $proc.CommandLine -like "*$((Join-Path $InstallRoot 'runtime\local-codex-issue-worker.js'))*" -and $proc.CommandLine -like "*--config*$cfg*") {
+            $requestedConfig = Join-Path $requestedInstallRoot 'config.json'
+            if ($proc -and $proc.CommandLine -like '*local-codex-issue-worker.js*' -and ($proc.CommandLine -like "*--config*$cfg*" -or $proc.CommandLine -like "*--config*$requestedConfig*")) {
                 $taskkill = Join-Path $env:SystemRoot 'System32\taskkill.exe'
                 Start-Process -FilePath $taskkill -ArgumentList @('/PID',[string]$lock.pid,'/T','/F') -WindowStyle Hidden -Wait | Out-Null
             }
@@ -79,6 +110,13 @@ else {
     }
 }
 if (-not $codexCommand) { throw 'Codex executable was not found (codex.exe/codex or npm-installed codex shim).' }
+$codexCommand = Get-PhysicalFilePath $codexCommand
+$codexArgs = @($codexArgs | ForEach-Object { Get-PhysicalFilePath $_ })
+
+New-Item -ItemType Directory -Force -Path $InstallRoot | Out-Null
+$anchor = Join-Path $InstallRoot '.install-root'
+if (-not (Test-Path -LiteralPath $anchor)) { Set-Content -LiteralPath $anchor -Value 'Smart-Config-Kit local Codex Issue bridge' -Encoding UTF8 }
+$InstallRoot = Split-Path -Parent (Get-PhysicalFilePath $anchor)
 
 $runtime = Join-Path $InstallRoot 'runtime'
 $stateDir = Join-Path $InstallRoot 'state'
@@ -116,6 +154,7 @@ if (Test-Path -LiteralPath $configPath) {
 $config = [ordered]@{
     schemaVersion = 1; repository = $Repository; repositoryPath = $resolvedRepo
     stateDir = $stateDir; worktreeRoot = $worktreeRoot; codexCommand = $codexCommand; codexArgs = $codexArgs
+    model = 'gpt-6.1-sol'; effort = 'ultra'
     pollSeconds = 60; timeoutMs = 2700000; enabledAfter = $enabledAfter
     publish = $true
 }

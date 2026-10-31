@@ -23,6 +23,8 @@
 
 `local-codex-issue.yml` 只在 GitHub 保存任务元数据 artifact，本机主动每 60 秒领取一次。每条任务建立独立工作目录及持久 Codex 会话。本机将候选提交推到 `codex/issue-*` 临时分支，调用 `validate-local-codex-candidate.yml` 在 GitHub 临时 runner 运行四项固定检查；确认每项实际通过后，才串行正常推送同一提交到 `main` 并回复 Issue，遵守现有分支保护，不强推或自动关闭 Issue。
 
+派单模型固定为 **GPT-6.1 Sol**（`gpt-6.1-sol`），推理强度 **ultra**。配置、线程创建与每轮执行均显式指定；不继承本机默认模型，不静默降档。账号或客户端不支持时任务会报告失败并保留现场。
+
 - 自动入口：新建或重开、带 `question`、`faq`、`help wanted`、`bug`、`enhancement` 或 `documentation` 标签的 Issue。安装前的历史 Issue 不会被自动重放。
 - 维护者入口：在 Issue 评论中以 `/codex` 开头派单，或添加 `codex` 标签；事件操作者须具有仓库 write/maintain/admin 权限。
 - 手动入口：Actions → **Queue Local Codex Issue Task** → Run workflow → 填写 Issue 编号。`handle` 正常处理，`smoke` 只验收派单及模型响应，不改业务代码、提交或公开回复。
@@ -35,7 +37,7 @@ Windows 需要 Node.js 22+、Git、已登录的 GitHub CLI 和 Codex CLI；复�
 pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1
 ```
 
-安装到 `%LOCALAPPDATA%\Smart-Config-Kit\codex-issue-bridge`，其中 `runtime` 是受控脚本快照，`config.json` 保存本机路径，`state` 保存收据和任务状态，`worktrees` 保存独立 Git 目录。当前用户登录自启任务为 `Smart-Config-Kit-Codex-Issue-Worker`；计划任务注册失败时使用当前用户 HKCU Run，实际方式写入 `install-receipt.json`。电脑关机、休眠、未登录、网络或登录凭据失效时无法处理；队列 artifact 保留 90 天。
+默认安装到 `%LOCALAPPDATA%\Smart-Config-Kit\codex-issue-bridge`，其中 `runtime` 是受控脚本快照，`config.json` 保存本机路径，`state` 保存收据和任务状态，`worktrees` 保存独立 Git 目录。从 MSIX 桌面 App 安装时，Windows 可能将此目录重定向到包的 `LocalCache\Local`；安装器用真实文件句柄解析物理路径，确保包外运行的计划任务也能访问，实际路径以安装输出为准。当前用户登录自启任务为 `Smart-Config-Kit-Codex-Issue-Worker`；计划任务注册或启动失败时使用当前用户 HKCU Run，实际方式写入 `install-receipt.json`。电脑关机、休眠、未登录、网络或登录凭据失效时无法处理；队列 artifact 保留 90 天。
 
 状态和无副作用验收：
 

@@ -33,9 +33,11 @@
 - [x] Worker：`local-codex-worker.js`、CLI及测试；轮询、持久状态/单实例锁、独立 checkout、验证发布、幂等回复和中断恢复。
 - [x] Windows：安装/卸载、隐藏运行、登录自启、独立 runtime/config；保留 state 与 enabledAfter。
 - [x] 文档：更新现有自动处理说明与仓库变更摘要；给出状态/暂停/重试入口及边界。
-- [ ] 验收：相关离线测试、仓库规定提交前检查；本机真实只读会话；云端 smoke artifact→本机 session→成功收据；检查无公开评论或业务修改。
-- [ ] 发布启用：提交本次路径并推 main，核对 CI，配置 `LOCAL_CODEX_ENABLED`，注册并启动本地 worker，保留真实状态。
+- [x] 验收：相关离线测试、仓库规定提交前检查；本机真实只读会话；云端 smoke artifact→本机 session→成功收据；检查无公开评论或业务修改。
+- [x] 发布启用：提交本次路径并推 main，核对 CI，配置 `LOCAL_CODEX_ENABLED`，注册并启动本地 worker，保留真实状态。
 
 ## 当前状态
 
-已推送 `23cea9c3` 并开启 `LOCAL_CODEX_ENABLED=true`。真实云端队列运行 `41253355774` 成功，本机领取 `issue-193-manual-41253355774`，会话 `01a19454-77f8-70a2-acd5-9e98be8eb7ab` 返回 `BRIDGE_SMOKE_OK`，未向 Issue 发测试评论。Windows 计划任务本机启动失败，已实测回退 HKCU Run 并运行 worker；重登录启动仍需用户下次登录观察。Linux CI 首轮只有子进程退出判定失败，补丁已补充真实退出与停止心跳检查，待推送后的 CI。原 main 的 Stash/Karing/能力矩阵生成漂移仍存在，本次不修改这些来源或产物；发布门禁保持阻断，不能声称全仓库合同通过。
+已推送 `23cea9c3`、`f62c6bf2` 并开启 `LOCAL_CODEX_ENABLED=true`。真实云端队列运行 `41253355774` 成功，本机领取 `issue-193-manual-41253355774`，会话 `01a19454-77f8-70a2-acd5-9e98be8eb7ab` 返回 `BRIDGE_SMOKE_OK`，未向 Issue 发测试评论。Linux CI 修复后运行 `41253651242` 的 99/99 测试通过；候选验证运行 `41253679257` 的四项仓库检查均实际通过。本机 Windows 检查曾报告生成漂移，但同 SHA 在 CI 通过，不能据此判定 main 产物过期，未扩大到客户端生成物修改。
+
+Windows 自启失败已定位为 MSIX 的 LocalAppData 重定向；安装器现用真实文件句柄解析物理路径，修复后计划任务已在 App 进程外启动并成功轮询，运行日志与安装收据保留。重登录触发仍待用户下次登录观察，不主动重启电脑。用户追加固定模型要求：GPT-6.1 Sol + ultra，账号 model/list 确认支持（默认 low）；正在完成显式配置、请求参数和该档位的最后一次云端派单验收。

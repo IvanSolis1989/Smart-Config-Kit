@@ -15,10 +15,10 @@ async function main(args = process.argv.slice(2)) {
     const lockFile = path.join(config.stateDir, 'worker.lock');
     let running = false; let pid = null;
     if (fs.existsSync(lockFile)) { pid = readJSON(lockFile).pid; try { process.kill(pid, 0); running = true; } catch {} }
-    console.log(JSON.stringify({ repository: config.repository, running, pid,
+    console.log(JSON.stringify({ repository: config.repository, model: config.model, effort: config.effort, running, pid,
       paused: fs.existsSync(path.join(config.stateDir, 'PAUSED')), lastPollAt: state.lastPollAt, lastError: state.lastError,
       tasks: Object.values(state.tasks || {}).map(r => ({ taskKey: r.task.taskKey, mode: r.task.mode, status: r.status,
-        outcome: r.outcome, threadId: r.threadId, sessionUrl: r.sessionUrl, commitSha: r.commitSha,
+        outcome: r.outcome, model: r.model, effort: r.effort, threadId: r.threadId, sessionUrl: r.sessionUrl, commitSha: r.commitSha,
         validationRunUrl: r.validationRunUrl, commentId: r.commentId, error: r.error })) }, null, 2));
     return;
   }

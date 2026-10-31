@@ -1,5 +1,5 @@
 'use strict';
-// Local Issue bridge v1.0.1. GitHub is the durable inbox; only this process publishes.
+// Local Issue bridge v1.0.2. GitHub is the durable inbox; only this process publishes.
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
@@ -39,6 +39,7 @@ function validateConfig(config) {
   if (!Number.isInteger(config.pollSeconds) || config.pollSeconds < 15 || config.pollSeconds > 3600) throw new Error('Invalid pollSeconds');
   if (!Number.isInteger(config.timeoutMs) || config.timeoutMs < 1000 || config.timeoutMs > 7200000) throw new Error('Invalid timeoutMs');
   if (typeof config.publish !== 'boolean') throw new Error('publish must be explicit');
+  if (config.model !== 'gpt-6.1-sol' || config.effort !== 'ultra') throw new Error('Issue dispatch requires gpt-6.1-sol with ultra effort');
   return config;
 }
 async function command(executable, args, options = {}) {
@@ -300,11 +301,13 @@ class Worker {
   async smoke(record = null) {
     const key = record?.task.taskKey || `local-smoke-${Date.now()}`;
     const target = record || { task: { taskKey: key, mode: 'smoke' }, status: 'queued' };
+    target.model = this.config.model; target.effort = this.config.effort;
     this.state.tasks[key] = target;
     const cwd = path.join(this.config.stateDir, 'smoke', taskId(key)); fs.mkdirSync(cwd, { recursive: true });
     target.status = 'running'; this.save();
     try {
       const result = await this.runCodexTask({ command: this.config.codexCommand, args: this.config.codexArgs,
+        model: this.config.model, effort: this.config.effort,
         cwd, prompt: '这是派单链路只读验收。不要使用任何工具、修改文件或执行外部动作。最终仅回复 BRIDGE_SMOKE_OK。',
         title: `Smart-Config-Kit Issue bridge smoke`, smoke: true, timeoutMs: Math.min(this.config.timeoutMs, 180000), signal: this.signal,
         onThread: async id => { target.threadId = id; target.sessionUrl = `codex://threads/${id}`; this.save(); } });
@@ -316,12 +319,14 @@ class Worker {
   async process(record) {
     if (record.task.mode === 'smoke') return this.smoke(record);
     record.attempt = (record.attempt || 0) + 1; record.status = 'preparing'; this.save();
+    record.model = this.config.model; record.effort = this.config.effort;
     try {
       const issue = await this.snapshot(record.task);
       if (issue.state !== 'open') { record.status = 'skipped'; record.error = 'Issue is closed'; this.save(); return; }
       await this.prepare(record);
       record.status = 'running'; this.save();
       const result = await this.runCodexTask({ command: this.config.codexCommand, args: this.config.codexArgs,
+        model: this.config.model, effort: this.config.effort,
         cwd: record.cwd, prompt: this.prompt(record, issue), title: `Smart-Config-Kit #${issue.number}: ${issue.title.slice(0, 80)}`,
         timeoutMs: this.config.timeoutMs, outputSchema: RESULT_SCHEMA, signal: this.signal,
         onThread: async id => { record.threadId = id; record.sessionUrl = `codex://threads/${id}`; this.save(); } });

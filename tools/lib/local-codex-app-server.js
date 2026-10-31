@@ -62,14 +62,17 @@ async function waitForChildExit(child) {
  * reject. onThread must durably save the id before it resolves. onEvent receives
  * raw server messages and must apply any required redaction before storing them.
  * Optional signal cancels a run; rpcTimeoutMs bounds individual RPCs separately.
+ * Model and reasoning effort are explicit, catalog-checked and never downgraded.
  */
 async function runCodexTask({ command, args = [], cwd, prompt, title,
   timeoutMs = DEFAULT_TIMEOUT_MS, rpcTimeoutMs = DEFAULT_RPC_TIMEOUT_MS,
-  onThread = async () => {}, onEvent = () => {}, outputSchema, smoke = false, signal } = {}) {
+  onThread = async () => {}, onEvent = () => {}, outputSchema, smoke = false, signal,
+  model = 'gpt-6.1-sol', effort = 'ultra' } = {}) {
   if (typeof command !== 'string' || !command.trim()) throw new TypeError('command is required');
   if (!Array.isArray(args) || args.some(arg => typeof arg !== 'string')) throw new TypeError('args must be strings');
   if (typeof cwd !== 'string' || !path.isAbsolute(cwd)) throw new TypeError('cwd must be absolute');
   if (typeof prompt !== 'string' || !prompt.trim()) throw new TypeError('prompt is required');
+  if (typeof model !== 'string' || !model.trim() || typeof effort !== 'string' || !effort.trim()) throw new TypeError('model and effort must be explicit nonempty strings');
   if (typeof onThread !== 'function' || typeof onEvent !== 'function') throw new TypeError('callbacks must be functions');
   positiveTimeout(timeoutMs, 'timeoutMs');
   positiveTimeout(rpcTimeoutMs, 'rpcTimeoutMs');
@@ -209,22 +212,40 @@ async function runCodexTask({ command, args = [], cwd, prompt, title,
   try {
     await guard(request('initialize', { clientInfo: { name: 'scki_issue_bridge', version: '1.0.0' } }));
     write({ method: 'initialized', params: {} });
+    let catalogModel;
+    let cursor;
+    const cursors = new Set();
+    do {
+      const catalog = await guard(request('model/list', { includeHidden: true, limit: 100, ...(cursor ? { cursor } : {}) }));
+      if (!Array.isArray(catalog?.data)) throw new Error('Codex model/list returned an invalid catalog');
+      catalogModel = catalog.data.find(entry => entry.model === model);
+      cursor = catalog.nextCursor;
+      if (cursor && cursors.has(cursor)) throw new Error('Codex model/list repeated a pagination cursor');
+      if (cursor) cursors.add(cursor);
+    } while (!catalogModel && cursor);
+    if (!catalogModel) throw new Error('Codex requested model is not advertised by this account');
+    if (!Array.isArray(catalogModel.supportedReasoningEfforts) || !catalogModel.supportedReasoningEfforts.some(option => option.reasoningEffort === effort)) {
+      throw new Error('Codex requested reasoning effort is not supported for this model');
+    }
     const started = await guard(request('thread/start', {
       // SandboxMode uses kebab-case; SandboxPolicy.type below uses camelCase.
       // Verified with the installed Codex App's generate-json-schema output.
-      cwd, approvalPolicy: 'never', sandbox: smoke ? 'read-only' : 'workspace-write', ephemeral: false
+      cwd, model, config: { model_reasoning_effort: effort },
+      approvalPolicy: 'never', sandbox: smoke ? 'read-only' : 'workspace-write', ephemeral: false
     }));
     threadId = started?.thread?.id;
     if (typeof threadId !== 'string' || !threadId) throw new Error('Codex thread/start returned no thread id');
     try { await guard(Promise.resolve().then(() => onThread(threadId))); }
     catch { throw failed || new Error('Codex onThread callback failed; turn was not started'); }
+    if (started.model !== model) throw new Error('Codex thread/start resolved a different model; inference was not started');
+    if (started.reasoningEffort !== effort) throw new Error('Codex thread/start resolved a different reasoning effort; inference was not started');
     if (typeof title === 'string' && title.trim()) {
       await guard(request('thread/name/set', { threadId, name: title }));
     }
     if (failed) throw failed;
     turnSubmitted = true;
     const response = await guard(request('turn/start', {
-      threadId, input: [{ type: 'text', text: prompt }], approvalPolicy: 'never',
+      threadId, model, effort, input: [{ type: 'text', text: prompt }], approvalPolicy: 'never',
       sandboxPolicy: smoke ? { type: 'readOnly' } : { type: 'workspaceWrite', writableRoots: [cwd], networkAccess: true },
       ...(outputSchema === undefined ? {} : { outputSchema })
     }));

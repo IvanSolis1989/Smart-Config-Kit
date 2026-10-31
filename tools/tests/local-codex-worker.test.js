@@ -14,7 +14,7 @@ function fixture(t) {
   return { schemaVersion: 1, repository: 'owner/repo', repositoryPath,
     stateDir: path.join(root, 'state'), worktreeRoot: path.join(root, 'work'),
     codexCommand: process.execPath, codexArgs: [], pollSeconds: 60, timeoutMs: 60000,
-    enabledAfter: '2026-11-01T00:00:00Z', publish: true };
+    enabledAfter: '2026-11-01T00:00:00Z', publish: true, model: 'gpt-6.1-sol', effort: 'ultra' };
 }
 test('configuration rejects foreign repository, relative state and implicit publication', t => {
   const config = fixture(t);
@@ -22,6 +22,8 @@ test('configuration rejects foreign repository, relative state and implicit publ
   assert.throws(() => validateConfig({ ...config, repository: 'owner/repo/../../x' }));
   assert.throws(() => validateConfig({ ...config, stateDir: 'state' }));
   assert.throws(() => validateConfig({ ...config, publish: undefined }));
+  assert.throws(() => validateConfig({ ...config, effort: 'high' }), /ultra/);
+  assert.throws(() => validateConfig({ ...config, model: 'other-model' }), /gpt-6.1-sol/);
 });
 test('redacts credentials without destroying public issue links', () => {
   const text = redact('gho_abcdefghijklmnopqrstuvwxyz https://u:p@example.org/?token=private https://github.com/owner/repo/issues/1');
@@ -59,6 +61,7 @@ test('smoke records actual session result and never calls GitHub comment or publ
   const worker = new Worker(config, {
     command: async () => { throw new Error('External operation during smoke'); },
     runCodexTask: async opts => { runs++; assert.equal(opts.smoke, true);
+      assert.equal(opts.model, 'gpt-6.1-sol'); assert.equal(opts.effort, 'ultra');
       await opts.onThread('smoke-thread'); return { threadId: 'smoke-thread', status: 'completed', text: 'BRIDGE_SMOKE_OK' }; }
   });
   await worker.initialize();

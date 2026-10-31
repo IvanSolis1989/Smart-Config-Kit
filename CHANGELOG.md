@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 自动化：本地 Codex Issue 派单 v1.0.2 (2026-11-01)
+
+- 派单会话显式固定 GPT-6.1 Sol + ultra；解析 MSIX 文件重定向后的真实安装路径，让登录计划任务能在桌面 App 进程外正常启动。
+
 ## 自动化：本地 Codex Issue 派单 v1.0.1 (2026-11-01)
 
 - 实测 GitHub 派单到本机新会话；修正 Windows 计划任务启动失败的登录自启回退，并用实际退出与停止心跳核验 Linux 子进程清理。
