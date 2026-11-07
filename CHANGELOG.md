@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## 维护工具：上游 Mihomo 模板引入审计 (2026-11-07)
+
+- 新增只读离线审计与回归测试，完成 PROXY_YAMLS 固定快照评估；不改变客户端规则、DNS、版本或在线向导。详情见 [借鉴评估与检查用法](docs/2026-11-07-proxy-yamls-review.md)。
+
 ## Quantumult X 导入修复 QX.14 (2026-11-07)
 
 - 更正 QX 模式触发语法及反向校验规则；共享分流规则和 Clash Party 产物不变。详情见 [Quantumult X 变更日志](独立内核系/Quantumult%20X/CHANGELOG.md)。
