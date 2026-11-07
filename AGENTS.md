@@ -562,7 +562,7 @@ done
 
 历史出处：
 - **FIX#QX-08-P0**（PR #117）：QX `server=https://...` → `doh-server=https://...`
-- **FIX#QX-07-P0**（PR #114）：QX `running_mode_trigger=filter,...` 误用（合法值仅 `direct`/`proxy`/`auto`/`follower`/`none`）
+- **FIX#QX-07-P0**（PR #114）的取值判断已于 2026-11-07 更正：官方示例使用 `filter, filter`，后续为 `SSID:all_proxy` / `SSID:all_direct` 等映射；`auto, auto, auto` 不是该格式。见 QX.14 变更日志及固定官方示例。
 - 反面教材：上一版 PR #114 CHANGELOG 误判 line 22 DNS 报错为 line 13 报错的级联效应——**不同语法陷阱独立报错，不要"猜"**
 
 | 运行时场景 | 订阅可能带入的错误输入 | 覆写后的正确处理 | 出处 |
@@ -605,7 +605,7 @@ done
 
 | 平台 | 字段 / 场景 | 合法值 | 出处 |
 |------|------------|--------|------|
-| **Quantumult X** | `running_mode_trigger=` | 仅 `direct` / `proxy` / `auto` / `follower` / `none`（**禁止** `filter`） | FIX#QX-07-P0 (#114) |
+| **Quantumult X** | `running_mode_trigger=` | 本仓库使用 `filter, filter`；可选尾项是 `SSID:模式`，模式按官方示例为 `filter` / `all_proxy` / `all_direct`，禁止 `auto, auto, auto` 或第三个裸模式 | QX.14 更正 #114；[固定官方 sample](https://github.com/crossutility/Quantumult-X/blob/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/sample.conf) |
 | **OpenClash** | `sniffer.skip-domain` | 不应包含币安等需要 SNI 改写的 TLS 域名 | PR #112 |
 | **OpenClash full override YAML** | 顶层 `rule-providers:` / `rules:` | 各自**只能出现 1 次**（Ruby Psych last-wins 会静默丢内容） | §5 自检 4b |
 | **Passwall / Passwall2 shunt_rules** | 不支持 Clash 前缀 | 必须用 `domain:` / `full:` / `regexp:` / `geosite:` / `rule-set:remote\|local:` / 裸 CIDR；**禁止** `DOMAIN-SUFFIX,` | shunt_rules.lua |
@@ -794,7 +794,7 @@ node --test tools/tests/official-docs-cache.test.js tools/tests/singbox-current-
 | 把 Mihomo `.mrs` 直接写进 Egern | v5.4.38-egern.2 | Egern 官方文档未声明支持 `.mrs` | 经 Egern 生成器转换为原生 YAML 规则集 |
 | 增加上游 provider 后不跑 `.mrs` 同步 | v5.4.38-mrs | Mihomo 产物退回低效格式或各端漂移 | 依次执行 MRS 同步、映射、融合和完整生成链路 |
 | QX `[dns] server=https://...` | v5.2.10-QX.2 | QX 的 DoH 必须使用独立 `doh-server=` 字段 | 按 §3.5.1 使用 `doh-server=https://...` |
-| QX `running_mode_trigger=filter,...` | v5.2.10-QX.1 | `filter` 不是合法值 | 按 §3.5.4 使用 `direct` / `proxy` / `auto` / `follower` / `none` |
+| QX `running_mode_trigger=auto, auto, auto` | #114 错误修复延续至 QX.13 | 将模式列表误当成三个默认值，且校验器反向禁止官方 `filter` | 按 §3.5.4 使用 `filter, filter`，尾项必须是 SSID 映射；正反例共同回归 |
 | Loon / Surge 使用 `DST-PORT` | v5.2.10-Loon.1 | 两端端口规则使用 `DEST-PORT` | 按 §3.5.2 使用 `DEST-PORT` |
 | 把 Surge `encrypted-dns-server=` 复制到 Loon / Shadowrocket | 潜在 | 三个平台的 DoH 字段不同 | 按 §3.5.1 分平台维护 |
 | 把 Clash `DOMAIN-SUFFIX,` 复制到 Passwall `.list` | 潜在 | Passwall 解析器不识别 Clash 前缀 | 使用 `domain:` / `full:` / `regexp:` / `geosite:` 等原生语法 |

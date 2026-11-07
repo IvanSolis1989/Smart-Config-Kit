@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## Quantumult X 导入修复 QX.14 (2026-11-07)
+
+- 更正 QX 模式触发语法及反向校验规则；共享分流规则和 Clash Party 产物不变。详情见 [Quantumult X 变更日志](独立内核系/Quantumult%20X/CHANGELOG.md)。
+
 ## 自动化：本地 Codex Issue 派单 v1.0.2 (2026-11-01)
 
 - 派单会话显式固定 GPT-6.1 Sol + ultra；解析 MSIX 文件重定向后的真实安装路径，让登录计划任务能在桌面 App 进程外正常启动。

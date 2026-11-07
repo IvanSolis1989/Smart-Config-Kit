@@ -4,6 +4,8 @@
 
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方示例已按Git commit固定并保存实际正文；版本、取舍与验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
+> 2026-11-07 更正：下方旧摘要中 `auto, auto, auto` 及“三个值分别对应 WiFi/蜂窝/其他”均为错误解释。官方固定 sample 的原文为 `filter, filter, LINK_22E171:all_proxy, LINK_22E172:all_direct`；本仓库无 SSID 特例，采用 `filter, filter`。已重新获取固定正文并核对与 2026-10-19 缓存 SHA-256 一致；这是旧摘要修正，不是宣称上游刚更改语法。QX 真机导入尚待复测。
+
 ## 当前复核结论
 
 - 稳定版1.8.1，2026-10-07 UTC；1.8.0起要求iOS15。未取得可确认的官方预发布版本/日期，pending。

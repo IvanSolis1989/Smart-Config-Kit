@@ -13,6 +13,13 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## v6.0.21-QX.14 (2026-11-07)
+
+- 修复第 13 行 `running_mode_trigger=auto, auto, auto` 导入错误，按固定官方示例改为 `filter, filter`，不添加 SSID 特例。
+- 更正 QX.2 / #114 对合法模式的错误判断：`filter` 正是官方规则模式；后续条目需为 `SSID:模式`，不能用第三个裸模式。历史记录原文保留追溯，不再作为当前语法依据。
+- 校验器改为解析两项默认模式与可选 SSID 映射；加入官方样例、旧错误值、空项、重复键、错误分节等正反例，防止“禁止正确值”的测试再次掩盖错误。
+- 官方依据：[sample.conf 固定提交](https://github.com/crossutility/Quantumult-X/blob/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/sample.conf)，复取正文 SHA-256 与已存官方缓存一致。规则图、55 个策略组、DNS、远程规则与其他客户端不变；本次是 QX 专属模式触发字段修复。静态验证不代替 QX 真机导入。
+
 ## v6.0.21-QX.13 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。

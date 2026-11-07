@@ -18,6 +18,7 @@ const { validateEgernGenerationManifest } = require('./lib/egern-generation-mani
 const { buildKaring, readInputs: readKaringInputs, checkKaringOutputs,
   PROFILE_PATH: KARING_PROFILE_PATH, MANIFEST_PATH: KARING_MANIFEST_PATH } = require('./generate-karing');
 const { parseCidr } = require('./lib/fused-rule-optimizer');
+const { validateQxRunningModeTrigger } = require('./lib/qx-running-mode-trigger');
 const { prepareUpdates: prepareBusinessDnsUpdates, renderBlock: renderBusinessDnsBlock } = require('./sync-business-dns-policy');
 const { compileBusinessDnsPolicy } = require('./lib/business-dns-policy');
 const {
@@ -1857,11 +1858,12 @@ function validateConfProducts(record, baselineVersion) {
     qxHasNoDohUrlInServerField,
     failureMessage(qxHasNoDohUrlInServerField, 'QX DoH URLs must use doh-server='),
   );
-  const qxHasValidRunningModeTrigger = !/^running_mode_trigger=.*\bfilter\b/m.test(qx);
+  const qxRunningModeTrigger = validateQxRunningModeTrigger(qx);
+  const qxHasValidRunningModeTrigger = qxRunningModeTrigger.ok;
   record.check(
     'qx.running-mode-trigger-values',
     qxHasValidRunningModeTrigger,
-    failureMessage(qxHasValidRunningModeTrigger, 'QX running_mode_trigger cannot use filter'),
+    failureMessage(qxHasValidRunningModeTrigger, qxRunningModeTrigger.errors.join('; ')),
   );
   const qxLocalRuleInRemote = qxFilterRemote.split(/\r?\n/).some((line) => /^\s*(host|host-suffix|host-keyword|ip-cidr|ip6-cidr|dst-port),/i.test(line));
   record.check(

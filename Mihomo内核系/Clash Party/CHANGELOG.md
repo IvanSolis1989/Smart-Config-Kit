@@ -15,6 +15,10 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## Quantumult X 导入修复 QX.14 (2026-11-07)
+
+- 更正 QX 模式触发语法及反向校验规则；共享分流规则和 Clash Party 产物不变。详情见 [Quantumult X 变更日志](../../独立内核系/Quantumult%20X/CHANGELOG.md)。
+
 ## v6.0.21-dns.25 / v6.0.21-normal.25 (2026-10-31)
 
 - Issue #193：新增 `SCKI_BROWSER_UDP_POLICY` / `browserUdpPolicy`，默认 `off`；Windows 用户显式选择 `reject` 时，在现有分流之前拒绝 Chrome、Edge、Firefox 的任意 UDP，避免 UDP/19302 及其他 STUN 端口被兼容直连或 QUIC 服务例外放行。
