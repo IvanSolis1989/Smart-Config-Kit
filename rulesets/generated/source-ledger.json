@@ -137173,8 +137173,8 @@
     },
     {
       "path": "tools/generate-karing.js",
-      "sha256": "891cfc8cae0ba3a7997bdecca1c69c3e45079052a60020ddf5c7ba7d47990cb9",
-      "bytes": 23386,
+      "sha256": "3e1109d8e43570f50cf0073e62c8213d5f49e4afad3d5d49c7eca5aedea1783d",
+      "bytes": 24130,
       "text_normalization": "LF"
     },
     {
