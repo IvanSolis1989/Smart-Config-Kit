@@ -9,6 +9,7 @@ const zlib = require('node:zlib');
 const os = require('node:os');
 const { spawnSync } = require('node:child_process');
 const { repositoryAssetUrl } = require('./lib/generated-asset-url');
+const { registrationChecklist } = require('./lib/karing-registration');
 const { SOURCE_GRAPH_VERSION } = require('../rulesets/source/routing-graph');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -22,8 +23,8 @@ const SUPPORT_PATH = `${SUPPORT_DIR}/manifest.json`;
 const ASSET_DIR = 'rulesets/generated/karing';
 const PROFILE_PATH = `${CLIENT_DIR}/diversion_rules_custom.json`;
 const MANIFEST_PATH = `${CLIENT_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-karing.2`;
-const BUILD = '2026-10-28';
+const VERSION = `${SOURCE_GRAPH_VERSION}-karing.3`;
+const BUILD = '2026-11-09';
 const MAX_ASSET_BYTES = 18 * 1024 * 1024;
 const NON_TERMINAL = new Set(['sniff', 'resolve', 'route-options']);
 // Headless source format version 3 (sing-box >= 1.11). Unknown route-only
@@ -246,8 +247,16 @@ function buildKaring({ config, fusedManifest, loadRuleSetSource, assetUrl = file
       source_segments_with_no_resolve: fusedManifest.segments.filter(segment => (segment.counts?.ipcidr_no_resolve || 0) > 0).map(segment => segment.id),
       note: 'SRS 无独立 no-resolve 匹配项；当前派生链已有的 IP 解析差异不能由原生导入 JSON 修复。'
     },
+    import_activation: {
+      status: 'requires-client-registration',
+      reported_client: '1.2.25.2802',
+      issue: 'https://github.com/IvanSolis1989/Smart-Config-Kit/issues/196',
+      note: '自定义组已出现不代表 Rule Set 已登记或下载。受影响版本需逐组打开并保存后再核对；此清单不是可导入配置，也不证明客户端已修复。',
+      expected_resource_count: registrationChecklist(profile).length
+    },
     manual_settings: [
       '先导入节点订阅，再在设置 → 分流 → 分流规则 → 编辑 → 自定义分流组菜单导入 diversion_rules_custom.json。',
+      'Karing 1.2.25.2802 已报告导入后缺少远程 Rule Set 注册；若探测中没有资产，逐个打开 SCKI 组并保存，再重启连接并核对实际下载。',
       '首次导入使用干净的自定义规则列表；更新前备份并移除旧 SCKI 项，核对顺序。不要按相同业务名称合并不同序号段。',
       '代理业务映射 currentSelected；导入不会恢复业务/区域节点组，需要在 App 逐项绑定自定义节点组。',
       'DNS、TUN、嗅探、最终动作、规则下载路径和更新周期由 App 配置；按需关闭会抢先命中的 ISP/内置地区规则。',
@@ -312,7 +321,7 @@ function readInputs(root = ROOT) {
   const config = read(CONFIG_PATH);
   const fusedManifest = read(FUSED_PATH);
   const support = fs.existsSync(safePath(root, SUPPORT_PATH)) ? read(SUPPORT_PATH) : { assets: [] };
-  for (const relative of ['rulesets/source/routing-graph.js', 'tools/generate-karing.js', 'tools/client-layout.json']) {
+  for (const relative of ['rulesets/source/routing-graph.js', 'tools/generate-karing.js', 'tools/lib/karing-registration.js', 'tools/client-layout.json']) {
     hashInput(relative, fs.readFileSync(safePath(root, relative)));
   }
   // Read every local fused asset, including pure remote references: a dangling

@@ -1,0 +1,45 @@
+name: MiMo reply after Codex failure
+
+on:
+  issue_comment:
+    types: [created, edited]
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Optional issue to reconcile (blank: failures updated in last 7 days)'
+        required: false
+        type: string
+
+# One durable claim per Codex task; event, schedule, and manual recovery cannot race.
+concurrency:
+  group: mimo-codex-fallback
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  reply:
+    if: >-
+      vars.LOCAL_CODEX_ENABLED == 'true' && github.event.issue.pull_request == null &&
+      (github.event_name != 'issue_comment' || github.event.comment.user.id == github.event.repository.owner.id)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Verify owner failure receipt and reconcile one analysis-only reply
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MIMO_API_KEY: ${{ secrets.MIMO_API_KEY }}
+          MIMO_BASE_URL: ${{ vars.MIMO_BASE_URL || secrets.MIMO_BASE_URL || 'https://token-plan-cn.xiaomimimo.com/v1' }}
+        run: node tools/run-ai-issue-fallback.js

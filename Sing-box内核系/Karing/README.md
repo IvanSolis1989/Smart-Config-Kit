@@ -15,7 +15,7 @@
 
 [开始前](#before-start) · [分步导入](#import) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.21-karing.2` · Build：2026-10-28。规则源：`rulesets/source/routing-graph.js` v6.0.21，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.21-karing.3` · Build：2026-11-09。规则源：`rulesets/source/routing-graph.js` v6.0.21，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="下载配置"></a>
@@ -50,7 +50,8 @@
 4. 检查动作：`direct` 和 `block` 按源配置默认动作生成，代理业务统一使用 `currentSelected`。需要独立地区或业务出口时，先在 Karing 创建自定义节点组，再逐项绑定对应分流规则；本文件不会自动创建或恢复原配置的嵌套策略组。
 5. 在 Karing 分流设置中，将 **最终默认动作**选为 **当前选择**。导入文件没有空匹配 FINAL。
 6. 在 App 中核对 DNS、TUN、嗅探和规则下载设置，并检查 ISP / 内置国家地区规则是否抢先匹配，按需要调整。
-7. 返回 Karing 首页，关闭再打开连接使设置生效；随后打开 **分流规则探测**，确认远程规则下载成功，再进行下方验收。
+7. **受影响版本的注册检查**：Karing 1.2.25.2802 已报告“组已导入，但探测中没有对应 SRS”。若遇到此现象，逐个打开 `SCKI` 自定义组，不改任何内容直接保存；这会走 App 的远程资产注册路径。不要合并或改动规则顺序。当前没有已验证的一键批量替代方法。
+8. 返回 Karing 首页，关闭再打开连接使设置生效；随后打开 **分流规则探测**，确认远程规则下载成功，再进行下方验收。
 
 入口依据见官方[自定义分流](https://karing.app/tutorial/custom-diversion)、[分流组编辑](https://karing.app/app-manual/diversion-rule-edit)及[固定源码与兼容边界](REFERENCE-Karing.md)。
 
@@ -76,7 +77,11 @@
 
 **更新后有重复规则，或命中顺序不对？** 先备份现有设置，移除旧 `SCKI` 项后重新导入干净列表；同时检查内置规则优先级和最终默认动作。
 
-**规则下载失败？** 检查 App 的下载网络及当前节点，参考[规则下载说明](../../docs/rule-asset-delivery.md)。
+**组已出现，但探测中没有 SRS？** 先按第 7 步逐组保存。自定义组 URL 引用和 App 的远程资产注册是两回事；导入列表可见不代表已下载。见 [Issue #196](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/196) 与[官方源码依据](REFERENCE-Karing.md#issue-196自定义组可见但远程资产未登记)。不要向 JSON 添加未经支持的 `rule_set_items` 或为了“修复”恢复整份 App 备份。
+
+**已登记，但下载返回网络错误？** 才检查 App 下载网络及当前节点，参考[规则下载说明](../../docs/rule-asset-delivery.md)。两类失败不要混同。
+
+**维护人员如何核对注册？** 若已有 App 内部 diversion 配置副本，可只读运行 `node tools/audit-karing-registration.js <custom-rules.json> <internal-diversion-config-copy.json>`。工具列出缺少登记的组；普通自定义导出不够，注册通过也不代表真实下载通过。不要提供订阅、密钥或覆盖 App 数据。
 
 <a id="advanced"></a>
 

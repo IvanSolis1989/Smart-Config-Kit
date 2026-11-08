@@ -15,6 +15,12 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 配置工具 v1.4.4 与客户端导入排障 (2026-11-09)
+
+- 重新生成离线配置向导，确保下载包含 QX.14 修复；定时同步在冻结发布批次前重建并校验向导，避免 Pages 与客户端产物漂移。
+- Karing 适配 karing.3 明确自定义规则导入后的 SRS 注册限制，提供只读注册审计；原规则语义不变，不宣称替代 App 真机验收。详情见 Karing 目录变更日志。
+- 自动维护：Codex 失败后的 MiMo 仅回复兜底独立运行，并保留身份核验、任务去重及限次恢复。
+
 ## Quantumult X 导入修复 QX.14 (2026-11-07)
 
 - 更正 QX 模式触发语法及反向校验规则；共享分流规则和 Clash Party 产物不变。详情见 [Quantumult X 变更日志](../../独立内核系/Quantumult%20X/CHANGELOG.md)。

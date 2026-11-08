@@ -128,3 +128,15 @@ test('OpenClash multiplier advertises and enforces its maximum', () => {
   assert.match(row.children[0].children[1].textContent, /最多 100000000000000000000；使用普通数字/);
   field.value = '1e21'; assert.equal(page.download(), undefined); assert.match(page.ids.error.textContent, /最多/);
 });
+
+// Regression: the saved offline page must deliver QX.14, not the stale QX.13 bundle.
+test('Quantumult X download preserves the corrected running-mode syntax', () => {
+  const page = runPage();
+  const client = bundle.clients.find(item => /Quantumult/.test(item.label));
+  assert.ok(client); select(page, client.id);
+  const result = page.download();
+  assert.ok(result);
+  const text = result.bytes.toString('utf8');
+  assert.match(text, /^running_mode_trigger\s*=\s*filter,\s*filter\s*$/m);
+  assert.doesNotMatch(text, /^running_mode_trigger=.*auto/m);
+});

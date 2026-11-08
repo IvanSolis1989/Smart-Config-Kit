@@ -66,7 +66,8 @@
     "rulesets/supplemental/egern/microsoft-live-guard.yaml",
     "rulesets/supplemental/egern/social-guard.yaml",
     "rulesets/supplemental/egern/stream-jpkr-guard.yaml",
-    "rulesets/supplemental/egern/tools-guard.yaml"
+    "rulesets/supplemental/egern/tools-guard.yaml",
+    "docs/configuration.html"
   ],
   "validators": [
     [
@@ -100,6 +101,10 @@
     ],
     [
       "tools/validate-claude-service-dependencies.js",
+      "--check"
+    ],
+    [
+      "tools/generate-configuration-form.js",
       "--check"
     ]
   ]
