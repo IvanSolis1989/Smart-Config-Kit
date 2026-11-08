@@ -115,3 +115,13 @@ test('Pages workflow builds only main, validates saved HTML and uploads the allo
     assert.match(workflow, new RegExp(action + '@[a-f0-9]{40} # v[0-9.]+'));
   }
 });
+
+test('scheduled source refresh regenerates and freezes the offline form before release validation', () => {
+  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/sync-mihomo-mrs-rule-providers.yml'), 'utf8');
+  const generate = workflow.indexOf('node tools/generate-configuration-form.js\n');
+  assert.ok(generate > workflow.lastIndexOf('node tools/generate-meow.js\n'));
+  assert.ok(generate < workflow.indexOf('node tools/validate-release-batch.js'));
+  const contract = JSON.parse(fs.readFileSync(path.join(__dirname, '../../rulesets/source/release-batch-contract.json'), 'utf8'));
+  assert.ok(contract.staticOutputs.includes('docs/configuration.html'));
+  assert.ok(contract.validators.some(args => JSON.stringify(args) === JSON.stringify(['tools/generate-configuration-form.js', '--check'])));
+});

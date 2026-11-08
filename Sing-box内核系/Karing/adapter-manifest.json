@@ -1,15 +1,16 @@
 {
   "schema_version": 1,
-  "version": "v6.0.21-karing.2",
-  "build": "2026-10-28",
+  "version": "v6.0.21-karing.3",
+  "build": "2026-11-09",
   "baseline_version": "v6.0.21",
   "authority": "rulesets/source/routing-graph.js -> fused manifest -> generated SingBox 1.13 route",
   "input_hashes": {
     "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json": "863f50e671eef16d50c6381755ea2dfac86ca7dff0375c49b29264998afe6251",
-    "rulesets/generated/fused/manifest.json": "d5a1c627eed0e072736fa29889a47cbe7e2b0cd0458fdfbd79dabb0a35903eb1",
+    "rulesets/generated/fused/manifest.json": "c3c9f0c88e68f7aa14b3e5cd7b61c4258438ea74d3cc9a8def3aec38c701d5de",
     "rulesets/source/karing-support/manifest.json": "414065959125b3ef83e39af6ee99396a83db22d813eba81a0e2c08d60b3a3c5c",
     "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
-    "tools/generate-karing.js": "891cfc8cae0ba3a7997bdecca1c69c3e45079052a60020ddf5c7ba7d47990cb9",
+    "tools/generate-karing.js": "3e1109d8e43570f50cf0073e62c8213d5f49e4afad3d5d49c7eca5aedea1783d",
+    "tools/lib/karing-registration.js": "36b02b35a2bfb7a7179a762d82c56edfbb3e135c160da3ad33aac19cc4091e9e",
     "tools/client-layout.json": "83e85a68844c27cf0e758699bf8e496c20cad0305acca24d0b6d3e476d4b6eab",
     "rulesets/generated/fused/sing-box/scki-fused-001-direct.srs": "e59b2c7e8ba6fbb6c4c8f57c0ad232a997973197a1c78cc42c651b8a01d4ee1b",
     "rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs": "edf71214c63c6536ba6468d711dd844191e94488ef310881768a3ba0c1e9185c",
@@ -2771,8 +2772,16 @@
     ],
     "note": "SRS 无独立 no-resolve 匹配项；当前派生链已有的 IP 解析差异不能由原生导入 JSON 修复。"
   },
+  "import_activation": {
+    "status": "requires-client-registration",
+    "reported_client": "1.2.25.2802",
+    "issue": "https://github.com/IvanSolis1989/Smart-Config-Kit/issues/196",
+    "note": "自定义组已出现不代表 Rule Set 已登记或下载。受影响版本需逐组打开并保存后再核对；此清单不是可导入配置，也不证明客户端已修复。",
+    "expected_resource_count": 97
+  },
   "manual_settings": [
     "先导入节点订阅，再在设置 → 分流 → 分流规则 → 编辑 → 自定义分流组菜单导入 diversion_rules_custom.json。",
+    "Karing 1.2.25.2802 已报告导入后缺少远程 Rule Set 注册；若探测中没有资产，逐个打开 SCKI 组并保存，再重启连接并核对实际下载。",
     "首次导入使用干净的自定义规则列表；更新前备份并移除旧 SCKI 项，核对顺序。不要按相同业务名称合并不同序号段。",
     "代理业务映射 currentSelected；导入不会恢复业务/区域节点组，需要在 App 逐项绑定自定义节点组。",
     "DNS、TUN、嗅探、最终动作、规则下载路径和更新周期由 App 配置；按需关闭会抢先命中的 ISP/内置地区规则。",

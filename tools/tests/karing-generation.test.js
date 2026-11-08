@@ -127,6 +127,7 @@ test('refuses a missing published local asset before reporting check success', (
       'rulesets/generated/fused/manifest.json': JSON.stringify(input.fusedManifest),
       'rulesets/source/routing-graph.js': '// fixture',
       'tools/generate-karing.js': '// fixture',
+      'tools/lib/karing-registration.js': '// fixture',
       'tools/client-layout.json': '{}'
     };
     for (const [relative, content] of Object.entries(files)) {
@@ -166,6 +167,7 @@ test('LF and CRLF text inputs produce identical manifests while binary asset byt
       'rulesets/source/karing-support/manifest.json': json({ assets: [] }),
       'rulesets/source/routing-graph.js': '// fixture source\n// second line\n',
       'tools/generate-karing.js': '// fixture generator\n// second line\n',
+      'tools/lib/karing-registration.js': '// fixture registry\n',
       'tools/client-layout.json': json({ schema_version: 1 }),
       [localSource]: json({ version: 3, rules: [{ domain_suffix: ['example.com'] }] })
     };

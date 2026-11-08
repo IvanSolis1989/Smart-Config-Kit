@@ -1,5 +1,7 @@
 # Karing 官方兼容性依据
 
+> 更新于 2026-11-09：为 Issue #196 复核官方 main `accbdfc05a999eaa3526aadb0aea994b3eafb7f5`（2026-11-05，源码 1.2.26+2922）及最后公开的自定义导入实现。当前导入实现仍未公开，不能声称 1.2.25.2802 已由 JSON 修复。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Karing 分流](https://karing.app/app-manual/diversion)，保持 App 托管选择与域名探测的能力边界，不把业务目标标签当作已导入 selector。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 获取日期：2026-10-24。Karing 当前 main：`60cfb75daaabd179305a1e6c5201c35c91a63cf2`（2026-10-23）；源码版本 `1.2.26+2911`。当时最新稳定 Release 为 `v1.2.25.2802`（2026-09-10）。
@@ -38,3 +40,14 @@
 [Route Rule 默认匹配语义](https://sing-box.sagernet.org/configuration/route/rule/#default-fields)说明：单条、未 invert 的 default rule-set 字段可能合并入外层匹配。当前 QUIC 规则的源域名与外层 port/network 没有字段组重叠，AND 展开等价；未来若内外域名/IP、端口等匹配组重叠，生成器明确失败，避免将原 OR 合并误改为 AND。
 
 普通纯 rule_set 保留原 URL；复杂条件资产由生成器写入 `rulesets/generated/karing/`。no-resolve/先解析差异、App 实际下载路径及优先级需要客户端读回，不由 schema 编译结果代替。
+
+
+## Issue #196：自定义组可见，但远程资产未登记
+
+官方当前 [编辑保存路径 L1252–1264](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/screens/diversion_group_custom_edit_screen.dart#L1252-L1264) 会为每个 URL 建立 `type=remote`、`tag=URL`、`format=binary/source`、`url=URL` 项并登记到 `ruleSetItems`。因此“打开每组后直接保存才有下载”的反馈与此注册动作吻合。
+
+最后公开的 [importRules L188–314](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L188-L314) 将 URL 复制到组，但没有相应注册。它的顶层解析器仅消费 `rules`；内部 [DiversionGroupConfig L198–258](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/app/modules/server_manager.dart#L198-L258) 的 `rule_set_items` 属于另一模型，不能直接塞进自定义导入 JSON 就称为修复。当前完整配置转换器同样未公开，未找到已验证的批量替代入口。
+
+仓库保持 URL、顺序和动作不变，明确标记需要客户端注册的边界；受影响客户端目前按 README 逐组保存激活。更换镜像、重编 SRS、静默展开规则或恢复整个 App 备份都不是这个注册缺口的已验证修法。永久修复应由 Karing 导入器在导入事务中登记远程资产并保存，再以真实 App 导入、下载、重启和重复导入验证。
+
+`tools/audit-karing-registration.js` 只对已有内部配置**副本**核对注册四字段，不写配置、不下载规则。其成功仅说明注册表有对应项，不证明下载或命中成功；普通自定义导出不包含注册表，工具会拒绝将其当作证据。

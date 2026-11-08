@@ -9,6 +9,12 @@
 
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
+## v6.0.21-karing.3 (2026-11-09)
+
+- Issue #196：明确区分自定义规则 URL 引用与 App 远程资产注册，补充受影响版本逐组保存激活步骤及固定官方源码证据。
+- 生成清单加入注册边界和预期资源数；增加只读内部注册表审计及正反例。导入 JSON、路由顺序、URL 与动作不变，未将不支持的内部字段注入配置。
+- 这是排障与注册缺口的可验证防护，不宣称仓库已修复 Karing 私有导入实现；下载、导入和连接仍待 App 验证。
+
 ## v6.0.21-karing.2 (2026-10-28)
 
 - Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 Karing 的 currentSelected 及 App 内最终选择边界不变。

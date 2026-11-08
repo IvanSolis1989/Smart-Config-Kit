@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/ai-codex-fallback.yml'
       - '.github/workflows/local-codex-issue.yml'
       - '.github/workflows/validate-local-codex-candidate.yml'
       - '.github/workflows/validate-ai-responder.yml'
@@ -19,6 +20,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/ai-responder.yml'
+      - '.github/workflows/ai-codex-fallback.yml'
       - '.github/workflows/local-codex-issue.yml'
       - '.github/workflows/validate-local-codex-candidate.yml'
       - '.github/workflows/validate-ai-responder.yml'

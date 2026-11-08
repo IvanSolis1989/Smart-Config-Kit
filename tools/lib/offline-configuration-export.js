@@ -55,7 +55,7 @@ function buildOfflineConfigurationBundle() {
     if (id === 'aerove-lite') help = '将候选 JS 覆写关联已展开节点的订阅；DNS、TUN 等设置由 App 管理，仍待目标设备验收。';
     if (artifact.kind === 'openclash') help = '用 WinSCP 等文件工具先备份，再上传到 /etc/openclash/custom/openclash_custom_overwrite.sh 并设置执行权限，在 LuCI 重启。此为完整自定义脚本；配套 UCI 设置、订阅和内核仍按 OpenClash 教程核对。';
     if (artifact.kind === 'passwall') help = 'ZIP 中列表可在 LuCI 手工导入并选择目标节点；仅适用于 sing-box 分流后端，apply.sh 为可选维护者自动应用脚本。';
-    if (id === 'karing') help = '仅导入分流规则；节点、DNS 与最终默认动作仍由 Karing App 设置。';
+    if (id === 'karing') help = '仅导入分流规则；节点、DNS 与最终默认动作仍由 Karing App 设置。若导入后未触发规则集下载，请在 Karing 逐组打开 SCKI 分流组并保存以激活注册；注册不等于下载成功，仍需核对下载状态。';
     if (id === 'v2rayn') help = '在 v2rayN 的 Xray 路由设置中导入；仅包含 proxy、direct、block 三种出站，节点与 DNS 由 App 管理。';
     if (id === 'egern') help = '导入原生配置并接入自己的订阅。测速由原生 smart 管理；调整 QUIC 需配套生成规则资产，当前保留已发布行为，不提供独立开关。';
     if (id === 'meow') help = '原生 YAML 含订阅占位地址；正式 App 导入与真实连接验收单独进行，Full 附默认来源清单。';

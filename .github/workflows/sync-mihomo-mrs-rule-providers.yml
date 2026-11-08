@@ -124,6 +124,8 @@ jobs:
           node tools/generate-meow.js --check
           node tools/refresh-rule-quality.js --check
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
+          node tools/generate-configuration-form.js
+          node tools/generate-configuration-form.js --check
 
       - name: Check the complete release batch before staging
         env:
