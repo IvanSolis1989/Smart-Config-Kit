@@ -152,7 +152,8 @@ async function callMiMo({ apiKey, baseUrl, request, replyLanguage, timeoutMs = 2
       if (replyLanguage && result.status !== 'ok') result.reply = text(replyLanguage, 'incomplete');
       else if (replyLanguage) {
         try { assertReplyLanguage(replyLanguage, result.reply); } catch {
-          result = { ...result, status: 'invalid_response', reply: text(replyLanguage, 'incomplete'), rawResponse: '', hasPatch: false };
+          result = { ...result, status: 'invalid_response', reply: text(replyLanguage, 'incomplete'), rawResponse: '', hasPatch: false,
+            metadata: { ...result.metadata, validation: 'reply_language' } };
         }
       }
       return result;

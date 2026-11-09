@@ -14,6 +14,10 @@
 [![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
 
 
+## MiMo fallback diagnostics v1.0.1 (2026-11-09)
+
+- Preserve safe failure categories in CI logs without exposing model replies or credentials; do not retry terminal claims or rewrite existing comments. See [details](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#mimo-fallback-diagnostics-v101-2026-11-09).
+
 ## 资源校验工具：domain MRS 重叠输入证明 (2026-11-09)
 
 - 修正将 domain MRS 插入次数误当成紧凑遍历行数的假设。按官方固定 Mihomo v1.19.32 行为核对源输入次数、规范化 exact/suffix 谓词集合、编码 leaf 与紧凑输出数量，保留全部资源预算；未以简单放宽不等式代替证明。

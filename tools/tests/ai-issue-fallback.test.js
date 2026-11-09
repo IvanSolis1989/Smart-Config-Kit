@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseFailure, marker, respondFailure, safeReply } = require('../lib/ai-issue-fallback');
+const { parseFailure, marker, respondFailure, safeReply, safeFailureDiagnostic } = require('../lib/ai-issue-fallback');
 const { githubApi, main } = require('../run-ai-issue-fallback');
 const repo = 'owner/repo', ownerId = 11, botId = 12;
 function source() { return { id: 100, user: { id: ownerId, login: 'owner', type: 'User' },
@@ -155,4 +155,29 @@ test('candidate errors are isolated, later tasks complete, batch failure stays v
       assert.doesNotMatch(logs.join('\n'), /403|404|secret-provider-payload|private-key|Read-only analysis|untrusted report/);
     } finally { logMock.mock.restore(); errorMock.mock.restore(); }
   }
+});
+
+
+test('failure diagnostic exposes only fixed labels and bounded HTTP status', () => {
+  for (const code of ['blocked', 'api_error', 'transport_error', 'incomplete', 'empty', 'invalid_response']) {
+    assert.deepEqual(safeFailureDiagnostic({status:code,metadata:{httpStatus:429,errorCode:'private-key',requestId:'secret',finishReason:'private'},reply:'private-key'}),{code,httpStatus:429});
+  }
+  assert.deepEqual(safeFailureDiagnostic({status:'ok',hasPatch:true}),{code:'unexpected_patch',httpStatus:null});
+  assert.deepEqual(safeFailureDiagnostic({status:'invalid_response',metadata:{validation:'reply_language',httpStatus:200}}),{code:'reply_language',httpStatus:200});
+  for (const value of ['secret', -1, 600, 1.5, Infinity]) {
+    assert.deepEqual(safeFailureDiagnostic({status:'secret',metadata:{httpStatus:value}}),{code:'unclassified_response',httpStatus:null});
+  }
+});
+
+test('failed analysis returns sanitized diagnostics without changing public reply or retry policy', async () => {
+  const f=fixture();f.options.requestMiMo=async()=>({status:'api_error',metadata:{httpStatus:429,errorCode:'private-key'},reply:'private-key'});
+  assert.deepEqual(await respondFailure(f.options),{status:'failed',diagnostic:{code:'api_error',httpStatus:429}});
+  assert.equal((await respondFailure(f.options)).status,'already_handled');
+  assert.equal(f.counts().posts,1);assert.doesNotMatch(f.comments[0].body,/private-key|429|api_error/);
+});
+
+test('fallback validation failure is distinguishable from provider failure', async () => {
+  const f=fixture();f.options.requestMiMo=async()=>({status:'ok',hasPatch:false,reply:'This answer is in English.',metadata:{httpStatus:200}});
+  assert.deepEqual(await respondFailure(f.options),{status:'failed',diagnostic:{code:'reply_language',httpStatus:200}});
+  assert.doesNotMatch(f.comments[0].body,/This answer|reply_language/);
 });
