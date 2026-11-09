@@ -14,10 +14,10 @@
     "rulesets/generated/fused/manifest.json": "b4ced6cd147588a53ee525221f0bd6e0eb9d98d915f92a3f8f9939e2ed1d421d",
     "tools/generate-meow.js": "d32d48d0ed788740196168186cc0423f8291fac416278592d2ef5851423ec23a",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
-    "tools/lib/aerove-rule-assets.js": "70f2cc0aff9d2aca74cc6e64c28c4220e73cdaf9436f453d1f8fada7bc7610e6",
+    "tools/lib/aerove-rule-assets.js": "d40f797462f21c90ab1925ea2980c6c0bdb8236baf78387701dee0f1bb2b6161",
     "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
     "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
-    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "696b027de4cb5dbcb283992d42716ab7b965098b4f1a8d6a11a3d23fb677bddb"
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "bdc3440d9e3a4c475d73b2afbaa8d8991d69fffa3097b941495992cf8415ed39"
   },
   "output": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",

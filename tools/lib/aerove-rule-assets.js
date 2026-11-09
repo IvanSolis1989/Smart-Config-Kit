@@ -24,8 +24,8 @@ const POLICY = Object.freeze({ app: 'AEROVE Lite', app_commit: '457fab8455ac8713
   entry_normalization: 'trim; UTF-8; labels=entry.split(".").length; text_bytes=sum(UTF8(entry)+1)',
   native_domain_enumeration: 'Mihomo DumpMrs folds +.domain and domain into one predicate; fixed Rust reader visits both encoded leaves. Budget the unique expanded leaf set before partitioning.',
   fixed_rust_parser_sha256: '6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3',
-  count_semantics: 'domain header_entries equals native traversal entries; ipcidr header_entries is successful pre-merge Insert count and can exceed canonical DumpMrs entries; both counts must be <=250000 in projected resources',
-  count_source: 'Mihomo rules/provider/ipcidr_strategy.go: Count, Insert, FinishInsert, FromMrs, DumpMrs; native convert-ruleset full traversal',
+  count_semantics: 'domain header_entries counts valid source Insert calls; canonical exact/suffix predicates and encoded leaves prove compact native enumeration; ipcidr header_entries is successful pre-merge Insert count and can exceed canonical DumpMrs entries; both counts must be <=250000 in projected resources',
+  count_source: 'Mihomo v1.19.32 rules/provider/domain_strategy.go and ipcidr_strategy.go: Count, Insert, FinishInsert, FromMrs, DumpMrs; native convert-ruleset full traversal',
   proof: 'Mihomo native MRS full traversal; exact string predicate union after native shard round-trip',
   compiler: { name: 'Mihomo', version: COMPILER_VERSION, operations: ['convert-ruleset behavior mrs to text', 'convert-ruleset behavior yaml to mrs'] } });
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -119,6 +119,42 @@ function assertSamePredicates(before, after) {
   insist(source.size === result.size && [...source].every(item => result.has(item)), 'Native round-trip predicates differ (omission or addition)');
 }
 
+// Mihomo v1.19.32 domain_strategy.Insert counts successful insertions before
+// DomainSet deduplication. DumpMrs folds exact + suffix-only into one +. rule.
+// https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/provider/domain_strategy.go
+function domainPredicates(entries) {
+  const predicates = new Set();
+  for (const value of entries) {
+    insist(typeof value === 'string' && value && value === value.trim()
+      && !/[\/\r\n\x00]/.test(value) && !value.endsWith('.'), 'Invalid domain source insertion');
+    const entry = value.toLowerCase(), labels = entry.split('.');
+    insist(labels.slice(1).every(Boolean), 'Invalid empty domain source label');
+    labels.forEach((label, index) => {
+      insist(!label.includes('+') || (label === '+' && index === 0 && labels.length > 1), 'Invalid domain + wildcard');
+      insist(!label.includes('*') || label === '*', 'Invalid domain * wildcard');
+    });
+    if (entry.startsWith('+.')) {
+      predicates.add(entry.slice(2)); predicates.add(entry.slice(1));
+    } else predicates.add(entry);
+  }
+  return [...predicates].sort();
+}
+function domainProof(entries, header) {
+  const predicates = domainPredicates(entries);
+  insist(header.header_entries === entries.length, 'Domain MRS header differs from valid source insertion count');
+  insist(header.encoded_leaves === predicates.length, 'Domain MRS encoded leaves differ from source predicates');
+  const set = new Set(predicates);
+  const pairs = predicates.filter(entry => entry.startsWith('.') && set.has(entry.slice(1))).length;
+  return { schema_version: 1, insertions: entries.length, canonical_predicates: predicates.length,
+    canonical_sha256: hash(json(predicates)), compact_entries: predicates.length - pairs };
+}
+function proveDomainMrs(sourceEntries, decodedEntries, header) {
+  const proof = domainProof(sourceEntries, header);
+  assertSamePredicates(domainPredicates(sourceEntries), domainPredicates(decodedEntries));
+  insist(proof.compact_entries === decodedEntries.length, 'Domain MRS enumeration is not canonical compact output');
+  return proof;
+}
+
 function inspectMrs(bytes, behavior) {
   insist(typeof zlib.zstdDecompressSync === 'function', 'AEROVE generator requires Node >=22.15 with zstdDecompressSync');
   insist(bytes.length <= LIMITS.max_input_bytes, 'AEROVE compressed MRS input exceeds bytes limit');
@@ -197,7 +233,8 @@ function buildAssetOutputs({ repoRoot, providers, fusedManifest, mihomoBin }) {
       const metrics = { ...measureEntries(entries), ...header }; assertIndividual(metrics);
       // IPCIDR headers count successful Insert calls before FinishInsert.Merge;
       // DumpMrs traverses the merged CIDR set. Keep both counts and budget both.
-      if (isMrs) insist(definition.behavior === 'domain' ? metrics.header_entries === metrics.entries
+      const yamlPath = yamlSourceFor(relative, fusedManifest);
+      if (isMrs) insist(definition.behavior === 'domain' ? (yamlPath || metrics.header_entries === metrics.entries)
         : metrics.header_entries >= metrics.entries, `Native MRS header/traversal count mismatch: ${provider}`);
       insist(metrics.entries > 0, `Empty resource: ${provider}`);
       const source = { provider, original_path: relative, url: definition.url, behavior: definition.behavior, format: definition.format,
@@ -205,10 +242,10 @@ function buildAssetOutputs({ repoRoot, providers, fusedManifest, mihomoBin }) {
         native_metrics: measureEntries(isMrs ? nativeMrsEntries(entries, definition.behavior) : entries) };
       if (isMrs && definition.behavior === 'domain') insist(header.encoded_leaves === source.native_metrics.entries,
         `MRS encoded leaf count differs from native enumeration model: ${provider}`);
-      const yamlPath = yamlSourceFor(relative, fusedManifest);
       if (yamlPath) {
         const yamlBytes = lfBytes(fs.readFileSync(safeFile(repoRoot, yamlPath)));
         source.source_yaml = { path: yamlPath, sha256: hash(yamlBytes), bytes: yamlBytes.length, normalization: 'canonical LF' };
+        if (isMrs && definition.behavior === 'domain') source.domain_proof = proveDomainMrs(parsePayloadEntries(yamlBytes.toString('utf8')), entries, header);
       }
       sources.push(source);
       if (!exceeds(nativeBudget(source))) { assertBudget(nativeBudget(source), bytes.length); continue; }
@@ -267,7 +304,7 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
     if (source.format === 'mrs') {
       const header = inspectMrs(original, source.behavior);
       insist(stable(header) === stable(Object.fromEntries(Object.keys(header).map(key => [key, source.metrics[key]])))
-        && (source.behavior === 'domain' ? header.header_entries === source.metrics.entries : header.header_entries >= source.metrics.entries), 'AEROVE source MRS metrics mismatch');
+        && (source.behavior === 'domain' ? (source.source_yaml || header.header_entries === source.metrics.entries) : header.header_entries >= source.metrics.entries), 'AEROVE source MRS metrics mismatch');
       if (source.behavior === 'domain') insist(header.encoded_leaves === source.native_metrics.entries, 'AEROVE source native leaf metrics mismatch');
     } else {
       const entries = source.format === 'yaml' ? parsePayloadEntries(original.toString('utf8'))
@@ -275,7 +312,16 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
       insist(stable(measureEntries(entries)) === stable(source.metrics), 'AEROVE source text metrics mismatch');
       insist(stable(source.metrics) === stable(source.native_metrics), 'AEROVE text native metrics mismatch');
     }
-    if (source.source_yaml) verify(source.source_yaml, source.source_yaml.path, true);
+    insist(Boolean(source.source_yaml) === Boolean(yamlSourceFor(source.original_path, fusedManifest)), 'AEROVE source YAML proof presence mismatch');
+    if (source.source_yaml) {
+      insist(source.source_yaml.path === yamlSourceFor(source.original_path, fusedManifest), 'AEROVE source YAML binding mismatch');
+      const yaml = verify(source.source_yaml, source.source_yaml.path, true);
+      if (source.format === 'mrs' && source.behavior === 'domain') {
+        const proof = domainProof(parsePayloadEntries(yaml.toString('utf8')), inspectMrs(original, 'domain'));
+        insist(stable(proof) === stable(source.domain_proof) && proof.compact_entries === source.metrics.entries,
+          'AEROVE source domain proof mismatch');
+      }
+    } else insist(!source.domain_proof, 'Unexpected domain proof without source YAML');
     if (!manifest.splits[source.provider]) assertBudget(nativeBudget(source), source.bytes);
     else insist(source.exact_union_verified === true && exceeds(nativeBudget(source)), 'AEROVE invalid split proof');
   }
@@ -309,4 +355,4 @@ function readAssetManifest({ repoRoot, providers, fusedManifest }) {
 }
 
 module.exports = { ASSET_DIR, MANIFEST_PATH, VERSION, LIMITS, POLICY, buildAssetOutputs, readAssetManifest,
-  partitionEntries, measureEntries, nativeMrsEntries, inspectMrs, assertSamePredicates, safeFile };
+  partitionEntries, measureEntries, nativeMrsEntries, inspectMrs, assertSamePredicates, domainPredicates, proveDomainMrs, safeFile };
