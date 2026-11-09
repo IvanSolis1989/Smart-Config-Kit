@@ -107,3 +107,57 @@ test('native IPCIDR source budgets preserve pre-merge header and full canonical 
   assert.equal(manifest.sources[0].metrics.entries, 1);
   assert.deepEqual(manifest.splits, {});
 });
+
+test('domain proof preserves exact/suffix semantics without accepting arbitrary count gaps', () => {
+  const inputs = ['+.one.test', 'one.test', 'one.test', '.two.test', 'two.test'];
+  const header = { header_entries: 5, encoded_leaves: 4 };
+  const proof = api().proveDomainMrs(inputs, ['+.one.test', '+.two.test'], header);
+  assert.equal(proof.insertions, 5);
+  assert.equal(proof.compact_entries, 2);
+  assert.throws(() => api().proveDomainMrs(inputs, ['+.one.test', '+.evil.test'], header), /predicates/);
+  assert.throws(() => api().proveDomainMrs(inputs, ['+.one.test', '+.two.test'], { ...header, header_entries: 6 }), /insertion count/);
+  assert.throws(() => api().proveDomainMrs(inputs, ['+.one.test', '+.two.test'], { ...header, encoded_leaves: 3 }), /encoded leaves/);
+  for (const invalid of ['', 'bad..test', 'bad.test.', 'a/b', ' a.test', 'a+.test', 'a.*b.test', '+']) {
+    assert.throws(() => api().domainPredicates([invalid]), /Invalid/);
+  }
+  assert.notDeepEqual(api().domainPredicates(['.one.test']), api().domainPredicates(['+.one.test']));
+});
+
+test('native duplicate/overlap MRS proves source semantics and rejects forged counts or lost predicates', {
+  skip: !process.env.MIHOMO_BIN && 'Set MIHOMO_BIN for native MRS proof validation'
+}, t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aerove-domain-proof-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const { spawnSync } = require('node:child_process'), z = require('node:zlib');
+  const directory = path.join(root, 'rulesets/generated/fused/mihomo'); fs.mkdirSync(directory, { recursive: true });
+  const source = path.join(directory, 'overlap.yaml'), target = path.join(directory, 'overlap.mrs');
+  const inputs = ['+.one.test', 'one.test', 'one.test', '.two.test', 'two.test'];
+  const yaml = entries => 'payload:\n' + entries.map(x => '  - '+JSON.stringify(x)).join('\n')+'\n';
+  const compile = entries => {
+    const temp = path.join(root, 'input.yaml'); fs.writeFileSync(temp, yaml(entries));
+    const r = spawnSync(process.env.MIHOMO_BIN, ['convert-ruleset', 'domain', 'yaml', temp, target]);
+    assert.equal(r.status, 0, String(r.stderr));
+  };
+  fs.writeFileSync(source, yaml(inputs)); compile(inputs);
+  const bytes = fs.readFileSync(target);
+  const providers = { overlap: { behavior: 'domain', format: 'mrs', url: 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/mihomo/overlap.mrs' } };
+  const fusedManifest = { segments: [{ files: { domain: { file: 'overlap.mrs', source: 'overlap.yaml' } } }] };
+  const opts = { repoRoot: root, providers, fusedManifest, mihomoBin: process.env.MIHOMO_BIN };
+  const built = api().buildAssetOutputs(opts), row = built.manifest.sources[0];
+  assert.equal(row.metrics.header_entries, 5); assert.equal(row.metrics.entries, 2);
+  assert.equal(row.metrics.encoded_leaves, 4); assert.equal(row.domain_proof.canonical_predicates, 4);
+  assert.deepEqual(fs.readFileSync(target), bytes);
+  for (const [relative, content] of Object.entries(built.outputs)) {
+    fs.mkdirSync(path.dirname(path.join(root, relative)), { recursive: true }); fs.writeFileSync(path.join(root, relative), content);
+  }
+  assert.deepEqual(api().readAssetManifest({ repoRoot: root, providers, fusedManifest }), built.manifest);
+  const manifestPath = path.join(root, api().MANIFEST_PATH), originalManifest = fs.readFileSync(manifestPath);
+  const tampered = JSON.parse(originalManifest); delete tampered.sources[0].domain_proof;
+  fs.writeFileSync(manifestPath, JSON.stringify(tampered));
+  assert.throws(() => api().readAssetManifest({ repoRoot: root, providers, fusedManifest }), /domain proof/);
+  fs.writeFileSync(manifestPath, originalManifest);
+  const forged = z.zstdDecompressSync(bytes); forged.writeBigInt64BE(6n, 5); fs.writeFileSync(target, z.zstdCompressSync(forged));
+  assert.throws(() => api().buildAssetOutputs(opts), /insertion count/);
+  compile(['+.one.test', '+.evil.test', '+.one.test', '+.one.test', '+.one.test']);
+  assert.throws(() => api().buildAssetOutputs(opts), /predicates/);
+});

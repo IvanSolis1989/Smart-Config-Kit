@@ -33,11 +33,17 @@ official MRS header declares 411634 entries, over 250000
 
 | 边界 | 每个规则资源的要求 |
 | --- | --- |
-| MRS 头部与实际展开条数 | 均不超过 250,000；IPCIDR 的头部插入计数可能大于合并后转储条数，两者都必须检查。 |
+| MRS 头部与实际展开条数 | 均不超过 250,000；domain 与 IPCIDR 的成功插入计数均可能大于去重/合并后转储条数，两者都必须检查。 |
 | 单条长度 | `trim` 后不超过 2,048 个 UTF-8 字节。 |
 | 单条及累计标签 | `entry.split('.').count()` 每条不超过 128，逐条累加不超过 500,000；保留原始匹配前缀。 |
 | 展开文本 | `Σ(UTF8(trim(entry)).length + 1)` 不超过 64 MiB，包含每条换行。 |
 | 输入与 MRS 解压 | 输入不超过 64 MiB，MRS 解压不超过 256 MiB。 |
+
+### Domain 重复/重叠输入证明（2026-11-09）
+
+官方 Mihomo v1.19.32 的 [domain_strategy.go](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/provider/domain_strategy.go) 在每次成功 `Insert` 后递增头部计数；[DomainSetBuilder](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/component/trie/domain_set.go) 构建集合后去重，`DumpMrs` 再将裸域和 suffix-only 合并成 `+.domain`。所以 `example.test` 与 `+.example.test` 两次插入合法产生 header=2、转储=1、编码 leaf=2，不能用头部与转储行数恒等判断损坏。
+
+有源 YAML 的 domain MRS 必须同时证明：所有输入均为有效插入、头部计数等于输入次数、源与原生转储规范化后的 exact/suffix 谓词集合相同、唯一谓词数等于编码 leaf 数、紧凑转储数一致；将来源哈希与 `domain_proof` 写入并回读核对清单。没有源文本时不放宽原计数校验。头部、原生展开条目/标签、文本字节与分片并集预算仍保留，不接受删谓词或伪造头部的“修复”。此证明不替代 Rust reader 或 App 真机验收。
 
 这里的 500,000 是完整展开条目的点分标签累计值，不是 MRS 二进制 `labels` 数组字节数，也不是整个 bundle 的标签上限。App 另有 **256 个资源、256 MiB bundle** 的聚合预算；配置解析还受通用 YAML 值预算约束，不能只验证各片。
 
