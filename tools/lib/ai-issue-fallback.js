@@ -1,5 +1,5 @@
 'use strict';
-// v1.0.1: failure replies are the durable bridge; never executes model output.
+// v1.0.0: failure replies are the durable bridge; never executes model output.
 const { buildIssueContext } = require('./ai-issue-context');
 const { buildRequest, callMiMo } = require('./ai-issue-responder');
 const { redact } = require('./local-codex-worker');
@@ -29,76 +29,46 @@ function format(task, status, text) {
 function safeReply(reply) {
   return redact(String(reply || '').replace(/<!--[^]*?-->/g, '')).trim().slice(0, 18000);
 }
-// Diagnostics are deliberately local enums, never provider-supplied strings.
-const CODES = new Set(['CONFIG_KEY_MISSING', 'GITHUB_HTTP_ERROR', 'GITHUB_TRANSPORT_ERROR',
-  'GITHUB_RESPONSE_INVALID', 'PAGINATION_LIMIT', 'INVALID_API_PATH', 'GITHUB_ERROR',
-  'CONTEXT_BUILD_FAILED', 'PROVIDER_EXCEPTION', 'PROVIDER_API_ERROR', 'PROVIDER_TRANSPORT_ERROR',
-  'PROVIDER_BLOCKED', 'PROVIDER_INCOMPLETE', 'PROVIDER_INVALID_RESPONSE', 'EMPTY_REPLY',
-  'PATCH_REJECTED', 'UNKNOWN_ERROR']);
-const PHASES = new Set(['setup', 'read_issue', 'list_comments', 'read_receipt', 'create_claim',
-  'build_context', 'call_provider', 'recheck_source', 'update_claim']);
-const trustedErrors = new WeakSet();
-function diagnostic(code, phase, httpStatus) {
-  return { code: CODES.has(code) ? code : 'UNKNOWN_ERROR',
-    phase: PHASES.has(phase) ? phase : 'setup',
-    ...(Number.isInteger(httpStatus) && httpStatus >= 100 && httpStatus <= 599 ? { httpStatus } : {}) };
-}
-function diagnosticError(code, phase = 'setup', httpStatus) {
-  const error = new Error('Fallback incomplete; check credential/setup and reconcile existing reply');
-  Object.assign(error, diagnostic(code, phase, httpStatus)); trustedErrors.add(error); return error;
-}
-function errorDiagnostic(error, phase, fallback = 'UNKNOWN_ERROR') {
-  return trustedErrors.has(error) ? diagnostic(error.code, phase || error.phase, error.httpStatus) : diagnostic(fallback, phase);
-}
-async function stage(phase, fallback, operation) {
-  try { return await operation(); } catch (error) {
-    const d = errorDiagnostic(error, phase, fallback);
-    throw diagnosticError(d.code, d.phase, d.httpStatus);
-  }
-}
-function resultDiagnostic(result) {
-  const codes = { api_error: 'PROVIDER_API_ERROR', transport_error: 'PROVIDER_TRANSPORT_ERROR',
-    blocked: 'PROVIDER_BLOCKED', incomplete: 'PROVIDER_INCOMPLETE', invalid_response: 'PROVIDER_INVALID_RESPONSE', empty: 'EMPTY_REPLY' };
-  return diagnostic(result.hasPatch ? 'PATCH_REJECTED' : (codes[result.status] || (result.status === 'ok' ? 'EMPTY_REPLY' : 'UNKNOWN_ERROR')),
-    'call_provider', result.metadata?.httpStatus);
-}
 async function respondFailure({ api, repository, ownerId, botId, source, repoRoot, apiKey, baseUrl,
   requestMiMo = callMiMo, contextBuilder = buildIssueContext }) {
   const task = parseFailure(source, { ownerId, repository });
   if (!task) return { status: 'ignored' };
-  const issue = await stage('read_issue', 'GITHUB_ERROR', () => api.get(`repos/${repository}/issues/${task.issueNumber}`));
+  const issue = await api.get(`repos/${repository}/issues/${task.issueNumber}`);
   if (issue.pull_request || issue.state !== 'open' || issue.number !== task.issueNumber) return { status: 'ignored' };
-  const comments = await stage('list_comments', 'GITHUB_ERROR', () => api.list(`repos/${repository}/issues/${task.issueNumber}/comments`));
+  const comments = await api.list(`repos/${repository}/issues/${task.issueNumber}/comments`);
   let claim = comments.find(c => ownedClaim(c, task, botId));
   if (claim && state(claim.body) !== 'pending') return { status: 'already_handled' };
-  if (!apiKey) throw diagnosticError('CONFIG_KEY_MISSING', 'call_provider');
+  if (!apiKey) throw new Error('MiMo fallback credential is not configured');
   // Re-read the authoritative source; an already repaired/edited task must not get a stale reply.
-  const current = await stage('read_receipt', 'GITHUB_ERROR', () => api.get(`repos/${repository}/issues/comments/${task.commentId}`));
+  const current = await api.get(`repos/${repository}/issues/comments/${task.commentId}`);
   if (parseFailure(current, { ownerId, repository })?.taskKey !== task.taskKey) return { status: 'superseded' };
   if (!claim) {
     // If POST acknowledgement is lost, do not retry here. The next run reconciles the marker.
-    claim = await stage('create_claim', 'GITHUB_ERROR', () => api.post(`repos/${repository}/issues/${task.issueNumber}/comments`, {
-      body: format(task, 'pending', 'Codex 自动处理未完成，已登记 MiMo 补答；分析尚未完成。') }));
+    claim = await api.post(`repos/${repository}/issues/${task.issueNumber}/comments`, {
+      body: format(task, 'pending', 'Codex 自动处理未完成，已登记 MiMo 补答；分析尚未完成。') });
   }
-  const request = await stage('build_context', 'CONTEXT_BUILD_FAILED', () => {
+  try {
     const context = contextBuilder({ repoRoot, title: issue.title, body: issue.body, codeMod: false });
-    return buildRequest({ context: context.text, title: issue.title, body: issue.body,
-    issueUrl: `https://github.com/${repository}/issues/${task.issueNumber}`, category: 'question', tier: 'FIRST',
-    model: 'mimo-v2.6-flash', thinking: 'enabled', codeMod: false,
-    comment: 'Codex 自动处理未完成。只基于仓库证据补充一次分析，区分已知事实、推测与未验证项；不要声称已经修改、合入或发布。' });
-  });
-  const result = await stage('call_provider', 'PROVIDER_EXCEPTION', () => requestMiMo({ apiKey, baseUrl, request, timeoutMs: 240000 }));
-  const freshSource = await stage('recheck_source', 'GITHUB_ERROR', () => api.get(`repos/${repository}/issues/comments/${task.commentId}`));
-  const freshIssue = await stage('recheck_source', 'GITHUB_ERROR', () => api.get(`repos/${repository}/issues/${task.issueNumber}`));
-  if (parseFailure(freshSource, { ownerId, repository })?.taskKey !== task.taskKey || freshIssue.state !== 'open') {
-    await stage('update_claim', 'GITHUB_ERROR', () => api.patch(`repos/${repository}/issues/comments/${claim.id}`, { body: format(task, 'superseded', '原任务状态已更新，本次补答已取消，请以最新维护者回复为准。') }));
-    return { status: 'superseded' };
+    const request = buildRequest({ context: context.text, title: issue.title, body: issue.body,
+      issueUrl: `https://github.com/${repository}/issues/${task.issueNumber}`, category: 'question', tier: 'FIRST',
+      model: 'mimo-v2.6-flash', thinking: 'enabled', codeMod: false,
+      comment: 'Codex 自动处理未完成。只基于仓库证据补充一次分析，区分已知事实、推测与未验证项；不要声称已经修改、合入或发布。' });
+    const result = await requestMiMo({ apiKey, baseUrl, request, timeoutMs: 240000 });
+    const freshSource = await api.get(`repos/${repository}/issues/comments/${task.commentId}`);
+    const freshIssue = await api.get(`repos/${repository}/issues/${task.issueNumber}`);
+    if (parseFailure(freshSource, { ownerId, repository })?.taskKey !== task.taskKey || freshIssue.state !== 'open') {
+      await api.patch(`repos/${repository}/issues/comments/${claim.id}`, { body: format(task, 'superseded', '原任务状态已更新，本次补答已取消，请以最新维护者回复为准。') });
+      return { status: 'superseded' };
+    }
+    // Patches/PRs are never accepted, applied, or published on this path.
+    const accepted = result.status === 'ok' && !result.hasPatch && safeReply(result.reply);
+    await api.patch(`repos/${repository}/issues/comments/${claim.id}`, { body: format(task, accepted ? 'complete' : 'failed',
+      accepted ? safeReply(result.reply) : 'MiMo 本次未能完成可靠分析，未生成或应用修复；请维护者继续处理。') });
+    return { status: accepted ? 'complete' : 'failed' };
+  } catch {
+    // Leave a pending marker on uncertain transport/write outcomes. A later run updates
+    // the same comment, rather than creating a duplicate or pretending to know its outcome.
+    throw new Error('MiMo fallback incomplete; reconcile the existing reply before retry');
   }
-  // Patches/PRs are never accepted, applied, or published on this path.
-  const accepted = result.status === 'ok' && !result.hasPatch && safeReply(result.reply);
-  await stage('update_claim', 'GITHUB_ERROR', () => api.patch(`repos/${repository}/issues/comments/${claim.id}`, { body: format(task, accepted ? 'complete' : 'failed',
-    accepted ? safeReply(result.reply) : 'MiMo 本次未能完成可靠分析，未生成或应用修复；请维护者继续处理。') }));
-  return { status: accepted ? 'complete' : 'failed', ...(!accepted ? { diagnostic: resultDiagnostic(result) } : {}) };
 }
-
-module.exports = { parseFailure, marker, ownedClaim, state, safeReply, respondFailure, diagnostic, diagnosticError, errorDiagnostic };
+module.exports = { parseFailure, marker, ownedClaim, state, safeReply, respondFailure };

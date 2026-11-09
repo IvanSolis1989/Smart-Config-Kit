@@ -3,8 +3,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { parseFailure, marker, respondFailure, safeReply, diagnosticError, errorDiagnostic } = require('../lib/ai-issue-fallback');
-const { githubApi, main, diagnosticLine } = require('../run-ai-issue-fallback');
+const { parseFailure, marker, respondFailure, safeReply } = require('../lib/ai-issue-fallback');
+const { githubApi, main } = require('../run-ai-issue-fallback');
 const repo = 'owner/repo', ownerId = 11, botId = 12;
 function source() { return { id: 100, user: { id: ownerId, login: 'owner', type: 'User' },
   issue_url: `https://api.github.com/repos/${repo}/issues/196`,
@@ -58,7 +58,7 @@ test('spoofed bot claim cannot block real fallback', async () => {
 test('crash/transport after claim creation reconciles same claim on retry', async () => {
   const f = fixture(); const original = f.options.api.post;
   f.options.api.post = async (...args) => { await original(...args); throw new Error('ack lost'); };
-  await assert.rejects(respondFailure(f.options), e => e.code === 'GITHUB_ERROR' && e.phase === 'create_claim');
+  await assert.rejects(respondFailure(f.options), /ack lost/);
   f.options.api.post = original;
   assert.equal((await respondFailure(f.options)).status, 'complete');
   assert.equal(f.counts().posts, 1);
@@ -113,9 +113,9 @@ test('reply strips hidden protocol and common secrets, never outputs raw model p
 test('GitHub API refuses redirects, unexpected shape and incomplete deduplication', async () => {
   let calls = 0;
   const api = githubApi('secret', async (url, opts) => { calls++; assert.equal(opts.redirect, 'error'); return { ok: true, json: async () => Array(100).fill({}) }; });
-  await assert.rejects(api.list('repos/owner/repo/issues/1/comments'), e => e.code === 'PAGINATION_LIMIT');
+  await assert.rejects(api.list('repos/owner/repo/issues/1/comments'), /pagination budget/);
   assert.equal(calls, 20);
-  await assert.rejects(api.get('repos/owner/../evil'), e => e.code === 'INVALID_API_PATH');
+  await assert.rejects(api.get('repos/owner/../evil'), /Invalid API/);
 });
 test('workflow has no code write, patch application, source checkout, or shell interpolation', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/ai-codex-fallback.yml'), 'utf8');
@@ -155,50 +155,4 @@ test('candidate errors are isolated, later tasks complete, batch failure stays v
       assert.doesNotMatch(logs.join('\n'), /403|404|secret-provider-payload|private-key|Read-only analysis|untrusted report/);
     } finally { logMock.mock.restore(); errorMock.mock.restore(); }
   }
-});
-test('diagnostic output rejects injected fields, credentials and provider metadata', () => {
-  const secret = 'private-key issue-body malicious\n::error::payload';
-  assert.equal(diagnosticLine(errorDiagnostic(Object.assign(new Error(secret), {code:'GITHUB_HTTP_ERROR', phase:secret, httpStatus:403}))), 'phase=setup code=UNKNOWN_ERROR');
-  assert.equal(diagnosticLine({code:secret,phase:secret,httpStatus:secret}), 'phase=setup code=UNKNOWN_ERROR');
-  for (const status of [-1, 0, 99, 600, 403.5, '403']) assert.doesNotMatch(diagnosticLine({code:'GITHUB_HTTP_ERROR',phase:'read_issue',httpStatus:status}), /http=/);
-});
-test('GitHub diagnostics retain only HTTP number or fixed transport/JSON errors', async () => {
-  for (const status of [401,403,404,429,500,503]) {
-    const api = githubApi('secret', async () => ({ok:false,status,text:async()=> 'sensitive body'}));
-    await assert.rejects(api.get('repos/owner/repo'), e => e.code === 'GITHUB_HTTP_ERROR' && e.httpStatus === status && !e.message.includes('sensitive'));
-  }
-  for (const [fetcher, code] of [
-    [async () => { throw new Error('secret request URL'); }, 'GITHUB_TRANSPORT_ERROR'],
-    [async () => ({ok:true,json: async () => {throw new Error('private response');}}), 'GITHUB_RESPONSE_INVALID']
-  ]) await assert.rejects(githubApi('secret', fetcher).get('repos/owner/repo'), e => e.code === code && !/secret|private/.test(e.message));
-});
-test('missing key and stage exceptions keep safe origin without changing durable claims', async () => {
-  const noKey=fixture(); noKey.options.apiKey='';
-  await assert.rejects(respondFailure(noKey.options), e => e.code === 'CONFIG_KEY_MISSING');
-  assert.equal(noKey.counts().posts,0);
-  for (const [phase, operation, code] of [
-    ['read_issue','get','GITHUB_HTTP_ERROR'], ['list_comments','list','GITHUB_TRANSPORT_ERROR'],
-    ['create_claim','post','GITHUB_TRANSPORT_ERROR'], ['update_claim','patch','GITHUB_TRANSPORT_ERROR']
-  ]) {
-    const f=fixture(); f.options.api[operation]=async()=>{throw diagnosticError(code, 'setup', code==='GITHUB_HTTP_ERROR'?403:undefined);};
-    await assert.rejects(respondFailure(f.options), e => e.phase===phase && e.code===code);
-    assert.equal(f.comments.length, phase==='update_claim'?1:0);
-  }
-  for (const [method, phase, code] of [['contextBuilder','build_context','CONTEXT_BUILD_FAILED'],['requestMiMo','call_provider','PROVIDER_EXCEPTION']]) {
-    const f=fixture(); f.options[method]=()=>{throw new Error('secret issue content');};
-    await assert.rejects(respondFailure(f.options),e=>e.phase===phase && e.code===code && !e.message.includes('secret'));
-    assert.match(f.comments[0].body,/scki-mimo-state:pending/);
-  }
-});
-test('provider result classifications are enum-only and preserve one terminal reply', async () => {
-  const cases=[['api_error','PROVIDER_API_ERROR'],['transport_error','PROVIDER_TRANSPORT_ERROR'],['blocked','PROVIDER_BLOCKED'],['incomplete','PROVIDER_INCOMPLETE'],['invalid_response','PROVIDER_INVALID_RESPONSE'],['empty','EMPTY_REPLY']];
-  for (const [status, code] of cases) {
-    const f=fixture(); f.options.requestMiMo=async()=>({status,metadata:{httpStatus:403,errorCode:'secret',requestId:'private'},rawResponse:'issue content'});
-    const result=await respondFailure(f.options);
-    assert.deepEqual(result.diagnostic,{code,phase:'call_provider',httpStatus:403});
-    assert.equal(result.status,'failed');
-    assert.equal((await respondFailure(f.options)).status,'already_handled');
-  }
-  const f=fixture(); f.options.requestMiMo=async()=>({status:'ok',hasPatch:true,reply:'patch'});
-  assert.equal((await respondFailure(f.options)).diagnostic.code,'PATCH_REJECTED');
 });
