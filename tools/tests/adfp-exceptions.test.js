@@ -48,3 +48,17 @@ test('validator rejects widening a DOMAIN exception to DOMAIN-SUFFIX', () => {
   record.negative_examples = record.negative_examples.filter(host => host !== 'x.login.nvidia.cn');
   assert.throws(() => validateAdfpExceptionData({ registry: changed }), /disagrees with source graph|adds rule absent from payload|coverage count/);
 });
+
+test('validator rejects a historical citation whose translated text no longer exists', () => {
+  const changed = structuredClone(registry);
+  const record = changed.records.find(entry => entry.id === 'nvidia-cn-login');
+  record.evidence[0].anchor += ' [missing historical quotation]';
+  assert.throws(() => validateAdfpExceptionData({ registry: changed }), /anchor not found/);
+});
+
+test('validator rejects redirecting a valid historical quotation to another source', () => {
+  const changed = structuredClone(registry);
+  const record = changed.records.find(entry => entry.id === 'nvidia-cn-login');
+  record.evidence[0].path = 'rulesets/source/routing-graph.js';
+  assert.throws(() => validateAdfpExceptionData({ registry: changed }), /anchor not found/);
+});

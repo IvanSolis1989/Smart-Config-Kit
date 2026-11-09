@@ -66,7 +66,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "login.nvidia.cn` 进入首段 `scki-adfp-direct`，在 NVIDIA 下载宽规则之前精确命中 `DIRECT`",
+          "anchor": "Adds `login.nvidia.cn` to first-segment `scki-adfp-direct`, matching exact `DIRECT` before broad NVIDIA download rules.",
           "level": "historical-owner-decision"
         },
         {
@@ -97,7 +97,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
+          "anchor": "WeChat image-related HTTPDNS domains `dns.weixin.qq.com` and `dns.weixin.qq.com.cn` match earliest exact DIRECT exceptions",
           "level": "historical-owner-decision"
         },
         {
@@ -128,7 +128,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "微信图片相关 HTTPDNS 域名 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 命中最前置精确 DIRECT 例外",
+          "anchor": "WeChat image-related HTTPDNS domains `dns.weixin.qq.com` and `dns.weixin.qq.com.cn` match earliest exact DIRECT exceptions",
           "level": "historical-owner-decision"
         },
         {
@@ -159,7 +159,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
+          "anchor": "Adds two NetEase game-service hosts to first-segment `scki-adfp-direct`; exact `DIRECT` precedes anti-AD and broad domestic-game `netease.com` rules.",
           "level": "historical-owner-decision"
         },
         {
@@ -190,7 +190,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "两个网易游戏服务主机加入首段 `scki-adfp-direct` 融合规则集，精确 `DIRECT` 优先于 anti-AD 与 `netease.com` 国内游戏宽规则",
+          "anchor": "Adds two NetEase game-service hosts to first-segment `scki-adfp-direct`; exact `DIRECT` precedes anti-AD and broad domestic-game `netease.com` rules.",
           "level": "historical-owner-decision"
         },
         {
@@ -510,7 +510,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "延续 #2 jpush/umeng——被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行保推送可达",
+          "anchor": "following #2 jpush/umeng. Generic ad/privacy sets treat these as trackers, but they also carry application push such as Mi Home; the owner chose availability over blocking for these entries.",
           "level": "historical-owner-decision"
         },
         {
@@ -595,7 +595,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "owner 选放行保推送可达",
+          "anchor": "Adds direct allowlist entries for Getui push SDK `getui.com` / `getui.net` / `gepush.com`, after review and following #2 jpush/umeng.",
           "level": "historical-owner-decision"
         }
       ],
@@ -622,7 +622,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "owner 选放行保推送可达",
+          "anchor": "Adds direct allowlist entries for Getui push SDK `getui.com` / `getui.net` / `gepush.com`, after review and following #2 jpush/umeng.",
           "level": "historical-owner-decision"
         }
       ],
@@ -649,7 +649,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "owner 选放行保推送可达",
+          "anchor": "Adds direct allowlist entries for Getui push SDK `getui.com` / `getui.net` / `gepush.com`, after review and following #2 jpush/umeng.",
           "level": "historical-owner-decision"
         }
       ],
@@ -676,12 +676,12 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "当前 Sukka `reject_phishing` domainset 含 `+.cloudflarestorage.com`；本仓库原有 `🌐 国外网站` 规则位于广告段之后，无法覆盖首匹配",
+          "anchor": "At that release Sukka `reject_phishing` included `+.cloudflarestorage.com`; the repository's existing overseas-site rule followed ads and could not override first match.",
           "level": "historical-owner-decision"
         },
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "Cloudflare R2 官方文档确认 `*.r2.cloudflarestorage.com` 是 R2 S3 API / presigned URL 正常访问域",
+          "anchor": "Official Cloudflare R2 documentation identifies `*.r2.cloudflarestorage.com` as a normal R2 S3 API / presigned-URL access domain.",
           "level": "static"
         }
       ],
@@ -708,7 +708,7 @@
       "evidence": [
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "当前 anti-AD/DustinWin 源包含 `analytics.paddle.com`，因此必须放在广告/钓鱼/TIF 规则之前",
+          "anchor": "At that release anti-AD/DustinWin included `analytics.paddle.com`; the exception must precede ad/phishing/TIF rules",
           "level": "historical-owner-decision"
         },
         {
@@ -745,7 +745,7 @@
         },
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "anchor": "ChatGPT telemetry hosts on DataDog / Sentry enter `🤖 AI 服务` before ads",
           "level": "historical-owner-decision"
         }
       ],
@@ -776,7 +776,7 @@
         },
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "anchor": "ChatGPT telemetry hosts on DataDog / Sentry enter `🤖 AI 服务` before ads",
           "level": "historical-owner-decision"
         }
       ],
@@ -807,7 +807,7 @@
         },
         {
           "path": "Mihomo内核系/Clash Party/CHANGELOG.md",
-          "anchor": "DataDog / Sentry 的 ChatGPT telemetry host",
+          "anchor": "ChatGPT telemetry hosts on DataDog / Sentry enter `🤖 AI 服务` before ads",
           "level": "historical-owner-decision"
         }
       ],

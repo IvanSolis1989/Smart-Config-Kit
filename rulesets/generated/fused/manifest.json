@@ -11774,8 +11774,8 @@
     },
     "adfp_exceptions": {
       "path": "rulesets/generated/adfp-exceptions.json",
-      "sha256": "8b3638b5e014b8fdb0566a8a2435ea8f7fcc30beced380ad02c67f7028993b6b",
-      "registry_sha256": "f3844f5622fa0d14b085e6d41ce4986c8d36a1681c9f867b0ee52c5bc8e43f72",
+      "sha256": "06193fd9a1b681538bcff54568802dd7c0910d767746ef2c12fa381edb9aa84b",
+      "registry_sha256": "db1675bf9bf82144e86f01c1aa68f2f9fae1261a331c8140c9d42f6bc1dce4ef",
       "records": 38
     },
     "claude_service_dependencies": {
