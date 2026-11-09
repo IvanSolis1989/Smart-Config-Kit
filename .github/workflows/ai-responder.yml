@@ -465,39 +465,9 @@ jobs:
         with:
           script: |
             const result = JSON.parse(require('fs').readFileSync('/tmp/ai-result.json', 'utf8'));
-            const aiReply = result.reply;
-            const model   = process.env.AI_MODEL || 'mimo-v2.6-flash';
-            const codeMod = result.codeModAllowed ? 'true' : 'false';
-            const configuredTier = process.env.AI_TIER || 'AI 自动回复';
-            const tier = codeMod === 'true' ? configuredTier : configuredTier.replace(/可改代码|可改文档/g, '只分析');
-            const prUrl   = process.env.PR_URL   || '';
-
-            // ── 构建 footer ──────────────────────────────────
-            const footerLines = [
-              '---',
-            ];
-            if (result.status !== 'ok') {
-              footerLines.push(`<sub>Model: ${model} · Status: ${result.status} · 本次分析未完成，等待维护者人工处理</sub>`);
-            } else if (prUrl) {
-              footerLines.push(
-                `<sub>Model: \`${model}\` · Tier: ${tier} · 🔗 PR: ${prUrl} · Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 自动生成，最终处理请等维护者 @ivansolis1989</sub>`
-              );
-            } else if (codeMod === 'true') {
-              footerLines.push(
-                `<sub>Model: \`${model}\` · Tier: ${tier}（含代码修改权限，但本次未触发修改） · Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 自动生成，最终处理请等维护者 @ivansolis1989</sub>`
-              );
-            } else {
-              footerLines.push(
-                `<sub>Model: \`${model}\` · Tier: ${tier} · Workflow: \`.github/workflows/ai-responder.yml\` · 想要更深度分析请在评论里 \`/ai-help\` · AI 无代码修改权限，最终处理请等维护者 @ivansolis1989</sub>`
-              );
-            }
-
-            const commentBody = [
-              `> 🤖 **AI 自动回复**（${tier}，仅供参考）`,
-              '',
-              aiReply,
-              ...footerLines,
-            ].join('\n');
+            const { issueComment } = require(process.cwd() + '/tools/lib/ai-issue-language');
+            const commentBody = issueComment({ locale: result.replyLanguage, reply: result.reply,
+              model: process.env.AI_MODEL || 'mimo-v2.6-flash', prUrl: process.env.PR_URL || '' });
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -511,13 +481,9 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const commentBody = [
-              '> ⚠️ AI 助手未就绪',
-              '',
-              '仓库维护者需要先在 Settings → Secrets and variables → Actions 里配置 `MIMO_API_KEY`（可选变量 `MIMO_BASE_URL`；Token Plan 请填控制台提供的完整 base URL），此 issue 将等人工回复。',
-              '',
-              '<sub>Workflow: `.github/workflows/ai-responder.yml`</sub>'
-            ].join('\n');
+            const { language, text, issueComment } = require(process.cwd() + '/tools/lib/ai-issue-language');
+            const locale = language(context.payload.issue);
+            const commentBody = issueComment({ locale, reply: text(locale, 'notReady') });
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,

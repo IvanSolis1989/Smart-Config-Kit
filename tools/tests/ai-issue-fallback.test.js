@@ -11,7 +11,7 @@ function source() { return { id: 100, user: { id: ownerId, login: 'owner', type:
   body: '<!-- scki-local-codex:issue-196-opened -->\n本次自动处理未完成，尚未发布到 main。\n\n本机已保留会话。' }; }
 function fixture() {
   const src = source(); const comments = []; let posts = 0, patches = 0, models = 0;
-  const issue = { number: 196, title: 'Karing SRS', body: 'untrusted report', state: 'open' };
+  const issue = { number: 196, title: 'Karing SRS', body: '下载规则失败，请检查原因。', state: 'open' };
   const api = {
     async get(p) {
       if (p === `repos/${repo}/issues/196`) return { ...issue };
@@ -49,7 +49,7 @@ test('claim then update, repeated event/schedule/rerun produces one answer', asy
   const f = fixture(); assert.equal((await respondFailure(f.options)).status, 'complete');
   assert.equal((await respondFailure(f.options)).status, 'already_handled');
   assert.deepEqual(f.counts(), { posts: 1, patches: 1, models: 1 });
-  assert.match(f.comments[0].body, /本回复未修改代码、未发布到 main/);
+  assert.match(f.comments[0].body, /本回复未修改代码或发布到 main/);
 });
 test('spoofed bot claim cannot block real fallback', async () => {
   const f = fixture(); f.comments.push({ id: 201, user: { id: 999, type: 'Bot', login: 'github-actions[bot]' }, body: `${marker({ taskKey: 'issue-196-opened' })}\n<!-- scki-mimo-state:complete -->` });
@@ -103,7 +103,7 @@ test('filter/failure/patch output produces one truthful failure, no retry spam',
     const f = fixture(); f.options.requestMiMo = async () => result;
     assert.equal((await respondFailure(f.options)).status, 'failed');
     assert.equal((await respondFailure(f.options)).status, 'already_handled');
-    assert.match(f.comments[0].body, /未生成或应用修复/); assert.equal(f.counts().posts, 1);
+    assert.match(f.comments[0].body, /自动分析尚未完成/); assert.equal(f.counts().posts, 1);
   }
 });
 test('reply strips hidden protocol and common secrets, never outputs raw model payload', () => {
@@ -147,7 +147,7 @@ test('candidate errors are isolated, later tasks complete, batch failure stays v
     const errorMock = t.mock.method(console, 'error', line => logs.push(line));
     try {
       await assert.rejects(main({ GITHUB_REPOSITORY: repo, GITHUB_EVENT_NAME: 'schedule', MIMO_API_KEY: 'private-key' },
-        { api, event: {}, requestMiMo: async () => ({ status: 'ok', reply: 'Read-only analysis.' }) }), /One or more fallback analyses/);
+        { api, event: {}, requestMiMo: async () => ({ status: 'ok', reply: '已完成只读分析，请核对下载状态。' }) }), /One or more fallback analyses/);
       assert.equal(f.counts().posts, 1);
       assert.match(f.comments[0].body, /scki-mimo-state:complete/);
       assert.match(logs.join('\n'), /issue 197: incomplete/);

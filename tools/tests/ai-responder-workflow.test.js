@@ -37,7 +37,8 @@ test('embedded github-script programs compile and publish a status-aware result 
   for (const [, block] of blocks) {
     assert.doesNotThrow(() => new AsyncFunction('require', 'github', 'context', block.replace(/^            /gm, '')));
   }
-  assert.match(blocks[0][1], /result\.status !== 'ok'/);
+  assert.match(blocks[0][1], /locale: result\.replyLanguage/);
+  assert.match(blocks[0][1], /issueComment/);
   assert.match(blocks[0][1], /readFileSync\('\/tmp\/ai-result\.json'/);
 });
 

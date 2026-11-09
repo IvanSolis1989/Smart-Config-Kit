@@ -53,12 +53,12 @@ async function main(env = process.env, deps = {}) {
       console.log(`Fallback issue ${task.issueNumber}: ${result.status}`);
       if (result.status === 'failed') incomplete = true;
       if (['complete', 'failed', 'superseded'].includes(result.status) && ++processed >= 3) break;
-    } catch {
+    } catch (error) {
       // A deleted/inaccessible receipt or an uncertain write must not starve
       // unrelated tasks. Preserve its claim for reconciliation on the next run.
       // Never log provider errors, issue content, or credential-bearing payloads.
       incomplete = true;
-      console.error(`Fallback issue ${task.issueNumber}: incomplete; will reconcile on retry`);
+      console.error(`Fallback issue ${task.issueNumber}: incomplete; will reconcile on retry${error?.code === 'REPLY_LANGUAGE_UNCERTAIN' ? '; REPLY_LANGUAGE_UNCERTAIN: maintainer review required' : ''}`);
     }
   }
   if (incomplete) throw new Error('One or more fallback analyses did not complete');
