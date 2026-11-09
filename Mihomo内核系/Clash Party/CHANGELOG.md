@@ -15,6 +15,13 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## MiMo fallback diagnostics v1.0.1 (2026-11-09)
+
+- Add fixed diagnostic categories and bounded numeric HTTP status to fallback CI logs. Provider messages, request IDs, credentials, issue contents and model replies are excluded.
+- Distinguish response-language validation from provider failures without relaxing validation. Preserve existing terminal-claim deduplication, public notices and retry policy.
+- Issue #195 run 42553809624 confirmed the fallback ran but recorded only `failed`; the original failure subtype cannot be recovered from those logs. This change does not claim that issue has been answered or repaired.
+- Routing, DNS, client artifacts and existing public comments are unchanged. Local tests cover diagnostic sanitization and single-comment terminal handling; no live model request was made.
+
 ## 同步工具：anti-AD 官方 Git 输入恢复 (2026-11-09)
 
 

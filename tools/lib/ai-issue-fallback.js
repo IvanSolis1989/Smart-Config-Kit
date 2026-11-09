@@ -1,5 +1,5 @@
 'use strict';
-// v1.0.0: failure replies are the durable bridge; never executes model output.
+// v1.0.1: failure replies are the durable bridge; never executes model output.
 const { language, text, assertLanguage, assertReplyLanguage } = require('./ai-issue-language');
 const { buildIssueContext } = require('./ai-issue-context');
 const { buildRequest, callMiMo } = require('./ai-issue-responder');
@@ -29,6 +29,16 @@ function format(task, status, content, locale) {
 }
 function safeReply(reply) {
   return redact(String(reply || '').replace(/<!--[^]*?-->/g, '')).trim().slice(0, 18000);
+}
+function safeFailureDiagnostic(result) {
+  // Only fixed labels and bounded numeric HTTP codes may reach CI logs.
+  // Never return provider error text, request IDs, prompts, or model output.
+  const known = new Set(['blocked', 'api_error', 'transport_error', 'incomplete', 'empty', 'invalid_response']);
+  let code = known.has(result?.status) ? result.status : 'unclassified_response';
+  if (result?.status === 'ok') code = result.hasPatch ? 'unexpected_patch' : 'empty_reply';
+  if (result?.status === 'invalid_response' && result.metadata?.validation === 'reply_language') code = 'reply_language';
+  const status = result?.metadata?.httpStatus;
+  return { code, httpStatus: Number.isSafeInteger(status) && status >= 0 && status <= 599 ? status : null };
 }
 async function respondFailure({ api, repository, ownerId, botId, source, repoRoot, apiKey, baseUrl,
   requestMiMo = callMiMo, contextBuilder = buildIssueContext }) {
@@ -65,16 +75,16 @@ async function respondFailure({ api, repository, ownerId, botId, source, repoRoo
     if (language(freshIssue) !== locale) throw new Error('REPLY_LANGUAGE_CHANGED: reconcile before publishing');
     // Patches/PRs are never accepted, applied, or published on this path.
     if (result.status === 'ok' && !result.hasPatch) {
-      try { assertReplyLanguage(locale, safeReply(result.reply)); } catch { result.status = 'invalid_response'; }
+      try { assertReplyLanguage(locale, safeReply(result.reply)); } catch { result.status = 'invalid_response'; result.metadata = { ...result.metadata, validation: 'reply_language' }; }
     }
     const accepted = result.status === 'ok' && !result.hasPatch && safeReply(result.reply);
     await api.patch(`repos/${repository}/issues/comments/${claim.id}`, { body: format(task, accepted ? 'complete' : 'failed',
       accepted ? safeReply(result.reply) : text(locale, 'incomplete'), locale) });
-    return { status: accepted ? 'complete' : 'failed' };
+    return accepted ? { status: 'complete' } : { status: 'failed', diagnostic: safeFailureDiagnostic(result) };
   } catch {
     // Leave a pending marker on uncertain transport/write outcomes. A later run updates
     // the same comment, rather than creating a duplicate or pretending to know its outcome.
     throw new Error('MiMo fallback incomplete; reconcile the existing reply before retry');
   }
 }
-module.exports = { parseFailure, marker, ownedClaim, state, safeReply, respondFailure };
+module.exports = { parseFailure, marker, ownedClaim, state, safeReply, safeFailureDiagnostic, respondFailure };

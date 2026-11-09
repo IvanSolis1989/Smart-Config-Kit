@@ -51,6 +51,7 @@ async function main(env = process.env, deps = {}) {
         repoRoot: process.cwd(), apiKey: env.MIMO_API_KEY, baseUrl: env.MIMO_BASE_URL || undefined,
         ...(deps.requestMiMo ? { requestMiMo: deps.requestMiMo } : {}) });
       console.log(`Fallback issue ${task.issueNumber}: ${result.status}`);
+      if (result.diagnostic) console.log(`Fallback diagnostic issue ${task.issueNumber}: ${JSON.stringify(result.diagnostic)}`);
       if (result.status === 'failed') incomplete = true;
       if (['complete', 'failed', 'superseded'].includes(result.status) && ++processed >= 3) break;
     } catch (error) {
