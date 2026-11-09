@@ -137070,8 +137070,8 @@
   },
   "registry": {
     "path": "rulesets/source/upstream-sources.json",
-    "sha256": "537b58272ac47e461f69a8248c2429970df7e8247cb079e9cf3017d862edf23a",
-    "bytes": 5958,
+    "sha256": "7bf72fdaeb0ae1ba5d6c5db5d3a03ecde6466d2960118d9f5aee0ecf494a3ad0",
+    "bytes": 6691,
     "text_normalization": "LF"
   },
   "generators": [
@@ -137125,8 +137125,8 @@
     },
     {
       "path": "tools/lib/fused-rule-optimizer.js",
-      "sha256": "1f63de51b3fe7221ac229ffe41074547718a3cb925e1a89a832fbf453beef85d",
-      "bytes": 14271,
+      "sha256": "52146e5ae18b75b0f608d83f86d42ab7f79b3a5af5bd4029274ac54fdba2e3a1",
+      "bytes": 14501,
       "text_normalization": "LF"
     },
     {
