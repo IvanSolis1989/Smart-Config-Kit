@@ -9,7 +9,9 @@ const OPAQUE_MRS_SOURCES = [
   },
   {
     pattern: /^https:\/\/(?:fastly\.|cdn\.)?jsdelivr\.net\/gh\/DustinWin\/ruleset_geodata@mihomo-ruleset\/ads\.mrs$/i,
-    sourceUrl: 'https://anti-ad.net/clash.yaml',
+    // Official README lists this Git file and anti-ad.net/clash.yaml as the same feed.
+    // Git transport preserves commit-bound receipts and same-ref CDN fallback.
+    sourceUrl: 'https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml',
     sourceFilter: 'domain',
     identity: 'anti-ad',
   },

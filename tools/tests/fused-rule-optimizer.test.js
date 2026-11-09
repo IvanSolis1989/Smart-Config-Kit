@@ -118,3 +118,18 @@ test('IP-ASN expansion is used only by targets without native ASN matching', asy
   );
   assert.deepEqual(expanded, ['IP-CIDR,198.51.100.0/24,no-resolve']);
 });
+
+test('anti-AD opaque mapping uses only the official equivalent domain feed', () => {
+  for (const host of ['jsdelivr.net', 'fastly.jsdelivr.net', 'cdn.jsdelivr.net']) {
+    assert.deepEqual(resolveOpaqueMrsSource(`https://${host}/gh/DustinWin/ruleset_geodata@mihomo-ruleset/ads.mrs`), {
+      sourceUrl: 'https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml',
+      sourceFilter: 'domain', identity: 'anti-ad',
+    });
+  }
+  for (const url of [
+    'https://fastly.jsdelivr.net/gh/other/ruleset_geodata@mihomo-ruleset/ads.mrs',
+    'https://fastly.jsdelivr.net/gh/DustinWin/ruleset_geodata@other/ads.mrs',
+    'https://fastly.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/ads-lite.mrs',
+    'https://fastly.jsdelivr.net.evil.test/gh/DustinWin/ruleset_geodata@mihomo-ruleset/ads.mrs',
+  ]) assert.equal(resolveOpaqueMrsSource(url), null);
+});

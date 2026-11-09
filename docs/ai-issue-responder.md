@@ -66,13 +66,15 @@ pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1 -Uninstall
 
 ### Codex 失败后的 MiMo 补答
 
-独立入口为 [ai-codex-fallback.yml](../.github/workflows/ai-codex-fallback.yml)，版本 1.0.0。它解决本机 worker 已发出失败通知、但 `LOCAL_CODEX_ENABLED=true` 导致原 MiMo 后端跳过的断链，不依赖重新安装或覆盖本机 worker。
+独立入口为 [ai-codex-fallback.yml](../.github/workflows/ai-codex-fallback.yml)，版本 1.0.1。它解决本机 worker 已发出失败通知、但 `LOCAL_CODEX_ENABLED=true` 导致原 MiMo 后端跳过的断链，不依赖重新安装或覆盖本机 worker。
 
 - 只接受 GitHub API 确认的个人仓库 owner（不可变用户 ID）发出的 `scki-local-codex:<taskKey>` 失败评论，以及固定的“本次自动处理未完成，尚未发布到 main。”状态；外部 Issue 作者、伪造登录名、引用的 marker、PR 和已关闭 Issue 不触发。
 - 评论创建/编辑实时触发；每半小时检查最近 7 天更新的评论，以覆盖 GitHub token 事件不再触发工作流等情况。Actions 手动入口可填具体 Issue 编号补查历史失败。不将队列 workflow 的成功等同于 Codex 处理成功。
 - 每个 Codex task 仅保留一条 MiMo 评论。先写入持久 pending 标记，完成后原位更新；事件/定时/手动共用并发锁。评论确认丢失或运行中断后先查现有标记，再更新同一条，不能盲目重复 POST。单条候选读取或处理异常不会阻断其他候选，但本轮仍标记失败；日志只包含 Issue 编号及固定状态。超过 7 天扫描窗口的原始失败回执（包括 pending 未完成回复）需在 Actions 手动填写 Issue 编号恢复，不会自动无限回溯。
 - 仅调用 `mimo-v2.6-flash` 分析。凭据与端点沿用下节配置；模型没有代码写入、PR 或发版权限，不执行 Issue/模型文本，也不发送本机错误记录、会话或工作目录。供应商补丁、过滤和不完整结果均拒绝，并保留一次未完成说明。
 - 调用前和发布分析前重新核对 Codex 失败来源；若原评论已改成完成或 Issue 已关闭，取消过时补答。没有 `MIMO_API_KEY` 时工作流失败且不创建空补答，配置好后可重跑。已完成或已报告失败的 task 不自动再答；新的明确 Codex 派单具有新的 task key。
+- 诊断只记录固定错误类型、固定阶段、Issue 编号与合法整数 HTTP 状态码。例如 `phase=call_provider code=PROVIDER_API_ERROR http=401` 可区分供应商鉴权失败；`GITHUB_HTTP_ERROR` 则属于 GitHub。缺 key 标记 `CONFIG_KEY_MISSING`，连接异常与内容过滤分别标记，不输出异常正文、凭据、Issue 内容或供应商任意字段。每轮汇总候选、合格回执和处理计数；`incomplete` 仅表示未完成，不声称 pending 评论一定已创建。POST/PATCH 结果不确定时仍按原有标记核对，不增加重试或公开评论。
+- 调度尚未产生 run、job 因变量条件跳过，均发生在脚本运行前；应检查 Actions 的调度/job 状态，不能从没有脚本日志断言 API 故障。
 - 首次部署需将 workflow 和脚本合入默认分支、启用 Actions、保留 `LOCAL_CODEX_ENABLED=true` 并配置有效 MiMo key。离线测试不证明真实 MiMo API 调用或公开补答已成功；发布后检查实际 workflow 与 Issue 回复。
 
 ### MiMo 后端

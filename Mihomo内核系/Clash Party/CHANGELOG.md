@@ -15,6 +15,14 @@
 [![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
 
 
+## 同步工具与 MiMo 安全诊断 (2026-11-09)
+
+- MiMo 失败补答诊断工具 v1.0.1：增加固定错误类型、阶段与 HTTP 状态及处理计数，区分凭据/API/网络/模型失败；不输出原始错误、凭据或 Issue 内容，不改变权限、重试与去重状态机。定时延迟仍需真实运行验证，不视为代码已修复。
+
+- 将融合阶段 `anti-ad` 的文本来源从偶发 HTTP 403 的网站入口切到官方仓库同格式 `anti-ad-clash.yaml`；保持 domain 语义、广告策略及客户端默认配置不变，不以空列表或旧缓存掩盖下载失败。
+- [官方固定 README](https://github.com/privacy-protection-tools/anti-AD/blob/2b83ce2de8e7d217385da1cee42dcaa2ea3f08f6/README.md#L19) 并列声明两个入口；2026-11-09 实际下载均为 2,793,901 字节、103,068 条 domain 规则，SHA256 同为 `fbba61f1772422c1e83a8306e9cfafd10b8028e39dc84cfa18f173a7ced06942`。这是本次快照证据，不保证两端未来同时更新或所有网络可达。
+- Git 下载沿用解析提交、固定提交回退与字节收据校验；补官方 Git 来源的 MIT 声明，保留 `component-review-required`，不把仓库许可扩张为所有聚合数据的授权。本次未刷新上游规则，周同步执行结果另验。
+
 ## 配置工具 v1.4.4 与客户端导入排障 (2026-11-09)
 
 - 重新生成离线配置向导，确保下载包含 QX.14 修复；定时同步在冻结发布批次前重建并校验向导，避免 Pages 与客户端产物漂移。
