@@ -327,3 +327,36 @@ test('remote CRLF cache remains byte-strict and cannot opt into local LF normali
   assert.equal(provenance.assertReceiptMatches(legacyRaw, crlf), true);
   assert.throws(() => provenance.assertReceiptMatches(legacyRaw, lf), /hash\/identity mismatch/);
 });
+
+test('anti-AD official Git source preserves domain payload and pinned fallback provenance', async () => {
+  const original = 'https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-clash.yaml';
+  const pinnedUrl = original.replace('/master/', `/${commit}/`);
+  const fallback = `https://fastly.jsdelivr.net/gh/privacy-protection-tools/anti-AD@${commit}/anti-ad-clash.yaml`;
+  const bytes = Buffer.from("#TITLE=anti-AD\npayload:\n  - '+.ads.example.test'\n");
+  const calls = [];
+  const fetched = await downloadSource(original, async url => {
+    calls.push(url);
+    if (url.startsWith('https://api.github.com/')) return { ok: true, json: async () => ({ sha: commit }) };
+    if (url === pinnedUrl) return { ok: false, status: 403 };
+    assert.equal(url, fallback);
+    return { ok: true, url, arrayBuffer: async () => bytes };
+  });
+  assert.ok(calls.includes(pinnedUrl));
+  assert.ok(!calls.some(url => url.startsWith('https://anti-ad.net/')));
+  assert.deepEqual(parsePayloadEntries(fetched.bytes.toString()), ['+.ads.example.test']);
+  const receipt = provenance.createSourceReceipt({ requestedUrl: original,
+    effectiveUrl: fetched.effectiveUrl, bytes: fetched.bytes, resolvedCommit: fetched.resolvedCommit });
+  assert.equal(receipt.source.id, 'anti-ad-git');
+  assert.equal(receipt.source.version_state, 'pinned-commit');
+  assert.equal(receipt.source.resolved_commit, commit);
+  assert.equal(receipt.source.license.spdx, 'MIT');
+  assert.equal(receipt.source.license.data_license_status, 'component-review-required');
+  assert.notEqual(receipt.source.license.declaration_commit, receipt.source.resolved_commit);
+  assert.equal(receipt.content.sha256, provenance.sha256(bytes));
+  assert.equal(provenance.sourceIdentity('https://anti-ad.net/clash.yaml').id, 'anti-ad-service');
+});
+
+test('anti-AD unreachable Git transports fail closed rather than returning an empty feed', async () => {
+  const url = `https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/${commit}/anti-ad-clash.yaml`;
+  await assert.rejects(downloadSource(url, async () => ({ ok: false, status: 403 })), /403/);
+});
