@@ -1,0 +1,99 @@
+{
+  "name": "中文 / 错误报告",
+  "description": "配置、脚本、资源或跨客户端一致性问题。",
+  "title": "[Bug] ",
+  "labels": [
+    "bug"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "自动化可能辅助分析或提出修复，但不保证判断正确或问题已解决。回复跟随问题正文的语言，不受文档默认语言影响。请先脱敏订阅链接、凭据和私密日志；当前流程见 docs/ai-issue-responder.md。"
+      }
+    },
+    {
+      "type": "dropdown",
+      "id": "product",
+      "attributes": {
+        "label": "相关产物",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。",
+        "options": [
+          "Clash Party / Clash Verge Rev (Smart / Normal JS)",
+          "CMFA / ClashMi",
+          "OpenClash (OpenWrt)",
+          "FlClash",
+          "Shadowrocket (iOS)",
+          "Surge (iOS / macOS)",
+          "Loon (iOS)",
+          "Quantumult X (iOS)",
+          "sing-box / Hiddify / HomeProxy",
+          "Karing",
+          "v2rayN",
+          "Passwall / Passwall2",
+          "Meow / AEROVE Lite",
+          "Other / unsure",
+          "Multiple clients / shared artifacts",
+          "Documentation / changelog / maintenance contract"
+        ]
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "input",
+      "id": "version",
+      "attributes": {
+        "label": "产物版本",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "bug",
+      "attributes": {
+        "label": "问题现象",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "reproduce",
+      "attributes": {
+        "label": "复现步骤",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "logs",
+      "attributes": {
+        "label": "脱敏错误日志",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    },
+    {
+      "type": "checkboxes",
+      "id": "precheck",
+      "attributes": {
+        "label": "提交前检查",
+        "options": [
+          {
+            "label": "已核对相关文档和现有问题，并已移除订阅链接与凭据。",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

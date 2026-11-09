@@ -1,28 +1,30 @@
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="Karing 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Karing changelog" width="100%">
 </picture>
 
-# Karing — 变更日志
+<a id="karing--变更日志"></a>
 
-> Karing 原生自定义分流产物，规则基线跟随源规则图；平台能力差异见 README 与适配清单。
+# Karing — Changelog
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) · [Project home](../../README.md) · [Usage](README.md) · [Documentation](../../docs/README.md)
+
+> Native custom-routing artifacts follow the authoritative routing graph. See README and adapter manifest for platform differences.
 
 ## v6.0.21-karing.3 (2026-11-09)
 
-- Issue #196：明确区分自定义规则 URL 引用与 App 远程资产注册，补充受影响版本逐组保存激活步骤及固定官方源码证据。
-- 生成清单加入注册边界和预期资源数；增加只读内部注册表审计及正反例。导入 JSON、路由顺序、URL 与动作不变，未将不支持的内部字段注入配置。
-- 这是排障与注册缺口的可验证防护，不宣称仓库已修复 Karing 私有导入实现；下载、导入和连接仍待 App 验证。
+- Issue #196: distinguished custom-rule URL references from application remote-asset registration, adding save-each-group activation steps for affected versions and pinned official-source evidence.
+- Added registration boundaries and expected resource counts to the generated manifest, plus a read-only internal-registry audit and positive/negative cases. Import JSON, routing order, URLs and actions were unchanged; unsupported internal fields were not injected.
+- This provides verifiable diagnostics/guardrails for registration gaps, not a claim to have fixed Karing's private import implementation. Application downloads, imports and connections remained unverified.
 
 ## v6.0.21-karing.2 (2026-10-28)
 
-- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 Karing 的 currentSelected 及 App 内最终选择边界不变。
+- Moved Google FCM from download updates to Google services. The 15 domain and 26 IPv4 predicates, order and 55 policy groups remained unchanged, as did other push services, DNS and fake-IP. Karing `currentSelected` and application-managed final-selection boundaries were unchanged.
 
 ## v6.0.20-karing.1 (2026-10-24)
 
-- 增加原生 `diversion_rules_custom.json`，保留 SingBox 已生成路由顺序及每段独立名称。
-- 复用 fused SRS；复杂 AND/OR/NOT、端口、network 和进程条件生成标准 headless source JSON，禁止向 Karing JSON 臆造嵌套字段。
-- 依据 selector 显式默认选择递归解析直连/拦截；代理出口使用 `currentSelected`，节点组由用户在 App 绑定。
-- 5 个 QUIC 外部规则来源以精确 SRS 解码 gzip 快照绑定，普通生成离线且确定；显式刷新记录来源与哈希。
-- 增加清单、生成读回、只读漂移检查和错误输入回归。未进行 Karing 客户端实机导入验收。
+- Added native `diversion_rules_custom.json`, retaining generated SingBox route order and independent segment names.
+- Reused fused SRS. Complex AND/OR/NOT, port, network and process conditions generate standard headless source JSON; invented nested Karing JSON fields are prohibited.
+- Recursively resolved direct/block actions from explicit selector defaults. Proxy exits use `currentSelected`; users bind node groups in the application.
+- Bound five external QUIC rule sources to exact SRS-decoded gzip snapshots. Normal generation is offline/deterministic; explicit refresh records provenance/hashes.
+- Added manifests, generation readback, read-only drift checks and invalid-input regressions. Real-device Karing import acceptance was not performed.

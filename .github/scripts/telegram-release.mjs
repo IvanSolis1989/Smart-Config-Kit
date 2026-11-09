@@ -8,8 +8,9 @@ const channelUrl = 'https://t.me/IvanSolis89';
 const discussionUrl = 'https://t.me/Olympus_Habitue';
 const html = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-export function summarizeChanges(release) {
-  const source = (release.detail_body || release.body || '').replace(/<!--[\s\S]*?-->/g, '');
+export function summarizeChanges(release, language = 'en') {
+  const source = (release.detail_body || release.body || '').replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<details\b[^>]*>[\s\S]*?<\/details\s*>/gi, '');
   const changes = [];
   let skip = false;
   for (const line of source.split(/\r?\n/)) {
@@ -22,26 +23,31 @@ export function summarizeChanges(release) {
       .replace(/(?:详见|参见)\s*\[[^\]]+\]\([^)]+\)[。；]?/g, '')
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*|__|`/g, '').replace(/完整版/g, '标准版').trim();
     if (/两版工程分别归入|同一提交验证并构建|^版本[：:]|^源码[：:]/.test(text)) continue;
-    for (let change of text.split(/；/)) {
+    for (let change of text.split(/[；;]/)) {
       change = change.trim().replace(/[。；]+$/, '');
+      // Do not invent a translation of legacy non-English release prose.
+      // A clear English link-only fallback is safer than a misleading summary.
+      if (language === 'en' && /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Cyrillic}\p{Script=Arabic}]/u.test(change)) continue;
       if (!change || changes.some(previous => previous.includes(change) || change.includes(previous))) continue;
       changes.push(change.length > 100 ? change.slice(0, 96) + '…' : change);
       if (changes.length === 4) return changes;
     }
   }
-  return changes.length ? changes : ['本次更新内容见发布页'];
+  return changes.length ? changes : [language === 'en' ? 'See the repository for update details.' : '本次更新内容见发布页'];
 }
 
 export function formatMessage(repository, release, limit = 650) {
+  const english = true; // Both maintained repositories default to English.
   const product = repository.endsWith('/Aerove')
-    ? (/lite/i.test(release.tag_name) ? 'AEROVE Lite' : 'AEROVE 标准版')
+    ? (/lite/i.test(release.tag_name) ? 'AEROVE Lite' : 'AEROVE Standard')
     : 'Smart-Config-Kit';
-  const channel = release.kind === 'changelog' ? '配置更新' : release.prerelease ? '预览版' : '正式版';
-  const title = `${product} ${release.tag_name} · ${channel}`;
+  const channel = english ? (release.kind === 'changelog' ? 'Configuration update' : release.prerelease ? 'Preview' : 'Release') : (release.kind === 'changelog' ? '配置更新' : release.prerelease ? '预览版' : '正式版');
+  const label = /\p{Script=Han}/u.test(release.tag_name) ? `Update${release.sha ? ' ' + release.sha.slice(0, 8) : ''}` : release.tag_name;
+  const title = `${product} ${label} · ${channel}`;
   const footer = release.kind === 'changelog'
-    ? `\n\n<a href="https://github.com/${html(repository)}">仓库链接</a>`
-    : `\n\n<a href="${html(release.html_url)}">发布页</a>`;
-  const rows = summarizeChanges(release).map(change => `• ${html(change)}`);
+    ? `\n\n<a href="https://github.com/${html(repository)}">${english ? 'Repository' : '仓库链接'}</a>`
+    : `\n\n<a href="${html(release.html_url)}">${english ? 'Release page' : '发布页'}</a>`;
+  const rows = summarizeChanges(release, english ? 'en' : 'zh').map(change => `• ${html(change)}`);
   const budget = Math.min(limit, 650) - html(title).length - footer.length - 2;
   while (rows.length > 1 && rows.join('\n').length > budget) rows.pop();
   return `${html(title)}\n\n${rows.join('\n')}${footer}`;
@@ -206,7 +212,7 @@ export async function main(env = process.env, fetcher = fetch) {
     await telegram('getChatMember', { chat_id: channelId }, true);
     const message = await telegram('sendMessage', {
       chat_id: channelId, disable_notification: true,
-      text: `机器人部署测试\n\n${repository} 的 GitHub Actions 已连接 Olympus 官方频道。\n${repository.endsWith('/Aerove') ? '后续公开 Release 将自动发送更新说明和产物文件。' : '后续 main 根 CHANGELOG.md 更新将自动发送更新内容和仓库链接。'}\n\n讨论群：${discussionUrl}`,
+      text: `Notification deployment test\n\nGitHub Actions for ${repository} is connected to Olympus. ${repository.endsWith('/Aerove') ? 'Future public releases will announce changes and artifact files.' : 'Future main root-changelog updates will announce changes and the repository link.'}\n\nDiscussion: ${discussionUrl}`,
       link_preview_options: { is_disabled: true },
     });
     result = { test: true, url: `${channelUrl}/${message.message_id}` };
@@ -233,7 +239,7 @@ export async function main(env = process.env, fetcher = fetch) {
   }
   const output = JSON.stringify(result, null, 2);
   console.log(output);
-  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `\n### Telegram notification\n\n${result.url ? `[查看频道消息](${result.url})` : '```json\n' + output + '\n```'}\n`);
+  if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, `\n### Telegram notification\n\n${result.url ? `[View channel message](${result.url})` : '```json\n' + output + '\n```'}\n`);
   return result;
 }
 

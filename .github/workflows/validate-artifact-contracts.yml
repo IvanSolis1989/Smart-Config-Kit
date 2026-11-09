@@ -9,6 +9,9 @@ on:
       - 'tools/configure.js'
       - 'tools/lib/configuration-schema.js'
       - 'tools/generate-configuration-form.js'
+      - 'tools/lib/configuration-locale.js'
+      - 'tools/lib/configuration-page-equivalence.js'
+      - 'tools/lib/configuration-form-ui.js'
       - 'tools/build-configuration-pages.js'
       - 'tools/tests/configuration-pages.test.js'
       - '.github/workflows/deploy-configuration-pages.yml'
@@ -97,6 +100,7 @@ on:
       - 'tools/tests/traffic-*.test.js'
       - 'tools/tests/stash-traffic-options.test.js'
       - 'tools/lib/client-capability-matrix.js'
+      - 'tools/lib/client-capability-en.json'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/generate-client-capability-matrix.js'
       - 'tools/tests/client-capability-matrix.test.js'
@@ -119,6 +123,7 @@ on:
       - 'tools/fixtures/**'
       - 'docs/client-capability-matrix.json'
       - 'docs/client-capability-matrix.md'
+      - 'docs/client-capability-matrix.zh-CN.md'
       - 'docs/private-node-dns.md'
       - '.github/workflows/validate-artifact-contracts.yml'
       - '.github/workflows/sync-mihomo-mrs-rule-providers.yml'
@@ -131,6 +136,9 @@ on:
       - 'tools/configure.js'
       - 'tools/lib/configuration-schema.js'
       - 'tools/generate-configuration-form.js'
+      - 'tools/lib/configuration-locale.js'
+      - 'tools/lib/configuration-page-equivalence.js'
+      - 'tools/lib/configuration-form-ui.js'
       - 'tools/build-configuration-pages.js'
       - 'tools/tests/configuration-pages.test.js'
       - '.github/workflows/deploy-configuration-pages.yml'
@@ -219,6 +227,7 @@ on:
       - 'tools/tests/traffic-*.test.js'
       - 'tools/tests/stash-traffic-options.test.js'
       - 'tools/lib/client-capability-matrix.js'
+      - 'tools/lib/client-capability-en.json'
       - 'tools/lib/subscription-adapter-profiles.js'
       - 'tools/generate-client-capability-matrix.js'
       - 'tools/tests/client-capability-matrix.test.js'
@@ -241,6 +250,7 @@ on:
       - 'tools/fixtures/**'
       - 'docs/client-capability-matrix.json'
       - 'docs/client-capability-matrix.md'
+      - 'docs/client-capability-matrix.zh-CN.md'
       - 'docs/private-node-dns.md'
       - '.github/workflows/validate-artifact-contracts.yml'
       - '.github/workflows/sync-mihomo-mrs-rule-providers.yml'
@@ -274,7 +284,7 @@ jobs:
         run: |
           npm --prefix tools/js-engine-tests ci --ignore-scripts
           node tools/generate-configuration-form.js --check
-          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/configuration-pages.test.js tools/tests/flclash-browser-export.test.js tools/tests/offline-configuration-export.test.js tools/tests/offline-client-options.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
+          node --test tools/tests/configuration-options.test.js tools/tests/configuration-form.test.js tools/tests/configuration-page-equivalence.test.js tools/tests/configuration-locale.test.js tools/tests/configuration-pages.test.js tools/tests/flclash-browser-export.test.js tools/tests/offline-configuration-export.test.js tools/tests/offline-client-options.test.js tools/tests/business-profiles.test.js tools/tests/business-profile-engines.test.js tools/tests/node-dns-hosts-only.test.js tools/tests/node-dns-hosts-only-integration.test.js tools/tests/egern-header-idempotence.test.js
 
       - name: Validate Karing generation and client layout
         run: |

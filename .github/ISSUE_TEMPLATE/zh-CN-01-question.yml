@@ -1,0 +1,99 @@
+{
+  "name": "中文 / 使用问题",
+  "description": "配置导入、DNS、规则命中与客户端使用问题。",
+  "title": "[Question] ",
+  "labels": [
+    "question"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "自动化可能辅助分析或提出修复，但不保证判断正确或问题已解决。回复跟随问题正文的语言，不受文档默认语言影响。请先脱敏订阅链接、凭据和私密日志；当前流程见 docs/ai-issue-responder.md。"
+      }
+    },
+    {
+      "type": "dropdown",
+      "id": "client",
+      "attributes": {
+        "label": "客户端",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。",
+        "options": [
+          "Clash Party / Clash Verge Rev (Smart / Normal JS)",
+          "CMFA / ClashMi",
+          "OpenClash (OpenWrt)",
+          "FlClash",
+          "Shadowrocket (iOS)",
+          "Surge (iOS / macOS)",
+          "Loon (iOS)",
+          "Quantumult X (iOS)",
+          "sing-box / Hiddify / HomeProxy",
+          "Karing",
+          "v2rayN",
+          "Passwall / Passwall2",
+          "Meow / AEROVE Lite",
+          "Other / unsure"
+        ]
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "input",
+      "id": "version",
+      "attributes": {
+        "label": "客户端版本",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    },
+    {
+      "type": "input",
+      "id": "config_version",
+      "attributes": {
+        "label": "配置版本",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "problem",
+      "attributes": {
+        "label": "问题描述",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "expected",
+      "attributes": {
+        "label": "预期行为",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "logs",
+      "attributes": {
+        "label": "脱敏日志、截图或错误",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    },
+    {
+      "type": "checkboxes",
+      "id": "precheck",
+      "attributes": {
+        "label": "提交前检查",
+        "options": [
+          {
+            "label": "已核对相关文档和现有问题，并已移除订阅链接与凭据。",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,77 +1,76 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-cmfa-mobile.svg">
-  <img src="../../docs/assets/readme/page-cmfa.svg" alt="Clash Meta For Android（CMFA） 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-cmfa.svg" alt="Clash Meta For Android (CMFA) import guide" width="100%">
 </picture>
 
-# Clash Meta For Android（CMFA） 导入指南
+# Clash Meta For Android (CMFA) import guide
 
-在 Android 导入原生 Mihomo YAML；ClashMi 也可复用同一文件。先填节点订阅，再导入启动；本配置使用 **url-test，不含 Smart / LightGBM**。
+Import native Mihomo YAML on Android. ClashMi can reuse the same file. Enter your node subscription before importing and starting. This configuration uses **url-test, not Smart / LightGBM**.
 
-<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>
+<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="Post-import verification" width="145" height="38"></a></p>
 
-[开始前](#before-you-start) · [选择文件](#downloads) · [导入步骤](#import) · [常见问题](#faq) · [进阶与参考](#reference)
+[Preparation](#before-you-start) · [Files](#downloads) · [Import](#import) · [Troubleshooting](#faq) · [Reference](#reference)
 
 <a id="-零基础-5-分钟快速开始"></a>
-
 <a id="before-you-start"></a>
 
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+## Before you start: client and subscription
 
-## 开始前：准备客户端与订阅
-
-准备 Android 设备、CMFA APK、Mihomo 节点订阅与本目录 YAML。使用已验收的 **Mihomo v1.19.29 或更新核心**。
+Prepare an Android device, CMFA APK, Mihomo node subscription and this directory's YAML. Use the validated **Mihomo v1.19.29 baseline or a newer compatible core**.
 
 <a id="一下载-cmfa-客户端"></a>
 
-1. 开源地址：https://github.com/MetaCubeX/ClashMetaForAndroid/releases
-2. 根据手机 CPU 选择合适的 APK：
-   - **arm64-v8a**：绝大多数 2017 年后的手机
-   - **armeabi-v7a**：少数老机型
-   - **universal**：不确定时的通用包
-3. 安装后授权「VPN 权限」与「文件读写权限」。
+1. Releases: https://github.com/MetaCubeX/ClashMetaForAndroid/releases
+2. Select an APK for the device CPU:
+   - **arm64-v8a:** most phones released after 2017.
+   - **armeabi-v7a:** some older devices.
+   - **universal:** if unsure.
+3. After installation, grant required VPN and file-access permissions through the device's prompts.
 
-配置包含 22 个区域组 + 33 个业务组；空区域组会拒绝连接，应选择有节点的地区或全球组。规则下载需要 GitHub Raw 可达或可用代理。
+The Full configuration has 22 regional + 33 service groups. Empty regional groups reject connections; select a populated region or global group. Rule downloads need GitHub Raw access or a working proxy.
 
 <a id="-规则下载链接"></a>
-
 <a id="downloads"></a>
 
-## 选择并下载文件
+## Select and download files
 
-### 在线选择与本地导入
+### Online selection and local import
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 CMFA / ClashMi、Full / Lite / Custom 和支持的参数，下载 YAML。按下文在本地填写节点订阅并导入；ClashMi 按其[导入说明](#九兼容客户端clashmi跨平台)接入同一 YAML，检查 App 覆写及实际连接。页面在本机生成，不读取或上传订阅及个人配置。
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), choose CMFA / ClashMi, Full / Lite / Custom and supported parameters, then download YAML. Enter your subscription locally and import below. ClashMi uses the same YAML through its [import procedure](#九兼容客户端clashmi跨平台); inspect application overrides and real connections. Generation is local without reading/uploading subscriptions or personal configuration.
 
-更新时刷新页面，重新选择相同业务方案与参数，下载新副本，按原方法重新接入节点并替换本地配置。官方远程 URL 指向完整默认配置，不能自动保留定制；业务范围见[统一配置指南](../../docs/configuration.md)。
+To update, refresh the page, choose the same profile and parameters, download a new copy, reconnect your nodes using the original method and replace local configuration. Official remote URLs target full defaults and cannot automatically preserve customizations. See the [configuration guide](../../docs/configuration.md) for service scope.
 
-[![下载 CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+[![Download CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+The button opens the raw file. Right-click to copy the URL or save locally.
 
-**CMFA YAML 直链：**
+**CMFA YAML URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml
 ```
 
-下载 YAML 后，按下文填写节点订阅并导入；ClashMi 复用同一文件。
+Enter your subscription after downloading, then import. ClashMi reuses this file.
 
 <a id="import"></a>
 
-## 按顺序导入
+## Import in order
 
 <a id="二修改订阅链接"></a>
 
-### 1. 填写节点订阅
+### 1. Enter the node subscription
 
-打开 `CMFA(mihomo).yaml`，修改 proxy-providers.Subscribe.url；其余字段按文件现值保留。结构示例：
+Open `CMFA(mihomo).yaml` and edit `proxy-providers.Subscribe.url`. Keep other fields at their existing values. Example structure:
 
 ```yaml
 proxy-providers:
   Subscribe:
     type: http
-    url: 'https://my.example.com/your-subscription-url'   # ← 替换为你的机场订阅链接
+    url: 'https://my.example.com/your-subscription-url'   # Replace with your provider subscription URL
     interval: 86400
     path: ./proxy_providers/subscribe.yaml
     health-check:
@@ -81,132 +80,130 @@ proxy-providers:
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置|10x|20x|100x)'
 ```
 
-订阅须返回 Mihomo 兼容节点；使用 Sub-Store 时填其输出 URL，保留原有过滤与健康检查设置。
+The subscription must return Mihomo-compatible nodes. For Sub-Store, use its output URL and retain existing filters and health checks.
 
-多机场优先按 [Sub-Store 教程](../../SubStore/README.md)输出一个手机可访问的 Mihomo URL；127.0.0.1 只指手机自身。需要手动配置多个 provider 时，见[进阶与参考](#reference)，全部 22 个区域组的 use 均须更新。
+For multiple providers, prefer one phone-accessible Mihomo URL from [Sub-Store](../../SubStore/README.md). `127.0.0.1` refers to the phone itself. To manually configure several providers, see [reference](#reference); update `use` in all 22 regional groups.
 
 <a id="三导入配置到-cmfa"></a>
 
-### 2. 导入修改后的 YAML
+### 2. Import the edited YAML
 
-#### 方法 A：本地文件导入（推荐首次使用）
+#### Method A: local file (recommended for first use)
 
-1. 将修改后的 `CMFA(mihomo).yaml` 复制到手机存储（例如 `Download/` 目录）。
-2. 打开 CMFA → **配置（Profiles）** → 右下角 ➕ → **从文件导入**。
-3. 选择刚才的 YAML → 命名为 `Clash Smart` → 确定。
+1. Copy edited `CMFA(mihomo).yaml` to phone storage, such as `Download/`.
+2. CMFA → **Profiles → + → Import from file**.
+3. Select the YAML, name it `Clash Smart` and confirm. The example profile name does not imply Smart-core functionality.
 
-#### 方法 B：URL 远程托管（推荐长期使用）
+#### Method B: hosted URL (for ongoing updates)
 
-1. 将 YAML 托管到 GitHub Raw / Gist / 自建 HTTP 服务。
-2. CMFA → **配置** → ➕ → **从 URL 导入** → 粘贴 URL → 确定。
-3. 后续自动轮询更新（默认每 24 小时，可在配置设置里调整）。
+1. Host your edited YAML using a suitable server, Gist or raw-file service. Protect it from public access because it contains your subscription URL; do not publish it in a public repository or Gist.
+2. CMFA → **Profiles → + → Import from URL**, paste the private accessible URL and confirm.
+3. Automatic polling is normally every 24 hours; adjust in profile settings.
+
+Interface labels may vary by client version/language.
 
 <a id="四首次启动"></a>
 
-### 3. 选中配置并启动 VPN
+### 3. Select the profile and start VPN
 
-选中配置并启动，等待节点列表和融合规则集下载；DNS 所需 GeoSite/GeoIP 资源也须可用。日志应无解析或下载错误，随后检查实际连接记录。
+Select and start the profile. Wait for nodes and fused rule-sets to download. GeoSite/GeoIP resources needed by DNS must also be available. Logs should show no parser/download errors; then inspect actual connections.
 
-本 YAML 不使用 LightGBM，不下载 Model.bin。下载受阻时先保留可用缓存，按[规则下载说明](../../docs/rule-asset-delivery.md)检查代理与 HTTP 状态。
+This YAML does not use LightGBM or download Model.bin. If downloads fail, preserve working caches and follow [rule download diagnostics](../../docs/rule-asset-delivery.md) for proxy and HTTP-status checks.
 
 <a id="verification"></a>
 
-## 导入后核验
+## Post-import verification
 
-1. 在「代理」页面确认 22 区域组 + 33 业务组，区域组为 url-test；选择有节点的地区。
-2. 检查节点与规则集已下载，日志没有解析错误；DNS 的 GeoSite / GeoIP 资源也须可用。
-3. 访问国内与国外业务，检查连接记录的域名、命中规则、业务组和实际出站。
-4. 按[完整验收清单](../../docs/guide/dns-and-verification.md#verification)检查 DNS 与规则加载；网页能打开不能证明全部配置生效。
+1. Confirm 22 regional + 33 service groups in Proxies. Regions use url-test; select a populated region.
+2. Confirm node and rule-set downloads, with no parser errors. DNS GeoSite / GeoIP resources must be available.
+3. Access China-based and international services and inspect connection domains, matched rules, service groups and actual outbounds.
+4. Follow the [complete checklist](../../docs/guide/dns-and-verification.md#verification) for DNS and rule loading. A working webpage does not prove the whole configuration is active.
 
 <a id="七常见问题"></a>
-
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-### Q1：导入后提示 `list geosite not found` 或规则解析错误？
+### Q1: list geosite not found or rule parser errors?
 
-A：使用当前 CMFA 与 Mihomo 核心，核对实际错误、规则集下载和 GeoSite 资源。路由采用融合规则集，但 DNS policy 仍依赖 GeoSite。
+Use current CMFA/Mihomo, identify the exact error and check rule-set downloads and GeoSite resources. Routing uses fused rules, but DNS policy still depends on GeoSite.
 
-### Q2：节点名称没有被正确分到区域组？
+### Q2: Incorrect regional classification?
 
-A：区域 filter 按节点名正则匹配。先确认 provider 已下载且 use 正确，再用脱敏节点名反馈漏判。
+Regional filters match node names using regex. First confirm provider downloads and correct `use` references, then report misses with redacted node names.
 
-### Q3：LightGBM 自动择优未生效？
+### Q3: LightGBM selection is not active?
 
-A：本 YAML 不使用 Smart/LightGBM。url-test 按延迟择优，不要添加 uselightgbm 或下载模型。
+This YAML does not use Smart/LightGBM. url-test selects by latency. Do not add `uselightgbm` or download a model for this profile.
 
-### Q4：fake-ip 模式下银行/支付 App 异常？
+### Q4: Banking/payment applications fail in fake-ip mode?
 
-A：先检查具体失败域名、规则和出站。需要排除整个应用时使用客户端应用过滤；仅确认是 fake-ip 兼容问题后，才在本地副本添加对应域名。
+Inspect the failing domain, rule and outbound first. Use client application filtering to exclude a whole application when necessary. Add a domain to your local fake-ip exclusions only after confirming a fake-ip compatibility issue.
 
-### Q5：fake-ip 会不会让 STUN/WebRTC 测试失真？
+### Q5: Can fake-ip distort STUN/WebRTC tests?
 
-A：STUN/TURN 域名使用真实 IP；标准端口 `3478 / 3479 / 5349 / 19302 / 19305 / 19307` 走 `DIRECT`。若测试服务强制使用 UDP/443 TURN，仍会受 QUIC 屏蔽策略影响。
-
+STUN/TURN domains use real IPs. Standard ports `3478 / 3479 / 5349 / 19302 / 19305 / 19307` use `DIRECT`. Services forcing UDP/443 TURN remain subject to QUIC-blocking policy.
 
 <a id="reference"></a>
 
-## 进阶与参考
+## Advanced reference
 
-- [DNS 与导入验收](../../docs/guide/dns-and-verification.md) · [规则下载](../../docs/rule-asset-delivery.md)。
-- [私有节点 DNS 手动 overlay](../../docs/private-node-dns.md) · [测速 / QUIC](../../docs/traffic-options.md) · [微信连接排错](../../docs/research/2026-10-16-wechat-issue-187.md)。
-- [Mihomo 代理组](https://wiki.metacubex.one/config/proxy-groups/) · [Mihomo DNS](https://wiki.metacubex.one/config/dns/) · [官方版本核对](../../docs/upstream/2026-10-19/mihomo/report.md)。
+- [DNS and import acceptance](../../docs/guide/dns-and-verification.md) · [Rule downloads](../../docs/rule-asset-delivery.md).
+- [Private-node DNS manual overlay](../../docs/private-node-dns.md) · [Latency testing / QUIC](../../docs/traffic-options.md) · [WeChat troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md).
+- [Mihomo groups](https://wiki.metacubex.one/config/proxy-groups/) · [Mihomo DNS](https://wiki.metacubex.one/config/dns/) · [Official version review](../../docs/upstream/2026-10-19/mihomo/report.md).
 
 <a id="九兼容客户端clashmi跨平台"></a>
 
-### ClashMi 导入同一 YAML
+### Import the same YAML in ClashMi
 
-[ClashMi](https://github.com/KaringX/clashmi) 可复用本 YAML，使用其 Mihomo 核心，不需要独立产物。App 的覆写顺序、核心版本和 VPN 权限仍须单独检查，见[官方核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。
+[ClashMi](https://github.com/KaringX/clashmi) reuses this YAML through its Mihomo core; no separate artifact is needed. Check application override order, bundled core version and VPN permissions separately. See the [official review](../../docs/upstream/2026-10-19/mihomo/report.md).
 
-#### 导入方式
+#### Import methods
 
-ClashMi App 首页菜单 → **我的配置** → 右上角 **＋** → 选择一种：
-- **添加配置链接**（订阅 URL，推荐长期使用，定时自动更新）
-- **从剪贴板导入**（粘贴 YAML 内容）
-- **从文件导入**（本地 `.yml` / `.yaml`）
-- **扫描二维码**
+ClashMi home menu → **My configurations → +**, then choose:
 
-保存后启用。本 YAML 未写 tun，需在 App 中提供所需 TUN/VPN 设置；内置 DNS/TUN 覆写可能改变导入配置，须读回最终值。
+- **Add configuration link:** URL import with scheduled updates.
+- **Import from clipboard:** paste YAML.
+- **Import from file:** local `.yml` / `.yaml`.
+- **Scan QR code**.
 
-#### 与 CMFA 行为一致的部分
+Save and enable. This YAML has no `tun` section; configure required TUN/VPN settings in the application. Built-in DNS/TUN overrides may change imported values, so inspect final configuration.
 
-复用 55 代理组（22 区域 + 33 业务）、168 主规则和 149 个融合 provider；区域组为 url-test。实际 DNS、嗅探和规则加载取决于 App 覆写及内置核心。
+#### Shared behavior with CMFA
 
+Reuses 55 groups (22 regional + 33 service), 168 main rules and 149 fused providers. Regions use url-test. Effective DNS, sniffing and rule loading depend on application overrides and bundled core.
 
-#### ClashMi 专属差异（官方 [FAQ](https://clashmi.app/guide/faq) 声明；本 YAML 均已规避）
+#### ClashMi-specific differences
 
-- **GEOIP / GEOSITE 规则**：ClashMi 启动时强制转换为对应 geo rule-set（内核定制）。本 YAML 的 GEOSITE 在编译期融合；GEOIP 保留在少量 residual provider 中，由 GeoIP 数据库原生查询，避免展开成几十万 CIDR。
-- **`GEOIP,<ASN>` ASN 规则**：ClashMi iOS 版本不支持 IP-ASN 数据库；本 YAML 未使用 ASN 规则。
-- **iOS VPN Extension 50 MB 内存硬顶**：超出即被系统杀进程。MRS 与懒加载不保证不超限，最终内存占用仍需设备验证。
-- **`tun:` YAML 字段块**：TUN 开关由 App UI 托管，不建议在 YAML 手写。本 YAML 未写 `tun:` 段，需交由 App 设置。
-- **Mihomo Smart / LightGBM**：ClashMi 内置 mainline，非 `vernesong/mihomo` Smart fork，不识别 `type: smart`、`uselightgbm`、`lgbm-url`。本 YAML 使用 `url-test` 区域组，不使用这些 Smart 字段。
-- **内核版本升级**：跟随 App 发版，不可独立更新（FAQ）。本 YAML 使用 mainline 稳定字段；仍需核对实际核心版本。
+The official [FAQ](https://clashmi.app/guide/faq) describes these boundaries; this YAML avoids the unsupported fields where noted:
 
-GEOIP residual、资源下载和最终内存占用仍需设备验证。
+- **GEOIP / GEOSITE rules:** ClashMi converts these to corresponding geo rule-sets on startup through core customization. This YAML's GEOSITE routing is fused at compile time. A few residual providers retain GEOIP for native database lookup rather than expansion into hundreds of thousands of CIDRs.
+- **`GEOIP,<ASN>`:** ClashMi iOS does not support the IP-ASN database. This YAML has no ASN rules.
+- **iOS VPN Extension 50 MB memory limit:** exceeding it can terminate the extension. MRS and lazy loading do not guarantee staying below the limit; measure final memory on the device.
+- **`tun:`:** the interface owns TUN controls; handwritten YAML is not recommended. This YAML omits `tun:` and relies on application settings.
+- **Smart / LightGBM:** ClashMi bundles mainline, not the vernesong Smart fork, and does not recognize `type: smart`, `uselightgbm` or `lgbm-url`. This YAML uses url-test and none of those fields.
+- **Core updates:** follow application releases and cannot be updated independently according to the FAQ. This YAML uses mainline stable fields; still check the actual core version.
 
-#### 使用结论
-
-ClashMi 复用本 YAML，导入后核对 App 覆写、资源加载和实际连接。
+GEOIP residual behavior, downloads and final memory require device verification. After import, inspect overrides, resource loading and real connections.
 
 <details>
-<summary>多机场：Sub-Store、转换服务与手动 provider 配置</summary>
+<summary>Multiple providers: Sub-Store, conversion services and manual configuration</summary>
 
-多机场可先聚合成一个 URL，或为每个来源配置独立 provider。
+Aggregate into one URL, or configure a separate provider for each source.
 
-#### 方式 A：Sub-Store 融合（推荐）
+#### Method A: Sub-Store (recommended)
 
-按 [Sub-Store 教程](../../SubStore/README.md)聚合订阅，输出 Mihomo 格式，将**手机可访问的 URL**填到 Subscribe.url。127.0.0.1 只指手机自身，不能直接访问电脑上的服务。
+Follow [Sub-Store](../../SubStore/README.md), output Mihomo format and enter the **phone-accessible URL** in `Subscribe.url`. `127.0.0.1` refers to the phone, not a service running on your computer.
 
-#### 方式 B：在线订阅转换站（零门槛，无需安装任何工具）
+#### Method B: online conversion
 
-在受信任的转换服务中合并多个 URL，输出选 Mihomo，再填入 Subscribe.url。服务端可看到订阅 token；敏感订阅优先使用本地 Sub-Store 或手动配置。
+Use a trusted service to merge URLs into Mihomo format and enter the result in `Subscribe.url`. The service can read subscription tokens. Prefer local Sub-Store or manual configuration for sensitive subscriptions.
 
-#### 方式 C：YAML 直接写多个 proxy-providers（无需额外工具）
+#### Method C: several proxy-providers directly in YAML
 
-每个 provider 使用独立名称和缓存路径，并让区域组 use 引用全部来源。
+Give each provider a unique name/cache path and reference all of them through regional-group `use` lists.
 
-把单机场的 `proxy-providers` 块：
+Replace the single-provider block:
 
 ```yaml
 proxy-providers:
@@ -222,7 +219,7 @@ proxy-providers:
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
 ```
 
-改为多机场版本：
+With multiple providers:
 
 ```yaml
 proxy-providers:
@@ -260,17 +257,16 @@ proxy-providers:
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置)'
 ```
 
-多个 provider 不会自动加入现有区域组。须把**全部 22 个区域组**的 use 更新为新名称；不要重复定义同名 provider。
+New providers are not automatically added to existing groups. Update `use` in **all 22 regional groups** and never duplicate provider names.
 
-
-在 YAML 中找到区域组的 use，把：
+Replace:
 
 ```yaml
   use:
   - Subscribe
 ```
 
-改为（以 3 个机场为例）：
+With (three-provider example):
 
 ```yaml
   use:
@@ -279,135 +275,134 @@ proxy-providers:
   - Airport3
 ```
 
-全部 22 个区域组都须更新；使用 Sub-Store 单一 URL 则保留 Subscribe，无需修改 use。
+Update all 22 regional groups. With one Sub-Store URL, retain `Subscribe`; no `use` change is needed.
 
 </details>
 
 <a id="五代理组说明"></a>
 
 <details>
-<summary>区域与业务组选择参考</summary>
+<summary>Regional and service-group selection reference</summary>
 
-本配置共 **22 区域组（11 全部 + 11 家宽）+ 33 业务组**，进入 CMFA「**代理（Proxies）**」页面可见：
+The configuration contains **22 regional groups (11 all-node + 11 residential) and 33 service groups**, visible in CMFA's Proxies page.
 
-### 区域组（自动择优）
+### Regional groups (automatic selection)
 
-22 个 url-test 区域组按节点名筛选，包含各地区及家宽组。新增 provider 时要同步 use；空组会拒绝连接，应切换到有节点的地区或全球组。
+The 22 url-test groups filter by node name, including regional and residential groups. Update `use` when adding providers. Empty groups reject connections; select a populated region or global group.
 
-### 业务组（手动选择）
+### Service groups (manual selection)
 
-33 个业务组可手动选择候选。下表供参考，具体候选以实际配置为准：
+Select candidates manually in the 33 service groups. These suggestions do not guarantee access or compliance with a service's regional restrictions. Actual configuration candidates are authoritative; exact runtime identifiers remain unchanged.
 
-| 业务组 | 推荐区域 |
-|--------|----------|
-| 🤖 AI 服务（ChatGPT/Claude/Gemini） | 🇺🇸 美国节点（避开 HK/CN 地区） |
-| 💰 加密货币 | 🇭🇰 香港节点 |
-| 🏦 金融支付 | 🌍 全球节点 |
-| 💬 即时通讯（Telegram/Discord） | 🇭🇰 香港节点 或 🇯🇵 日韩节点 |
-| 📱 社交媒体（X/Twitter/Instagram） | 🇯🇵 日韩节点 |
-| 🧑‍💼 会议协作（Zoom/Teams） | 🇯🇵 日韩节点（低延迟） |
-| 📺 国内流媒体（B 站/爱奇艺/腾讯） | DIRECT（境内）或 🇭🇰 香港节点（境外） |
-| 🎥 Netflix | 🇺🇸 美国节点 |
-| 🎬 Disney+ | 🇺🇸 美国节点 |
-| 📡 HBO/Max | 🇺🇸 美国节点 |
-| 📺 Hulu | 🇺🇸 美国节点 |
-| 🎬 Prime Video | 🇺🇸 美国节点 |
-| 📹 YouTube | 🌍 全球节点 |
-| 🎵 音乐流媒体（Spotify/Apple Music） | 🌍 全球节点 |
-| 🇭🇰 香港流媒体（Now E / MyTV） | 🇭🇰 香港节点 |
-| 🇹🇼 台湾流媒体（LiTV / 巴哈姆特） | 🇹🇼 台湾节点 |
-| 🇯🇵 日韩流媒体 | 🇯🇵 日韩节点 |
-| 🇪🇺 欧洲流媒体 | 🇪🇺 欧洲节点 |
-| 🌐 其他国外流媒体 | 🌍 全球节点 |
-| 🕹️ 国内游戏 | DIRECT |
-| 🎮 国外游戏 | 🌍 全球节点 或 🇯🇵 日韩节点（低延迟） |
-| 🔍 Google 服务 | 🌍 全球节点 |
-| 🔧 工具与服务 | 🌍 全球节点 |
-| Ⓜ️ 微软服务 | 🌍 全球节点 |
-| 🍎 苹果服务 | DIRECT（境内） |
-| 📥 下载更新 | 🌍 全球节点 |
-| 🛰️ BT/PT Tracker | REJECT |
-| 🏠 国内网站 | DIRECT |
-| 🚫 受限网站（GFW） | 境内选代理，境外选 DIRECT |
-| 🌐 国外网站 | 🌍 全球节点 |
-| 🐟 漏网之鱼 | 🌍 全球节点（FINAL） |
-| 🛑 广告拦截 | REJECT |
+| Service group (runtime identifiers retained) | Selection and verification |
+|---|---|
+| `🤖 AI 服务` (ChatGPT/Claude/Gemini) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `💰 加密货币` | Follow account requirements, service terms and applicable law; an exit region does not establish eligibility or compliance. |
+| `🏦 金融支付` | Follow account requirements, service terms and applicable law; an exit region does not establish eligibility or compliance. |
+| `💬 即时通讯` (Telegram/Discord) | Compare connection success, packet loss and latency; choose a stable working exit. |
+| `📱 社交媒体` (X/Twitter/Instagram) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🧑‍💼 会议协作` (Zoom/Teams) | Compare connection success, packet loss and latency; choose a stable working exit. |
+| `📺 国内流媒体` (Bilibili/iQIYI/Tencent) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🎥 Netflix` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🎬 Disney+` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `📡 HBO/Max` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `📺 Hulu` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🎬 Prime Video` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `📹 YouTube` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🎵 音乐流媒体` (Spotify/Apple Music) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🇭🇰 香港流媒体` (Now E / MyTV) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🇹🇼 台湾流媒体` (LiTV / Bahamut) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🇯🇵 日韩流媒体` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🇪🇺 欧洲流媒体` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🌐 其他国外流媒体` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🕹️ 国内游戏` | Compare connection success, packet loss and latency; choose a stable working exit. |
+| `🎮 国外游戏` | Compare connection success, packet loss and latency; choose a stable working exit. |
+| `🔍 Google 服务` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🔧 工具与服务` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `Ⓜ️ 微软服务` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🍎 苹果服务` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `📥 下载更新` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🛰️ BT/PT Tracker` | The existing configuration targets `REJECT`; verify actual rules and requirements. |
+| `🏠 国内网站` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🚫 受限网站` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🌐 国外网站` | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| `🐟 漏网之鱼` | Final fallback group; inspect unmatched traffic and the selected exit. |
+| `🛑 广告拦截` | The existing configuration targets `REJECT`; verify actual rules and requirements. |
 
 </details>
 
 <a id="六常用高级设置"></a>
 
 <details>
-<summary>应用过滤、VPN 与后台设置</summary>
+<summary>Application filtering, VPN and background settings</summary>
 
-### 1. 启用 TUN 模式（系统级代理）
+### 1. Enable VPN / system-level capture
 
-在客户端启动 VPN 并允许系统授权。本 YAML 没有 tun 段；Android 网络接管由客户端管理。
+Start VPN in the client and approve the system prompt. This YAML has no `tun` section; the client manages Android traffic capture.
 
-### 2. 启用 Meta SideBar（仪表盘）
+### 2. Dashboard / Meta SideBar
 
-使用客户端代理、连接或仪表盘查看 url-test 测速与实际出站；这里没有 LightGBM 模型状态。
+Use client proxies, connections or dashboard views to inspect url-test latency and actual outbounds. There is no LightGBM model status for this configuration.
 
-### 3. 应用分应用代理（可选）
+### 3. Optional per-application filtering
 
-- CMFA → **设置** → **应用过滤** → 选择模式：
-  - **黑名单**：列表内 App 不走代理（推荐国内银行/支付 App 加入）
-  - **白名单**：仅列表内 App 走代理
+CMFA → **Settings → Application filtering**:
 
-### 4. 开启后台保活
+- **Blacklist:** listed applications bypass the proxy. This can be appropriate for banking/payment applications requiring direct access.
+- **Whitelist:** only listed applications use the proxy.
 
-- 系统「**电池优化**」中将 CMFA 设为「**不优化**」。
-- MIUI / ColorOS / HarmonyOS 需额外在「自启动」与「后台弹出」权限中允许 CMFA。
+### 4. Background operation
+
+- In system Battery optimization, set CMFA to **Not optimized**.
+- MIUI / ColorOS / HarmonyOS may also require CMFA permissions for autostart and background pop-ups.
 
 </details>
 
 <a id="八配置关键字段速查"></a>
 
 <details>
-<summary>配置关键字段速查</summary>
+<summary>Key configuration fields</summary>
 
-| 字段 | 位置 | 说明 |
-|------|------|------|
-| `mixed-port: 7890` | 顶部 | HTTP / SOCKS 混合端口 |
-| `mode: rule` | 顶部 | 规则模式（勿改 global/direct） |
-| `find-process-mode: strict` | 顶部 | 进程匹配仍取决于系统与客户端权限 |
-| `dns.enhanced-mode: fake-ip` | `dns` | fake-ip 模式 |
-| `sniffer.enable: true` | `sniffer` | 启用 SNI 嗅探 |
-| `rule-providers.*.format: mrs` | `rule-providers` | 决定对应 provider 使用 MRS 格式 |
+| Field | Location | Meaning |
+|---|---|---|
+| `mixed-port: 7890` | Top level | Combined HTTP / SOCKS port |
+| `mode: rule` | Top level | Rule mode; do not change to global/direct |
+| `find-process-mode: strict` | Top level | Process matching still depends on system/client permissions |
+| `dns.enhanced-mode: fake-ip` | `dns` | fake-ip mode |
+| `sniffer.enable: true` | `sniffer` | Enable SNI sniffing |
+| `rule-providers.*.format: mrs` | `rule-providers` | Select MRS for the corresponding provider |
 
----
-
-MRS 是否启用由 rule-providers 的 format 决定，geodata-mode 不是 MRS 开关；Android 进程匹配还取决于系统与客户端权限。
+MRS is selected by provider `format`; `geodata-mode` is not the MRS switch. Android process matching depends on system/client permissions.
 
 </details>
 
 <a id="-协议支持mihomo-内核"></a>
 
 <details>
-<summary>协议能力参考（取决于实际内核）</summary>
+<summary>Protocol reference (actual core is authoritative)</summary>
 
-协议能力取决于实际内置 Mihomo 版本；下表作为选型参考，不能据客户端名称假定所有版本能力相同。
+Support depends on the bundled Mihomo version. This is selection guidance, not a claim that every version sharing a client name has identical capabilities.
 
-| 协议 | 支持 | 说明 |
+| Protocol | Support | Notes |
 |---|:-:|---|
-| **Shadowsocks (SS)** | ✅ | 全套 AEAD + SS 2022 |
-| **ShadowsocksR (SSR)** | ✅ | 兼容老机场 |
+| **Shadowsocks (SS)** | ✅ | AEAD and SS 2022 |
+| **ShadowsocksR (SSR)** | ✅ | Legacy-provider compatibility |
 | **VMess** | ✅ | ws/grpc/h2/httpupgrade |
-| **VLESS** | ✅ | 含 **REALITY** + **XTLS-Vision** |
-| **Trojan** | ✅ | + Trojan-Go 扩展 |
-| **Hysteria v1 / v2** | ✅ | QUIC-based，弱网友好 |
+| **VLESS** | ✅ | REALITY and XTLS-Vision |
+| **Trojan** | ✅ | Trojan-Go extensions |
+| **Hysteria v1 / v2** | ✅ | QUIC-based |
 | **TUIC v5** | ✅ | QUIC-based |
-| **WireGuard** | ✅ | 作为出站 |
-| **AnyTLS / ShadowTLS / Snell v4 / SSH / Mieru** | ✅ | 新协议/小众协议全覆盖 |
+| **WireGuard** | ✅ | Outbound |
+| **AnyTLS / ShadowTLS / Snell v4 / SSH / Mieru** | ✅ | Check exact core version for these protocols |
 | **SOCKS5 / HTTP(S)** | ✅ | |
 
-### 提示
+### Note
 
-本 YAML 的区域组为 url-test；CMFA 不执行 JS 覆写。FlClash 支持专用 JS，但同样不提供 vernesong Smart 组。
+This YAML uses url-test regions. CMFA does not execute JS overrides. FlClash supports its dedicated JS, but likewise does not provide vernesong Smart groups.
 
 </details>
 
-业务 DNS 权威源为 [business-dns-policy.json](../../rulesets/source/business-dns-policy.json)，维护命令：
+Business DNS authority: [business-dns-policy.json](../../rulesets/source/business-dns-policy.json). Maintenance:
 
 ```bash
 node tools/sync-business-dns-policy.js
@@ -417,12 +412,12 @@ node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-syn
 
 <a id="十参考与致谢"></a>
 
-- 上游内核：[MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo)
-- LightGBM 模型：[vernesong/mihomo](https://github.com/vernesong/mihomo)
-- 规则集：[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)
-- GeoIP：[Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
-- 兼容客户端：[KaringX/clashmi](https://github.com/KaringX/clashmi) · [ClashMi 官方 FAQ](https://clashmi.app/guide/faq)
+- Core: [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo).
+- LightGBM model project (not used by this YAML): [vernesong/mihomo](https://github.com/vernesong/mihomo).
+- Rules: [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat).
+- GeoIP: [Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip).
+- Compatible client: [KaringX/clashmi](https://github.com/KaringX/clashmi) · [ClashMi FAQ](https://clashmi.app/guide/faq).
 
 <a id="-支持本项目"></a>
 
-[变更历史](CHANGELOG.md) · [支持本项目](../../docs/donate.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[Changelog](CHANGELOG.md) · [Support the project](../../docs/donate.md) · [Report an issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

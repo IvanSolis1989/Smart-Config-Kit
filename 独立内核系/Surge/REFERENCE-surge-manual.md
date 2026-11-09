@@ -1,104 +1,120 @@
-# Surge 官方手册参考文档
+<a id="surge-官方手册参考文档"></a>
+# Surge official-manual reference
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Surge 规则](https://manual.nssurge.com/rule.html)，沿用现有 RULE-SET 目标策略，不新增规则类型。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+**English** | [简体中文](REFERENCE-surge-manual.zh-CN.md)
 
-> 更新于 2026-10-20（上次获取 2026-10-19）：为 Issue #190 重新读取官方 [Advanced DNS](https://manual.nssurge.com/dns/advanced.html) 与 [General](https://manual.nssurge.com/profile/general.html#tun-excluded-routes)，补充 VIF/Fake IP 接管约束。旧 `others/misc-options.html` 已返回 404，相关选项以 General 页面为准。
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-## VIF 与 Fake IP 接管约束
+> Reviewed 2026-10-28: GoogleFCM was moved only from downloads/updates to Google services. [Surge rules](https://manual.nssurge.com/rule.html) were reviewed; existing RULE-SET targets were retained without new rule types. DNS, fake-IP, sniffing, other push traffic, and node groups were unchanged. No new fields, minimum versions, or device-success claims were added.
 
-- Surge 从 `198.18.0.0/15` 分配 IPv4 Fake IP，DNS 响应器使用其中的 `198.18.0.2`（Mac）/ `198.18.0.4`（iOS）；连接必须返回 VIF 才能恢复原域名并进入策略匹配。`tun-excluded-routes` 绕过 VIF，因此不能与该地址池有任何交集；规则层 `DIRECT` 在接管后选择出口，不等同于 TUN 排除。
-- `skip-proxy` 绕过系统 HTTP 代理并交给 VIF，不是 TUN 排除；`always-real-ip` 改变指定域名的 DNS 响应，不需要为本问题设为 `*`。本次仅删除既有 IPv4 CIDR，没有引入新字段或提高最低版本；未执行 Surge App 真机验收。
-- 跨端静态审计：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash 未配置对其 Fake IP 池的 IP 路由排除；Egern 仅旁路本地/私网；QX 未排除此段；SingBox 两版开启 `auto_route` 且无 `route_exclude_address`；v2rayN/双内核系/Passwall/Passwall2 的规则资产没有 OS TUN 排除配置。因此不改变源规则图、融合资产或这些产物。
-- Loon 与 Shadowrocket 也有相同 `/15` 文本，但不能据此判为同构故障：Loon [官方示例](https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf)本身包含该段，[当前 General](https://nsloon.app/docs/General/#bypass-tun)未公布 Fake IP 地址池；Shadowrocket 帮助站不可达，开发者网站未给出可核实的地址池/覆盖优先级说明。本次保留二者，不能将其视为已完成真机验证。
+> Updated 2026-10-20 (previous retrieval 2026-10-19): for Issue #190, official [Advanced DNS](https://manual.nssurge.com/dns/advanced.html) and [General](https://manual.nssurge.com/profile/general.html#tun-excluded-routes) were reread to document VIF/Fake IP interception constraints. Old `others/misc-options.html` returned 404; use General for those options.
 
-> 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方正文、版本 metadata、取舍与验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)。原文快照及哈希见[来源清单](../../docs/upstream/2026-10-19/apple/manifest.json)。
+<a id="vif-与-fake-ip-接管约束"></a>
+## VIF and Fake IP interception constraints
 
-## 当前复核结论
+- Surge allocates IPv4 Fake IPs from `198.18.0.0/15`; its DNS responder uses `198.18.0.2` on Mac / `198.18.0.4` on iOS. Connections must return through VIF to recover original domains and match policies. `tun-excluded-routes` bypasses VIF and must not intersect that pool. Rule-level `DIRECT` selects an exit after interception and is not a TUN exclusion.
+- `skip-proxy` bypasses the system HTTP proxy and hands traffic to VIF; it is not a TUN exclusion. `always-real-ip` changes DNS answers for specified domains and need not be set to `*` for this issue. This revision removed only existing IPv4 CIDRs, without new fields or higher minimum versions. No Surge real-device acceptance was performed.
+- Cross-client static audit: Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, FlClash, and Stash had no IP-route exclusions for their Fake IP pools; Egern bypassed only local/private networks; QX did not exclude this range; both SingBox versions enabled `auto_route` without `route_exclude_address`; v2rayN/dual-core-family/Passwall/Passwall2 rule assets had no OS TUN exclusions. Their source graph, fused assets, and outputs were therefore unchanged.
+- Loon and Shadowrocket also contained the same `/15` text, but that alone did not establish an equivalent defect. Loon’s [official example](https://raw.githubusercontent.com/Loon0x00/LoonExampleConfig/master/example.conf) itself includes the range; [current General documentation](https://nsloon.app/docs/General/#bypass-tun) does not publish a Fake IP pool. Shadowrocket’s help site was unavailable and its developer website supplied no verifiable pool/override-priority explanation. Both were retained; this is not completed real-device validation.
 
-- Surge iOS 稳定版 5.23.0（2026-10-12 UTC）；Mac 稳定版 6.10.0/12500（2026-10-12 UTC）。Mac beta feed 为 6.11.0/12560（2026-10-16 UTC），enclosure 与旧 title 冲突已原样保留，不混入稳定版结论。
-- 官方 [Profile Format](https://manual.nssurge.com/profile/format.html)不识别 `[DNS]`；DNS 全局键位于 `[General]`。旧文的独立 DNS 节、`fallback-dns-server` 和 `dns-direct-fallback-proxy` 说明错误，已纠正。
-- [加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html)并发首答；普通 DNS 仅连通性检测/加密服务器域名自举。保持 `encrypted-dns-follow-outbound-mode=false` 时加密 DNS 直连；没有“直连失败再转代理”的等价开关。
-- [TUIC v5](https://manual.nssurge.com/policies/tuic.html)原生支持；[Hysteria 2](https://manual.nssurge.com/policies/hysteria2.html)为 iOS5.8.0+/Mac5.4.0+；[AnyTLS](https://manual.nssurge.com/policies/anytls.html)为 iOS5.17.0+/Mac6.4.3+。External 程序仅 Mac，iOS 按 REJECT 处理。
-- Surge 有原生 [smart](https://manual.nssurge.com/policy-groups/smart.html)（iOS5.11.0+/Mac5.7.0+）；本仓库仍用 url-test，不把它与 Mihomo LightGBM 等同。category/HTTPS测速及 beta adaptive QUIC 仅列候选。
+> Updated 2026-10-19 (previous topic summary 2026-05-31): official text, version metadata, decisions, and validation gaps are in the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md). Original snapshots and hashes are in the [source manifest](../../docs/upstream/2026-10-19/apple/manifest.json).
 
-## 历史摘要边界
+<a id="当前复核结论"></a>
+## Current review findings
 
-以下保留旧摘要以便追溯；未被本次逐项确认的跨客户端比较和样例不能视为最新官方承诺。以本节及缓存官方正文为准，本次未完成真实 App 验收。
+- Surge iOS stable 5.23.0 (2026-10-12 UTC); Mac stable 6.10.0/12500 (2026-10-12 UTC). The Mac beta feed reported 6.11.0/12560 (2026-10-16 UTC). The enclosure/old-title conflict was retained, not mixed into stable findings.
+- Official [Profile Format](https://manual.nssurge.com/profile/format.html) does not recognize `[DNS]`; global DNS keys belong in `[General]`. Earlier descriptions of a separate DNS section, `fallback-dns-server`, and `dns-direct-fallback-proxy` were wrong and corrected.
+- [Encrypted DNS](https://manual.nssurge.com/dns/encrypted-dns.html) uses concurrent first response. Plain DNS serves connectivity checks/encrypted-server-domain bootstrap only. With `encrypted-dns-follow-outbound-mode=false`, encrypted DNS connects directly; there is no equivalent “proxy only after direct failure” switch.
+- [TUIC v5](https://manual.nssurge.com/policies/tuic.html) is native. [Hysteria 2](https://manual.nssurge.com/policies/hysteria2.html) requires iOS 5.8.0+/Mac 5.4.0+; [AnyTLS](https://manual.nssurge.com/policies/anytls.html) requires iOS 5.17.0+/Mac 6.4.3+. External programs are Mac-only and treated as REJECT on iOS.
+- Surge has native [smart](https://manual.nssurge.com/policy-groups/smart.html) (iOS 5.11.0+/Mac 5.7.0+). This repository still uses url-test; smart is not equated with Mihomo LightGBM. Category/HTTPS testing and beta adaptive QUIC remain candidates only.
 
+<a id="历史摘要边界"></a>
+## Historical-summary boundaries
 
-> 2026-10-15 URL 兼容性复核：[官方 Rule Set 手册](https://manual.nssurge.com/rules/ruleset.html)明确允许外部 `http://` / `https://` 资源，并示例 `RULE-SET,<URL>,<policy>`；Issue #186 只替换仓库自有规则 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+Older summaries are retained for traceability. Cross-client comparisons/examples not individually confirmed in this review are not current official promises. The current section and cached official text take precedence. No real app acceptance was completed.
 
-> 来源: https://manual.nssurge.com/
-> 获取日期: 2026-04-26
-> 更新于 2026-05-31（复查）：Surge iOS v5.18.0（2026-05-06）。manual.nssurge.com 配置手册未发现语法变更。Surge 5.x 配置语法与当前基线兼容。
+> URL compatibility review, 2026-10-15: the [official Rule Set manual](https://manual.nssurge.com/rules/ruleset.html) explicitly permits external `http://` / `https://` resources and demonstrates `RULE-SET,<URL>,<policy>`. Issue #186 changes only repository-owned rule URL hosts, not syntax. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
+
+> Source: https://manual.nssurge.com/
+> Retrieved: 2026-04-26
+> Updated 2026-05-31 (recheck): Surge iOS v5.18.0 (2026-05-06). No syntax changes were found in manual.nssurge.com. Surge 5.x configuration syntax was recorded as compatible with the baseline.
 >
-> 更新于 2026-04-30（复查）：重新抓取 manual.nssurge.com，未发现版本号或配置语法变更。Surge 5.x 配置语法与当前基线兼容。
-> 注意: 本文档基于 Surge 5.x / Surge Mac 5.x 官方手册编写
+> Updated 2026-04-30 (recheck): manual.nssurge.com was fetched again; no version-number or configuration-syntax changes were found. Surge 5.x syntax was recorded as compatible with the baseline.
+> Historical note: compiled from official Surge 5.x / Surge Mac 5.x manuals.
 
 ---
 
-## 1. [General] 配置段
+<a id="1-general-配置段"></a>
+## 1. [General] section
 
-### 网络测试
-| 字段 | 类型 | 说明 |
+<a id="网络测试"></a>
+### Network testing
+| Field | Type | Description |
 |------|------|------|
-| `internet-test-url` | URL | 用于检测互联网连通性的 URL（默认 http://www.apple.com/library/test/success.html） |
-| `proxy-test-url` | URL | 用于代理连通性/延迟测试的 URL |
-| `test-timeout` | 整数 | 代理测试超时时间（秒），默认 5 |
+| `internet-test-url` | URL | Internet-connectivity URL (default http://www.apple.com/library/test/success.html) |
+| `proxy-test-url` | URL | Proxy connectivity/latency URL |
+| `test-timeout` | Integer | Proxy-test timeout in seconds; default 5 |
 
-### 代理行为
-| 字段 | 类型 | 说明 |
+<a id="代理行为"></a>
+### Proxy behavior
+| Field | Type | Description |
 |------|------|------|
-| `bypass-system` | bool | 旁路系统流量，不经过 Surge |
-| `skip-proxy` | 逗号分隔 | 跳过代理的目标 IP/域名列表 |
-| `tun-excluded-routes` | CIDR 列表 | TUN 模式排除的路由 |
-| `exclude-simple-hostnames` | bool | 排除短主机名（如 localhost, .arpa, .lan） |
-| `read-etc-hosts` | bool | 读取系统 /etc/hosts（macOS 专用） |
+| `bypass-system` | bool | Bypass system traffic outside Surge |
+| `skip-proxy` | Comma-separated | Destination IPs/domains bypassing the proxy |
+| `tun-excluded-routes` | CIDR list | Routes excluded from TUN |
+| `exclude-simple-hostnames` | bool | Exclude short hostnames, e.g. localhost, .arpa, .lan |
+| `read-etc-hosts` | bool | Read system /etc/hosts (macOS only) |
 
-### DNS 配置（[General] 段基础字段）
-| 字段 | 类型 | 说明 |
+<a id="dns-配置general-段基础字段"></a>
+### DNS configuration (basic [General] fields)
+| Field | Type | Description |
 |------|------|------|
-| `dns-server` | 逗号分隔 | 普通服务器 IP / system；遗留加密 URL 会在加载时迁入 encrypted-dns-server，不作为推荐写法 |
-| `encrypted-dns-server` | 逗号分隔 | 加密 DNS 服务器列表（DoH/DoT URL） |
-| `encrypted-dns-follow-outbound-mode` | bool | 加密 DNS 是否跟随出站模式 |
-| `hijack-dns` | 逗号分隔 | 劫持 DNS 查询的目标地址（如 8.8.8.8:53） |
+| `dns-server` | Comma-separated | Ordinary server IPs / system; legacy encrypted URLs migrate to encrypted-dns-server on load and are not recommended syntax |
+| `encrypted-dns-server` | Comma-separated | Encrypted DNS servers (DoH/DoT URLs) |
+| `encrypted-dns-follow-outbound-mode` | bool | Whether encrypted DNS follows outbound mode |
+| `hijack-dns` | Comma-separated | DNS-query destinations to intercept, e.g. 8.8.8.8:53 |
 
-### 网络栈
-| 字段 | 类型 | 说明 |
+<a id="网络栈"></a>
+### Network stack
+| Field | Type | Description |
 |------|------|------|
-| `ipv6` | bool | 启用 IPv6 |
-| `prefer-ipv6` | bool | IPv6 优先 |
-| `block-quic` | bool / "all-proxy" | 屏蔽 QUIC/HTTP/3 流量 |
-| `icmp-auto-reply` | bool | 自动回复 ping |
-| `udp-policy-not-supported-behaviour` | "REJECT" / "DIRECT" | 遇到不支持 UDP 的策略时行为 |
+| `ipv6` | bool | Enable IPv6 |
+| `prefer-ipv6` | bool | Prefer IPv6 |
+| `block-quic` | bool / "all-proxy" | Block QUIC/HTTP/3 |
+| `icmp-auto-reply` | bool | Automatically reply to ping |
+| `udp-policy-not-supported-behaviour` | "REJECT" / "DIRECT" | Behavior when a policy lacks UDP support |
 
-### GeoIP 配置
-| 字段 | 类型 | 说明 |
+<a id="geoip-配置"></a>
+### GeoIP configuration
+| Field | Type | Description |
 |------|------|------|
-| `geoip-maxmind-url` | URL | 自定义 GeoIP MMDB 数据库 URL（Surge 启动时自动下载） |
-| `disable-geoip-db-auto-update` | bool | 禁用 GeoIP 数据库自动更新 |
+| `geoip-maxmind-url` | URL | Custom GeoIP MMDB URL, downloaded automatically on Surge startup |
+| `disable-geoip-db-auto-update` | bool | Disable automatic GeoIP database updates |
 
-### 外部控制
-| 字段 | 类型 | 说明 |
+<a id="外部控制"></a>
+### External control
+| Field | Type | Description |
 |------|------|------|
-| `external-controller-access` | string | 外部控制器访问凭据和地址 |
-| `http-api` | string | HTTP API 访问凭据和地址（新字段） |
-| `http-api-tls` | bool | HTTP API 使用 TLS |
-| `http-api-web-dashboard` | bool | 启用 Web Dashboard |
+| `external-controller-access` | string | External-controller credentials and address |
+| `http-api` | string | HTTP API credentials and address (then-new field) |
+| `http-api-tls` | bool | Use TLS for HTTP API |
+| `http-api-web-dashboard` | bool | Enable Web Dashboard |
 
 ---
 
-## 2. DNS 节误述更正（2026-10-19）
+<a id="2-dns-节误述更正2026-10-19"></a>
+## 2. Correction of DNS-section descriptions (2026-10-19)
 
-Surge 不识别独立 `[DNS]` 节。旧摘要曾列出 `fallback-dns-server`、`proxy-dns-server`、`dns-direct-fallback-proxy`、`private-ip-answer`、`local-name-mapping`；这些不能作为 Surge 的配置依据。官方 [General](https://manual.nssurge.com/profile/general.html)与[加密 DNS](https://manual.nssurge.com/dns/encrypted-dns.html)列出实际可用字段。
+Surge does not recognize a separate `[DNS]` section. Older summaries listed `fallback-dns-server`, `proxy-dns-server`, `dns-direct-fallback-proxy`, `private-ip-answer`, and `local-name-mapping`; these are not a basis for Surge configuration. Official [General](https://manual.nssurge.com/profile/general.html) and [encrypted DNS](https://manual.nssurge.com/dns/encrypted-dns.html) document actual fields.
 
-本仓库使用 `[General] dns-server/encrypted-dns-server/encrypted-dns-follow-outbound-mode/hijack-dns` 与 `[Host]` 映射。多个加密服务器并发首答，无普通域名明文超时兜底；也无已确认的失败才转代理开关。
+This repository uses `[General] dns-server/encrypted-dns-server/encrypted-dns-follow-outbound-mode/hijack-dns` and `[Host]` mappings. Multiple encrypted servers race for the first response; ordinary domains have no plaintext timeout fallback and no confirmed proxy-after-failure switch.
 
 ---
 
-## 3. [Proxy] 配置段
+<a id="3-proxy-配置段"></a>
+## 3. [Proxy] section
 
-代理节点声明格式:
+Proxy-node declaration format (original illustrative placeholders retained):
 ```
 # Shadowsocks
 节点名 = ss,地址,端口,password=密码,method=aes-256-gcm
@@ -114,109 +130,122 @@ Surge 不识别独立 `[DNS]` 节。旧摘要曾列出 `fallback-dns-server`、`
 # Hysteria2
 节点名 = hysteria2,地址,端口,password=密码,download-bandwidth=100
 ```
+The original comment states that VLESS / REALITY / XTLS-Vision have no native type and External programs are Mac-only.
 
 ---
 
-## 4. [Proxy Group] 策略组配置
+<a id="4-proxy-group-策略组配置"></a>
+## 4. [Proxy Group] configuration
 
-### 通用语法
+<a id="通用语法"></a>
+### General syntax
 ```
 组名 = 类型, 成员1, 成员2, ..., 参数键=参数值
 ```
 
-### 策略组类型
+<a id="策略组类型"></a>
+### Policy-group types
 
-| 类型 | 说明 | Surge 5 支持 | Shadowrocket 支持 |
+| Type | Description | Surge 5 | Shadowrocket |
 |------|------|-------------|-------------------|
-| `select` | 手动选择 | Yes | Yes |
-| `url-test` | 自动选最低延迟 | Yes | Yes |
-| `fallback` | 按优先级回退 | Yes | Yes |
-| `load-balance` | 负载均衡 | Yes | No |
-| `ssid` | 按 WiFi SSID 切换 | Yes | No |
+| `select` | Manual selection | Yes | Yes |
+| `url-test` | Automatically choose lowest latency | Yes | Yes |
+| `fallback` | Priority-ordered fallback | Yes | Yes |
+| `load-balance` | Load balancing | Yes | No |
+| `ssid` | Switch by WiFi SSID | Yes | No |
 
-### 通用参数
+<a id="通用参数"></a>
+### Common parameters
 
-| 参数 | 类型 | 说明 | Surge | Shadowrocket |
+| Parameter | Type | Description | Surge | Shadowrocket |
 |------|------|------|-------|-------------|
-| `policy-regex-filter` | 正则 | 正则过滤节点名 | Yes | Yes |
-| `include-all-proxies` | bool | 包含所有代理节点 | Yes（=true/false） | Yes（无值，仅存在即生效） |
-| `include-other-group` | 组名 | 包含其他策略组的成员 | Yes | No |
-| `policy-path` | URL | 从外部文件加载策略 | Yes | No（SR 用订阅管理） |
+| `policy-regex-filter` | Regex | Regex-filter node names | Yes | Yes |
+| `include-all-proxies` | bool | Include all proxy nodes | Yes (=true/false) | Yes (presence only, no value) |
+| `include-other-group` | Group name | Include members of another group | Yes | No |
+| `policy-path` | URL | Load policies from an external file | Yes | No (SR uses subscription management) |
 
-### url-test 专用参数
+<a id="url-test-专用参数"></a>
+### url-test-specific parameters
 
-| 参数 | 类型 | 说明 | Surge | Shadowrocket |
+| Parameter | Type | Description | Surge | Shadowrocket |
 |------|------|------|-------|-------------|
-| `url` | URL | 测试 URL | Yes | Yes |
-| `interval` | 秒 | 测试间隔 | Yes | Yes |
-| `timeout` | 秒 | 测试超时 | Yes | Yes |
-| `tolerance` | 毫秒 | 切换容忍度（防抖动） | Yes | Yes |
-| `persistent` | bool | 保持当前节点直到不可用 | Yes | No |
-| `evaluate-before-use` | bool | 使用前先评估 | Yes | No |
-| `lazy` | bool | 懒加载评估 | Yes | No |
-| `select` | 索引/名称 | 默认选中的节点 | Yes（v5+） | 不支持 |
+| `url` | URL | Test URL | Yes | Yes |
+| `interval` | Seconds | Test interval | Yes | Yes |
+| `timeout` | Seconds | Test timeout | Yes | Yes |
+| `tolerance` | Milliseconds | Switching tolerance to reduce flapping | Yes | Yes |
+| `persistent` | bool | Retain current node until unavailable | Yes | No |
+| `evaluate-before-use` | bool | Evaluate before use | Yes | No |
+| `lazy` | bool | Lazy evaluation | Yes | No |
+| `select` | Index/name | Initially selected node | Yes (v5+) | Unsupported |
 
-**重要差异:**
-- **Shadowrocket** 的 url-test 组 `policy-regex-filter` 会从所有节点中自动筛选出匹配正则的节点
-- **Surge** 的 url-test 组同样支持 `policy-regex-filter`，但需配合 `include-all-proxies=true` 确保从所有节点中筛选
-- Surge 的 `include-all-proxies` 使用 `=true`/`=false` 语法；Shadowrocket 仅需存在该参数即可
+**Important differences:**
+- **Shadowrocket** url-test `policy-regex-filter` automatically selects matching nodes from all nodes.
+- **Surge** url-test also supports `policy-regex-filter`, but use `include-all-proxies=true` to ensure all nodes are considered.
+- Surge uses `include-all-proxies=true`/`false`; Shadowrocket needs only the parameter’s presence.
 
-### select 专用参数
+<a id="select-专用参数"></a>
+### select-specific parameters
 
-| 参数 | 类型 | 说明 | Surge | Shadowrocket |
+| Parameter | Type | Description | Surge | Shadowrocket |
 |------|------|------|-------|-------------|
-| `select` | 索引/名称 | 默认选中的策略 | Yes | Yes |
-| `include-all-proxies` | bool | 自动包含所有代理节点 | Yes | Yes |
+| `select` | Index/name | Initially selected policy | Yes | Yes |
+| `include-all-proxies` | bool | Automatically include all proxies | Yes | Yes |
 
 ---
 
-## 5. [Rule] 规则配置
+<a id="5-rule-规则配置"></a>
+## 5. [Rule] configuration
 
-### 通用语法
+<a id="通用语法-1"></a>
+### General syntax
 ```
 规则类型,参数,策略,附加参数
 ```
 
-### 支持的规则类型
+<a id="支持的规则类型"></a>
+### Supported rule types
 
-| 规则类型 | Surge 5 | Shadowrocket | 说明 |
+| Rule type | Surge 5 | Shadowrocket | Description |
 |----------|---------|-------------|------|
-| `DOMAIN` | Yes | Yes | 精确域名匹配 |
-| `DOMAIN-SUFFIX` | Yes | Yes | 域名后缀匹配 |
-| `DOMAIN-KEYWORD` | Yes | Yes | 域名关键字匹配 |
-| `DOMAIN-SET` | Yes | **No** | Surge 特有：域名集合文件 |
-| `DOMAIN-REGEX` | Yes | 有限支持 | 域名正则匹配 |
-| `IP-CIDR` | Yes | Yes | IPv4 CIDR 匹配 |
-| `IP-CIDR6` | Yes | Yes | IPv6 CIDR 匹配 |
-| `GEOIP` | Yes | Yes | GeoIP 国家码匹配 |
-| `DST-PORT` | Yes | Yes | 目标端口匹配 |
-| `DST-PORT-RANGE` | Yes | No | 目标端口范围匹配 |
-| `SRC-PORT` | Yes | No | 源端口匹配（Surge 4+） |
-| `PROCESS-NAME` | Yes | **No**（iOS） | 进程名匹配（仅 macOS） |
-| `RULE-SET` | Yes | Yes | 规则集引用 |
-| `AND` / `OR` / `NOT` | Yes | 有限支持 | 复合逻辑规则 |
-| `FINAL` | Yes | Yes | 兜底规则 |
+| `DOMAIN` | Yes | Yes | Exact domain |
+| `DOMAIN-SUFFIX` | Yes | Yes | Domain suffix |
+| `DOMAIN-KEYWORD` | Yes | Yes | Domain keyword |
+| `DOMAIN-SET` | Yes | **No** | Surge-specific domain-set file |
+| `DOMAIN-REGEX` | Yes | Limited | Domain regex |
+| `IP-CIDR` | Yes | Yes | IPv4 CIDR |
+| `IP-CIDR6` | Yes | Yes | IPv6 CIDR |
+| `GEOIP` | Yes | Yes | GeoIP country code |
+| `DST-PORT` | Yes | Yes | Destination port |
+| `DST-PORT-RANGE` | Yes | No | Destination-port range |
+| `SRC-PORT` | Yes | No | Source port (Surge 4+) |
+| `PROCESS-NAME` | Yes | **No** (iOS) | Process name (macOS only) |
+| `RULE-SET` | Yes | Yes | Rule-set reference |
+| `AND` / `OR` / `NOT` | Yes | Limited | Compound logical rules |
+| `FINAL` | Yes | Yes | Final fallback |
 
-### RULE-SET 对比
+<a id="rule-set-对比"></a>
+### RULE-SET comparison
 
-| 特性 | Surge 5 | Shadowrocket |
+| Feature | Surge 5 | Shadowrocket |
 |------|---------|-------------|
-| 远程 URL 规则集 | Yes（直接在配置中引用 URL） | Yes |
-| 本地文件规则集 | Yes（相对/绝对路径） | No（必须在 UI 中添加） |
-| 规则集缓存 | 自动缓存到本地 | 自动缓存 |
-| 格式 | .list / .txt / .conf | .list / .txt |
+| Remote URL sets | Yes (URL directly in configuration) | Yes |
+| Local-file sets | Yes (relative/absolute paths) | No (must be added in UI) |
+| Cache | Automatic local cache | Automatic cache |
+| Format | .list / .txt / .conf | .list / .txt |
 
-### 规则附加参数
-| 参数 | 说明 | Surge | Shadowrocket |
+<a id="规则附加参数"></a>
+### Additional rule parameters
+| Parameter | Description | Surge | Shadowrocket |
 |------|------|-------|-------------|
-| `no-resolve` | IP 规则不触发 DNS 解析 | Yes | Yes |
-| `extended-matching` | 启用扩展匹配（DOMAIN-SUFFIX 匹配完整域名） | Yes | No |
-| `source` | 源地址匹配（IP-CIDR） | Yes | No |
-| `dns-failed` | FINAL 规则在 DNS 解析失败时使用（Shadowrocket 特有） | No | Yes |
+| `no-resolve` | IP rules do not trigger DNS resolution | Yes | Yes |
+| `extended-matching` | Enable extended matching (DOMAIN-SUFFIX matches the complete domain) | Yes | No |
+| `source` | Source-address matching (IP-CIDR) | Yes | No |
+| `dns-failed` | Use FINAL on DNS failure (Shadowrocket-specific) | No | Yes |
 
-### Inline Ruleset（Mac 5.3.1+ 新能力）
+<a id="inline-rulesetmac-531-新能力"></a>
+### Inline Ruleset (new in Mac 5.3.1+)
 
-自 Surge Mac 5.3.1 起，支持在 profile 内直接嵌入规则集（无需外部文件/URL）：
+Surge Mac 5.3.1+ can embed rule sets directly in profiles without an external file/URL:
 
 ```
 [Ruleset Streaming]
@@ -227,35 +256,39 @@ DOMAIN-SUFFIX,netflix.net
 RULE-SET,Streaming,StreamingProxy
 ```
 
-本仓库使用远程 RULE-SET URL，不受此新功能影响。
+This repository uses remote RULE-SET URLs and is unaffected by this feature.
 
 ---
 
-## 6. [Host] 本地 DNS 映射
+<a id="6-host-本地-dns-映射"></a>
+## 6. [Host] local DNS mappings
 
-两者语法相同:
+Both clients use the same syntax:
 ```
 域名 = IP地址 或 server:system
 ```
 
-### 注意
-- Surge 使用 `server:system` 表示该域名走系统 DNS 解析
-- Shadowrocket 同样支持 `server:system`
+<a id="注意"></a>
+### Notes
+- Surge uses `server:system` to resolve that domain through system DNS.
+- Shadowrocket also supports `server:system`.
 
 ---
 
+<a id="7-url-rewrite"></a>
 ## 7. [URL Rewrite]
 
-两者语法兼容:
+The syntax is compatible between the two:
 ```
 正则表达式 目标URL 状态码
 ```
 
 ---
 
+<a id="8-mitm"></a>
 ## 8. [MITM]
 
-两者语法兼容:
+The syntax is compatible between the two:
 ```
 hostname = 域名模式
 enable = true/false
@@ -263,32 +296,34 @@ enable = true/false
 
 ---
 
-## 9. Surge 特有但 Shadowrocket 不支持的特性
+<a id="9-surge-特有但-shadowrocket-不支持的特性"></a>
+## 9. Surge features not supported by Shadowrocket
 
-1. **DOMAIN-SET** 规则类型 — 直接从本地文件加载域名列表
-2. **ssid** 策略组类型 — 按 WiFi SSID 自动切换
-3. **load-balance** 策略组类型
-4. **SRC-PORT** / **DST-PORT-RANGE** 规则类型
-5. **policy-path** 参数 — 从 URL 或文件加载策略组
-6. **persistent** / **evaluate-before-use** url-test 参数
-7. **外部控制器 (external-controller-access)**
-8. DNS 相关独立节说法已撤回；使用 **[General]** / **[Host]**
-9. **encrypted-dns-server** + **encrypted-dns-follow-outbound-mode**
-10. **geoip-maxmind-url** 直接在配置文件中配置（SR 需要在 UI 中手动设置）
-
----
-
-## 10. Shadowrocket 特有但 Surge 不支持的特性
-
-1. **dns-direct-fallback-proxy** — 未找到 Surge 官方等价开关，不能写入不存在的 [DNS] 节
-2. **private-ip-answer** — 仅 Shadowrocket 支持
-3. **allow-dns-svcb** — 允许 DNS SVCB 查询
-4. **compatibility-mode** — 网络兼容模式（TUN Only 等）
-5. **dns-failed** 参数在 FINAL 规则上
-6. **url rewrite** 的 `reject-200` 和 `reject-json` 动作
-7. **Script** 功能（Surge 也有但语法不同，使用 JS/模块化体系）
+1. **DOMAIN-SET**: load domain lists directly from local files.
+2. **ssid** groups: switch automatically by WiFi SSID.
+3. **load-balance** groups.
+4. **SRC-PORT** / **DST-PORT-RANGE** rules.
+5. **policy-path**: load groups from a URL/file.
+6. **persistent** / **evaluate-before-use** url-test parameters.
+7. **External controller (external-controller-access).**
+8. The claim of a separate DNS section was withdrawn; use **[General]** / **[Host]**.
+9. **encrypted-dns-server** + **encrypted-dns-follow-outbound-mode**.
+10. **geoip-maxmind-url** directly in configuration (SR requires manual UI setup).
 
 ---
 
-> 本文档基于 Surge 官方手册 (https://manual.nssurge.com/) 和 iOS/macOS Surge App 实际行为编写。
-> 由于 WebFetch 权限限制，本文档基于作者对官方文档的已有知识整理。
+<a id="10-shadowrocket-特有但-surge-不支持的特性"></a>
+## 10. Shadowrocket features not supported by Surge
+
+1. **dns-direct-fallback-proxy**: no official Surge equivalent found; do not put it in a nonexistent [DNS] section.
+2. **private-ip-answer**: Shadowrocket only.
+3. **allow-dns-svcb**: allow DNS SVCB queries.
+4. **compatibility-mode**: network compatibility mode, such as TUN Only.
+5. **dns-failed** on FINAL rules.
+6. URL-rewrite actions **reject-200** and **reject-json**.
+7. **Script** functionality (Surge also has scripts, but different syntax and a JS/module system).
+
+---
+
+> Historical attribution: based on the Surge official manual (https://manual.nssurge.com/) and observed iOS/macOS Surge behavior.
+> Because of WebFetch permission limits, the author organized this reference from existing knowledge of official documentation.

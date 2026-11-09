@@ -1,442 +1,444 @@
+**English** | [中文](client-capability-matrix.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-client-support-mobile.svg">
-  <img src="assets/readme/page-client-support.svg" width="100%" alt="客户端能力与适配边界">
+  <img src="assets/readme/page-client-support.svg" width="100%" alt="Client capabilities and adapter limitations">
 </picture>
 
-# 跨客户端能力矩阵
+# Cross-client capability matrix
 
-按内核系列查找产品，再查看订阅输入、动态分组、节点 DNS 提示与可选 sidecar 四项能力。状态、mode 与证据逐项列出，便于在手机上阅读。
+Browse by core family, then inspect subscription input, dynamic grouping, endpoint DNS hints and optional sidecars. Each capability lists its state, mode and evidence.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Validation and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Validation and troubleshooting](guide/dns-and-verification.md)
 
-> 此文件由 `docs/client-capability-matrix.json` 生成。修改能力声明或证据后运行 `node tools/generate-client-capability-matrix.js`；CI 使用 `--check` 拒绝漂移。
+> Generated from `docs/client-capability-matrix.json` and its display-only translation catalog. After changing claims or evidence, run `node tools/generate-client-capability-matrix.js`; CI rejects drift with `--check`.
 
-这张矩阵描述的是**本仓库交付物拥有的适配 seam**，不是客户端宣传的协议支持列表：客户端能导入订阅，不等于本仓库可以在运行时读取、重写或投影该订阅。
+This matrix describes **integration points owned by this repository's artifacts**, not a client's advertised protocol list. A client's ability to import subscriptions does not mean these artifacts can read, rewrite or project them at runtime.
 
-- **内置自动**：产物有受信任的运行时 hook，能在刷新订阅时执行该能力。
-- **手工文档**：仓库只提供本地配置 / Mixin / 原生字段的操作边界，不交付会读取机场源配置的自动 sidecar。
-- **无 / 不适用**：该产物只拥有路由、shunt rule 或静态出站模型；不要把它当作订阅 DNS 转换器。
+- **Built-in**: The artifact has a trusted runtime hook that performs the capability during subscription refresh.
+- **Documented manual setup**: Only local configuration, Mixin or native-field instructions are provided, not an automatic sidecar that reads provider source configurations.
+- **Unavailable / not applicable**: The artifact owns only routing, shunt rules or static outbounds. It is not a subscription-DNS converter.
 
-## 按系列查阅
+## Browse by family
 
-- **Mihomo 内核系列**：[Clash Party（Smart / Normal）](#clash-party) · [Clash Meta for Android（CMFA）](#cmfa) · [OpenClash（Normal / Smart）](#openclash) · [FlClash 覆写脚本](#flclash)
-- **Sing-box 内核系列**：[sing-box（1.14 / 1.13 静态配置）](#sing-box) · [Karing（原生自定义分流适配）](#karing)
-- **Xray 内核系列**：[v2rayN Xray 路由 fallback](#v2rayn-xray)
-- **双内核系列**：[Passwall](#passwall) · [Passwall2](#passwall2)
-- **独立内核系列**：[Shadowrocket](#shadowrocket) · [Surge](#surge) · [Loon](#loon) · [Quantumult X](#quantumult-x) · [Stash](#stash) · [Egern](#egern)
+- **Mihomo family**: [Clash Party (Smart / Normal)](#clash-party) · [Clash Meta for Android (CMFA)](#cmfa) · [OpenClash (Normal / Smart)](#openclash) · [FlClash override](#flclash)
+- **sing-box family**: [sing-box (1.14 / 1.13 static configuration)](#sing-box) · [Karing (native diversion adapter)](#karing)
+- **Xray family**: [v2rayN Xray routing fallback](#v2rayn-xray)
+- **Dual-core family**: [Passwall](#passwall) · [Passwall2](#passwall2)
+- **Independent clients**: [Shadowrocket](#shadowrocket) · [Surge](#surge) · [Loon](#loon) · [Quantumult X](#quantumult-x) · [Stash](#stash) · [Egern](#egern)
 
-## Mihomo 内核系列
+## Mihomo family
 
 <a id="clash-party"></a>
 
-### Clash Party（Smart / Normal）
+### Clash Party (Smart / Normal)
 
-产物：[ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)、[ClashParty(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js)
+Artifacts: [ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js), [ClashParty(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js)
 
-- **订阅输入 · 内置自动**
-  JS 覆写入口直接接收订阅配置。
+- **Subscription input · Built-in**
+  The JS override receives the subscription configuration directly.
 
-  `subscription_input` → `runtime_hook`。证据：[ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
+  `subscription_input` → `runtime_hook`. Evidence: [ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
 
-- **动态分组 · 内置自动**
-  刷新时分类节点并重建固定策略组。
+- **Dynamic grouping · Built-in**
+  Refresh classifies endpoints and rebuilds the fixed policy groups.
 
-  `dynamic_grouping` → `runtime_hook`。证据：[ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
+  `dynamic_grouping` → `runtime_hook`. Evidence: [ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
 
-- **节点 DNS 提示 · 内置自动**
-  只投影活动节点 FQDN 的受限 DNS 提示。
+- **Endpoint DNS hints · Built-in**
+  Projects restricted DNS hints for active endpoint FQDNs only.
 
-  `node_dns_hint` → `restricted_projection`。证据：[ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
+  `node_dns_hint` → `restricted_projection`. Evidence: [ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
 
-- **可选 Node-DNS sidecar · 内置自动**
-  profile 内置于覆写，非机场订阅字段。
+- **Optional Node-DNS sidecar · Built-in**
+  The profile is part of the trusted override, not a subscription field.
 
-  `optional_node_dns_sidecar` → `integrated_runtime_profile`。证据：[ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
+  `optional_node_dns_sidecar` → `integrated_runtime_profile`. Evidence: [ClashParty(mihomo-smart).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js)
 
 <a id="cmfa"></a>
 
-### Clash Meta for Android（CMFA）
+### Clash Meta for Android (CMFA)
 
-产物：[CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+Artifacts: [CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
-- **订阅输入 · 手工文档**
-  编辑 proxy-provider 的订阅 URL 后由客户端拉取。
+- **Subscription input · Documented manual setup**
+  Set the proxy-provider subscription URL; the client fetches it.
 
-  `subscription_input` → `provider_node_feed`。证据：[CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+  `subscription_input` → `provider_node_feed`. Evidence: [CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
-- **动态分组 · 内置自动**
-  Mihomo filter 在运行时按节点名选入区域组。
+- **Dynamic grouping · Built-in**
+  Mihomo filters select regional group members by endpoint name at runtime.
 
-  `dynamic_grouping` → `engine_filter`。证据：[CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+  `dynamic_grouping` → `engine_filter`. Evidence: [CMFA(mihomo).yaml](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
-- **节点 DNS 提示 · 手工文档**
-  静态 YAML 需在本地 Mixin 合并节点 DNS。
+- **Endpoint DNS hints · Documented manual setup**
+  Static YAML requires endpoint DNS to be merged in a local Mixin.
 
-  `node_dns_hint` → `manual_mihomo_overlay`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_mihomo_overlay`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不交付读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `local_overlay_only`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `local_overlay_only`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="openclash"></a>
 
-### OpenClash（Normal / Smart）
+### OpenClash (Normal / Smart)
 
-产物：[OpenClash(mihomo).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh)、[OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
+Artifacts: [OpenClash(mihomo).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh), [OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
 
-- **订阅输入 · 内置自动**
-  Ruby 覆写在落盘前读取原订阅配置。
+- **Subscription input · Built-in**
+  The Ruby override reads the original subscription before writing configuration.
 
-  `subscription_input` → `runtime_hook`。证据：[OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
+  `subscription_input` → `runtime_hook`. Evidence: [OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
 
-- **动态分组 · 内置自动**
-  Ruby 覆写按订阅节点重建区域组。
+- **Dynamic grouping · Built-in**
+  The Ruby override rebuilds regional groups from subscription endpoints.
 
-  `dynamic_grouping` → `runtime_hook`。证据：[OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
+  `dynamic_grouping` → `runtime_hook`. Evidence: [OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
 
-- **节点 DNS 提示 · 内置自动**
-  只将活动节点私有 DNS 投影到精确 policy。
+- **Endpoint DNS hints · Built-in**
+  Projects private DNS for active endpoints into exact policies only.
 
-  `node_dns_hint` → `restricted_projection`。证据：[OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
+  `node_dns_hint` → `restricted_projection`. Evidence: [OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
 
-- **可选 Node-DNS sidecar · 内置自动**
-  受信任的 shell profile 控制投影深度。
+- **Optional Node-DNS sidecar · Built-in**
+  A trusted shell profile controls projection depth.
 
-  `optional_node_dns_sidecar` → `integrated_runtime_profile`。证据：[OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
+  `optional_node_dns_sidecar` → `integrated_runtime_profile`. Evidence: [OpenClash(mihomo-smart).sh](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh)
 
 <a id="flclash"></a>
 
-### FlClash 覆写脚本
+### FlClash override
 
-产物：[FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
+Artifacts: [FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
 
-- **订阅输入 · 内置自动**
-  关联覆写后，JS 接收刷新后的订阅配置。
+- **Subscription input · Built-in**
+  Once linked, the JS override receives refreshed subscription configuration.
 
-  `subscription_input` → `runtime_hook`。证据：[README.md](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md)
+  `subscription_input` → `runtime_hook`. Evidence: [README.zh-CN.md](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.zh-CN.md)
 
-- **动态分组 · 内置自动**
-  刷新时分类节点并重建固定策略组。
+- **Dynamic grouping · Built-in**
+  Refresh classifies endpoints and rebuilds the fixed policy groups.
 
-  `dynamic_grouping` → `runtime_hook`。证据：[FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
+  `dynamic_grouping` → `runtime_hook`. Evidence: [FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
 
-- **节点 DNS 提示 · 内置自动**
-  只投影活动节点 FQDN 的 DNS 提示。
+- **Endpoint DNS hints · Built-in**
+  Projects DNS hints for active endpoint FQDNs only.
 
-  `node_dns_hint` → `restricted_projection`。证据：[FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
+  `node_dns_hint` → `restricted_projection`. Evidence: [FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
 
-- **可选 Node-DNS sidecar · 内置自动**
-  profile 内置于覆写，不能由订阅篡改。
+- **Optional Node-DNS sidecar · Built-in**
+  The profile is part of the override and cannot be changed by the subscription.
 
-  `optional_node_dns_sidecar` → `integrated_runtime_profile`。证据：[FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
+  `optional_node_dns_sidecar` → `integrated_runtime_profile`. Evidence: [FlClash(mihomo).js](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js)
 
-## Sing-box 内核系列
+## sing-box family
 
 <a id="sing-box"></a>
 
-### sing-box（1.14 / 1.13 静态配置）
+### sing-box (1.14 / 1.13 static configuration)
 
-产物：[SingBox(sing-box)-full.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)、[SingBox(sing-box)-1.13.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json)
+Artifacts: [SingBox(sing-box)-full.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json), [SingBox(sing-box)-1.13.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json)
 
-- **订阅输入 · 手工文档**
-  静态 JSON 需替换或接入节点出站。
+- **Subscription input · Documented manual setup**
+  Replace or integrate endpoint outbounds in the static JSON.
 
-  `subscription_input` → `manual_outbound_wiring`。证据：[README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/README.md)
+  `subscription_input` → `manual_outbound_wiring`. Evidence: [README.zh-CN.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/README.zh-CN.md)
 
-- **动态分组 · 手工文档**
-  selector/urltest 只选择已接入的静态出站。
+- **Dynamic grouping · Documented manual setup**
+  selector/urltest selects only the integrated static outbounds.
 
-  `dynamic_grouping` → `static_selector`。证据：[SingBox(sing-box)-full.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)
+  `dynamic_grouping` → `static_selector`. Evidence: [SingBox(sing-box)-full.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)
 
-- **节点 DNS 提示 · 手工文档**
-  须用 sing-box 原生 DNS 结构手工配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure DNS manually using sing-box-native structures.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不交付订阅 DNS 转换 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No subscription-DNS conversion sidecar is supplied.
 
-  `optional_node_dns_sidecar` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="karing"></a>
 
-### Karing（原生自定义分流适配）
+### Karing (native diversion adapter)
 
-产物：[diversion_rules_custom.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
+Artifacts: [diversion_rules_custom.json](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
 
-- **订阅输入 · 手工文档**
-  导入原生分流 JSON；节点订阅独立添加。
+- **Subscription input · Documented manual setup**
+  Import native diversion JSON; add endpoint subscriptions separately.
 
-  `subscription_input` → `native_diversion_import`。证据：[README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
+  `subscription_input` → `native_diversion_import`. Evidence: [README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
 
-- **动态分组 · 手工文档**
-  代理规则默认当前选择，业务及区域节点组在 App 中绑定。
+- **Dynamic grouping · Documented manual setup**
+  Proxy rules use the current selection by default; bind service and regional groups in the app.
 
-  `dynamic_grouping` → `app_managed_node_groups`。证据：[README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
+  `dynamic_grouping` → `app_managed_node_groups`. Evidence: [README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
 
-- **节点 DNS 提示 · 手工文档**
-  DNS 由 Karing App 设置，原生分流文件不接管订阅 DNS。
+- **Endpoint DNS hints · Documented manual setup**
+  Karing manages DNS in the app; the native diversion file does not take over subscription DNS.
 
-  `node_dns_hint` → `app_managed_dns`。证据：[README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
+  `node_dns_hint` → `app_managed_dns`. Evidence: [README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
 
-- **可选 Node-DNS sidecar · 无 / 不适用**
-  不提供读取机场配置的 Node-DNS sidecar。
+- **Optional Node-DNS sidecar · Unavailable / not applicable**
+  No Node-DNS sidecar reads the provider configuration.
 
-  `optional_node_dns_sidecar` → `not_provided`。证据：[README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
+  `optional_node_dns_sidecar` → `not_provided`. Evidence: [README.md](../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
 
-## Xray 内核系列
+## Xray family
 
 <a id="v2rayn-xray"></a>
 
-### v2rayN Xray 路由 fallback
+### v2rayN Xray routing fallback
 
-产物：[v2rayN(xray).json](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/v2rayN%28xray%29.json)
+Artifacts: [v2rayN(xray).json](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/v2rayN%28xray%29.json)
 
-- **订阅输入 · 无 / 不适用**
-  JSON 只承担 Xray 路由，节点由 v2rayN 管理。
+- **Subscription input · Unavailable / not applicable**
+  The JSON supplies Xray routing only; v2rayN manages endpoints.
 
-  `subscription_input` → `routing_only`。证据：[README.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)
+  `subscription_input` → `routing_only`. Evidence: [README.zh-CN.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.zh-CN.md)
 
-- **动态分组 · 无 / 不适用**
-  三出站 Xray fallback 没有节点分组重建。
+- **Dynamic grouping · Unavailable / not applicable**
+  The three-exit Xray fallback does not rebuild endpoint groups.
 
-  `dynamic_grouping` → `none`。证据：[README.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)
+  `dynamic_grouping` → `none`. Evidence: [README.zh-CN.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.zh-CN.md)
 
-- **节点 DNS 提示 · 无 / 不适用**
-  路由 fallback 不拥有 DNS runtime。
+- **Endpoint DNS hints · Unavailable / not applicable**
+  The routing fallback does not own a DNS runtime.
 
-  `node_dns_hint` → `not_owned_by_artifact`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `not_owned_by_artifact`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 无 / 不适用**
-  不应把路由 JSON 当作订阅 sidecar。
+- **Optional Node-DNS sidecar · Unavailable / not applicable**
+  Do not treat routing JSON as a subscription sidecar.
 
-  `optional_node_dns_sidecar` → `not_applicable`。证据：[README.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)
+  `optional_node_dns_sidecar` → `not_applicable`. Evidence: [README.zh-CN.md](../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.zh-CN.md)
 
-## 双内核系列
+## Dual-core family
 
 <a id="passwall"></a>
 
 ### Passwall
 
-产物：[Passwall(xray+sing-box)-apply.sh](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh)
+Artifacts: [Passwall(xray+sing-box)-apply.sh](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh)
 
-- **订阅输入 · 无 / 不适用**
-  本目录只交付 UCI shunt rule fallback。
+- **Subscription input · Unavailable / not applicable**
+  This entry supplies only a UCI shunt-rule fallback.
 
-  `subscription_input` → `uci_shunt_only`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.md)
+  `subscription_input` → `uci_shunt_only`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.zh-CN.md)
 
-- **动态分组 · 无 / 不适用**
-  shunt rule 不能表达 Mihomo 嵌套分组。
+- **Dynamic grouping · Unavailable / not applicable**
+  Shunt rules cannot represent Mihomo nested groups.
 
-  `dynamic_grouping` → `none`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.md)
+  `dynamic_grouping` → `none`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.zh-CN.md)
 
-- **节点 DNS 提示 · 无 / 不适用**
-  shunt/UCI 参考不拥有 Mihomo DNS runtime。
+- **Endpoint DNS hints · Unavailable / not applicable**
+  The shunt/UCI reference does not own a Mihomo DNS runtime.
 
-  `node_dns_hint` → `not_owned_by_artifact`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `not_owned_by_artifact`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 无 / 不适用**
-  不交付订阅 Node-DNS sidecar。
+- **Optional Node-DNS sidecar · Unavailable / not applicable**
+  No subscription Node-DNS sidecar is supplied.
 
-  `optional_node_dns_sidecar` → `not_applicable`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.md)
+  `optional_node_dns_sidecar` → `not_applicable`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.zh-CN.md)
 
 <a id="passwall2"></a>
 
 ### Passwall2
 
-产物：[Passwall2(xray+sing-box)-apply.sh](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh)
+Artifacts: [Passwall2(xray+sing-box)-apply.sh](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh)
 
-- **订阅输入 · 无 / 不适用**
-  本目录只交付 UCI shunt rule fallback。
+- **Subscription input · Unavailable / not applicable**
+  This entry supplies only a UCI shunt-rule fallback.
 
-  `subscription_input` → `uci_shunt_only`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.md)
+  `subscription_input` → `uci_shunt_only`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.zh-CN.md)
 
-- **动态分组 · 无 / 不适用**
-  精简 shunt 模型不拥有节点分组重建。
+- **Dynamic grouping · Unavailable / not applicable**
+  The focused shunt model does not rebuild endpoint groups.
 
-  `dynamic_grouping` → `none`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.md)
+  `dynamic_grouping` → `none`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.zh-CN.md)
 
-- **节点 DNS 提示 · 无 / 不适用**
-  shunt/UCI 参考不拥有 Mihomo DNS runtime。
+- **Endpoint DNS hints · Unavailable / not applicable**
+  The shunt/UCI reference does not own a Mihomo DNS runtime.
 
-  `node_dns_hint` → `not_owned_by_artifact`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `not_owned_by_artifact`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 无 / 不适用**
-  不交付订阅 Node-DNS sidecar。
+- **Optional Node-DNS sidecar · Unavailable / not applicable**
+  No subscription Node-DNS sidecar is supplied.
 
-  `optional_node_dns_sidecar` → `not_applicable`。证据：[README.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.md)
+  `optional_node_dns_sidecar` → `not_applicable`. Evidence: [README.zh-CN.md](../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.zh-CN.md)
 
-## 独立内核系列
+## Independent clients
 
 <a id="shadowrocket"></a>
 
 ### Shadowrocket
 
-产物：[Shadowrocket.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)
+Artifacts: [Shadowrocket.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)
 
-- **订阅输入 · 手工文档**
-  用户在客户端另行添加机场节点订阅。
+- **Subscription input · Documented manual setup**
+  Add the endpoint subscription separately in the client.
 
-  `subscription_input` → `client_external_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/README.md)
+  `subscription_input` → `client_external_node_feed`. Evidence: [README.zh-CN.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/README.zh-CN.md)
 
-- **动态分组 · 内置自动**
-  策略组按节点名正则自动聚合。
+- **Dynamic grouping · Built-in**
+  Policy groups aggregate endpoints using name regular expressions.
 
-  `dynamic_grouping` → `client_regex_filter`。证据：[Shadowrocket.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)
+  `dynamic_grouping` → `client_regex_filter`. Evidence: [Shadowrocket.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf)
 
-- **节点 DNS 提示 · 手工文档**
-  须使用 Shadowrocket 自己的 DNS 字段手工配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure DNS manually using Shadowrocket-native fields.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不提供能读取机场 YAML 的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads provider YAML.
 
-  `optional_node_dns_sidecar` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="surge"></a>
 
 ### Surge
 
-产物：[Surge.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf)
+Artifacts: [Surge.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf)
 
-- **订阅输入 · 手工文档**
-  用户将机场订阅作为子配置接入。
+- **Subscription input · Documented manual setup**
+  Integrate the endpoint subscription as a sub-configuration.
 
-  `subscription_input` → `client_external_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/README.md)
+  `subscription_input` → `client_external_node_feed`. Evidence: [README.zh-CN.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/README.zh-CN.md)
 
-- **动态分组 · 内置自动**
-  url-test 通过节点名正则筛选候选。
+- **Dynamic grouping · Built-in**
+  url-test filters candidates using endpoint-name regular expressions.
 
-  `dynamic_grouping` → `client_regex_filter`。证据：[Surge.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf)
+  `dynamic_grouping` → `client_regex_filter`. Evidence: [Surge.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf)
 
-- **节点 DNS 提示 · 手工文档**
-  须用 Surge 原生 DNS 字段手工配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure DNS manually using Surge-native fields.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不提供会读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="loon"></a>
 
 ### Loon
 
-产物：[Loon.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf)
+Artifacts: [Loon.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf)
 
-- **订阅输入 · 手工文档**
-  用户在 Node 面板粘贴机场订阅。
+- **Subscription input · Documented manual setup**
+  Paste the endpoint subscription in the Node panel.
 
-  `subscription_input` → `client_external_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/README.md)
+  `subscription_input` → `client_external_node_feed`. Evidence: [README.zh-CN.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/README.zh-CN.md)
 
-- **动态分组 · 内置自动**
-  Remote Filter 的 NameRegex 自动筛选节点。
+- **Dynamic grouping · Built-in**
+  Remote Filter NameRegex automatically filters endpoints.
 
-  `dynamic_grouping` → `client_regex_filter`。证据：[Loon.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf)
+  `dynamic_grouping` → `client_regex_filter`. Evidence: [Loon.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf)
 
-- **节点 DNS 提示 · 手工文档**
-  须使用 Loon 自己的 DNS 字段手工配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure DNS manually using Loon-native fields.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不提供读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="quantumult-x"></a>
 
 ### Quantumult X
 
-产物：[QuantumultX.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
+Artifacts: [QuantumultX.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
 
-- **订阅输入 · 手工文档**
-  用户在 server_remote 手工填入订阅。
+- **Subscription input · Documented manual setup**
+  Enter the subscription manually in server_remote.
 
-  `subscription_input` → `client_external_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/README.md)
+  `subscription_input` → `client_external_node_feed`. Evidence: [README.zh-CN.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/README.zh-CN.md)
 
-- **动态分组 · 内置自动**
-  policy 按 server tag 正则筛选节点。
+- **Dynamic grouping · Built-in**
+  Policies filter endpoints using server-tag regular expressions.
 
-  `dynamic_grouping` → `client_regex_filter`。证据：[QuantumultX.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
+  `dynamic_grouping` → `client_regex_filter`. Evidence: [QuantumultX.conf](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
 
-- **节点 DNS 提示 · 手工文档**
-  须用 QX 原生 DNS 字段手工配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure DNS manually using Quantumult X-native fields.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不提供读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="stash"></a>
 
 ### Stash
 
-产物：[Stash.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml)
+Artifacts: [Stash.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml)
 
-- **订阅输入 · 手工文档**
-  编辑 Subscribe provider 的 URL 后由客户端拉取。
+- **Subscription input · Documented manual setup**
+  Set the Subscribe provider URL; the client fetches it.
 
-  `subscription_input` → `provider_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/README.md)
+  `subscription_input` → `provider_node_feed`. Evidence: [README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/README.md)
 
-- **动态分组 · 内置自动**
-  继承 YAML filter 选择已下载的节点。
+- **Dynamic grouping · Built-in**
+  Inherited YAML filters select downloaded endpoints.
 
-  `dynamic_grouping` → `engine_filter`。证据：[Stash.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml)
+  `dynamic_grouping` → `engine_filter`. Evidence: [Stash.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml)
 
-- **节点 DNS 提示 · 手工文档**
-  生成产物不可手改，需客户端本地层合并。
+- **Endpoint DNS hints · Documented manual setup**
+  Do not edit generated outputs; merge in the client's local layer.
 
-  `node_dns_hint` → `manual_mihomo_overlay`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_mihomo_overlay`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不交付读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `local_overlay_only`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `local_overlay_only`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 <a id="egern"></a>
 
 ### Egern
 
-产物：[Egern.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
+Artifacts: [Egern.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
 
-- **订阅输入 · 手工文档**
-  用户在 Egern Profile 的 Subscribe URL 接入节点。
+- **Subscription input · Documented manual setup**
+  Add endpoints through the Egern Profile Subscribe URL.
 
-  `subscription_input` → `profile_external_node_feed`。证据：[README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/README.md)
+  `subscription_input` → `profile_external_node_feed`. Evidence: [README.md](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/README.md)
 
-- **动态分组 · 内置自动**
-  Egern smart 区域组按其引擎规则选择节点。
+- **Dynamic grouping · Built-in**
+  Egern smart regional groups select endpoints using native engine rules.
 
-  `dynamic_grouping` → `engine_smart_filter`。证据：[Egern.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
+  `dynamic_grouping` → `engine_smart_filter`. Evidence: [Egern.yaml](../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
 
-- **节点 DNS 提示 · 手工文档**
-  静态 Profile 需在本地原生 DNS 层配置。
+- **Endpoint DNS hints · Documented manual setup**
+  Configure static-profile DNS in the local native DNS layer.
 
-  `node_dns_hint` → `manual_native_config`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `node_dns_hint` → `manual_native_config`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
-- **可选 Node-DNS sidecar · 手工文档**
-  不交付读取机场源配置的自动 sidecar。
+- **Optional Node-DNS sidecar · Documented manual setup**
+  No automatic sidecar reads the provider's source configuration.
 
-  `optional_node_dns_sidecar` → `local_overlay_only`。证据：[private-node-dns.md](../docs/private-node-dns.md)
+  `optional_node_dns_sidecar` → `local_overlay_only`. Evidence: [private-node-dns.zh-CN.md](../docs/private-node-dns.zh-CN.md)
 
 
-## 判定边界
+## Interpretation boundaries
 
-- `runtime_hook` / `restricted_projection` 仅在 Clash Party、OpenClash、FlClash 的本仓库覆写入口中存在；其 profile 是本地受信任设置，不从订阅读取。
-- `engine_filter`、`client_regex_filter` 与 `engine_smart_filter` 说明客户端可以用本产物已声明的正则 / smart 机制选择节点；它们不表示拥有订阅 DNS 的运行时写入权。
-- `manual_mihomo_overlay` / `manual_native_config` 都要求用户在客户端自己的本地配置层合并 DNS；不能覆盖仓库的全局 DNS 基线，也不能把 Mihomo 字段直接复制到 Apple 私有配置、sing-box 或 Passwall。
-- 每项能力的“证据”都是仓库内可机械校验的文件与 marker；`tools/validate-artifact-contracts.js` 会验证 schema、15 个产品、4 个固定列、文件存在性与 marker。
+- `runtime_hook` / `restricted_projection` exist only in this repository's Clash Party, OpenClash and FlClash overrides. Profiles are trusted local settings, not subscription input.
+- `engine_filter`, `client_regex_filter` and `engine_smart_filter` describe selection through declared regular expressions or native smart mechanisms. They do not grant runtime authority to write subscription DNS.
+- `manual_mihomo_overlay` / `manual_native_config` require DNS merging in the client's local configuration layer. Do not overwrite the global DNS baseline or copy Mihomo fields into Apple-client, sing-box or Passwall formats.
+- Every evidence entry is a repository file and mechanically checked marker. `tools/validate-artifact-contracts.js` verifies the schema, 15 products, four fixed columns, file existence and exact markers.
 
-延伸阅读：[私有节点 DNS：受限投影与跨端边界](./private-node-dns.md)。
+Further reading: [Private endpoint DNS: restricted projection and client boundaries](./private-node-dns.md).

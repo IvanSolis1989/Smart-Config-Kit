@@ -1,175 +1,195 @@
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-private-node-dns-mobile.svg">
-  <img src="assets/readme/page-private-node-dns.svg" width="100%" alt="技术指南">
+  <img src="assets/readme/page-private-node-dns.svg" width="100%" alt="Technical guide">
 </picture>
 
-# 私有节点 DNS：受限投影与跨端边界
+<a id="私有节点-dns受限投影与跨端边界"></a>
+# Private-node DNS: limited projection and client boundaries
 
-判断私有节点 DNS 是否能自动投影，或需要在客户端本地配置中手动合并。这里只处理代理节点域名解析。
+**English** | [简体中文](private-node-dns.zh-CN.md)
+
+Determine whether private-node DNS can be projected automatically or must be merged into client-local configuration. This guide addresses proxy-node domain resolution only.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Checks and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
-## 使用入口
+<a id="使用入口"></a>
+## Entry points
 
-1. 先看“哪些端可以自动适配”，确认当前导入入口的能力。
-2. 自动适配端选择受信任的本地 profile；静态端参考手动 overlay 示例。
-3. 刷新后按“验证与排障”读回最终配置，检查节点 policy 与 bootstrap。
+1. Check “Clients with automatic adaptation” to establish the capability of your import path.
+2. For automatic paths, select a trusted local profile. For static paths, use the manual overlay example.
+3. After refresh, follow “Validation and troubleshooting” to inspect the effective node policy and bootstrap settings.
 
-> 本文只讨论“代理节点域名如何解析”。业务域名的 `nameserver`、`fallback`、fake-ip 与分流规则仍由各客户端产物的固定 DNS 基线负责。
+> This guide concerns only how proxy-node domains resolve. Each client output’s fixed DNS baseline still owns service-domain `nameserver`, `fallback`, fake-IP, and routing rules.
 
-## 结论
+<a id="结论"></a>
+## Summary
 
-订阅里的私有 DNS 不能整段照搬：它可能替换全局业务 DNS、携带路由后缀，或把无关的 hosts 注入最终配置。本仓库把它收敛为一个小而明确的运行时 Module：**只为当前订阅中实际启用的代理节点 FQDN，投影解析这些节点所必需的 resolver、policy 和 bootstrap hosts。**
+Do not copy subscription-provided private DNS wholesale: it may replace global service DNS, carry routing suffixes, or inject unrelated hosts into the final configuration. The repository restricts it to a small runtime module: **project only the resolvers, policies, and bootstrap hosts required to resolve FQDNs of proxy nodes actually active in the current subscription.**
 
 ```mermaid
 flowchart LR
-  S[订阅原始配置] --> N[活动代理节点 FQDN]
+  S[Original subscription] --> N[Active proxy-node FQDNs]
   S --> P[proxy-server-nameserver]
-  S --> Q[节点 DNS policy 或匹配的全局 policy]
-  S --> H[匹配的 hosts]
+  S --> Q[Node DNS policy or matching global policy]
+  S --> H[Matching hosts]
   N --> A[Node-DNS Adapter]
   P --> A
   Q --> A
   H --> A
-  B[仓库固定 DNS 基线] --> M[最终配置]
+  B[Fixed repository DNS baseline] --> M[Final configuration]
   A --> M
-  M --> R[只解析代理节点域名]
+  M --> R[Resolve proxy-node domains only]
 ```
 
 <details>
-<summary>维护者：Module 接口与 snapshot 闭包校验</summary>
+<summary>Maintainers: module interface and snapshot closure checks</summary>
 
-这个 Adapter 是运行时的 **Module**；`tools/runtime/node-dns-hints.js` 和 `.rb` 是唯一权威源，桌面 JS 与 OpenClash Ruby 只是同步后的 **Adapter**。
+The adapter is a runtime **module**. `tools/runtime/node-dns-hints.js` and `.rb` are its only authoritative sources; desktop JS and OpenClash Ruby are synchronized **adapters**.
 
-其窄 Interface 是 `captureNodeDns(source, activeServers, profile) → snapshot` 与 `applyNodeDns(repository, snapshot, profile) → report`：前者只读取订阅，后者只在仓库 DNS 基线已存在时写入。
+Its narrow interface is `captureNodeDns(source, activeServers, profile) → snapshot` and `applyNodeDns(repository, snapshot, profile) → report`: capture only reads the subscription; apply writes only after the repository DNS baseline exists.
 
-`apply` 还会复核 snapshot 的内部闭包：policy key 必须列在 snapshot 的活动节点域名中，hosts 只能属于该 policy 或其 resolver hostname 的闭包；任何越界、畸形或 profile 不一致的 snapshot 都零写入。
+`apply` also rechecks the snapshot’s internal closure: policy keys must be listed among active node domains, and hosts must belong to that policy or its resolver-hostname closure. Out-of-scope, malformed, or profile-inconsistent snapshots produce zero writes.
 
-生产 Adapter 只传递同次 `capture` 产物。这样订阅解析逻辑有单一职责和清晰的信任边界，而不是把同一段启发式代码散落在五处。
+Production adapters pass only the snapshot from the corresponding `capture` call. Subscription parsing therefore has one responsibility and a clear trust boundary, rather than repeating heuristic code in five places.
 
 </details>
 
-## 可选功能 profile
+<a id="可选功能-profile"></a>
+## Optional profiles
 
-profile 的唯一源是 `tools/runtime/subscription-adapter-profiles.json`，发布默认值为 `adaptive`。它是**受信任的本地设置**，绝不从机场订阅字段读取；无论选择哪档，`routing-graph.js`、55 个策略组、规则、rule-provider、全局 `nameserver` / `fallback` / fake-ip 与固定 `proxy-server-nameserver` 都不变。
+`tools/runtime/subscription-adapter-profiles.json` is the sole profile source. The published default is `adaptive`. This is a **trusted local setting**, never read from subscription fields. Every profile leaves `routing-graph.js`, the 55 policy groups, rules, rule providers, global `nameserver` / `fallback` / fake-IP, and the fixed `proxy-server-nameserver` unchanged.
 
+<a id="off"></a>
 ### `off`
 
-- **订阅 DNS 投影**：不读取或写入任何订阅 Node-DNS hint。
-- **适用场景**：机场节点域名完全可由仓库固定 DNS 基线解析。
+- **Subscription DNS projection**: does not read or write any subscription Node-DNS hint.
+- **Use case**: the repository’s fixed DNS baseline can resolve all provider-node domains.
 
+<a id="policy"></a>
 ### `policy`
 
-- **订阅 DNS 投影**：只把活动节点命中的 `proxy-server-nameserver-policy` 或 `nameserver-policy` 物化为精确 policy。
-- **适用场景**：只信任订阅明确声明的节点 policy。
+- **Subscription DNS projection**: materializes only `proxy-server-nameserver-policy` or `nameserver-policy` entries matching active nodes as exact policies.
+- **Use case**: trust only explicitly declared node policies.
 
-### `adaptive`（默认）
+<a id="adaptive默认"></a>
+### `adaptive` (default)
 
-- **订阅 DNS 投影**：在 `policy` 的基础上，允许经过校验的订阅 `proxy-server-nameserver` 作为**没有匹配 policy 的活动节点**回退。
-- **适用场景**：私有 resolver 仅在订阅未写精确 policy 时仍需工作。
+- **Subscription DNS projection**: extends `policy` by allowing validated subscription `proxy-server-nameserver` values as fallback for **active nodes without a matching policy**.
+- **Use case**: a private resolver is still needed when the subscription supplies no exact policy.
 
-仓库维护者如需改变发布默认值，应修改该 JSON 的 `default`，然后运行 `node tools/sync-node-dns-hints-adapters.js`；同步器会同时更新三份 JS 和两份 OpenClash 适配器。
+To change the published default, maintainers must change `default` in that JSON, then run `node tools/sync-node-dns-hints-adapters.js`. The synchronizer updates all three JS and both OpenClash adapters.
 
-部署时可以在受信任的本地副本选择 `off / policy / adaptive / hosts-only`，但不要把 profile 写进机场 YAML，也不要用它删除策略组或改写全局 DNS。
+At deployment, choose `off / policy / adaptive / hosts-only` in a trusted local copy. Do not put the profile into provider YAML or use it to remove policy groups or rewrite global DNS.
 
-### `hosts-only`（显式本地选择）
+<a id="hosts-only显式本地选择"></a>
+### `hosts-only` (explicit local choice)
 
-只投影当前活动节点精确 FQDN 对应的合法 IP hosts，保留多 IP 与 IPv6；不投影 resolver/policy，不改节点 server、SNI 或 Host。通配、别名、无关记录及非法值不导入，仓库已有 hosts 优先；篡改或超限快照零写入。默认仍为 `adaptive`，旧三模式边界不变。使用方式见[统一配置入口](configuration.md)。
+Projects only valid IP hosts for exact FQDNs of currently active nodes, retaining multiple IPs and IPv6. It does not project resolvers/policies or change node server, SNI, or Host. Wildcards, aliases, unrelated records, and invalid values are excluded; existing repository hosts take priority. Tampered or over-budget snapshots produce zero writes. The default remains `adaptive`; the original three modes retain their boundaries. See the [unified configuration entry](configuration.md).
 
-## 输入、输出与拒绝规则
+<a id="输入输出与拒绝规则"></a>
+## Inputs, outputs, and rejection rules
 
+<a id="proxiesserver"></a>
 ### `proxies[].server`
 
-- **Adapter 行为**：仅保留活动、非信息节点的合法 FQDN；IP 节点不需要 DNS，直接忽略。
+- **Adapter behavior**: keeps only valid FQDNs of active, non-informational nodes. IP-based nodes need no DNS and are ignored.
 
+<a id="dnsproxy-server-nameserver"></a>
 ### `dns.proxy-server-nameserver`
 
-- **Adapter 行为**：仅 `adaptive` 档读取；校验后只作为“没有更具体 policy 的活动节点”的精确 policy 值。固定 `proxy-server-nameserver` 全局列表不变。不会读取普通 `nameserver` 或 `fallback`。
+- **Adapter behavior**: read only in `adaptive`; after validation, used only as exact policy values for active nodes without a more specific policy. The fixed global `proxy-server-nameserver` list is unchanged. Ordinary `nameserver` and `fallback` are not read.
 
+<a id="dnsproxy-server-nameserver-policy"></a>
 ### `dns.proxy-server-nameserver-policy`
 
-- **Adapter 行为**：精确匹配优先；通配符只会为活动节点物化成精确 FQDN，不会整段带入。
+- **Adapter behavior**: exact matches take priority. Wildcards materialize only as exact active-node FQDNs; the whole map is not imported.
 
+<a id="dnsnameserver-policy"></a>
 ### `dns.nameserver-policy`
 
-- **Adapter 行为**：仅当对应节点没有 `proxy-server-nameserver-policy` 时，才作为该节点的兼容性回退；同样只物化精确 FQDN。
+- **Adapter behavior**: used as a compatibility fallback only when the node has no `proxy-server-nameserver-policy`; again, only exact FQDNs are materialized.
 
+<a id="hosts"></a>
 ### `hosts`
 
-- **Adapter 行为**：只取节点自身和已接受 resolver hostname 的匹配记录。固定基线 hosts 优先，不会被订阅替换。
+- **Adapter behavior**: takes only matching records for the node itself and accepted resolver hostnames. Fixed-baseline hosts take priority and cannot be replaced by the subscription.
 
-以下值会被丢弃：`system` / `dhcp` / `rcode:`，含 `#` 路由后缀的 resolver，`skip-cert-verify`、`ecs`、`h3` 参数，畸形域名、无效 IP、过长输入和超过上限的条目。
+Discarded values include `system` / `dhcp` / `rcode:`, resolver routing suffixes containing `#`, `skip-cert-verify`, `ecs`, and `h3` parameters, malformed domains, invalid IPs, excessively long inputs, and over-budget entries.
 
-hosts 的单个域名重定向保留为标量，IP 才使用数组，符合 [Mihomo hosts](https://wiki.metacubex.one/en/config/dns/hosts/) 语义。输入上限为 512 个 proxy、128 个节点、64 个 resolver / policy / hosts 输出；每个 policy/hosts 源 map 的通配符扫描上限为 256 项，活动节点的大小写无关精确 key 额外有 4096 项有界扫描。
+A single hostname redirect in hosts remains a scalar; only IP values use arrays, following [Mihomo hosts](https://wiki.metacubex.one/en/config/dns/hosts/) semantics. Limits are 512 proxies, 128 nodes, and 64 resolver / policy / hosts outputs. Wildcard scanning is limited to 256 entries per source policy/hosts map; case-insensitive exact active-node keys have a separate bounded scan of 4096 entries.
 
-resolver hostname 的 hosts 优先于节点 hosts 收集；一条 policy 所需 resolver 超过容量会整体拒绝，不留下无法 bootstrap 的半条 policy。日志只输出数量，不输出节点域名、DNS 地址或 bootstrap IP。
+Resolver-hostname hosts are collected before node hosts. A policy whose required resolvers exceed capacity is rejected in full, not left partially configured without bootstrap. Logs contain counts only, not node domains, DNS addresses, or bootstrap IPs.
 
-`proxy-server-nameserver` 与 `proxy-server-nameserver-policy` 本来就只负责代理节点域名；后者还要求前者非空才生效。`default-nameserver` 则用来解析 DNS endpoint 自身，其 endpoint host 必须是 IP。
+`proxy-server-nameserver` and `proxy-server-nameserver-policy` already apply only to proxy-node domains. The latter also requires the former to be nonempty. `default-nameserver` resolves DNS endpoints themselves, and its endpoint host must be an IP.
 
-语义依据见 [Mihomo DNS 配置](https://wiki.metacubex.one/en/config/dns/) 和 [域名通配符语法](https://wiki.metacubex.one/en/handbook/syntax/)。
+See [Mihomo DNS configuration](https://wiki.metacubex.one/en/config/dns/) and [domain wildcard syntax](https://wiki.metacubex.one/en/handbook/syntax/) for semantics.
 
-## 通配符如何处理
+<a id="通配符如何处理"></a>
+## Wildcard handling
 
-源订阅可以使用 Mihomo 的 `+.`、`.` 或 `*.`。Adapter 按官方语义匹配后，只生成如 `hk.node.example` 的精确 key：
+Source subscriptions may use Mihomo’s `+.`, `.`, or `*.` syntax. After matching according to official semantics, the adapter generates only exact keys such as `hk.node.example`:
 
-- `+.node.example`：`node.example` 与所有子域；
-- `.node.example`：仅子域，不含根域；
-- `*.node.example`：恰好一层 label。
+- `+.node.example`: `node.example` and all subdomains.
+- `.node.example`: subdomains only, excluding the apex.
+- `*.node.example`: exactly one additional label.
 
-同一优先级出现冲突 resolver 时，Adapter 失败关闭该项，而不是随机选择；resolver URL 的 path/query 保持大小写，不会被错误地合并。这样通配符不会扩大最终私有 DNS 的影响面。
+Conflicting resolvers at the same priority fail closed for that entry rather than choosing arbitrarily. Resolver URL paths/queries preserve case and are not incorrectly merged. Wildcards therefore do not broaden the final private-DNS scope.
 
-## 哪些端可以自动适配
+<a id="哪些端可以自动适配"></a>
+## Clients with automatic adaptation
 
-| 产物 / 入口 | 状态 |
+| Output / entry point | Status |
 | --- | --- |
-| Clash Party Smart | 自动 |
-| Clash Party Normal | 自动 |
-| FlClash 覆写脚本 | 自动，有应用层前提 |
-| OpenClash Normal / Smart | 自动 |
-| CMFA / Stash / Egern | 本地 overlay |
-| Shadowrocket / Surge / Loon / Quantumult X | 本地配置 |
-| Sing-box / Hiddify / HomeProxy | 本地配置 |
-| v2rayN Xray | 不适用 |
-| Passwall / Passwall2 | 不适用 |
+| Clash Party Smart | Automatic |
+| Clash Party Normal | Automatic |
+| FlClash override | Automatic, with app-layer prerequisites |
+| OpenClash Normal / Smart | Automatic |
+| CMFA / Stash / Egern | Local overlay |
+| Shadowrocket / Surge / Loon / Quantumult X | Local configuration |
+| Sing-box / Hiddify / HomeProxy | Local configuration |
+| v2rayN Xray | Not applicable |
+| Passwall / Passwall2 | Not applicable |
 
-- **Clash Party Smart**：JS 覆写有订阅配置输入。
-- **Clash Party Normal**：同上。
-- **FlClash 覆写脚本**：关联 JS 后关闭「DNS 覆写」，避免 UI 二次覆盖节点 DNS 投影；核对最终配置，见 [FlClash 教程](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md)。
-- **OpenClash Normal / Smart**：覆写 Ruby 在写入本地配置前可读取原订阅。
-- **CMFA / Stash / Egern**：静态 YAML（Stash/Egern 还是生成物，禁止手改生成文件），没有订阅运行时变换 seam。
-- **Shadowrocket / Surge / Loon / Quantumult X**：仓库交付的是静态私有配置，不能读取机场源 YAML。
-- **Sing-box / Hiddify / HomeProxy**：仓库交付的是静态 sing-box JSON，不是订阅 DNS 转换器。
-- **v2rayN Xray**：这里的 JSON 只提供 Xray 路由 fallback。
-- **Passwall / Passwall2**：这里的产物是 shunt rule/UCI 参考，不拥有 Mihomo DNS runtime。
+- **Clash Party Smart**: the JS override receives subscription configuration input.
+- **Clash Party Normal**: the same applies.
+- **FlClash override**: after linking JS, disable “DNS override” to prevent the UI from overwriting node-DNS projection. Inspect the final configuration; see the [FlClash guide](../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md).
+- **OpenClash Normal / Smart**: override Ruby can read the original subscription before writing local configuration.
+- **CMFA / Stash / Egern**: static YAML, without a runtime subscription transformation hook. Stash/Egern are generated outputs and must not be hand-edited.
+- **Shadowrocket / Surge / Loon / Quantumult X**: repository outputs are static private-format configurations and cannot read source provider YAML.
+- **Sing-box / Hiddify / HomeProxy**: repository output is static sing-box JSON, not a subscription-DNS converter.
+- **v2rayN Xray**: the JSON here supplies Xray routing fallback only.
+- **Passwall / Passwall2**: outputs are shunt-rule/UCI references and do not own a Mihomo DNS runtime.
 
-上表是 Node-DNS 的快速边界；完整的 14 个产品还应结合订阅输入、动态分组和可选 profile 一起判断，见[跨客户端能力矩阵](client-capability-matrix.md)。矩阵把“客户端可导入订阅”和“本仓库拥有运行时订阅适配 hook”明确区分，避免把静态配置端误称为自动适配。
+This table summarizes Node-DNS boundaries. Assess all 14 products alongside subscription input, dynamic grouping, and optional profiles in the [cross-client capability matrix](client-capability-matrix.md). The matrix distinguishes a client’s ability to import subscriptions from a repository-owned runtime subscription hook, so static configurations are not mislabeled as automatic adapters.
 
-### Clash Party v2.0.3+ 的内置 DNS 保护
+<a id="clash-party-v203-的内置-dns-保护"></a>
+### Built-in DNS protection in Clash Party v2.0.3+
 
-Clash Party v2.0.3 新增了订阅 DNS 覆写保护：主进程在执行覆写前检查原始订阅的 `proxy-server-nameserver`、`proxy-server-nameserver-policy`、`nameserver-policy`。
+Clash Party v2.0.3 added subscription DNS-override protection. Before overrides run, the main process inspects the original subscription’s `proxy-server-nameserver`, `proxy-server-nameserver-policy`, and `nameserver-policy`.
 
-如果用户此前打开了客户端内置 DNS 控制，客户端可能自动关闭 `controlDns` 并显示提示；这与本仓库 JS 的 Node-DNS 受限投影是两个不同层次。
+If built-in DNS control was previously enabled, the client may automatically disable `controlDns` and show a notice. This is separate from the repository JS’s limited Node-DNS projection.
 
-本仓库 Smart / Normal JS 会在随后重建仓库拥有的全局 DNS，并只把受信任的活动节点提示投影到精确 policy。因而使用本仓库时应关闭 Clash Party 内置 DNS 覆写，验证最终脚本输出即可；不要为了消除提示而删除脚本 DNS。
+The repository’s Smart / Normal JS subsequently rebuilds repository-owned global DNS and projects only trusted active-node hints into exact policies. Keep Clash Party’s built-in DNS override disabled when using this repository and validate final script output. Do not remove script DNS merely to suppress the notice.
 
-只有在明确改由客户端管理 DNS 时，才应从原始订阅/聚合层移除上述字段并停用本仓库 DNS 基线。实现依据：[v2.0.3 发布说明](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.3)、[DNS 保护源码](https://github.com/mihomo-party-org/clash-party/blob/v2.0.3/src/main/core/dnsOverrideGuard.ts)。
+Only when deliberately switching to client-managed DNS should those fields be removed at the original subscription/aggregation layer and the repository DNS baseline disabled. References: [v2.0.3 release notes](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.3) and [DNS guard source](https://github.com/mihomo-party-org/clash-party/blob/v2.0.3/src/main/core/dnsOverrideGuard.ts).
 
-ShellClash、ClashMi 等复用入口也不会因为复用了本仓库配置而自动获得该能力；只有它们提供等价的订阅覆写 hook 时，才可以单独实现 Adapter。
+Reusing repository configurations through ShellClash, ClashMi, or similar entry points does not automatically provide this capability. A separate adapter is possible only if they expose an equivalent subscription-override hook.
 
-## 静态端的手动 overlay 示例
+<a id="静态端的手动-overlay-示例"></a>
+## Manual overlay example for static clients
 
-如果你的节点必须由私有 resolver 解析，请在**该客户端自己的本地配置 / Mixin**里合并下列概念，替换占位符，不要覆盖仓库的全部 DNS 基线：
+If nodes require a private resolver, merge the following concepts into **that client’s own local configuration / Mixin**, replacing placeholders. Do not replace the entire repository DNS baseline:
 
 ```yaml
 hosts:
   resolver.example:
-    - 203.0.113.53       # 仅示例；填私有 resolver 的可信 bootstrap IP
+    - 203.0.113.53       # Example only; supply a trusted bootstrap IP for the private resolver.
     - "2001:db8::53"
 
 dns:
@@ -180,17 +200,18 @@ dns:
       - https://resolver.example/dns-query
 ```
 
-若 `resolver.example` 不是已能通过可信 bootstrap 解析的域名，需要 hosts 映射或客户端本地、IP 形式的 `default-nameserver`；不要让 resolver endpoint 依赖它自己解析。
+The example IPs are placeholders; supply trusted bootstrap IPs for the private resolver. If `resolver.example` cannot already resolve through trusted bootstrap, supply a hosts mapping or client-local IP-form `default-nameserver`. Do not make an endpoint depend on itself for resolution.
 
-此示例只适用于支持相同 Mihomo DNS 字段的客户端；Apple 私有配置、sing-box、Passwall 等应使用各自原生字段，不可直接粘贴。
+This example applies only to clients supporting the same Mihomo DNS fields. Apple private formats, sing-box, Passwall, and others require their own native fields; do not paste it directly.
 
-## 验证与排障
+<a id="验证与排障"></a>
+## Validation and troubleshooting
 
-1. 刷新订阅后，查看最终配置：只有实际节点 FQDN 能出现在 `proxy-server-nameserver-policy`；不应出现 `geosite:`、`rule-set:` 或无关域名。
-2. 检查 `proxy-server-nameserver`：它应保持仓库固定基线；私有 resolver 只会出现在对应活动节点的精确 `proxy-server-nameserver-policy` 中。
-3. 如私有 resolver hostname 无法启动，先核对其 bootstrap IP / hosts，而不是把整个订阅 `nameserver` 覆盖进来。
-4. 如日志显示 `profile-mismatch` 或 `missing-pss-baseline`，Adapter 会零写入；前者表示 capture/apply 的受信任 profile 不一致，后者表示调用方没有先写入仓库固定 PSS 基线。
-5. 维护者可运行：
+1. After subscription refresh, inspect the final configuration. Only actual node FQDNs may appear in `proxy-server-nameserver-policy`; no `geosite:`, `rule-set:`, or unrelated domain should appear.
+2. Inspect `proxy-server-nameserver`: it must retain the fixed repository baseline. Private resolvers appear only in exact `proxy-server-nameserver-policy` entries for their active nodes.
+3. If a private resolver hostname cannot bootstrap, check its bootstrap IP / hosts first instead of copying the subscription’s entire `nameserver` list.
+4. `profile-mismatch` and `missing-pss-baseline` logs mean zero writes. The first indicates inconsistent trusted profiles between capture/apply; the second means the caller did not first write the fixed repository PSS baseline.
+5. Maintainers can run:
 
    ```bash
    node tools/sync-node-dns-hints-adapters.js --check
@@ -199,4 +220,4 @@ dns:
    node tools/generate-client-capability-matrix.js --check
    ```
 
-这层隔离减少的是“订阅 DNS 改写业务 DNS”的风险，不是对所有 DNS 泄漏的绝对承诺。系统 DNS、客户端绕过、TUN/VPN 开关、resolver 的网络路径和 endpoint 的 TLS 信任仍需分别验证。
+This isolation reduces the risk of subscription DNS rewriting service DNS. It is not an absolute guarantee against all DNS leaks. Verify system DNS, client bypasses, TUN/VPN switches, resolver network paths, and endpoint TLS trust separately.

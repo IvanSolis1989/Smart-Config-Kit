@@ -1,43 +1,46 @@
-name: 📝 文档 / 教程问题
-description: README、CHANGELOG、子目录使用教程有错字、信息过时、步骤讲不清、链接 404……AI 会先核对文档当前内容，给初步判断。
-title: "[文档] "
-labels: ["documentation"]
-
-body:
-  - type: markdown
-    attributes:
-      value: |
-        > 🤖 **AI 会先核对你指出的文档位置**，判断：
-        > - 确实过时 / 错字 / 链接 404 → 说明哪里错、应该是什么样
-        > - 描述其实正确但读起来有歧义 → 解释文档真实含义
-        >
-        > ⚠️ **AI 不直接改文档**——文档修改由维护者在 PR 中人工处理。
-
-  - type: input
-    id: location
-    attributes:
-      label: 出问题的文档位置
-      description: 哪个文件？哪一段？可以贴链接（带行号更好）
-      placeholder: "例：README.md#dns-净化 / 独立内核系/Shadowrocket/README.md §3"
-    validations:
-      required: true
-
-  - type: textarea
-    id: issue
-    attributes:
-      label: 问题描述
-      description: 哪里错了 / 不清楚 / 过时了？
-      placeholder: |
-        例：
-        独立内核系/Shadowrocket/README.md 第 3 节说"导入后第一条规则应为 DOMAIN,captive.apple.com,DIRECT"，
-        但实际 v5.2.5 里第一条是广告拦截 rule-set，和文档对不上。
-    validations:
-      required: true
-
-  - type: textarea
-    id: suggest
-    attributes:
-      label: 建议的修改（可选）
-      description: 你觉得应该改成什么样？
-    validations:
-      required: false
+{
+  "name": "Documentation (English)",
+  "description": "Report outdated steps, ambiguous text or broken documentation links.",
+  "title": "[Docs] ",
+  "labels": [
+    "documentation"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "Automated analysis may assist with triage or propose a fix, but it is not a guarantee of correctness or resolution. Replies follow the language of your question, not the documentation default. Please redact subscription URLs, credentials and private logs. See docs/ai-issue-responder.md for the current workflow."
+      }
+    },
+    {
+      "type": "input",
+      "id": "location",
+      "attributes": {
+        "label": "Document location",
+        "description": "Link to the file, section or lines."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "issue",
+      "attributes": {
+        "label": "Problem description",
+        "description": "Explain what is incorrect or unclear and cite the observed behavior or source."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "suggest",
+      "attributes": {
+        "label": "Suggested correction",
+        "description": "Optional wording or links to authoritative references."
+      }
+    }
+  ]
+}

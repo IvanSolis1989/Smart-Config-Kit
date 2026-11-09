@@ -1,32 +1,38 @@
-# Sub-Store v1.3.2 Review 修复验证
+<a id="sub-store-v132-review-修复验证"></a>
+# Sub-Store v1.3.2 review-fix validation
 
-日期：2026-10-18。范围：PR #189 在 `8d38381` 上的四项 Codex Review。
+**English** | [简体中文](2026-10-18-substore-review-fixes.zh-CN.md)
 
-| 意见 | 根因及修复 | 回归触发条件 |
+
+Date: 2026-10-18. Scope: four Codex Review findings on PR #189 at `8d38381`.
+
+| Finding | Cause and fix | Regression trigger |
 |---|---|---|
-| [账户查询身份](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908395) | 表单解码合并了字面加号与编码空格。改为保留加号、等号存在性和重复顺序的 raw query 解析。 | `+` 与 `%20` 两账户保持歧义；`%2B` 与加号保持同一字面值；格式参数仍可归一。 |
-| [回环占位节点](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908397) | 文本正则漏掉展开及映射 IP。使用浏览器 URL 主机规范化后检查回环、零地址和 localhost。 | 展开 IPv6、IPv4 映射 IPv6、尾点 localhost 均不计为有效节点；公网及 LAN 节点保留。 |
-| [后到歧义](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908399) | 歧义排在整个同步队列之后。授权消息独立推进候选版本，在预览、备份及实际传输发送前检查是否仍为当前候选。 | 暂停目录、预览、备份或传输准备，加入歧义后继续；旧任务不得 PATCH 或回灌陈旧 pending/成功结果。 |
-| [相对订阅锚点](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908400) | 原始 href 没有基准地址。按 `document.baseURI` 解析，再做既有订阅语义及地址验证。 | 根相对、目录相对、协议相对及 base 标签；危险协议、凭据、无有效基准地址仍拒绝。 |
+| [Account query identity](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908395) | Form decoding merged literal plus signs with encoded spaces. Raw-query parsing now preserves plus signs, presence of equals signs, and duplicate ordering. | Accounts with `+` versus `%20` remain ambiguous; `%2B` and plus represent the same literal value; format parameters can still be normalized. |
+| [Loopback placeholder nodes](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908397) | Text regexes missed expanded and mapped IPs. Browser URL host normalization now precedes loopback, zero-address, and localhost checks. | Expanded IPv6, IPv4-mapped IPv6, and trailing-dot localhost do not count as valid nodes; public and LAN nodes remain. |
+| [Late-arriving ambiguity](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908399) | Ambiguity was queued behind the entire synchronization queue. Authorization messages now advance candidate versions independently; preview, backup, and actual transport sending check that the candidate is still current. | Pause catalog, preview, backup, or transport preparation; introduce ambiguity, then resume. Old tasks must not PATCH or restore stale pending/success states. |
+| [Relative subscription anchors](https://github.com/IvanSolis1989/Smart-Config-Kit/pull/189#discussion_r4305908400) | Raw href lacked a base address. It is now resolved against `document.baseURI`, then checked using existing subscription semantics and address validation. | Root-relative, directory-relative, protocol-relative links and base tags; dangerous schemes, credentials, and missing valid bases remain rejected. |
 
-## 确定性验证
+<a id="确定性验证"></a>
+## Deterministic validation
 
-最终冻结源码通过 192 项 Node 测试及 19 项真实 Edge 独立浏览器流程；JS 覆写、PROCESS-NAME 及 2483 项跨客户端产物检查通过。构建入口与单一源码一致。
+Final frozen source passed 192 Node tests and nineteen actual isolated Edge browser flows. JS overrides, PROCESS-NAME, and 2483 cross-client artifact checks passed. Generated build entries match the single source.
 
-Node 回归先复现旧实现失败，再验证修复。真实 Edge 浏览器新增相对锚点、加号/空格歧义、映射/展开回环和后到歧义四个自动流程。
+Node regressions reproduced failures in the old implementation before verifying fixes. Actual Edge coverage added four automatic flows: relative anchors, plus/space ambiguity, mapped/expanded loopback, and late ambiguity.
 
-独立复核还复现了同 URL 恢复被未完成 pending 去重吞掉的情况：A 的预览暂停，依次收到歧义和最新有效 A，再释放旧预览。去重限定为同文档、同代且有完成时间的候选，过期任务留下的 pending 不再阻止自动恢复。
+Independent review also reproduced recovery of the same URL being swallowed by unfinished-pending deduplication: pause A’s preview, receive ambiguity followed by the latest valid A, then release the old preview. Deduplication now applies only to candidates from the same document and generation with a completion time. Pending state left by obsolete tasks no longer blocks automatic recovery.
 
-同一个独立复现入口在修复后确认恰好一次 PATCH、源已更新、最终状态 updated、最新 pending 有完成时间。
+After the fix, the same independent reproduction confirmed exactly one PATCH, an updated source, final status updated, and a completion time on the latest pending record.
 
-并发浏览器流程先挂起假后端预览，在页面新增第二条链接，确认后台已收到歧义，再释放预览。随后等待后台已接收的授权与串行任务全部结束，最后检查完整请求记录及存储值，要求零 PATCH。测试使用私有扩展副本中的只读完成探针；生产扩展没有新增全局探针或 runtime 消息接口。
+The concurrent-browser flow first suspends the fake backend preview, adds a second page link, confirms that the background received ambiguity, then releases the preview. It waits for all received authorization and serialized work to finish before checking the complete request log and stored values, requiring zero PATCH. The test uses a read-only completion probe in a private extension copy; production gained no global probe or runtime-message interface.
 
-负控仅在独立临时扩展副本换回 `8d38381` 的旧后台，保留同等完成屏障：前 18 项通过，最后一项明确失败为 `late_ambiguity_wrote_subscription`。这证明测试不会在歧义状态提前显示后关闭浏览器、截断迟到写入并误报成功。
+The negative control replaced only the background with the old `8d38381` implementation in an isolated temporary extension copy while retaining the same completion barrier. The first eighteen cases passed; the final case explicitly failed with `late_ambiguity_wrote_subscription`. This proves the test does not close the browser after an early ambiguity display, truncate a late write, and falsely report success.
 
-实际浏览器还暴露 `tabs.onUpdated` 的 loading 事件可能晚于新文档初始化。它没有可绑定的 documentId，因此不再据此淘汰当前文档；文档替换使用已授权的新 documentId，关闭使用 onRemoved。
+Actual browser testing also revealed that a `tabs.onUpdated` loading event can arrive after new-document initialization. Because it has no bindable documentId, it no longer invalidates the current document. Document replacement uses a newly authorized documentId; closure uses onRemoved.
 
-## 范围
+<a id="范围"></a>
+## Scope
 
-本轮浏览器测试使用独立无账号 Edge profile 和虚构面板/假 Sub-Store，阻断外网。六家真实账号的前轮验收仍见[原记录](2026-10-18-substore-auto-sync-acceptance.md)，不冒称这些账号已重新加载 v1.3.2。Chrome 账号环境仍未实测。
+This round used an isolated account-free Edge profile, fictional panels, and a fake Sub-Store with external networking blocked. The previous six real-account acceptances remain in the [original record](2026-10-18-substore-auto-sync-acceptance.md); this does not claim those accounts reloaded v1.3.2. Chrome account environments remained untested.
 
-SubStore 辅助工具以外只更新相关日志；未改规则源、DNS、策略组或客户端分流配置。
+Outside the SubStore auxiliary tool, only related logs were updated. Rule sources, DNS, policy groups, and client routing configurations were unchanged.

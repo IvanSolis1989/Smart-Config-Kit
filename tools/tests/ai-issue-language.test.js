@@ -101,3 +101,15 @@ test('reply validation preserves uppercase words, headings and quoted prose',()=
  assert.equal(language({body:'Download failed'}),'en');
  assert.equal(language({body:'Import error'}),'en');
 });
+test('English-default issue forms do not override the language of the question',()=>{
+ const path=require('node:path');
+ const dir=path.resolve(__dirname,'../../.github/ISSUE_TEMPLATE');
+ for(const name of ['01-question','02-bug-report','03-feature-request','04-docs']){
+  const english=JSON.parse(fs.readFileSync(path.join(dir,name+'.yml'),'utf8'));
+  const chinese=JSON.parse(fs.readFileSync(path.join(dir,'zh-CN-'+name+'.yml'),'utf8'));
+  for(const form of [english,chinese]) for(const locale of ['en','zh']){
+   const body=form.body.filter(x=>x.type!=='markdown').map(x=>'### '+x.attributes.label+'\n\n'+(x.type==='textarea'?questions[locale]:x.type==='checkboxes'?'- [x] '+x.attributes.options[0].label:'_No response_')).join('\n\n');
+   assert.equal(language({title:form.title,body}),locale,`${name}: ${form.name}/${locale}`);
+  }
+ }
+});

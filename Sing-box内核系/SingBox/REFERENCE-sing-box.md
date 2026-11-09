@@ -1,47 +1,54 @@
-# Sing-Box 配置参考文档
+<a id="sing-box-配置参考文档"></a>
+# Sing-Box configuration reference
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/)，沿用现有 rule_set 与 route 目标出站映射，保留 1.13/1.14 两个既有产物。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+**English** | [简体中文](REFERENCE-sing-box.zh-CN.md)
 
-> 更新于 2026-10-19：完成本次涉及字段的官方原文核验，详见[版本、源码、适配与验证报告](../../docs/upstream/2026-10-19/singbox/report.md)及其原文缓存。下方旧摘要未整篇当前化；存在冲突时以下列核验结论为准。
 
-## 2026-10-19 现行核验
+> Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/) was rechecked. Existing rule_set/route outbound mappings and both 1.13/1.14 outputs remain. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
-- 稳定版为 [1.14.3](https://github.com/SagerNet/sing-box/releases/tag/v1.14.3)（2026-10-09），预发布为 [1.15.0-alpha.12](https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12)（2026-10-11）；不将 alpha 能力作为稳定版依据。
-- [`http_client`](https://sing-box.sagernet.org/configuration/rule-set/#http_client) **1.14.0 才引入**；支持命名 HTTP client 或内联对象。旧摘要“迁到 `http_client` 后兼容 1.11–1.13”的说法错误。`download_detour` 从 1.14 废弃，计划 1.16 移除，仍是 1.13 兼容产物的合法字段。
-- [typed DNS server](https://sing-box.sagernet.org/configuration/dns/server/https/) 从 **1.12** 引入；旧 `address` / `address_resolver` 格式在 1.14 移除。旧 inbound `sniff` / `sniff_override_destination` 在 1.13 移除，改用路由 `action: sniff`。
-- 当前 Full 要求 1.14.3；同一生成器另产出 `SingBox(sing-box)-1.13.json`。两者分别通过官方 1.14.3 / 1.13.14 `check`，无废弃功能环境变量。非标准 `_meta` 已移出运行时 JSON。
-- Full 的 CN IP DNS 过滤迁为 `evaluate` → `match_response` → `respond`；1.13 变体保持该系列支持的 GeoIP 接受过滤。二者规则 URL、出站拓扑和业务路由相对次序一致。
-- 当前官方 [Block](https://sing-box.sagernet.org/configuration/outbound/block/) 页面与 1.14.3 实际检查均支持 `type: block`，保留供组成员引用；不照搬旧迁移摘要推断其已移除。
-- Hiddify app 4.1.1 构建固定 core 4.1.0 / 1.13 派生源码；完整配置保留还受 App 解析模式约束。HomeProxy 根据 UCI 生成配置，未证明可直接把本仓库 Full JSON 当订阅完整导入。详见报告相应章节。
-- 嗅探迁移仅保留 SNI/Host 辅助匹配；上游新动作没有等价的动态目的地址重写开关。旧 `sniff_override_destination=true` 的拨号语义无法完整保留，IP 目的仍拨原 IP；不得用未知字段或固定 `override_address` 假装等价。详见[固定源码核对](../../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界)。
+> Updated on 2026-10-19: official originals were checked for the fields involved; see the [version, source, adaptation, and validation report](../../docs/upstream/2026-10-19/singbox/report.md) and its cache. Older summaries below were not fully updated. Where they conflict, the following review takes precedence. Code examples and obsolete statements remain historical evidence, not current configuration recommendations.
 
-## 历史摘要（保留原获取日期，未整篇复核）
+<a id="2026-10-19-现行核验"></a>
+## Review current as of 2026-10-19
 
-> 2026-10-15 URL 兼容性复核：[官方 rule-set 文档](https://sing-box.sagernet.org/configuration/rule-set/)定义 `type: remote` 的 `url` 下载字段；官方当前文本没有明确限定 URL scheme。本次只替换远程资产 URL 主机，保留 `.srs`、`format: binary` 与其他字段；详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+- Stable was [1.14.3](https://github.com/SagerNet/sing-box/releases/tag/v1.14.3) (2026-10-09); prerelease was [1.15.0-alpha.12](https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.12) (2026-10-11). Alpha capabilities are not stable-version evidence.
+- [`http_client`](https://sing-box.sagernet.org/configuration/rule-set/#http_client) was introduced **only in 1.14.0**, accepting named clients or inline objects. The old claim that migration to it preserved 1.11–1.13 compatibility was wrong. `download_detour` was deprecated in 1.14, with removal planned for 1.16, and remains valid for the 1.13 variant.
+- [Typed DNS servers](https://sing-box.sagernet.org/configuration/dns/server/https/) arrived in **1.12**; old `address` / `address_resolver` forms were removed in 1.14. Old inbound `sniff` / `sniff_override_destination` were removed in 1.13, replaced by routing `action: sniff`.
+- Current Full requires 1.14.3; the same generator also emits `SingBox(sing-box)-1.13.json`. Official 1.14.3 / 1.13.14 `check` passed respectively without deprecated-feature environment variables. Nonstandard `_meta` moved out of runtime JSON.
+- Full’s China-IP DNS filter migrated to `evaluate` → `match_response` → `respond`; 1.13 retains that series’ supported GeoIP acceptance filtering. Rule URLs, outbound topology, and relative service-route order are the same.
+- Both the current official [Block](https://sing-box.sagernet.org/configuration/outbound/block/) page and actual 1.14.3 checks support `type: block`, retained for group references. Do not infer removal from old migration summaries.
+- Hiddify app 4.1.1 pins core 4.1.0 / 1.13-derived source; complete-config preservation also depends on app parsing mode. HomeProxy generates from UCI; direct full import of repository JSON as a subscription is not established. See corresponding report sections.
+- Sniff migration retains only SNI/Host-assisted matching. New upstream actions have no equivalent dynamic destination-rewrite switch. Old `sniff_override_destination=true` dialing semantics cannot be fully preserved; IP destinations still dial the original IP. Unknown fields or fixed `override_address` must not pretend equivalence. See [pinned-source checks](../../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界).
 
-> 更新于 2026-07-14：复核官方 Route Rule 文档。`process_name` 仍为 Linux、Windows、macOS 支持的正式字段，语义为匹配进程名；本仓库将 `WorkPro.exe` / `WorkProWebProcess.exe` 编译至 Windows 桌面直连 rule-set，不下放到移动端。
+<a id="历史摘要保留原获取日期未整篇复核"></a>
+## Historical summary (original retrieval dates; not fully re-reviewed)
+
+> 2026-10-15 URL compatibility review: [official rule-set documentation](https://sing-box.sagernet.org/configuration/rule-set/) defines `url` for `type: remote` without explicitly restricting schemes. Only remote-asset hosts changed; `.srs`, `format: binary`, and other fields remained. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
+
+> Updated on 2026-07-14: official Route Rule documentation was rechecked. `process_name` remains a documented Linux/Windows/macOS process-name field. The repository compiles `WorkPro.exe` / `WorkProWebProcess.exe` into Windows desktop direct sets, not mobile outputs.
 >
-> 更新于 2026-05-31（上次获取 2026-04-30）：1.14.0-alpha.26 新增 Hysteria2 gecko 混淆（QUIC 流量伪装，`min_packet_size`/`max_packet_size` 字段）。alpha.20-25 为 mDNS DNS servers、Windows Schannel TLS 引擎、Hysteria2 NAT traversal、自定义 TUN DNS 模式等。稳定版仍为 1.13.12。本仓库 SingBox JSON 已完成 `download_detour` → `http_client` 迁移，兼容当前 1.11-1.13 稳定版；alpha 新功能不影响现有配置。
+> Updated on 2026-05-31 (previous retrieval: 2026-04-30): 1.14.0-alpha.26 added Hysteria2 gecko obfuscation, disguising QUIC traffic through `min_packet_size`/`max_packet_size`. Alpha.20–25 included mDNS servers, Windows Schannel TLS, Hysteria2 NAT traversal, and custom TUN DNS modes. Stable remained 1.13.12. The historical summary claimed completed `download_detour` → `http_client` migration compatible with 1.11–1.13 and no effect from alpha features; that compatibility claim is corrected above.
 >
-> 更新于 2026-04-30（上次获取 2026-04-26）：1.14.0-alpha.19 引入 `http_clients` 顶层字段（替代内联 `http_client`）、DNS 旧格式兼容将于 1.14 移除、TLS spoof/NaiveProxy/Tailscale 新能力、`default_http_client` 字段。本仓库 SingBox JSON 已完成 `download_detour` → `http_client` 迁移，兼容当前 1.11-1.13 稳定版。
+> Updated on 2026-04-30 (previous retrieval: 2026-04-26): 1.14.0-alpha.19 introduced top-level `http_clients` (replacing inline `http_client`), planned removal of old DNS format in 1.14, TLS spoof/NaiveProxy/Tailscale capabilities, and `default_http_client`. The historical summary again claimed migration compatible with 1.11–1.13; see the correction above.
 >
-> 来源 URL：
-> - https://sing-box.sagernet.org/configuration/ (配置索引)
-> - https://sing-box.sagernet.org/configuration/outbound/ (出站)
+> Source URLs:
+> - https://sing-box.sagernet.org/configuration/ (configuration index)
+> - https://sing-box.sagernet.org/configuration/outbound/ (outbounds)
 > - https://sing-box.sagernet.org/configuration/outbound/selector (Selector)
 > - https://sing-box.sagernet.org/configuration/outbound/urltest (URLTest)
-> - https://sing-box.sagernet.org/configuration/route/ (路由)
-> - https://sing-box.sagernet.org/configuration/route/rule_set (规则集)
+> - https://sing-box.sagernet.org/configuration/route/ (routing)
+> - https://sing-box.sagernet.org/configuration/route/rule_set (rule sets)
 > - https://sing-box.sagernet.org/configuration/dns/ (DNS)
-> - https://sing-box.sagernet.org/configuration/experimental/ (实验性功能)
+> - https://sing-box.sagernet.org/configuration/experimental/ (experimental features)
 >
-> 获取日期：2026-04-26
+> Retrieved: 2026-04-26
 
 ---
 
-## 1. 配置结构总览
+<a id="1-配置结构总览"></a>
+## 1. Configuration structure
 
-顶层配置键：
+Top-level keys:
 
 ```json
 {
@@ -59,9 +66,11 @@
 
 ---
 
-## 2. DNS 配置 (dns)
+<a id="2-dns-配置-dns"></a>
+## 2. DNS configuration (dns)
 
-### 2.1 顶层字段
+<a id="21-顶层字段"></a>
+### 2.1 Top-level fields
 
 ```json
 {
@@ -82,21 +91,22 @@
 }
 ```
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Meaning |
 |------|------|------|
-| `servers` | `[]DNS Server` | DNS 服务器列表 |
-| `rules` | `[]DNS Rule` | DNS 规则列表 |
-| `final` | `string` | 默认 DNS 服务器 tag；空时使用 `servers[0]` |
-| `strategy` | `string` | 默认域名策略：`prefer_ipv4` / `prefer_ipv6` / `ipv4_only` / `ipv6_only` |
-| `disable_cache` | `bool` | 禁用 DNS 缓存 |
-| `disable_expire` | `bool` | 禁用 DNS 缓存过期 |
-| `independent_cache` | `bool` | 已弃用 (1.14.0)，不要使用 |
-| `cache_capacity` | `int` | LRU 缓存容量 (1.11+)；<1024 忽略 |
-| `optimistic` | `bool|object` | 乐观 DNS 缓存 (1.14+) |
-| `reverse_mapping` | `bool` | 存储 DNS 响应的 IP 到域名的反向映射 |
-| `client_subnet` | `string` | 默认 EDNS0 客户端子网 (1.9+) |
+| `servers` | `[]DNS Server` | DNS-server list |
+| `rules` | `[]DNS Rule` | DNS-rule list |
+| `final` | `string` | Default server tag; empty uses `servers[0]` |
+| `strategy` | `string` | Default domain strategy: `prefer_ipv4` / `prefer_ipv6` / `ipv4_only` / `ipv6_only` |
+| `disable_cache` | `bool` | Disable DNS cache |
+| `disable_expire` | `bool` | Disable cache expiration |
+| `independent_cache` | `bool` | Deprecated in 1.14.0; do not use |
+| `cache_capacity` | `int` | LRU capacity, 1.11+; values below 1024 ignored |
+| `optimistic` | `bool|object` | Optimistic DNS cache, 1.14+ |
+| `reverse_mapping` | `bool` | Store IP-to-domain mappings from DNS responses |
+| `client_subnet` | `string` | Default EDNS0 client subnet, 1.9+ |
 
-### 2.2 DNS 服务器 (servers[])
+<a id="22-dns-服务器-servers"></a>
+### 2.2 DNS servers (servers[])
 
 ```json
 {
@@ -110,19 +120,20 @@
 }
 ```
 
-**`address` 格式：**
-- 纯 IP 地址：`223.5.5.5` (自动推断 UDP)
-- UDP：`udp://1.1.1.1:53`
-- TCP：`tcp://1.1.1.1:53`
-- TLS：`tls://1.1.1.1:853`
-- HTTPS：`https://cloudflare-dns.com/dns-query`
-- DHCP：`dhcp://auto`
-- 本地：`localhost` (使用系统 DNS)
-- Fakedns：`fakedns://` 或 `fakedns://:53`
+**Historical `address` formats:**
+- Plain IP: `223.5.5.5`, inferring UDP.
+- UDP: `udp://1.1.1.1:53`.
+- TCP: `tcp://1.1.1.1:53`.
+- TLS: `tls://1.1.1.1:853`.
+- HTTPS: `https://cloudflare-dns.com/dns-query`.
+- DHCP: `dhcp://auto`.
+- Local: `localhost`, using system DNS.
+- Fakedns: `fakedns://` or `fakedns://:53`.
 
-**注意：** DNS 服务器配置中**没有** `type`、`server`、`server_port` 字段。这些字段是 Clash/Mihomo 的语法，在 sing-box 中无效。
+**Historical note:** the older summary said DNS servers had **no** `type`, `server`, or `server_port` and labeled them invalid Clash/Mihomo syntax. This original statement is retained as historical evidence; the typed-DNS correction above takes precedence.
 
-### 2.3 DNS 规则 (rules[])
+<a id="23-dns-规则-rules"></a>
+### 2.3 DNS rules (rules[])
 
 ```json
 {
@@ -136,17 +147,20 @@
 }
 ```
 
-- `rule_set`：引用 `route.rule_set` 中定义的标签
-- `action`：`route` (转发到 `server`) 或 `reject` (拒绝查询)
-- 支持的匹配字段：`rule_set`, `inbound`, `port`, `network`, `protocol`, `query_type`, ...
+- `rule_set`: references tags defined in `route.rule_set`.
+- `action`: `route` forwards to `server`; `reject` rejects the query.
+- Match fields include `rule_set`, `inbound`, `port`, `network`, `protocol`, `query_type`, and others.
 
 ---
 
-## 3. 出站配置 (outbounds)
+<a id="3-出站配置-outbounds"></a>
+## 3. Outbounds
 
-### 3.1 通用字段
+<a id="31-通用字段"></a>
+### 3.1 Common fields
 
-所有出站共享：
+All outbounds share these fields; original placeholders remain:
+
 ```json
 {
   "type": "selector|urltest|direct|block|dns|...",
@@ -155,6 +169,7 @@
 }
 ```
 
+<a id="32-selector"></a>
 ### 3.2 Selector
 
 ```json
@@ -167,14 +182,15 @@
 }
 ```
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Meaning |
 |------|------|------|
-| `type` | `string` | 必须为 `selector` |
-| `tag` | `string` | 唯一标签 |
-| `outbounds` | `[]string` | 可选择的出站标签列表 |
-| `default` | `string` | 默认选中项 (可选项) |
-| `interrupt_exist_connections` | `bool` | 切换时中断已有连接 |
+| `type` | `string` | Must be `selector` |
+| `tag` | `string` | Unique tag |
+| `outbounds` | `[]string` | Selectable outbound tags |
+| `default` | `string` | Optional default selection |
+| `interrupt_exist_connections` | `bool` | Interrupt existing connections on change |
 
+<a id="33-urltest"></a>
 ### 3.3 URLTest
 
 ```json
@@ -189,14 +205,15 @@
 }
 ```
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Meaning |
 |------|------|------|
-| `type` | `string` | 必须为 `urltest` |
-| `tag` | `string` | 唯一标签 |
-| `outbounds` | `[]string` | 测试候选列表 |
-| `interval` | `duration` | 测试间隔 (如 `3m`) |
-| `tolerance` | `int` | 延迟容差 (ms)，同一容差内的节点随机选择 |
+| `type` | `string` | Must be `urltest` |
+| `tag` | `string` | Unique tag |
+| `outbounds` | `[]string` | Test candidates |
+| `interval` | `duration` | Test interval, e.g. `3m` |
+| `tolerance` | `int` | Latency tolerance in ms; the historical summary describes random selection within the tolerance |
 
+<a id="34-direct--block--dns"></a>
 ### 3.4 Direct / Block / DNS
 
 ```json
@@ -207,9 +224,11 @@
 
 ---
 
-## 4. 路由配置 (route)
+<a id="4-路由配置-route"></a>
+## 4. Routing (route)
 
-### 4.1 顶层字段
+<a id="41-顶层字段"></a>
+### 4.1 Top-level fields
 
 ```json
 {
@@ -224,16 +243,17 @@
 }
 ```
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Meaning |
 |------|------|------|
-| `rules` | `[]Route Rule` | 路由规则列表 |
-| `rule_set` | `[]Rule Set` | 规则集定义 |
-| `final` | `string` | 默认出站 (无规则匹配时使用) |
-| `auto_detect_interface` | `bool` | 自动检测网络接口 |
-| `override_android_vpn` | `bool` | Android VPN 覆盖 (需要 `auto_detect_interface`) |
-| `default_domain_strategy` | `string` | 默认域名策略 |
+| `rules` | `[]Route Rule` | Routing rules |
+| `rule_set` | `[]Rule Set` | Rule-set definitions |
+| `final` | `string` | Default outbound when no rule matches |
+| `auto_detect_interface` | `bool` | Automatically detect network interface |
+| `override_android_vpn` | `bool` | Android VPN override; requires `auto_detect_interface` |
+| `default_domain_strategy` | `string` | Default domain strategy |
 
-### 4.2 路由规则 (rules[])
+<a id="42-路由规则-rules"></a>
+### 4.2 Routing rules (rules[])
 
 ```json
 {
@@ -264,12 +284,12 @@
 }
 ```
 
-**支持的操作：**
-- `action: "route"` + `outbound: "tag"` — 转发到指定出站
-- `action: "reject"` — 拒绝连接
-- `action: "hijack_dns"` — 劫持 DNS 请求
+**Actions listed in the historical summary:**
+- `action: "route"` + `outbound: "tag"`: forward to an outbound.
+- `action: "reject"`: reject the connection.
+- `action: "hijack_dns"`: intercept DNS requests.
 
-**支持的匹配字段 (`route`)：**
+**Match fields listed for `route`:**
 - `rule_set`, `inbound`, `protocol`, `network`, `port`, `port_range`
 - `domain`, `domain_suffix`, `domain_keyword`, `domain_regex`
 - `geoip`, `geosite`, `ip_cidr`, `ip_is_private`
@@ -277,7 +297,8 @@
 - `process_name`, `process_path`, `user_id`, `user`
 - `clash_mode`, `network_type`, `device`, `metadata`
 
-### 4.3 规则集 (rule_set[])
+<a id="43-规则集-rule_set"></a>
+### 4.3 Rule sets (rule_set[])
 
 ```json
 {
@@ -293,22 +314,24 @@
 }
 ```
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Meaning |
 |------|------|------|
-| `type` | `string` | `remote` (远程) 或 `local` (本地) |
-| `tag` | `string` | 唯一标签，被 `rule_set` 引用 |
-| `format` | `string` | `binary` (`.srs`) 或 `source` (`.json`) |
-| `url` | `string` | 仅 `remote` 类型：规则集 URL |
-| `path` | `string` | 仅 `local` 类型：本地文件路径 |
-| `download_detour` | `string` | 下载规则集时使用的出站 |
-| `http_client.detour` | `string` | HTTP 客户端的出站 (覆盖 download_detour) |
-| `update_interval` | `duration` | 更新间隔 |
+| `type` | `string` | `remote` or `local` |
+| `tag` | `string` | Unique tag referenced by `rule_set` |
+| `format` | `string` | `binary` (`.srs`) or `source` (`.json`) |
+| `url` | `string` | Remote set URL only |
+| `path` | `string` | Local file path only |
+| `download_detour` | `string` | Outbound for set downloads |
+| `http_client.detour` | `string` | HTTP-client outbound, overriding download_detour |
+| `update_interval` | `duration` | Update interval |
 
 ---
 
-## 5. 实验性功能 (experimental)
+<a id="5-实验性功能-experimental"></a>
+## 5. Experimental features (experimental)
 
-### 5.1 合法字段
+<a id="51-合法字段"></a>
+### 5.1 Accepted fields
 
 ```json
 {
@@ -320,8 +343,9 @@
 }
 ```
 
-`experimental` 块**仅支持** `cache_file`、`clash_api`、`v2ray_api` 三个字段。添加未知字段会导致配置告警。
+The historical summary lists **only** `cache_file`, `clash_api`, and `v2ray_api` in `experimental`, warning that unknown fields cause configuration warnings.
 
+<a id="52-cache-file"></a>
 ### 5.2 Cache File
 
 ```json
@@ -336,6 +360,7 @@
 }
 ```
 
+<a id="53-clash-api"></a>
 ### 5.3 Clash API
 
 ```json
@@ -358,12 +383,15 @@
 
 ---
 
-## 6. 语法要点
+<a id="6-语法要点"></a>
+## 6. Syntax notes
 
-1. **`rule_set` 引用**：路由规则中的 `rule_set` 字段引用 `route.rule_set[]` 中定义的 `tag`，而非文件名。
-2. **`domain_suffix` 匹配**：`domain_suffix: [".example.com"]` 匹配 `example.com` 和 `*.example.com`，**需要 `.` 前缀**表示匹配子域名。
-3. **`geoip` 字段**：`geoip: ["CN"]` 是 `route.rules[]` 中的内联 GeoIP 匹配，无需额外 rule_set。也可使用 `ip_cidr`。
-4. **`outbound` 字段**：规则中使用 `outbound`（非 `outboundTag`，后者是 Xray 语法）。
-5. **DNS `address` 字段**：DNS 服务器使用 `address`（非 `server`），类型编码在地址前缀中。
-6. **Selector `default` 字段**：非必需，但强烈推荐。如果不设，默认选中 `outbounds[0]`。
-7. **Selector/URLTest 没有 `{all}` 占位符**：与 Clash 不同，sing-box 不支持 `{all}` 展开占位符；必须显式列出。
+These retain the original summary’s claims, not newly verified current-version guidance:
+
+1. **`rule_set` references:** routing fields reference `tag` values in `route.rule_set[]`, not filenames.
+2. **`domain_suffix` matching:** the historical summary says `domain_suffix: [".example.com"]` matches `example.com` and `*.example.com` and requires the `.` prefix for subdomains.
+3. **`geoip`:** the summary describes `geoip: ["CN"]` as inline GeoIP in `route.rules[]`, without an additional rule_set; `ip_cidr` is another option.
+4. **`outbound`:** rules use `outbound`, not Xray’s `outboundTag`.
+5. **DNS `address`:** the historical summary describes `address`, not `server`, with type encoded in the prefix; see the current typed-DNS correction above.
+6. **Selector `default`:** optional but strongly recommended; if omitted, `outbounds[0]` is selected.
+7. **No `{all}` in Selector/URLTest:** unlike Clash, sing-box does not expand `{all}`; list candidates explicitly.

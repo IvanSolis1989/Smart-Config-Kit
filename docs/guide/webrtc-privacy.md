@@ -1,76 +1,86 @@
 <picture>
   <source media="(max-width: 600px)" srcset="../assets/readme/page-docs-mobile.svg">
-  <img src="../assets/readme/page-docs.svg" alt="WebRTC 隐私与连接验收" width="100%">
+  <img src="../assets/readme/page-docs.svg" alt="WebRTC privacy and connection validation" width="100%">
 </picture>
 
-# WebRTC 隐私与连接验收
+<a id="webrtc-隐私与连接验收"></a>
+# WebRTC privacy and connection validation
 
-规则分流保留直连流量。网页走代理，并不代表同页发起的 WebRTC 也使用代理出口。Windows 用户可按需拒绝指定浏览器的 UDP，并结合浏览器隐私策略和实际连接记录验收。
+**English** | [简体中文](webrtc-privacy.zh-CN.md)
 
-[文档中心](../README.md) · [DNS 与导入后验收](dns-and-verification.md) · [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) · [FlClash](../../Mihomo内核系/FlClash/README.md)
+[Scope and limitations](../disclaimer.md)
 
-## 为什么 TUN 开着仍可能显示本地公网 IP
+Rule-based routing retains direct traffic. A proxied web page does not imply that WebRTC initiated by the same page uses the proxy exit. On Windows, you can optionally reject UDP from specified browsers, then validate the result using browser privacy policies and actual connection records.
 
-当前源图在业务分流之前将目的端口 `3478`、`3479`、`5349`、`19302`、`19305`、`19307` 交给 `DIRECT`，用于 STUN/TURN 与 NAT 探测兼容。它们是目的端口规则，并非识别 WebRTC 的协议防火墙。`stun.l.google.com` 等域名也在 fake-IP 排除列表中。
+[Documentation](../README.md) · [DNS and post-import checks](dns-and-verification.md) · [Clash Party](../../Mihomo内核系/Clash%20Party/README.md) · [FlClash](../../Mihomo内核系/FlClash/README.md)
 
-TUN 接管连接后仍按规则选择出口，所以“进入 TUN”与“通过代理节点”是两件事。STUN 的真实 DNS 回答不强制直连；这里决定出口的是前述 `DIRECT` 规则。DNS 加密、fake-IP 或嗅探选项本身不提供 WebRTC 公网 IP 隐藏保证。
+<a id="为什么-tun-开着仍可能显示本地公网-ip"></a>
+## Why the local public IP may appear with TUN enabled
 
-**关闭客户端「DNS 覆写」是关联本仓库脚本后的正常用法。** 关闭的是 App 的二次覆盖，脚本生成的 Mihomo DNS 仍启用。不能仅凭这个开关判定 DNS 已失效，须核对实际生效配置。
+Before service routing, the current source graph sends destination ports `3478`, `3479`, `5349`, `19302`, `19305`, and `19307` to `DIRECT` for STUN/TURN and NAT-discovery compatibility. These are destination-port rules, not a protocol-aware WebRTC firewall. Domains including `stun.l.google.com` are also in the fake-IP exclusion list.
 
-## Windows：启用浏览器 UDP 保护
+After TUN intercepts a connection, routing rules still select its exit. Entering TUN and passing through a proxy node are different events. A real DNS answer for STUN does not force direct routing; the `DIRECT` rules above determine the exit here. DNS encryption, fake-IP, and sniffing options alone do not guarantee that WebRTC will hide your public IP.
 
-适用于 **Windows 上的 Clash Party Smart / Normal 与 FlClash JS**，只匹配 `chrome.exe`、`msedge.exe`、`firefox.exe`。默认关闭；启用后拒绝这三个进程的全部 UDP，包含 UDP/19302、其他 STUN 端口及 HTTP/3，不依赖 STUN 域名清单或节点是否支持 UDP。
+**Disabling the client’s “DNS override” is the normal setup after linking this repository’s script.** This disables the app’s second override; the script-generated Mihomo DNS remains active. That switch alone does not establish a DNS failure. Inspect the effective configuration.
 
-1. 打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择对应客户端，在本地参数中将 **「Windows 浏览器 UDP」** 设为 **「拒绝（reject）」**，下载 JS。也可使用[离线配置页](../configuration.html)。
-2. 将下载内容保存为独立命名的本地覆写并关联节点订阅，保留这次选择；不要用官方 Raw URL 的自动更新覆盖本地选项。Clash Party Smart / Normal 选用其一，导入步骤见各客户端教程。
-3. 开启 TUN、使用规则模式，重新应用配置；确认最终配置的 `find-process-mode: strict` 仍生效，并能识别浏览器进程。客户端排除浏览器、进程识别失败或绕过 TUN 时，此规则无法提供保护。
-4. 重测并核对浏览器 UDP 连接命中 `AND` 拒绝规则、出站为 `REJECT`；网页 TCP 请求继续按业务规则处理。随后检查日常网页通话与屏幕共享是否可用。
+<a id="windows启用浏览器-udp-保护"></a>
+## Windows: enable browser UDP protection
 
-此选项来自可信本地常量 `SCKI_BROWSER_UDP_POLICY`，订阅内容和环境变量不能代为开启。它在常规分流和 QUIC 服务例外之前拒绝浏览器 UDP；其他应用继续使用原规则，包括默认的 STUN/TURN 兼容直连。需要恢复时改为「关闭（off）」并重新下载、关联、应用。
+This option applies to **Clash Party Smart / Normal and FlClash JS on Windows**, matching only `chrome.exe`, `msedge.exe`, and `firefox.exe`. It is off by default. When enabled, it rejects all UDP from these three processes, including UDP/19302, other STUN ports, and HTTP/3, regardless of STUN-domain lists or node UDP support.
 
-高级用户可对已有支持该选项的本地 JS 先预览，再保存；保存会备份原文件并读回：
+1. Open the [online configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), choose your client, and set **Windows browser UDP** to **Reject (reject)** in the optional settings. Download the JS. You can also use the [offline configuration page](../configuration.html).
+2. Save the download as a separately named local override and link it to your node subscription, preserving this choice. Do not overwrite local options through automatic updates from the official Raw URL. Choose either Clash Party Smart or Normal; follow the relevant client’s import guide.
+3. Enable TUN, use rule mode, and reapply the configuration. Confirm that `find-process-mode: strict` remains active in the final configuration and identifies the browser process. The rule cannot protect a browser excluded by the client, unidentified by process detection, or bypassing TUN.
+4. Retest and confirm that browser UDP connections hit the `AND` rejection rule with outbound `REJECT`. Web-page TCP requests continue to follow service rules. Then check whether your usual web calls and screen sharing still work.
+
+The option comes from the trusted local constant `SCKI_BROWSER_UDP_POLICY`; subscription content and environment variables cannot enable it. It rejects browser UDP before regular routing and QUIC service exceptions. Other apps retain the original rules, including default direct STUN/TURN compatibility paths. To restore the previous behavior, choose Off (off), then download, link, and apply the configuration again.
+
+Advanced users can preview changes to an existing local JS file that supports the option, then save. Saving backs up the original file and reads the result back:
 
 ```powershell
 node tools/configure.js --target 'D:\Configs\local.js' --browser-udp reject --dry-run
 node tools/configure.js --target 'D:\Configs\local.js' --browser-udp reject
 ```
 
-旧脚本缺少此能力时，工具会拒绝开启；应先更新到支持该选项的版本。更新本地脚本时会保留已选择的保护，不能静默降为关闭。
+If an older script lacks this capability, the tool refuses to enable it. Update to a supporting version first. Updating a local script preserves the selected protection rather than silently turning it off.
 
-**这不是禁用全部 WebRTC。** UDP 通话可能失败或改用 TCP/TURN；TCP/TURN、浏览器 host candidate 与未进入核心的连接仍需浏览器策略和实际验收。Android / macOS / Linux 的浏览器进程名称和识别能力不同，此 Windows 选项不适用；AEROVE Lite、OpenClash 及其他原生配置本轮不提供此选项，不能把它们的导入成功当作已启用保护。
+**This does not disable all WebRTC.** UDP calls may fail or fall back to TCP/TURN. TCP/TURN, browser host candidates, and connections that never enter the core still require browser policy and actual validation. Browser process names and detection differ on Android, macOS, and Linux, so this Windows option does not apply there. AEROVE Lite, OpenClash, and other native configurations do not provide this option in this revision; successful import does not mean the protection is enabled.
 
-## 选择适合自己的方式
+<a id="选择适合自己的方式"></a>
+## Choose an approach
 
-| 需求 | 做法 | 代价 |
+| Requirement | Approach | Tradeoff |
 | --- | --- | --- |
-| 通话、打洞优先 | 保持默认分流 | STUN 可显示本地公网 IP |
-| Windows 指定浏览器不发 UDP | 开启上面的浏览器 UDP 保护 | 浏览器 HTTP/3 和 UDP 通话受影响 |
-| 限制浏览器 UDP | 使用浏览器 WebRTC 策略 | 部分通话失败或改用中继 |
-| 完全不使用 WebRTC | 在支持的浏览器禁用 PeerConnection | 网页通话和屏幕共享会受影响 |
+| Prioritize calls and NAT traversal | Keep default routing | STUN may reveal the local public IP |
+| Prevent UDP from the specified Windows browsers | Enable browser UDP protection above | Affects browser HTTP/3 and UDP calls |
+| Restrict browser UDP | Use browser WebRTC policy | Some calls may fail or use relays |
+| Do not use WebRTC | Disable PeerConnection in a supporting browser | Affects web calls and screen sharing |
 
-Chrome 提供 `WebRtcIPHandling` 企业策略，可选 `disable_non_proxied_udp`，限制未通过浏览器代理的 UDP。按 [Chrome 官方策略](https://chromeenterprise.google/policies/#WebRtcIPHandling)在需要保护的浏览器配置，随后打开 `chrome://policy` 重新加载并确认策略已接受，完全退出浏览器后重开测试。已有受管策略的设备应由管理员配置，不覆盖现有管理值。Chrome 扩展也可通过官方 [privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy)管理同一隐私取舍。
+Chrome provides the enterprise policy `WebRtcIPHandling`; the value `disable_non_proxied_udp` restricts UDP that does not pass through the browser’s proxy. Configure it for the relevant browser according to the [official Chrome policy](https://chromeenterprise.google/policies/#WebRtcIPHandling), then reload `chrome://policy` and confirm acceptance. Fully exit and reopen the browser before testing. An administrator should configure devices with existing managed policies; do not overwrite managed values. Chrome extensions can also manage this privacy tradeoff through the official [privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy).
 
-Windows Chrome 的手工配置入口为注册表 `HKEY_CURRENT_USER\Software\Policies\Google\Chrome`，字符串值 `WebRtcIPHandling` 设为 `disable_non_proxied_udp`。修改前导出该键并记录原值；只改这一项，恢复时还原原值，原来不存在时只删除新增值。策略页面若报错或未接受该值，不视为生效。这是需要用户主动选择的浏览器设置，仓库脚本和离线表单不会代为写入。
+For manual Windows Chrome configuration, use registry key `HKEY_CURRENT_USER\Software\Policies\Google\Chrome` and set the string value `WebRtcIPHandling` to `disable_non_proxied_udp`. Export the key and record the original value first. Change only this value; restore the original when reverting, or delete only the added value if it did not previously exist. A policy-page error or rejection means the setting is not verified as active. This browser setting requires an explicit user choice; repository scripts and the offline form do not write it for you.
 
-这不是修改 Mihomo DNS 的选项。只有 TUN 时，浏览器未必将它视为已配置的代理；必须验证最终候选和连接，不能仅凭策略名称宣称所有流量都走代理。保留 WebRTC 通话时，还须验证代理路径、节点 UDP 或 TCP/TURN 中继是否可用。
+This is not a Mihomo DNS setting. A browser may not treat TUN alone as a configured proxy. Verify final candidates and connections rather than assuming the policy name guarantees proxied traffic. If retaining WebRTC calls, also validate the proxy path, node UDP support, or TCP/TURN relay availability.
 
-Firefox 支持限制或关闭 PeerConnection；其 [官方隐私 API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/privacy/network)区分 `peerConnectionEnabled` 与 IP handling policy。完全关闭会阻止网页建立 WebRTC 对等连接；不同浏览器的可用界面、策略和值以各自官方文档为准。恢复时还原原有浏览器设置，并重新验收通话功能。
+Firefox supports restricting or disabling PeerConnection. Its [official privacy API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/privacy/network) distinguishes `peerConnectionEnabled` from IP-handling policy. Disabling it prevents pages from establishing WebRTC peer connections. Consult each browser’s official documentation for available interfaces, policies, and values. To revert, restore the original browser settings and retest calls.
 
-Firefox 桌面版需要完全关闭时，可在 `about:config` 记录 `media.peerconnection.enabled` 原值，再改为 `false`，完全退出并重开浏览器；恢复时还原原值。[Mozilla 的 WebRTC 隐私说明](https://wiki.mozilla.org/Media/WebRTC/Privacy)定义了此项控制 PeerConnection 的能力。
+To disable PeerConnection completely in Firefox desktop, record the original `media.peerconnection.enabled` value in `about:config`, set it to `false`, and fully exit and reopen the browser. Restore the original value to revert. [Mozilla’s WebRTC privacy documentation](https://wiki.mozilla.org/Media/WebRTC/Privacy) describes this control.
 
-**只隐藏局域网 host candidate 不等于隐藏 STUN 得到的公网地址。** 也不要把封禁几个常用端口当作完整保障：服务器可以使用其他端口，TURN 还可以使用 TCP/443。仅把已知 STUN 流量指向代理也不充分；[Mihomo 官方规则说明](https://wiki.metacubex.one/config/rules/)指出，UDP 选中不支持 UDP 的节点时可能继续匹配后续规则。
+**Hiding LAN host candidates does not hide the public address discovered by STUN.** Blocking a few common ports is not complete protection: servers may use other ports, and TURN can use TCP/443. Routing known STUN traffic to a proxy is also insufficient by itself. The [official Mihomo rule documentation](https://wiki.metacubex.one/config/rules/) notes that UDP may continue matching later rules if the selected node does not support UDP.
 
-## 按这个顺序验收
+<a id="按这个顺序验收"></a>
+## Validate in this order
 
-1. 在同一浏览器和网络下打开 [BrowserLeaks WebRTC](https://browserleaks.com/webrtc)，区分网页的 `Remote IP`、WebRTC 的 `Public IP Address` 和 `Local IP Address`。先记录候选是否存在，以及公网地址是否一致。
-2. 打开客户端连接记录，重测并查 `stun.l.google.com`、UDP/19302 或实际 STUN/TURN 目的地址；记录网络协议、目的端口、命中规则与出站链。TCP 网页请求的出口不能代替这条记录。
-3. 可短暂使用全局模式作对照：明确选择可用且支持所需协议的代理节点，彻底关闭旧测试页面后重测，记录候选和连接差异，随后恢复规则模式。全局模式不是持续的隐私承诺。
-4. 应用浏览器隐私设置，完全退出并重启浏览器后再测；网页 IP 正常、候选未暴露本地公网 IP 后，再检查日常通话是否仍可用。
+1. On the same browser and network, open [BrowserLeaks WebRTC](https://browserleaks.com/webrtc). Distinguish the page’s `Remote IP` from WebRTC’s `Public IP Address` and `Local IP Address`. Record whether candidates exist and whether public addresses match.
+2. Open the client’s connection log, retest, and find `stun.l.google.com`, UDP/19302, or the actual STUN/TURN destination. Record the transport protocol, destination port, matched rule, and outbound chain. A TCP web request’s exit is not a substitute for this record.
+3. You may briefly use global mode as a comparison: explicitly select a working node that supports the required protocol, fully close the previous test page, and retest. Record candidate and connection differences, then restore rule mode. Global mode is not an ongoing privacy guarantee.
+4. Apply browser privacy settings, fully exit and restart the browser, and retest. After the page IP is as expected and candidates do not expose the local public IP, check whether your usual calls still work.
 
-`No Leak` 可能表示候选地址与网页出口相符，也可能只是没有收集到候选；它不单独证明 UDP 已被代理。IPv6、VPN 排除应用、系统路由和浏览器扩展也须在实际设备上核查。
+`No Leak` may mean that candidate addresses match the web-page exit, or simply that no candidates were collected. It does not by itself prove that UDP is proxied. Check IPv6, VPN-excluded apps, system routes, and browser extensions on the actual device too.
 
-## 向维护者提供什么
+<a id="向维护者提供什么"></a>
+## What to provide to maintainers
 
-反馈时附上操作系统、浏览器版本、客户端及核心版本、脚本版本、TUN/规则模式，以及上面两次测试的候选类型和一条 STUN 连接记录。实际生效配置只需相关 DNS、规则和出站片段；删除订阅 URL、token、密码及设备路径，脱敏本机和代理出口公网 IP。保留公开 STUN 目的域名/IP、端口、命中规则与出站链，方便定位。
+Include the operating system, browser version, client and core versions, script version, TUN/rule-mode status, candidate types from the two tests above, and one STUN connection record. Share only relevant DNS, rule, and outbound fragments from the effective configuration. Remove subscription URLs, tokens, passwords, and device paths; redact the local and proxy-exit public IPs. Retain public STUN destination domains/IPs, ports, matched rules, and outbound chains needed for diagnosis.
 
-[Issue #193 的补充截图](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193#issuecomment-6499914068)已确认三条 Chrome 到 `stun.l.google.com` 的 UDP/19302 连接通过 TUN、命中 `DstPort(19302) → DIRECT`，且有实际收发；同页 HTTPS 请求使用代理。这支持前述路由原因，但不能把截图之外的全部流量或本次保护启用后的设备状态视为已验证。截图含公网地址和节点信息，反馈时请按需进一步脱敏。
+The [additional screenshots in issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193#issuecomment-6499914068) confirmed three Chrome UDP/19302 connections to `stun.l.google.com` entering TUN, matching `DstPort(19302) → DIRECT`, and transmitting actual data, while HTTPS requests from the same page used a proxy. This supports the routing explanation above. It does not validate all traffic outside those screenshots or the device state after enabling this protection. The screenshots contain public addresses and node information; redact further as appropriate when providing feedback.

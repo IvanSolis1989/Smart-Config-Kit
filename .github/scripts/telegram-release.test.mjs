@@ -27,23 +27,23 @@ test('retries a transient GitHub network failure without sending a Telegram mess
     return Response.json(release);
   });
   assert.equal(attempts, 2);
-  assert.match(result.preview, /修复连接/);
+  assert.match(result.preview, /See the repository for update details/);
 });
 
 test('formats product/channel labels, removes hidden notes and bounds message size', () => {
   const message = formatMessage(repository, release);
-  assert.match(message, /AEROVE 标准版.*预览版/);
-  assert.match(message, /修复连接/);
+  assert.match(message, /AEROVE Standard.*Preview/);
+  assert.match(message, /See the repository for update details/);
   assert.doesNotMatch(message, /hidden|##/);
   assert.match(message, /<a href="https:\/\/github.com\//);
   assert.doesNotMatch(message, /配置下载|交流讨论/);
   assert.ok(formatMessage(repository, { ...release, body: '😀内容'.repeat(5000) }).length <= 3800);
-  assert.match(formatMessage(repository, { ...release, tag_name: 'lite-v1.0.0', prerelease: false }), /AEROVE Lite.*正式版/);
+  assert.match(formatMessage(repository, { ...release, tag_name: 'lite-v1.0.0', prerelease: false }), /AEROVE Lite.*Release/);
 });
 
 test('keeps the announcement short and removes repeated version/build metadata', () => {
   const content = { ...release, body: '# AEROVE v0.10.0\n\n## 工程与内核来源\n- 改用官方 Mihomo v1.19.33。\n- 两版工程分别归入 apps/。\n- 修复全屏启动背景。\n## 独立维护\n- 保留源码和签名。\n## 构建与发布\n- 同一提交验证并构建一次。\n版本：0.10.0\n源码：abcdef' };
-  assert.deepEqual(summarizeChanges(content), ['改用官方 Mihomo v1.19.33', '修复全屏启动背景']);
+  assert.deepEqual(summarizeChanges(content, 'zh'), ['改用官方 Mihomo v1.19.33', '修复全屏启动背景']);
   const message = formatMessage(repository, content);
   assert.equal((message.match(/AEROVE/g) || []).length, 1);
   assert.doesNotMatch(message, /源码|构建|apps\//);
@@ -115,7 +115,7 @@ test('extracts only the latest root changelog section and announces its immutabl
   const announcement = changelogAnnouncement(repo, sha, text, release.published_at);
   assert.equal(announcement.tag_name, 'v6.1.0 (2026-10-23)');
   assert.equal(announcement.body, '- 本次更新');
-  assert.match(formatMessage(repo, announcement), /Smart-Config-Kit.*配置更新/);
+  assert.match(formatMessage(repo, announcement), /Smart-Config-Kit.*Configuration update/);
   const api = async path => {
     if (path.startsWith('/compare/')) return { files: [{ filename: 'CHANGELOG.md', status: 'modified' }] };
     if (path.startsWith('/commits/')) return { sha, commit: { committer: { date: release.published_at } } };
@@ -131,20 +131,20 @@ test('extracts only the latest root changelog section and announces its immutabl
 
 test('expands the matching linked changelog instead of announcing a pointer', async () => {
   const repo = 'IvanSolis1989/Smart-Config-Kit';
-  const root = '# 日志\n## 2026-10-23 下载复核\n- 详见 [Clash Party 日志](./Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。\n';
-  const child = '# Clash Party\n## 2026-10-23 下载复核\n- 确认下载域名命中下载策略；补充微信进程 DIRECT 回归；规则行为不变。\n## 旧版\n- 旧更新\n';
+  const root = '# Changelog\n## 2026-10-23 Download review\n- See [Clash Party changelog](./Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。\n';
+  const child = '# Clash Party\n## 2026-10-23 Download review\n- Verified download-rule matches; added WeChat process DIRECT regression; routing behavior is unchanged.\n## Earlier\n- Old update\n';
   const api = async path => path.startsWith('/commits/') ? { sha, commit: { committer: { date: release.published_at } } }
     : { encoding: 'base64', content: Buffer.from(path.includes('Clash%20Party') ? child : root).toString('base64') };
   const announcement = await selectAnnouncement('workflow_dispatch', {}, 'main', api, repo);
   const text = formatMessage(repo, announcement);
-  assert.match(text, /微信进程 DIRECT/);
-  assert.match(text, /规则行为不变/);
+  assert.match(text, /WeChat process DIRECT/);
+  assert.match(text, /routing behavior is unchanged/);
   assert.doesNotMatch(text, /详见|旧更新|交流讨论/);
 });
 
 test('Smart Config sends and edits only update text and its repository link', async () => {
   const repo = 'IvanSolis1989/Smart-Config-Kit';
-  const announcement = changelogAnnouncement(repo, sha, '# 日志\n## 2026-10-23 下载复核\n- 补充微信进程 DIRECT 回归。\n', release.published_at);
+  const announcement = changelogAnnouncement(repo, sha, '# Changelog\n## 2026-10-23 Download review\n- Added WeChat process DIRECT regression.\n', release.published_at);
   let receipt;
   const calls = [];
   const api = async (path, body) => {
@@ -160,8 +160,8 @@ test('Smart Config sends and edits only update text and its repository link', as
   assert.deepEqual(await publishRelease(options), { skipped: false, url: 'https://t.me/IvanSolis89/33' });
   assert.equal(receipt.context, `telegram/olympus/link-changelog-${sha}`);
   assert.equal(calls[1].method, 'sendMessage');
-  assert.match(calls[1].body.text, /微信进程 DIRECT/);
-  assert.match(calls[1].body.text, /href="https:\/\/github.com\/IvanSolis1989\/Smart-Config-Kit">仓库链接/);
+  assert.match(calls[1].body.text, /WeChat process DIRECT/);
+  assert.match(calls[1].body.text, /href="https:\/\/github.com\/IvanSolis1989\/Smart-Config-Kit">Repository/);
   assert.equal((calls[1].body.text.match(/href=/g) || []).length, 1);
   assert.equal(calls[1].body.link_preview_options.is_disabled, true);
   assert.equal((await publishRelease(options)).skipped, true);
@@ -169,4 +169,33 @@ test('Smart Config sends and edits only update text and its repository link', as
   await publishRelease({ ...options, edit: true });
   assert.equal(calls[2].method, 'editMessageText');
   assert.equal(calls[2].body.message_id, 33);
+});
+
+
+test('Both repository wrappers and fallbacks default to English', () => {
+  const sck = formatMessage('IvanSolis1989/Smart-Config-Kit', {...release, kind:'changelog', tag_name:'Documentation update', body:'- English is the default.'});
+  assert.match(sck, /Configuration update/);
+  assert.match(sck, />Repository<\/a>/);
+  assert.doesNotMatch(sck, /[\u3400-\u9fff]/);
+  const fallback = formatMessage('IvanSolis1989/Smart-Config-Kit', {...release, kind:'changelog', tag_name:'Maintenance', body:''});
+  assert.match(fallback, /See the repository for update details/);
+  assert.doesNotMatch(fallback, /[\u3400-\u9fff]/);
+  assert.match(formatMessage(repository, release), /AEROVE Standard.*Preview/);
+});
+
+test('English announcements never pretend to translate legacy Chinese notes', () => {
+  const legacy={...release,kind:'changelog',sha,tag_name:'历史更新',body:'- 尚未完成真机验收。'};
+  for(const repo of ['IvanSolis1989/Aerove','IvanSolis1989/Smart-Config-Kit']) {
+    const message=formatMessage(repo,legacy);
+    assert.doesNotMatch(message,/\p{Script=Han}/u);
+    assert.match(message,/See the repository for update details/);
+    assert.match(message,/Update aaaaaaaa/);
+  }
+  assert.deepEqual(summarizeChanges({...release,body:'- Device verification remains pending.'}),['Device verification remains pending.']);
+});
+
+
+test('optional language details never become default release facts', () => {
+  const body = '- Default English fact.\n<details open>\n<summary>中文</summary>\n- Optional English-only quote.\n- 可选翻译。\n</details>\n- Another default fact.';
+  assert.deepEqual(summarizeChanges({...release, body}), ['Default English fact.', 'Another default fact.']);
 });

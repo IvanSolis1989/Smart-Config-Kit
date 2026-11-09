@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="128" viewBox="0 0 250 128" role="img" aria-labelledby="title desc">
+<title id="title">Xray 配置入口</title><desc id="desc">v2rayN 路由</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+
+<defs><linearGradient id="family" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf8ff"/><stop offset=".65" stop-color="#eae4fc"/><stop offset="1" stop-color="#fbf8ff"/></linearGradient></defs>
+    <rect x="1" y="1" width="248" height="126" rx="19" fill="url(#family)" stroke="#c8bbe9"/>
+    <path d="M20 2H230" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M222 28V49M212 38H232" stroke="#6f57a6" stroke-opacity=".22" stroke-width="1.5"/>
+    <circle cx="222" cy="38" r="13" fill="#ffffff" fill-opacity=".54" stroke="#c8bbe9"/>
+    <path d="M218 34L222 38L218 42M222 38H227" fill="none" stroke="#6f57a6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="19" y="45" font-size="24" font-weight="650" fill="#18324f" >Xray</text>
+    <text x="19" y="79" font-size="14.5" font-weight="400" fill="#506780" >v2rayN 路由</text>
+    <path d="M20 115H57" stroke="#6f57a6" stroke-width="2" stroke-opacity=".5" stroke-linecap="round"/>
+</g></svg>

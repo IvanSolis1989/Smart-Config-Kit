@@ -1,0 +1,42 @@
+name: Validate documentation presentation
+on:
+  pull_request:
+    paths: ['**/*.md', 'docs/readme-localization.json', 'tools/validate-readme-locales.js', 'tools/tests/readme-locales.test.js', 'docs/assets/readme/**', 'tools/generate-readme-visuals.js', 'tools/lib/readme-visual-en.json', 'tools/lib/readme-visual-locale.js', 'tools/lib/documentation-review-scope.js', 'tools/tests/readme-visual-locale.test.js', 'tools/ci/review-documentation.cjs', '.github/workflows/validate-documentation.yml', 'tools/lib/configuration-*.js', 'tools/generate-configuration-form.js', 'docs/configuration.html']
+  push:
+    branches: [main]
+    paths: ['**/*.md', 'docs/readme-localization.json', 'tools/validate-readme-locales.js', 'tools/tests/readme-locales.test.js', 'docs/assets/readme/**', 'tools/generate-readme-visuals.js', 'tools/lib/readme-visual-en.json', 'tools/lib/readme-visual-locale.js', 'tools/lib/documentation-review-scope.js', 'tools/tests/readme-visual-locale.test.js', 'tools/ci/review-documentation.cjs', '.github/workflows/validate-documentation.yml', 'tools/lib/configuration-*.js', 'tools/generate-configuration-form.js', 'docs/configuration.html']
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Verify paired README coverage and reviewed synchronization
+        run: |
+          node tools/validate-readme-locales.js
+          node --test tools/tests/readme-locales.test.js tools/tests/readme-visual-locale.test.js
+      - name: Verify both generated visual catalogs
+        run: |
+          node tools/generate-readme-visuals.js --check
+          node tools/generate-readme-visuals.js --locale=zh-CN --check
+      - name: Render desktop light, dark and 390px layouts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+          npm install --prefix "$RUNNER_TEMP/sck-review" --no-save --package-lock=false playwright@1.56.1 marked@16.4.1
+          "$RUNNER_TEMP/sck-review/node_modules/.bin/playwright" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/sck-review/node_modules" node tools/ci/review-documentation.cjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: documentation-visual-review
+          path: .cache/documentation-review/
+          retention-days: 7

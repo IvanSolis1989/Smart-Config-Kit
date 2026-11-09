@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="300" viewBox="0 0 1120 300" role="img" aria-labelledby="title desc">
+<title id="title">同一规则源，跨设备分流</title><desc id="desc">同一规则源生成各客户端原生配置，在桌面、移动端与 OpenWrt 使用。具备对应能力的客户端提供 33 业务组与 22 区域组；Karing 使用原生适配，Xray 使用三出站路由，能力和导入方式以各端指南为准。</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="1" y="1" width="1118" height="298" rx="28" fill="url(#base)" stroke="#c8ddee"/><ellipse cx="952" cy="15" rx="403.2" ry="225" fill="url(#aura)"/><path d="M28 1H1092" stroke="#ffffff" stroke-width="2"/>
+<rect x="28" y="29" width="292" height="151" rx="23" fill="#e0edff" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="28.5" y="29.5" width="291" height="150" rx="23" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><g transform="translate(244 52)" fill="none" stroke="#6b9ac8" stroke-width="1.6"><path d="M0 17L28 0L56 17L28 34ZM28 0V34M0 17H56"/><circle cx="28" cy="17" r="5" fill="#f5fbff"/></g>
+  <text x="49" y="78" font-size="27" font-weight="650" fill="#18324f" >同一规则源</text>
+  <text x="49" y="118" font-size="20" font-weight="400" fill="#506780" >统一维护分流策略</text><text x="49" y="148" font-size="20" font-weight="400" fill="#506780" >业务命中顺序保持一致</text>
+  <path d="M332 105L384 105" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="398" y="29" width="306" height="151" rx="23" fill="#d9f2ef" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="398.5" y="29.5" width="305" height="150" rx="23" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/>
+  <text x="419" y="78" font-size="27" font-weight="650" fill="#18324f" >各端原生配置</text>
+  <text x="419" y="118" font-size="20" font-weight="400" fill="#506780" >选择客户端，导入对应配置</text><text x="419" y="148" font-size="20" font-weight="400" fill="#506780" >按平台能力适配规则与节点组</text>
+  <path d="M716 105L768 105" fill="none" stroke="#6384ac" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <rect x="782" y="29" width="310" height="151" rx="23" fill="#eae4fc" fill-opacity=".8" stroke="#ffffff" stroke-width="2" filter="url(#shadow)"/><rect x="782.5" y="29.5" width="309" height="150" rx="23" fill="url(#glass)" stroke="#a8c2dd" stroke-opacity=".48"/><g transform="translate(1004 48)" fill="none" stroke="#7c80b0" stroke-width="1.7" stroke-linejoin="round"><rect width="43" height="28" rx="3"/><path d="M21 28V35M10 35H33"/><rect x="50" y="9" width="17" height="31" rx="3"/><path d="M56 35H61"/></g>
+  <text x="803" y="78" font-size="27" font-weight="650" fill="#18324f" >跨设备分流</text>
+  <text x="803" y="118" font-size="20" font-weight="400" fill="#506780" >桌面 · 移动端 · OpenWrt</text><text x="803" y="148" font-size="20" font-weight="400" fill="#506780" >按业务选择策略与出口</text>
+  <path d="M34 206H1086" stroke="#c6d9e8"/>
+  <text x="36" y="240" font-size="21" font-weight="650" fill="#18324f" >33 业务组 / 22 区域组</text>
+  <text x="334" y="240" font-size="19" font-weight="400" fill="#506780" >适用于具备对应策略组能力的客户端</text>
+  <text x="36" y="275" font-size="19" font-weight="400" fill="#506780" >Karing 原生适配 · Xray 三出站路由；各端能力与导入方式见配置指南。</text>
+</g></svg>

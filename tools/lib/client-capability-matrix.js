@@ -212,7 +212,8 @@ function renderCapabilityEntry(column, capability) {
   ].join('\n');
 }
 
-function renderClientCapabilityMatrix(matrix) {
+function renderClientCapabilityMatrix(matrix, locale = 'en') {
+  if (!['en', 'zh-CN'].includes(locale)) throw new Error('Unsupported matrix locale');
   assertValidClientCapabilityMatrix(matrix);
   const lines = [
     '<picture>',
@@ -279,7 +280,14 @@ function renderClientCapabilityMatrix(matrix) {
     '延伸阅读：[私有节点 DNS：受限投影与跨端边界](./private-node-dns.md)。',
     '',
   );
-  return lines.join('\n');
+  let result = lines.join('\n');
+  if (locale === 'en') {
+    const catalog = require('./client-capability-en.json');
+    for (const [source, english] of Object.entries(catalog).sort((a,b) => b[0].length - a[0].length)) result = result.split(source).join(english);
+    result = result.replaceAll('、', ', ').replaceAll('：', ': ').replaceAll('。', '.');
+    return '**English** | [中文](client-capability-matrix.zh-CN.md)\n\n' + result;
+  }
+  return '[English](client-capability-matrix.md) | **中文**\n\n' + result.replaceAll('assets/readme/', 'assets/readme/zh-CN/');
 }
 
 module.exports = {

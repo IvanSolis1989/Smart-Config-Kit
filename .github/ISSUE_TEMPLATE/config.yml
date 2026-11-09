@@ -1,22 +1,11 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# Issue 模板总入口配置
-# ───────────────────────────────────────────────────────────────────────────
-# blank_issues_enabled: false  → 禁用"空白 issue"，强制用模板
-#   好处：所有 issue 都带标签、都有结构，AI 回复更准，维护者也少做清理
-# contact_links           → 在"新建 issue"页面顶部展示的外部链接（跳走不建 issue）
-# ═══════════════════════════════════════════════════════════════════════════
-
 blank_issues_enabled: false
-
 contact_links:
-  - name: 📖 先查使用教程（常见问题多半这里有答案）
-    url: https://github.com/ivansolis1989/Smart-Config-Kit#readme
-    about: 新手建议先看根 README + 对应子目录的 README，90% 的"导入失败 / DNS 不通 / 节点不切"都在教程里。
-
-  - name: 💬 AI 在评论里问也行（/ai-help）
-    url: https://github.com/ivansolis1989/Smart-Config-Kit/issues
-    about: 已有 issue 想追问？在任何 issue 评论里输入 "/ai-help" 即可召唤 AI 回答，不用新建。
-
-  - name: 🔒 私密问题 / 安全漏洞请勿公开提 issue
-    url: https://github.com/ivansolis1989/Smart-Config-Kit/security/advisories/new
-    about: 涉及订阅链接泄露、节点密码、API Key 等敏感内容，请用 GitHub 私有 Security Advisory。
+  - name: Read the client guides
+    url: https://github.com/IvanSolis1989/Smart-Config-Kit#readme
+    about: Check import steps, supported versions and configuration limitations first.
+  - name: Existing issue discussions
+    url: https://github.com/IvanSolis1989/Smart-Config-Kit/issues
+    about: Search for an existing report. Authorized maintainers can request AI follow-up with /ai-help.
+  - name: Private security reports
+    url: https://github.com/IvanSolis1989/Smart-Config-Kit/security/advisories/new
+    about: Do not post credentials or private subscription information in public issues. Use a private security advisory for sensitive vulnerability reports.

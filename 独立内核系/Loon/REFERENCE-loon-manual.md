@@ -1,44 +1,51 @@
-# Loon 配置参考文档
+<a id="loon-配置参考文档"></a>
+# Loon configuration reference
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Loon 订阅规则](https://nsloon.app/docs/Rule/sub_rule/)，沿用远程规则后的既有策略引用。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+**English** | [简体中文](REFERENCE-loon-manual.zh-CN.md)
 
-> 更新于 2026-10-19（上次专题摘要 2026-05-31）：当前官方站由 App Store 开发者链接确认，正文及release metadata已缓存；详见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)和[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-## 当前复核结论
+> Reviewed 2026-10-28: GoogleFCM was moved only from downloads/updates to Google services. [Loon subscribed rules](https://nsloon.app/docs/Rule/sub_rule/) were reviewed; existing policy references after remote rules were retained. DNS, fake-IP, sniffing, other push traffic, and node groups were unchanged. No fields, minimum versions, or real-device success claims were added.
 
-- 稳定版3.5.2，2026-10-01 UTC；官方预发布版本/日期未取得，pending。3.5.1新Rewrite/Script兼容旧写法，本仓库未启用该类功能，不迁移路由。
-- 当前官方 [Remote Rule](https://nsloon.app/docs/Rule/sub_rule/)、[Policy Group](https://nsloon.app/docs/Policy/policygroup/)、[DNS](https://nsloon.app/docs/DNS/)、[General](https://nsloon.app/docs/General/)实际正文已保存，不再以无法读取的旧页面代替。
-- interval为秒、tolerance为毫秒；`ip-mode`官方门槛为3.2.3(754)，`hijack-dns`为3.2.5(789)，旧文泛称3.2.0+不能作最低版本。
-- [官方商店历史](https://apps.apple.com/us/app/loon/id1373567447)明确AnyTLS自3.3.9（2026-03-31）、ShadowTLS自3.2.6（2025-02-03）。
-- [进程规则](https://nsloon.app/docs/Rule/process_rule/)仅Mac生效，iOS/tvOS忽略包含进程条件的整条逻辑规则；不能沿用旧文“iOS14+部分支持”推断。
-- DNS加密查询失败默认可回落普通DNS，App内可关闭；这与Surge加密DNS行为不同。Build1007+新字段未确认稳定版门槛，不默认采用。
+> Updated 2026-10-19 (previous topic summary 2026-05-31): the current official site was confirmed through the App Store developer link. Text and release metadata were cached; see the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md) and [cache receipts](../../docs/upstream/2026-10-19/apple/manifest.json).
 
-## 历史摘要边界
+<a id="当前复核结论"></a>
+## Current review findings
 
-以下保留旧摘要及当时社区来源，它们不作为本次官方证据；以本节和缓存原文为准。真机导入、规则来源优先级及并发DNS仍待验证。
+- Stable 3.5.2, dated 2026-10-01 UTC. No official prerelease version/date was obtained; pending. The new Rewrite/Script syntax in 3.5.1 is backward compatible. This repository does not enable those features and does not migrate routing for them.
+- Actual current official [Remote Rule](https://nsloon.app/docs/Rule/sub_rule/), [Policy Group](https://nsloon.app/docs/Policy/policygroup/), [DNS](https://nsloon.app/docs/DNS/), and [General](https://nsloon.app/docs/General/) text was saved, rather than relying on inaccessible old pages.
+- interval uses seconds and tolerance milliseconds. Official `ip-mode` minimum is 3.2.3(754); `hijack-dns` is 3.2.5(789). The old blanket 3.2.0+ wording is not a valid minimum-version claim.
+- [Official store history](https://apps.apple.com/us/app/loon/id1373567447) confirms AnyTLS from 3.3.9 (2026-03-31) and ShadowTLS from 3.2.6 (2025-02-03).
+- [Process rules](https://nsloon.app/docs/Rule/process_rule/) apply only on Mac. iOS/tvOS ignore an entire logical rule containing a process condition; do not infer support from the old “partly supported on iOS 14+” statement.
+- Encrypted DNS may fall back to ordinary DNS by default; the app can disable this. It differs from Surge encrypted DNS. New Build1007+ fields lacked a confirmed stable-version threshold and were not adopted by default.
 
+<a id="历史摘要边界"></a>
+## Historical-summary boundaries
 
-> 2026-10-15 URL 兼容性复核：官方示例配置 [LoonExampleConfig](https://github.com/Loon0x00/LoonExampleConfig/blob/master/example.conf)含 `[Remote Rule]` HTTPS raw GitHub URL。LoonManual 的 Remote Rule 正文本次未能抓取，故证据限于官方示例配置；Issue #186 只替换既有 URL 主机，语法不变。详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+Old summaries and their community sources remain for traceability, not as current official evidence. This section and cached original text take precedence. Real-device import, rule-source precedence, and concurrent DNS still require validation. Original illustrative code is retained below.
 
-> 来源 URL:
-> - https://github.com/Loon0x00/LoonManual (GitHub 官方手册仓库)
-> - https://nsloon.uk/tutorial/ (Loon 官方教程网站)
-> - https://deepwiki.com/blackmatrix7/ios_rule_script/7.2-platform-specific-configuration (社区参考)
-> 获取日期: 2026-04-26
-> 更新于 2026-05-31（复查）：Loon v3.4.0（2026-05-26）。新增 DNS mapping servers 自定义端口支持、AnyTLS 内存优化。不涉及分流配置语法变更。当前文档与基线兼容。
+> URL compatibility review, 2026-10-15: official [LoonExampleConfig](https://github.com/Loon0x00/LoonExampleConfig/blob/master/example.conf) includes HTTPS raw GitHub URLs in `[Remote Rule]`. LoonManual’s Remote Rule text could not be fetched then, so evidence was limited to the official example. Issue #186 changes existing URL hosts only, not syntax. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
+
+> Source URLs:
+> - https://github.com/Loon0x00/LoonManual (official GitHub manual repository)
+> - https://nsloon.uk/tutorial/ (historically identified as Loon’s official tutorial site)
+> - https://deepwiki.com/blackmatrix7/ios_rule_script/7.2-platform-specific-configuration (community reference)
+> Retrieved: 2026-04-26
+> Updated 2026-05-31 (recheck): Loon v3.4.0 (2026-05-26), adding custom ports for DNS mapping servers and AnyTLS memory optimization. No routing-configuration syntax change; this document was recorded as baseline-compatible.
 >
-> 更新于 2026-04-30（复查）：重新检查 GitHub 仓库，无新发布或配置语法变更。当前文档与基线兼容。
-> 更新于 2026-04-26: 补充 Loon 3.2.0+ 新字段 (ip-mode / udp-fallback-mode / hijack-dns / domain-reject-mode / dns-reject-mode / ipasn-url)；确认 ipv6 已废弃
+> Updated 2026-04-30 (recheck): no new GitHub release or syntax change was found. This document was recorded as baseline-compatible.
+> Updated 2026-04-26: added then-described Loon 3.2.0+ fields (ip-mode / udp-fallback-mode / hijack-dns / domain-reject-mode / dns-reject-mode / ipasn-url) and recorded ipv6 deprecation. Version qualifications above supersede the blanket minimum.
 
 ---
 
-## 一、配置整体结构
+<a id="一配置整体结构"></a>
+## I. Overall configuration structure
 
-Loon 支持两种配置格式：
-1. **Surge 兼容文本格式**（本仓库使用）：`段名 = 值` 形式，以 `[Section]` 分节
-2. **YAML 格式**：App UI 内原生使用
+The historical reference describes two Loon configuration formats:
+1. **Surge-compatible text**, used here: section/value syntax organized by `[Section]`.
+2. **YAML**, described as natively used in the app UI.
 
-标准节段（顺序固定）：
+Standard sections in fixed order (original labels retained):
 
 ```
 [General]        → 全局设置
@@ -52,164 +59,182 @@ Loon 支持两种配置格式：
 [MITM]           → HTTPS 中间人解密
 [Script]         → 脚本
 ```
+They represent global settings, local nodes, Loon-specific node filters, groups, remote rule subscriptions, local rules, local DNS mappings, URL rewriting, HTTPS interception, and scripts, respectively.
 
 ---
 
-## 二、[General] 段字段
+<a id="二general-段字段"></a>
+## II. [General] fields
 
-| 字段 | 值格式 | 说明 | 来源 |
+| Field | Value format | Description | Source |
 |------|--------|------|------|
-| `bypass-tun` | `IP/CIDR,域名,*.通配符` | TUN 模式旁路流量（私有网段等） | general.md |
-| `skip-proxy` | `IP/CIDR,域名` | HTTP 代理模式跳过 | general.md |
-| `dns-server` | `system,IP,IP,...` | DNS 服务器，`system` 表示系统 DNS | general.md |
-| `doh-server` | `https://URL,https://URL,...` | DoH 服务器，逗号分隔多组 | general.md |
+| `bypass-tun` | `IP/CIDR,domain,*.wildcard` | Bypass TUN for traffic such as private networks | general.md |
+| `skip-proxy` | `IP/CIDR,domain` | Bypass HTTP proxy mode | general.md |
+| `dns-server` | `system,IP,IP,...` | DNS servers; `system` means system DNS | general.md |
+| `doh-server` | `https://URL,https://URL,...` | Comma-separated DoH servers | general.md |
 | `doh3-server` | `h3://IP/dns-query` | HTTP/3 DoH | general.md |
-| `doq-server` | `quic://域名:784` | DNS-over-QUIC | general.md |
-| `ip-mode` | `ipv4-only`/`dual`/`ipv4-preferred`/`ipv6-preferred` | IP 双栈模式（3.2.0+ 替代已废弃的 `ipv6`） | general.md |
-| `ipv6` | `true`/`false` | **[已废弃]** 3.2.0+ 已拆分为 `ip-mode` | general.md |
-| `allow-wifi-access` | `true` / `false` | 允许局域网代理访问 | general.md |
-| `wifi-access-http-port` | 端口号 | HTTP 代理端口 | general.md |
-| `wifi-access-socks5-port` | 端口号 | SOCKS5 端口 | general.md |
-| `proxy-test-url` | URL | 代理延迟测试 URL | general.md |
-| `internet-test-url` | URL | 网络连通性测试 URL | general.md |
-| `test-timeout` | 秒数 | 节点测试超时 | general.md |
-| `switch-node-after-failure-times` | 次数 | 连续失败切换次数（已废弃，由系统自动处理） | general.md |
-| `resource-parser` | URL | 订阅解析器 | general.md |
-| `ssid-trigger` | `"SSID":MODE,...` | SSID 触发模式切换 | general.md |
-| `real-ip` | `域名,*.通配符` | 真实 IP 域名列表（等同于 [Host] 段的 DNS 映射，推荐用于 FakeIP 排除） | general.md |
-| `hijack-dns` | `IP:port,...` | DNS 劫持目标（用于 FakeIP，劫持硬编码 DNS 请求） | general.md |
-| `interface-mode` | `Auto`/`Cellular`/`Performance`/`Balance` | 网络接口模式 | general.md |
-| `force-http-engine-hosts` | `域名,:端口` | 强制 HTTP 引擎（已废弃） | general.md |
-| `udp-fallback-mode` | `DIRECT`/`REJECT` | **3.2.0+ build 702** — 当匹配节点不支持 UDP 时：REJECT=丢弃 / DIRECT=直连 | general.md |
-| `disable-udp-ports` | `端口,端口,...` | 禁用 UDP 的端口 | general.md |
-| `disable-stun` | `true` / `false` | 禁用 STUN 防 WebRTC 泄漏 | general.md |
-| `domain-reject-mode` | `DNS`/`Request` | 域名拒绝阶段：DNS 层或请求层 | general.md |
-| `dns-reject-mode` | `LOOPBACKIP`/`NOANSWER`/`NXDOMAIN` | DNS 拒绝方式 | general.md |
-| `skip-first-packet` | `true`/`false` | 跳过首包解析（用于 server-speaks-first 协议） | general.md |
-| `geoip-url` | URL | GeoIP MMDB 数据库下载 URL | general.md |
-| `ipasn-url` | URL | ASN 数据库下载 URL | general.md |
+| `doq-server` | `quic://domain:784` | DNS-over-QUIC | general.md |
+| `ip-mode` | `ipv4-only`/`dual`/`ipv4-preferred`/`ipv6-preferred` | Dual-stack mode; old text says 3.2.0+ replaces deprecated `ipv6`; see corrected minimum above | general.md |
+| `ipv6` | `true`/`false` | **Deprecated**; old summary says replaced by `ip-mode` in 3.2.0+ | general.md |
+| `allow-wifi-access` | `true` / `false` | Allow LAN proxy access | general.md |
+| `wifi-access-http-port` | Port | HTTP proxy port | general.md |
+| `wifi-access-socks5-port` | Port | SOCKS5 port | general.md |
+| `proxy-test-url` | URL | Proxy-latency test URL | general.md |
+| `internet-test-url` | URL | Connectivity-test URL | general.md |
+| `test-timeout` | Seconds | Node-test timeout | general.md |
+| `switch-node-after-failure-times` | Count | Consecutive failures before switching; deprecated, handled automatically | general.md |
+| `resource-parser` | URL | Subscription parser | general.md |
+| `ssid-trigger` | `"SSID":MODE,...` | Mode switching by SSID | general.md |
+| `real-ip` | `domain,*.wildcard` | Real-IP domains; described as equivalent to [Host] DNS mappings and recommended for FakeIP exclusions | general.md |
+| `hijack-dns` | `IP:port,...` | DNS interception targets, including hardcoded DNS for FakeIP | general.md |
+| `interface-mode` | `Auto`/`Cellular`/`Performance`/`Balance` | Network-interface mode | general.md |
+| `force-http-engine-hosts` | `domain,:port` | Force HTTP engine; deprecated | general.md |
+| `udp-fallback-mode` | `DIRECT`/`REJECT` | **3.2.0+ build 702**: when a matching node lacks UDP, REJECT drops traffic / DIRECT connects directly | general.md |
+| `disable-udp-ports` | `port,port,...` | Ports with UDP disabled | general.md |
+| `disable-stun` | `true` / `false` | Disable STUN, historically described as preventing WebRTC leaks | general.md |
+| `domain-reject-mode` | `DNS`/`Request` | Reject domains at DNS or request stage | general.md |
+| `dns-reject-mode` | `LOOPBACKIP`/`NOANSWER`/`NXDOMAIN` | DNS rejection method | general.md |
+| `skip-first-packet` | `true`/`false` | Skip first-packet parsing for server-speaks-first protocols | general.md |
+| `geoip-url` | URL | GeoIP MMDB download URL | general.md |
+| `ipasn-url` | URL | ASN database download URL | general.md |
 
-### 注意点
+<a id="注意点"></a>
+### Notes
 
-- **`dns-server`**：仅接受 `system` 关键字与纯 IP 地址，不支持 DoH URL
-- **`doh-server`**：仅接受标准 HTTPS URL 格式
-- **`ipv6`**：**Loon 3.2.0+ 已废弃**，请使用 `ip-mode = dual`（双栈）替代。旧版（< 3.2.0）继续使用 `ipv6 = true`。
-- **`udp-fallback-mode`**：Loon 3.2.0+ build 702 引入，< 3.2.0 版本会静默忽略
-- **`geoip-url`**：用于自动更新 GeoIP 数据库；Loon 同时内置 MaxMind GeoLite2
-- **`[Host]` 段通配符**：`*.apple.com = server:system` 格式 Loon 3.2.0+ 支持；等效替代方案是 [General] 段 `real-ip = *.apple.com`
+- **`dns-server`**: accepts only `system` and plain IPs, not DoH URLs.
+- **`doh-server`**: accepts standard HTTPS URLs only.
+- **`ipv6`**: the old summary says deprecated in **Loon 3.2.0+**, recommending `ip-mode = dual`; older versions (<3.2.0) use `ipv6 = true`. Consult the corrected `ip-mode` threshold above rather than the old blanket claim.
+- **`udp-fallback-mode`**: introduced in Loon 3.2.0+ build 702; versions below 3.2.0 silently ignore it.
+- **`geoip-url`**: automatic GeoIP updates; Loon also bundles MaxMind GeoLite2.
+- **[Host] wildcards**: the historical summary records `*.apple.com = server:system` support in Loon 3.2.0+ and the equivalent [General] option `real-ip = *.apple.com`.
 
 ---
 
-## 三、[Proxy] 段 — 本地节点定义
+<a id="三proxy-段--本地节点定义"></a>
+## III. [Proxy]: local nodes
 
-格式（Surge 兼容）：
+Surge-compatible format:
 
 ```
 节点名=协议,地址,端口,password=密码,method=加密方式,...
 ```
 
-支持协议：`ss`、`ssr`、`vmess`、`vless`、`trojan`、`hysteria2`、`http`、`socks5`
+Recorded protocols: `ss`, `ssr`, `vmess`, `vless`, `trojan`, `hysteria2`, `http`, and `socks5`.
 
-协议参数因协议而异。
+Parameters depend on the protocol.
 
 ---
 
-## 四、[Remote Filter] — 节点过滤（Loon 特有）
+<a id="四remote-filter--节点过滤loon-特有"></a>
+## IV. [Remote Filter]: Loon-specific node filtering
 
-### 语法
+<a id="语法"></a>
+### Syntax
 
 ```
 Filter名称 = NameRegex, FilterKey = "(?i)正则表达式"
 ```
 
-### 说明
+<a id="说明"></a>
+### Description
 
-- **`NameRegex`**：根据节点名（tag/name）正则匹配过滤
-- **`FilterKey`**：正则表达式，匹配节点名的子串
-- **`(?i)`**：大小写不敏感标志
-- 多个关键词用 `|` 分隔（OR 逻辑）
-- 排除特定关键词：`^((?!(排除词1|排除词2)).)*$`
+- **`NameRegex`**: regex-filter node names (tag/name).
+- **`FilterKey`**: regex matching a substring of the node name.
+- **`(?i)`**: case-insensitive flag.
+- Separate multiple keywords with `|` for OR.
+- Exclude keywords with a negative-lookahead pattern, originally illustrated as `^((?!(排除词1|排除词2)).)*$`.
 
-### 不支持
+<a id="不支持"></a>
+### Unsupported
 
-- Loon 不支持 Surge 的 `policy-regex-filter=` 内联参数
-- Loon 的 Filter 只能在 [Remote Filter] 段定义，在 [Proxy Group] 中按名引用
+- Loon does not support Surge’s inline `policy-regex-filter=`.
+- Define filters only in [Remote Filter], then reference their names from [Proxy Group].
 
-### 引用方式
+<a id="引用方式"></a>
+### References from groups
 
-在 [Proxy Group] 的 url-test 组中，Filter 名称作为第一个参数：
+In a [Proxy Group] url-test group, the filter name is the first parameter:
 
 ```
 组名 = url-test,Filter名,url=...,interval=...,tolerance=...
 ```
 
-### 来源
+<a id="来源"></a>
+### Sources
 
-- https://nsloon.uk/tutorial/advanced_EN/remote_filter_en.html (页面 hash: CrRC6t-O)
-- https://nsloon.uk/tutorial/advanced/regex.html (正则语法)
+- https://nsloon.uk/tutorial/advanced_EN/remote_filter_en.html (page hash: CrRC6t-O)
+- https://nsloon.uk/tutorial/advanced/regex.html (regex syntax)
 
 ---
 
-## 五、[Proxy Group] — 策略组
+<a id="五proxy-group--策略组"></a>
+## V. [Proxy Group]
 
-### 5.1 `select` — 手动选择
+<a id="51-select--手动选择"></a>
+### 5.1 `select`: manual selection
 
-语法：
+Syntax:
 ```
 组名 = select,候选1,候选2,..., DIRECT, REJECT
 ```
 
-- 用户手动在 App UI 中选择
-- 候选可以是具体节点、组名或内置策略
-- 只有 `select` 类型可以直接从"订阅节点"列表中选择
+- The user selects manually in the app UI.
+- Candidates can be individual nodes, group names, or built-in policies.
+- Only `select` can select directly from the subscription-node list.
 
-### 5.2 `url-test` — 自动延迟测试
+<a id="52-url-test--自动延迟测试"></a>
+### 5.2 `url-test`: automatic latency testing
 
-语法：
+Syntax:
 ```
 组名 = url-test,Filter名或节点列表,url=测试URL,interval=秒数,tolerance=毫秒
 ```
 
-参数：
-- **`url`**：延迟测试 URL（默认 `http://www.gstatic.com/generate_204`）
-- **`interval`**：测试间隔秒数（默认 600）
-- **`tolerance`**：切换容差毫秒数（默认 100；新节点必须比当前快超过此值才切换）
+Parameters:
+- **`url`**: test URL, default `http://www.gstatic.com/generate_204`.
+- **`interval`**: seconds between tests, default 600.
+- **`tolerance`**: milliseconds, default 100; a new node must be faster by more than this amount before switching.
 
-限制：
-- **不支持**嵌套其他策略组（只能包含节点或 Filter 引用）
-- **不支持**使用 `timeout=/select=/policy-regex-filter=` 参数
-- 不建议直接从订阅节点列表引用（通过 [Remote Filter] 过滤后引用）
+Limits:
+- **No** nested policy groups; only nodes/filter references.
+- **No** `timeout=/select=/policy-regex-filter=` parameters.
+- Direct references from the subscription-node list are discouraged; filter through [Remote Filter] first.
 
-### 5.3 `fallback` — 故障转移
+<a id="53-fallback--故障转移"></a>
+### 5.3 `fallback`: failover
 
-语法：
+Syntax:
 ```
 组名 = fallback,节点1,节点2,...
 ```
 
-- 按顺序选择第一个可用节点
-- **不支持**嵌套策略组
-- 只能包含直接节点
+- Selects the first available node in order.
+- **No** nested policy groups.
+- Contains direct node references only.
 
-### 5.4 `load-balance` — 负载均衡
+<a id="54-load-balance--负载均衡"></a>
+### 5.4 `load-balance`
 
-语法：
+Syntax:
 ```
 组名 = load-balance,节点1,节点2,...
 ```
 
-- 同一 hostname 的请求锁定同一节点
+- Requests to the same hostname remain on the same node.
 
-### 5.5 `ssid` — SSID 策略组
+<a id="55-ssid--ssid-策略组"></a>
+### 5.5 `ssid` groups
 
-策略组根据连接的 WiFi SSID 选择不同出口。
+Select different exits according to the connected WiFi SSID.
 
-### 注意
+<a id="注意"></a>
+### Notes
 
-- url-test / fallback / load-balance 类型的组**必须**作为 select 组的子组使用（嵌套架构）
-- 所有策略组名必须与 [Rule] 中引用的组名完全一致（含 emoji）
+- The historical reference says url-test / fallback / load-balance groups **must** be subgroups of select groups.
+- All group names must exactly match [Rule] references, including emoji.
 
-### 来源
+<a id="来源-1"></a>
+### Sources
 
 - https://nsloon.uk/tutorial/advanced_EN/Remote_Proxy_in_Proxy_Group_EN.html
 - https://github.com/chiupam/tutorial/blob/master/Loon/Plus/URL-Test_EN.md
@@ -217,132 +242,152 @@ Filter名称 = NameRegex, FilterKey = "(?i)正则表达式"
 
 ---
 
-## 六、[Rule] — 本地规则
+<a id="六rule--本地规则"></a>
+## VI. [Rule]: local rules
 
-### 语法
+<a id="语法-1"></a>
+### Syntax
 
 ```
 规则类型,参数,策略组[,可选标志]
 ```
 
-### 规则类型
+<a id="规则类型"></a>
+### Rule types
 
-| 类型 | 格式 | 说明 |
+| Type | Format | Description |
 |------|------|------|
-| `DOMAIN` | `DOMAIN,example.com,policy` | 精确域名匹配 |
-| `DOMAIN-SUFFIX` | `DOMAIN-SUFFIX,example.com,policy` | 域名后缀匹配（含子域名） |
-| `DOMAIN-KEYWORD` | `DOMAIN-KEYWORD,keyword,policy` | 域名关键词匹配 |
-| `IP-CIDR` | `IP-CIDR,ip/mask,policy,no-resolve` | IPv4 段匹配；也接受 IPv6 地址 |
-| `IP-CIDR6` | （可能不存在） | Loon 可能用 IP-CIDR 统一处理 |
-| `DEST-PORT` | `DEST-PORT,port,policy` | 目标端口匹配（**非** DST-PORT） |
-| `SRC-PORT` | `SRC-PORT,port,policy` | 源端口匹配 |
-| `GEOIP` | `GEOIP,CC,policy,no-resolve` | 国家码 GEOIP 匹配 |
-| `RULE-SET` | 不在 [Rule] 段使用 | 在 [Remote Rule] 段声明 |
-| `FINAL` | `FINAL,policy` | 兜底规则（必须最后一条） |
+| `DOMAIN` | `DOMAIN,example.com,policy` | Exact domain |
+| `DOMAIN-SUFFIX` | `DOMAIN-SUFFIX,example.com,policy` | Domain suffix, including subdomains |
+| `DOMAIN-KEYWORD` | `DOMAIN-KEYWORD,keyword,policy` | Domain keyword |
+| `IP-CIDR` | `IP-CIDR,ip/mask,policy,no-resolve` | IPv4 ranges; also accepts IPv6 |
+| `IP-CIDR6` | Possibly absent | Loon may use IP-CIDR for both |
+| `DEST-PORT` | `DEST-PORT,port,policy` | Destination port, **not** DST-PORT |
+| `SRC-PORT` | `SRC-PORT,port,policy` | Source port |
+| `GEOIP` | `GEOIP,CC,policy,no-resolve` | GEOIP country code |
+| `RULE-SET` | Not used in [Rule] | Declared in [Remote Rule] |
+| `FINAL` | `FINAL,policy` | Final fallback; must be last |
 
-### 可选标志
+<a id="可选标志"></a>
+### Optional flags
 
-- `no-resolve`：阻止对 IP 规则进行 DNS 解析（用于 IP-CIDR / GEOIP）
+- `no-resolve`: suppress DNS resolution for IP rules (IP-CIDR / GEOIP).
 
-### 规则匹配优先级
+<a id="规则匹配优先级"></a>
+### Rule-matching priority
 
-1. 域名类规则（DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD）在域名请求时优先于 IP 类规则
-2. 同类型规则按文件顺序从上到下匹配
-3. 优先级：本地规则 > 订阅规则 > 插件规则
-4. 无匹配 -> FINAL
+The historical reference records:
+1. Domain rules (DOMAIN / DOMAIN-SUFFIX / DOMAIN-KEYWORD) precede IP rules for domain requests.
+2. Same-type rules match top to bottom in file order.
+3. Local rules > subscription rules > plugin rules.
+4. No match → FINAL.
 
-### 注意
+<a id="注意-1"></a>
+### Notes
 
-- Loon 3.0.3+ 域名请求处理流程：先匹配域名类规则 -> 无匹配则本地 DNS 解析 -> 匹配 IP 类规则
-- **DEST-PORT 与 DST-PORT 差异**：Loon 官方文档使用 `DEST-PORT` 作为端口规则名（来源：nsloon.app/docs/Rule/port_rule/），与 独立内核系/Surge/Shadowrocket 的 `DST-PORT` 不同
-- IPv6 地址：Loon 可能不支持独立的 IP-CIDR6 类型，IPv6 地址走 IP-CIDR
+- Loon 3.0.3+ domain-request handling is described as domain rules → local DNS if unmatched → IP rules.
+- **DEST-PORT versus DST-PORT**: Loon’s official documentation uses `DEST-PORT` (source: nsloon.app/docs/Rule/port_rule/). The original comparison calls Surge/Shadowrocket’s spelling `DST-PORT`; this historical cross-client claim is retained, not newly verified.
+- IPv6: Loon may lack a separate IP-CIDR6 type and use IP-CIDR instead.
 
-### 来源
+<a id="来源-2"></a>
+### Sources
 
-- https://nsloon.uk/tutorial/advanced_EN/rule_en.html (页面 hash: BdKSxNl4)
-- LoonManual/docs/cn/rule.md (优先级说明)
+- https://nsloon.uk/tutorial/advanced_EN/rule_en.html (page hash: BdKSxNl4)
+- LoonManual/docs/cn/rule.md (priority description)
 
 ---
 
-## 七、[Remote Rule] — 远程规则集
+<a id="七remote-rule--远程规则集"></a>
+## VII. [Remote Rule]: remote rule sets
 
-### 语法
+<a id="语法-2"></a>
+### Syntax
 
 ```
 URL, policy=策略组, tag=标签名, enabled=true
 ```
 
-### 说明
+<a id="说明-1"></a>
+### Description
 
-- 每行一个远程规则集 URL
-- **`policy=`** 参数指定该规则集匹配后使用的策略组
-- **`tag=`** 在 UI 中显示的名称
-- **`enabled=true/false`** 是否启用
-- Loon 自动管理远程规则集的更新（无 `update-interval` 参数）
-- **不支持** Surge 风格的 `RULE-SET,URL,policy`（放在 [Rule] 段会报错）
+- One remote rule-set URL per line.
+- **`policy=`**: group selected when the set matches.
+- **`tag=`**: UI display name.
+- **`enabled=true/false`**: enable or disable.
+- Loon manages updates automatically, without `update-interval`.
+- Surge-style `RULE-SET,URL,policy` is **unsupported** and errors when placed in [Rule].
 
-### 与 [Rule] 的关系
+<a id="与-rule-的关系"></a>
+### Relationship to [Rule]
 
-- [Remote Rule] 和 [Rule] 一起参与路由决策
-- [Rule] 优先级高于 [Remote Rule]
-- 规则集内部顺序按文件行号
+- [Remote Rule] and [Rule] both participate in routing.
+- [Rule] has higher priority than [Remote Rule] in the historical reference.
+- Internal rule-set order follows file line numbers.
 
-### 来源
+<a id="来源-3"></a>
+### Sources
 
-- https://nsloon.uk/tutorial/advanced_EN/remote_rule_en.html (页面 hash: BM-Wv5lJ)
+- https://nsloon.uk/tutorial/advanced_EN/remote_rule_en.html (page hash: BM-Wv5lJ)
 
 ---
 
-## 八、[Host] — 本地 DNS 映射
+<a id="八host--本地-dns-映射"></a>
+## VIII. [Host]: local DNS mappings
 
-### 语法
+<a id="语法-3"></a>
+### Syntax
 
 ```
 域名 = IP
 域名 = server:system
 ```
 
-### 说明
+<a id="说明-2"></a>
+### Description
 
-- `域名 = IP`：将域名映射到固定 IP 地址
-- `域名 = server:system`：指定域名走系统 DNS 解析
+- `domain = IP`: map a domain to a fixed IP.
+- `domain = server:system`: resolve a domain through system DNS.
 
-### 注意
+<a id="注意-2"></a>
+### Notes
 
-- Loon 中 [Host] 段的兼容性可能取决于 App 版本
-- 更推荐使用 [General] 段的 `real-ip` 参数控制域名走系统 DNS
-- 该段在 Loon 官方教程中未重点文档化
+- [Host] compatibility may depend on the Loon app version.
+- The historical reference prefers [General] `real-ip` for system-DNS domain control.
+- This section was not documented prominently in the official tutorial.
 
 ---
 
-## 九、[URL Rewrite] — URL 重写
+<a id="九url-rewrite--url-重写"></a>
+## IX. [URL Rewrite]
 
-语法：
+Syntax:
 ```
 ^正则表达式 目标URL 状态码
 ```
 
-（302 跳转）
+The example represents a 302 redirect.
 
 ---
 
-## 十、GEOIP / MMDB 配置
+<a id="十geoip--mmdb-配置"></a>
+## X. GEOIP / MMDB configuration
 
-- Loon 支持 `[General]` 段中的 `geoip-url` 参数指定自定义 GeoIP 数据库 URL
-- 若不指定，使用内置 MaxMind GeoLite2
-- 推荐使用 Loyalsoldier 加强版：`https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb`
-- 该增强版包含 `cloudflare`/`telegram`/`netflix`/`google` 等标签
+- Loon supports a custom GeoIP database URL through `[General] geoip-url`.
+- Without one, it uses bundled MaxMind GeoLite2.
+- The historical reference recommends the enhanced Loyalsoldier version: `https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb`.
+- That version includes labels such as `cloudflare`, `telegram`, `netflix`, and `google`.
 
 ---
 
-## 十一、已知差异总结
+<a id="十一已知差异总结"></a>
+## XI. Recorded differences
 
-| 对比项 | Loon | Surge | Shadowrocket |
+| Item | Loon | Surge | Shadowrocket |
 |--------|------|-------|-------------|
-| Filter 机制 | [Remote Filter] + NameRegex | `policy-regex-filter=` 内联 | 无 |
-| 远程规则段 | [Remote Rule] `URL, policy=组, tag=, enabled=` | [Rule] `RULE-SET,URL,policy` | [Rule] `RULE-SET,URL,policy` |
-| 端口规则名 | `DEST-PORT` | `DST-PORT` | `DST-PORT` |
-| IP-CIDR6 | 可能无独立类型 | 有 `IP-CIDR6` | 有 `IP-CIDR6` |
-| GeoIP URL | `geoip-url` = URL | `geoip-url` = URL | 不支持（需手动设置） |
+| Filters | [Remote Filter] + NameRegex | Inline `policy-regex-filter=` | None in original comparison |
+| Remote-rule section | [Remote Rule] `URL, policy=组, tag=, enabled=` | [Rule] `RULE-SET,URL,policy` | [Rule] `RULE-SET,URL,policy` |
+| Port-rule name | `DEST-PORT` | `DST-PORT` in original comparison | `DST-PORT` |
+| IP-CIDR6 | Possibly no separate type | `IP-CIDR6` | `IP-CIDR6` |
+| GeoIP URL | `geoip-url` = URL | `geoip-url` = URL in original comparison | Unsupported; manual setup |
 | FINAL | `FINAL,policy` | `FINAL,policy` | `FINAL,policy,dns-failed` |
-| url-test 嵌套 | 不支持嵌套组 | 支持嵌套组 | 支持嵌套组 |
+| Nested url-test | No nested groups | Nested groups supported | Nested groups supported |

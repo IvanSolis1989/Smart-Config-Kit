@@ -1,290 +1,331 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-flclash-mobile.svg">
-  <img src="../../docs/assets/readme/page-flclash.svg" alt="FlClash 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-flclash.svg" alt="FlClash import guide" width="100%">
 </picture>
 
-# FlClash 导入指南
+# FlClash import guide
 
-为 Mihomo 节点订阅创建并关联专用 JS 覆写，自动生成区域与业务分组。使用 **url-test，不支持 Smart / LightGBM**；先创建，再关联。
+Create and associate a dedicated JS override with a Mihomo node subscription to generate regional and service groups. It uses **url-test, not Smart / LightGBM**. Create the script first, then associate it.
 
-<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>
+<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="Post-import verification" width="145" height="38"></a></p>
 
-[开始前](#before-you-start) · [选择文件](#downloads) · [导入步骤](#import) · [常见问题](#faq) · [进阶与参考](#reference)
+[Preparation](#before-you-start) · [Files](#downloads) · [Import](#import) · [Troubleshooting](#faq) · [Reference](#reference)
 
 <a id="before-you-start"></a>
 
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+## Before you start: version and subscription
 
-## 开始前：确认版本与节点订阅
+You need **FlClash ≥ v0.8.85**, a Mihomo node subscription and this directory's JS. Get the client from the [official repository](https://github.com/chen08209/FlClash), then choose the procedure for your [interface version](#ui-version).
 
-需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；按下方[界面版本](#ui-version)选择操作路径。
-
-- 单机场优先使用原生订阅链接；多机场按 [Sub-Store 教程](../../SubStore/README.md)输出一条 `Clash.Meta(mihomo)` URL。
-- 创建脚本后必须在对应配置（Profile）中选择「脚本」模式并关联脚本；只粘贴或保存不会生效。多个订阅需要分别关联。
-- 规则下载需要 GitHub Raw 可达或可用代理。备选静态 YAML 按 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)编辑后导入。
+- For one provider, prefer its native subscription URL. For several, follow [Sub-Store](../../SubStore/README.md) to produce one `Clash.Meta(mihomo)` URL.
+- After creating the script, select Script mode in the relevant profile and associate it. Pasting or saving alone does not activate it. Associate each profile separately.
+- Rule downloads require GitHub Raw access or a working proxy. For the static YAML alternative, edit and import using the [CMFA guide](../Clash%20Meta%20For%20Android/README.md).
 
 <a id="-规则下载链接"></a>
-
 <a id="downloads"></a>
 
-## 选择并下载文件
+## Select and download files
 
-[![下载 FlClash JS](../../docs/assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js) [![下载 备选 CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
+[![Download FlClash JS](../../docs/assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js) [![Alternative CMFA YAML](../../docs/assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+Buttons open raw files. Right-click to copy a URL or save locally.
 
-**FlClash JS 直链：**
+**FlClash JS URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js
 ```
 
-**备选 CMFA YAML 直链：**
+**Alternative CMFA YAML URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml
 ```
 
-推荐下载 JS 覆写脚本，创建后关联到节点订阅；备选 YAML 的导入方法见 [CMFA 教程](../Clash%20Meta%20For%20Android/README.md)。
+The JS override is recommended: create it and associate it with your subscription. See [CMFA](../Clash%20Meta%20For%20Android/README.md) for YAML import.
 
 <a id="快速开始两步操作"></a>
-
 <a id="import"></a>
 
-## 按顺序创建、关联并启动
+## Create, associate and start in order
 
-### 可选：先生成 Lite / Custom 业务方案
+### Optional: generate a Lite / Custom service profile
 
-默认直接使用下方完整 JS。需要精简业务时，打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)并选择「业务方案」：**Lite** 保留 AI、即时通讯、会议协作和 YouTube（`ai,im,work,youtube`）；**Custom** 自行勾选要保留的业务。选择 FlClash 后点击下载按钮即可保存 JS，无需 CLI、Node.js 或 Ruby。
+Use the complete JS by default. To reduce services, open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/) and select a service profile. **Lite** retains AI, instant messaging, collaboration and YouTube (`ai,im,work,youtube`). **Custom** lets you select services. Choose FlClash and download the JS; no CLI, Node.js or Ruby is required.
 
-打开下载的 JS 并复制**全文**，按下面第 1 步创建独立命名的本地脚本，再按第 2 步关联订阅。不要给这个脚本配置官方 URL 自动更新：官方 URL 指向完整方案，更新后会覆盖所选方案。保留 FlClash 对 VPN 和端口的管理，并按第 3 步关闭 DNS 覆写。
+Open the downloaded JS and copy its **entire content**. Create a separately named local script in step 1, then associate it in step 2. Do not configure official-URL automatic updates for this script: that URL targets the full profile and would overwrite your selection. Keep FlClash's VPN and port management, and disable DNS override in step 3.
 
-「可选参数」中的测速、QUIC、订阅节点 DNS、倍率与 ZeroTier 会和当前业务方案一起写入下载的脚本；不调整时仍采用发布默认。在线页面加载静态快照，更新后重新打开或刷新即可加载最新发布版本；也可保存[离线 HTML](../../docs/configuration.html)备用。完整边界及其他 App 的覆盖范围见[统一配置指南](../../docs/configuration.md)。
+Optional latency-test, QUIC, subscription-node DNS, multiplier and ZeroTier settings are embedded alongside the selected profile. Unchanged options retain release defaults. The page loads a static snapshot; reopen or refresh after updates to load the latest published version. You can also save the [offline HTML](../../docs/configuration.html). See the [shared guide](../../docs/configuration.md) for full boundaries and other clients.
 
-更新定制覆写时，刷新页面并重新选择原业务方案与参数，下载新 JS；备份现有覆写后用新脚本全文替换，确认仍关联原订阅，再刷新配置并核对最终 DNS 与出口。页面不会自动恢复上次选择，也不读取或上传订阅及个人配置；节点订阅的正常刷新与脚本本身的更新分开进行。
+To update a customized override, refresh the page, reselect the same profile and parameters and download new JS. Back up the existing override, replace its entire content, confirm the association remains, refresh the profile and inspect final DNS and exits. The page does not restore earlier selections or read/upload subscriptions and personal configuration. Subscription refresh and script updates are separate operations.
 
 <details>
-<summary>使用 CLI 高级生成</summary>
+<summary>Advanced CLI generation</summary>
 
-表单保留 `settings.json` 下载；它是生成设置，不能直接导入 FlClash。在仓库根目录运行以下命令，替换实际路径；输出目录的父目录须已存在，输出目录本身必须是全新目录。Node.js、Ruby 等环境要求见[统一配置指南](../../docs/configuration.md)。
+The form also offers `settings.json`, which contains generation settings and is not directly importable into FlClash. Run from the repository root, replacing example paths. The output directory's parent must exist; the output directory itself must be new. See the [shared guide](../../docs/configuration.md) for Node.js / Ruby requirements.
 
 ```bash
-node tools/configure.js --settings '.../settings.json' --output-dir '.../全新目录' --dry-run
-node tools/configure.js --settings '.../settings.json' --output-dir '.../全新目录'
+node tools/configure.js --settings '.../settings.json' --output-dir '.../new-directory' --dry-run
+node tools/configure.js --settings '.../settings.json' --output-dir '.../new-directory'
 ```
 
-生成后使用输出目录中的 `Mihomo内核系/FlClash/FlClash(mihomo).js`。
+Use `Mihomo内核系/FlClash/FlClash(mihomo).js` from the output directory.
 
 </details>
 
 <a id="ui-version"></a>
 
-### 先确认界面：新版「扩展」与旧版「覆写」
+### Identify the interface: Extend versus legacy Override
 
-**v0.9.0 / v0.9.1 扩展界面：** 从「配置」中打开对应配置的菜单，选择「扩展」。**旧版覆写界面：** 从配置页顶部「覆写脚本」管理脚本，再从订阅菜单关联。先对照实际界面，再按下面两步操作。
+**v0.9.0 / v0.9.1 Extend interface:** open the relevant profile menu and choose Extend. **Legacy Override interface:** manage scripts through Override scripts at the top of Profiles, then associate them through the subscription menu. Match your actual interface before following the two steps below. Translated labels may vary by client language/version.
 
-> 官方 [v0.9.0 源码](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/profiles/extend/extend.dart)已经包含「扩展 → 脚本」；[v0.9.1](https://github.com/chen08209/FlClash/releases/tag/v0.9.1)继续使用该入口。最低脚本支持版本仍为 v0.8.85。下方新版截图由 [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194) 提供；旧版截图保留供对照。
+> Official [v0.9.0 source](https://github.com/chen08209/FlClash/blob/v0.9.0/lib/views/profiles/extend/extend.dart) includes Extend → Script; [v0.9.1](https://github.com/chen08209/FlClash/releases/tag/v0.9.1) retains it. Minimum script support remains v0.8.85. New-interface screenshots below came from [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194); legacy screenshots are retained for comparison. These are original Chinese-interface images.
 
 <a id="第-1-步创建覆写脚本"></a>
 
-### 第 1 步：进入脚本管理并创建脚本
+### Step 1: open script management and create a script
 
-**新版扩展界面（v0.9.0 / v0.9.1）：**
+**New Extend interface (v0.9.0 / v0.9.1):**
 
-1. 打开「配置」，打开要使用本脚本的配置菜单，点 **「扩展」**。
-2. 在「扩展模式」中选 **「脚本」**，点 **「前往配置脚本」** 进入脚本管理页。
-3. 在脚本管理页点 **+**，完整方案选择 **「通过URL导入」** 并填入上方 JS Raw 直链；本地或定制方案选择 **「从零开始」**，删除默认内容后粘贴 JS **全文**，命名为 `Smart分流` 并保存。已有下载文件也可选择 **「通过文件导入」**。
-4. 返回这份配置的「扩展」页，继续完成第 2 步的关联。
+1. Open Profiles, open the target profile's menu and choose **Extend**.
+2. Select **Script** as the extension mode, then **Go to configure scripts** to open script management.
+3. Choose **+**. For Full, choose **Import via URL** and enter the JS raw URL above. For local/custom profiles, choose **Start from scratch**, delete defaults, paste the **complete JS**, name it `Smart分流` and save. Existing downloads can use **Import via file**.
+4. Return to this profile's Extend page and complete association in step 2.
 
-<img width="360" alt="FlClash v0.9.1 配置菜单，扩展入口位于编辑下方" src="https://github.com/user-attachments/assets/e8544989-b1f2-49a1-9d6a-700e966d97bd" />
+<details>
+<summary>View original Chinese-interface screenshot</summary>
 
-**旧版覆写界面：**
+<img width="360" alt="FlClash v0.9.1 profile menu: Extend below Edit (original Chinese interface)" src="https://github.com/user-attachments/assets/e8544989-b1f2-49a1-9d6a-700e966d97bd" />
 
-1. 「配置」→ 顶部 **「覆写脚本」** → **+**。
-2. 选择 **「通过URL导入」** 并填入上方 JS Raw 直链；或选 **「从零开始」**，清空默认内容、粘贴 JS 全文并命名保存。已有文件可选 **「通过文件导入」**。粘贴是编辑操作，不是菜单选项；v0.8.99 的按钮名称与新版相同。
+</details>
 
-<img width="360" alt="FlClash 旧版配置页顶部的覆写脚本入口及脚本创建界面" src="https://github.com/user-attachments/assets/35be12b0-39a0-43a5-8b4f-01f736c93704" />
+**Legacy Override interface:**
 
-> 两种界面都要导入 JS 原文；第一行应为 `// FlClash 覆写脚本`。`SyntaxError: unexpected token '<'` 通常表示误导入了 HTML 页面，改用 Raw 直链或复制脚本全文重新创建。
+1. Profiles → **Override scripts** at the top → **+**.
+2. Choose **Import via URL** and enter the raw JS URL, or choose **Start from scratch**, clear defaults, paste the entire JS, name and save it. Use **Import via file** for an existing file. Pasting is an editing action, not a menu item. v0.8.99 uses the same button names as newer versions.
 
-### 第 2 步：关联到订阅
+<details>
+<summary>View original Chinese-interface screenshot</summary>
 
-**新版扩展界面（v0.9.0 / v0.9.1）：**
+<img width="360" alt="Legacy FlClash Override scripts entry point and script creation (original Chinese interface)" src="https://github.com/user-attachments/assets/35be12b0-39a0-43a5-8b4f-01f736c93704" />
 
-1. 「配置」→ 对应配置的菜单 → **「扩展」**。
-2. 确认「扩展模式」选中 **「脚本」**，在下方 **「扩展脚本」** 中点选刚创建的 `Smart分流`，确认该项出现勾选。
-3. 返回配置页，选中这份配置并重新应用；若正在运行，停止后再启动。多个配置分别选择需要使用的脚本。
+</details>
 
-<img width="360" alt="FlClash v0.9.1 扩展页：脚本模式已勾选，下方选择扩展脚本，底部可前往配置脚本" src="https://github.com/user-attachments/assets/4afbd5d6-6c59-420b-8fab-3fe36cb06831" />
+> Both interfaces require raw JavaScript. The first line should be `// FlClash 覆写脚本`. `SyntaxError: unexpected token '<'` usually means an HTML page was imported. Recreate using the raw URL or the complete script text.
 
-**旧版覆写界面：**
+### Step 2: associate with the subscription
 
-1. 返回配置页 → 订阅卡片右上角 **⋮** → **更多** → **覆写**。
-2. 选择脚本模式及刚创建的脚本，确认保存。
-3. 返回首页 → 下拉刷新，必要时停止后再启动。
+**New Extend interface (v0.9.0 / v0.9.1):**
 
-<img width="360" alt="FlClash 旧版订阅菜单的覆写入口与脚本关联界面" src="https://github.com/user-attachments/assets/f133d259-3841-4719-9396-db2488a507fc" />
+1. Profiles → relevant profile menu → **Extend**.
+2. Confirm **Script** extension mode. Under **Extension scripts**, select the new `Smart分流` script and confirm a checkmark appears.
+3. Return to Profiles, select this profile and reapply. If running, stop and restart. Select scripts separately for each profile.
+
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="360" alt="FlClash v0.9.1 Extend page: Script selected, extension-script selection and management link (original Chinese interface)" src="https://github.com/user-attachments/assets/4afbd5d6-6c59-420b-8fab-3fe36cb06831" />
+
+</details>
+
+**Legacy Override interface:**
+
+1. Profiles → **⋮** on the subscription card → **More → Override**.
+2. Select Script mode and the newly created script, then save.
+3. Return home and pull to refresh; stop/restart if needed.
+
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="360" alt="Legacy subscription Override entry and script association (original Chinese interface)" src="https://github.com/user-attachments/assets/f133d259-3841-4719-9396-db2488a507fc" />
+
+</details>
 
 <a id="应用层设置与-dns-所有权"></a>
 
-### 第 3 步：核对 App 设置
+### Step 3: check application settings
 
-**关联本仓库脚本后，关闭「DNS 覆写」，不需要再向 UI 粘贴一份 DNS YAML。** 关闭的是 FlClash 的二次覆盖，不是 Mihomo DNS；脚本仍会设置 `dns.enable: true`、`respect-rules: true` 和国内/海外解析策略。
+**After associating this script, disable DNS override. Do not paste an additional DNS YAML into the interface.** This disables FlClash's second override, not Mihomo DNS. The script still sets `dns.enable: true`, `respect-rules: true` and China / international resolution policies.
 
-订阅刷新时以 adaptive 模式投影活动节点所需的 DNS 提示；UI 合并时保留精确 node policy。详见[私有节点 DNS](../../docs/private-node-dns.md)。
+On subscription refresh, adaptive mode projects DNS hints needed by active nodes. Preserve exact node policies during interface merging. See [private-node DNS](../../docs/private-node-dns.md).
 
-#### Android 网络设置
+#### Android networking settings
 
-- 开启 VPN，运行模式选「规则」；DNS 劫持开启，路由模式使用配置。
-- VPN 下的「系统代理」关闭：它额外发布 HTTP 代理，关闭它不会关闭 TUN。
-- VPN IPv6 与核心/进阶配置 IPv6 **分别关闭**；只关一个位置不够。
-- DNS 覆写与「追加系统 DNS」都关闭；后者是独立开关，开启仍会追加 system://。
+- Enable VPN, select Rule mode, enable DNS hijacking and use the configuration's routing mode.
+- Disable **System proxy** under VPN: it publishes an additional HTTP proxy. Disabling it does not disable TUN.
+- Disable both VPN IPv6 and core/advanced IPv6 separately. One switch is insufficient.
+- Disable both DNS override and Append system DNS. The latter independently appends `system://` when enabled.
 
-需要整个应用绕过 VPN 时使用应用访问控制排除名单；被排除应用的连接和 DNS 不受脚本控制。两种模式如下：
+Use application-access-control exclusions when an entire application must bypass VPN. Excluded applications' connections and DNS are outside script control:
 
-
-| 目标 | 设置与后果 |
+| Goal | Settings and consequences |
 |---|---|
-| 全部 APP 交给 Mihomo 按域名分流 | 关闭应用访问控制；关闭“允许应用绕过 VPN”。国内组选择 `DIRECT`，国外组选择可用节点。 |
-| 国内 APP 完全不进入 VPN | 启用应用访问控制并排除这些 APP；保留排除名单，关闭 VPN“系统代理”。排除 APP 的连接和 DNS 不受脚本控制，也不应以 Mihomo 日志缺失判定它们无网络请求。 |
+| Let Mihomo route all applications by domain | Disable application access control and Allow applications to bypass VPN. Select `DIRECT` for China groups and working nodes for international groups. |
+| Keep selected applications entirely outside VPN | Enable access control and exclude those applications. Retain the exclusion list and disable VPN System proxy. Excluded connections/DNS are not script-controlled; absent Mihomo logs do not mean no network requests occurred. |
 
-[Android 官方说明](https://developer.android.com/reference/android/net/VpnService.Builder#setHttpProxy(android.net.ProxyInfo))提醒，分流 VPN 与额外 HTTP 代理组合可能影响应用联网。修改后停止再启动 VPN，并彻底重开受影响 App；仅刷新节点不会清除旧连接。
-
+[Android documentation](https://developer.android.com/reference/android/net/VpnService.Builder#setHttpProxy(android.net.ProxyInfo)) warns that combining split VPN with an extra HTTP proxy can affect connectivity. After changes, stop/restart VPN and fully reopen affected applications. Refreshing nodes alone does not clear existing connections.
 
 <a id="verification"></a>
 
-## 导入后核验
+## Post-import verification
 
-点「代理」标签，应看到：
-- **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过）：🌍 全球节点、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
-- **完整方案的 33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……Lite / Custom 的可选业务组更少；广告、安全、直连等基础保护保留。
-- 额外检查：按专题页的 [导入后 60 秒验证清单](../../docs/guide/dns-and-verification.md#verification) 确认规则下载、GEOSITE 命中与 anti-ad 误伤白名单。
+Open Proxies and expect:
 
-检查最终配置的 DNS 与实际连接记录；脚本版本正确不能证明 App patch 后的最终配置正确。详细检查见下方 DNS 说明。
+- **Up to 22 regional groups** (11 all-node + 11 residential; empty regions skipped), including `🌍 全球节点`, `🇭🇰 香港节点`, `🇸🇬 狮城节点` and `🌏 其他节点`.
+- **33 service groups in Full**, including `🤖 AI 服务`, `🎵 TikTok`, `🎥 Netflix` and `📱 社交媒体`. Lite / Custom retain fewer optional services; foundational ad, safety and direct-routing protection remains.
+- Use the [60-second checklist](../../docs/guide/dns-and-verification.md#verification) for downloads, GEOSITE matches and bounded anti-ad exceptions.
+
+Inspect final DNS configuration and actual connection records. A correct script version does not prove the configuration remains correct after application patches. See DNS checks below.
 
 <a id="常见问题"></a>
-
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-### Q: 找不到「覆写脚本」，只看到「扩展」？
+### Only Extend is visible, not Override scripts?
 
-按[新版界面步骤](#ui-version)进入「扩展」，选择「脚本」，再点「前往配置脚本」。创建后返回同一份配置选择脚本；保持「标准」模式或只创建脚本都不会执行本仓库 JS。旧版用户继续按旧版截图操作，无需为了导入脚本更换客户端版本。
+Follow the [new-interface steps](#ui-version): Extend → Script → Go to configure scripts. After creating it, return to the same profile and select the script. Standard mode or script creation alone will not execute this JS. Legacy users can follow the old screenshots without changing client versions solely to import.
 
-### Q: 代理/规则标签消失了？
+### Proxies / Rules tabs disappeared?
 
-单机场先试机场的**原生订阅链接**（不经转换器）。若实际需求是多个机场合并为同一节点池，请按 [Sub-Store 多机场聚合教程](../../SubStore/README.md) 输出一条 `Clash.Meta(mihomo)` URL，再关联覆写脚本；不要使用来历不明的通用转换器。
+For one provider, first try its **native subscription URL**, without conversion. To combine multiple subscriptions into one pool, follow [Sub-Store aggregation](../../SubStore/README.md), produce one `Clash.Meta(mihomo)` URL and associate the override. Avoid unknown general-purpose converters.
 
-### Q: 区域组为什么是 url-test 不是 smart？
+### Why url-test rather than smart?
 
-FlClash 使用自身 Mihomo 分支，不提供 vernesong Smart 的 type: smart / LightGBM；MetaCubeX Alpha 也不等于 Smart。
+FlClash uses its own Mihomo branch and does not expose vernesong Smart's `type: smart` / LightGBM. MetaCubeX Alpha is not Smart either.
 
-### Q: Windows 的 WebRTC 测试显示了本地公网 IP？
+### Windows WebRTC tests show the local public IP?
 
-在[在线配置页](https://ivansolis1989.github.io/Smart-Config-Kit/)选择 FlClash，将「Windows 浏览器 UDP」设为「拒绝（reject）」，下载为独立本地脚本并按上方步骤关联。此选项仅拒绝 Windows Chrome / Edge / Firefox 的 UDP，默认关闭；HTTP/3 和 UDP 通话可能受影响，Android 不适用。需开启 TUN、确认进程识别并核对拒绝记录；浏览器隐私设置、恢复及完整边界见[WebRTC 隐私与验收](../../docs/guide/webrtc-privacy.md)。
+On the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), select FlClash, set Windows browser UDP to reject, download a separately named local script and associate it as above. This option rejects UDP only for Windows Chrome / Edge / Firefox and is off by default. It can affect HTTP/3 and UDP calls; it does not apply to Android. Enable TUN, confirm process identification and inspect rejection records. See [WebRTC privacy and acceptance](../../docs/guide/webrtc-privacy.md) for browser settings, recovery and complete limits.
 
-### Q: 换机场后需要重新配置吗？
+### Must I reconfigure after changing providers?
 
-不需要。覆写脚本换订阅后自动重新执行。
+No. The override reruns when the associated subscription changes.
 
-### 国内 App 无法联网？
+### Selected applications cannot connect?
 
-先保留应用排除名单，关闭 DNS 二次覆写与系统 DNS 追加，核对 VPN 和核心两个 IPv6 开关。重启 VPN 和受影响 App，再检查失败时间、域名、规则与出站。完整对照步骤见下方 DNS 说明。
-
+Retain application exclusions, disable secondary DNS override and system-DNS append, and check both VPN and core IPv6 switches. Restart VPN and affected applications, then inspect failure time, domain, rule and outbound. The detailed comparison steps appear below.
 
 <a id="reference"></a>
 
-## 进阶与参考
+## Advanced reference
 
-- [节点筛选](../../docs/subscription-node-filter.md)：小写地区码加编号、inline 节点及拨号依赖，倍率筛选默认关闭。
-- [私有节点 DNS](../../docs/private-node-dns.md) · [规则下载](../../docs/rule-asset-delivery.md) · [测速 / QUIC](../../docs/traffic-options.md)。
-- [微信排错](../../docs/research/2026-10-16-wechat-issue-187.md) · [ZeroTier UDP 代理（默认关闭）](../../docs/zerotier-planet-proxy.md)。
+- [Node filtering](../../docs/subscription-node-filter.md): lowercase region codes plus numbers, inline nodes and dial dependencies. Multiplier filtering is off by default.
+- [Private-node DNS](../../docs/private-node-dns.md) · [Rule downloads](../../docs/rule-asset-delivery.md) · [Latency testing / QUIC](../../docs/traffic-options.md).
+- [WeChat troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md) · [ZeroTier UDP proxy (off by default)](../../docs/zerotier-planet-proxy.md).
 
-### DNS 合并顺序与排障
+### DNS merge order and troubleshooting
 
-### 为什么开启「DNS 覆写」会导致脚本失效？
+#### Why can DNS override replace script settings?
 
-FlClash 会在 JS 后应用 App patch。0.9.x 的 DNS/NTP 与桌面 TUN 按选中键覆盖；旧版曾使用整块 DNS 覆盖，不能混用两种说明。保留脚本 DNS 时关闭 App DNS 覆写，并核对最终值；脚本显示正确版本不等于最终配置正确。
+FlClash applies application patches after JS. In 0.9.x, DNS/NTP and desktop TUN overwrite selected keys; older versions replaced the whole DNS block. Do not mix these explanations. Disable application DNS override to preserve script DNS, then check final values. A correct script version is not proof of correct final configuration.
 
-检查最终送入核心的配置，而不是只看 UI 中保存的 DNS 表单：
+Inspect the configuration actually sent to the core, not only the saved DNS form:
 
-- 顶层 `ipv6: false`；`dns.enable: true`；`dns.ipv6: false`；`dns.prefer-h3: false`。
-- `dns.respect-rules: true`，且 `proxy-server-nameserver` 非空。
-- `nameserver-policy` 同时包含 `geosite:cn` 与 `geosite:geolocation-!cn`；有私有节点时保留脚本生成的精确 `proxy-server-nameserver-policy`。
-- `direct-nameserver` 保持国内 DoH；不要为了 DNS 检测页面把国内 APP 的解析全部搬到海外。
-- `nameserver` 不含应用层追加的 `system://`；顶层 hosts 的同名 UI 覆写也应检查，不能只看 DNS 开关。
+- Top-level `ipv6: false`; `dns.enable: true`; `dns.ipv6: false`; `dns.prefer-h3: false`.
+- `dns.respect-rules: true` and a nonempty `proxy-server-nameserver`.
+- `nameserver-policy` includes both `geosite:cn` and `geosite:geolocation-!cn`. Preserve generated exact `proxy-server-nameserver-policy` for private nodes.
+- Keep China DoH in `direct-nameserver`. Do not replace application resolution policies solely to change the region shown by a DNS-test page.
+- `nameserver` contains no application-appended `system://`. Check same-name top-level hosts overrides too, not only the DNS switch.
 
-UI 保存的旧值不能证明当前生效状态；合并顺序与版本边界见[官方源码核对](REFERENCE-flclash.md)。
+Old saved interface values do not prove current effective settings. See the [source review](REFERENCE-flclash.md) for merge order and version boundaries.
 
-### DNS 检测出现 China server 是否就是泄漏？
+#### Does a DNS test showing a China server prove a leak?
 
-不能只看国家标签。国内域名默认使用 AliDNS/DNSPod；未分类查询也可能落到国内 nameserver。DoH 加密不等于境外出口，fallback 也不保证国内解析器从未收到查询。
+Country labels alone are insufficient. China domains use AliDNS/DNSPod by default; unclassified queries may also reach China nameservers. DoH encryption does not imply an international exit, and fallback does not guarantee China resolvers never received a query.
 
-记录具体域名、命中策略、递归服务器和出站；排除 VPN 的 App、浏览器安全 DNS、系统 DNS、节点解析各有路径。本基线不保证整机零泄漏。
+Record the domain, matching policy, recursive resolver and outbound. Excluded applications, browser secure DNS, system DNS and node resolution can take separate paths. This baseline does not guarantee whole-device zero leakage.
 
-### 外部资源（GeoX URL）
+### External resources (GeoX URLs)
 
-自有脚本与融合规则使用配置中的 GitHub Raw HTTPS。资源页下载可能走独立 App 路径，不能只凭 rule-provider 下载代理判断是否可达。
+Repository scripts and fused rules use the configured GitHub Raw HTTPS URLs. Resource-page downloads may follow a separate application path; rule-provider download proxy settings alone do not establish reachability.
 
-更换前保留可用缓存，核对完整 URL、HTTP 状态、大小和核心加载结果。DNS 的 geosite policy 仍依赖 GeoSite；fallback-filter.geosite 的迁移提示不等于资源加载失败。
+Preserve working caches before replacement. Check complete URL, HTTP status, size and core load results. DNS geosite policies still depend on GeoSite. A `fallback-filter.geosite` migration warning does not itself mean resource loading failed.
 
-### 国内 APP 无法联网时的最短排查
+### Short application-connectivity diagnostic
 
-1. 关闭 DNS 覆写、“追加系统 DNS”与 VPN“系统代理”；分别关闭 VPN IPv6 和核心/进阶配置 IPv6（`vpnProps.ipv6`、`patchClashConfig.ipv6`）。保留原应用访问控制名单，重启 VPN 和 APP。
-2. 对仍进入 VPN 的 APP，检查「国内网站」「国内流媒体」「国内游戏」是否选择 `DIRECT`。人在境外时保存的选组不会因为回国自动重置。
-3. 记录一次失败操作的具体时间、域名、规则、出站和错误；FlClash 自身 `checkIp` 的 502 只是出口信息服务错误，不能证明其他 APP 或所有节点不可用。
-4. 仅当失败业务域名明确命中广告拦截时，才临时将广告组切到 `DIRECT` 做对照，随后恢复。不要长期关闭全部广告规则，也不要对整个 APP 的域名族做无证据白名单。
+1. Disable DNS override, Append system DNS and VPN System proxy. Disable VPN and core/advanced IPv6 separately (`vpnProps.ipv6`, `patchClashConfig.ipv6`). Keep the existing access-control list, then restart VPN and the application.
+2. For applications still inside VPN, check that `国内网站`, `国内流媒体` and `国内游戏` select `DIRECT`. Saved choices do not reset automatically when networks change; verify them against the failing request.
+3. Record one failed action's time, domain, rule, outbound and error. A 502 from FlClash's own `checkIp` only indicates an exit-information service error; it does not prove all applications or nodes are unusable.
+4. Only if the failing service domain demonstrably hits ad blocking, temporarily select `DIRECT` for the ad group as a comparison, then restore it. Do not permanently disable all ad rules or exempt a whole application's domain family without evidence.
 
 <a id="与-cmfa-yaml-的对比"></a>
 
 <details>
-<summary>专用 JS 与静态 YAML 的区别</summary>
+<summary>Dedicated JS versus static YAML</summary>
 
-| | 覆写脚本（推荐） | CMFA YAML（备选） |
+| Feature | Override script (recommended) | CMFA YAML (alternative) |
 |---|---|---|
-| 节点分类 | **word-boundary 正则**，TW 不误伤 TWN | Go RE2 子串匹配 |
-| 订阅垃圾清理 | 自动剔除机场无用 proxy-groups | 不支持 |
-| 家宽识别 | 自动识别并建独立组 | 支持（filter 正则） |
-| 空区域处理 | 无节点自动跳过不建空组 | 可能产生空组 |
-| Smart + LightGBM | 不支持（内核限制） | 不支持（同） |
+| Node classification | Word-boundary regex; TW does not match TWN | Go RE2 substring matching |
+| Subscription cleanup | Removes unwanted provider proxy-groups | Unsupported |
+| Residential detection | Automatic detection and separate groups | Supported via filter regex |
+| Empty regions | Skips groups without nodes | May create empty groups |
+| Smart + LightGBM | Unsupported by core | Unsupported |
 
 </details>
 
 <a id="协议支持"></a>
 
 <details>
-<summary>协议能力参考（以实际内置核心为准）</summary>
+<summary>Protocol reference (actual bundled core is authoritative)</summary>
 
-| 协议 | 支持 |
+| Protocol | Support |
 |---|:-:|
 | Shadowsocks (SS) / SSR | ✅ |
-| VMess / VLESS（含 REALITY + XTLS-Vision） | ✅ |
-| Trojan（含 Trojan-Go） | ✅ |
+| VMess / VLESS, including REALITY + XTLS-Vision | ✅ |
+| Trojan, including Trojan-Go | ✅ |
 | Hysteria v1/v2 / TUIC v5 | ✅ |
 | WireGuard / AnyTLS / ShadowTLS / Snell v4 | ✅ |
 
 </details>
 
 <details>
-<summary>旧版配置界面补充示例</summary>
+<summary>Additional legacy-interface examples (original Chinese screenshots)</summary>
 
-<img width="160" alt="FlClash 配置示例 1" src="https://github.com/user-attachments/assets/e88e0724-2bc0-4111-851e-e8aa0a9141d3">
-<img width="160" alt="FlClash 配置示例 2" src="https://github.com/user-attachments/assets/530d9f3a-e793-423b-a4d6-85a2d4a75054">
-<img width="160" alt="FlClash 配置示例 3" src="https://github.com/user-attachments/assets/f2b03096-3469-4d67-ab10-60bac2b82347">
-<img width="160" alt="FlClash 配置示例 4" src="https://github.com/user-attachments/assets/be31a91a-259c-47a7-b599-fa08752bef8d">
-<img width="160" alt="FlClash 配置示例 5" src="https://github.com/user-attachments/assets/770eb553-86c5-49a7-80f4-4fd68594888b">
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="160" alt="Legacy FlClash configuration example 1" src="https://github.com/user-attachments/assets/e88e0724-2bc0-4111-851e-e8aa0a9141d3">
+
+</details>
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="160" alt="Legacy FlClash configuration example 2" src="https://github.com/user-attachments/assets/530d9f3a-e793-423b-a4d6-85a2d4a75054">
+
+</details>
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="160" alt="Legacy FlClash configuration example 3" src="https://github.com/user-attachments/assets/f2b03096-3469-4d67-ab10-60bac2b82347">
+
+</details>
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="160" alt="Legacy FlClash configuration example 4" src="https://github.com/user-attachments/assets/be31a91a-259c-47a7-b599-fa08752bef8d">
+
+</details>
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="160" alt="Legacy FlClash configuration example 5" src="https://github.com/user-attachments/assets/770eb553-86c5-49a7-80f4-4fd68594888b">
+
+</details>
 
 </details>
 
 <a id="相关链接"></a>
 
 - [FlClash GitHub](https://github.com/chen08209/FlClash)
-- [覆写脚本源码](./FlClash(mihomo).js)
-- [CMFA YAML（备选方案）](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)
+- [Override source](./FlClash(mihomo).js)
+- [Alternative CMFA YAML](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)
 
-业务 DNS 的权威源为 [business-dns-policy.json](../../rulesets/source/business-dns-policy.json)，维护命令：
+Business DNS authority: [business-dns-policy.json](../../rulesets/source/business-dns-policy.json). Maintenance:
 
 ```bash
 node tools/sync-business-dns-policy.js
@@ -294,4 +335,4 @@ node --test tools/tests/business-dns-policy.test.js tools/tests/business-dns-syn
 
 <a id="-支持本项目"></a>
 
-[变更历史](CHANGELOG.md) · [支持本项目](../../docs/donate.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[Changelog](CHANGELOG.md) · [Support the project](../../docs/donate.md) · [Report an issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

@@ -1,47 +1,56 @@
-# MyClash 设计吸收与验证记录
+<a id="myclash-设计吸收与验证记录"></a>
+# MyClash design adoption and validation record
 
-实施范围为真实 JS 引擎验证、可选业务方案、统一本地配置入口与精确 hosts 兼容。默认分流基线仍为 v6.0.21；可选行为须由可信本地参数显式选择。
+**English** | [简体中文](2026-10-29-myclash-adoption.zh-CN.md)
 
-## 来源与复用
 
-参考 [MyClash 固定源码](https://github.com/AIsouler/MyClash/blob/bf6c2dbc3b007b791284b437e5283854ce9c0f1a/Script/mihomoScript.js) 的服务按需生成与配置体验。没有移植其节点改名、server 改 IP、订阅 DNS 整段继承或代理链清理实现。仓库已有严格预检、规则图、融合资产、Node-DNS 与原子参数写入，本次在这些模块上扩展。真实引擎采用锁定的 MIT 依赖 quickjs-emscripten 0.32.0，来源和安装边界见 [引擎说明](../../tools/js-engine-tests/REFERENCE.md)。
+The implementation covers real JS-engine validation, optional service profiles, a unified local-configuration entry, and exact-hosts compatibility. The default routing baseline remains v6.0.21; optional behavior requires explicit trusted local parameters.
 
-## 交付与同步范围
+<a id="来源与复用"></a>
+## Sources and reuse
 
-| 能力 | 位置与适用范围 |
+The [pinned MyClash source](https://github.com/AIsouler/MyClash/blob/bf6c2dbc3b007b791284b437e5283854ce9c0f1a/Script/mihomoScript.js) informed on-demand service generation and configuration UX. Its node renaming, server-to-IP replacement, wholesale subscription-DNS inheritance, and proxy-chain cleanup were not ported. This repository already had strict preflight checks, a rule graph, fused assets, Node-DNS, and atomic parameter writing; this change extends those modules. The real engine uses pinned MIT dependency quickjs-emscripten 0.32.0; see the [engine reference](../../tools/js-engine-tests/REFERENCE.md) for sources and installation boundaries.
+
+<a id="交付与同步范围"></a>
+## Deliverables and synchronization scope
+
+| Capability | Location and scope |
 | --- | --- |
-| 真实引擎对照 | `tools/validate-js-engines.js`；三份 Mihomo JS 的完整输出与 Node 对照，接入 CI |
-| Full / Lite / Custom | 源图导出业务目录；20 个入口及依赖投影到全新目录，Full 原字节复制 |
-| 统一入口 | `tools/configure.js` 与离线表单共用参数定义，沿用预览、备份、冲突检查及读回 |
-| hosts-only | 三份 Mihomo JS 与两份 OpenClash Ruby；仅保留活动节点精确 FQDN 到合法 IP |
-| 元信息维护 | Egern 生成器头部去重；AEROVE 的 App 托管 DNS 注释澄清；对应版本及 CHANGELOG 同步 |
+| Real-engine comparison | `tools/validate-js-engines.js`; compares complete outputs of three Mihomo JS scripts with Node, integrated into CI |
+| Full / Lite / Custom | Service catalog exported from the source graph; twenty entries and their dependencies projected into a new directory; Full copies original bytes |
+| Unified entry | `tools/configure.js` and the offline form share parameter definitions, retaining preview, backup, conflict checks, and readback |
+| hosts-only | Three Mihomo JS scripts and two OpenClash Ruby implementations; retains only exact active-node FQDN-to-valid-IP mappings |
+| Metadata maintenance | Deduplicated Egern generator headers; clarified AEROVE app-managed DNS comments; synchronized versions and CHANGELOG |
 
-没有相应 Node-DNS 运行时的静态端不注入无效模式。业务生成覆盖既有客户端、Karing 和 Meow/AEROVE 入口；保留各端能力限制，Passwall 目标仍需 LuCI 手工选择。共享 MRS/fused 资产不重新下载或刷新。
+Static clients without the corresponding Node-DNS runtime receive no invalid modes. Service generation covers existing clients, Karing, and Meow/AEROVE entries while retaining capability limitations. Passwall targets still require manual selection in LuCI. Shared MRS/fused assets are not downloaded again or refreshed.
 
-## 默认行为证据
+<a id="默认行为证据"></a>
+## Default-behavior evidence
 
-与实施前提交 `ca555e8c53cb0f1a5ea6753c11e0d601f0f6568d` 对照：
+Compared with pre-implementation commit `ca555e8c53cb0f1a5ea6753c11e0d601f0f6568d`:
 
-- 原始规则图 401 providers / 860 rules、Mihomo 归一化图 525 providers / 984 rules 的完整结构相同。
-- 三份 Mihomo JS 的 9 组默认完整输出一致；已有 off / policy / adaptive 捕获、应用及报告金样不变。
-- 共享规则载荷指纹保持 `416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e`；Egern YAML 解析后的配置结构一致。
-- 有序语义审计确认 provider 载荷与规则顺序未变，变更条目和路由均为 0。该结论来自结构相同；有限域名探针本身不证明全部域名/IP 等价。
+- Complete structures were identical for the raw graph of 401 providers / 860 rules and the Mihomo-normalized graph of 525 providers / 984 rules.
+- Nine default full-output cases across three Mihomo JS scripts were identical; existing off / policy / adaptive capture, application, and report golden fixtures were unchanged.
+- Shared rule-payload fingerprint remained `416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e`; parsed Egern YAML configuration structures matched.
+- Ordered semantic auditing confirmed unchanged provider payloads and rule order: zero changed entries and routes. This conclusion comes from structural equality; finite domain probes alone do not prove equivalence for all domains/IPs.
 
-## 验证结果
+<a id="验证结果"></a>
+## Validation results
 
-- 严格产物合同：2500 checks / 22 artifacts 通过，包含 Ruby YAML 解析。旧的非主入口 `OpenClash(mihomo).conf` 版本提示保留。
-- 真实 QuickJS：默认脚本 21 个完整输出对照；业务方案另有 16 项真实引擎测试通过，含引用身份、拒绝时输入不变及 AEROVE clone 边界。
-- 业务生成 19 项通过，覆盖安全规则闭包、节点链、写入失败、哈希读回及发布竞态。第二次写入、已有目录或符号链接均拒绝覆盖。
-- 离线表单实际导出设置经 CLI 读回；Lite 实际生成 133 个文件并逐项核对哈希。两份 SingBox 输出分别由官方 1.14.3 和 1.13.14 核心检查通过。
-- 全量本地回归 672 项中，最初 662 通过、8 跳过、2 失败；两项为旧 AI 沙盒夹具的固定标题假设，修复为唯一 H1 原位替换后，与最终参数及引擎回归合并补验 34 项全部通过。已通过且输入未变的检查复用结果。
-- 8 项跳过为可选原生核心用例（7 项 Mihomo MRS、1 项 Meow App/core 组合），没有将其计为通过。AEROVE 资源生成与预算合同另已检查。
-- Node-DNS JS/Ruby 对照、适配器同步、JS 覆写、进程直连白名单、业务 DNS/流量参数同步、Karing/Meow 生成、规则质量和服务依赖检查通过。
-- 21 份入口文档完成桌面明暗与 390px 窄屏渲染检查；配置表单与指南另作实际视觉及交互检查。新增入口无横向溢出；历史外部附件图片未包含在本机白名单服务中。
+- Strict artifact contracts passed 2500 checks / 22 artifacts, including Ruby YAML parsing. The old secondary `OpenClash(mihomo).conf` version notice remains.
+- Real QuickJS completed twenty-one default-script full-output comparisons. Sixteen additional real-engine service-profile tests passed, including reference identity, unchanged input on rejection, and the AEROVE clone boundary.
+- Nineteen service-generation tests passed, covering safety-rule closure, node chains, write failures, hash readback, and publication races. A second write, existing directory, or symlink is rejected rather than overwritten.
+- Settings actually exported from the offline form were read back through the CLI. Lite generated 133 files with per-file hash verification. Two SingBox outputs passed checks with official cores 1.14.3 and 1.13.14 respectively.
+- Of 672 full local regressions, initially 662 passed, eight were skipped, and two failed. Both failures came from fixed-title assumptions in old AI-sandbox fixtures. After replacing the unique H1 in place, all thirty-four combined follow-up parameter, engine, and fixture regressions passed. Earlier passing results were reused only where inputs had not changed.
+- The eight skips were optional native-core cases: seven Mihomo MRS cases and one Meow App/core combination. They were not counted as passes. AEROVE asset generation and budget contracts were checked separately.
+- Node-DNS JS/Ruby comparisons, adapter synchronization, JS overrides, the direct-routing process allowlist, service DNS/traffic parameter synchronization, Karing/Meow generation, rule quality, and service dependencies passed.
+- Twenty-one entry documents passed desktop light/dark and 390px rendering checks; the configuration form and guide also received actual visual and interaction checks. New entries had no horizontal overflow. Historical external attachment images were outside the local allowlisted server.
 
-测试、生成和批处理在 Windows 隐藏窗口及 Idle 优先级执行。详细本机日志位于忽略目录 `.cache/myclash-adoption/`；不提交测试下载及本机设置。临时预览仅监听 127.0.0.1、提供白名单静态文件，验收后已关闭。
+Tests, generation, and batch operations ran in hidden Windows windows at Idle priority. Detailed local logs are in ignored directory `.cache/myclash-adoption/`; test downloads and local settings are not committed. The temporary preview listened only on 127.0.0.1, served allowlisted static files, and was closed after acceptance.
 
-## 验收边界
+<a id="验收边界"></a>
+## Acceptance boundaries
 
-真实 QuickJS、核心配置检查和生成合同不能替代各 App 的设备导入、实际连接或性能基准。关闭业务后保留必要安全残余谓词；部分原生 AND 谓词须整体保留，清单明确标注 `preserved-safety-residual`。不宣称精简数量等于实际内存或耗电收益。
+Real QuickJS, core configuration checks, and generation contracts do not replace per-app device import, real connections, or performance benchmarks. Disabling services preserves required safety residual predicates; some native AND predicates must remain whole, explicitly marked `preserved-safety-residual` in manifests. Reduced counts are not claimed to equal actual memory or battery savings.
 
-使用方法见 [本地参数与业务方案](../configuration.md)。发布后的提交、远端指针及 CI 状态由本次交付读回确认。
+See [local parameters and service profiles](../configuration.md). Post-release commits, remote pointers, and CI status require delivery readback.

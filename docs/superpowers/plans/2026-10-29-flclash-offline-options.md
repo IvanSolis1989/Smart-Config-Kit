@@ -1,14 +1,19 @@
-# 离线 FlClash 下载合并本地参数
+<a id="离线-flclash-下载合并本地参数"></a>
+# Merge local parameters into offline FlClash downloads
 
-目标：在同一离线表单中选择 Full / Lite / Custom 及测速、QUIC、节点 DNS、倍率等既有本地选项，直接下载一份 FlClash JS。默认参数、默认分流与既有拒绝边界不变，验证后推 main。
+**English** | [简体中文](2026-10-29-flclash-offline-options.zh-CN.md)
 
-- 业务模块所有者扩展 `generateFlClashScript(bundle, { profile, enable?, localOptions? })`，复用共享 schema、构建期可信常量解析与业务 emitter。有效参数列入 summary；浏览器仅替换构建时验证的字面量槽，不解析、读取或执行用户代码，不联网。
-- 表单所有者保持两标签但共享选择状态，两页主按钮都生成同一份合并脚本。原 JSON 下载按当前标签独立导出，不创建 CLI 无法消费的混合 schema。最终表单版本 1.2.1，包含浏览器原生无效数值拒绝。
-- 主线程维护文档、覆盖矩阵、CI、浏览器实际下载与发布。已有五项参数包括默认关闭的 ZeroTier，不静默忽略已有控件。
-- 缺省及显式全部默认参数的输出与上版一致；Full 默认保持发布源 LF 文本。Lite/Custom 的组合输出与现有 CLI 参数写入和业务投影一致。
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-验收：先 RED 再 GREEN；拒绝非法类型/数值/键/访问器及原型控制；代表性组合和各项值与 CLI 对照；实际浏览器组合下载读回与真实 QuickJS 验证；保留链、DNS、倍率依赖和引用身份边界；检查明暗/窄屏、现有生成合同及默认产物不变。全端业务能力与 FlClash 一键入口分别说明，静态端和 Meow/AEROVE 保留能力及设备验收限制。
+Goal: select Full / Lite / Custom plus existing local options such as latency tests, QUIC, node DNS and multipliers in one offline form, downloading a single FlClash JS file. Defaults, routing and rejection boundaries stay unchanged; push main after validation.
 
-复用现有参数 writer、共享 schema 与业务模板，不引入新依赖或另一套节点/规则实现。此变化是把已支持的本地选择接入离线交付入口，不刷新上游规则或修改客户端默认产物。
+- The business-module owner extends `generateFlClashScript(bundle, { profile, enable?, localOptions? })`, reusing shared schema, build-time trusted-constant parsing and the business emitter. Effective parameters enter the summary. The browser replaces only build-validated literal slots; it does not parse/read/execute user code or access the network.
+- The form owner retains two tabs with shared selection state; both primary buttons generate the same merged script. Original JSON downloads remain tab-specific rather than creating a mixed schema the CLI cannot consume. Final form version 1.2.1 includes native browser invalid-number rejection.
+- The coordinating thread owns documentation, coverage matrix, CI, actual browser downloads and publication. The existing five parameters include default-off ZeroTier; existing controls must not be silently ignored.
+- Omitted parameters and explicitly all-default parameters produce the previous output. Full defaults retain published LF source text. Lite/Custom combinations match existing CLI parameter writes and service projections.
 
-实现、独立复核及本地验收已完成，详见[验证记录](../../reports/2026-10-29-flclash-offline-options.md)。最终提交、远端指针与 CI 由本次发布读回收口。
+Acceptance: RED before GREEN; reject illegal types/values/keys/accessors/prototype control; compare representative combinations and every value against CLI; read back real browser downloads and validate with actual QuickJS; preserve chain/DNS/multiplier dependencies and reference identity; review light/dark/narrow layouts, existing generation contracts and unchanged defaults. Describe all-client service capabilities separately from FlClash's one-click entry, retaining static-client and Meow/AEROVE capability/device-acceptance limits.
+
+Reuse existing parameter writer, shared schema and service templates, without new dependencies or another node/rule implementation. This connects already supported local choices to offline delivery, not upstream rule refresh or default client artifact changes.
+
+Implementation, independent review and local acceptance are complete; see the [validation record](../../reports/2026-10-29-flclash-offline-options.md). Final commit, remote pointer and CI are resolved through this publication's readback.

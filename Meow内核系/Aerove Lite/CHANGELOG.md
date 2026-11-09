@@ -1,63 +1,71 @@
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="AEROVE Lite 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="AEROVE Lite changelog" width="100%">
 </picture>
 
-# AEROVE Lite 变更日志
+<a id="aerove-lite-变更日志"></a>
 
-[使用说明](README.md) · [内核家族入口](../README.md) · [支持队列](../../docs/support-queue.md#aerove-lite-meow)
+# AEROVE Lite — Changelog
 
-## 资源校验工具：domain MRS 重叠输入证明 (2026-11-09)
+[Usage](README.md) · [Documentation](../../docs/README.md)
 
-- 修正将 domain MRS 插入次数误当成紧凑遍历行数的假设。按官方固定 Mihomo v1.19.32 行为核对源输入次数、规范化 exact/suffix 谓词集合、编码 leaf 与紧凑输出数量，保留全部资源预算；未以简单放宽不等式代替证明。
-- 增加真实编译的重叠/重复正例、丢失谓词及伪造头部/证明负例。共享规则资产、当前客户端默认路由不变；生成清单需随后重建，尚不代表新上游语义已批准或 App 已验收。
+[Core family](../README.md) · [Support queue](../../docs/support-queue.md#aerove-lite-meow)
+
+<a id="资源校验工具domain-mrs-重叠输入证明-2026-11-09"></a>
+
+## Resource validation: overlapping domain MRS input proof (2026-11-09)
+
+- Corrected the assumption that domain MRS insertion count equals compact traversal-line count. Using pinned official Mihomo v1.19.32 behavior, checked source insertion count, normalized exact/suffix predicate sets, encoded leaves and compact output counts while retaining every resource budget. A merely relaxed inequality was not substituted for proof.
+- Added genuinely compiled overlapping/duplicate positive cases and missing-predicate/forged-header/proof negatives. Shared rule assets and current client default routing were unchanged. Manifests still needed regeneration; this did not approve new upstream semantics or establish application acceptance.
 
 ## v6.0.21-meow.8 (2026-10-31)
 
-- 显式剥离上游新增的 Windows 浏览器 UDP 本地常量和应用调用；此候选宿主尚无已验证的桌面进程识别能力，不暴露无法兑现的保护参数。
-- 保留原有默认分流和 App 托管边界，刷新来源绑定；资源精确谓词并集与安全预算不变。共享 MRS/SRS、Meow 原生 YAML 规则不变，App 验收仍需独立完成。
+- Explicitly removed newly added upstream Windows-browser UDP local constants and invocation. The candidate host lacked verified desktop process identification, so it did not expose protection parameters it could not implement.
+- Retained default routing and application ownership boundaries, refreshing source bindings. Exact resource predicate unions and safety budgets were unchanged. Shared MRS/SRS and native Meow YAML rules were unchanged; application acceptance remained separate.
 
 ## v6.0.21-meow.7 (2026-10-29)
 
-- 明确候选 JS 的 DNS/hosts 由 App 托管，源参数占位固定 off；不宣称支持桌面 hosts-only 运行时。
-- 更新源图及资源来源绑定，规则资产和默认路由不变。新增独立目录的可选业务投影，App 导入与实际连接验收边界保持。
+- Clarified application ownership of candidate JS DNS/hosts and fixed the source parameter placeholder to off. Desktop hosts-only runtime support was not claimed.
+- Updated graph/resource source bindings without changing assets/default routing. Added optional service projections in separate directories, preserving application import/real-connection acceptance boundaries.
 
 ## v6.0.21-meow.6 / v6.0.21-meow.4 (2026-10-28)
 
-- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。 AEROVE Lite 的 App 验收仍需独立完成。
+- Moved Google FCM from download updates to Google services. The 15 domain and 26 IPv4 predicates, rule order and 55 policy groups remained unchanged. Other push services, DNS and fake-IP were unchanged. AEROVE Lite application acceptance remained independent.
 
 ## v6.0.20-meow.5 (2026-10-27)
 
-- beta18 固定真实 Smart 用例拒绝旧广告分片的 500,000 原生点分标签预算；按固定 Rust reader 的实际展开重新分片，广告四片、国内站点两片，保持安全门槛。
-- 全部 111 个投影 MRS 通过固定 Rust reader 和 App 原样头部/条目预算；新投影为 153 provider / 172 rules / 55 fixture groups。原生 leaf 并集核实、完整 App preflight、JNI、APK、HTTP 和 VPN 仍待验；CI 尚未运行。详见[分片依据](RESOURCE-SPLITTING.md)。
-- 官方 Meow YAML v3、共享 fused 与规则源保持原字节；此为 Lite 平台专属投影。
+- Pinned real beta18 Smart execution rejected old ad shards against the 500,000 native dot-separated-label budget. Resharded using actual pinned Rust-reader expansion into four ad and two China-site shards, preserving safety limits.
+- All 111 projected MRS assets passed the pinned Rust reader and unchanged application header/entry budgets. New projection: 153 providers / 172 rules / 55 fixture groups. Native-leaf union verification, full application preflight, JNI, APK, HTTP and VPN were still pending at this entry; CI had not run. See [splitting evidence](RESOURCE-SPLITTING.md).
+- Official Meow YAML v3, shared fused assets and routing source retained original bytes. This was a Lite-specific projection.
 
 ## v6.0.20-meow.4 (2026-10-27)
 
-- 针对 beta16 真实 MRS 单资源准入失败，将 411,634 条广告域名按 250,000 条/500,000 点分标签等保留预算无损派生为三片；完整原生往返集合与原资产一致。
-- JS 在原 RULE-SET 位置连续展开同目标引用，保留 no-resolve、proxy/header 与其他 provider 元数据，其他 148 个资源复用。官方 Meow YAML 和共享 fused 字节保持。
-- 增加专版资产生成/检查、固定转换器、发布批次闭合和二进制身份约束；候选资源共 151 个、主规则 170 条。实际 App 预检、完整 prepared 与 VPN/真实路由仍待 AEROVE 接取验收。
-- 重新核实 beta16 生产校验链及真实 Android 单项执行结果，更新支持队列和教程；已接线项从旧待办移出，自定义 header 实传、完整资源重验及真实路由继续跟踪。
+- In response to real beta16 per-resource MRS admission failure, losslessly derived three shards from 411,634 ad domains while retaining limits including 250,000 entries / 500,000 dot-separated labels. Full native round-trip sets matched the original asset.
+- JS expanded same-target references consecutively at the original RULE-SET position, preserving no-resolve, proxy/header and other provider metadata; reused 148 other resources. Official Meow YAML/shared fused bytes were unchanged.
+- Added dedicated asset generation/checking, pinned converter, release-batch closure and binary-identity constraints. Candidate totals: 151 resources, 170 main rules. Real application preflight, full prepared validation and VPN/real routing awaited AEROVE integration acceptance.
+- Rechecked beta16 production validation wiring and actual individual Android executions; updated support queue/tutorial. Removed completed wiring from old pending items while tracking custom-header transmission, complete resource retesting and real routing.
 
-## 2026-10-24 — 准入与联调证据同步
+<a id="2026-10-24--准入与联调证据同步"></a>
 
-- 核查固定 App 提交及外部候选，记录 74 项 JVM、AndroidTest 编译和 149 资产读回通过的实际范围；生产 factory、Geo 资源上下文及命名代理下载仍待整合。
-- 增加 [VALIDATION](VALIDATION.md)，将当前进展与早期接口快照区分；完善 README、支持队列和独立下载按钮。未修改脚本或规则语义。
+## 2026-10-24 — Admission and integration evidence synchronized
+
+- Checked pinned application commit/external candidates, recording the actual scope of 74 JVM tests, AndroidTest compilation and 149 asset readbacks. Production factory, Geo context and named-proxy downloading still awaited integration.
+- Added [VALIDATION](VALIDATION.md), distinguishing progress from early interface snapshots. Improved README, support queue and separate download buttons without changing scripts or rule semantics.
 
 ## v6.0.20-meow.3 (2026-10-24)
 
-- 按客户端并列归档，将 AEROVE Lite JS 与使用说明、接口依据和日志放入独立目录；官方 Meow 原生 YAML 保留在其客户端目录。
-- JS 入口为 `AeroveLite(meow).js`，继续使用共享 `tools/generate-meow.js`，分流实现和失败行为保持不变；两入口的共享适配清单位于内核家族目录。
-- 保留接口历史快照及待验状态，AEROVE 客户端接线和 APK 联调独立推进。
+- Organized clients in parallel: AEROVE Lite JS, usage, interface evidence and history moved to a separate directory; official Meow native YAML stayed in its client directory.
+- Entry point `AeroveLite(meow).js` continued using shared `tools/generate-meow.js`, unchanged routing/failure behavior. The shared adapter manifest resides in the core-family directory.
+- Retained historical interface snapshots and pending status; AEROVE client wiring/APK integration proceeded independently.
 
 ## v6.0.20-meow.2 (2026-10-24)
 
-- 分流 JS 纳入 Meow 共享生成入口，AEROVE 保留独立宿主接口与消费者说明。
-- 新增官方核心及官方 Android/iOS 的原生 YAML 入口；官方 v0.26.1 实际配置校验通过，App、HTTP 下载与真实路由仍待验。
+- Included routing JS in shared Meow generation; AEROVE retained separate host-interface/consumer documentation.
+- Added native YAML entry points for the official core/Android/iOS. Real official v0.26.1 configuration validation passed; application acceptance, HTTP downloads and real routing remained pending.
 
 ## v6.0.20-meow.1 (2026-10-24)
 
-- 新增预适配分流 JS、生成器与输入/输出哈希清单，复用节点分类、分组和有序融合规则，不改规则权威源。
-- 保留 App 的 DNS、hosts、嗅探、端口、模式、控制器与 TUN，不注入 Mihomo 全局设置或 TLS 指纹；失败抛错且保留原输入。
-- 加入支持队列，状态为 `pre-adapted-awaiting-app`；App 配置准入、直接逻辑规则、Android QuickJS 及实际路由待验。
-- 随共享刷新链重生成并纳入发布批次；独立 CI 验证生成漂移与本地 JS 行为，保持 App 待验状态。
+- Added pre-adapted routing JS, generator and input/output hash manifest, reusing node classification, grouping and ordered fused rules without changing routing authority.
+- Preserved application DNS, hosts, sniffing, ports, mode, controller and TUN. No Mihomo global settings or TLS fingerprints; failures throw and preserve input.
+- Added support-queue status `pre-adapted-awaiting-app`. Application admission, direct logical rules, Android QuickJS and real routing remained pending.
+- Regenerated through the shared refresh chain and included in release batches. Independent CI verifies generation drift/local JS behavior while keeping application acceptance pending.

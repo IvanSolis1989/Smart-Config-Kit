@@ -1,36 +1,45 @@
-# Sub-Store 自动订阅同步验收记录
+<a id="sub-store-自动订阅同步验收记录"></a>
+# Sub-Store automatic subscription synchronization acceptance record
 
-日期：2026-10-18。交付扩展 v1.3.1，Edge 155.0.4283.45；本机 Clash Party 2.0.3 / Sub-Store 2.42.2。
+**English** | [简体中文](2026-10-18-substore-auto-sync-acceptance.zh-CN.md)
 
-## 自动流程
+> Privacy: local directories, random run/session identifiers and real subscription-source identities are redacted in this public record. Versions, test results, technical limitations and public CI links are retained.
 
-用户在浏览器人工登录并正常打开仪表盘，未点击同步、保存或选择 Sub-Store 名称。扩展自动提取订阅、识别品牌、读取本机目录、匹配名称、预览、备份、只更新 URL 并独立读回。
 
-范围由浏览器授予的 HTTP(S) 站点权限决定，包含域名与 IP；以下六站是验收样本，不是白名单或支持边界。未知域名/IP在独立浏览器中另有回归。
+Date: 2026-10-18. Delivered extension v1.3.1; Edge 155.0.4283.45; local Clash Party 2.0.3 / Sub-Store 2.42.2.
 
-| 真实样本 | 匹配条目 | 原始 / 处理后有效节点 | 自动结果 | 最新实际捕获版本 |
+<a id="自动流程"></a>
+## Automatic flow
+
+The user manually signed in through the browser and opened the dashboard normally, without clicking sync, save, or selecting a Sub-Store name. The extension automatically extracted subscriptions, identified brands, read the local catalog, matched names, previewed, backed up, updated only the URL, and independently read it back.
+
+Scope is determined by browser-granted HTTP(S) site permissions, including domain names and IP addresses. The six sites below are acceptance samples, not an allowlist or support boundary. Unknown domains/IPs received separate isolated-browser regressions.
+
+| Real sample | Matched entry | Valid nodes before / after processing | Automatic result | Latest actual capture version |
 |---|---|---:|---|---|
-| SSONE | SSONE | 134 / 134 | 原链接一致；未误改两个副本 | 1.3.0 |
-| 良心云 | 良心云 | 53 / 53 | 原链接一致 | 1.3.1 |
-| 赔钱机场 | 赔钱 | 68 / 68 | 原链接一致 | 1.3.1 |
-| Kitty Network（新面板域名） | Kitty | 30 / 30 | 自动更换订阅 CDN 链接 | 1.3.1 |
-| 星网-Starnetwork | 星网 | 25 / 25 | 原链接一致 | 1.3.1 |
-| 都是梦 | 都是梦 | 18 / 18 | 自动更换重置链接 | 1.3.1 |
+| Source A | Source A | 134 / 134 | Original URL identical; neither of two copies modified incorrectly | 1.3.0 |
+| Source B | Source B | 53 / 53 | Original URL identical | 1.3.1 |
+| Source C | Source C | 68 / 68 | Original URL identical | 1.3.1 |
+| Source D (new panel domain) | Source D | 30 / 30 | Subscription CDN URL automatically replaced | 1.3.1 |
+| Source E | Source E | 25 / 25 | Original URL identical | 1.3.1 |
+| Source F | Source F | 18 / 18 | Reset URL automatically replaced | 1.3.1 |
 
-对六条实际源独立读取后，全部非 URL 字段的规范哈希与测试前基线一致，处理步骤数仍为 2 / 3 / 2 / 2 / 2 / 2；发生替换的链接也与写前保存的预期写入哈希一致。收据不公开个人订阅 URL、token、节点密码、源配置或这些私密值的哈希。
+Provider and entry identities use stable Source A–F aliases. Independent reads of all six actual sources confirmed that canonical hashes of every non-URL field matched pre-test baselines. Processing-step counts remained 2 / 3 / 2 / 2 / 2 / 2. Replaced URLs also matched expected-write hashes saved before writing. Receipts do not publish personal subscription URLs, tokens, node passwords, source configurations, or hashes of those private values.
 
-SSONE 的真实捕获收据复用 v1.3.0，v1.3.1 的 MAIN / ISOLATED 两份提取入口与之逐字节一致；本轮另有 v1.3.1 的 SSONE 副本消歧浏览器回归。版本升级后旧成功状态不会被伪装为新捕获，弹窗明确区分上次结果。
+The real Source A capture receipt reuses v1.3.0. Both MAIN / ISOLATED extraction entries in v1.3.1 are byte-identical to it; this round additionally ran a v1.3.1 browser regression for Source A-copy disambiguation. Old successful states are not presented as new captures after upgrading; the popup explicitly distinguishes the previous result.
 
-## 回归与故障复现
+<a id="回归与故障复现"></a>
+## Regressions and failure reproduction
 
-- 158 项 Node 测试全部通过：提取和脱敏、异步授权、名称/账户身份匹配、域名/IP、源快照、有效节点、fragment、只写 URL、并发检查、备份/撤销、自然 Origin 通信、瞬时初始化自动恢复、生成物漂移及弹窗边界。
-- 独立暂存区检出复现了 Windows `core.autocrlf=true` 导致生成入口字节检查失败；扩展目录固定 LF 后，独立检出的构建检查及 158 项 Node 测试再次通过。
-- 15 项真实 Edge 自动浏览器流程全部通过。使用独立无账号 profile、随机本机端口的假 Sub-Store 和虚构面板，阻断外网，不连接现有浏览器/真实服务，不打开 popup、不刷新、不点击按钮。覆盖六个原始域名样例、未知 HTTPS、HTTP/IP、Kitty/赔钱换 CDN、目录歧义、页面歧义、无品牌跨域、未匹配及告警节点停止。
-- 原跨 world 问题在实际 Edge 中稳定复现：相同 helper 文件被两份入口复用时只在首个 world 加载；增加 host 权限无效，交换顺序使另一侧失效，改用不同文件 URL 后双方正常。现在由一个 helper 源生成两个独立入口，构建检查禁止漂移。
-- 仅目录 GET 阶段允许有限瞬时通信重试；不重试可能已执行的 PATCH。跨源更新须有唯一精确品牌证据，且写前 URL 与匹配目录快照仍一致，再通过原始/处理后节点预览。
+- All 158 Node tests passed: extraction/redaction, asynchronous authorization, name/account identity matching, domains/IPs, source snapshots, valid nodes, fragments, URL-only writing, concurrency checks, backup/undo, natural Origin communication, automatic recovery from transient initialization failures, generated-artifact drift, and popup boundaries.
+- An isolated staged checkout reproduced generated-entry byte-check failures caused by Windows `core.autocrlf=true`. After fixing LF for the extension directory, the isolated checkout’s build check and all 158 Node tests passed again.
+- All fifteen actual Edge automated-browser flows passed. They used an isolated account-free profile, a fake Sub-Store on a random local port, and fictional panels, with external networking blocked. They did not connect to existing browsers/real services, open popups, refresh, or click buttons. Coverage included six original domain samples, unknown HTTPS, HTTP/IP, Source D/Source C CDN changes, catalog ambiguity, page ambiguity, brandless cross-origin cases, unmatched entries, and stopping on warning nodes.
+- The original cross-world issue reproduced consistently in actual Edge: sharing one helper file between both entries loaded it only in the first world. Additional host permissions did not help; reversing order broke the other side; separate file URLs restored both. One helper source now generates two distinct entries, with build checks preventing drift.
+- Limited transient communication retries are allowed only during catalog GET, never for PATCH that may already have executed. Cross-origin updates require unique exact brand evidence, a pre-write URL still matching the matched catalog snapshot, and successful original/processed-node previews.
 
-## 发布范围与限制
+<a id="发布范围与限制"></a>
+## Release scope and limitations
 
-提交范围为扩展源码、生成入口、测试、文档及 CI，不包含已取消的账号密码/API 登录工具或任何个人配置。SubStore 是辅助目录，未修改路由源、规则集、DNS、策略组及各客户端产物，无需全端重新生成。
+The commit covers extension source, generated entries, tests, documentation, and CI. It excludes the canceled account/password/API-login tool and all personal configuration. SubStore is an auxiliary directory; routing sources, rule sets, DNS, policy groups, and client artifacts were not modified, so full-client regeneration was unnecessary.
 
-实际浏览器验收为 Edge；Chrome 使用同一套官方 Chromium 扩展 API，未宣称完成 Chrome 账号环境实测。非标准加密响应、closed shadow DOM 或无可读订阅控件的网站可能还需适配。多个同名账户无法唯一匹配时停止，不以猜测代替成功。
+Actual browser acceptance used Edge. Chrome uses the same official Chromium extension APIs, but no Chrome account-environment test is claimed. Sites with nonstandard encrypted responses, closed shadow DOM, or no readable subscription controls may require adaptation. Processing stops when multiple same-name accounts cannot be uniquely matched; guessing is not reported as success.

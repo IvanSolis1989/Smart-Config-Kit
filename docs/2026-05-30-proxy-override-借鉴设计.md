@@ -1,37 +1,49 @@
-# Proxy-override 借鉴设计方案（spec）
+<a id="proxy-override-借鉴设计方案spec"></a>
+# Proxy-override design-adoption proposal (spec)
 
-> 研究对象：https://github.com/Sgraqwq/Proxy-override
-> 日期：2026-05-30 ｜ 状态：设计已定，待分批实现
-> 决策人：仓库 owner ｜ 研究/设计：Claude Code
+**English** | [简体中文](2026-05-30-proxy-override-借鉴设计.zh-CN.md)
+
+
+> Research subject: https://github.com/Sgraqwq/Proxy-override
+> Date: 2026-05-30 | Status at that time: design agreed, awaiting phased implementation
+> Decision-maker: repository owner | Research/design: Claude Code
+
+This is a historical design record. Its comparisons, risk ratings, capability assessments, and proposals describe the 2026-05-30 discussion, not current verification or authorization to implement obsolete plans. Original configuration examples and comments are retained verbatim; later references and acceptance records govern current behavior.
 
 ---
 
-## 0. 背景
+<a id="0-背景"></a>
+## 0. Background
 
-`Sgraqwq/Proxy-override` 是一个"极简零配置"分流仓库（3 文件、16 组、9 规则集，面向 Mihomo内核系/FlClash/Mihomo/Egern）。两轮深度研究后，其 80% 设计我们已具备且更强（区域分组、Smart/LightGBM、家宽细分、52 组、384 providers 全是我们的优势，**绝不退化**）。真正的"净增量"是 7 个借鉴点，owner 决定落地其中 6 个（#7 Egern 暂不做）。
+`Sgraqwq/Proxy-override` was described as a “minimal, zero-configuration” routing repository: three files, sixteen groups, nine rule sets, targeting Mihomo-family/FlClash/Mihomo/Egern clients. After two research rounds, the original assessment was that this repository already covered 80% of its design and offered additional regional grouping, Smart/LightGBM, residential-node subdivisions, 52 groups, and 384 providers. Those existing capabilities were to be preserved, not reduced. Seven potentially incremental ideas were identified; the owner selected six, deferring #7 Egern.
 
 ---
 
-## 1. 借鉴点清单与决策
+<a id="1-借鉴点清单与决策"></a>
+## 1. Adoption candidates and decisions
 
-| # | 借鉴点 | 价值 | 风险 | 落地决策 |
+| # | Candidate | Value | Assessed risk | Decision at that time |
 |---|------|:---:|:---:|------|
-| #2 | 国内 SDK/CDN 直连前置 | ⭐⭐⭐ | 🟢低 | ✅ 做 |
-| #3 | fake-ip-filter 补全（远控/游戏/P2P） | ⭐⭐ | 🟢低 | ✅ 做 |
-| #5 | `direct-nameserver-follow-policy: true` | ⭐ | 🟢低 | ✅ 做（先查文档）|
-| #6 | 节点过滤关键词补充 | ⭐ | 🟡中 | ✅ 做 |
-| #4 | DoH-over-IP 加密 bootstrap | ⭐⭐ | 🟡中 | ✅ 做（先研究透）|
-| #1 | QUIC 精细化（白名单豁免+拒绝） | ⭐⭐⭐ | 🟡中 | ✅ 做（最后）|
-| #7 | Egern 客户端支持 | ⭐ | 🔴高 | ❌ 暂不做 |
+| #2 | Earlier direct rules for China SDKs/CDNs | ⭐⭐⭐ | 🟢 Low | ✅ Implement |
+| #3 | Complete fake-ip-filter for remote control/games/P2P | ⭐⭐ | 🟢 Low | ✅ Implement |
+| #5 | `direct-nameserver-follow-policy: true` | ⭐ | 🟢 Low | ✅ Implement after documentation review |
+| #6 | Additional node-filter keywords | ⭐ | 🟡 Medium | ✅ Implement |
+| #4 | Encrypted DoH-over-IP bootstrap | ⭐⭐ | 🟡 Medium | ✅ Implement after deeper research |
+| #1 | Fine-grained QUIC exemptions and rejection | ⭐⭐⭐ | 🟡 Medium | ✅ Implement last |
+| #7 | Egern client support | ⭐ | 🔴 High | ❌ Defer |
 
-**实施顺序（owner 指定，易→难）**：#2 → #3 → #5 → #6 → **#4** → **#1**
+**Owner-specified order, easy to difficult:** #2 → #3 → #5 → #6 → **#4** → **#1**.
 
 ---
 
-## 2. 各项详细设计
+<a id="2-各项详细设计"></a>
+## 2. Detailed designs
 
-### #2 国内 SDK/CDN 直连前置（批 A）
-**改法**：在「🏠 国内网站」段或新增「国内直连前置」段，加 DIRECT 规则：
+<a id="2-国内-sdkcdn-直连前置批-a"></a>
+### #2 Earlier direct rules for China SDKs/CDNs (batch A)
+
+**Proposed change:** add DIRECT rules in the China-sites section or a new early China-direct section. Original examples identify Umeng (Alibaba), JPush, 360’s frontend CDN, BootCDN, Qiniu, and Upyun:
+
 ```
 DOMAIN,msg.umeng.com,DIRECT        # 友盟（阿里，国内）
 DOMAIN-SUFFIX,jpush.cn,DIRECT       # 极光推送（国内）
@@ -41,61 +53,90 @@ DOMAIN-SUFFIX,bootcss.com,DIRECT    # BootCDN
 DOMAIN-SUFFIX,staticfile.org,DIRECT # 七牛 CDN
 DOMAIN-SUFFIX,upaiyun.com,DIRECT    # 又拍云
 ```
-**甄别**：`adjust.com`/`appsflyer.com` 是海外归因 SDK，**不加**（避免把海外流量误判直连）。
-**产物范围**：全 12 产物（各自规则语法）。
-**现状**：主线仅 2 处命中（baomitu/bootcss/staticfile/upaiyun 全 0）。
-**风险**：低。需确认不与现有规则冲突（放在 RULE-SET,cn 之前）。
 
-### #3 fake-ip-filter 补全（批 A）
-**改法**：给 fake-ip-filter 增补（这些需真实 IP 才能打洞/直连）：
+**Distinction:** do not add `adjust.com`/`appsflyer.com`, which are non-China attribution SDKs, to avoid incorrectly directing their traffic.
+
+**Artifact scope:** all twelve artifacts, using each native rule syntax.
+
+**Observed state then:** only two mainline matches; zero for baomitu/bootcss/staticfile/upaiyun.
+
+**Assessed risk:** low. Check conflicts with existing rules and place before RULE-SET,cn.
+
+<a id="3-fake-ip-filter-补全批-a"></a>
+### #3 Complete fake-ip-filter (batch A)
+
+**Proposed change:** add the following, considered to require real IPs for hole punching/direct connections. Original comments distinguish remote-control, gaming, and Bilibili P2P entries:
+
 ```
 +.todesk.com  +.oray.com  +.sunlogin.com  +.teamviewer.com  +.anydesk.com   # 远控
 +.battlenet.com.cn  +.wotgame.cn  +.wggames.cn  +.wowsgame.cn               # 游戏
 +.mcdn.bilivideo.cn                                                          # B站P2P
 ```
-**产物范围**：mihomo 家族（Clash Party/CMFA/OpenClash×2/FlClash）+ SingBox（有 fake-ip 的）。
-**现状**：主线/OpenClash 远控仅 2 个，游戏 CDN/P2P = 0。
-**风险**：极低，纯增量。
 
-### #5 direct-nameserver-follow-policy（批 A）
-**改法**：DNS 块加 `direct-nameserver-follow-policy: true`（让 direct-nameserver 也遵守 nameserver-policy）。
-**产物范围**：mihomo 家族。
-**前置**：⚠️ 先 WebFetch 官方文档确认该字段语义 + 最低版本（§2.4），本地 REFERENCE 未收录。
-**风险**：低。
+**Artifact scope:** Mihomo family (Clash Party/CMFA/two OpenClash variants/FlClash) and SingBox configurations with fake-IP.
 
-### #6 节点过滤关键词补充（批 B）
-**改法**：INFO_PATTERNS / 各产物 exclude 增补：`免费 | 试用 | 应急 | Sign | Login | Register | Help | FAQ`。
-**不加**：`更新`（误伤"更新节点"）、`地址`（误伤）——Proxy-override 有但对我们风险高。
-**产物范围**：§1.5 全产物同构（JS REGION_DB/INFO_PATTERNS + CMFA filter + OpenClash Ruby + SR/独立内核系/Surge/Loon/QX exclude）。
-**风险**：中。可能误伤含 Login/Sign 的合法节点名（罕见）。**需写回归测试**（仿 test-kr-boundary.js）。
+**Observed state then:** mainline/OpenClash had only two remote-control entries and no game-CDN/P2P entries.
 
-### #4 DoH-over-IP 加密 bootstrap（批 D，先研究透）
-**owner 指定方案**：`default-nameserver`/bootstrap 切换为 DoH-over-IP：
+**Original risk assessment:** very low, additive only. This historical assessment is not evidence that additions are universally safe.
+
+<a id="5-direct-nameserver-follow-policy批-a"></a>
+### #5 direct-nameserver-follow-policy (batch A)
+
+**Proposed change:** add `direct-nameserver-follow-policy: true` to DNS so direct-nameserver also follows nameserver-policy.
+
+**Artifact scope:** Mihomo family.
+
+**Prerequisite:** ⚠️ WebFetch official documentation to confirm field semantics and minimum version (§2.4); local REFERENCE did not yet include it.
+
+**Assessed risk:** low.
+
+<a id="6-节点过滤关键词补充批-b"></a>
+### #6 Additional node-filter keywords (batch B)
+
+**Proposed change:** extend INFO_PATTERNS / artifact exclude fields with `免费 | 试用 | 应急 | Sign | Login | Register | Help | FAQ` (the first three mean free, trial, and emergency).
+
+**Exclude from the proposal:** `更新` (update, which could reject a legitimate “updated node”) and `地址` (address, with false-positive risk). Proxy-override included them, but they were assessed as too risky here.
+
+**Artifact scope:** §1.5 cross-artifact equivalence: JS REGION_DB/INFO_PATTERNS, CMFA filter, OpenClash Ruby, and SR/independent-core/Surge/Loon/QX exclude fields.
+
+**Assessed risk:** medium; legitimate names containing Login/Sign could be rejected, although considered uncommon. **Regression tests are required**, modeled after test-kr-boundary.js.
+
+<a id="4-doh-over-ip-加密-bootstrap批-d先研究透"></a>
+### #4 Encrypted DoH-over-IP bootstrap (batch D, research first)
+
+**Owner-selected proposal:** switch `default-nameserver`/bootstrap to DoH-over-IP:
+
 ```
 https://223.5.5.5/dns-query
 https://223.6.6.6/dns-query
 https://8.8.8.8/dns-query
 https://1.1.1.1/dns-query
 ```
-**为何 DoH-over-IP 而非 Proxy-override 的 DoT**：443 端口几乎不被封（853 易被封）、流量混在 HTTPS 更隐蔽、多上游冗余（阿里×2 国内低延迟 + Google/CF 国外兜底）。
-**官方依据**：mihomo `default-nameserver` = "必须为 IP，**可为加密 DNS**"（host 须 IP，scheme 可 https://）。已更新两份 REFERENCE-mihomo-wiki.md。
 
-**#4 全产物可行性表**：
+**Original rationale versus Proxy-override’s DoT:** port 443 was expected to be less frequently blocked than 853, with DNS carried inside HTTPS and redundant upstreams: two Alibaba endpoints for China-network latency and Google/Cloudflare alternatives outside China. The original stronger claims about near-universal reachability and concealment are design assumptions, not measured guarantees.
 
-| 产物 | 明文 bootstrap 字段 | 能否 DoH-over-IP | 结论 |
+**Recorded official basis:** Mihomo `default-nameserver` requires IP addresses but permits encrypted DNS: host must be an IP, while the scheme can be https://. Two REFERENCE-mihomo-wiki.md files were updated.
+
+**Cross-artifact feasibility table for #4:**
+
+| Artifact | Plaintext bootstrap field | DoH-over-IP feasibility assessed then | Conclusion then |
 |------|------|:---:|------|
-| Clash Party / CMFA / OpenClash×2 / FlClash | `default-nameserver` 纯 IP | ✅ 接受 https://IP/dns-query | **全加密可做** |
-| Surge | `dns-server`（可 DoH）/ `encrypted-dns-server` | ✅ encrypted-dns-server 用 https://IP | **全加密可做** |
-| Loon | `dns-server` 仅 system+纯 IP | ⚠️ doh-server/doh3-server 可 IP，但 dns-server 不能加密 | **DoH 服务器用 IP + 保留明文兜底** |
-| Quantumult X | `server=` 仅纯 IP，`doh-server=` 仅第一条生效 | ⚠️ 同 Loon | **同 Loon** |
-| SingBox | DNS server + address_resolver | ⚠️ 支持 HTTPS server，**实现时需核对 generator.js + sing-box 1.11/1.12 语法差异** | **待核对** |
-| v2rayN(xray) / Passwall×2 | 取决于核心 | ⚠️ 待核对 | **待核对** |
+| Clash Party / CMFA / two OpenClash variants / FlClash | Plain-IP `default-nameserver` | ✅ Accepts https://IP/dns-query | Full encryption considered feasible |
+| Surge | `dns-server` (DoH capable) / `encrypted-dns-server` | ✅ https://IP in encrypted-dns-server | Full encryption considered feasible |
+| Loon | `dns-server` supports only system/plain IP | ⚠️ doh-server/doh3-server can use IP; dns-server cannot be encrypted | IP-based DoH with plaintext fallback retained |
+| Quantumult X | `server=` plain IP only; only first `doh-server=` effective | ⚠️ Same limitation class as Loon | Same approach as Loon |
+| SingBox | DNS server + address_resolver | ⚠️ HTTPS server supported; generator.js and sing-box 1.11/1.12 syntax differences require checking during implementation | Pending verification |
+| v2rayN(xray) / both Passwall variants | Core-dependent | ⚠️ Pending verification | Pending verification |
 
-**保留明文兜底**：建议 `default-nameserver` 混合 = DoH-over-IP 优先 + 1 个明文 IP 兜底（防 443 也被劫持/首包失败时不至断网）。需验证 mihomo 是并发还是顺序查询（影响兜底语义）。
-**待办**：WebFetch 核对 ① sing-box /configuration/dns/server/https/ ② v2rayN(xray) dns ③ Passwall。
+**Plaintext fallback proposal:** mixed `default-nameserver`, with DoH-over-IP preferred and one plaintext IP retained to reduce outage risk if port 443 is also intercepted or initial requests fail. Mihomo’s concurrent versus sequential query behavior must be verified because it determines whether this is actually fallback.
 
-### #1 QUIC 精细化（批 C，最后）
-**改法**：在广告拦截后、业务前插入 QUIC 层（mihomo 语法）：
+**Research TODO:** WebFetch sing-box /configuration/dns/server/https/, v2rayN(xray) DNS, and Passwall.
+
+<a id="1-quic-精细化批-c最后"></a>
+### #1 Fine-grained QUIC (batch C, last)
+
+**Proposed change:** insert a QUIC layer after ad blocking and before service routing, in Mihomo syntax. Original policy names are retained:
+
 ```
 AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,youtube)),📹 YouTube
 AND,((DST-PORT,443),(NETWORK,UDP),(GEOSITE,google)),🔧 工具与服务
@@ -103,37 +144,44 @@ AND,((DST-PORT,443),(NETWORK,UDP),(RULE-SET,microsoft)),Ⓜ️ 微软服务
 AND,((DST-PORT,443),(NETWORK,UDP),(RULE-SET,apple)),🍎 苹果服务
 AND,((DST-PORT,443),(NETWORK,UDP),(NOT,((GEOSITE,cn)))),REJECT
 ```
-**协同点**：依赖我们现有 QUIC sniffer（159-163 行嗅 SNI）才能 GEOSITE 匹配——两者**配合**，不冲突。
-**产物适配**：mihomo 家族用 AND/NOT；Surge/Loon 用 `AND,((...),(...))`；QX 用 `[filter] ...`；SingBox 用 route.rules network/port 逻辑；SR 需确认 AND 支持。
-**trade-off**：会影响非豁免的国外 UDP 应用（部分游戏/WebRTC）。**默认开 + README 说明如何关**。
-**风险**：中。需逐产物验证 AND/NOT 语法 + sniffer 协同。
+
+**Proposed interaction:** the design expected existing QUIC sniffing (SNI at lines 159–163) to enable GEOSITE matching, treating them as complementary rather than conflicting. This still requires actual validation.
+
+**Artifact adaptation:** Mihomo family AND/NOT; Surge/Loon `AND,((...),(...))`; QX `[filter] ...`; SingBox route.rules network/port logic; SR AND support still requires confirmation.
+
+**Trade-off:** non-exempt non-China UDP applications, including some games/WebRTC, may be affected. The historical proposal was **enabled by default, with README instructions to disable it**.
+
+**Assessed risk:** medium. Validate exact AND/NOT syntax and sniffer interaction for every artifact.
 
 ---
 
-## 3. 实施批次计划（每批一个 PR，独立 §1 联动 + §5 自检 + 版本/CHANGELOG）
+<a id="3-实施批次计划每批一个-pr独立-1-联动--5-自检--版本changelog"></a>
+## 3. Implementation batches (one PR each, independent §1 synchronization, §5 checks, versions/CHANGELOG)
 
-| 批 | 内容 | 风险 | 前置 |
+| Batch | Contents | Assessed risk | Prerequisite |
 |---|------|:---:|------|
-| **A** | #2 + #3 + #5 | 🟢低 | #5 先查 follow-policy 文档 |
-| **B** | #6 过滤关键词 | 🟡中 | 写回归测试 |
-| **C** | #1 QUIC 精细化 | 🟡中 | 逐产物核对 AND/NOT 语法 |
-| **D** | #4 DoH-over-IP bootstrap | 🟡中 | 先核对 sing-box/Xray内核系/v2rayN/Passwall（见 #4 待办）|
+| **A** | #2 + #3 + #5 | 🟢 Low | Review follow-policy documentation for #5 |
+| **B** | #6 filter keywords | 🟡 Medium | Write regressions |
+| **C** | #1 fine-grained QUIC | 🟡 Medium | Check each artifact’s AND/NOT syntax |
+| **D** | #4 DoH-over-IP bootstrap | 🟡 Medium | Check sing-box/Xray-family/v2rayN/Passwall first; see #4 TODO |
 
-每批必须遵守 AGENTS.md：§1 全产物联动、§1.5 同构审计（#6 节点分类）、§2 官方文档核对、§5 自检、§1.3 版本+CHANGELOG。
-
----
-
-## 4. 实施前 TODO（研究未尽项）
-
-1. **#5**：WebFetch mihomo wiki 确认 `direct-nameserver-follow-policy` 字段语义 + 最低版本，更新 REFERENCE。
-2. **#4 sing-box**：WebFetch `/configuration/dns/server/https/`，确认 DoH-over-IP server 写法 + 1.11/1.12 语法差异 + 我们 generator.js 当前输出。
-3. **#4 Xray内核系/v2rayN/Passwall**：核对其 DNS bootstrap 是否支持加密 IP。
-4. **#4 兜底语义**：验证 mihomo default-nameserver 多上游是并发还是顺序（决定明文兜底是否有效）。
-5. **#1**：逐产物核对 AND/NOT 在 独立内核系/Surge/Loon/QX/SR/SingBox 的精确语法。
+Each batch must follow AGENTS.md: §1 all-artifact synchronization, §1.5 equivalence auditing for #6 node classification, §2 official-documentation review, §5 self-checks, and §1.3 versions/CHANGELOG.
 
 ---
 
-## 5. 已完成的前置（本会话 2026-05-30）
+<a id="4-实施前-todo研究未尽项"></a>
+## 4. Pre-implementation TODO (unfinished research)
 
-- ✅ 两份 `REFERENCE-mihomo-wiki.md` 更新：`default-nameserver` 补充"可为加密 DNS"（#4 的文档依据）。
-- ✅ 研究结论：Proxy-override 80% 设计我们已更强；净增量 = 上述 7 项。
+1. **#5:** WebFetch Mihomo wiki to confirm `direct-nameserver-follow-policy` semantics/minimum version and update REFERENCE.
+2. **#4 sing-box:** WebFetch `/configuration/dns/server/https/` to verify DoH-over-IP server syntax, 1.11/1.12 differences, and current generator.js output.
+3. **#4 Xray-family/v2rayN/Passwall:** verify encrypted-IP bootstrap support.
+4. **#4 fallback semantics:** verify whether Mihomo default-nameserver queries multiple upstreams concurrently or sequentially, determining whether plaintext fallback is effective.
+5. **#1:** verify exact AND/NOT syntax for independent-core/Surge/Loon/QX/SR/SingBox artifacts.
+
+---
+
+<a id="5-已完成的前置本会话-2026-05-30"></a>
+## 5. Prerequisites completed in the 2026-05-30 session
+
+- ✅ Two `REFERENCE-mihomo-wiki.md` files updated to state that `default-nameserver` can use encrypted DNS, providing the recorded basis for #4.
+- ✅ Historical research assessment: approximately 80% of Proxy-override’s design was already covered with additional capabilities here; seven incremental candidates were identified above. This is the original design assessment, not a new comparative benchmark.

@@ -1,164 +1,158 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-sing-box-mobile.svg">
-  <img src="../../docs/assets/readme/page-sing-box.svg" alt="SingBox 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-sing-box.svg" alt="SingBox import guide" width="100%">
 </picture>
 
-# SingBox Full 导入指南
+# SingBox Full import guide
 
 <a id="singbox-full-配置"></a>
 
+Complete same-source sing-box configuration with 20 regional groups, 33 service groups and one node selector. Verify core version, replace example nodes, then import.
 
+[![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Verification](../../docs/assets/readme/nav-verify.svg)](#verification)
 
-同源生成的完整 sing-box 配置，包含 20 个区域组、33 个业务组和 1 个节点选择组。先核对内核版本，再替换示例节点并导入。
+[Preparation](#before-start) · [Import](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-[![下载入口](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
-
-[开始前](#before-start) · [分步导入](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [常见问题](#faq) · [进阶参考](#advanced)
-
-> 配置版本：`v6.0.21-sing.12` · Build：2026-10-28 · 规则基线：`rulesets/source/routing-graph.js` v6.0.21。历史见 [CHANGELOG](CHANGELOG.md)。
+> Version: `v6.0.21-sing.12` · Build: 2026-10-28 · Routing baseline: `rulesets/source/routing-graph.js` v6.0.21. See [CHANGELOG](CHANGELOG.md).
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>
 
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete profile remains the default. Optional projections use separate directories; see the shared guide for runtime parameter support.
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+## Preparation: choose a file
 
-## 开始前：选择文件
-
-| 使用环境 | 配置文件 | 内核要求 |
+| Environment | Configuration | Core requirement |
 | --- | --- | --- |
-| 当前稳定版、v2rayN 自定义 sing-box 配置 | [下载 Full JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) | sing-box **1.14.3+**；本次验收 1.14.3 |
-| Hiddify 4.1.1 的 1.13 系列内核、仍使用 1.13 的客户端 | [下载 1.13 兼容 JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) | 官方 sing-box **1.13.14** 已通过检查；Hiddify 自家内核需单独核对 |
+| Current stable / v2rayN custom sing-box configuration | [Full JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) | sing-box **1.14.3+**; checked with 1.14.3 |
+| Hiddify 4.1.1's 1.13-derived core / clients still using 1.13 | [1.13-compatible JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) | Official sing-box **1.13.14** passed checks; Hiddify's own core needs separate verification |
 
-[![下载 sing-box Full JSON](../../docs/assets/readme/button-sing-box-full.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)
-[![下载 sing-box 1.13 JSON](../../docs/assets/readme/button-sing-box-113.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json)
+[![Download Full JSON](../../docs/assets/readme/button-sing-box-full.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)
+[![Download 1.13 JSON](../../docs/assets/readme/button-sing-box-113.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json)
 
-按钮打开 Raw 文件，可复制链接或另存为。两份地址依次为 Full、1.13 兼容版：
+Buttons open raw files. Copy their links or save locally. Full and 1.13-compatible URLs, respectively:
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json
 ```
 
-规则更新需要能访问 GitHub Raw 的网络或可用代理，排查见[规则下载说明](../../docs/rule-asset-delivery.md)。
+Rule updates require GitHub Raw access directly or through a working proxy. See [rule downloads](../../docs/rule-asset-delivery.md).
 
-### 在线选择与本地导入
+### Online selection and local import
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 **sing-box 1.14**（Full JSON 要求 1.14.3+）或 **sing-box 1.13**，再选择 Full、Lite 或 Custom 业务方案及测速、QUIC 参数，下载 JSON。按照下方步骤替换示例节点、检查配置，并从客户端支持的完整自定义配置入口加载。Hiddify 和 HomeProxy 的完整 JSON 保留能力及验收边界见各自章节。
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/). Select **sing-box 1.14** (Full JSON requires 1.14.3+) or **sing-box 1.13** according to the actual core, then Full / Lite / Custom and latency-test/QUIC parameters. Download JSON, replace example nodes, validate it, and load through the client's supported complete custom-configuration entry. See the Hiddify/HomeProxy sections for preservation and acceptance boundaries.
 
-更新时刷新页面，重新选择版本、业务和参数并下载；备份原配置及节点设置后替换同类本地配置，重新核对节点引用和实际加载结果。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+To update, refresh, reselect version/profile/parameters and download. Back up configuration and node settings, replace the matching local configuration, then verify node references and the loaded result. Do not overwrite customized files using the official full-configuration URL. Selection and generation are browser-local and do not read or upload subscriptions or personal configuration.
 
 <a id="import"></a>
 <a id="选择配置与接入节点"></a>
 
-## 分步导入
+## Import steps
 
-1. **确认版本。** 在客户端内核信息中查实际 sing-box 版本，选择上表对应文件并保存到本地。应用版本与内核版本分别核对。
-2. **替换节点。** 编辑 JSON 的 `outbounds`，将 `proxy-hk-1`、`proxy-us-1` 等 `trojan` 示例出站替换为真实节点。节点标签须与区域组引用一致；增加或更名节点时，同步修改相应组的 `outbounds`。示例节点本身不能连接。
-3. **检查配置。** 使用匹配版本的原生核心运行：
+1. **Verify version.** Check the actual sing-box core version inside the client and save the matching file above. Check application and core versions separately.
+2. **Replace nodes.** Edit JSON `outbounds`, replacing `trojan` examples such as `proxy-hk-1` and `proxy-us-1` with real nodes. Tags must match regional-group references. When adding or renaming nodes, update the corresponding group's `outbounds`. Example nodes cannot connect.
+3. **Validate configuration.** Use a matching native core:
 
    ```sh
-   sing-box check -c 配置文件.json
+   sing-box check -c configuration.json
    ```
 
-4. **加载完整配置。** 通过客户端明确支持的完整自定义配置入口加载。Hiddify、v2rayN 和 HomeProxy 的导入差异见下文；普通订阅转换可能只提取节点。
-5. **选择出口并启用。** 确认区域组中有真实节点，业务组指向预期出口，再启动连接。客户端托管 TUN 时，按其完整配置模式调整入站并检查最终配置。
+4. **Load the complete configuration.** Use an entry point explicitly supporting complete custom configurations. Hiddify, v2rayN and HomeProxy differ as below; normal subscription conversion may extract nodes only.
+5. **Select exits and enable.** Confirm real regional members and intended service exits, then connect. When the client manages TUN, adjust inbounds according to its full-configuration mode and inspect the final configuration.
 
-节点不会自动按名称填入区域组；转换订阅后仍需核对标签和引用。
+Nodes are not automatically assigned to regional groups by name. After subscription conversion, still verify tags and references.
 
 <a id="verification"></a>
 
-## 导入验收
+## Import verification
 
-- 最终配置保留 **54 个 selector/urltest、85 个 remote rule-set**。两变体共用相同出站拓扑、98 条路由规则（含 1 条非终结嗅探动作）及规则集 URL。
-- 日志中规则集下载成功，真实节点能够连接；业务规则按源规则顺序匹配，最终兜底为 `🐟 漏网之鱼`。
-- 核对客户端最终生效的 `route`、`dns`、`rule_set`、组引用和 TUN 设置，再按[运行验证清单](../../docs/guide/dns-and-verification.md#verification)检查实际分流。
+- Final configuration retains **54 selector/urltest groups and 85 remote rule-sets**. Both variants share outbound topology, 98 routing rules (including one nonterminal sniff action) and rule-set URLs.
+- Logs show successful rule-set downloads and real nodes connect. Service rules follow source order; the final fallback is `🐟 漏网之鱼`.
+- Check effective `route`, `dns`, `rule_set`, group references and TUN settings, then follow the [runtime checklist](../../docs/guide/dns-and-verification.md#verification) with real traffic.
 
-现有仓库验收覆盖官方 1.14.3 / 1.13.14 `check`、两变体结构与 URL 对比及生成器回归。真实机场连接和各 GUI 的导入仍需在实际设备验收。
+Repository acceptance covers official 1.14.3 / 1.13.14 `check`, both variants' structure/URL comparisons and generator regression tests. Real provider connections and GUI imports still require device acceptance.
 
 ## Hiddify
 
-[Hiddify app 4.1.1](https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1) 构建文件固定 `core.version=4.1.0`，对应源码使用 1.13 系列派生内核，因此优先选择 **1.13 兼容 JSON**。独立 hiddify-core 的新版本不能证明已安装 App 同步升级了内核。
+[Hiddify app 4.1.1](https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1) pins `core.version=4.1.0`; the corresponding source uses a 1.13-derived core. Prefer the **1.13-compatible JSON**. A newer standalone hiddify-core release does not prove the installed application's core was upgraded.
 
-Hiddify 仅在完整配置模式下保留全部输入，普通路径可能只提取节点。导入后核对 `route`、`dns`、`rule_set` 和组引用；依据见[核验报告](../../docs/upstream/2026-10-19/singbox/report.md#hiddify)。
+Hiddify preserves all input only in full-configuration mode; normal paths may extract nodes only. After import inspect `route`, `dns`, `rule_set` and group references. See the [historical review](../../docs/upstream/2026-10-19/singbox/report.md#hiddify).
 
-本次通过的是官方 sing-box 1.13.14 的配置检查，尚未在 Hiddify 4.1.1 App 内进行完整配置导入和连接验收。
+The passed check used official sing-box 1.13.14, not full-configuration import and connection acceptance inside Hiddify 4.1.1.
 
 ## v2rayN
 
-使用**自定义配置服务器**加载对应 JSON，并核对所用 sing-box 核心版本。v2rayN 7.25.6 声明支持并限制在 sing-box 1.14 系列；1.15 alpha 不在该版本支持范围。[官方发布说明](https://github.com/2dust/v2rayN/releases/tag/7.25.6)
+Load the matching JSON through a **custom configuration server** and check the actual sing-box version. v2rayN 7.25.6 declares support limited to sing-box 1.14; 1.15 alpha is outside that release's supported range. [Official release notes](https://github.com/2dust/v2rayN/releases/tag/7.25.6)
 
-选择 Xray 核心时使用本仓库 [v2rayN Xray 路由](../../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)。Xray 原生路由不能直接消费 sing-box `.srs`。
+For the Xray core, use this repository's [v2rayN Xray routing](../../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md). Native Xray routing cannot directly consume sing-box `.srs`.
 
 ## HomeProxy
 
-[HomeProxy](https://github.com/immortalwrt/homeproxy) 从节点订阅和 UCI 重建配置，不能据此保证导入 Full JSON 后保留全部规则和组。
+[HomeProxy](https://github.com/immortalwrt/homeproxy) rebuilds configuration from subscriptions and UCI. This does not guarantee Full JSON import preserves every rule and group.
 
-尚无经验证的 Full JSON → HomeProxy UCI 转换器。请通过其 UI 配置节点、DNS、分流与 rule-set，再检查生成结果；直接运行原生 JSON 则需自行管理服务与防火墙。
+No verified Full JSON → HomeProxy UCI converter exists here. Configure nodes, DNS, routing and rule-sets through its UI, then inspect generated output. Running native JSON directly requires managing the service and firewall yourself.
 
-Passwall / Passwall2 都支持 sing-box 与 Xray 后端，使用各自目录的受控脚本；本仓库 fused `.srs` 路径要求实际分流后端为 sing-box。
+Passwall / Passwall2 support sing-box and Xray backends. Use controlled scripts in their respective directories; this repository's fused `.srs` path requires the actual shunt backend to be sing-box.
 
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-**导入后为什么只有节点？** 该入口可能将完整配置转成订阅模型。先确认完整配置模式，再读回路由、DNS 和组引用。Karing 请使用[原生分流适配教程](../Karing/README.md)。
+**Why are only nodes left after import?** That entry may convert a complete configuration into a subscription model. Confirm full-configuration mode, then read back routing, DNS and group references. For Karing, use the [native routing adapter guide](../Karing/README.md).
 
-**有备用 DNS 就会自动切换吗？** `dns_direct2` / `dns_proxy2` 是预留服务器，存在备用项不代表内核自动故障切换，详见下方 DNS 说明。
+**Does a secondary DNS server automatically fail over?** `dns_direct2` / `dns_proxy2` are reserved servers. Their existence does not imply automatic core failover; see below.
 
-**规则下载失败怎么办？** 先确认真实节点可用、规则下载出口可连接，再检查[规则下载说明](../../docs/rule-asset-delivery.md)；保存下载错误和最终配置有助于定位问题。
+**Rule downloads fail?** Confirm real nodes and the rule-download exit work, then consult [rule downloads](../../docs/rule-asset-delivery.md). Keep download errors and final configuration for diagnosis.
 
 <a id="advanced"></a>
 
-## 进阶参考
+## Advanced reference
 
 <details>
+<summary>DNS, rule downloads and sniffing</summary>
 
-<summary>DNS、规则下载与嗅探</summary>
+### DNS, rule downloads and sniffing
 
-### DNS、规则下载与嗅探
+Both configurations use typed DNS servers: `type: https`, `server`, `path` and `domain_resolver`. IP-bootstrapped DoH retains certificate SNI. China-domain resolution uses `DIRECT`; proxy resolution uses `🚀 节点选择`. Reserved `dns_direct2` / `dns_proxy2` do not imply automatic failover.
 
-两份配置都使用 typed DNS server：`type: https`、`server`、`path` 和 `domain_resolver`。IP 自举 DoH 保留证书 SNI；国内解析经 `DIRECT`，代理解析经 `🚀 节点选择`。`dns_direct2` / `dns_proxy2` 是预留服务器，存在备用项不代表内核会自动故障切换。
+Full uses 1.14 named `http_clients` for rule-set downloads and handles CN IP results explicitly with `evaluate` / `match_response` / `respond`. The 1.13-compatible file uses that stable series' `download_detour` and DNS GeoIP acceptance filtering. Both send rule downloads through `🌍 全球节点`.
 
-Full 使用 1.14 的命名 `http_clients` 下载规则集，通过 `evaluate` / `match_response` / `respond` 显式处理 CN IP 解析结果。1.13 兼容文件使用该稳定系列支持的 `download_detour` 与 DNS GeoIP 接受过滤。两者均将规则下载交给 `🌍 全球节点`。
+TUN uses `172.19.0.1/30`, `auto_route` and `strict_route`. Sniffing uses nonterminal `action: sniff`. For client-managed TUN, adjust inbounds according to full-configuration mode and inspect effective configuration.
 
-TUN 使用 `172.19.0.1/30`、`auto_route` 和 `strict_route`。嗅探通过非终结 `action: sniff` 执行。客户端托管 TUN 时，应按其完整配置模式的规则调整入站并核对最终配置。
+Sniffing assists SNI/Host matches but cannot restore the old `sniff_override_destination=true` dynamic destination rewriting: IP destinations still dial the original IP. `route-options.override_address` supports fixed addresses only. See [migration boundary](../../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界).
 
-嗅探可辅助 SNI/Host 匹配，但不能恢复旧 `sniff_override_destination=true` 的动态目的地址重写：IP 目的仍拨原 IP。`route-options.override_address` 只支持固定地址。源码与影响见[迁移边界](../../docs/upstream/2026-10-19/singbox/report.md#嗅探迁移的行为边界)。
-
-官方依据：[DNS HTTPS server](https://sing-box.sagernet.org/configuration/dns/server/https/)、[rule-set](https://sing-box.sagernet.org/configuration/rule-set/)、[迁移说明](https://sing-box.sagernet.org/migration/)。
+Official references: [DNS HTTPS server](https://sing-box.sagernet.org/configuration/dns/server/https/), [rule-set](https://sing-box.sagernet.org/configuration/rule-set/), [migration](https://sing-box.sagernet.org/migration/).
 
 </details>
 
 <details>
+<summary>Other clients and verification boundaries</summary>
 
-<summary>其他客户端与验证边界</summary>
+### Other clients and verification boundaries
 
-### 其他客户端与验证边界
+SagerNet's official 1.14.3 assets include matching SFA APK, SFM installer and jailbroken SFI deb. Separate Android/Apple source repositories have no independent releases. Official requirements are Android 5.0+ (older versions need matching legacy builds), iOS 15+ / macOS 13+ / tvOS 17+. Verify actual Play Store / App Store / TestFlight versions in the relevant channel; GitHub core versions do not establish them. [Android documentation](https://sing-box.sagernet.org/clients/android/) · [Apple documentation](https://sing-box.sagernet.org/clients/apple/)
 
-SagerNet 的 1.14.3 官方发布资产包含同版本 SFA APK、SFM 安装包及越狱版 SFI deb；独立 Android/Apple 源码仓库没有自己的 release。官网门槛为 Android 5.0+（低版本需对应 legacy 构建）、iOS 15+ / macOS 13+ / tvOS 17+。Play Store / App Store / TestFlight 的实际版本仍需在所用渠道核对，不能由 GitHub 核心版本直接推定。[Android 官方说明](https://sing-box.sagernet.org/clients/android/)、[Apple 官方说明](https://sing-box.sagernet.org/clients/apple/)
-
-完整配置仍需满足实际内核版本与导入条件。Karing、NekoBox 等应用的转换、覆盖和 UI 行为未在本次验证，不能仅凭采用 sing-box 内核认定完整 JSON 可原样导入。
+Complete configurations must still match actual core version and import conditions. Karing, NekoBox and other applications' conversion, overrides and UI behavior were not verified in this review. Using sing-box does not prove unchanged full-JSON import works.
 
 </details>
 
 <details>
+<summary>Maintenance and generation</summary>
 
-<summary>维护与生成</summary>
-
-### 维护与生成
+### Maintenance and generation
 
 ```bash
 node "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js"
 node --test tools/tests/singbox-current-schema.test.js
 ```
 
-禁止手工修改两个生成 JSON。规则仍从 `rulesets/source/routing-graph.js` 经融合链路进入生成器；完整维护契约见根 [AGENTS.md](../../AGENTS.md)。
+Do not hand-edit either generated JSON. Rules flow from `rulesets/source/routing-graph.js` through the fusion pipeline into the generator. See root [AGENTS.md (Chinese source)](../../AGENTS.md) for the maintenance contract.
 
-Claude Desktop 网络依赖见[依赖台账](../../docs/claude-service-dependencies.md)，微信精确域名处理见[连接排障](../../docs/research/2026-10-16-wechat-issue-187.md)。
-
-
+See [Claude Desktop dependencies](../../docs/claude-service-dependencies.md) and [WeChat exact-domain troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md).
 
 </details>
 
-<sub>💖 [支持本项目](../../docs/donate.md) · ⭐ [Star](https://github.com/IvanSolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)</sub>
+<sub>💖 [Support the project](../../docs/donate.md) · ⭐ [Star](https://github.com/IvanSolis1989/Smart-Config-Kit) · 🐛 [Issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)</sub>

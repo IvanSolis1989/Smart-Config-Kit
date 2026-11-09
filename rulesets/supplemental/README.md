@@ -1,6 +1,8 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-rules-source-mobile.svg">
-  <img src="../../docs/assets/readme/page-rules-source.svg" alt="补充规则集：按客户端语法维护的仓库规则与有界例外" width="100%">
+  <img src="../../docs/assets/readme/page-rules-source.svg" alt="Supplemental rule sets and bounded exceptions by client syntax" width="100%">
 </picture>
 
 # Supplemental Rule Sets
@@ -8,9 +10,9 @@
 This directory contains small repository-owned rule sets for manual overrides
 that should not stay as scattered inline rules in product profiles.
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![配置下载](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md)
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md)
 
-文档中心：[docs/README.md](../../docs/README.md) · 配置下载：[downloads.md](../../docs/guide/downloads.md)
+Documentation：[docs/README.md](../../docs/README.md) · Downloads：[downloads.md](../../docs/guide/downloads.md)
 
 - `clash/`: Clash classical syntax. Used by Mihomo, CMFA, OpenClash, Stash,
   Shadowrocket, Surge, Loon, and the SingBox generator expansion path.

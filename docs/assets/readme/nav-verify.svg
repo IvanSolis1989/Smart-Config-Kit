@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="145" height="38" viewBox="0 0 145 38" role="img" aria-labelledby="title desc">
-<title id="title">导入后验收</title><desc id="desc">打开导入后验收</desc>
+<title id="title">Validation</title><desc id="desc">Open Validation</desc>
 <defs>
  <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
  <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
@@ -14,5 +14,5 @@
     <rect x="1" y="1" width="143" height="36" rx="11" fill="url(#nav)" stroke="#9ecfc9"/>
     <path d="M12 2H133" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
     <path d="M7 19L11 23L19 14" fill="none" stroke="#147e7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(7 0)"/>
-    <text x="39" y="24" font-size="14" font-weight="600" fill="#18324f" >导入后验收</text>
+    <text x="39" y="24" font-size="14" font-weight="600" fill="#18324f" >Validation</text>
 </g></svg>

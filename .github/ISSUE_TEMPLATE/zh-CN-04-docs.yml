@@ -1,0 +1,46 @@
+{
+  "name": "中文 / 文档问题",
+  "description": "反馈过时步骤、歧义说明或失效链接。",
+  "title": "[Docs] ",
+  "labels": [
+    "documentation"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "自动化可能辅助分析或提出修复，但不保证判断正确或问题已解决。回复跟随问题正文的语言，不受文档默认语言影响。请先脱敏订阅链接、凭据和私密日志；当前流程见 docs/ai-issue-responder.md。"
+      }
+    },
+    {
+      "type": "input",
+      "id": "location",
+      "attributes": {
+        "label": "文档位置",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "issue",
+      "attributes": {
+        "label": "问题描述",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "suggest",
+      "attributes": {
+        "label": "建议修正",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    }
+  ]
+}

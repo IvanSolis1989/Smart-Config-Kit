@@ -150,7 +150,7 @@ jobs:
             exit 0
           fi
           git diff --cached --check
-          git commit -m "定时同步全量融合规则集"
+          git commit -m "chore: synchronize fused rule sets"
           node tools/validate-release-batch.js --check --receipt "$RUNNER_TEMP/release-batch.json" --mode committed --baseline-ref "$SCKI_RELEASE_BASE"
           git fetch origin main
           if [ "$(git rev-parse origin/main)" != "$SCKI_RELEASE_BASE" ]; then

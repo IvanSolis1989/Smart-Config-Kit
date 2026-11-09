@@ -1,143 +1,163 @@
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-traffic-options-mobile.svg">
-  <img src="assets/readme/page-traffic-options.svg" width="100%" alt="技术指南">
+  <img src="assets/readme/page-traffic-options.svg" width="100%" alt="Technical guide">
 </picture>
 
-# 测速与 QUIC 策略选项
+<a id="测速与-quic-策略选项"></a>
+# Health-check and QUIC policy options
 
-选择客户端支持的节点健康检查频率与海外 QUIC 行为，下载配置后在客户端读回实际结果。
+**English** | [简体中文](traffic-options.zh-CN.md)
+
+Choose supported node health-check intervals and handling of non-China QUIC traffic, then inspect the effective configuration in your client.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Checks and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
+The [unified configuration entry](configuration.md) provides an offline form and device-local JS updates, preserving health-check, QUIC, multiplier, and node-DNS choices together.
 
-[统一参数入口](configuration.md)提供离线表单及设备本地 JS 更新，可同时保存测速、QUIC、倍率和节点 DNS 选择。
+<a id="使用入口"></a>
+## Entry points
 
-## 使用入口
+1. Download and open the [offline form](configuration.html), then select a client and service profile.
+2. Adjust the health-check and QUIC options available for that client, download the configuration, and import or load it.
+3. Read back the effective configuration. On the same network, node, and application, inspect TCP/443, UDP/443, and rule-match logs.
 
-1. 下载并打开[离线表单](configuration.html)，选择客户端和业务方案。
-2. 按该客户端提供的选项调整健康检查和 QUIC，下载配置并导入或加载。
-3. 在客户端读回实际配置，并在同一网络、节点和应用上检查 TCP/443、UDP/443 与命中日志。
+The repository provides two independent options: node health-check frequency and handling of non-China QUIC traffic. They change only test timing or preliminary UDP/443 handling. Actual results still require validation with the client, node, and destination website.
 
-本仓库提供两个彼此独立的选项：节点健康检查频率与海外 QUIC 的处理方式。它们只改变测速时机或 UDP/443 的前置处理；最终仍需由实际客户端、节点和目标网站共同验证效果。
+<a id="维护者生成"></a>
+## Maintainer generation
 
-## 维护者生成
-
-在仓库根目录运行：
+Run from the repository root:
 
 ```bash
-# 查看这次选择将修改哪些受管产物
+# Preview which managed outputs this choice will change.
 node tools/configure-traffic-options.js --health-check power-save --quic follow-rules --dry-run
 
-# 保存选择并同步客户端产物
+# Save the choice and synchronize client outputs.
 node tools/configure-traffic-options.js --health-check power-save --quic follow-rules
 ```
 
-选择写入 `rulesets/source/traffic-options.json`，供后续生成过程复用。两个参数可独立指定：`--health-check` 取 `standard`（默认）或 `power-save`，`--quic` 取 `block-foreign`（默认）或 `follow-rules`。恢复默认可运行：
+The first command previews affected managed outputs; the second saves the choice and synchronizes them. Choices are stored in `rulesets/source/traffic-options.json` for subsequent generation. Specify either parameter independently: `--health-check` accepts `standard` (default) or `power-save`; `--quic` accepts `block-foreign` (default) or `follow-rules`. Restore defaults with:
 
 ```bash
 node tools/configure-traffic-options.js --health-check standard --quic block-foreign
 ```
 
-指定 `--target <已有本地.js>` 时只更新该设备的 JS 文件；`--source <新JS>` 更新源码，`--preserve-local` 保留该设备的测速/QUIC，ZeroTier 的明确布尔值始终默认保留。
+With `--target <existing-local.js>`, only that device’s JS file is updated. `--source <new-JS>` updates source code; `--preserve-local` retains device-specific health-check/QUIC choices. An explicit ZeroTier boolean is always retained by default.
 
-设备级启用/关闭与安全更新命令见 [ZeroTier 本地代理选项](zerotier-planet-proxy.md)。
+See [ZeroTier local proxy options](zerotier-planet-proxy.md) for device-level enable/disable and safe-update commands.
 
-JS 运行时同步器保留各文件原有的 LF/CRLF 和标记块后的换行；已同步文件再次生成时内容不变。可运行 `node tools/sync-traffic-options.js --check`，按完整字节内容检查共享 runtime 与三份 JS 是否一致。
+The JS runtime synchronizer preserves each file’s LF/CRLF format and the newline after the marked block. Regenerating a synchronized file leaves its contents unchanged. Run `node tools/sync-traffic-options.js --check` to compare the shared runtime and three JS copies byte for byte.
 
-这个命令只切换测速与 QUIC 选项，并复用已发布的 fused 规则资产；复用前会核对源图及资产内容的 SHA 绑定，不从可变的 Geo 缓存或上游重新抓取规则。Egern 另用随仓库保存的压缩原生资产快照：默认档复用原资产字节，`follow-rules` 只按冻结的 fused/Mihomo 资产重算受影响的域名部分，同时保留非域名部分。
+This command switches only health-check and QUIC options and reuses published fused assets. Before reuse, it verifies SHA bindings for the source graph and asset content; it does not fetch rules from mutable Geo caches or upstreams. Egern also uses the compressed native-asset snapshot stored in the repository: the default profile reuses original bytes, while `follow-rules` recalculates only affected domain portions from frozen fused/Mihomo assets and preserves non-domain portions.
 
-若同时修改了上游规则源、规则顺序或规则集内容，仍需按仓库生成链完整执行 MRS 同步、fused 编译与各端产物生成，不能用此选项命令代替。
+If upstream sources, rule order, or rule-set content also change, run the full MRS synchronization, fused compilation, and client generation chain. This option command is not a substitute.
 
-完整刷新时，按仓库 `AGENTS.md` 顺序执行 MRS 同步、fused 编译及各端生成；Egern 使用不带 `--reuse-assets` 的 `node tools/generate-egern-from-cmfa.js`。
+For a full refresh, follow the order in `AGENTS.md`: MRS synchronization, fused compilation, then client generation. Generate Egern with `node tools/generate-egern-from-cmfa.js` without `--reuse-assets`.
 
-完整生成器无论当前 QUIC 选项为何，都会先更新可复用的 `block-foreign` 中立快照，再按当前选项输出 Egern 规则。后续仅切换选项时才用 `--reuse-assets`；无需先手动切回 `block-foreign`。
+Regardless of the selected QUIC option, the full generator first refreshes the reusable neutral `block-foreign` snapshot, then emits Egern rules for the current option. Use `--reuse-assets` only for subsequent option-only changes. There is no need to switch manually back to `block-foreign` first.
 
-Clash Party Smart/Normal 与 FlClash 的 JS 覆写可分别修改文件顶部的 `const SCKI_HEALTH_CHECK_PROFILE`、`const SCKI_QUIC_POLICY`，然后在客户端重新加载脚本；这些 JS 脚本不读取系统环境变量。
+For Clash Party Smart/Normal and FlClash JS overrides, edit the top-level `const SCKI_HEALTH_CHECK_PROFILE` and `const SCKI_QUIC_POLICY`, then reload the script in the client. These JS scripts do not read system environment variables.
 
-OpenClash Smart/Normal 的 shell 脚本可在运行环境用 `SCKI_HEALTH_CHECK_PROFILE=standard|power-save`、`SCKI_QUIC_POLICY=block-foreign|follow-rules` 覆盖构建默认值，变量须由启动脚本的进程继承。
+OpenClash Smart/Normal shell scripts can override build defaults with `SCKI_HEALTH_CHECK_PROFILE=standard|power-save` and `SCKI_QUIC_POLICY=block-foreign|follow-rules`. The process launching the script must pass those environment variables.
 
-静态 YAML/CONF/JSON 文件可通过离线表单下载后重新导入。导入后检查客户端实际加载的配置和命中日志，避免仍在使用旧缓存。
+Download static YAML/CONF/JSON files through the offline form and reimport them. Inspect the client’s loaded configuration and match logs to avoid testing stale cached settings.
 
-## 节点健康检查
+<a id="节点健康检查"></a>
+## Node health checks
 
-`standard` 是默认档：Mihomo 与 Stash 中支持该字段的测速组维持 300 秒，并启用 `lazy: true`。这样未选用的组可跳过后台测速，同时保留使用中组的原有检查间隔。`power-save` 仅将这些支持原生 `lazy` 的组延长到 900 秒，继续使用 `lazy: true`。
+`standard` is the default: supported Mihomo and Stash test groups retain a 300-second interval and `lazy: true`. Unselected groups can skip background tests while active groups retain their normal interval. `power-save` extends those groups with native `lazy` support to 900 seconds, retaining `lazy: true`.
 
-间隔变长可能让故障节点被发现得更晚；首次选择或切换到久未使用的地区时，测速结果也可能较旧。尚无本仓库设备实测的省电幅度。
+Longer intervals may delay detection of failed nodes. Results may also be older when first selecting a region or returning to one that has not been used recently. The repository has no device-measured battery-saving result.
 
-### Clash Party Smart/Normal、FlClash、CMFA、OpenClash Smart/Normal
+<a id="clash-party-smartnormalflclashcmfaopenclash-smartnormal"></a>
+### Clash Party Smart/Normal, FlClash, CMFA, OpenClash Smart/Normal
 
-- **`standard` / `power-save` 的实现**：Mihomo 可测速组分别为 `interval: 300` / `900`，两档均设 `lazy: true`；`lazy` 在组未被选择时跳过测试。Smart 组的实际选路还取决于 Smart 内核。CMFA 静态 YAML 中 `Subscribe` 代理集合的 `health-check.interval` 也分别为 300 / 900 秒并启用 `lazy`。JS 和 OpenClash 会展开/重建订阅节点，因此不对已消失的原始 provider 增添字段。
+- **`standard` / `power-save`**: test-capable Mihomo groups use `interval: 300` / `900`, both with `lazy: true`. Lazy testing skips unselected groups; actual Smart-group selection also depends on the Smart core. In CMFA static YAML, the `Subscribe` provider’s `health-check.interval` is also 300 / 900 seconds with `lazy` enabled. JS and OpenClash expand/rebuild subscription nodes, so they do not add fields to original providers that no longer exist.
 
+<a id="stash"></a>
 ### Stash
 
-- **`standard` / `power-save` 的实现**：支持的策略组分别使用 `interval: 300` / `900`，两档均设 `lazy: true`。
+- **`standard` / `power-save`**: supported policy groups use `interval: 300` / `900`, both with `lazy: true`.
 
+<a id="surge"></a>
 ### Surge
 
-- **`standard` / `power-save` 的实现**：两档测速间隔分别为 300 / 900 秒；网络变化仍可能触发复测。本次不添加 Mihomo 的 `lazy` 字段。
+- **`standard` / `power-save`**: test intervals are 300 / 900 seconds. Network changes may still trigger retesting. This revision does not add Mihomo’s `lazy` field.
 
-### Shadowrocket、Loon
+<a id="shadowrocketloon"></a>
+### Shadowrocket, Loon
 
-- **`standard` / `power-save` 的实现**：两档测速间隔分别为 300 / 900 秒；两端没有本次采用的原生 `lazy` 字段。
+- **`standard` / `power-save`**: test intervals are 300 / 900 seconds. Neither client uses a native `lazy` field in this implementation.
 
+<a id="quantumult-x"></a>
 ### Quantumult X
 
-- **`standard` / `power-save` 的实现**：两档分别设置 `alive-checking: true` / `false`；不将 Mihomo `lazy` 字段移植到 QX。
+- **`standard` / `power-save`**: `alive-checking: true` / `false`. Mihomo’s `lazy` field is not transplanted into QX.
 
+<a id="sing-box"></a>
 ### sing-box
 
-- **`standard` / `power-save` 的实现**：两档 `urltest.interval` 分别为 5 / 15 分钟；`idle_timeout` 是空闲超时，不等于 Mihomo `lazy`。
+- **`standard` / `power-save`**: `urltest.interval` is 5 / 15 minutes. `idle_timeout` is an idle timeout, not Mihomo’s `lazy` behavior.
 
+<a id="egern"></a>
 ### Egern
 
-- **`standard` / `power-save` 的实现**：两档均保留当前原生 `smart` 组的自适应探测。官方 `interval` 适用于 `auto_test`，因此不强行改变组类型。仅因 CMFA 源元数据更新而重新生成时，Egern 的生成清单哈希会刷新。
+- **`standard` / `power-save`**: both retain the current native `smart` group’s adaptive probing. The official `interval` field applies to `auto_test`, so the group type is not forcibly changed. Regeneration caused only by CMFA source metadata updates refreshes Egern manifest hashes.
 
-### v2rayN Xray 路由 JSON、Passwall/Passwall2 shunt 产物
+<a id="v2rayn-xray-路由-jsonpasswallpasswall2-shunt-产物"></a>
+### v2rayN Xray routing JSON and Passwall/Passwall2 shunt outputs
 
-- **`standard` / `power-save` 的实现**：这些产物只描述路由或分流规则，节点测速由客户端其他设置管理。
+- **`standard` / `power-save`**: these outputs describe only routing/shunt rules; other client settings manage node testing.
 
-字段依据：[Mihomo 代理组 `interval`/`lazy`](https://wiki.metacubex.one/config/proxy-groups/)、[Stash 定时测速](https://stash.wiki/en/proxy-protocols/proxy-groups)、[Surge 自动测速组](https://manual.nssurge.com/policy-groups/url-test.html)、[sing-box URLTest](https://sing-box.sagernet.org/configuration/outbound/urltest/)、[Egern 策略组](https://egernapp.com/docs/configuration/policy_groups/)、[Quantumult X 官方示例](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)。
+Field references: [Mihomo group `interval`/`lazy`](https://wiki.metacubex.one/config/proxy-groups/), [Stash scheduled tests](https://stash.wiki/en/proxy-protocols/proxy-groups), [Surge URL-test groups](https://manual.nssurge.com/policy-groups/url-test.html), [sing-box URLTest](https://sing-box.sagernet.org/configuration/outbound/urltest/), [Egern policy groups](https://egernapp.com/docs/configuration/policy_groups/), and [Quantumult X official example](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf).
 
-各客户端还有自身的后台限制、应用休眠与手动测速行为，不能仅凭字段推断电量收益。
+Clients also impose background restrictions, app suspension, and manual-test behavior. Configuration fields alone do not establish battery savings.
 
-## 海外 UDP/443 与 QUIC
+<a id="海外-udp443-与-quic"></a>
+## Non-China UDP/443 and QUIC
 
-`block-foreign` 以源规则图的原有四项服务例外加非国内 UDP/443 拒绝为基准；`follow-rules` 去掉这条专用拒绝，让 UDP/443 进入后续正常业务规则。它并不保证目标网站一定使用 HTTP/3，也不改变节点本身的 UDP 能力。
+`block-foreign` retains the source graph’s four existing service exceptions followed by rejection of non-China UDP/443. `follow-rules` removes that dedicated rejection so UDP/443 proceeds through normal service rules. It does not guarantee HTTP/3 use by a website or alter a node’s UDP capability.
 
-受客户端语法所限，各端的 `block-foreign` 并非都能精确表达源规则图的地址与端口组合。
+Client syntax limits mean not every `block-foreign` implementation can express the source graph’s exact address-and-port combination.
 
-各平台的 `block-foreign` 实际边界，以及切到 `follow-rules` 后的处理如下。
+The following sections describe each platform’s actual scope and the effect of `follow-rules`.
 
-### Mihomo、Stash、sing-box、Egern
+<a id="mihomostashsing-boxegern"></a>
+### Mihomo, Stash, sing-box, Egern
 
-在其支持的规则语法内保留前置 UDP/443 处理；切换后移除专用拒绝规则。
+Retain preliminary UDP/443 handling within each platform’s supported syntax. Switching removes the dedicated rejection rule.
 
-### Shadowrocket、Surge
+<a id="shadowrocketsurge"></a>
+### Shadowrocket, Surge
 
-旧配置使用 `block-quic = all-proxy` 引擎开关，无法表达四项服务例外和“非国内”条件，因此旧行为覆盖面比源规则图更宽；`follow-rules` 需取消受管的全局拦截。
+The previous configuration used the engine switch `block-quic = all-proxy`, which cannot express the four service exceptions or the non-China condition. Its scope is therefore broader than the source graph. `follow-rules` removes this managed global block.
 
+<a id="loon"></a>
 ### Loon
 
-旧配置的 `disable-udp-ports = 443` 禁用全部 UDP/443，包含国内地址和四项服务例外；`follow-rules` 需移除这一受管限制。
+The previous `disable-udp-ports = 443` setting disables all UDP/443, including China-classified addresses and the four service exceptions. `follow-rules` removes this managed restriction.
 
+<a id="quantumult-x"></a>
 ### Quantumult X
 
-两档都保留 `fallback_udp_policy=reject`：它只在所选节点不支持 UDP 时拒绝能力回退，不按目的地址和 UDP/443 执行源图的条件拒绝；因此不能声称与源图等价。
+Both modes retain `fallback_udp_policy=reject`. This rejects capability fallback only when the selected node lacks UDP support; it does not implement the source graph’s destination-address and UDP/443 condition. It must not be described as equivalent.
 
-### Passwall、Passwall2
+<a id="passwallpasswall2"></a>
+### Passwall, Passwall2
 
-本仓库产物是 shunt 规则集与应用脚本，没有独立的端口检查器；实际 UDP 能力还取决于 LuCI 设置及所选核心。
+Repository outputs are shunt rule sets and application scripts, without a separate port checker. Actual UDP support also depends on LuCI settings and the selected core.
 
+<a id="v2rayn-xray"></a>
 ### v2rayN Xray
 
-仅提供路由规则，实际流量捕获与 UDP 能力取决于 Xray内核系/v2rayN/Xray 配置。
+Only routing rules are supplied. Actual traffic capture and UDP capability depend on the Xray configuration under `Xray内核系/v2rayN`.
 
-两种模式都可能改变访问体验。拒绝海外 UDP/443 可能让应用回退到 TCP；放行后，无法承载 UDP 的节点可能出现超时，或使应用走到与 TCP 不同的连接路径。尤其在上述降级平台，以具体客户端的连接日志判断实际命中，不能推断 14 端精确等价。
+Either mode can change application behavior. Blocking non-China UDP/443 may cause TCP fallback. Allowing it through a node without UDP support can cause timeouts or a connection path different from TCP. Especially on the reduced-capability platforms above, use actual client connection logs rather than assuming exact equivalence across all 14 clients.
 
-切换后，在同一网络、同一节点和同一目标应用上分别观察 TCP/443 与 UDP/443 的连接和规则命中，并记录失败或回退路径。目前没有设备对照结果，不能把这项选项描述为已修复某个应用的历史故障。
+After switching, compare TCP/443 and UDP/443 connections and rule matches on the same network, node, and application; record failures or fallback paths. There are currently no controlled device comparisons, so this option cannot be described as having fixed a historical application fault.

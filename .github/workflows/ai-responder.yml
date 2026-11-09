@@ -437,7 +437,7 @@ jobs:
           else
             echo "⚠️ modified_files.txt 为空，跳过 git add"
           fi
-          git commit -m "$PR_TITLE" || { echo "⚠️ 没有变更需要提交"; git checkout - 2>/dev/null || true; echo "pr_url=" >> "$GITHUB_OUTPUT"; exit 0; }
+          git commit -m "[agent: mimo] fix(#${ISSUE_NUMBER}): apply proposed issue changes" || { echo "⚠️ 没有变更需要提交"; git checkout - 2>/dev/null || true; echo "pr_url=" >> "$GITHUB_OUTPUT"; exit 0; }
           git push origin "$BRANCH" 2>&1 || { echo "⚠️ Push 失败"; git checkout - 2>/dev/null || true; echo "pr_url=" >> "$GITHUB_OUTPUT"; exit 0; }
 
           # ── 创建 PR ────────────────────────────────────────

@@ -1,124 +1,123 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-quantumult-x-mobile.svg">
-  <img src="../../docs/assets/readme/page-quantumult-x.svg" alt="Quantumult X 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-quantumult-x.svg" alt="Quantumult X import guide" width="100%">
 </picture>
 
-# Quantumult X 使用教程
+# Quantumult X guide
 
-QX 原生分流教程：导入配置，填写节点订阅，再检查 policy 与 filter_remote。资源解析器只转换格式，不能扩展核心协议能力。
+Import native QX routing configuration, enter your node subscription, then check policy and filter_remote. A resource parser converts formats; it cannot extend core protocol support.
 
-[![下载目录](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入步骤](../../docs/assets/readme/nav-tutorial.svg)](#import) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
+[![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Import steps](../../docs/assets/readme/nav-tutorial.svg)](#import) [![Verification](../../docs/assets/readme/nav-verify.svg)](#verification)
 
-[开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
+[Preparation](#before-start) · [Download](#download) · [Import](#import) · [Settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Reference](#reference)
 
-> 配置：`QuantumultX.conf` · **v6.0.21-QX.14**（Build 2026-11-07）
-> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.21 分流基线。
+> File: `QuantumultX.conf` · **v6.0.21-QX.14** (Build 2026-11-07)
+> 22 regional groups (11 all-node + 11 residential) and 33 service groups, following the Clash Party v6.0.21 routing baseline.
 
 <a id="before-start"></a>
 
+## Before you start
 
-## 开始前
+Prepare Quantumult X, your provider subscription URL and the configuration URL below. As checked on 2026-10-19, official stable 1.8.1 requires iOS 15+. Check other device compatibility in the [official store](https://apps.apple.com/us/app/quantumult-x/id1443988620).
 
-准备 Quantumult X、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 1.8.1 要求 iOS 15+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/quantumult-x/id1443988620)为准。
-
-- 从 [App Store](https://apps.apple.com/app/quantumult-x/id1443988620)安装，首次连接需允许添加 VPN 配置。
-- `[server_remote]` / `[server_local]` 分别填写订阅 / 手动节点，本模板没有可用节点。
-- `[policy]` 定义策略；`[filter_remote]` / `[filter_local]` 是远程 / 本地规则。
-- QX 不提供 Mihomo Smart / LightGBM。
+- Install from the [App Store](https://apps.apple.com/app/quantumult-x/id1443988620). The first connection requires permission to add a VPN configuration.
+- Enter subscriptions / manual nodes under `[server_remote]` / `[server_local]`. The template contains no working nodes.
+- `[policy]` defines policies; `[filter_remote]` / `[filter_local]` define remote / local rules.
+- QX does not provide Mihomo Smart / LightGBM.
 
 <a id="download"></a>
 
-## 获取配置
+## Download
 
-[![下载 Quantumult X CONF](../../docs/assets/readme/button-quantumult-x-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
+[![Download Quantumult X CONF](../../docs/assets/readme/button-quantumult-x-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+The button opens the raw file. Right-click to copy its URL, or save it locally.
 
-**Quantumult X CONF 直链：**
+**Direct Quantumult X CONF URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf
 ```
 
-复制配置直链，按下文导入并接入节点订阅。
+Copy the URL, import below, and add your subscription. Configuration downloads and remote-rule updates require GitHub Raw access; see [download troubleshooting](../../docs/rule-asset-delivery.md). Keep a backup of local customizations because remote updates can overwrite them.
 
-配置下载和远程规则更新需要访问 GitHub Raw；失败时参见[下载排错](../../docs/rule-asset-delivery.md)。本地定制先保留副本，远程更新可能覆盖修改。
+### Online selection and local import
 
-### 在线选择与本地导入
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), select **Quantumult X**, Full / Lite / Custom, and optional latency-test parameters. This client has no QUIC switch, runtime node DNS or multiplier adaptation.
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Quantumult X** 和 Full、Lite 或 Custom 业务方案，可按需设置测速；此端不提供 QUIC 开关，也不提供运行时节点 DNS 或倍率适配。
+After downloading `.conf`, fill `[server_remote]` or manual nodes as below. You may privately host the copy over HTTPS and use **Settings → Configuration → Download configuration** to fetch and apply it.
 
-下载 `.conf` 后，按下文填写 `[server_remote]` 或手动节点；可将副本放到自己的 HTTPS 地址，使用下方 **设置 → 配置 → 下载配置** 入口下载并应用。
-
-Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线。更新时刷新在线页面，重新选择相同业务方案和参数并下载；先备份已有配置及节点定制，再按上述方式替换或重新导入。不要用本仓库完整配置直链刷新覆盖定制文件。选择和生成在本机完成，不读取或上传订阅和个人配置。含订阅地址的配置应妥善保管，托管时避免公开暴露。详见[在线配置指南](../../docs/configuration.md)。
+Lite / Custom trim service groups according to your selection; counts below describe Full. To update, refresh the page, select the same profile and parameters, download again, back up configuration and node customizations, then replace or reimport the copy. Do not overwrite a customized file using this repository's full-configuration URL. Selection and generation are local and do not read or upload subscriptions or personal configuration. Protect files containing subscription URLs; do not expose hosted copies publicly. See the [configuration guide](../../docs/configuration.md).
 
 <a id="import"></a>
 
-## 按顺序导入
+## Import in order
 
-### 1. 导入分流配置
+### 1. Import routing configuration
 
-1. 复制上方 Raw URL；需要自定义时，放到自己的 HTTPS 地址。
-2. QX → **设置** → **配置** → **下载配置**，粘贴 URL 并应用。
-3. 确认所有 `filter_remote` 下载完成；GitHub Raw 不可达时，先使用可用代理下载。
+1. Copy the raw URL above; host a customized copy at your own HTTPS address when needed.
+2. In QX, open **Settings → Configuration → Download configuration**, paste the URL and apply. Labels depend on the application language/version.
+3. Confirm all `filter_remote` downloads complete. If GitHub Raw is unreachable, use a working proxy to download first.
 
-### 2. 机场订阅 / 节点（⚠️ 必须手动配置）
+### 2. Subscription / nodes (manual configuration required)
 
-模板不含可用节点。任选以下方式接入；订阅内容需符合 QX 支持的格式与协议。
+The template contains no working nodes. Choose a method below; subscription formats and protocols must be supported by QX.
 
-#### 方式 A：订阅（推荐）
+#### Method A: subscription (recommended)
 
-编辑 `[server_remote]`，填入机场订阅并重新应用配置：
+Edit `[server_remote]`, enter your subscription and reapply:
 
-```
+```text
 https://your-subscription.example.com/sub, tag=YOUR_AIRPORT, update-interval=86400, opt-parser=true, enabled=true
 ```
 
-检查订阅节点的 `tag` 是否包含 HK / JP / US 等地区标识。
+Check that node `tag` values contain regional identifiers such as HK / JP / US.
 
-#### 方式 B：手动粘贴节点
+#### Method B: manual node definitions
 
-在 `[server_local]` 中填写 QX 原生节点定义，将示例主机、凭据和 `tag` 换成实际值：
+Enter native QX nodes in `[server_local]`, replacing example hosts, credentials and tags:
 
-```
+```text
 vmess=example.com:443, method=chacha20-ietf-poly1305, password=UUID, obfs=wss, obfs-host=example.com, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=HK-01
 trojan=example.com:443, password=xxx, over-tls=true, tls-host=example.com, tag=HK-02
 ss=example.com:443, method=aes-256-gcm, password=xxx, tag=JP-01
 ```
 
-#### 方式 C：QX UI 扫码导入
+#### Method C: scan in QX
 
-在 QX 首页通过 ➕ 扫码或手动添加节点，再确认策略组可引用。
+Use ➕ on the home screen to scan or manually add nodes, then confirm policy groups can reference them.
 
-#### 方式 D：在线订阅转换站（多机场合并）
+#### Method D: online subscription conversion / merging
 
-如需转换或合并，输出须为 QX 支持的格式。第三方服务可读取含 token 的订阅链接；解析器转换格式后仍需核对协议支持。
+Converted or merged output must use QX-supported formats. Third-party services can read subscription links containing tokens. After conversion, still verify protocol support.
 
-### 3. 应用并连接
+### 3. Apply and connect
 
-保存并重新应用配置，确认订阅、远程规则和区域组内节点，再开启首页连接开关。
+Save and reapply. Verify subscriptions, remote rules and regional group members, then enable the home-screen connection switch.
 
 <a id="settings"></a>
 
-## 必要设置
+## Required settings
 
-### 区域与业务策略
+### Regional and service policies
 
-11 个地区各有全部节点与家宽节点组，共 22 个区域组，另有 33 个业务组。
+Each of 11 regions has all-node and residential groups: 22 regional groups plus 33 service groups.
 
-#### 11 区域组（QX: `url-latency-benchmark`）
+#### Regional groups (`url-latency-benchmark`)
 
-使用 `server-tag-regex` 匹配节点 `tag`；当前 `check-interval=300`、`tolerance=10`。官方示例中的正则过滤注释与具体示例存在冲突，组内实际展开仍需 App 验收。
+`server-tag-regex` matches node tags. Current settings are `check-interval=300` and `tolerance=10`. Official regex-filter comments conflict with a concrete example, so actual group expansion still requires application acceptance.
 
-#### 33 业务组（QX: `static`）
+#### Service groups (`static`)
 
-在策略面板手动选择节点或区域组；参考 [Surge 业务组说明](../Surge/README.md#业务策略组select-手动)，服务是否可用仍取决于实际出口。
+Manually select a node or regional group in the policy panel. See the [Surge service-group explanation](../Surge/README.md#业务策略组select-手动). Service availability still depends on the actual exit.
 
 ### DNS
 
-普通 DNS 使用 `server=`，DoH 使用 `doh-server=`。当前配置按官方多 DoH 写法放在**同一行，以逗号分隔**：
+Plain DNS uses `server=` and DoH uses `doh-server=`. Following the official multi-DoH syntax, endpoints share **one comma-separated line**:
 
-```
+```text
 server=223.5.5.5
 server=119.29.29.29
 server=1.1.1.1
@@ -127,94 +126,94 @@ doh-server=https://223.5.5.5/dns-query, https://223.6.6.6/dns-query, https://8.8
 no-ipv6
 ```
 
-Apple / iCloud 等系统 DNS 例外由 `[general] dns_exclusion_list` 配置。此处不宣称等价实现 Mihomo 的 `fallback-filter`、`respect-rules` 或独立 `proxy-server-nameserver`；官方写法及真实并发查询的待验边界见[复核报告](../../docs/upstream/2026-10-19/apple/report.md)。
+Apple / iCloud system-DNS exceptions use `[general] dns_exclusion_list`. This does not claim equivalent Mihomo `fallback-filter`, `respect-rules` or separate `proxy-server-nameserver` behavior. See the [historical review](../../docs/upstream/2026-10-19/apple/report.md) for official syntax and pending live concurrent-query checks.
 
 <a id="verification"></a>
 
-## 导入验收
+## Import verification
 
-1. 确认当前启用本目录配置，22 个区域组与 33 个业务组已载入；检查区域组内确有可用节点。
-2. 确认订阅与全部 `filter_remote` 下载成功；连接开关开启不能代替下载检查。
-3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
-4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+1. Confirm this directory's configuration is active, with 22 regional and 33 service groups loaded. Verify working members within regional groups.
+2. Confirm subscription and every `filter_remote` download succeeded. An enabled connection switch is not proof of successful downloads.
+3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`. Check AI, Netflix and China-streaming rule matches and actual exits in request/connection logs.
+4. Complete the [DNS and import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
 
-若日志没有请求、组内为空或出口不符，继续按下方 FAQ 排查。
+If requests are absent from logs, groups are empty or exits differ, use the troubleshooting steps below.
 
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-### Q1：filter_remote 下载失败？
+### Q1: filter_remote download fails?
 
-确认 GitHub Raw 可达，必要时先使用可用代理，再刷新配置与远程规则。详见[下载排错](../../docs/rule-asset-delivery.md)。
+Confirm GitHub Raw access, use a working proxy if needed, then refresh configuration and remote rules. See [download troubleshooting](../../docs/rule-asset-delivery.md).
 
-### Q2：节点没被自动聚合到 11 区域组？
+### Q2: Nodes are not grouped into the 11 regions?
 
-检查节点 `tag` 中是否含中文地区名或 HK / JP / US 等标识；也兼容 hk01 / jp01 / us01 形式。以组内实际成员确认分类，不以节点已下载代替匹配成功。
+Check for Chinese regional names or identifiers such as HK / JP / US in node tags. Forms such as hk01 / jp01 / us01 are supported. Inspect actual group members; downloaded nodes do not prove classification succeeded.
 
-### Q3：想用 QX 的 resource_parser_url 解析非标准订阅？
+### Q3: Use resource_parser_url for nonstandard subscriptions?
 
-配置已引用 KOP-XIAO 解析器。仅对可信订阅启用 `opt-parser=true`；转换结果仍须符合 QX 协议能力，不能借解析器获得 Hysteria 2 / TUIC 等核心未支持的协议。
+The configuration references the KOP-XIAO parser. Enable `opt-parser=true` only for trusted subscriptions. Converted output must still fit QX protocol support; a parser cannot add unsupported core protocols such as Hysteria 2 or TUIC.
 
-### Q4：我想加入广告净化 / 签到脚本？
+### Q4: Add ad-filtering or check-in scripts?
 
-在 `[rewrite_remote]` 添加所需资源，以下 URL 是占位样例，使用前换为可信来源：
+Add needed resources to `[rewrite_remote]`. This URL is a placeholder; replace it with a trusted source:
 
-  ```
-  https://raw.githubusercontent.com/.../BoxJs.conf, tag=BoxJs, update-interval=86400, opt-parser=true, enabled=true
-  ```
+```text
+https://raw.githubusercontent.com/.../BoxJs.conf, tag=BoxJs, update-interval=86400, opt-parser=true, enabled=true
+```
 
-需要 MITM 时，按 QX 官方流程配置并信任证书、核对目标 hostname，同时检查规则冲突。
+If MITM is needed, follow official QX certificate configuration/trust instructions, verify target hostnames and check rule conflicts.
 
-### Q5：跨境场景切换？
+### Q5: Select routes for network and service requirements?
 
-在策略面板切换对应业务组；场景参考 [Surge 跨境说明](../Surge/README.md#q6跨境场景中国--海外怎么切换)。
+Switch the relevant service group in the policy panel. See [Surge route diagnostics](../Surge/README.md#q6跨境场景中国--海外怎么切换).
 
-### Q6：我想 macOS 上用 Quantumult X？
+### Q6: Use Quantumult X on macOS?
 
-先核对[官方商店兼容列表](https://apps.apple.com/us/app/quantumult-x/id1443988620)；是否有独立原生 Mac 版与能否在兼容 Mac 运行商店 App 是两项不同条件，本教程未完成 Mac 导入验收。
+Check the [official compatibility list](https://apps.apple.com/us/app/quantumult-x/id1443988620). A standalone native Mac release and running the store application on a compatible Mac are different conditions. This guide has not completed Mac import acceptance.
 
 <a id="reference"></a>
 
-## 进阶与参考
+## Advanced reference
 
 <details>
-<summary>协议支持与待核项</summary>
+<summary>Protocol support and unresolved items</summary>
 
-按[官方版本历史](https://apps.apple.com/us/app/quantumult-x/id1443988620)与[官方示例](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)核对：
+Reviewed against [official version history](https://apps.apple.com/us/app/quantumult-x/id1443988620) and the [official sample](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf):
 
-| 协议 | 支持 | 说明 |
+| Protocol | Support | Notes |
 |---|:-:|---|
-| **Shadowsocks (SS)** | ✅ | 含 AEAD |
-| **ShadowsocksR (SSR)** | ✅ | 兼容老机场 |
-| **VMess** | ✅ | ws/grpc 传输层 |
-| **VLESS** | ✅ | 官方版本历史：1.5.0 引入 |
-| **REALITY** | ✅ | 官方版本历史：1.5.5 引入；不等同于 XTLS-Vision |
-| **XTLS-Vision** | ⚠️ | 本次未取得可确认的官方支持证据 |
+| **Shadowsocks (SS)** | ✅ | Includes AEAD |
+| **ShadowsocksR (SSR)** | ✅ | Legacy-provider compatibility |
+| **VMess** | ✅ | ws/grpc transports |
+| **VLESS** | ✅ | Introduced in 1.5.0, per official history |
+| **REALITY** | ✅ | Introduced in 1.5.5; not equivalent to XTLS-Vision |
+| **XTLS-Vision** | ⚠️ | No conclusive official evidence obtained in this review |
 | **Trojan** | ✅ | |
-| **Hysteria v1** | ❌ | 不支持 |
-| **Hysteria 2** | ❌ | 不支持 |
-| **TUIC v5** | ❌ | 不支持 |
-| **WireGuard** | ❌ | 不支持 |
-| **Snell** | ❌ | 不支持 |
-| **AnyTLS** | ✅ | 官方版本历史：1.6.0（2026-05-21）引入 |
-| **ShadowTLS / Mieru** | ⚠️ | 本次未取得可确认的官方支持证据 |
+| **Hysteria v1** | ❌ | Unsupported |
+| **Hysteria 2** | ❌ | Unsupported |
+| **TUIC v5** | ❌ | Unsupported |
+| **WireGuard** | ❌ | Unsupported |
+| **Snell** | ❌ | Unsupported |
+| **AnyTLS** | ✅ | Introduced in 1.6.0 (2026-05-21), per official history |
+| **ShadowTLS / Mieru** | ⚠️ | No conclusive official evidence obtained in this review |
 | **HTTP/2 / HTTPS / SOCKS5 / HTTP** | ✅ | |
 
-REALITY 支持不能推导为 XTLS-Vision 支持，后者及 ShadowTLS / Mieru 仍待官方证据确认。完整来源见[复核报告](../../docs/upstream/2026-10-19/apple/report.md)。
+REALITY support does not imply XTLS-Vision support. XTLS-Vision and ShadowTLS / Mieru still await official evidence. Full sources: [historical review](../../docs/upstream/2026-10-19/apple/report.md).
 
 </details>
 
-QX 的 `resource_parser_url` 用于资源解析，`[rewrite_local]` / `[rewrite_remote]` 用于重写，`[task_local]` 支持 cron 任务；本配置不默认启用重写、任务或 MITM。策略类型还包括 available、ssid、round-robin 和 dest-hash，按官方示例配置。
+`resource_parser_url` parses resources; `[rewrite_local]` / `[rewrite_remote]` configure rewrites; `[task_local]` supports cron tasks. This configuration does not enable rewrites, tasks or MITM by default. Other policy types include available, ssid, round-robin and dest-hash; follow official samples.
 
-当前远程规则为融合 `filter_remote`，不直接使用 Mihomo `.mrs`；iOS PROCESS-NAME 与 QX `filter_local` 的 URL-REGEX 为平台例外，不提供 Mihomo TLS 指纹控制。
+Remote rules use fused `filter_remote`, not Mihomo `.mrs` directly. iOS PROCESS-NAME and QX `filter_local` URL-REGEX are platform exceptions. Mihomo TLS fingerprint controls are not provided.
 
-官方依据：[sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)、[REFERENCE](REFERENCE-quantumultx.md)。配置更新后重新应用，本地定制先备份。
+Official references: [sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf), [REFERENCE](REFERENCE-quantumultx.md). Reapply after updates; back up local customizations first.
 
 [Quantumult X](https://apps.apple.com/app/quantumult-x/id1443988620) · [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) · [KOP-XIAO/QuantumultX](https://github.com/KOP-XIAO/QuantumultX) · [Koolson/Qure](https://github.com/Koolson/Qure)
 
-[分流策略](../../docs/guide/routing-policy.md) · [客户端支持](../../docs/guide/client-support.md) · [DNS 与验收](../../docs/guide/dns-and-verification.md)
+[Routing policy](../../docs/guide/routing-policy.md) · [Client support](../../docs/guide/client-support.md) · [DNS and verification](../../docs/guide/dns-and-verification.md)
 
-[测速与 QUIC](../../docs/traffic-options.md) · [微信连接排错](../../docs/research/2026-10-16-wechat-issue-187.md) · [Claude Desktop 网络依赖](../../docs/claude-service-dependencies.md)
+[Latency testing and QUIC](../../docs/traffic-options.md) · [WeChat troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md) · [Claude Desktop network dependencies](../../docs/claude-service-dependencies.md)
 
-[配置变更记录](CHANGELOG.md) · [官方资料复核与待验边界](../../docs/upstream/2026-10-19/apple/report.md) · [支持本项目](../../docs/donate.md)
+[Changelog](CHANGELOG.md) · [Official review and pending acceptance](../../docs/upstream/2026-10-19/apple/report.md) · [Support the project](../../docs/donate.md)

@@ -1,41 +1,43 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-passwall2-mobile.svg">
-  <img src="../../docs/assets/readme/page-passwall2.svg" alt="Passwall2 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-passwall2.svg" alt="Passwall2 import guide" width="100%">
 </picture>
 
-# Passwall2 导入指南
+# Passwall2 import guide
 
 <a id="passwall2-使用教程对齐-clash-party-v6020"></a>
 
 
 
-在 OpenWrt 上将同源融合 SRS 应用到 sing-box 分流节点。先备份 UCI，再导入规则并逐项选择业务出口。
+Apply same-source fused SRS to sing-box shunt nodes on OpenWrt. Back up UCI first, import rules, then select each service exit.
 
-[![下载入口](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
+[![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Import verification](../../docs/assets/readme/nav-verify.svg)](#verification)
 
-[开始前](#before-start) · [文件选择](#files) · [脚本导入](#3-推荐导入方式) · [手工导入](#4-手工导入方式) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
+[Preparation](#before-start) · [Files](#files) · [Script import](#3-推荐导入方式) · [Manual import](#4-手工导入方式) · [Import verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#advanced)
 
-> 配置版本：`v6.0.21-pw2.12` · Build：2026-10-28 · 规则基线：Clash Party v6.0.21。历史见 [CHANGELOG](CHANGELOG.md)。
+> Configuration version: `v6.0.21-pw2.12` · Build：2026-10-28 · Routing baseline: Clash Party v6.0.21 History: [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>
 
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
 
-## 开始前：确认后端并备份
+## Preparation: verify the backend and back up
 
-本目录提供 UCI 批量应用脚本和 fused SRS 分流参考，**仅支持 `type=sing-box`、`protocol=_shunt` 的分流节点**。文件名保留历史 `xray+sing-box` 以保持下载链接有效，不能据此判断支持 Xray。
+This directory provides a UCI batch-application script and fused SRS routing references. **Only shunt nodes with `type=sing-box` and `protocol=_shunt` are supported.** Filenames retain historical `xray+sing-box` for URL compatibility; this does not imply Xray support.
 
-1. 在 LuCI 准备可用节点，并创建 **sing-box 分流节点**。确认全部分流节点均使用 sing-box；以后切换后端前，先移除 SRS 规则。
-2. 备份 `/etc/config/passwall2`，并保存当前节点及规则设置。
-3. 确认路由器能通过网络或可用代理访问 GitHub Raw；下载问题见[规则下载说明](../../docs/rule-asset-delivery.md)。
+1. Prepare working nodes in LuCI and create a **sing-box shunt node**. Confirm every shunt node uses sing-box. Remove SRS rules before switching backends later.
+2. Back up `/etc/config/passwall2` and retain current node/rule settings.
+3. Confirm the router can access GitHub Raw directly or through a working proxy. See [rule download troubleshooting](../../docs/rule-asset-delivery.md).
 
-脚本在任何写入前检查全部分流节点；遇到 Xray、未知后端、读取失败或没有分流节点时会停止。默认 `--replace` 替换仓库管理的旧规则；需要并存时显式使用 `--append`。
+The script checks all shunt nodes before any write, stopping on Xray, unknown backends, read failures or no shunt nodes. Default `--replace` replaces old repository-managed rules; explicitly use `--append` for coexistence.
 
-[![下载 Passwall2 SH](../../docs/assets/readme/button-passwall2-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh)
+[![Download Passwall2 SH](../../docs/assets/readme/button-passwall2-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh)
 
-按钮打开 Raw 脚本，可复制链接或另存为：
+The button opens the raw script. Copy its URL or save it locally:
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh
@@ -44,39 +46,39 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%
 <a id="files"></a>
 <a id="2-文件说明"></a>
 
-## 文件选择
+## Files
 
-| 文件 | 用途 |
+| File | Purpose |
 | --- | --- |
-| `Passwall2(xray+sing-box)-apply.sh` | 验证 sing-box 分流后端后创建 78 条 fused shunt rule |
-| `Passwall2(xray+sing-box).conf` | 纯文本参考，展示 78 条 rule 的顺序、目标和 `.srs` URL |
-| `shunt-rules/*.list` | 每个 fused 段一个 `.list`，方便在 LuCI 手工复制 |
-| `REFERENCE-passwall2.md` | Passwall2 语法和官方源码参考 |
+| `Passwall2(xray+sing-box)-apply.sh` | Creates 78 fused shunt rules after verifying sing-box shunt backends |
+| `Passwall2(xray+sing-box).conf` | Plain-text reference with order, targets and `.srs` URLs for 78 rules |
+| `shunt-rules/*.list` | One `.list` per fused segment for manual copying into LuCI |
+| `REFERENCE-passwall2.md` | Passwall2 syntax and official source reference |
 
-`shunt-rules/*.list` 每个文件只保留一个非注释行。不要在这里手写 `domain:` / `geoip:` / Clash 前缀。
+Each `shunt-rules/*.list` contains one non-comment line. Do not manually add `domain:` / `geoip:` / Clash prefixes.
 
-### 在线选择与本地导入
+### Online selection and local import
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Passwall2** 和 Full、Lite 或 Custom 业务方案；该入口没有测速或 QUIC 参数。下载 ZIP 后完整解压并保留目录结构及 `shunt-rules/` 列表，使用其中的本地 `Passwall2(xray+sing-box)-apply.sh` 按下方脚本步骤应用，或按手工步骤将列表逐项导入 LuCI。确认使用 sing-box 分流后端，并为各规则选择目标节点。
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), select **Passwall2** and Full / Lite / Custom. This entry has no latency-test or QUIC parameters. Fully extract the ZIP, preserving directory structure and `shunt-rules/` lists. Apply its local `Passwall2(xray+sing-box)-apply.sh` using the script steps below, or import each list manually into LuCI. Confirm the sing-box shunt backend and select target nodes for each rule.
 
-更新时刷新页面，重新选择业务并下载；备份 UCI 后使用新解压包替换同类本地规则，检查节点映射并保存应用。不要从官方 URL 重新拉取默认脚本覆盖定制内容。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+To update, refresh the page, reselect services and download. Back up UCI, replace equivalent local rules from the new package, verify node mappings, save and apply. Do not fetch the default script from the official URL over customized content. Selection/generation run locally in the browser without reading or uploading subscriptions or personal configuration.
 
 <a id="3-推荐导入方式"></a>
 
-## 分步导入：脚本
+## Step-by-step script import
 
-1. 在 LuCI 创建 sing-box 分流节点，确认所有分流节点均使用该后端；备份 `/etc/config/passwall2`。把 `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh` 复制到路由器，并在脚本所在目录执行下一步。
-2. 执行：
+1. Create a sing-box shunt node in LuCI and confirm all shunt nodes use that backend. Back up `/etc/config/passwall2`. Copy `双内核系/Passwall2/Passwall2(xray+sing-box)-apply.sh` to the router and run the next step from its directory.
+2. Run:
 
 ```sh
 sh 'Passwall2(xray+sing-box)-apply.sh'
 ```
 
-3. 打开 LuCI 的 Passwall2 分流控制。
-4. 在 sing-box 分流节点内给每条 `scki-fused-*` 规则选择业务目标节点；当前全局入口为 `@global[0].node`。
-5. 保存并应用。
+3. Open Passwall2 routing controls in LuCI.
+4. Within the sing-box shunt node, select a service target node for every `scki-fused-*` rule. The current global entry is `@global[0].node`.
+5. Save and apply.
 
-脚本默认 `--replace`，会删除旧的 Smart-Config-Kit fused rule 以及历史 emoji remark 规则，避免重复追加。需要并存时可显式运行：
+Default `--replace` removes old Smart-Config-Kit fused rules and legacy emoji-remark rules to prevent duplicate appends. For coexistence, explicitly run:
 
 ```sh
 sh 'Passwall2(xray+sing-box)-apply.sh' --append
@@ -84,88 +86,88 @@ sh 'Passwall2(xray+sing-box)-apply.sh' --append
 
 <a id="4-手工导入方式"></a>
 
-## 分步导入：手工
+## Step-by-step manual import
 
-不方便 SSH 时，可在 LuCI 的 **sing-box 分流节点**中逐条新增 shunt rule；手工粘贴不会执行脚本的后端检查：
+Without SSH, add shunt rules individually inside a **sing-box shunt node** in LuCI. Manual pasting does not perform the script backend checks:
 
-1. 打开 `双内核系/Passwall2/shunt-rules/<segment>.list`。
-2. 将其中的 `rule-set:remote:...srs` 粘贴到 Domain List。
-3. 如果 `Passwall2(xray+sing-box).conf` 对该段同时标注了 IP List，把同一 URL 也粘贴到 IP List。
-4. 网络类型选择 `tcp,udp`。
-5. 目标节点选择你希望该业务走的节点或负载均衡组。
+1. Open `双内核系/Passwall2/shunt-rules/<segment>.list`.
+2. Paste its `rule-set:remote:...srs` into Domain List.
+3. If `Passwall2(xray+sing-box).conf` also marks IP List for that segment, paste the same URL into IP List.
+4. Select network types `tcp,udp`.
+5. Select the desired node or load-balancing group for the service.
 
-Passwall / Passwall2 的 sing-box 后端支持 `rule-set:remote:` / `rule-set:local:`。Xray 后端会过滤这些引用；Passwall2 还可能生成缺失域名/IP 条件的宽匹配规则。不要将 SRS 引用交给 Xray，也不要粘贴 Clash 的 `DOMAIN-SUFFIX,` 等前缀。
+The sing-box backends in Passwall / Passwall2 support `rule-set:remote:` / `rule-set:local:`. Xray filters out these references; Passwall2 can also generate broad rules missing domain/IP conditions. Do not pass SRS references to Xray or paste Clash prefixes such as `DOMAIN-SUFFIX,`.
 
 <a id="verification"></a>
 
-## 导入验收
+## Import verification
 
-- LuCI 中出现 `scki-fused-*` 规则，顺序与参考 `.conf` 一致；替换模式下没有旧仓库规则重复残留。
-- 所有分流节点仍为 sing-box；每条规则已绑定预期业务节点，已保存并应用，服务日志没有后端或规则下载错误。
-- 检查最终生成配置确实包含远程 `route.rule_set`，用真实连接确认直连、代理、拦截与默认流量去向，再按[运行验证清单](../../docs/guide/dns-and-verification.md#verification)检查。
+- LuCI shows `scki-fused-*` rules in reference `.conf` order, with no duplicate old repository rules after replacement.
+- All shunt nodes still use sing-box; every rule targets the intended service node, settings are saved/applied, and service logs show no backend or rule-download errors.
+- Confirm the final generated configuration contains remote `route.rule_set`. Use real connections to verify direct, proxy, block and default traffic, then follow the [runtime checklist](../../docs/guide/dns-and-verification.md#verification).
 
-脚本退出成功、UCI 保存成功或服务存活都不能代替规则命中验证。官方源码与本地门禁证据见[后端核验报告](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)；实际设备、网络和流量仍需在你的 OpenWrt 上验收。
+Successful script exit, saved UCI or a running service does not replace rule-match verification. See [backend review](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2) for official source and local gate evidence. Real device, network and traffic acceptance still belongs on your OpenWrt router.
 
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-**为什么脚本拒绝运行？** 先读报错，核对全部分流节点的 `protocol` 和 `type`。没有分流节点、混用 Xray 或读取失败都会在写入 UCI 前停止；修正后端后再执行。
+**Why does the script refuse to run?** Read the error and check every shunt node’s `protocol` and `type`. No shunt nodes, mixed Xray backends or read failures stop before UCI writes. Correct the backend before retrying.
 
-**文件名有 Xray，为什么不能使用 Xray？** 插件本身支持多后端，但本仓库这条导入路径依赖 SRS。Xray 会过滤 SRS 引用，Passwall2 还可能产生缺少域名/IP 条件的宽匹配；不要以“无报错”判断兼容。
+**Why does the filename mention Xray when Xray is unsupported?** The plugin supports multiple backends, but this import path depends on SRS. Xray drops SRS references, and Passwall2 may produce broad matches without domain/IP conditions. Absence of errors does not prove compatibility.
 
-**能把 Clash 规则粘贴进去吗？** 不要使用 `DOMAIN-SUFFIX,` 等 Clash 前缀。按本页手工步骤复制 `.list` 的 `rule-set:remote:...srs`，并严格保持顺序和目标。
+**Can I paste Clash rules?** Do not use Clash prefixes such as `DOMAIN-SUFFIX,`. Follow the manual steps to copy `rule-set:remote:...srs` from `.list`, preserving order and targets.
 
-**需要嵌套策略组或 Smart 怎么办？** 使用 [OpenClash](../../Mihomo内核系/OpenClash/README.md)；本页 fallback 不保留 Clash Party 的嵌套选择器与 LightGBM。
+**Need nested policy groups or Smart?** Use [OpenClash](../../Mihomo内核系/OpenClash/README.md). This fallback does not preserve Clash Party nested selectors or LightGBM.
 
 <a id="advanced"></a>
 
-## 进阶参考
+## Advanced reference
 
 <details>
 
-<summary>插件定位、融合规则与能力差异</summary>
+<summary>Plugin scope, fused rules and capability differences</summary>
 
 <a id="1-定位"></a>
 
-### 插件定位与融合规则
+### Plugin scope and fused rules
 
-Passwall2 是 OpenWrt 上的精简分流插件。它和 Passwall 由同一组织并行维护，规则语法同源，但 Passwall2 去掉了四列表和 ACL，主要保留 shunt rules。
+Passwall2 is a streamlined OpenWrt routing plugin maintained alongside Passwall by the same organization. Rule syntax shares the same origin, but Passwall2 removes the four lists and ACL, retaining primarily shunt rules.
 
-本目录只提供 fallback：从最终 fused 规则集生成 78 条非空 Passwall2 原生 shunt rule。每条 rule 只引用一个远程 `.srs`：
+This directory provides only a fallback: 78 nonempty native Passwall2 shunt rules generated from final fused rule sets. Each references one remote `.srs`:
 
 ```text
 rule-set:remote:https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/<segment>.srs
 ```
 
-`双内核系/Passwall2/shunt-rules/*.list` 与 `双内核系/Passwall/shunt-rules/*.list` 内容互通。
+Contents of `双内核系/Passwall2/shunt-rules/*.list` and `双内核系/Passwall/shunt-rules/*.list` are interchangeable.
 
 <a id="5-与-openclash-的差异"></a>
 
-### 与 OpenClash 的差异
+### Differences from OpenClash
 
-| 能力 | Passwall2 fallback | OpenClash / Clash Party |
+| Capability | Passwall2 fallback | OpenClash / Clash Party |
 | --- | --- | --- |
-| fused 规则顺序 | 78 条非空 shunt rule | 168 条 Mihomo 主规则 |
-| 远程规则集 | sing-box `.srs` | Mihomo `.mrs` / residual YAML |
-| 策略组嵌套 | 不支持 | 支持 |
-| 自动测速 | 由你配置节点或负载均衡 | 支持区域组 url-test / Smart |
-| LightGBM | 不支持 | Clash Party Smart 支持 |
-| 端口/逻辑/MATCH | Passwall2 shunt 模型受限 | Mihomo 原生表达 |
+| Fused rule order | 78 nonempty shunt rules | 168 Mihomo main rules |
+| Remote rule sets | sing-box `.srs` | Mihomo `.mrs` / residual YAML |
+| Nested policy groups | Unsupported | Supported |
+| Automatic latency testing | Configure nodes or load balancing yourself | Regional url-test / Smart supported |
+| LightGBM | Unsupported | Supported by Clash Party Smart |
+| Ports / logic / MATCH | Limited by the Passwall2 shunt model | Native Mihomo expressions |
 
-需要嵌套策略组或 Smart 时使用 OpenClash。
+Use OpenClash for nested policy groups or Smart.
 
 </details>
 
 <details>
 
-<summary>维护者入口与官方语法</summary>
+<summary>Maintainer entry points and official syntax</summary>
 
 <a id="6-维护者入口"></a>
 
-### 维护者入口
+### Maintainer entry points
 
-不要手工编辑 `Passwall2(xray+sing-box)-apply.sh`、`Passwall2(xray+sing-box).conf` 或 `shunt-rules/*.list`。生成链路：
+Do not manually edit `Passwall2(xray+sing-box)-apply.sh`, `Passwall2(xray+sing-box).conf` or `shunt-rules/*.list`. Generation pipeline:
 
 ```bash
 node tools/build-fused-rule-sets.js
@@ -173,12 +175,12 @@ node tools/generate-fused-fallback-artifacts.js
 node tools/validate-artifact-contracts.js --strict-ruby
 ```
 
-官方语法参考：
+Official syntax references:
 
 - Passwall2 shunt_rules.lua：https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua
 - Passwall shunt_rules.lua：https://github.com/Openwrt-Passwall/openwrt-passwall/blob/main/luci-app-passwall/luasrc/model/cbi/passwall/client/shunt_rules.lua
-- Passwall / Passwall2 差异讨论：https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555
+- Passwall / Passwall2 differences discussion：https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555
 
-补充说明：[Claude 服务依赖](../../docs/claude-service-dependencies.md) · [测速与 QUIC](../../docs/traffic-options.md) · [微信连接排障](../../docs/research/2026-10-16-wechat-issue-187.md)。
+Further reading: [Claude service dependencies](../../docs/claude-service-dependencies.md) · [Latency testing and QUIC](../../docs/traffic-options.md) · [WeChat troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md)。
 
 </details>

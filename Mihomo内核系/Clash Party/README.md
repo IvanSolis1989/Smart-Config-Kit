@@ -1,233 +1,232 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-clash-party-mobile.svg">
-  <img src="../../docs/assets/readme/page-clash-party.svg" alt="Clash Party / Clash Verge Rev 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-clash-party.svg" alt="Clash Party / Clash Verge Rev import guide" width="100%">
 </picture>
 
-# Clash Party / Clash Verge Rev 导入指南
+# Clash Party / Clash Verge Rev import guide
 
-将一份 Mihomo 节点订阅交给 JS 覆写，统一生成分组、分流与 DNS。**Smart / Normal 只选一份**；本仓库不提供代理节点。
+Apply a JS override to a Mihomo node subscription to generate consistent groups, routing and DNS. **Choose only one of Smart / Normal.** This repository does not provide proxy nodes.
 
-<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>
+<p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="Post-import verification" width="145" height="38"></a></p>
 
-[开始前](#before-you-start) · [选择文件](#downloads) · [导入步骤](#import) · [常见问题](#faq) · [进阶与参考](#reference)
+[Preparation](#before-you-start) · [Files](#downloads) · [Import](#import) · [Troubleshooting](#faq) · [Reference](#reference)
 
 <a id="-smart-版-vs-普通版怎么选"></a>
-
 <a id="before-you-start"></a>
 
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+## Before you start: client and core
 
-## 开始前：确认客户端与内核
+Prepare a subscription returning Mihomo-format nodes and a client supporting JS overrides. Rule downloads require GitHub Raw access or a working proxy.
 
-准备返回 Mihomo 格式的节点订阅，以及支持 JS 覆写的客户端。规则下载需要 GitHub Raw 可达或可用代理。
-
-| 选择 | 使用条件 |
+| Selection | Requirements |
 |---|---|
-| **Normal JS** | 普通 Mihomo；Clash Verge Rev 官方发行版使用这一份，区域组为 url-test |
-| **Smart JS** | 已安装 vernesong/mihomo Smart 内核和 Model.bin，区域组为 smart |
+| **Normal JS** | Regular Mihomo. Use this with official Clash Verge Rev builds; regional groups use url-test. |
+| **Smart JS** | Installed vernesong/mihomo Smart core and Model.bin; regional groups use smart. |
 
-MetaCubeX Alpha 不等于 Smart。两份脚本规则、DNS 与业务组相同，最多生成 22 区域组 + 33 业务组；脚本不设置会话粘性策略。
+MetaCubeX Alpha is not Smart. Both scripts share rules, DNS and service groups, generating up to 22 regional + 33 service groups. The scripts do not set a session-stickiness strategy.
 
 <a id="一安装客户端"></a>
 
-### Clash Party（原 Mihomo Party）
+### Clash Party (formerly Mihomo Party)
 
-- 开源地址：https://github.com/mihomo-party-org/clash-party/releases
-- 支持 Windows / macOS (Intel + Apple Silicon) / Linux (deb/rpm/AppImage)
-- 支持 stable / Alpha / Smart 内核与 JS 覆写；使用 Smart 脚本前在客户端确认选中 Smart 内核，并检查模型状态。
+- Releases: https://github.com/mihomo-party-org/clash-party/releases
+- Windows / macOS (Intel + Apple Silicon) / Linux (deb/rpm/AppImage).
+- Supports stable / Alpha / Smart cores and JS overrides. Before using Smart JS, confirm the Smart core is selected and check model status.
 
 ### Clash Verge Rev
 
-- 开源地址：https://github.com/clash-verge-rev/clash-verge-rev/releases
-- 官方发行构建下载 MetaCubeX/mihomo 的 stable / Alpha 内核，请使用本仓库**普通版**脚本。切换到 Alpha 不会获得 Smart 组；实际安装 vernesong/mihomo Smart 内核后，才可使用 Smart 版。依据见[官方构建源码](https://github.com/clash-verge-rev/clash-verge-rev/blob/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs)。
+- Releases: https://github.com/clash-verge-rev/clash-verge-rev/releases
+- Official builds download MetaCubeX/mihomo stable / Alpha. Use **Normal JS**. Selecting Alpha does not add Smart groups. Use Smart JS only after actually installing vernesong/mihomo Smart. See [official build source](https://github.com/clash-verge-rev/clash-verge-rev/blob/4337bd85758d54d7b9044b2da3c9ac1176eae1f3/scripts/prebuild.mjs).
 
 <a id="-规则下载链接"></a>
-
 <a id="downloads"></a>
 
-## 选择并下载文件
+## Select and download files
 
-### 在线选择与本地导入
+### Online selection and local import
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 Clash Party Smart 或 Normal，选择 Full / Lite / Custom 和该端支持的参数并下载 JS。按下文创建 JavaScript 覆写、粘贴全文并关联订阅；通常关闭客户端二次 DNS 覆写。Clash Verge Rev 官方内核使用 Normal。页面在本机生成，不读取或上传订阅及个人配置。
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), choose Clash Party Smart or Normal for the actual core, select Full / Lite / Custom and supported parameters, then download JS. Create a JavaScript override, paste its complete content and associate the subscription as below. Normally disable secondary client DNS override. Official Clash Verge Rev cores use Normal. Generation is local without reading/uploading subscriptions or personal configuration.
 
-更新时刷新页面，重新选择相同业务方案与参数，下载并替换本地覆写。官方远程 URL 指向完整默认脚本，不能自动保留定制；业务范围见[统一配置指南](../../docs/configuration.md)。
+To update, refresh the page, select the same profile and parameters, download and replace the local override. Official remote URLs target complete default scripts and cannot preserve customizations automatically. See the [configuration guide](../../docs/configuration.md) for service scope.
 
-[![下载 Smart JS](../../docs/assets/readme/button-smart-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![下载 Normal JS](../../docs/assets/readme/button-normal-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js)
+[![Download Smart JS](../../docs/assets/readme/button-smart-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![Download Normal JS](../../docs/assets/readme/button-normal-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+Buttons open raw files. Right-click to copy a URL or save locally.
 
-**Smart JS 直链：**
+**Smart JS URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js
 ```
 
-**Normal JS 直链：**
+**Normal JS URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js
 ```
 
-Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚本，按下文关联到节点订阅。
-
+Choose one script matching your core. Both are JS overrides to associate with a node subscription below.
 
 <a id="-零基础-5-分钟快速开始"></a>
-
 <a id="import"></a>
 
-## 按顺序导入
+## Import in order
 
 <a id="二准备订阅"></a>
 
-### 1. 添加节点订阅
+### 1. Add a node subscription
 
-###### 场景 A：单机场订阅
+#### Scenario A: one provider
 
-直接在客户端「订阅（Subscriptions / Profiles）」中添加机场链接即可，脚本会自动识别并分类节点。
+Add its URL directly in Subscriptions / Profiles. The script detects and classifies nodes automatically.
 
-### 场景 B：多机场融合（推荐，脚本原生针对此优化）
+#### Scenario B: combine providers into one pool
 
-需要把多个机场合成一个节点池时，可使用 [Sub-Store](../../SubStore/README.md)：
+Use [Sub-Store](../../SubStore/README.md) when multiple subscriptions need one node pool:
 
-1. 自建或使用公共 **Sub-Store**（https://github.com/sub-store-org/Sub-Store）。
-2. 在 Sub-Store 中添加 2–N 个机场作为「单条订阅」。
-3. 新建一个「**组合订阅**」或「**远程订阅**」，聚合所有机场。
-4. 生成一个 **Clash (Mihomo)** 格式的订阅 URL。
-5. 将该 URL 粘贴到客户端的订阅中。
+1. Self-host or use a public **Sub-Store** instance (https://github.com/sub-store-org/Sub-Store).
+2. Add 2–N providers as individual subscriptions.
+3. Create a **collection subscription** or **remote subscription** aggregating them.
+4. Generate a **Clash (Mihomo)** subscription URL.
+5. Add that URL to the client.
 
-输出地址必须能被客户端访问；127.0.0.1 只适用于同一设备。脚本会清理信息节点并分类，倍率筛选默认关闭。
+The client must be able to reach the URL; `127.0.0.1` works only on the same device. The script cleans informational entries and classifies nodes. Multiplier filtering is off by default.
 
-### 场景 C：在线订阅转换站（备选方案）
+#### Scenario C: online conversion (alternative)
 
-在受信任的转换服务中输入多个订阅 URL，输出格式选 Mihomo，再把结果导入客户端。
-
-转换服务能看到订阅 token；敏感订阅优先使用本地 Sub-Store。
+Enter subscription URLs into a trusted conversion service, select Mihomo output and import the result. The service can read subscription tokens; prefer local Sub-Store for sensitive subscriptions.
 
 <a id="三导入覆写脚本核心步骤"></a>
 
-### 2. 创建覆写并关联订阅
+### 2. Create and associate the override
 
-#### Clash Party（原 Mihomo Party）
+#### Clash Party (formerly Mihomo Party)
 
-1. 「覆写」→ 新建 → 类型选 JavaScript，粘贴所选 JS 全文并保存。
-2. 返回「订阅」→ 编辑 → 启用覆写，勾选该脚本并保存。
-3. 切换到该订阅并连接；只启用 Smart / Normal 其中一份。
+1. Overrides → New → JavaScript; paste the chosen JS in full and save.
+2. Subscriptions → Edit → enable overrides; select the script and save.
+3. Switch to that subscription and connect. Enable only Smart or Normal, never both.
 
 #### Clash Verge Rev
 
-1. 左侧 → **脚本（Scripts）** → ➕ **新建脚本** → **本地脚本**。
-2. 粘贴 `.js` 全部内容，保存。
-3. **订阅（Profiles）** → 右上角 ⋯ → **扩展管理（Extensions）** → 勾选刚才的脚本。
-4. 重启内核（Ctrl/Cmd + R）。
+1. Sidebar → **Scripts → New script → Local script**.
+2. Paste the entire `.js` and save.
+3. **Profiles → ⋯ → Extensions**, then select the script.
+4. Restart the core (Ctrl/Cmd + R).
 
-### 3. 核对 DNS 所有权并连接
+Interface labels may vary with client version/language.
 
-脚本已生成节点、组、规则、DNS 与嗅探，通常关闭客户端的二次 DNS 覆写。若使用 UI Mixin，保留私有节点的精确 policy 并检查最终配置；手动补充 YAML 见[进阶与参考](#reference)。
+### 3. Check DNS ownership and connect
 
-切换到已关联的订阅并连接。首次规则与模型下载受网络影响，先等待加载完成，再检查日志。
+The script generates nodes, groups, rules, DNS and sniffing. Normally disable the client's secondary DNS override. If using UI Mixin, preserve exact private-node policies and inspect final configuration. See [reference](#reference) for manual supplementary YAML.
 
+Switch to the associated subscription and connect. Initial rule/model downloads depend on network conditions; wait for completion, then inspect logs.
 
 <a id="五验证配置生效"></a>
-
 <a id="verification"></a>
 
-## 导入后核验
+## Post-import verification
 
-1. **代理组**：最多 22 区域组 + 33 业务组；Smart 区域组为 smart，Normal 为 url-test；候选节点与区域相符。
-2. **连接记录**：分别访问 AI、Netflix、国内流媒体，核对实际规则、业务组和出站。进阶中的推荐值仅供选择，以实际组名和可用节点为准。
-3. **规则**：当前基线为 168 条主规则、149 个融合 rule-providers；不要用未融合源规则数判断是否完整。
-4. **日志与 DNS**：无解析错误或规则集加载失败；最终 DNS 包含脚本 DoH 与 blacklist 模式。完整清单见专题页的[导入后验证](../../docs/guide/dns-and-verification.md#verification)。
+1. **Groups:** up to 22 regional + 33 service groups. Smart regions use smart; Normal uses url-test. Candidate nodes should match regions.
+2. **Connections:** access AI, Netflix and China-streaming services separately; verify actual rules, service groups and outbounds. The advanced section describes how to verify exits against service requirements; actual group names and connection results are authoritative.
+3. **Rules:** the baseline contains 168 main rules and 149 fused rule-providers. Do not compare against unfused source counts to judge completeness.
+4. **Logs and DNS:** no parser or rule-set loading errors. Final DNS includes script DoH and blacklist mode. See the full [post-import checklist](../../docs/guide/dns-and-verification.md#verification).
 
 <a id="七常见问题"></a>
-
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-### WebRTC 检测为什么显示本地公网 IP？
+### Why does WebRTC testing show my local public IP?
 
-默认配置让常用 STUN/TURN 端口直连以兼容 NAT 探测，TUN 接管后仍会按规则直连。Windows 用户可在[在线配置页](https://ivansolis1989.github.io/Smart-Config-Kit/)将「Windows 浏览器 UDP」设为「拒绝（reject）」，下载并关联本地 JS，拒绝 Chrome / Edge / Firefox 的全部 UDP；默认关闭，HTTP/3 和 UDP 通话可能受影响。结合浏览器隐私策略并核对实际 STUN 连接；关闭客户端二次 DNS 覆写仍是正常用法。参见 [WebRTC 隐私与验收](../../docs/guide/webrtc-privacy.md)，包含适用边界、恢复和对照测试。
+Default rules route common STUN/TURN ports directly for NAT discovery; TUN capture still follows those rules. Windows users can set Windows browser UDP to reject on the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), download and associate local JS to reject all Chrome / Edge / Firefox UDP. This is off by default and may affect HTTP/3 and UDP calls. Combine it with browser privacy controls and inspect actual STUN connections. Disabling secondary client DNS override remains normal usage. See [WebRTC privacy and acceptance](../../docs/guide/webrtc-privacy.md) for limits, recovery and comparison tests.
 
-### Q1：启用脚本后节点为空 / 区域组为空？
+### Q1: Nodes or regional groups are empty?
 
-- 确认订阅返回的是 **Mihomo / Clash.Meta** 格式（不是 Surge / Quantumult）。
-- 确认机场节点名带有地区关键字（香港/HK/🇭🇰/hkg 至少其一；hk01 这类小写地区码加编号也支持）。
-- 打开日志，查看是否有 `No node classified` 提示。
+- Confirm the subscription returns **Mihomo / Clash.Meta**, not Surge / Quantumult format.
+- Confirm node names contain regional keywords, for example `香港`, `HK`, `🇭🇰` or `hkg`. Lowercase codes followed by numbers, such as `hk01`, are supported.
+- Check logs for `No node classified`.
 
-### Q2：首次连接特别慢？
+### Q2: First connection is very slow?
 
-- 首次需下载 **149 个融合 rule-providers**（Mihomo 优先 `.mrs`），体积显著低于展开源规则；
-- 建议在 WiFi 环境下完成首次下载。
+The initial download includes **149 fused rule-providers**, preferring `.mrs` on Mihomo, substantially smaller than expanded source rules. Complete initial downloads on Wi-Fi where possible.
 
-### Q3：如何升级到新版本？
+### Q3: How do I upgrade?
 
-- 将仓库里的 `.js` 文件更新，客户端会在下次刷新订阅时重新执行；
-- 无需删除旧订阅或重新导入。
+Update the client's `.js` override from the repository. It runs again on the next subscription refresh. Do not delete or reimport the existing subscription. Customized profiles should use the regeneration procedure above rather than the full-script URL.
 
-### Q4：能否同时启用多个覆写脚本？
+### Q4: Can multiple override scripts run together?
 
-- **不建议**。本脚本会完整重写 `proxy-groups` 与 `rules`，与其他脚本叠加可能导致冲突。
+Not recommended. This script fully rebuilds `proxy-groups` and `rules`; stacking other scripts can conflict.
 
-### Q5：LightGBM 模型未下载（仅 Smart 版）？
+### Q5: LightGBM model not downloaded (Smart only)?
 
-- 检查实际 Smart 内核与模型状态；若手动配置模型下载地址，当前字段为 `lgbm-url`（[官方配置源码](https://github.com/vernesong/mihomo/blob/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go)）；
-- 确认客户端可访问 GitHub Release（可能需要代理）：
-  ```
-  https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
-  ```
-- 或直接改用 **`ClashParty(mihomo).js`**，它用的是 url-test，不需要 LightGBM 模型。
+- Check the actual Smart core and model status. The current model download field is `lgbm-url` ([official configuration source](https://github.com/vernesong/mihomo/blob/83e67d0c4415b1114f9e01d8e9a00133caf89f6c/config/config.go)).
+- Confirm the client can reach GitHub Releases, using a proxy if necessary:
 
-### Q6：Smart 版与普通版可以切换吗？切换后订阅要不要重新导入？
+```text
+https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model.bin
+```
 
-- **可以任意切换**，两份脚本输出的 `proxy-groups / rules / rule-providers` 完全等价，客户端下次刷新订阅时自动重新生成。
-- **不要同时启用两份脚本**（会互相覆盖，结果不可预期）。切换步骤：覆写列表里关掉旧的那份 → 勾选新的那份 → 刷新订阅。
+- Alternatively, use **`ClashParty(mihomo).js`**, which uses url-test and does not need LightGBM.
 
-### Q7：升级 Clash Party v2.0.3+ 后，每次启动都提示“自动关闭 DNS 覆写”怎么办？
+### Q6: Can I switch Smart / Normal without reimporting subscriptions?
 
-这是客户端对原始订阅 DNS 的保护，不代表 JS 失败。保护先于 JS 执行；2.0.4 起可由客户端设置控制。官方顺序与版本边界见[核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。
+Yes, provided the core supports the chosen script. Routing and rule-provider semantics are equivalent; regional selection types differ as described above. Refreshing the subscription regenerates configuration. **Never enable both scripts.** Disable the old script, select the new one, then refresh.
 
-1. 保持本仓库 JS 启用，关闭客户端内置 DNS 覆写 / controlDns。
-2. 刷新订阅，检查最终配置有 dns.enable、仓库 DoH 和 fake-ip-filter-mode: blacklist；同时保留私有节点的精确 policy。
-3. 若必须由客户端管理 DNS，先在原始订阅/聚合层处理受保护字段，再核对最终结果。
+### Q7: Clash Party v2.0.3+ says it automatically disabled DNS override?
 
-仍异常时提供客户端版本、脱敏 DNS 配置和覆写日志；不要公开订阅 token 或节点密码。
+This protects DNS fields in the original subscription and does not mean JS failed. The guard runs before JS; from 2.0.4, client settings can control it. See [execution order and version boundaries](../../docs/upstream/2026-10-19/mihomo/report.md).
 
-### Q8：Windows 11 Microsoft Store 报网络错误，或页面有内容但图标为空？
+1. Keep this repository's JS enabled; disable built-in DNS override / `controlDns`.
+2. Refresh and verify final `dns.enable`, repository DoH and `fake-ip-filter-mode: blacklist`. Preserve exact private-node policies.
+3. If the client must manage DNS, handle protected fields at the original-subscription/aggregation layer first, then inspect the final result.
 
-先核对实际内核 TUN、系统代理及 Store 到本机代理的回环入口，再用失败图片的实际 URL 比较 `Ⓜ️ 微软服务` 组所选出站的 HTTP 结果。按包检查和添加回环豁免、图片 CDN 对照方法见 [Windows 11 Microsoft Store 排障](../../docs/microsoft-store-windows.md)。
+For remaining problems, provide client version, redacted DNS configuration and override logs. Do not publish subscription tokens or node passwords.
 
-### Q9：`dldir1.qq.com` 是否已分流？微信下载仍失败怎么排查？
+### Q8: Windows 11 Microsoft Store reports network errors or missing icons?
 
-已收录精确域名规则，域名分流指向 `📥 下载更新`，不是广告拒绝。该组为手动选择组，候选以 `🌍 全球节点` 开头且包含 `DIRECT`；实际出口取决于你的组选择及客户端保存的选择。Windows 若识别到 `Weixin.exe`、`WeChat.exe` 或 `WeChatAppEx.exe`，更早的进程规则会先送到 `DIRECT`。因此“域名已收录”不等于所有连接都会经过下载组，也不等于默认直连。
+Check actual core TUN, system proxy and the Store's loopback access to the local proxy. Compare HTTP results for a failing image's actual URL through the outbound selected in `Ⓜ️ 微软服务`. See [Windows 11 Microsoft Store troubleshooting](../../docs/microsoft-store-windows.md) for per-package loopback checks/exemptions and image-CDN comparisons.
 
-1. 更新当前启用的 JS 覆写、刷新订阅与规则集并重载配置，确认连接记录中的实际域名、进程、命中规则和最终出口。
-2. 若确实命中 `📥 下载更新` 且所选代理下载失败，可临时把该组切到 `DIRECT` 对比同一下载；这会同时影响该组的其他下载，复测后按需恢复原选择。若已命中进程 `DIRECT`，切换下载组不会改变该连接。
-3. 仍失败时提供系统、客户端版本、失败时间及脱敏连接日志；HTTP 状态和域名有助于区分规则未更新、出口故障与服务端错误。
+<a id="q9dldir1qqcom-是否已分流微信下载仍失败怎么排查"></a>
 
-完整证据与静态验证边界见 [Issue #187 下载域名复核](../../docs/research/2026-10-16-wechat-issue-187.md#2026-10-23-补充dldir1qqcom)。
+### Q9: Is dldir1.qq.com covered? Why can WeChat downloads still fail?
 
+The exact domain is included and targets `📥 下载更新`, not ad rejection. This is a manual-selection group whose candidates start with `🌍 全球节点` and include `DIRECT`; the actual exit depends on your saved group selection. On Windows, recognized `Weixin.exe`, `WeChat.exe` or `WeChatAppEx.exe` can match an earlier process rule and go `DIRECT`. Domain inclusion therefore does not mean every connection reaches the download group, or that the default is direct.
+
+1. Update the active JS override, refresh subscriptions/rule-sets and reload. Inspect actual domain, process, matching rule and final exit.
+2. If the connection hits `📥 下载更新` and the selected proxy fails, temporarily choose `DIRECT` and compare the same download. This also affects other downloads in that group; restore the previous selection as needed. If a process rule already selected `DIRECT`, changing the download group will not affect that connection.
+3. If it still fails, provide OS, client version, failure time and redacted connection logs. HTTP status and domain help distinguish stale rules, exit failures and server errors.
+
+See [Issue #187 download-domain review](../../docs/research/2026-10-16-wechat-issue-187.md#2026-10-23-补充dldir1qqcom) for evidence and static-test limits.
 
 <a id="reference"></a>
 
-## 进阶与参考
+## Advanced reference
 
-- [节点筛选](../../docs/subscription-node-filter.md)：小写地区码加编号、倍率筛选（默认关闭）、远程节点展开与拨号依赖。
-- [私有节点 DNS](../../docs/private-node-dns.md)：默认 adaptive，按活动节点生成 DNS 提示。
-- [测速 / QUIC](../../docs/traffic-options.md) · [ZeroTier UDP 代理（默认关闭）](../../docs/zerotier-planet-proxy.md) · [规则下载](../../docs/rule-asset-delivery.md)。
-- [Mihomo 官方配置](https://wiki.metacubex.one/config/) · [官方版本与源码核对](../../docs/upstream/2026-10-19/mihomo/report.md)。
+- [Node filtering](../../docs/subscription-node-filter.md): lowercase region codes plus numbers, multiplier filtering (off by default), remote-node flattening and dial dependencies.
+- [Private-node DNS](../../docs/private-node-dns.md): adaptive by default, generating hints for active nodes.
+- [Latency testing / QUIC](../../docs/traffic-options.md) · [ZeroTier UDP proxy (off by default)](../../docs/zerotier-planet-proxy.md) · [Rule downloads](../../docs/rule-asset-delivery.md).
+- [Official Mihomo configuration](https://wiki.metacubex.one/config/) · [Official version/source review](../../docs/upstream/2026-10-19/mihomo/report.md).
 
 <a id="四粘贴-ui-补充配置"></a>
 
 <details>
-<summary>手动核对 GeoX、DNS 与 Sniffer（含原有截图及 YAML）</summary>
+<summary>Manual GeoX, DNS and Sniffer review (original screenshots and YAML)</summary>
 
-脚本已生成节点、组、规则、DNS 与嗅探。通常关闭客户端的二次 DNS 覆写即可；下方图片和 YAML 供手动核对使用。若使用 UI Mixin，须合并私有节点 policy，并检查最终配置，避免再次覆盖脚本。
+The script already generates nodes, groups, rules, DNS and sniffing. Normally disable secondary client DNS override. These original Chinese-interface screenshots and YAML are for manual comparison. If using UI Mixin, merge private-node policies and inspect final configuration to avoid overwriting the script again.
 
-GeoX URL：
+GeoX URLs:
 
-<img width="823" height="1032" alt="image" src="https://github.com/user-attachments/assets/51c8d844-3f66-4996-a271-6167db99f66a" />
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="823" height="1032" alt="Original client settings screenshot (Chinese interface)" src="https://github.com/user-attachments/assets/51c8d844-3f66-4996-a271-6167db99f66a" />
+
+</details>
 
 ```yaml
 geox-url:
@@ -238,10 +237,20 @@ geox-url:
 geo-auto-update: true
 ```
 
-DNS：
+DNS:
 
-<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/c6ad3051-17c3-43e2-8dfa-e9721bd305f8" />
-<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/d2cbbbb3-ed2c-45d7-86cc-832edfbdb365" />
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="811" height="698" alt="Original client settings screenshot (Chinese interface)" src="https://github.com/user-attachments/assets/c6ad3051-17c3-43e2-8dfa-e9721bd305f8" />
+
+</details>
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="811" height="698" alt="Original client settings screenshot (Chinese interface)" src="https://github.com/user-attachments/assets/d2cbbbb3-ed2c-45d7-86cc-832edfbdb365" />
+
+</details>
 
 ```yaml
 hosts:
@@ -310,9 +319,14 @@ dns:
     domain: []
 ```
 
-Sniffer：
+Sniffer:
 
-<img width="811" height="698" alt="image" src="https://github.com/user-attachments/assets/76bb6490-3dee-43f5-a863-96bc99546b52" />
+<details>
+<summary>View original Chinese-interface screenshot</summary>
+
+<img width="811" height="698" alt="Original client settings screenshot (Chinese interface)" src="https://github.com/user-attachments/assets/76bb6490-3dee-43f5-a863-96bc99546b52" />
+
+</details>
 
 ```yaml
 sniffer:
@@ -357,72 +371,74 @@ sniffer:
 <a id="六业务组推荐配置"></a>
 
 <details>
-<summary>业务组选择参考</summary>
+<summary>Service-group selection reference</summary>
 
-建议首次导入后，按以下方式为每个业务组「指定首选」：
+After importing, select suitable exits for each service. Exact runtime group names remain unchanged. These are operational suggestions, not guarantees of availability or regulatory compliance; check each service's current requirements.
 
-| 业务组 | 推荐上游 |
-|--------|----------|
-| 🤖 AI 服务 | 🇺🇸 美国节点（必须避开 HK / CN） |
-| 💰 加密货币 | 🇭🇰 香港节点（币安合规） |
-| 🏦 金融支付 | DIRECT |
-| 💬 即时通讯 | 🇭🇰 香港 / 🇯🇵 日韩 |
-| 📱 社交媒体 | 🇯🇵 日韩节点 |
-| 🧑‍💼 会议协作 | 🇯🇵 日韩节点（延迟低） |
-| 📺 国内流媒体 | DIRECT（境内）/ 🇭🇰 香港（境外） |
-| 🇺🇸 美国流媒体 | 🇺🇸 美国节点 |
-| 🇭🇰 香港流媒体 | 🇭🇰 香港节点 |
-| 🇹🇼 台湾流媒体 | 🇹🇼 台湾节点 |
-| 🎮 游戏平台 | 🇯🇵 日韩节点（Steam/PSN） |
-| 🔍 Google 服务 | 🌍 全球节点 |
-| 🔧 工具与服务 | 🌍 全球节点 |
-| 🚫 受限网站（GFW） | 中国选代理 / 海外选 DIRECT |
+| Service group (runtime identifiers retained) | Selection and verification |
+|---|---|
+| AI (`🤖 AI 服务`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Cryptocurrency (`💰 加密货币`) | Follow account requirements, service terms and applicable law; an exit region does not establish eligibility or compliance. |
+| Payments (`🏦 金融支付`) | Follow account requirements, service terms and applicable law; an exit region does not establish eligibility or compliance. |
+| Messaging (`💬 即时通讯`) | Compare connection success, packet loss and latency; choose a stable working exit. |
+| Social media (`📱 社交媒体`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Collaboration (`🧑‍💼 会议协作`) | Compare connection success, packet loss and latency; choose a stable working exit. |
+| China streaming (`📺 国内流媒体`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| US streaming | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Hong Kong streaming (`🇭🇰 香港流媒体`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Taiwan streaming (`🇹🇼 台湾流媒体`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Gaming platforms | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Google (`🔍 Google 服务`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Tools (`🔧 工具与服务`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+| Restricted sites (`🚫 受限网站`) | Choose a working exit that meets service requirements and verify actual requests; do not infer it from the user’s location. |
+
+Some older example category labels are not exact current group names. Select the actual service group shown by your configuration.
 
 </details>
 
 <a id="-协议支持mihomo--clashmeta--smart-内核"></a>
 
 <details>
-<summary>协议能力参考（取决于实际内核版本）</summary>
+<summary>Protocol reference (depends on installed core version)</summary>
 
-协议能力取决于客户端实际安装的 Mihomo 版本；下表用于选型，导入前仍需确认节点协议与核心兼容。
+Protocol support depends on the Mihomo version actually installed. Use this table for selection, then verify node/core compatibility before import.
 
-| 协议 | 支持 | 说明 |
+| Protocol | Support | Notes |
 |---|:-:|---|
-| **Shadowsocks (SS)** | ✅ | 全套 AEAD 密码 + **SS 2022 (blake3)** |
-| **ShadowsocksR (SSR)** | ✅ | 旧协议，仍兼容 |
-| **VMess** | ✅ | 含 ws / grpc / h2 / httpupgrade 传输层 |
-| **VLESS** | ✅ | 含 **REALITY** + **XTLS-Vision** + XTLS-rprx-splice |
-| **Trojan** | ✅ | 支持 Trojan-Go 扩展字段 |
-| **Hysteria v1** | ✅ | QUIC-based，弱网友好 |
-| **Hysteria 2** | ✅ | 当前最流行的抗审查 UDP 协议 |
-| **TUIC v5** | ✅ | QUIC-based，含 v4 兼容 |
-| **WireGuard** | ✅ | 作为出站，内核级别 |
-| **AnyTLS** | ✅ | 新型 TLS 混淆（mihomo 1.18+） |
-| **ShadowTLS v1/v2/v3** | ✅ | TLS 伪装层 |
-| **Snell v4** | ✅ | Surge 自家协议，Mihomo 兼容 |
-| **SSH** | ✅ | 作为出站隧道 |
-| **Mieru** | ✅ | 新协议（mihomo Alpha） |
-| **SOCKS5 / HTTP(S)** | ✅ | 基础兜底 |
+| **Shadowsocks (SS)** | ✅ | AEAD ciphers and SS 2022 (blake3) |
+| **ShadowsocksR (SSR)** | ✅ | Legacy protocol compatibility |
+| **VMess** | ✅ | ws / grpc / h2 / httpupgrade transports |
+| **VLESS** | ✅ | REALITY, XTLS-Vision and XTLS-rprx-splice |
+| **Trojan** | ✅ | Trojan-Go extension fields |
+| **Hysteria v1** | ✅ | QUIC-based |
+| **Hysteria 2** | ✅ | UDP-based; verify network suitability |
+| **TUIC v5** | ✅ | QUIC-based, with v4 compatibility |
+| **WireGuard** | ✅ | Core outbound |
+| **AnyTLS** | ✅ | TLS obfuscation, Mihomo 1.18+ |
+| **ShadowTLS v1/v2/v3** | ✅ | TLS camouflage layer |
+| **Snell v4** | ✅ | Surge protocol, supported by Mihomo |
+| **SSH** | ✅ | Outbound tunnel |
+| **Mieru** | ✅ | Mihomo Alpha capability |
+| **SOCKS5 / HTTP(S)** | ✅ | Basic fallback |
 
-### 如何选协议？一句话建议
+### Choosing a protocol
 
-使用服务商提供且当前核心支持的协议；UDP 协议还需验证当前网络与所选节点的 UDP 回包。
+Use a provider-offered protocol supported by the current core. For UDP protocols, also verify UDP return traffic on your network and selected node.
 
 </details>
 
 <a id="八目录一览"></a>
 
-本目录两份 JS 分别对应 Smart / Normal；手动补充 YAML 见上方参考。业务 DNS 的权威源为 [business-dns-policy.json](../../rulesets/source/business-dns-policy.json)，维护投影用 `node tools/sync-business-dns-policy.js`，并以 `--check` 与业务 DNS 测试核对。
+The two JS files target Smart / Normal respectively. Manual supplementary YAML appears above. Business DNS authority is [business-dns-policy.json](../../rulesets/source/business-dns-policy.json). Maintain projections with `node tools/sync-business-dns-policy.js`, then verify with `--check` and business DNS tests.
 
 <a id="九致谢"></a>
 
-- [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo) / [vernesong/mihomo](https://github.com/vernesong/mihomo) - Mihomo / Smart 内核
-- [mihomo-party-org/mihomo-party](https://github.com/mihomo-party-org/mihomo-party) - 桌面客户端
-- [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev) - 桌面客户端
-- [sub-store-org/Sub-Store](https://github.com/sub-store-org/Sub-Store) - 多机场融合工具
-- 所有上游规则集维护者（bm7 / MetaCubeX / Loyalsoldier / blackmatrix7 等）
+- [MetaCubeX/mihomo](https://github.com/MetaCubeX/mihomo) / [vernesong/mihomo](https://github.com/vernesong/mihomo): Mihomo / Smart cores.
+- [mihomo-party-org/mihomo-party](https://github.com/mihomo-party-org/mihomo-party): desktop client.
+- [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev): desktop client.
+- [sub-store-org/Sub-Store](https://github.com/sub-store-org/Sub-Store): subscription aggregation.
+- All upstream rule maintainers, including bm7 / MetaCubeX / Loyalsoldier / blackmatrix7.
 
 <a id="-支持本项目"></a>
 
-[变更历史](CHANGELOG.md) · [支持本项目](../../docs/donate.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[Changelog](CHANGELOG.md) · [Support the project](../../docs/donate.md) · [Report an issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

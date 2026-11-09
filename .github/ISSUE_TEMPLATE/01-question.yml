@@ -1,104 +1,103 @@
-name: ❓ 使用问题 / 求助
-description: 导入配置、节点不通、规则不命中、DNS 不解析、某 App 不知道怎么用……AI 会先回复一版参考答案。
-title: "[问题] "
-labels: ["question"]
-
-body:
-  - type: markdown
-    attributes:
-      value: |
-        > 🤖 这类 issue 打上 `question` 标签后，Xiaomi MiMo（首轮 `mimo-v2.6-flash`）会尝试给出参考分析；服务过滤或调用失败时会明确提示等待维护者人工处理。
-        > 维护者或协作者在评论区输入 `/ai-help` 会升级到 `mimo-v2.6-pro` 深度分析。自动回复需要 `MIMO_API_KEY`；`MIMO_BASE_URL` 默认使用 Token Plan 中国端点，按量付费 key 需显式设置标准端点。配置与排障见仓库 `docs/ai-issue-responder.md`。
-        >
-        > 为了让 AI 和维护者都能快速命中问题，请尽量把下面的字段填全。**信息越具体，答案越准。**
-
-  - type: dropdown
-    id: client
-    attributes:
-      label: 使用的客户端
-      description: 你在哪个 App / 平台上遇到了问题？
-      options:
-        - Clash Party（JS 覆写脚本）
-        - Clash Meta For Android (CMFA)
-        - OpenClash（OpenWrt 路由器）
-        - Shadowrocket（iOS）
-        - Surge（iOS / macOS）
-        - Loon（iOS）
-        - Quantumult X（iOS）
-        - sing-box / Hiddify / HomeProxy
-        - v2rayN（Windows）
-        - Passwall / Passwall2（OpenWrt）
-        - ShellClash / ShellCrash
-        - 其他 / 不确定
-    validations:
-      required: true
-
-  - type: input
-    id: version
-    attributes:
-      label: 客户端版本
-      description: 'App 的版本号（在 App 的"关于"页能找到）。例：mihomo v1.19.15 / Shadowrocket 2.2.58'
-      placeholder: "例：Clash Meta For Android 2.11.11 / mihomo v1.19.15"
-    validations:
-      required: false
-
-  - type: input
-    id: config_version
-    attributes:
-      label: 使用的本仓库配置版本
-      description: '配置文件头部 / CHANGELOG.md 里的版本号。例：v5.2.5-cmfa.1'
-      placeholder: "例：v5.2.5-oc-full / v5.2.5-cmfa.1"
-    validations:
-      required: false
-
-  - type: textarea
-    id: problem
-    attributes:
-      label: 问题描述
-      description: 你想做什么？实际发生了什么？越具体越好。
-      placeholder: |
-        例：
-        我在 CMFA 上导入了 clash-smart-cmfa.yaml，节点都能显示延迟，但访问 ChatGPT 一直走直连，提示 "ChatGPT isn't available in your country"。
-        🤖 AI 服务 组我手动选了 🇺🇸 美国节点。
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: 预期行为
-      description: 你**期望**看到什么结果？
-      placeholder: |
-        例：访问 chat.openai.com 应该走 🤖 AI 服务 → 🇺🇸 美国节点，能正常打开聊天界面。
-    validations:
-      required: false
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: 日志 / 截图 / 错误信息
-      description: |
-        如果有客户端连接日志、报错截图、规则命中记录，贴在这里。
-        - Clash 系：Connections 页 / Logs 页
-        - sing-box：`experimental.clash_api` 的日志
-        - Shadowrocket：底部 Logs
-      placeholder: |
-        贴日志时用代码块包起来，方便阅读：
-        ```
-        [Rule] ... matched ...
-        ```
-    validations:
-      required: false
-
-  - type: checkboxes
-    id: precheck
-    attributes:
-      label: 提交前自检 ✅
-      description: 勾选前请先确认，能省很多来回
-      options:
-        - label: 我已经看过对应客户端子目录的 `README.md`，问题不在常见的"导入步骤 / 最低版本 / 协议支持"范围内
-          required: true
-        - label: 我使用的是本仓库最新版配置（对照 CHANGELOG.md 确认）
-          required: false
-        - label: 我愿意在 AI 初步回复后继续补充信息，直到问题被解决
-          required: true
+{
+  "name": "Question / help (English)",
+  "description": "Import, DNS, rule matching or client usage questions.",
+  "title": "[Question] ",
+  "labels": [
+    "question"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "Automated analysis may assist with triage or propose a fix, but it is not a guarantee of correctness or resolution. Replies follow the language of your question, not the documentation default. Please redact subscription URLs, credentials and private logs. See docs/ai-issue-responder.md for the current workflow."
+      }
+    },
+    {
+      "type": "dropdown",
+      "id": "client",
+      "attributes": {
+        "label": "Client",
+        "description": "Which client and platform are affected?",
+        "options": [
+          "Clash Party / Clash Verge Rev (Smart / Normal JS)",
+          "CMFA / ClashMi",
+          "OpenClash (OpenWrt)",
+          "FlClash",
+          "Shadowrocket (iOS)",
+          "Surge (iOS / macOS)",
+          "Loon (iOS)",
+          "Quantumult X (iOS)",
+          "sing-box / Hiddify / HomeProxy",
+          "Karing",
+          "v2rayN",
+          "Passwall / Passwall2",
+          "Meow / AEROVE Lite",
+          "Other / unsure"
+        ]
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "input",
+      "id": "version",
+      "attributes": {
+        "label": "Client version",
+        "description": "Include the actual core version where available."
+      }
+    },
+    {
+      "type": "input",
+      "id": "config_version",
+      "attributes": {
+        "label": "Configuration version",
+        "description": "Use the file header or the matching changelog."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "problem",
+      "attributes": {
+        "label": "Problem description",
+        "description": "What are you trying to do, and what actually happens? Include relevant steps."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "expected",
+      "attributes": {
+        "label": "Expected behavior",
+        "description": "Describe the expected routing or import result."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "logs",
+      "attributes": {
+        "label": "Logs / screenshots / errors",
+        "description": "Share only redacted diagnostics; put logs in fenced code blocks."
+      }
+    },
+    {
+      "type": "checkboxes",
+      "id": "precheck",
+      "attributes": {
+        "label": "Before submitting",
+        "options": [
+          {
+            "label": "I checked the matching client guide and its version/import limitations.",
+            "required": true
+          },
+          {
+            "label": "I removed subscription URLs and credentials from this report.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

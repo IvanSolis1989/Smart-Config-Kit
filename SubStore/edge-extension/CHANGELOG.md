@@ -1,105 +1,115 @@
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="自动订阅同步助手 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Automatic subscription synchronization helper changelog" width="100%">
 </picture>
 
-# 自动订阅同步助手 — 变更日志
+<a id="自动订阅同步助手--变更日志"></a>
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
+# Automatic subscription synchronization helper — Changelog
+
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
 ## v1.8.1 (2026-10-23)
 
-- local 内容同步在返回 unchanged/dry_run 前重新比较完整配置；备份落盘后、更新或恢复发送前再次比较，拒绝预览/备份等待期间发生的手工修改。本机 API 无原子条件 PATCH，最后读写间仍有窄竞态窗口。
-- 新增并发负控、备份失败与读回不一致回归，以及扩展客户端/云端 transport/专用 Worker route/快照操作的合成联调。Node 共 464 项通过；原 v1.8.0 模块在两组新增并发回归下失败。
-- 更新隔离浏览器的预期只读序列；本轮本地无浏览器二进制，补丁浏览器验收以对应 CI 为准。明确旧六站收据、v1.8.0 同树 CI 和补丁 Node 的证据边界，新增[完整真实链路验收步骤](../../docs/research/2026-10-23-substore-v1.8-validation.md)。未访问真实订阅、云端账户、Gist 发布者或手机，不宣称新版整链通过。
+- Local-content synchronization rechecks complete configuration before returning unchanged/dry_run, and again after writing backups but before sending updates/restores. It rejects manual changes during preview/backup waits. The local API has no atomic conditional PATCH; a narrow final read/write race remains.
+- Added concurrent negative controls, backup failures, inconsistent-readback regressions and synthetic integration across extension client/cloud transport/dedicated Worker route/snapshot operation. All 464 Node tests passed; the original v1.8.0 module failed both new concurrency regression groups.
+- Updated expected read-only sequences in isolated browser tests. No browser binary was available locally for this patch; corresponding CI determines browser acceptance. Distinguished old six-site receipts, v1.8.0 same-tree CI and patch Node evidence; added [complete live-chain acceptance steps](../../docs/research/2026-10-23-substore-v1.8-validation.md). No real subscriptions, cloud accounts, Gist publisher or phone were accessed; complete new-version acceptance was not claimed.
 
 ## v1.8.0 (2026-10-18)
 
-- 增加显式站点/名称策略限定的持久 local 内容快照同步，补足 local 空 URL 条目不参与常规 remote 匹配的边界。受信网站、唯一精确名称和最低节点数同时满足才放行，不扩展为任意本地条目覆盖。
-- 一次性链接只经本机临时 remote 预览拉取一次，原始节点在当前任务内存共享给双端，各端按自己保存的 local 处理器验证；只更新 `content` 并独立读回，保留 local、空 URL、处理器及组合关系，不把一次性链接保存为远程源。
-- 旧 `content` 保存为按目标隔离的敏感恢复备份；本机配置比较与 Cloudflare 专用入口完整 revision 约束防止覆盖已变化状态。已存 local 内容可在本机关闭后继续输出，新内容刷新仍需本机运行；既有远程 24 小时快照与 Gist/Fusion/手机发布链路不因该流程改变。
+- Added persistent local-content snapshot synchronization restricted by explicit site/name policies, addressing local entries with empty URLs excluded from normal remote matching. Trusted site, unique exact name and minimum node count must all match; this does not permit arbitrary local-entry overwrites.
+- A one-time URL is fetched once through a temporary local remote preview. Raw nodes are shared in task memory with both targets; each validates using its own saved local processors. Only `content` is updated and independently read back, preserving local type, empty URL, processors and collection relationships. The one-time URL is not saved as a remote source.
+- Old `content` is saved as a target-isolated sensitive recovery backup. Local configuration comparison and complete revision constraints on the dedicated Cloudflare route prevent overwriting changed state. Saved local content remains available while the local machine is off; refreshing new content still requires it. Existing remote 24-hour snapshots and Gist/Fusion/phone publication paths are unchanged.
 
 ## v1.7.0 (2026-10-18)
 
-- 为服务端 allowlist 中已确认受 Cloudflare HTTP 403 challenge 阻断的来源，增加本机严格 `noCache` 单订阅 `original` 原始节点快照上传；不上传已处理 Fusion，也不把原始节点写入扩展永久存储。健康云端来源继续自行下载。
-- 单源原始预览只剔除精确“剩余流量[:：]”“套餐到期[:：]”前缀且非真实节点的套餐元数据，保留全部真实 `original`；其他无效或设备超限错误仍拒绝，不降低最低节点数，服务端只接收全真实节点。
-- Cloudflare 按每源最低节点数、精确 URL 与配置绑定限期保存，快照有效期 24 小时；不同于持久 URL 的候选只提供上传后 120 秒预览窗口。仅直连确证 403 challenge 或网关 530 恢复直连后的确证 403 challenge 回退，不覆盖网关 200 包装上游 403；其他失败、过期、缺失和错误占位继续失败关闭。
-- 云端仍按自己保存的原 `process` 处理该源；受阻源刷新仍需要本机运行一次，无需 VPS，但不宣称修复原站对 Cloudflare 的限制或完全独立刷新。原 Gist / Fusion 发布者、已发布客户端副本与路由产物不因快照上传改变。
-- 打包运行闭包包含单源快照准备模块，共 16 个文件；CI 纳入扩展准备与 Worker 快照相关回归。隔离测试和本机预览不代替真实云端 seed 与最终发布验收。
+- Added local strict `noCache`, single-subscription `original` raw-node snapshot upload for server-allowlisted sources confirmed blocked by a Cloudflare HTTP 403 challenge. Processed Fusion is not uploaded, nor are raw nodes written to persistent extension storage. Healthy cloud sources continue downloading independently.
+- Single-source raw previews remove only non-real-node plan metadata with the exact prefixes `剩余流量[:：]` or `套餐到期[:：]`, retaining all real `original` nodes. Other invalid/device-limit errors remain rejected without reducing minimum node counts; the server accepts real nodes only.
+- Cloudflare stores snapshots for 24 hours subject to per-source minimum counts, exact URLs and configuration bindings. Candidates differing from persistent URLs get only a 120-second post-upload preview window. Fallback requires a confirmed direct 403 challenge, or one confirmed after gateway-530 recovery to direct. Gateway-200 wrappers of upstream 403 are not covered. Other failures, expiry, missing data and error placeholders remain fail-closed.
+- Cloud processing still uses that source's original saved `process`. Refreshing blocked sources requires one local run and no VPS, but this does not fix the origin's Cloudflare restriction or provide fully independent refresh. Snapshot upload does not change original Gist/Fusion publishers, published client copies or routing artifacts.
+- Runtime packaging includes single-source snapshot preparation, totaling 16 files. CI includes extension-preparation and Worker-snapshot regressions. Isolated tests/local previews do not replace real cloud seeding and final publication acceptance.
 
 ## v1.6.0 (2026-10-18)
 
-- 本机通信改用单个 offscreen 隐藏文档和 localhost iframe，不再创建可见中转标签；增加 `offscreen` 权限、仅限 `127.0.0.1` 的 frame CSP，以及 Port 身份和随机值绑定。保留原始前端 Origin、API 白名单、节点预览、条件备份、URL 单字段 PATCH 和最终许可/候选检查。
-- 后台重启后恢复既有隐藏文档，断线清空旧请求并重新绑定；旧 PATCH 不自动重发，在途请求不被初始化失败清理。Chrome 111–115 使用 `clients.matchAll`，较新版本优先 `runtime.getContexts`。
-- 打包器递归纳入 offscreen API 的静态入口及其 HTML 脚本闭包，最小安装目录为 15 文件；旧版本 ref 仍按各自依赖打包。
-- 308 项 Node 检查、33 项隔离 Edge 完整流程通过；每项业务均核验没有可见本机中转标签，前端离线时三次隐藏初始化全部清理。另有 7 项生产文件 Edge 探针，包括真实 worker 停启、强制 `clients.matchAll` 分支及隐藏文档关闭后恢复。未以 Edge 的兼容分支代替真实 Chrome 111 二进制验收，用户现用浏览器须重新加载本版后实测。
+- Replaced visible relay tabs with one offscreen hidden document and localhost iframe. Added `offscreen` permission, frame CSP restricted to `127.0.0.1`, and Port identity/random-token binding. Retained natural frontend Origin, API allowlist, node previews, conditional backups, URL-only PATCH and final permission/candidate checks.
+- Background restart restores the existing hidden document; disconnection clears old requests and rebinds. Old PATCH requests are never automatically resent, and initialization-failure cleanup does not remove in-flight requests. Chrome 111–115 uses `clients.matchAll`; newer versions prefer `runtime.getContexts`.
+- Packaging recursively includes offscreen static entry points and HTML script dependencies: minimum installation is 15 files. Older refs retain their own dependency closures.
+- All 308 Node checks and 33 isolated Edge end-to-end flows passed. Every flow verified absence of visible local relay tabs; all three hidden initialization attempts were cleaned up when frontend was offline. Seven production-file Edge probes additionally covered real worker stop/start, forced `clients.matchAll` and recovery after hidden-document closure. Edge compatibility branches were not presented as real Chrome 111 binary acceptance; the user's browser still needed reloading and testing this version.
 
 ## v1.5.1 (2026-10-18)
 
-- 无请求体的 GET 不再声明 JSON Content-Type，避免云端原生 Sub-Store 对空请求体执行 JSON 解析；POST/PATCH 仍携带 JSON，URL 单字段写入和独立读回保持不变。
-- 配套受限 Worker 入口使用平台支持的 `manual` 重定向模式；详见[SubStore 日志](../CHANGELOG.md)，浏览器端仍拒绝后端重定向。
-- 313 项扩展 Node、33 项隔离 Edge 流程及 66 项 Worker/发布辅助检查通过；真实云端上游可用性仍需独立验证，不能用隔离测试代替。
+- Bodyless GET no longer declares JSON Content-Type, preventing native cloud Sub-Store from parsing an empty body as JSON. POST/PATCH still carry JSON; URL-only writes and independent readback are unchanged.
+- The companion restricted Worker route uses platform-supported `manual` redirect mode; see [SubStore history](../CHANGELOG.md). Browser-side backend redirects remain rejected.
+- Passed 313 extension Node tests, 33 isolated Edge flows and 66 Worker/publication-helper checks. Real cloud upstream availability still needed separate verification; isolated tests were not a substitute.
 
 ## v1.5.0 (2026-10-18)
 
-- 修复权限查询异常被误判为撤权并永久删除站点信任的问题：异常时暂停本轮访问并保留已存许可；增加同 origin 新标签、后台重启和异常恢复回归，不扩大跨域许可。
-- 增加可选独立 Cloudflare Sub-Store 目标，保留本机自然 Origin 通信；云端在 service worker 获得对应主机权限后直接请求，两端独立匹配、预览、PATCH 和读回，分别记录结果及条件恢复备份。部分成功保留已完成端，不对已发送或结果不明的 PATCH 自动重试。
-- 高级设置增加默认关闭的云端开关、密码样式 HTTPS 后端地址和本地连接 JSON 导入；导入仅接受两项云连接字段，先读入草稿，再通过保存点击申请权限。云端主机不进入机场信任，静态主机权限范围不扩大，公共包不包含私人配置。
-- 弹窗分别显示两端结果和部分成功，按目标恢复；旧页面或旧版本结果标为历史。文档区分后端源 URL 更新、集合/Gist 发布与手机拉取，新增双端配置、权限、导入和界面回归。
-- 新增 `package.mjs` CLI：从已提交 Git ref（默认 HEAD）收集运行依赖，输出绝对路径安装目录，支持只读 `--check`；最小包为 13 个文件，原目录升级保留备份，不包含私人连接 JSON，也不自动安装扩展。
-- 配合独立受限 Worker 入口：secret 前缀下仅放行目录/单订阅读取、JSON 预览及仅含 URL 的 PATCH，旧入口保持；模块范围详见 [SubStore 日志](../CHANGELOG.md)。
-- 33 项隔离 Edge 端到端流程通过：保留原 31 项，并新增两端内部名称不同仍分别成功、云端预览失败仍保留本机成功两项。虚构面板与隔离 profile 的结果不代替真实账号或原生权限对话框验收。
+- Fixed permission-query exceptions being misclassified as revocation and permanently deleting site trust. Exceptions pause access for that run while retaining permission records. Added same-origin new-tab, background-restart and exception-recovery regressions without widening cross-origin access.
+- Added an optional independent Cloudflare Sub-Store target while preserving natural-Origin local communication. The service worker requests cloud access directly after host permission. Each target independently matches, previews, PATCHes and reads back, with separate results/conditional recovery backups. Partial success retains completed targets; already-sent or uncertain PATCHes are not automatically retried.
+- Advanced settings gained a default-off cloud switch, password-style HTTPS backend URL and local connection-JSON import. Import accepts only two cloud fields into a draft; saving then requests permission. Cloud hosts do not become provider-site trust, static host permissions are not widened, and public packages contain no private configuration.
+- Popup displays each target and partial success, with target-specific recovery. Old-page/version results are historical. Documentation distinguishes backend-source URL changes, collection/Gist publication and phone retrieval. Added dual-target configuration, permission, import and UI regressions.
+- Added `package.mjs`: gathers runtime dependencies from a committed Git ref (default HEAD), writes an absolute installation directory and supports read-only `--check`. Minimum package: 13 files. In-place upgrade keeps backups, excludes private connection JSON and does not install the extension automatically.
+- Integrates with the separate restricted Worker route: its secret prefix permits only directory/single-subscription reads, JSON preview and URL-only PATCH; old routes remain. See [SubStore history](../CHANGELOG.md) for module scope.
+- All 33 isolated Edge end-to-end flows passed: retained 31 and added independent success with different internal names plus local success preserved after cloud-preview failure. Fictional panels/isolated profiles do not establish real-account or native permission-dialog acceptance.
 
 ## v1.4.1 (2026-10-18)
 
-- DOM-only 面板撤下订阅控件时，跨 world 发布并保留撤下状态，立即使后台候选失效、清空重试待办；相同 URL 重现后重新验证，网络候选优先语义保持一致。
-- 预渲染文档激活时重新执行站点授权握手并重放观察缓存，继续拒绝非 active 文档，保留 BFCache 恢复路径。
-- 编码 cacheKey 审查项按官方固定版本和本机打包后端的纯解析片段独立验证：参数键不解码，所报编码别名不能启用自定义缓存；现有移除有效参数和 JSON cacheKey 的实现保持不改。
-- 278 项 Node 测试、31 项隔离 Edge 流程及 Windows 自动换行独立检出通过；包括同页撤下、相同链接重现、worker 重建时的候选身份、旧探针不能取消新候选。预渲染状态转换已有生命周期回归，隔离环境未取得原生预渲染激活证据，不将该项计为原生 E2E。
+- When DOM-only panels remove subscription controls, publish and retain removal across worlds, invalidate background candidates immediately and clear retry work. Reappearing identical URLs are revalidated; network-candidate precedence is preserved.
+- On prerender activation, rerun site-authorization handshake and replay observation cache. Non-active documents remain rejected, retaining BFCache recovery.
+- Independently tested the encoded-cacheKey review concern against pure parsing fragments from pinned official and locally packaged backends: parameter keys are not decoded, so reported encoded aliases cannot enable custom caches. Existing valid-parameter/JSON cacheKey removal remained unchanged.
+- Passed 278 Node tests, 31 isolated Edge flows and a separate Windows automatic-line-ending checkout. Covered same-page removal, identical-link reappearance, candidate identity during worker recreation and old probes not cancelling new candidates. Lifecycle tests cover prerender transitions, but isolated tests obtained no native prerender activation evidence; this was not counted as native E2E.
 
 ## v1.4.0 (2026-10-18)
 
-- 外部站点改为可选浏览器权限；首次在当前标签页明确允许，才按完整 origin 保存信任并动态注册两种 world 的监听。历史识别、待办及旧的广泛权限不会自动升级为信任；日常仍自动提取、匹配与写回。
-- 在实际本机请求发送前检查当前文档、站点信任和浏览器访问权限；撤销、全局关闭、页面离开到未监听目标以及旧待办重放均不得绕过。恢复备份也使用同一检查并绑定备份所属网站。
-- 同一文档累计 fetch / XHR 响应的账户候选；不同账户持续歧义，重复或格式不同的同一账户保持正常。后来的页面事件无法撤回已发送的请求。
-- 关闭准备失败且尚未发送请求的扩展自建中转页，并按自身 ID 清除记录；保留用户页面及可能承载在途请求的页面，失败诊断不暴露原始异常。
-- 修复 HTTP/IP 面板的文档随机标识兼容、worker 重启后条件恢复和启动握手竞争；266 项 Node 测试、29 项隔离 Edge 流程及 Windows 自动换行独立检出通过。离线前端实测三次初始化尝试，扩展新建标签全部关闭；已信任的合法流程仍只写 URL 并独立读回。
-- 本轮真实账号和原生权限对话框仍需用户加载本版后验证；隔离浏览器使用虚构面板及显式可信站点，不作为真实账号验收。
+- External sites moved to optional browser permissions. Only explicit first-time approval on the current tab saves full-origin trust and dynamically registers both-world listeners. Historical recognition, pending work and old broad permissions do not upgrade automatically to trust. Normal extraction/matching/writeback remains automatic afterward.
+- Before sending real local requests, verify current document, site trust and browser permission. Revocation, global disable, navigation to unobserved targets and replayed old work cannot bypass checks. Backup recovery uses the same checks and binds to the backup's site.
+- Accumulate account candidates from fetch/XHR responses within a document. Distinct accounts remain ambiguous; repeats or alternate formats of one account remain valid. Later page events cannot retract already-sent requests.
+- Close extension-created relay pages whose preparation failed before any request was sent, clearing records by their own IDs. Keep user pages and pages possibly carrying in-flight requests. Failure diagnostics do not expose raw exceptions.
+- Fixed HTTP/IP-panel document random-ID compatibility, conditional recovery after worker restart and startup-handshake races. Passed 266 Node tests, 29 isolated Edge flows and a separate Windows automatic-line-ending checkout. Three offline-frontend initialization attempts closed every extension-created tab. Trusted valid flows still write only URL and independently read back.
+- Real accounts/native permission dialogs still needed user verification after loading this version. Isolated browsers used fictional panels and explicitly trusted sites, not real-account acceptance.
 
 ## v1.3.2 (2026-10-18)
 
-- 处理 PR #189 的 Codex Review：页面候选变化或后到歧义使尚未发送的写入失效，避免旧验证结果继续写入；仅对同文档、同代且已完成的候选去重，歧义恢复后可自动继续。
-- 保留账户参数中的字面加号、编码空格、无等号标志及重复参数顺序，防止不同账户被合并。
-- 按页面 base URI 解析相对订阅锚点，保留现有订阅语义和危险地址检查。
-- 规范化主机及 IP 后识别回环占位节点，涵盖展开 IPv6、IPv4 映射 IPv6 和末尾点域名。
-- 新增真实 Edge 的相对链接、账户参数、回环及在途歧义回归；等待原任务结束后才断言零写入，旧后台负控证明可抓住迟到 PATCH，详见[修复验证](../../docs/research/2026-10-18-substore-review-fixes.md)。
-- 192 项 Node 测试、19 项 Edge 独立浏览器流程通过；本轮不冒称六家真实账号已重新加载新版，Chrome 账号环境仍未实测。
+- Addressed PR #189 Codex Review: changed candidates or late ambiguity invalidate unsent writes, preventing stale validation from committing. Deduplication applies only to completed candidates in the same document/generation; automatic work can resume when ambiguity clears.
+- Preserve literal plus signs, encoded spaces, flags without equals signs and duplicate-parameter order in account queries so distinct accounts are not merged.
+- Resolve relative subscription anchors against page base URI while retaining existing subscription semantics and dangerous-address checks.
+- Normalize hosts/IPs before detecting loopback placeholder nodes, including expanded IPv6, IPv4-mapped IPv6 and trailing-dot domains.
+- Added real Edge regressions for relative links, account parameters, loopback and in-flight ambiguity. Assert zero writes only after the original task ends; an old-background negative control catches late PATCH. See [repair verification](../../docs/research/2026-10-18-substore-review-fixes.md).
+- Passed 192 Node tests and 19 independent Edge flows. Did not claim six real accounts reloaded the new version; Chrome account environments remained untested.
 
 ## v1.3.1 (2026-10-18)
 
-- 六站真实自动流程通过：134 / 53 / 68 / 30 / 25 / 18 个有效节点，Kitty 与都是梦自动换链，处理步骤及其他字段保持一致。SSONE 捕获复用入口字节相同的 v1.3.0 收据，其余为 v1.3.1。
-- 为订阅 CDN 换域加入唯一品牌名称匹配，并校验目录 URL 快照仍与写前源一致；没有名称证据或存在账户歧义时停止。
-- 目录只读阶段的本机通信初始化失败有限自动恢复，不重试可能已经发出的 PATCH。
-- 扩展目录固定 LF 换行，确保 Windows 自动换行配置下独立检出仍可通过生成入口的逐字节检查。
-- 158 项 Node 测试、15 项独立真实 Edge 浏览器自动流程通过；Chrome 账号环境未实测。
+- Six real-site automatic flows passed with 134 / 53 / 68 / 30 / 25 / 18 valid nodes. Source D and `Source F` switched URLs automatically while preserving processors/other fields. Source A reused a v1.3.0 receipt whose entry-point bytes were identical; the others used v1.3.1.
+- Added unique brand-name matching for subscription-CDN domain changes; verified directory URL snapshots still matched the pre-write source. Stop without name evidence or with account ambiguity.
+- Allow bounded automatic recovery of local-communication initialization during read-only directory access, never retrying potentially sent PATCH.
+- Fixed extension files to LF, allowing byte-exact generated-entry checks after separate Windows automatic-line-ending checkouts.
+- Passed 158 Node tests and 15 independent real Edge automatic flows. Chrome account environments remained untested.
 
-## v1.3.0 (2026-10-18，本地待验)
+<a id="v130-2026-10-18本地待验"></a>
 
-- 移除固定六站范围和手工名称映射，在浏览器授权的 HTTP(S) 域名或 IP 上自动识别订阅与品牌，再匹配本机现有 Sub-Store 名称；唯一匹配后自动验证、只更新 URL。
-- 将所有手动操作收进高级选项，正常流程不需要打开弹窗、选择名称、复制链接或点同步。
-- 真实 Edge 155 独立复现：相同 helper 文件在两个 world 复用时只加载第一份；增加权限无效，使用不同文件 URL 后两份均正确加载。改为单一源码生成两个独立入口，构建检查禁止漂移。
-- 增加真实无账号浏览器回归、未预设域名及 HTTP/IP 样本和自动匹配歧义回归。六家实际账号捕获与配置读回通过前不提交或推送。
+## v1.3.0 (2026-10-18, local acceptance pending)
 
-## v1.2.1 / v1.2.0 (2026-10-18，本地开发版)
+- Removed the fixed six-site scope/manual name mapping. Recognize subscription/brand on browser-authorized HTTP(S) domains/IPs, match existing local Sub-Store names, then automatically validate and update URL only after a unique match.
+- Moved manual operations into advanced settings. Normal flow requires no popup, name selection, link copying or sync-button click.
+- Independent real Edge 155 reproduction showed that one helper-file URL reused in both worlds loaded only the first copy. Added permission did not help; different file URLs loaded both. Changed to two generated entry points from one source, with drift prohibited by build checks.
+- Added real browser regressions without accounts, non-preset domain/HTTP/IP samples and automatic-match ambiguity cases. No commit/push before six actual account captures and configuration readbacks passed.
 
-- 加入提取器、六站预设与版本/阶段诊断，独立读回发现旧成功状态不能证明新捕获；实际五站停在 bridge_ready，未通过发布验收。
-- 修复延迟赋值、陈旧 DOM 候选重放及大量歧义通知边界。跨 world 文件加载问题在 v1.3.0 修复。
+<a id="v121--v120-2026-10-18本地开发版"></a>
 
-## v1.1.0 (2026-10-18，本地验证版)
+## v1.2.1 / v1.2.0 (2026-10-18, local development versions)
 
-- 通过非活动的本机前端标签页，以正常前端 Origin 通信，解决内置 Sub-Store 拒绝扩展后台 Origin 的问题，不修改 Origin 或后端配置。
-- 良心云完成真实新链接捕获、53 个节点验证、写回及独立读回，三个处理步骤和其他字段保持一致。
+- Added extractor, six-site presets and version/stage diagnostics. Independent readback showed old success did not prove new capture; five actual sites stopped at bridge_ready and did not pass publication acceptance.
+- Fixed delayed assignment, stale DOM-candidate replay and large ambiguity-notification boundaries. Cross-world file loading was fixed in v1.3.0.
 
-## v1.0.0 (2026-10-18，本地开发版)
+<a id="v110-2026-10-18本地验证版"></a>
 
-- 人工登录良心云后观察订阅响应，验证有效节点、只写 URL、保留备份并独立读回。
+## v1.1.0 (2026-10-18, local validation version)
+
+- Communicated through an inactive local frontend tab using its normal Origin, resolving built-in Sub-Store rejection of extension-background Origin without modifying Origin or backend configuration.
+- `Source B` completed real new-link capture, validation of 53 nodes, writeback and independent readback, preserving three processing steps/other fields.
+
+<a id="v100-2026-10-18本地开发版"></a>
+
+## v1.0.0 (2026-10-18, local development version)
+
+- After manual login to `Source B`, observed subscription responses, validated real nodes, wrote URL only, retained backups and independently read back.

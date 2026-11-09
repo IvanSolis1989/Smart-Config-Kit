@@ -1,63 +1,70 @@
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-subscription-node-filter-mobile.svg">
-  <img src="assets/readme/page-subscription-node-filter.svg" width="100%" alt="技术指南">
+  <img src="assets/readme/page-subscription-node-filter.svg" width="100%" alt="Technical guide">
 </picture>
 
-# 订阅节点预检与倍率筛选
+<a id="订阅节点预检与倍率筛选"></a>
+# Subscription-node preflight and multiplier filtering
 
-为 JS 与 OpenClash 覆写设置节点倍率上限，理解预检拒绝原因，以及 inline 集合的支持范围。
+**English** | [简体中文](subscription-node-filter.zh-CN.md)
+
+Set a node multiplier limit for JS and OpenClash overrides, understand preflight rejections, and check the supported scope of inline providers.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Checks and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
-## 使用入口
+<a id="使用入口"></a>
+## Entry points
 
-1. 在本地 JS 参数或 OpenClash 调用环境设置上限；默认不筛除倍率节点。
-2. 刷新订阅，遇到拒绝时先处理重名、拨号依赖或不支持的集合字段。
-3. 对 HTTP/file provider 先用 Sub-Store 展平，再交给动态地区分类。
+1. Set a limit in local JS options or the OpenClash invocation environment. Multiplier filtering is disabled by default.
+2. Refresh the subscription. If rejected, first resolve duplicate names, dialer dependencies, or unsupported provider fields.
+3. Flatten HTTP/file providers with Sub-Store before dynamic regional classification.
 
-Clash Party Smart / Normal、FlClash 和 OpenClash Smart / Normal 共用相同的筛选语义：先检查订阅节点，再生成仓库的地区组、业务组、规则和 DNS。默认保留所有倍率节点，信息节点按明确的公告模式清理。
+Clash Party Smart / Normal, FlClash, and OpenClash Smart / Normal share the same semantics: validate subscription nodes before generating the repository’s regional groups, service groups, rules, and DNS. By default, all node multipliers are retained; informational entries are removed only when they match explicit announcement patterns.
 
-## 配置倍率上限
+<a id="配置倍率上限"></a>
+## Set a multiplier limit
 
-JS 覆写脚本中的本地参数默认是：
+The local option in JS overrides defaults to:
 
 ```javascript
 const SCKI_MAX_NODE_MULTIPLIER = null
 ```
 
-如需排除超过 2 倍的节点，改为 `2`。恰好 2 倍的节点继续保留。该参数只从你维护的脚本读取，机场订阅不能替你设置它。使用 URL 自动更新脚本时，建议维护本地副本以保留自定义参数。
+Set it to `2` to exclude nodes above a 2× multiplier. Nodes at exactly 2× remain. The value is read only from the script you maintain; the subscription provider cannot set it. Keep a local copy when using URL-based script updates so your custom options are retained.
 
-OpenClash 的环境变量默认空值，表示关闭：
+The OpenClash environment variable defaults to empty, meaning disabled:
 
 ```sh
 SCKI_MAX_NODE_MULTIPLIER=2 bash /etc/openclash/overwrite/OpenClash\(mihomo\).sh /path/to/subscription.yaml
 ```
 
-由 OpenClash 启动脚本时，可在本地覆写脚本调用处设置这个环境变量。上限必须是有限正数，非法参数会拒绝本次处理。此参数不是 LuCI 的 UCI 配置键。
+When OpenClash launches the script, set the variable at the local override invocation. The limit must be a finite positive number; invalid values reject the operation. It is not a LuCI UCI configuration key.
 
-解析只接受明确的倍率标签，如 `x2`、`2x`、`×0.5`、`2倍`、`倍率2`。普通地区编号、端口、IP 地址不会作为倍率。没有标签、零倍率和相互矛盾的标签保留，不根据延迟或线路名字猜测计费倍率。解析结果只是节点名称里的声明，实际计费以机场说明为准。
+Parsing accepts explicit multiplier labels such as `x2`, `2x`, `×0.5`, `2倍`, and `倍率2`. Ordinary regional numbers, ports, and IP addresses are not multipliers. Missing labels, zero multipliers, and conflicting labels are retained; billing multipliers are not inferred from latency or route names. Parsed values are declarations in node names only; actual billing follows the provider’s terms.
 
-## 预检与引用
+<a id="预检与引用"></a>
+## Preflight and references
 
-完全等价的重复节点保留首次出现的对象；同名但配置不同的节点会拒绝本次处理，需要先在订阅聚合处解决身份歧义。节点名与仓库组名、内置策略名冲突，或节点字段类型无法安全处理时，同样先拒绝处理。JS 保持原始订阅对象，OpenClash 不写回源 YAML；原始订阅能否运行仍取决于其本身是否有效。
+Exactly equivalent duplicate nodes retain the first object. Identically named nodes with different configurations reject the operation; resolve identity ambiguity at the subscription aggregator first. Conflicts with repository group names or built-in policies, and node-field types that cannot be handled safely, also reject processing. JS preserves the original subscription object; OpenClash does not write back to the source YAML. Whether the original subscription works still depends on its own validity.
 
-日志只记录原因和计数，不记录节点端点、名称或凭证。
+Logs record reasons and counts only, not node endpoints, names, or credentials.
 
-节点不会被自动改名。保留节点的 `dialer-proxy` 引用必须保持可解析；如果筛选会移除其依赖节点，或链路存在自引用、循环引用，先拒绝这次处理，调整上限或在聚合层修正链路后再试。正常多跳链保留。所有节点被筛除时，全球组显式使用 `REJECT`，避免空测速组依赖默认回退。
+Nodes are not automatically renamed. Retained nodes’ `dialer-proxy` references must remain resolvable. If filtering would remove a dependency, or a chain contains a self-reference or cycle, processing is rejected. Adjust the limit or fix the chain in the aggregation layer before retrying. Valid multihop chains remain. If all nodes are filtered out, the global group explicitly uses `REJECT`, rather than relying on the default fallback of an empty health-check group.
 
-合法的 IPLC、IEPL、中转、Telegram 等线路名称保留；这些词本身不说明节点是公告。
+Valid route names containing IPLC, IEPL, relay, Telegram, or similar terms are retained; those terms alone do not identify an announcement.
 
-具名 `type: direct` / `type: reject` 是支持出站：保留对象及 `dialer-proxy` 引用，但不作为全球、地区、家宽测速候选或节点服务器域名来源。只有这些支持出站时，全球组使用 `REJECT`。内置名称（包括 `PASS-RULE`）不能用作订阅节点名称。
+Named `type: direct` / `type: reject` entries are support outbounds: their objects and `dialer-proxy` references are preserved, but they are not candidates for global, regional, or residential health-check groups, nor sources of node-server domains. If only support outbounds remain, the global group uses `REJECT`. Built-in names, including `PASS-RULE`, cannot be subscription-node names.
 
-## inline 代理集合
+<a id="inline-代理集合"></a>
+## Inline proxy providers
 
-五个脚本可直接处理仅含 `type: inline` 和 `payload` 的代理集合，例如：
+The five scripts can directly handle providers containing only `type: inline` and `payload`, for example:
 
 ```yaml
 proxy-providers:
@@ -71,31 +78,32 @@ proxy-providers:
         password: YOUR_PASSWORD
 ```
 
-有 inline 集合时可以省略 `proxies`；显式节点在前，集合按输入迭代顺序依次展平。所有候选统一进行重名、倍率与拨号链检查，存活节点进入原有地区分类和节点 DNS 处理。payload 节点独立复制，后续指纹设置不改动外部共享对象。
+With inline providers, `proxies` may be omitted. Explicit nodes come first, followed by providers flattened in input iteration order. All candidates share duplicate-name, multiplier, and dialer-chain checks; surviving nodes enter the existing regional classification and node-DNS handling. Payload nodes are copied independently so subsequent fingerprint settings do not mutate externally shared objects.
 
-只有预检通过才写入节点并移除已展平集合；空 payload 生成全球 `REJECT`，不会留下默认直连测速组。
+Nodes are written and flattened providers removed only after preflight succeeds. An empty payload produces global `REJECT`, not a health-check group that defaults to direct traffic.
 
-每个 inline 集合只接受上述两个字段。`filter`、`exclude-filter`、`exclude-type`、`override`、`health-check`、`url`、`path`、`interval` 等字段或任何未知字段都会使整次处理拒绝，避免丢失其原有语义。普通无集合的显式空数组延续各客户端的原入口行为。
+Each inline provider accepts only the two fields above. `filter`, `exclude-filter`, `exclude-type`, `override`, `health-check`, `url`, `path`, `interval`, and any unknown field reject the entire operation rather than silently discarding their semantics. An explicit empty array without providers retains each client’s original entry-point behavior.
 
-HTTP/file 或带额外字段的 `proxy-providers` 仍需先使用 [Sub-Store](../SubStore/README.md) 展平为 `proxies`。动态地区组需要知道实际节点名称，单凭远程 URL 无法在脚本运行时完成同样的分类、链检查和节点专属 DNS 投影。
+HTTP/file `proxy-providers`, or providers with extra fields, must first be flattened into `proxies` using [Sub-Store](../SubStore/README.md). Dynamic regional groups need actual node names. A remote URL alone cannot provide equivalent classification, chain checks, or node-specific DNS projection during script execution.
 
-预检保留原始配置并提示展平；不会只选出混合输入中的显式节点而遗漏远程集合。
+Preflight preserves the original configuration and requests flattening. It does not silently select only explicit nodes from mixed input while omitting remote providers.
 
-## 适用端与维护
+<a id="适用端与维护"></a>
+## Client scope and maintenance
 
 <details>
-<summary>维护者：逐端适用性、共享源码与官方依据</summary>
+<summary>Maintainers: per-client scope, shared source, and official references</summary>
 
-inline 展平与预检属于五个订阅处理脚本的运行时。CMFA 的原生 provider 组也需区分支持出站，使用组级 `exclude-type: direct|reject` 与 `empty-fallback: REJECT`，保留 provider 中的拨号依赖。
+Inline flattening and preflight run in the five subscription-processing scripts. CMFA’s native provider groups must also distinguish support outbounds, using group-level `exclude-type: direct|reject` and `empty-fallback: REJECT` while preserving dialer dependencies inside providers.
 
-Stash 没有公开的同等字段：测速 provider 应只包含远端代理，把需要的具名直连支持出站置于独立顶层 `proxies`，并在聚合层确认所有 dialer 引用；空 provider/空组仍受 Stash 默认直连语义约束。
+Stash has no documented equivalent fields. Its health-check providers should contain only remote proxies; place required named direct support outbounds in separate top-level `proxies`, and verify all dialer references in the aggregation layer. Empty providers/groups remain subject to Stash’s default direct-routing semantics.
 
-完整逐端分析与实核证据见 [后续研究](research/2026-09-30-routing-runtime-followup.md)。
+See the [follow-up study](research/2026-09-30-routing-runtime-followup.md) for complete per-client analysis and actual-core evidence.
 
-规则权威源保持 `rulesets/source/routing-graph.js` v6.0.14；融合规则和发布缓存键保持原值。共享节点筛选源码位于 `tools/runtime/subscription-node-filter.js` 与 `.rb`，修改后运行对应同步工具，并检查实际客户端脚本中的嵌入块，防止三个 JS 或两个 Ruby 副本漂移。
+The rule authority remains `rulesets/source/routing-graph.js` v6.0.14; fused rules and release cache keys are unchanged. Shared node-filter source lives in `tools/runtime/subscription-node-filter.js` and `.rb`. After changes, run the corresponding synchronization tools and inspect embedded blocks in actual client scripts to prevent drift across the three JS and two Ruby copies.
 
-官方语义依据：[Mihomo 代理组](https://wiki.metacubex.one/config/proxy-groups/) 的 `proxies`、`use`、`include-all-proxies`、`exclude-type`、`empty-fallback`，[代理集合](https://wiki.metacubex.one/config/proxy-providers/) 的 `type: inline` / `payload`，[具名直连](https://wiki.metacubex.one/config/proxies/direct/) 与 [dialer-proxy](https://wiki.metacubex.one/en/config/proxies/dialer-proxy/)。
+Official semantics: [Mihomo proxy groups](https://wiki.metacubex.one/config/proxy-groups/) (`proxies`, `use`, `include-all-proxies`, `exclude-type`, `empty-fallback`), [proxy providers](https://wiki.metacubex.one/config/proxy-providers/) (`type: inline` / `payload`), [named direct outbounds](https://wiki.metacubex.one/config/proxies/direct/), and [dialer-proxy](https://wiki.metacubex.one/en/config/proxies/dialer-proxy/).
 
-倍率上限在脚本中解析，不引入新的内核配置字段。
+The multiplier limit is parsed by the script and introduces no new core configuration field.
 
 </details>

@@ -1,32 +1,40 @@
-# 本地 Codex Issue 派单验收（2026-11-01）
+<a id="本地-codex-issue-派单验收2026-11-01"></a>
+# Local Codex Issue dispatch acceptance (2026-11-01)
 
-## 实际交付
+**English** | [简体中文](2026-11-01-local-codex-issue-bridge-acceptance.zh-CN.md)
 
-- 代码提交：`23cea9c3`、`f62c6bf2`、`b5f6c5c2`，均已正常推送 `main`。
-- 仓库变量 `LOCAL_CODEX_ENABLED=true`；本地 worker 已安装并由当前用户的 Windows 计划任务启动，实际状态为运行中。
-- 固定模型 `gpt-6.1-sol`、推理强度 `ultra`。创建线程前检查账号目录，创建后检查服务端返回的模型和强度；每轮再次显式传参，不支持或发生降档时停止。
-- 每个任务独立工作目录和持久会话；事件去重；候选提交在临时分支验证，确认四项门禁实际通过后，才正常推送同一 SHA 到 `main` 并幂等回复。
 
-## 真实验收证据
+<a id="实际交付"></a>
+## Actual delivery
 
-| 验收 | 证据 | 结果 |
+- Code commits `23cea9c3`, `f62c6bf2`, and `b5f6c5c2` were normally pushed to `main`.
+- Repository variable `LOCAL_CODEX_ENABLED=true`; the local worker was installed and started by a Windows scheduled task under the current user, with an actual running state.
+- Model `gpt-6.1-sol` and reasoning effort `ultra` are fixed. The account catalog is checked before thread creation; the server-returned model and effort are checked afterward. Every turn explicitly supplies them again. Unsupported settings or downgrades stop processing.
+- Each task has an isolated working directory and persistent session, with event deduplication. Candidate commits are validated on temporary branches. Only after all four gates actually pass is the same SHA normally pushed to `main`, followed by an idempotent reply.
+
+<a id="真实验收证据"></a>
+## Real acceptance evidence
+
+| Acceptance | Evidence | Result |
 | --- | --- | --- |
-| 专项离线 CI | [运行 41254023629](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41254023629) | 104 tests、104 pass、0 fail；包含模型/强度不支持及降档拒绝、队列去重、发布顺序、恢复与进程树终止 |
-| 候选发布门禁 | [运行 41253679257](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41253679257) | staging 分支与不可变 SHA 绑定成功；JS、产物合同、进程直连、Karing 四项均实际通过 |
-| 首条 GitHub → 本机会话 | [运行 41253355774](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41253355774) | artifact 上传成功，本机主动领取，新会话返回 `BRIDGE_SMOKE_OK` |
-| 固定 Sol ultra 的完整派单 | [运行 41254050729](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41254050729) | 计划任务在 App 进程外领取，model/effort 严格核对通过；会话完成并返回 `BRIDGE_SMOKE_OK` |
+| Focused offline CI | [Run 41254023629](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41254023629) | 104 tests, 104 pass, 0 fail; includes rejection of unsupported/downgraded model or effort, queue deduplication, publication order, recovery, and process-tree termination |
+| Candidate publication gates | [Run 41253679257](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41253679257) | Staging branch successfully bound to immutable SHA; JS, artifact contracts, direct-process routing, and Karing all actually passed |
+| First GitHub → local session | [Run 41253355774](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41253355774) | Artifact upload succeeded, local worker claimed it, and a new session returned `BRIDGE_SMOKE_OK` |
+| Complete dispatch with fixed Sol ultra | [Run 41254050729](https://github.com/IvanSolis1989/Smart-Config-Kit/actions/runs/41254050729) | Scheduled task claimed work outside the app process; strict model/effort verification passed; the session completed and returned `BRIDGE_SMOKE_OK` |
 
-本机安装目录的 `install-receipt.json` 记录代码提交及 runtime 文件 SHA256，`state/state.json` 记录任务 key、线程 ID、模型、强度、终态和完成时间。桌面 App 的会话读取接口已读回真实完成记录；不是仅检查进程存活。候选验收临时分支已清理。
+The local installation’s `install-receipt.json` records the code commit and runtime-file SHA256 values. `state/state.json` records task keys, thread IDs, model, effort, terminal state, and completion time. The desktop app’s session-reading interface read back actual completion records; this was not merely a process-liveness check. Temporary candidate-acceptance branches were cleaned up.
 
-## 环境问题及处理
+<a id="环境问题及处理"></a>
+## Environment issues and remedies
 
-- 本机 Windows 检查曾报告 Stash/Karing/能力矩阵生成漂移，但相同客户端输入在上述 GitHub Node.js 22 环境四项全过，不能据此判定 main 生成物过期。本次未修改客户端源和生成物。
-- Windows elevated sandbox 无法满足回环网络隔离，因此外层不在本机直接执行候选验证脚本；发布门禁使用无本机凭据、仅仓库读取权限的 GitHub 临时 runner。
-- MSIX 桌面 App 对 LocalAppData 的重定向使计划任务最初无法读取脚本路径。安装器现通过真实文件句柄解析物理路径，修复后计划任务已实际启动 worker 并完成固定模型派单。
-- Linux 首轮 CI 的进程存在性检查不能区分运行进程与僵尸态；现等待直接子进程退出，并检查内核终态及取消后不再产生心跳。修复后的 Linux CI 已通过。
+- Local Windows checks reported Stash/Karing/capability-matrix generation drift, but the same client inputs passed all four gates in the GitHub Node.js 22 environment above. This alone does not establish stale main artifacts. Client sources and generated artifacts were not modified in this change.
+- The Windows elevated sandbox could not satisfy loopback network isolation. The outer process therefore does not execute candidate validation scripts directly on the local machine. Publication gates use temporary GitHub runners without local credentials and with repository-read-only permissions.
+- MSIX desktop-app redirection of LocalAppData initially prevented the scheduled task from reading the script path. The installer now resolves the physical path through an actual file handle. After the fix, the scheduled task started the worker and completed fixed-model dispatch.
+- The initial Linux CI process-existence check could not distinguish running processes from zombies. It now waits for direct-child exit and checks the kernel terminal state and absence of post-cancellation heartbeats. The corrected Linux CI passed.
 
-## 验收边界
+<a id="验收边界"></a>
+## Acceptance boundaries
 
-smoke 不修改业务代码、不提交、不向真实 Issue 发测试评论，也不关闭 Issue。未拿真实用户问题演练自动修改并推送 main；发布顺序由真实临时 Git 仓库回归及真实 GitHub 候选门禁分别验证。计划任务已真实运行，重登录触发需在用户下次登录观察；未主动重启电脑。
+Smoke tests do not modify business code, commit changes, post test comments to real Issues, or close Issues. No real user issue was used to rehearse automatic editing and pushing to main. Publication order was validated separately through real temporary-Git-repository regressions and actual GitHub candidate gates. The scheduled task actually ran; its next-login trigger still requires observation when the user next logs in. The computer was not deliberately restarted.
 
-接入、暂停和恢复命令见[自动处理说明](../ai-issue-responder.md)。
+See the [automatic-processing guide](../ai-issue-responder.md) for setup, pause, and resume commands.

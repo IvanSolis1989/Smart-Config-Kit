@@ -1,43 +1,44 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-substore-mobile.svg">
-  <img src="../../docs/assets/readme/page-substore.svg" alt="Sub-Store · 脚本与发布辅助模块：先为单订阅标记来源，再在组合订阅清洗、去重；自动发布另接完整性保护。" width="100%">
+  <img src="../../docs/assets/readme/page-substore.svg" alt="Sub-Store scripts and publication helpers" width="100%">
 </picture>
 
-# Sub-Store · 脚本与发布辅助模块
+# Sub-Store scripts and publication helpers
 
-先为单订阅标记来源，再在组合订阅清洗、去重；自动发布另接完整性保护。
+Tag individual subscription sources first, then clean and deduplicate the collection. Automatic publication needs a separate completeness guard.
 
 <p>
-  <a href="../../docs/guide/downloads.md"><img src="../../docs/assets/readme/nav-downloads.svg" alt="配置下载" width="145" height="38"></a>
-  <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a>
+  <a href="../../docs/guide/downloads.md"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a>
+  <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a>
 </p>
 
-[接入顺序](#按顺序接入聚合脚本) · [发布保护](#fusion-发布完整性模块) · [网页管理](#独立网页管理入口) · [530 恢复](#下载网关-530-恢复) · [返回教程](../README.md)
-
----
+[Processing order](#按顺序接入聚合脚本) · [Publication guard](#fusion-发布完整性模块) · [Web management](#独立网页管理入口) · [530 recovery](#下载网关-530-恢复) · [Main guide](../README.md)
 
 <a id="local"></a>
+<a id="按顺序接入聚合脚本"></a>
 
-## 按顺序接入聚合脚本
+## Add aggregation scripts in order
 
-`local/` 来自本机 Mihomo Party / Clash Party 的 Sub-Store 配置，已脱敏。推荐顺序：
+`local/` contains redacted scripts from a local Mihomo Party / Clash Party Sub-Store configuration. Recommended order:
 
-1. 单条机场订阅：`flag-airport-rename.js`
-2. 组合订阅：`drop-invalid-nodes.js`
-3. 组合订阅：`cleanup-vless-vmess-fields.js`
-4. 组合订阅：`../common/drop-info-nodes.js`
-5. 组合订阅（可选）：`../common/normalize-node-names.js`
-6. 组合订阅（名称仍有重复时）：`../common/dedupe-node-names.js`
-7. 组合订阅（可选）：`merge-subscription-userinfo.js`
-8. 自动发布前的最终 ScriptOperator：按下节接入完整性校验。
+1. Individual provider subscription: `flag-airport-rename.js`.
+2. Collection: `drop-invalid-nodes.js`.
+3. Collection: `cleanup-vless-vmess-fields.js`.
+4. Collection: `../common/drop-info-nodes.js`.
+5. Collection, optional: `../common/normalize-node-names.js`.
+6. Collection, if duplicate names remain: `../common/dedupe-node-names.js`.
+7. Collection, optional: `merge-subscription-userinfo.js`.
+8. Final ScriptOperator before automatic publication: integrate the completeness guard below.
 
-`merge-subscription-userinfo.js` 会正常累加独立机场的流量；镜像订阅可在订阅 URL 中用相同的 `#flowDedup=...` 键归组，具体示例和自动去重边界见 [上级 README](../README.md#镜像订阅流量去重)。
+`merge-subscription-userinfo.js` adds traffic from independent providers normally. Group mirror subscriptions by placing the same `#flowDedup=...` key in their URLs. See [mirror traffic deduplication](../README.md#镜像订阅流量去重) for examples and automatic-deduplication limits.
 
 <a id="common"></a>
 
-## 通用清洗模板
+## Shared cleaning templates
 
-`common/` 是仓库维护的通用模板，不绑定任何机场：
+`common/` contains repository-maintained templates not tied to any provider:
 
 - `drop-info-nodes.js`
 - `normalize-node-names.js`
@@ -45,18 +46,19 @@
 
 <a id="community"></a>
 
-## 第三方参考
+## Third-party references
 
-[community/](community/README.md) 只做 GitHub 常见脚本索引。无明确许可证、过度依赖外部 API、或容易暴露个人参数的脚本不直接复制进仓库。
+[community/](community/README.md) indexes common GitHub script approaches. Scripts without clear licenses, with excessive external-API dependencies or with a high risk of exposing personal parameters are not copied into the repository.
 
+<a id="fusion-发布完整性模块"></a>
 
-## Fusion 发布完整性模块
+## Fusion publication completeness modules
 
-这两个 ESM 模块只处理订阅发布，独立于路由图和客户端覆写：
+These two ESM modules handle subscription publication only, independently of the routing graph and client overrides.
 
-### 发布合同校验
+### Publication contract validation
 
-模块：[fusion-publication-guard.mjs](fusion-publication-guard.mjs)。
+Module: [fusion-publication-guard.mjs](fusion-publication-guard.mjs).
 
 ```js
 validateFusionContract(contract)
@@ -66,25 +68,25 @@ validateFusionPublication(
 )
 ```
 
-- `validateFusionContract` 独立验证合同结构和值，非法时抛错。
-- `validateFusionPublication` 先验证合同，再对已解析且通过字段校验的 `document.proxies` 检查最低数量、全部必需名称前缀及五种错误占位提示。
-- 校验失败时抛错；成功只返回 `{nodes, coveredPrefixes}`，不修改节点。
+- `validateFusionContract` independently validates contract structure and values, throwing on invalid input.
+- `validateFusionPublication` validates the contract, then checks parsed, field-validated `document.proxies` for minimum count, all required name prefixes and five types of error-placeholder messages.
+- Failure throws. Success returns only `{nodes, coveredPrefixes}` without modifying nodes.
 
-### Worker 源码补丁
+### Worker source patch
 
-模块：[patch-fusion-worker.mjs](patch-fusion-worker.mjs)。
+Module: [patch-fusion-worker.mjs](patch-fusion-worker.mjs).
 
 ```js
 patchFusionWorker(source)
 ```
 
-- 返回加入合同校验的新源码。
-- 只接受已审查的精确 wrapper 基线，拒绝歧义或重复补丁。
-- 无文件、网络、部署或凭据操作。
+- Returns source with contract validation added.
+- Accepts only the exact reviewed wrapper baseline; rejects ambiguous matches or repeated patching.
+- Performs no file, network, deployment or credential operations.
 
-合同只接受 `{schemaVersion: 1, minimumNodes: 正整数, requiredNamePrefixes: 非空唯一字符串数组}`；前缀按字面起始、区分大小写匹配。模块不推断私人合同或证明连通性；错误占位及接入要求见[发布保护](../README.md#自动发布前的完整性保护)。
+The contract accepts only `{schemaVersion: 1, minimumNodes: positiveInteger, requiredNamePrefixes: nonEmptyUniqueStringArray}`. Prefixes match literal starts, case-sensitively. Modules do not infer private contracts or prove connectivity. See [publication protection](../README.md#自动发布前的完整性保护) for error placeholders and integration requirements.
 
-本地 ScriptOperator 须包含校验函数与私有合同，不能直接粘贴 ESM `export` / 相对 `import`。以下仅示调用位置，两个引用须由接入方提供：
+A local ScriptOperator must contain the validation functions and private contract. Do not paste ESM `export` / relative `import` statements directly. This shows placement only; the integrator supplies both references:
 
 ```js
 function operator(proxies) {
@@ -93,13 +95,13 @@ function operator(proxies) {
 }
 ```
 
-它应放在全部处理器最后，并让校验异常向上传播；同时将所有参与单订阅和组合的 `ignoreFailedRemoteSub` 保存为 `disabled`，固定保存所需下载代理。须用缺源、错误占位和全部源健康三种实际生成结果验收是否阻断/放行；单靠生成文件语法合法不能确认发布成功。
+Place it after all processors and propagate validation exceptions. Save `ignoreFailedRemoteSub` as `disabled` for every participating individual subscription and collection, and persist the required download proxy. Test actual generation with a missing source, error placeholders and all sources healthy to verify blocking/acceptance. Valid generated syntax alone does not establish successful publication.
 
-Worker patcher 会引入 `./scki-fusion-publication-guard.mjs`，调用方须以这个名称提供 guard 模块。生成的 wrapper 在请求 Gist 前读取并验证 `SUB_STORE_DATA` 中的严格合同 `static:fusion:contract:v1`；缺失、读取失败或非法时直接返回 503，恢复合同不能绕过它。新 Gist 只按严格合同验收，通过后才允许写入 `static:fusion:clashmeta`。
+The Worker patcher imports `./scki-fusion-publication-guard.mjs`; provide the guard module under that name. Before requesting the Gist, the generated wrapper reads and validates strict contract `static:fusion:contract:v1` from `SUB_STORE_DATA`. Missing, unreadable or invalid strict contracts return 503; a recovery contract cannot bypass this. New Gist data must pass the strict contract before writing `static:fusion:clashmeta`.
 
-缓存回退另读可选 `static:fusion:recovery-contract:v1`；缺省或读取失败回用严格合同，显式非法恢复合同拒绝缓存。恢复合同只决定已保存副本能否返回，不能使缺源新 Gist 写入 KV。不同的恢复要求必须根据已验证旧数据单独验收，不降低严格新发布标准。处理原有 wrapper 源码、审阅 diff、准备合同/模块和实际部署均由调用方另行负责，运行 patcher 不会自动完成部署。
+Cache fallback separately reads optional `static:fusion:recovery-contract:v1`. If absent or unreadable, it uses the strict contract. An explicitly invalid recovery contract rejects the cache. Recovery contracts govern only whether a saved copy may be returned; they cannot admit an incomplete new Gist into KV. Different recovery criteria require separate acceptance against verified older data, without weakening strict new-publication standards. Processing original wrapper source, reviewing diffs, preparing contracts/modules and deployment remain the integrator's responsibility. Running the patcher does not deploy anything.
 
-仓库根目录验证：
+Validate from the repository root:
 
 ```bash
 node --check SubStore/scripts/fusion-publication-guard.mjs
@@ -107,25 +109,29 @@ node --check SubStore/scripts/patch-fusion-worker.mjs
 node --test tools/tests/fusion-publication-guard.test.js tools/tests/fusion-worker-patch.test.js
 ```
 
-这些辅助模块不改变分流产物，不触发全客户端同步。历史见 [SubStore CHANGELOG](../CHANGELOG.md)。
+These helpers do not change routing artifacts or trigger all-client synchronization. See [SubStore CHANGELOG](../CHANGELOG.md).
 
-## 独立网页管理入口
+<a id="独立网页管理入口"></a>
 
-[`web-management-route.mjs`](web-management-route.mjs) 与 [`patch-web-management-worker.mjs`](patch-web-management-worker.mjs) 为已审查的 extension-aware Worker wrapper 增加独立网页管理别名。部署者通过 secret `SUB_STORE_WEB_BACKEND_PATH` 设置 `/web-` 加 64 位小写十六进制随机值；命中此前缀时，只为本轮旧路由选择克隆的环境，不改旧管理 secret 或扩展受限入口，也不改变后端使用的原始 bindings。
+## Separate web-management entry point
 
-该路径具有完整后端管理权限，应与扩展的 URL 单字段连接分开保管。patcher 引入同目录 `scki-web-management-route.mjs`，只接受唯一审查匹配行；模块不生成凭据或执行部署。启用新管理路径须得到部署所有者授权。
+[`web-management-route.mjs`](web-management-route.mjs) and [`patch-web-management-worker.mjs`](patch-web-management-worker.mjs) add a separate web-management alias to the reviewed extension-aware Worker wrapper. The deployer sets secret `SUB_STORE_WEB_BACKEND_PATH` to `/web-` followed by 64 random lowercase hexadecimal characters. A matching prefix selects a cloned environment only for that request's legacy routing. It does not change the old management secret, restricted extension entry point or original backend bindings.
 
-官方前端支持 `https://sub-store.vercel.app/subs?api=<encodeURIComponent(完整后端地址)>`，查询参数会随首次网页请求发送给前端站点。也可在前端设置中手动保存后端地址，再使用裸 `/subs`；不应将未经支持的 `#api` 当作等效入口。参数行为见[官方前端源码](https://github.com/sub-store-org/Sub-Store-Front-End/blob/8dc19320894a9dbb3569e8bf3e41057491e39b90/src/hooks/useHostAPI.ts#L211-L308)。私人管理地址、快捷方式与连接 JSON 不提交 Git 或扩展安装包。
+This path grants full backend management access. Keep it separate from the extension's URL-only connection. The patcher imports adjacent `scki-web-management-route.mjs` and accepts only one reviewed matching line. It neither generates credentials nor deploys. Enabling the new management path requires the deployment owner's authorization.
+
+The official frontend supports `https://sub-store.vercel.app/subs?api=<encodeURIComponent(fullBackendAddress)>`. That query is transmitted to the frontend site on the initial request. Alternatively, save the backend manually in frontend settings and then use bare `/subs`. Unsupported `#api` is not equivalent. See [official frontend source](https://github.com/sub-store-org/Sub-Store-Front-End/blob/8dc19320894a9dbb3569e8bf3e41057491e39b90/src/hooks/useHostAPI.ts#L211-L308). Never commit private management URLs, shortcuts or connection JSON to Git or extension packages.
 
 ```bash
 node --test tools/tests/web-management-route.test.js
 ```
 
-## 下载网关 530 恢复
+<a id="下载网关-530-恢复"></a>
 
-[`download-gateway-fallback.mjs`](download-gateway-fallback.mjs) 与 [`patch-download-gateway-worker.mjs`](patch-download-gateway-worker.mjs) 适用于已审查的 Worker 下载适配器。原有网关返回 HTTP 530 时，仅对 GET/HEAD 尝试一次由 Worker 直连同一目标，保持原上游请求头与取消信号；直连使用 `manual` 并拒绝重定向和非成功响应。其他网关错误继续失败，已有来源预览、节点校验和完整发布合同仍需通过。
+## Download-gateway HTTP 530 recovery
 
-补丁不更改网关 URL、Token、来源 allowlist、Sub-Store 配置或任何写入路径。它只接受精确的适配器源码基线，输出源码并引用同目录 `scki-download-gateway-fallback.mjs`，不自行部署。接入者须按返回的模块引用准备部署包，并以实际来源预览验收；不能把网关错误或错误占位节点当成下载成功。
+[`download-gateway-fallback.mjs`](download-gateway-fallback.mjs) and [`patch-download-gateway-worker.mjs`](patch-download-gateway-worker.mjs) target the reviewed Worker download adapter. If the original gateway returns HTTP 530, GET/HEAD requests receive one direct Worker attempt to the same target, preserving original upstream headers and cancellation signal. Direct fetching uses `manual` redirects and rejects redirects or unsuccessful responses. Other gateway errors remain failures. Existing source previews, node validation and full publication contracts must still pass.
+
+The patch changes no gateway URLs, tokens, source allowlists, Sub-Store configuration or write paths. It accepts only the exact adapter source baseline, outputs patched source referencing adjacent `scki-download-gateway-fallback.mjs`, and does not deploy. Prepare the deployment package using the returned module reference and validate actual source previews. Gateway errors and error-placeholder nodes are not successful downloads.
 
 ```bash
 node --check SubStore/scripts/download-gateway-fallback.mjs

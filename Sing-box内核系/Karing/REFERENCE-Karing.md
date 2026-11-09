@@ -1,53 +1,61 @@
-# Karing 官方兼容性依据
+<a id="karing-官方兼容性依据"></a>
+# Official Karing compatibility evidence
 
-> 更新于 2026-11-09：为 Issue #196 复核官方 main `accbdfc05a999eaa3526aadb0aea994b3eafb7f5`（2026-11-05，源码 1.2.26+2922）及最后公开的自定义导入实现。当前导入实现仍未公开，不能声称 1.2.25.2802 已由 JSON 修复。
-
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Karing 分流](https://karing.app/app-manual/diversion)，保持 App 托管选择与域名探测的能力边界，不把业务目标标签当作已导入 selector。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
-
-> 获取日期：2026-10-24。Karing 当前 main：`60cfb75daaabd179305a1e6c5201c35c91a63cf2`（2026-10-23）；源码版本 `1.2.26+2911`。当时最新稳定 Release 为 `v1.2.25.2802`（2026-09-10）。
-> 本适配不是对上述版本的实机认证。Karing 与同团队的 Mihomo 客户端 Clash Mi 是两个 App。
-
-## 当前官方文档
-
-- [添加配置](https://karing.app/app-manual/add-profiles)：接受 Clash、sing-box 等订阅/配置输入。
-- [Clash 兼容列表](https://karing.app/clash)：DNS 由 App 设置，不支持由订阅链接配置；高级策略功能有能力差异。
-- [自定义分流](https://karing.app/tutorial/custom-diversion)：远程 Rule Set 使用 `.srs` / `.json`。
-- [自定义分流组编辑](https://karing.app/app-manual/diversion-rule-edit)：各分项单层 OR/AND；端口、域名、进程、Android 包名等平台能力。
-
-## 当前源码可证实的入口
-
-固定提交的仓库路径和入口：
-
-- [`lib/screens/diversion_group_custom_screen.dart` L296](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_group_custom_screen.dart#L296)：独立选择 JSON，调用 `DiversionCustomRules.getFromFile()` 并进入导入确认；L367 起 `exportRules()` 导出 `diversion_rules_custom.json`。
-- [`lib/screens/diversion_rules_custom_set_screen.dart` L207](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_rules_custom_set_screen.dart#L207)：仅接受 direct/block/urltest/currentSelected 常量，其他动作会在确认页被置为 `kNone`。L247 调用 `importRules()`。因此生成动作中不能填业务节点组名。
-- [`lib/screens/diversion_group_custom_edit_screen.dart` L1178](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_group_custom_edit_screen.dart#L1178)：自定义 Rule Set 编辑入口硬校验 HTTPS 与 `.srs`/`.json`；L1252 起按扩展名记录 binary/source。这不能证明未公开的订阅解析器是否另有 MRS 转换能力。
-- [`lib/screens/urltest_group_custom_screen.dart` L281](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/urltest_group_custom_screen.dart#L281)：另行管理节点组、节点 tags 和正则。原生分流 JSON 不提供该模型的一并导入。
-- [`lib/app/modules/server_manager.dart` L1717](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/app/modules/server_manager.dart#L1717)：节点配置导入通过 `AutoConfUtils.tryConvert()` 转成内部模型，分流由开关控制；L1786 起初始化分流动作时 DIRECT/BLOCK 单独映射，其他默认当前选择。这不是完整 sing-box 配置原样运行的证据。
-- 当前 [`assets/datas/preset/cn.json`](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/assets/datas/preset/cn.json) 和 [`default.json`](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/assets/datas/preset/default.json) 展示顶层 `rules`、`name`、`switch`、`outbound` 及简单匹配字段。最小节选另存 `tools/fixtures/karing/official-preset-excerpt.json`，来源在同目录说明。
-
-## 未公开代码与采用的保守 schema
-
-当前 main 不含被调用的 `lib/app/utils/diversion_custom_utils.dart`、`auto_conf_utils.dart`、`singbox_config_builder.dart`。因此不宣称已审明当前完整订阅转换器，不宣称完整配置或嵌套节点组无损兼容。
-
-最后可读的 [`diversion_custom_utils.dart`（2025-05-07）L32](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L32) 明确解析 `name/outbound/switch/or/rule_set` 等字段；L118 起读顶层 rules，L188 导入，L317 导出。字段依据包含历史代码，可能存在后续差异，最终以 App 导入读回为准。当前生成只使用该已知最小模型，不采用仅在新 UI 出现但未确认导入 schema 的 network/port_range 等字段。
-
-## 复杂匹配的标准资产
-
-复杂条件放在 sing-box [Headless Rule](https://sing-box.sagernet.org/configuration/rule-set/headless-rule/) 中，通过标准 [Source Format](https://sing-box.sagernet.org/configuration/rule-set/source-format/) version 3 提供。此标准支持逻辑 `type: logical`、`mode: and/or`、`invert`、端口、network 和进程条件；不允许嵌套 `rule_set` 引用，所以必须精确展开依赖 source。
-
-5 个外部 QUIC support SRS 的 URL、取回时间、原二进制和解码/压缩哈希见 `rulesets/source/karing-support/manifest.json`。这些快照来自对应 URL 的实际 SRS，用已有标准核心解码，未用相似业务 fused 内容替代。未能表达为 headless 的匹配会终止生成，不静默丢弃。
-
-[Route Rule 默认匹配语义](https://sing-box.sagernet.org/configuration/route/rule/#default-fields)说明：单条、未 invert 的 default rule-set 字段可能合并入外层匹配。当前 QUIC 规则的源域名与外层 port/network 没有字段组重叠，AND 展开等价；未来若内外域名/IP、端口等匹配组重叠，生成器明确失败，避免将原 OR 合并误改为 AND。
-
-普通纯 rule_set 保留原 URL；复杂条件资产由生成器写入 `rulesets/generated/karing/`。no-resolve/先解析差异、App 实际下载路径及优先级需要客户端读回，不由 schema 编译结果代替。
+**English** | [简体中文](REFERENCE-Karing.zh-CN.md)
 
 
-## Issue #196：自定义组可见，但远程资产未登记
+> Updated on 2026-11-09: Issue #196 was reviewed against official main `accbdfc05a999eaa3526aadb0aea994b3eafb7f5` (2026-11-05, source version 1.2.26+2922) and the last public custom-import implementation. The current importer remains unpublished; a JSON fix for 1.2.25.2802 cannot be claimed.
 
-官方当前 [编辑保存路径 L1252–1264](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/screens/diversion_group_custom_edit_screen.dart#L1252-L1264) 会为每个 URL 建立 `type=remote`、`tag=URL`、`format=binary/source`、`url=URL` 项并登记到 `ruleSetItems`。因此“打开每组后直接保存才有下载”的反馈与此注册动作吻合。
+> Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Karing routing](https://karing.app/app-manual/diversion) was rechecked. App-managed selection and domain-probing boundaries remain; service-target labels are not imported selectors. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
-最后公开的 [importRules L188–314](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L188-L314) 将 URL 复制到组，但没有相应注册。它的顶层解析器仅消费 `rules`；内部 [DiversionGroupConfig L198–258](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/app/modules/server_manager.dart#L198-L258) 的 `rule_set_items` 属于另一模型，不能直接塞进自定义导入 JSON 就称为修复。当前完整配置转换器同样未公开，未找到已验证的批量替代入口。
+> Retrieved on 2026-10-24. Karing main was `60cfb75daaabd179305a1e6c5201c35c91a63cf2` (2026-10-23), source version `1.2.26+2911`. Latest stable release then was `v1.2.25.2802` (2026-09-10).
+> This adapter is not device certification for these versions. Karing and the same team’s Mihomo client Clash Mi are separate apps.
 
-仓库保持 URL、顺序和动作不变，明确标记需要客户端注册的边界；受影响客户端目前按 README 逐组保存激活。更换镜像、重编 SRS、静默展开规则或恢复整个 App 备份都不是这个注册缺口的已验证修法。永久修复应由 Karing 导入器在导入事务中登记远程资产并保存，再以真实 App 导入、下载、重启和重复导入验证。
+<a id="当前官方文档"></a>
+## Current official documentation
 
-`tools/audit-karing-registration.js` 只对已有内部配置**副本**核对注册四字段，不写配置、不下载规则。其成功仅说明注册表有对应项，不证明下载或命中成功；普通自定义导出不包含注册表，工具会拒绝将其当作证据。
+- [Add profiles](https://karing.app/app-manual/add-profiles): accepts Clash, sing-box, and other subscription/configuration inputs.
+- [Clash compatibility](https://karing.app/clash): DNS is app-managed, not configured by subscription URL; advanced policy capabilities differ.
+- [Custom routing](https://karing.app/tutorial/custom-diversion): remote Rule Sets use `.srs` / `.json`.
+- [Custom group editing](https://karing.app/app-manual/diversion-rule-edit): single-level OR/AND per component; platform capabilities include ports, domains, processes, and Android package names.
+
+<a id="当前源码可证实的入口"></a>
+## Entry points established by current source
+
+Pinned repository paths and interfaces:
+
+- [`lib/screens/diversion_group_custom_screen.dart` L296](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_group_custom_screen.dart#L296): selects JSON separately, invokes `DiversionCustomRules.getFromFile()`, and opens import confirmation. `exportRules()` from L367 exports `diversion_rules_custom.json`.
+- [`lib/screens/diversion_rules_custom_set_screen.dart` L207](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_rules_custom_set_screen.dart#L207): accepts only direct/block/urltest/currentSelected constants; other actions become `kNone` on confirmation. L247 calls `importRules()`. Generated actions therefore cannot contain service node-group names.
+- [`lib/screens/diversion_group_custom_edit_screen.dart` L1178](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/diversion_group_custom_edit_screen.dart#L1178): the custom Rule Set editor strictly requires HTTPS and `.srs`/`.json`; L1252 onward records binary/source by extension. This does not establish whether the unpublished subscription parser has separate MRS conversion.
+- [`lib/screens/urltest_group_custom_screen.dart` L281](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/screens/urltest_group_custom_screen.dart#L281): separately manages node groups, tags, and regex. Native routing JSON does not import that model together.
+- [`lib/app/modules/server_manager.dart` L1717](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/lib/app/modules/server_manager.dart#L1717): node-profile import converts through `AutoConfUtils.tryConvert()` into an internal model, with routing controlled by switches. During action initialization from L1786, DIRECT/BLOCK map separately; others default to current selection. This does not prove unchanged execution of complete sing-box configuration.
+- Current [`assets/datas/preset/cn.json`](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/assets/datas/preset/cn.json) and [`default.json`](https://github.com/KaringX/karing/blob/60cfb75daaabd179305a1e6c5201c35c91a63cf2/assets/datas/preset/default.json) show top-level `rules`, `name`, `switch`, `outbound`, and simple match fields. A minimal excerpt is stored at `tools/fixtures/karing/official-preset-excerpt.json`, with provenance documented alongside it.
+
+<a id="未公开代码与采用的保守-schema"></a>
+## Unpublished code and conservative schema
+
+Current main lacks the called `lib/app/utils/diversion_custom_utils.dart`, `auto_conf_utils.dart`, and `singbox_config_builder.dart`. Complete current subscription conversion has therefore not been audited, and lossless full-configuration/nested-group compatibility is not claimed.
+
+The last readable [`diversion_custom_utils.dart` (2025-05-07) L32](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L32) explicitly parses `name/outbound/switch/or/rule_set` and related fields. L118 reads top-level rules, L188 imports, and L317 exports. This field evidence includes historical code and may differ from later versions; app import/readback is decisive. Generation uses only this known minimal model, not fields such as network/port_range seen in newer UI without confirmed import schema.
+
+<a id="复杂匹配的标准资产"></a>
+## Standard assets for complex matches
+
+Complex conditions use sing-box [Headless Rule](https://sing-box.sagernet.org/configuration/rule-set/headless-rule/) in standard [Source Format](https://sing-box.sagernet.org/configuration/rule-set/source-format/) version 3. It supports logical `type: logical`, `mode: and/or`, `invert`, ports, network, and process conditions. Nested `rule_set` references are forbidden, so source dependencies must be expanded exactly.
+
+URLs, retrieval times, original binaries, and decoded/compressed hashes for five external QUIC-support SRS assets are recorded in `rulesets/source/karing-support/manifest.json`. These snapshots are actual SRS responses from those URLs, decoded by an existing standard core, not substituted with similar fused service content. Matches that cannot be expressed as headless rules stop generation instead of being silently dropped.
+
+[Default route-rule semantics](https://sing-box.sagernet.org/configuration/route/rule/#default-fields) explains that fields of a single non-inverted default rule set may merge into the outer match. Current QUIC source-domain fields and outer port/network fields do not overlap, so AND expansion is equivalent. Future overlap between inner/outer domain/IP, port, or other field groups explicitly fails generation to avoid turning the original OR merge into AND.
+
+Ordinary pure rule_set references retain their URLs; complex-condition assets are generated under `rulesets/generated/karing/`. no-resolve/pre-resolution differences, actual app download paths, and precedence require client readback, not merely successful schema compilation.
+
+<a id="issue-196自定义组可见但远程资产未登记"></a>
+## Issue #196: custom groups visible, remote assets unregistered
+
+The current official [edit/save path L1252–1264](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/screens/diversion_group_custom_edit_screen.dart#L1252-L1264) creates a `type=remote`, `tag=URL`, `format=binary/source`, `url=URL` entry for each URL and registers it in `ruleSetItems`. Reports that opening and immediately saving each group triggers downloads are consistent with that registration action.
+
+The last public [importRules L188–314](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L188-L314) copies URLs into groups without equivalent registration. Its top-level parser consumes only `rules`; `rule_set_items` in internal [DiversionGroupConfig L198–258](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/app/modules/server_manager.dart#L198-L258) belongs to another model and cannot simply be inserted into custom-import JSON and declared a fix. Current full-configuration conversion is also unpublished, and no verified bulk alternative was found.
+
+The repository preserves URLs, order, and actions while marking the client-registration boundary. Affected clients currently activate each group by saving it as described in README. Changing mirrors, recompiling SRS, silently expanding rules, or restoring a whole-app backup is not a verified fix for this registration gap. A permanent fix belongs in Karing’s import transaction: register remote assets and save, then validate actual app import, downloads, restart, and repeated import.
+
+`tools/audit-karing-registration.js` checks the four registration fields in a **copy** of existing internal configuration. It neither writes configuration nor downloads rules. Success proves corresponding registry entries only, not downloads or matching. Ordinary custom exports lack the registry and are rejected as evidence.

@@ -1,33 +1,37 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-tools-mobile.svg">
-  <img src="../docs/assets/readme/page-tools.svg" alt="维护工具：按任务查找生成器、只读验证器与来源归档命令" width="100%">
+  <img src="../docs/assets/readme/page-tools.svg" alt="Maintenance tools: generators, read-only validators and source archives by task" width="100%">
 </picture>
 
-# 维护工具 · 生成、验证与来源归档
+# Maintenance tools: generation, validation and source archives
 
-按任务查找仓库维护命令。以下命令均在仓库根目录执行；Node.js ≥ 18，推荐 22。严格 YAML 检查另需 Ruby ≥ 3.0。
+Find maintenance commands by task. Run all commands from the repository root. Node.js ≥ 18 is required, with 22 recommended. Strict YAML checks also require Ruby ≥ 3.0.
 
 <p>
-  <a href="../docs/guide/downloads.md"><img src="../docs/assets/readme/nav-downloads.svg" alt="配置下载" width="145" height="38"></a>
-  <a href="../docs/README.md"><img src="../docs/assets/readme/nav-docs.svg" alt="文档中心" width="145" height="38"></a>
+  <a href="../docs/guide/downloads.md"><img src="../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a>
+  <a href="../docs/README.md"><img src="../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a>
 </p>
 
-[相关验证](#先运行相关验证) · [产物生成](#生成客户端与能力矩阵) · [运行时同步](#同步运行时模块) · [来源归档](#保存官方依据与恢复来源) · [仓库维护契约](../AGENTS.md)
+[Relevant checks](#relevant-checks-first) · [Generate artifacts](#generate-clients-and-capability-matrix) · [Sync runtimes](#synchronize-runtime-modules) · [Source archives](#preserve-official-evidence-and-recover-sources) · [Maintenance contract (Chinese source)](../AGENTS.md)
 
 ---
 
 
-[统一配置入口](../docs/configuration.md)：`configure.js`、[在线配置下载](https://ivansolis1989.github.io/Smart-Config-Kit/)与离线备用、全端业务投影与真实 QuickJS 验证。表单从可信源与共享模板生成，维护时运行 `node tools/generate-configuration-form.js --check` 检查快照同步。
+[Unified configuration entry](../docs/configuration.md): `configure.js`, [online downloads](https://ivansolis1989.github.io/Smart-Config-Kit/), offline fallback, cross-client service projections and real QuickJS validation. The form is generated from trusted sources/shared templates. Run `node tools/generate-configuration-form.js --check` to verify snapshot synchronization.
 
-## 先运行相关验证
+<a id="先运行相关验证"></a>
 
-Meow / AEROVE 工具需要 Node.js ≥ 22.15、Ruby ≥ 3.0 及固定 Mihomo v1.19.32。先运行 `node tools/generate-aerove-rule-assets.js`，再运行 `node tools/generate-meow.js`；两者的 `--check` 只读核对。转换器通过 `AEROVE_MIHOMO_BIN` 或 `MIHOMO_BIN` 指定，客户端运行不需要生成工具。相关测试为 `node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js`；原生 MRS 测试使用 `MIHOMO_BIN`，核心校验另需 `MEOW_BIN`、`MEOW_GEOSITE_FILE`、`MEOW_MMDB_FILE`。入口、独立分片清单及 App 验收边界见 [Meow 内核系](../Meow内核系/README.md)。
+## Relevant checks first
 
-验证器默认只读；生成器会改写已发布产物。请从本次改动直接相关的检查开始；完整验收要求以 [AGENTS.md](../AGENTS.md) 为准。
+Meow / AEROVE tools require Node.js ≥ 22.15, Ruby ≥ 3.0 and pinned Mihomo v1.19.32. Run `node tools/generate-aerove-rule-assets.js` before `node tools/generate-meow.js`; both offer read-only `--check`. Set the converter with `AEROVE_MIHOMO_BIN` or `MIHOMO_BIN`; clients do not need generation tools. Tests: `node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js`. Native MRS tests use `MIHOMO_BIN`; core validation also needs `MEOW_BIN`, `MEOW_GEOSITE_FILE` and `MEOW_MMDB_FILE`. See the [Meow family](../Meow内核系/README.md) for entry points, separate shard manifests and application acceptance boundaries.
+
+Validators are read-only by default; generators rewrite published artifacts. Start with checks directly related to the change. [AGENTS.md (Chinese source)](../AGENTS.md) defines complete acceptance requirements.
 
 <a id="js-overwrite-smoke-contract"></a>
 
-### JS 覆写行为检查
+### JS override behavior checks
 
 Run:
 
@@ -49,7 +53,7 @@ node tools/validate-js-overwrites.js --verbose
 
 <a id="cross-client-artifact-contract"></a>
 
-### 跨客户端产物合同
+### Cross-client artifact contracts
 
 Run:
 
@@ -69,7 +73,7 @@ node tools/validate-artifact-contracts.js --write-manifest docs/runtime/artifact
 
 <a id="fused-optimization-and-remote-budgets"></a>
 
-### 融合去重与远程资产预算
+### Fused deduplication and remote-asset budgets
 
 Run:
 
@@ -89,7 +93,7 @@ Scope:
 
 <a id="process-name-direct-whitelist"></a>
 
-### PROCESS-NAME 直连白名单
+### PROCESS-NAME direct allowlist
 
 Run:
 
@@ -105,13 +109,15 @@ Scope:
   generated SingBox Full output;
 - rejects accidental active process rules in unsupported mobile/router artifacts.
 
-## 生成客户端与能力矩阵
+<a id="生成客户端与能力矩阵"></a>
 
-完整重建须先同步和应用 MRS，再编译 fused，最后生成客户端。规则权威源与执行顺序见 [AGENTS.md](../AGENTS.md)。
+## Generate clients and capability matrix
+
+A full rebuild must synchronize/apply MRS, compile fused rules, then generate clients. See [AGENTS.md (Chinese source)](../AGENTS.md) for routing authority and execution order.
 
 <a id="generated-client-artifacts"></a>
 
-### 客户端生成链路
+### Client generation pipeline
 
 For a Passwall backend-only helper change, `node tools/generate-fused-fallback-artifacts.js --passwall-only` regenerates the two helpers and reference conf files from existing SRS metadata without rewriting Xray or refreshing source assets. The generated helpers require every configured `_shunt` node to use `type=sing-box` before any UCI mutation. This does not monitor later backend changes. Shell fixture tests execute both published helpers in replace/append modes: `node --test tools/tests/passwall-backend-guard.test.js`.
 
@@ -136,7 +142,7 @@ node tools/generate-fused-fallback-artifacts.js
 
 <a id="karing-adapter"></a>
 
-### Karing 分流适配
+### Karing routing adapter
 
 Karing uses a dedicated sing-box routing adapter maintained in `Sing-box内核系/Karing/`. Node groups, the default fallback and DNS remain managed in the Karing App. The adapter imports native diversion rules and does not claim lossless import of the complete SingBox JSON.
 
@@ -150,7 +156,7 @@ node tools/generate-karing.js --check
 
 <a id="cross-client-capability-matrix"></a>
 
-### 跨客户端能力矩阵
+### Cross-client capability matrix
 
 `docs/client-capability-matrix.json` is the evidence-backed source for the 14
 semantic products. It distinguishes repository-owned runtime hooks from client
@@ -168,13 +174,15 @@ node --test tools/tests/subscription-adapter-profiles.test.js
 
 The generated result is [docs/client-capability-matrix.md](../docs/client-capability-matrix.md).
 
-## 同步运行时模块
+<a id="同步运行时模块"></a>
 
-修改权威 runtime 后同步客户端副本；带 `--check` 的命令用于只读漂移检查。
+## Synchronize runtime modules
+
+After changing an authoritative runtime, synchronize client copies. Commands with `--check` detect drift without writing.
 
 <a id="subscription-node-filters"></a>
 
-### 订阅节点过滤器
+### Subscription node filters
 
 The three JS overwrites and two OpenClash Ruby processors embed the canonical
 `tools/runtime/subscription-node-filter.js` / `.rb` runtimes. After editing a
@@ -193,7 +201,7 @@ Regressions execute published JS `main()` and extracted Ruby heredocs for malfor
 
 <a id="node-dns-runtime-adapter"></a>
 
-### 节点 DNS 运行时适配
+### Node DNS runtime adapter
 
 The canonical runtime Modules are `tools/runtime/node-dns-hints.js` and
 `tools/runtime/node-dns-hints.rb`. They are embedded verbatim into three JS
@@ -217,13 +225,15 @@ node tools/test-openclash-node-dns-hints.js
 
 Subscription DNS only projects exact active-node FQDN policies and preserves the global DNS/fake-ip baseline. Tests cover all profiles, zero-write failures, hosts redirects, IPv4/IPv6 bootstrap, key/path case handling and atomic capacity limits.
 
-## 保存官方依据与恢复来源
+<a id="保存官方依据与恢复来源"></a>
 
-归档收据用于追踪来源和字节证据；恢复路径不会虚构缺失的上游血缘。
+## Preserve official evidence and recover sources
+
+Archive receipts track provenance and byte-level evidence. Recovery paths do not invent missing upstream lineage.
 
 <a id="official-documentation-snapshots"></a>
 
-### 官方文档快照
+### Official documentation snapshots
 
 `cache-official-docs.js` v1.0.1 saves exact official response bodies as content-addressed gzip files. Inventories are explicit; this is a reviewed set of routing/configuration manuals, release metadata and source files, not a full website mirror. Snapshot coverage and decisions are indexed in [the dated report](../docs/upstream/2026-10-19/README.md). Verification also checks historical manifest hashes, allowing Git line-ending conversion while rejecting edits to archived evidence.
 
@@ -235,11 +245,11 @@ node tools/cache-official-docs.js --group docs/upstream/2026-10-19/mihomo --read
 
 Each manifest binds the inventory, requested/effective URLs, HTTP metadata, acquisition time, original SHA-256 and compressed SHA-256. Raw GitHub branches are resolved to commits before acquisition. Optional `--github-cli` uses the existing GitHub CLI login for public API requests without reading or saving credentials. A failed fetch remains a failure; optional failures are listed during verification. Normal reruns reuse independently verified bytes without changing their fetch time; `--refresh` fetches all entries again and archives the previous manifest. Prefer a new dated directory for a new research snapshot. Regression coverage: `node --test tools/tests/official-docs-cache.test.js`.
 
-Generators rewrite published artifacts; validators are read-only. Routing authority and execution order are defined in [AGENTS.md](../AGENTS.md).
+Generators rewrite published artifacts; validators are read-only. Routing authority and execution order are defined in [AGENTS.md (Chinese source)](../AGENTS.md).
 
 <a id="frozen-mrs-source-snapshots"></a>
 
-### 冻结 MRS 来源恢复
+### Frozen MRS source recovery
 
 Normal full synchronization still fetches current upstream inputs through `node tools/sync-mihomo-mrs-rule-providers.js`. For explicitly requested recovery from a published Git baseline, the same tool accepts `--source-snapshot <manifest>` plus the verified Mihomo binary; it binds provider ID and URL to the baseline MRS manifest, checks current behavior/format, verifies the complete published origin-file inventory and Git blob hashes, decodes the native MRS and residual YAML, and compares the full predicate set, including wildcard boundaries. The resulting source receipt records `legacy-snapshot` and `original_upstream_provenance: unknown`; it does not invent an upstream timestamp or URL lineage.
 

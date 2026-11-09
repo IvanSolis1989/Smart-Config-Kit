@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="145" height="38" viewBox="0 0 145 38" role="img" aria-labelledby="title desc">
+<title id="title">下载 Xray routing JSON</title><desc id="desc">打开 Xray routing JSON 原始文件</desc>
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff8ff"/><stop offset=".5" stop-color="#f4f8ff"/><stop offset="1" stop-color="#e7f3f7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#ffffff" stop-opacity=".88"/><stop offset=".48" stop-color="#ffffff" stop-opacity=".25"/><stop offset="1" stop-color="#ffffff" stop-opacity=".57"/></linearGradient>
+ <linearGradient id="ribbon" x1="0" x2="1"><stop stop-color="#166cd5"/><stop offset=".52" stop-color="#16a6b0"/><stop offset="1" stop-color="#8273cf"/></linearGradient>
+ <radialGradient id="aura"><stop stop-color="#95c8ff" stop-opacity=".5"/><stop offset="1" stop-color="#95c8ff" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#51739b" flood-opacity=".09"/></filter>
+ <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L7 4L1 7" fill="none" stroke="#6384ac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<g font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+
+<defs><linearGradient id="button" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf8ff"/><stop offset=".53" stop-color="#eae4fc"/><stop offset="1" stop-color="#fbf8ff"/></linearGradient></defs>
+    <rect x="1" y="1" width="143" height="36" rx="11" fill="url(#button)" stroke="#c8bbe9"/>
+    <path d="M12 2H133" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="13" y="17" font-size="14" font-weight="600" fill="#18324f" >Xray routing</text><text x="13" y="30" font-size="9.5" font-weight="600" fill="#6f57a6" >JSON</text>
+    <circle cx="126" cy="19" r="11" fill="#ffffff" fill-opacity=".55"/>
+    <path d="M126 13V23M122 19L126 23L130 19M121 27H131" fill="none" stroke="#6f57a6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+</g></svg>
