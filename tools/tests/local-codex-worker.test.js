@@ -197,7 +197,7 @@ test('ready publication binds the committed patch to CI then pushes that exact S
   git(['remote', 'add', 'origin', 'https://github.com/owner/repo.git']);
   fs.writeFileSync(path.join(cwd, 'source.js'), 'after\n'); const calls = [];
   const worker = new Worker(config, { command: async (bin, args, opts) => {
-    if (bin === 'gh') return { stdout: '{"state":"open"}' };
+    if (bin === 'gh') return { stdout: '{"state":"open","body":"请检查问题。"}' };
     if (bin === 'git' && args[0] === 'push') { calls.push(args.at(-1)); return { stdout: '' }; }
     if (bin === 'git' && args[0] === 'ls-remote') return { stdout: `${baseSha}\trefs/heads/main\n` };
     return command(bin, args, opts);
@@ -229,6 +229,52 @@ test('a recovered publication updates its own failure reply instead of duplicati
     if (args.includes('--slurp')) return { stdout: JSON.stringify([[{ id: 9, user: { login: 'owner' }, body: '<!-- scki-local-codex:abc -->\nfailed' }]]) };
     methods.push(args[2]); return { stdout: '{"id":9}' };
   };
-  const record = { task: { taskKey: 'abc', issueNumber: 1 }, reply: 'published', status: 'published' };
+  const record = { task: { taskKey: 'abc', issueNumber: 1 }, reply: 'The fix is published.', status: 'published' };
+  worker.snapshot = async () => ({body:'The download does not work.'});
   await worker.reply(record); assert.deepEqual(methods, ['PATCH']); assert.equal(record.commentId, 9);
+});
+test('Chinese and English full publish/resume receipts pass the final public reply language gate', async t => {
+  const { assertReplyLanguage } = require('../lib/ai-issue-language');
+  for (const locale of ['zh', 'en']) for (const mode of ['publish', 'resume']) {
+    await t.test(`${locale} ${mode}`, async st => {
+      const config = fixture(st), worker = new Worker(config);
+      await worker.initialize(); worker.actor = 'owner';
+      const issue = { state: 'open', body: locale === 'zh' ? '请检查下载失败问题。' : 'The download failed. Please check this issue.' };
+      const answer = locale === 'zh' ? '已修复配置问题，检查通过。' : 'The configuration is fixed and the checks passed.';
+      const baseSha = '1'.repeat(40), commitSha = 'abc123ef' + 'a'.repeat(32);
+      const record = { task: queuedTask(), cwd: config.repositoryPath, baseSha, branch: 'codex/issue-1-test',
+        status: 'failed', draftReply: answer, ...(mode === 'resume' ? { commitSha } : {}) };
+      worker.state.tasks[record.task.taskKey] = record;
+      let committed = mode === 'resume', posted = '', pushes = [];
+      worker.snapshot = async () => issue;
+      worker.changes = async () => ['source.js'];
+      worker.fingerprint = async () => 'unchanged';
+      worker.validate = async target => { target.validation = ['node tools/check.js']; target.validationRunUrl = 'https://github.com/owner/repo/actions/runs/99'; };
+      worker.git = async args => {
+        if (args[0] === 'rev-parse') return args[1] === 'FETCH_HEAD' ? baseSha : committed ? commitSha : baseSha;
+        if (args[0] === 'branch') return record.branch;
+        if (args[0] === 'remote') return 'https://github.com/owner/repo.git';
+        if (args[0] === 'ls-remote') return `${baseSha}\trefs/heads/main`;
+        if (args[0] === 'push') pushes.push(args.at(-1));
+        if (args.includes('commit')) committed = true;
+        return '';
+      };
+      worker.json = async args => {
+        if (args.includes('--slurp')) return [[]];
+        if (args.includes('--method')) {
+          posted = JSON.parse(fs.readFileSync(args[args.indexOf('--input') + 1], 'utf8')).body;
+          return { id: 99 };
+        }
+        return issue;
+      };
+      if (mode === 'publish') { await worker.publish(record, { summary: 'fix', reply: answer }); await worker.reply(record); }
+      else await worker.resumePublication(record.task.taskKey);
+      assert.equal(record.status, 'completed'); assert.equal(record.commentId, 99);
+      assert.ok(pushes.includes(`${commitSha}:refs/heads/main`));
+      assert.match(posted, /\[`abc123ef`\]\(https:\/\/github\.com\/owner\/repo\/commit\//);
+      assertReplyLanguage(locale, posted);
+      if (locale === 'zh') assert.throws(() => assertReplyLanguage(locale, posted + '\n## English explanation'), /REPLY_LANGUAGE_MISMATCH/);
+      else assert.doesNotMatch(posted, /提交|验证/);
+    });
+  }
 });

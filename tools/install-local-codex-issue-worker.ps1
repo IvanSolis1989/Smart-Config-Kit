@@ -131,7 +131,8 @@ $files = @(
     'tools\local-codex-issue-worker.js',
     'tools\lib\local-codex-worker.js',
     'tools\lib\local-codex-app-server.js',
-    'tools\lib\local-codex-queue.js'
+    'tools\lib\local-codex-queue.js',
+    'tools\lib\ai-issue-language.js'
 )
 foreach ($relative in $files) {
     $source = Join-Path $resolvedRepo $relative

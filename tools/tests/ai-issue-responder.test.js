@@ -156,7 +156,7 @@ test('endpoint rejects plaintext, embedded keys and query parameters', () => {
 test('real runner writes response files and gates patches on context permission', async (t) => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-responder-'));
   t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
-  const env = { MIMO_API_KEY: 'test-key', CODE_MOD: 'true', AI_CONTEXT_PATH: path.join(dir, 'context.txt'),
+  const env = { ISSUE_BODY: '请检查这份配置的问题。', MIMO_API_KEY: 'test-key', CODE_MOD: 'true', AI_CONTEXT_PATH: path.join(dir, 'context.txt'),
     AI_RESULT_PATH: path.join(dir, 'result.json'), AI_RESPONSE_PATH: path.join(dir, 'raw.txt'), GITHUB_OUTPUT: path.join(dir, 'outputs') };
   fs.writeFileSync(env.AI_CONTEXT_PATH, 'evidence');
   for (const codeModAllowed of [false, true]) {
