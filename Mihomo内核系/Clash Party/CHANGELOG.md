@@ -20,6 +20,11 @@
 
 <a id="同步工具anti-ad-官方-git-输入恢复-2026-11-09"></a>
 
+## Configuration form 1.5.1 (2026-11-10)
+
+- Fix shared configuration-page mobile overflow with wrapping, shrinkable grids and bounded controls. Check every client in both languages across local parameters, custom services and advanced downloads.
+- This is a presentation-only form patch; client scripts, routing, DNS and exported option semantics are unchanged.
+
 ## MiMo fallback diagnostics v1.0.1 (2026-11-09)
 
 - Add fixed diagnostic categories and bounded numeric HTTP status to fallback CI logs. Provider messages, request IDs, credentials, issue contents and model replies are excluded.

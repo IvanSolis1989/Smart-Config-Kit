@@ -52,6 +52,24 @@ test('generated page is current and has no executable network or dynamic code ca
   assert.equal(/\bFunction\s*\(/.test(executable), false);
   assert.ok(html.includes(fs.readFileSync(path.join(root, 'tools/vendor/fflate/LICENSE'), 'utf8')));
 });
+test('responsive form wraps long paths and allows mobile grids and controls to shrink', () => {
+  const css = html.match(/<style>([\s\S]*?)<\/style>/)[1];
+  assert.match(css, /body\{[^}]*overflow-wrap:anywhere/);
+  assert.match(css, /\.panel\{[^}]*min-width:0/);
+  assert.match(css, /select,input\[type=number\]\{[^}]*min-width:0;max-width:100%;width:100%/);
+  const mobile = css.slice(css.indexOf('@media(max-width:720px)'));
+  for (const selector of ['.layout', '.field']) {
+    assert.ok(mobile.includes(selector + '{grid-template-columns:minmax(0,1fr)'), selector);
+  }
+  assert.doesNotMatch(css, /overflow(?:-x)?:\s*(?:hidden|clip)/);
+  // Keep the actual unbroken OpenClash filename, rather than changing export/help
+  // content to satisfy layout. Chromium CI, not these CSS checks, proves fit.
+  for (const id of ['openclash-normal', 'openclash-smart']) {
+    const client = bundle.clients.find(client => client.id === id);
+    assert.match(client.help, /\/etc\/openclash\/custom\/openclash_custom_overwrite\.sh/);
+  }
+});
+
 test('standalone page sets restrictive CSP and explains local generation', () => {
   const match = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/);
   assert.ok(match); const policy = match[1];

@@ -16,6 +16,11 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## Configuration form 1.5.1 (2026-11-10)
+
+- Keep long client paths and parameter text inside narrow layouts with wrapping and shrinkable grid tracks. OpenClash and all other clients retain the same export values and behavior.
+- Extend responsive CI coverage to both tabs, custom service choices and advanced download controls in both languages. Regenerate the embedded catalog from the current verified artifacts.
+
 ## MiMo fallback diagnostics v1.0.1 (2026-11-09)
 
 - Preserve safe failure categories in CI logs without exposing model replies or credentials; do not retry terminal claims or rewrite existing comments. See [details](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#mimo-fallback-diagnostics-v101-2026-11-09).
