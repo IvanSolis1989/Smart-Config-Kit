@@ -1,61 +1,70 @@
-# OpenClash 配置参考文档
+<a id="openclash-配置参考文档"></a>
+# OpenClash configuration reference
 
-> 核对于 2026-10-29：重新核对 [Mihomo DNS](https://wiki.metacubex.one/config/dns/) 与 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。新增值 hosts-only 是本仓库 shell/Ruby 的可信本地 profile，沿用现有 hosts 精确 IP 字段，不新增 UCI/内核语法；默认 adaptive、heredoc DNS 与节点身份不变。
+**English** | [简体中文](REFERENCE-openclash.zh-CN.md)
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用现有 heredoc 的 RULE-SET 策略名引用，不新增 UCI 字段。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [OpenClash 官方入口](https://github.com/vernesong/OpenClash) 与 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy)；本次仍向既有 heredoc 写入相同 nameserver-policy，不新增 UCI 或内核字段。
+> Reviewed on 2026-10-29: rechecked [Mihomo DNS](https://wiki.metacubex.one/config/dns/) and [hosts](https://wiki.metacubex.one/config/dns/hosts/). The added hosts-only value is a trusted-local profile in this repository's shell/Ruby code. It uses existing exact-IP hosts fields, with no new UCI/core syntax. The default adaptive behavior, heredoc DNS and node identities are unchanged.
 
-> 核对于 2026-10-19：当前 stable v0.48.002（2026-10-12），新增模块安全限制、内核校验及 TUN 默认行为调整。已按该 tag 核对固定自定义脚本入口和普通模块的 INI/AST 边界；完整 Shell 脚本仍由固定入口执行。Smart 遗留 `strategy` 已删除。发布记录原文、源码和采用决定见[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。以下旧摘要未在本次逐段重新校验。
+> Reviewed on 2026-10-28: only reclassified GoogleFCM from downloads/updates to Google services. Rechecked [Mihomo routing rules](https://wiki.metacubex.one/config/rules/), retaining existing heredoc RULE-SET policy-name references without new UCI fields. DNS, fake-IP, sniffing, other push services and node groups are unchanged; no fields, minimum versions or device-pass claims were added.
 
-> 2026-10-15 URL 兼容性复核：OpenClash rule-providers 使用 Mihomo `type: http` / `url`；[Mihomo 官方文档](https://wiki.metacubex.one/en/config/rule-providers/)给出 HTTPS raw URL 示例。本次只替换自有规则 URL 主机，不增删字段；详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+> Reviewed on 2026-10-23 (previous focused review 2026-10-20): reread the [official OpenClash entry](https://github.com/vernesong/OpenClash) and [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy). The same nameserver-policy is written into the existing heredoc, with no new UCI/core fields.
 
-> 2026-09-30 补充：复核 [Mihomo inline 集合](https://wiki.metacubex.one/config/proxy-providers/) 与 [具名直连](https://wiki.metacubex.one/config/proxies/direct/)。Ruby 在写 YAML 前展平受控 payload、检查全部节点与引用；direct/reject 保留为依赖，只把远端代理计入测速候选。参数与 shell/Ruby 入口不变，两份实际 heredoc 回归通过。
+> Reviewed on 2026-10-19: the then-current stable version was v0.48.002 (2026-10-12), adding module security restrictions, core verification and adjusted default TUN behavior. Checked the fixed custom-script entry and ordinary modules' INI/AST boundary against this tag. Complete Shell scripts still execute through the fixed entry. Legacy Smart `strategy` was removed. Original release records, source and adoption decisions are in the [review report](../../docs/upstream/2026-10-19/mihomo/report.md). The historical summary below was not revalidated paragraph by paragraph.
 
-> 更新于 2026-09-30（上次核对 2026-07-25）：实时 release 为 [v0.47.156](https://github.com/vernesong/OpenClash/releases/tag/v0.47.156)（2026-08-10）。复核 [官方覆写模板](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L1-L12) 与 [Ruby 处理示例](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L89-L110)，配置路径仍由首参数传入，Ruby/YAML 处理方式可继续沿用。本次倍率上限是本地脚本参数，通过有引号的参数传入 Ruby；不是新增 UCI 或 Mihomo 字段。空组采用已有 `REJECT` 策略，依据 [Mihomo proxies / empty-fallback 文档](https://wiki.metacubex.one/config/proxy-groups/)。release 的 Ruby 加载优化不改变本仓库节点规则源；本次仍以实际 heredoc 的执行与保存后 YAML 读回验收。
+> 2026-10-15 URL compatibility review: OpenClash rule-providers use Mihomo `type: http` / `url`; the [official Mihomo documentation](https://wiki.metacubex.one/en/config/rule-providers/) provides HTTPS raw URL examples. Only the host of repository-owned rule URLs changed, not the fields; see [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
 
-> 更新于 2026-07-25（上次获取 2026-05-31）：OpenClash 最新版 v0.47.133（2026-07-18）。从 v0.47.096 升级 37 个版本；复核 release 与官方 Wiki，未发现影响本仓库 shell 覆写入口、Ruby heredoc 处理或 UCI 覆写键的 breaking change。
+> 2026-09-30 addition: rechecked [Mihomo inline collections](https://wiki.metacubex.one/config/proxy-providers/) and [named direct proxies](https://wiki.metacubex.one/config/proxies/direct/). Ruby flattens controlled payload and checks all nodes/references before writing YAML. direct/reject remain as dependencies; only remote proxies enter speed-test candidates. Parameters and shell/Ruby entry points are unchanged. Both actual heredoc regressions passed.
+
+> Updated on 2026-09-30 (previous review 2026-07-25): the live release was [v0.47.156](https://github.com/vernesong/OpenClash/releases/tag/v0.47.156) (2026-08-10). Rechecked the [official override template](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L1-L12) and [Ruby example](https://github.com/vernesong/OpenClash/blob/v0.47.156/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L89-L110). The configuration path is still the first argument, so the Ruby/YAML processing approach remains applicable. The multiplier limit is a local script parameter passed to Ruby as a quoted argument, not a new UCI/Mihomo field. Empty groups use the existing `REJECT` policy, following [Mihomo proxies / empty-fallback documentation](https://wiki.metacubex.one/config/proxy-groups/). The release's Ruby loading optimization does not change this repository's node/rule sources. Acceptance still executes actual heredocs and reads back the saved YAML.
+
+> Updated on 2026-07-25 (previous retrieval 2026-05-31): the latest OpenClash was v0.47.133 (2026-07-18), 37 versions after v0.47.096. Release/Wiki review found no breaking change affecting the shell override entry, Ruby heredoc processing or UCI override keys used here.
 >
-> 更新于 2026-04-30（上次获取 2026-04-26）：OpenClash 最新版 v0.47.088（2026-04-10）。未发现 breaking change。覆写脚本格式、UCI 配置键无变更。
+> Updated on 2026-04-30 (previous retrieval 2026-04-26): the latest OpenClash was v0.47.088 (2026-04-10). No breaking change was found; override-script format and UCI keys were unchanged.
 >
-> 来源 URL:
-> - https://github.com/vernesong/OpenClash/wiki (官方 Wiki，18 页)
-> - https://deepwiki.com/vernesong/OpenClash/4-proxy-configuration (配置管理)
-> - https://deepwiki.com/vernesong/OpenClash/4.2-proxy-groups (规则提供者与代理组)
-> - https://github.com/vernesong/OpenClash (源码仓库)
-> 获取日期: 2026-04-26
+> Source URLs:
+> - https://github.com/vernesong/OpenClash/wiki (official Wiki, 18 pages)
+> - https://deepwiki.com/vernesong/OpenClash/4-proxy-configuration (configuration management)
+> - https://deepwiki.com/vernesong/OpenClash/4.2-proxy-groups (rule providers and proxy groups)
+> - https://github.com/vernesong/OpenClash (source repository)
+> Retrieved: 2026-04-26
 
 ---
 
-## 1. OpenClash 概述
+<a id="1-openclash-概述"></a>
+## 1. OpenClash overview
 
-OpenClash 是运行在 OpenWrt 上的 Clash 客户端 LuCI 插件，支持多内核：
+OpenClash is a LuCI plugin providing a Clash client on OpenWrt, with multiple core options:
 
-| CORE_TYPE | 内核 | 说明 |
+| CORE_TYPE | Core | Description |
 |-----------|------|------|
-| `mihomo` | MetaCubeX mihomo | 推荐（Smart 版需要此内核） |
-| `clash` | Dreamacro clash | 原版 Clash（已停维） |
-| `clash-meta` | MetaCubeX mihomo | 旧名称，等同 mihomo |
-| `clash-tun` | Clash Premium | 闭源 Premium 内核 |
+| `mihomo` | MetaCubeX mihomo | Recommended in the historical summary; it states that Smart requires this core |
+| `clash` | Dreamacro clash | Original Clash, no longer maintained |
+| `clash-meta` | MetaCubeX mihomo | Old name, equivalent to mihomo |
+| `clash-tun` | Clash Premium | Closed-source Premium core |
 
-本仓库的 **OpenClash Normal** 使用 `url-test` 退化（兼容 clash 内核），**OpenClash Smart** 使用 `type: smart` + `uselightgbm`（仅 mihomo ≥ v1.18.0）。
+The historical summary describes this repository's **OpenClash Normal** as a `url-test` fallback compatible with clash, and **OpenClash Smart** as `type: smart` + `uselightgbm`, “mihomo ≥ v1.18.0 only”. These are retained historical claims, not new verification that standard MetaCubeX builds support Smart-fork features; consult the dated review above for the reviewed core/module boundary.
 
 ---
 
-## 2. 覆写系统（Overwrite System）
+<a id="2-覆写系统overwrite-system"></a>
+## 2. Overwrite system
 
-OpenClash 最核心的特性是通过 **覆写脚本** 向订阅配置注入自定义内容，无需修改原始订阅。
+OpenClash's central feature is injecting custom content into subscription configuration through **override scripts**, without editing the original subscription.
 
-### 2.1 覆写脚本文件
+<a id="21-覆写脚本文件"></a>
+### 2.1 Override script files
 
-| 文件 | 作用 |
+| File | Purpose |
 |------|------|
-| `/etc/openclash/custom/openclash_custom_overwrite.sh` | 自定义覆写入口脚本 |
-| `overwrite/default` | 默认覆写规则模板 |
+| `/etc/openclash/custom/openclash_custom_overwrite.sh` | Custom override entry script |
+| `overwrite/default` | Default override-rule template |
 
-### 2.2 覆写 YAML 字段（在本仓库的用法）
+<a id="22-覆写-yaml-字段在本仓库的用法"></a>
+### 2.2 Overriding YAML fields in this repository
 
-本仓库的 `Mihomo内核系/OpenClash/OpenClash(mihomo).sh` 和 `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh` 通过 shell heredoc 生成**完整覆写 YAML**，写入 `$OVERRIDE_YAML` 文件，在 OpenClash 的覆写设置中引用。覆写 YAML 结构：
+`Mihomo内核系/OpenClash/OpenClash(mihomo).sh` and `Mihomo内核系/OpenClash/OpenClash(mihomo-smart).sh` use shell heredocs to generate **complete override YAML**, write it to `$OVERRIDE_YAML`, and reference it in OpenClash override settings. Original illustrative structure follows; comments describe provider/rule injection, and group names are unchanged configuration identifiers.
 
 ```yaml
 # 覆写规则提供者（注入到配置的 rule-providers 段）
@@ -75,34 +84,41 @@ rules:
   - MATCH,🐟 漏网之鱼
 ```
 
-**关键限制**：
-- 覆写 YAML 只能有 **1 个 `rule-providers`** 和 **1 个 `rules`** 顶层键（Ruby Psych `last-wins` 语义——重复键会静默丢弃前面的内容）
-- 覆写 YAML 是"追加/合并"到最终配置，不是完全替换
-- `proxy-groups` 的覆写需要通过 OpenClash 的内置代理组管理或自定义脚本
+**Key limitations**:
+- Override YAML must have only **one top-level `rule-providers`** and **one top-level `rules`** key. Ruby Psych uses `last-wins`: duplicate keys silently discard earlier content.
+- Override YAML is appended/merged into the final configuration, not a complete replacement.
+- Overriding `proxy-groups` requires OpenClash's built-in group management or a custom script.
 
-### 2.2a YAML 语法覆写脚本（v0.47.086+ 新能力）
+<a id="22a-yaml-语法覆写脚本v047086-新能力"></a>
+### 2.2a YAML-syntax override scripts (new in v0.47.086+)
 
-自 v0.47.086（2026-04-07）起，OpenClash 支持 **YAML 语法覆写脚本**（除传统 shell 脚本外），并支持**按配置文件定向**覆写脚本。本仓库的 shell heredoc 方式仍然完全兼容。
+Since v0.47.086 (2026-04-07), OpenClash supports **YAML-syntax override scripts** alongside traditional shell scripts, and **configuration-file-specific targeting**. This repository's shell heredoc approach remains compatible.
 
-### 2.2b v0.47.096 新增配置选项
+<a id="22b-v047096-新增配置选项"></a>
+### 2.2b Configuration options added in v0.47.096
 
-- **全局 UA 覆写**（`global_ua`）：新增全局 User-Agent 覆写选项，默认 UA 已调整
-- **MRS 默认**：绕过大陆规则默认使用 MRS 格式（本仓库 rule-providers 已全部使用 MRS，无影响）
-- **移除自动防火墙转发端口绕过**：用户需通过源流量访问控制手动配置
+- **Global UA override** (`global_ua`): a global User-Agent override option was added and the default UA adjusted.
+- **MRS default**: mainland-China bypass rules default to MRS format. This repository's rule-providers already all use MRS, so this has no effect on them.
+- **Automatic firewall forwarded-port bypass removed**: users must configure it manually through source-traffic access control.
 
-### 2.3 UCI → YAML 处理管道
+<a id="23-uci--yaml-处理管道"></a>
+### 2.3 UCI → YAML processing pipeline
 
-OpenClash 的 `yml_change.sh` 分三阶段将 UCI 配置转换为 Clash YAML：
+OpenClash's `yml_change.sh` converts UCI configuration to Clash YAML in three phases:
 
-1. **Initialization** — 验证订阅文件，准备环境
-2. **Parallel Processing** — 并行处理 servers → `/tmp/yaml_servers.yaml`、proxy-providers → `/tmp/yaml_provider.yaml`、groups → `/tmp/yaml_groups.yaml`
-3. **Integration** — 使用 Ruby 脚本合并和验证配置
+1. **Initialization**: validate the subscription file and prepare the environment.
+2. **Parallel Processing**: process servers → `/tmp/yaml_servers.yaml`, proxy-providers → `/tmp/yaml_provider.yaml`, and groups → `/tmp/yaml_groups.yaml` concurrently.
+3. **Integration**: merge and validate configuration using Ruby scripts.
 
 ---
 
-## 3. UCI 配置关键字段
+<a id="3-uci-配置关键字段"></a>
+## 3. Key UCI configuration fields
 
-### 3.1 自定义规则提供者 (`uci config rule_providers`)
+<a id="31-自定义规则提供者-uci-config-rule_providers"></a>
+### 3.1 Custom rule providers (`uci config rule_providers`)
+
+Original example retained. Its comments identify required unique name, target configuration or all, provider type/behavior, destination group, position (0: top priority; 1: bottom extension), and extra directly injected YAML parameters.
 
 ```uci
 config rule_providers
@@ -120,7 +136,8 @@ config rule_providers
     option other_parameters ''       # 直接注入的额外 YAML 参数
 ```
 
-### 3.2 预定义规则提供者 (`uci config rule_provider_config`)
+<a id="32-预定义规则提供者-uci-config-rule_provider_config"></a>
+### 3.2 Predefined rule providers (`uci config rule_provider_config`)
 
 ```uci
 config rule_provider_config
@@ -133,35 +150,41 @@ config rule_provider_config
     option position '0'
 ```
 
-### 3.3 订阅管理关键字段
+<a id="33-订阅管理关键字段"></a>
+### 3.3 Key subscription management fields
 
-| UCI 选项 | 说明 | 默认值 |
+| UCI option | Description | Default |
 |----------|------|--------|
-| `sub_convert` | 使用在线转换服务 | `false` |
-| `keyword` | 按关键词**包含**节点 | 空 |
-| `ex_keyword` | 按关键词**排除**节点 | 空 |
+| `sub_convert` | Use an online conversion service | `false` |
+| `keyword` | **Include** nodes by keyword | Empty |
+| `ex_keyword` | **Exclude** nodes by keyword | Empty |
 | `sub_ua` | HTTP User-Agent | `clash.meta` |
 
-### 3.4 游戏规则 (`uci config game_config`)
+<a id="34-游戏规则-uci-config-game_config"></a>
+### 3.4 Game rules (`uci config game_config`)
 
-固定在 `/etc/openclash/game_rules/` 下，`type=file`，`behavior=ipcidr`。
+Stored under `/etc/openclash/game_rules/`, with `type=file` and `behavior=ipcidr`.
 
 ---
 
-## 4. OpenClash 覆写 vs 标准 Clash YAML 差异
+<a id="4-openclash-覆写-vs-标准-clash-yaml-差异"></a>
+## 4. OpenClash overrides versus standard Clash YAML
 
-| 差异点 | 标准 mihomo YAML | OpenClash 覆写 |
+| Difference | Standard mihomo YAML | OpenClash overrides |
 |--------|-----------------|---------------|
-| proxy-groups 创建 | 直接在 YAML 声明 | 必须通过 UCI 或 Ruby 脚本动态生成 |
-| rule-providers 注入 | 直接在 YAML 声明 | 通过覆写脚本 + heredoc YAML 注入 |
-| 代理组管理 | `proxies` / `use` | 额外支持 `filter` 正则 + `exclude-filter` |
-| 规则位置 | 固定顺序 | 支持 `position=0`（顶部优先）和 `position=1`（底部扩展） |
-| 健康检查 | `health-check` 字段 | UCI 单独配置 |
-| Ruby 处理 | 不使用 | `yml_groups_set.sh` 内部调用 Ruby 处理组 |
+| Creating proxy-groups | Declare directly in YAML | Generate dynamically through UCI or Ruby |
+| Injecting rule-providers | Declare directly in YAML | Inject through override script + heredoc YAML |
+| Proxy group management | `proxies` / `use` | Additional `filter` regex + `exclude-filter` support |
+| Rule position | Fixed order | `position=0` (top priority) or `position=1` (bottom extension) |
+| Health checks | `health-check` field | Separately configured in UCI |
+| Ruby processing | Not used | `yml_groups_set.sh` calls Ruby internally for groups |
 
 ---
 
-## 5. 本仓库 OpenClash 脚本架构
+<a id="5-本仓库-openclash-脚本架构"></a>
+## 5. This repository's OpenClash script architecture
+
+Original directory illustration retained: Normal uses url-test fallback; Smart uses smart + lightgbm; the legacy version is retained.
 
 ```
 Mihomo内核系/OpenClash/
@@ -171,50 +194,54 @@ Mihomo内核系/OpenClash/
 └── README.md
 ```
 
-两个 `.sh` 脚本的共同结构：
+Both `.sh` scripts share this structure:
 
-1. **头部注释** — 版本号、Build 日期、架构说明
-2. **Shell 变量** — `VERSION_TAG`、`CORE_TYPE`、路径等
-3. **Heredoc 覆写 YAML** — 生成的完整覆写配置写入 `$OVERRIDE_YAML`
-4. **Ruby 代理组生成**（Smart 版）— 用 Ruby 脚本动态创建 Smart/url-test 组
-5. **UCI 命令**（可选）— 通过 `uci set` 指令配置 OpenClash
+1. **Header comments**: version, Build date, architecture.
+2. **Shell variables**: `VERSION_TAG`, `CORE_TYPE`, paths, etc.
+3. **Heredoc override YAML**: complete generated override configuration written to `$OVERRIDE_YAML`.
+4. **Ruby proxy-group generation** (Smart edition): dynamically create Smart/url-test groups with Ruby.
+5. **UCI commands** (optional): configure OpenClash through `uci set`.
 
-### 4.1 关键实现细节
+<a id="41-关键实现细节"></a>
+### 4.1 Key implementation details
 
-- **覆写 YAML 写入方式**：`cat > "$OVERRIDE_YAML" << 'OVERRIDE_EOF'` + `cat >> "$OVERRIDE_YAML" << 'OVERRIDE_EOF'` 追加
-- **Ruby 嵌入方式**：`ruby -ryaml -e '...'` 行内执行
-- **代理组动态构建**：Smart 版用 Ruby 的 `make_smart_group()` 函数按国家分类节点
-- **rule-providers 数量**：Normal / Smart 均为 114 个最终融合 provider
+- **Writing override YAML**: `cat > "$OVERRIDE_YAML" << 'OVERRIDE_EOF'`, then append with `cat >> "$OVERRIDE_YAML" << 'OVERRIDE_EOF'`.
+- **Embedding Ruby**: inline execution through `ruby -ryaml -e '...'`.
+- **Dynamic group construction**: Smart uses Ruby's `make_smart_group()` to classify nodes by country.
+- **rule-providers count**: both Normal and Smart have 114 final fused providers in this historical record.
 
 ---
 
-## 6. OpenClash 校验机制
+<a id="6-openclash-校验机制"></a>
+## 6. OpenClash validation mechanisms
 
-OpenClash 包含四层校验：
+OpenClash includes four validation layers:
 
-| 校验类型 | 说明 |
+| Validation | Description |
 |----------|------|
-| YAML Syntax | 确保生成的配置是合法的 YAML |
-| Reference | 验证 proxy-group 引用的 provider/group 存在 |
-| Rule | 检查规则引用的目标组存在 |
-| Backup | 保留可回滚的配置备份 |
+| YAML Syntax | Ensure generated configuration is valid YAML |
+| Reference | Check that providers/groups referenced by proxy-groups exist |
+| Rule | Check that rule destination groups exist |
+| Backup | Retain configuration backups for rollback |
 
-**常见陷阱**：
-- Ruby Psych 对 YAML 重复顶层键使用 `last-wins`，会导致前面的内容被静默丢弃（本仓库曾在此犯错）
-- `filter`/`exclude-filter` 使用 Go RE2 子串匹配，不是 word boundary（同 mihomo 行为）
+**Common pitfalls**:
+- Ruby Psych uses `last-wins` for duplicate top-level YAML keys, silently discarding earlier content. This repository previously made that mistake.
+- `filter`/`exclude-filter` use Go RE2 substring matching, not word boundaries, matching mihomo behavior.
 
 ---
 
-## 7. 与 Clash Party 基线的降级差异
+<a id="7-与-clash-party-基线的降级差异"></a>
+## 7. Fallback differences from the Clash Party baseline
 
-| 功能 | Clash Party JS 基线 | OpenClash Normal | OpenClash Smart |
+| Feature | Clash Party JS baseline | OpenClash Normal | OpenClash Smart |
 |------|---------------------|-----------------|-----------------|
-| 节点分类 | JS word-boundary regex | Ruby 子串匹配 | Ruby 子串匹配 |
-| 区域组类型 | `type: smart` + lightgbm | `type: url-test` | `type: smart` + lightgbm |
-| 区域组创建 | JS `upsertSmartGroup()` | Ruby `make_smart_group()` → url-test | Ruby `make_smart_group()` → smart |
-| Fallback 链 | 区域空 → apacNodes → c.ALL | 同 | 同 |
-| 业务组注入 | `injectBusinessGroups()` | 硬编码 YAML 锚点 | 硬编码 YAML 锚点 |
+| Node classification | JS word-boundary regex | Ruby substring matching | Ruby substring matching |
+| Regional group type | `type: smart` + lightgbm | `type: url-test` | `type: smart` + lightgbm |
+| Regional group creation | JS `upsertSmartGroup()` | Ruby `make_smart_group()` → url-test | Ruby `make_smart_group()` → smart |
+| Fallback chain | Empty region → apacNodes → c.ALL | Same | Same |
+| Service group injection | `injectBusinessGroups()` | Hardcoded YAML anchors | Hardcoded YAML anchors |
 
-### 2026-10-20 业务 DNS policy 复核
+<a id="2026-10-20-业务-dns-policy-复核"></a>
+### 2026-10-20 service DNS policy review
 
-OpenClash 的 Mihomo DNS policy 投影按 [Mihomo 官方 DNS 文档](https://wiki.metacubex.one/config/dns/)理解：policy 优先于 nameserver/fallback，节点 DNS 独立，respect-rules 需要配置 `proxy-server-nameserver`。本次不改策略组或节点择路。
+OpenClash's Mihomo DNS policy projection follows the [official Mihomo DNS documentation](https://wiki.metacubex.one/config/dns/): policy takes precedence over nameserver/fallback, node DNS is independent, and respect-rules requires `proxy-server-nameserver`. No changes to policy groups or node selection.

@@ -1,19 +1,21 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-family-sing-box-mobile.svg">
-  <img src="../docs/assets/readme/page-family-sing-box.svg" alt="sing-box 内核系：SingBox 完整配置与 Karing 原生分流适配" width="100%">
+  <img src="../docs/assets/readme/page-family-sing-box.svg" alt="sing-box clients" width="100%">
 </picture>
 
-# sing-box 内核系客户端入口
+# sing-box clients
 
-本系列提供 sing-box 完整配置和 Karing 原生分流规则入口。Karing 文件仅用于自定义分流规则；节点组、DNS 和最终默认动作由 Karing App 设置，不能作为完整 sing-box 配置导入。Hiddify 与 HomeProxy 的 sing-box 导入说明见 [SingBox 教程](./SingBox/README.md)。
+This family provides complete sing-box configurations and native Karing routing rules. The Karing file is only for custom routing rules; endpoint groups, DNS, and the final default action are configured in Karing. Do not import it as a complete sing-box configuration. See the [SingBox guide](./SingBox/README.md) for Hiddify and HomeProxy import instructions.
 
-[![配置下载](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md#sing-box) [![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![DNS 与导入后验收](../docs/assets/readme/nav-verify.svg)](../docs/guide/dns-and-verification.md)
+[![Downloads](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md#sing-box) [![Documentation](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![DNS and verification](../docs/assets/readme/nav-verify.svg)](../docs/guide/dns-and-verification.md)
 
-快速导航：[配置下载](../docs/guide/downloads.md#sing-box) · [文档中心](../docs/README.md) · [DNS 与导入后验收](../docs/guide/dns-and-verification.md)
+Quick links: [downloads](../docs/guide/downloads.md#sing-box) · [documentation](../docs/README.md) · [DNS and post-import verification](../docs/guide/dns-and-verification.md)
 
-## 客户端教程
+## Client guides
 
-- [SingBox / sing-box](./SingBox/README.md) — 完整 sing-box JSON 配置与版本说明
-- [Karing](./Karing/README.md) — Karing 自定义分流组 JSON
+- [SingBox / sing-box](./SingBox/README.md) — Complete sing-box JSON configurations and version requirements
+- [Karing](./Karing/README.md) — Karing custom routing-group JSON
 
-请按实际客户端选择入口，并在客户端提供节点订阅后按教程导入相应文件。
+Choose the entry for your client. Supply your own endpoint subscription in the application, then import the matching file as described in its guide.

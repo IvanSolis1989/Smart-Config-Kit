@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "scope": "All tracked README.md files. Hashes record the reviewed pair, not automatic proof of semantic equivalence. Review both editions and update receipts after intentional changes; do not blindly regenerate to make checks pass.",
+  "review_baseline": "d6f7cdc3b890e1bd7f331226572db622eeb57c07",
+  "pairs": [
+    {
+      "english": "Meow内核系/Aerove Lite/README.md",
+      "chinese": "Meow内核系/Aerove Lite/README.zh-CN.md",
+      "english_sha256": "8e9b594f5e05e6463e48ef0ea4197e2844ff912577f0a49a4fbe74c914648e1b",
+      "chinese_sha256": "a600bc17eaa6fe5691f49bf2558dd544f70963a28329df78f15ddd94f7c255aa"
+    },
+    {
+      "english": "Meow内核系/Meow/README.md",
+      "chinese": "Meow内核系/Meow/README.zh-CN.md",
+      "english_sha256": "d5e42c1ae914265d8b6ec62fd5fcf03e295559ca07668d0aca733c53f6bdc314",
+      "chinese_sha256": "350270f0055147d4b6047efe241d5b0ad9241bda93126f522455aac38ed98d8c"
+    },
+    {
+      "english": "Meow内核系/README.md",
+      "chinese": "Meow内核系/README.zh-CN.md",
+      "english_sha256": "6f146246dfe8a971480aacb5e514beb2776d005adf8d34112886465970cb2136",
+      "chinese_sha256": "36242d3438f8f6d7eea23a598dcc95225345db048343ae6cf1764ae19085e1bf"
+    },
+    {
+      "english": "Mihomo内核系/Clash Meta For Android/README.md",
+      "chinese": "Mihomo内核系/Clash Meta For Android/README.zh-CN.md",
+      "english_sha256": "3b1ba9c06f2dc64f1c8e2a6066f4123d02cabcb6c46cb0da587d960292bc6466",
+      "chinese_sha256": "d9f2852fe5488b06422d893f1df45fecc334ec2168b856ff5fa18f0f5b314074"
+    },
+    {
+      "english": "Mihomo内核系/Clash Party/README.md",
+      "chinese": "Mihomo内核系/Clash Party/README.zh-CN.md",
+      "english_sha256": "d1177cb137ef84561894dc76585fb774f9c7aefdc76fdd25ba65ea7cf7c13021",
+      "chinese_sha256": "6de3bf4ce3a0bc44f3a8c9af4aaf3be063d60b9f77506fccccefe30349d39801"
+    },
+    {
+      "english": "Mihomo内核系/FlClash/README.md",
+      "chinese": "Mihomo内核系/FlClash/README.zh-CN.md",
+      "english_sha256": "528e2592b9c0dbb50e9440ee16927712fc2004b8cd5e96110c4a7644b00555c9",
+      "chinese_sha256": "445a702cc109f015f9c74f64faf855ce56821b7e56b0026f7b5f5de9c5960e94"
+    },
+    {
+      "english": "Mihomo内核系/OpenClash/README.md",
+      "chinese": "Mihomo内核系/OpenClash/README.zh-CN.md",
+      "english_sha256": "0892fe9eb95b3cc5dd14d83a9c0087c92d121a5c969692cf45e4f7999a81bca5",
+      "chinese_sha256": "ed535edf31b26e023d46c12dcf99408c247af603a95dd2483ef6da044ade9f0e"
+    },
+    {
+      "english": "Mihomo内核系/README.md",
+      "chinese": "Mihomo内核系/README.zh-CN.md",
+      "english_sha256": "430afde1c6b8ee55bc4cbe5e9313c375217dfa1f7549dd657255a5ff7836d053",
+      "chinese_sha256": "eaf5e3524b61d11a7c57c03436cf6045f2e4519cf5dce285d1aa790c23702c96"
+    },
+    {
+      "english": "README.md",
+      "chinese": "README.zh-CN.md",
+      "english_sha256": "287b9265ee5d2b37f1921f98e3b69718fd234a21eec19becb33519acbad12d3e",
+      "chinese_sha256": "c31b9c0dfb5e75008f4474480eb06dd9770f4e3ac488207cdfdfcf091fea3baa"
+    },
+    {
+      "english": "Sing-box内核系/Karing/README.md",
+      "chinese": "Sing-box内核系/Karing/README.zh-CN.md",
+      "english_sha256": "2a455d58f21666f1286b724e551afc37f6c35e3759c756519fdaa8e1ef323f65",
+      "chinese_sha256": "a767d3afb14d08c1fdf70ee10f8205ebe9df049a223b5ea95aa475c7ed38c2a9"
+    },
+    {
+      "english": "Sing-box内核系/README.md",
+      "chinese": "Sing-box内核系/README.zh-CN.md",
+      "english_sha256": "6835db463b621e65fac6f8c618831329e2133f1759abaebb93a1859a095791f9",
+      "chinese_sha256": "12be15b6c2fa54b676dce858855016433ba69e0d21e17ff508af5be24d296fca"
+    },
+    {
+      "english": "Sing-box内核系/SingBox/README.md",
+      "chinese": "Sing-box内核系/SingBox/README.zh-CN.md",
+      "english_sha256": "3a740c1c466806970805d9470aa9f38a2509feb00d57d44780878aa05d004e4d",
+      "chinese_sha256": "35efc40903d004fca57ac58ce63f1b4b08ede1e2d773a3938285928fa6867ff8"
+    },
+    {
+      "english": "SubStore/README.md",
+      "chinese": "SubStore/README.zh-CN.md",
+      "english_sha256": "692cf2b33260d349f5292c5ac73d2e9fbce0e88fff21c01de97d9c862a1b4958",
+      "chinese_sha256": "3250f0d419ff0de0bd805c9fcbd83250a392b1cf551da833c99cfb4c30471338"
+    },
+    {
+      "english": "SubStore/edge-extension/README.md",
+      "chinese": "SubStore/edge-extension/README.zh-CN.md",
+      "english_sha256": "97c707a9421f8441c34b8a5c8cbd877445b36acd2f866c729a902eaabfe2900e",
+      "chinese_sha256": "44fa01c6ec18154caeb7d1b0bd8a35674c6542fda43fb796e51142d3cbafc0b5"
+    },
+    {
+      "english": "SubStore/scripts/README.md",
+      "chinese": "SubStore/scripts/README.zh-CN.md",
+      "english_sha256": "7124260ba345f392902477e5b2d81cb349c76c2e159d4ffe4b7be5f615cec22d",
+      "chinese_sha256": "f30b927d8c8a1cc7342825c3f517665d5d6ae36ea0cc54569e1278207e5af067"
+    },
+    {
+      "english": "SubStore/scripts/community/README.md",
+      "chinese": "SubStore/scripts/community/README.zh-CN.md",
+      "english_sha256": "6a1947efc90c15834bd0f9e57a766d66d11bc98b766b5560cb7d5f956c6ddecd",
+      "chinese_sha256": "022ea2a56d4b64901f72d996dcf5e25ef9b52a00c051fc2956ec6ef9dd573219"
+    },
+    {
+      "english": "Xray内核系/README.md",
+      "chinese": "Xray内核系/README.zh-CN.md",
+      "english_sha256": "354b7b3cfe1b44973b13c2a05d9581bfc11ea17d08a4cccef4d2d9abbf97423a",
+      "chinese_sha256": "94ee323613f5134341b2b2657763dff4f3685af0939f875111f7cb9374a287b1"
+    },
+    {
+      "english": "Xray内核系/v2rayN/README.md",
+      "chinese": "Xray内核系/v2rayN/README.zh-CN.md",
+      "english_sha256": "21537fb35c453e843b05eb46cb816b4e2319ac8684694636e992dcf71ec91194",
+      "chinese_sha256": "580e073deeef0446508f6000bcf86e7db41aff2f66964b3f5da2e3725bd3d04e"
+    },
+    {
+      "english": "docs/README.md",
+      "chinese": "docs/README.zh-CN.md",
+      "english_sha256": "5e4dad50d703f4039a9cce93d7454c059b0b89c2701d98144f37335e427ce12a",
+      "chinese_sha256": "5daa033c554c94557f9f198437f938e2ff9c2d67b07854cbfffe9b0097bac560"
+    },
+    {
+      "english": "docs/archive/README.md",
+      "chinese": "docs/archive/README.zh-CN.md",
+      "english_sha256": "ef9833e8d8b9ff2063b3d5cf9f3803859ab988f4f9fb80716e93a455fd514059",
+      "chinese_sha256": "92ea0006b3e06074d7fa9397a80a656f8dc092e66d43be87dcca9d62007d5271"
+    },
+    {
+      "english": "docs/upstream/2026-10-19/README.md",
+      "chinese": "docs/upstream/2026-10-19/README.zh-CN.md",
+      "english_sha256": "fd682f03042b0e35bf4d4339070f1f734e3480d8f7d0939a734ce9ef723bb6e6",
+      "chinese_sha256": "ba3f3ffbc62b49b0fcff55bb41cd90dcf42ae31eced44acdc291017780c203a0"
+    },
+    {
+      "english": "mirrors/README.md",
+      "chinese": "mirrors/README.zh-CN.md",
+      "english_sha256": "403f808041da2cd6c7b7c86a424888c5e641642588dd25b4a1f7ea89cb1622c7",
+      "chinese_sha256": "9e551ccd7518749e699a054ffa20d8fa320ad71f20ffc6ad68541aa79848b5c6"
+    },
+    {
+      "english": "rulesets/source/README.md",
+      "chinese": "rulesets/source/README.zh-CN.md",
+      "english_sha256": "a35fe65b713524bdfe559c03864235a7dfa192d05eebf6bba48d7115090b7099",
+      "chinese_sha256": "f79380031091ddf3b0fac332b8b8feee332b23fcf3a6668a89ec8b445b454006"
+    },
+    {
+      "english": "rulesets/supplemental/README.md",
+      "chinese": "rulesets/supplemental/README.zh-CN.md",
+      "english_sha256": "d0d80f55d068a6f5a880f44bbf616541cb59402edb8b13fc5679c80678d79233",
+      "chinese_sha256": "718ddcfdeb49cf4aafa421b6d02cd321e3b056a0b0d858ed3df1e022c33a803c"
+    },
+    {
+      "english": "tools/README.md",
+      "chinese": "tools/README.zh-CN.md",
+      "english_sha256": "db8b105923e923b2018c6160db926ceb0c82d15aa3865f6465e37f088dc4f79d",
+      "chinese_sha256": "28560d85cbdeeca51454d8ef5750dd77473d3021abd0a183bd8064b91998f556"
+    },
+    {
+      "english": "tools/fixtures/karing/README.md",
+      "chinese": "tools/fixtures/karing/README.zh-CN.md",
+      "english_sha256": "eb50409fd2d94b2cc7baa7624c7586e92d178297fa946150bb6f7f1dad741eed",
+      "chinese_sha256": "847a47505481c941ac9a7252eb9d76b14baf5bb854cfd344f4b77e14ddb2e78f"
+    },
+    {
+      "english": "双内核系/Passwall/README.md",
+      "chinese": "双内核系/Passwall/README.zh-CN.md",
+      "english_sha256": "e0f8b514f88205199d81a79a0dce14ab39610d4bd611c473019db46ce26bf973",
+      "chinese_sha256": "02779ec59eb4539ec076a20b0edd0576a3dd9dbabcf928c35f7e6dc9ee2f2bba"
+    },
+    {
+      "english": "双内核系/Passwall2/README.md",
+      "chinese": "双内核系/Passwall2/README.zh-CN.md",
+      "english_sha256": "25361fce39775cfd4dae7cde08c6fc3f4e4e5d51fbaf258102eff447b5c3ee0d",
+      "chinese_sha256": "19a4d375dc54102bb3a1444b1fb048ad62587138fd75aa6e4254bff5acc87257"
+    },
+    {
+      "english": "双内核系/README.md",
+      "chinese": "双内核系/README.zh-CN.md",
+      "english_sha256": "3e78246387a6a489908e7a0f3644a28b6cce5d6e6a5f4d0e6e14b116a7329578",
+      "chinese_sha256": "f62b0fec6a68fe42d708c005a184189a0b2f719e1be548e3be6be046c819fd47"
+    },
+    {
+      "english": "独立内核系/Egern/README.md",
+      "chinese": "独立内核系/Egern/README.zh-CN.md",
+      "english_sha256": "c91fa61c652381c0b2f20ee01d2dbf70d8d0bca45f827eeea4f55cf4eae5a0f4",
+      "chinese_sha256": "c335e259ab0a73fadf242c815478f0703a28ed1a3e7b301216d616dfe2104d18"
+    },
+    {
+      "english": "独立内核系/Loon/README.md",
+      "chinese": "独立内核系/Loon/README.zh-CN.md",
+      "english_sha256": "b2b03a84527958460df79ebc1f19922ae3f36e27ff65e0a0402e558cf3b1a3f2",
+      "chinese_sha256": "e271ec9ffdda8366a959fe04219485cd471fb94f7f5b7f712585a37001d97f77"
+    },
+    {
+      "english": "独立内核系/Quantumult X/README.md",
+      "chinese": "独立内核系/Quantumult X/README.zh-CN.md",
+      "english_sha256": "e2217c415e1f705da9cb5d23a31b71dc9aeade0c7ddd41f68dc37a239a1b98f4",
+      "chinese_sha256": "580af98ca7076e70527748191ec43b468d10c0e22f4ad8d16e73fa9326d1c69f"
+    },
+    {
+      "english": "独立内核系/README.md",
+      "chinese": "独立内核系/README.zh-CN.md",
+      "english_sha256": "1519bd40f3f4917be6422eae903b1c2da854df9a9ff08409582ac1ab1a0777a6",
+      "chinese_sha256": "42ac154bd8103cbf2e9d333460d2855f48266802545878de2b48764fd502a9be"
+    },
+    {
+      "english": "独立内核系/Shadowrocket/README.md",
+      "chinese": "独立内核系/Shadowrocket/README.zh-CN.md",
+      "english_sha256": "066f51e92d391acb1354a87cf98b902cb320a237177b5a47e7737e6c24ffcc96",
+      "chinese_sha256": "461e057faa679d0b22bc7afb9f02d6809bdfa09216ef6378b0b2eed34b95874b"
+    },
+    {
+      "english": "独立内核系/Stash/README.md",
+      "chinese": "独立内核系/Stash/README.zh-CN.md",
+      "english_sha256": "4719308113d6249fe129f65894c5418b0426333acd3d8e5ec784246038bc70b6",
+      "chinese_sha256": "3a27aa1aeb000f32aa7e6161ee8085dbf43a02bc35b5d0e40b366ce0793132b4"
+    },
+    {
+      "english": "独立内核系/Surge/README.md",
+      "chinese": "独立内核系/Surge/README.zh-CN.md",
+      "english_sha256": "97f78658788a4bd1f721c55cb32a5de5b8657b8af4602c7ade673ba0cb636c02",
+      "chinese_sha256": "7efc44d1a076429a9cfec45a475062a56512e18f7a829108845576a0558b4591"
+    }
+  ]
+}

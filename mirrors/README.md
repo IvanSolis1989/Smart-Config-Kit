@@ -1,17 +1,19 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-mirrors-mobile.svg">
-  <img src="../docs/assets/readme/page-mirrors.svg" alt="规则镜像目录：CiciAI、Grok 与 UK 样例" width="100%">
+  <img src="../docs/assets/readme/page-mirrors.svg" alt="Rule mirrors: CiciAI, Grok and UK examples" width="100%">
 </picture>
 
 # mirrors
 
-> 目录简介：这里存放少量镜像规则样例和补充列表，供正式配置或排障说明按需引用。
+> This directory contains a small selection of mirrored rule examples and supplemental lists referenced by production configurations or troubleshooting guides as needed.
 
-[![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![配置下载](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md)
+[![Documentation](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![Downloads](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md)
 
-文档中心：[docs/README.md](../docs/README.md) · 配置下载：[downloads.md](../docs/guide/downloads.md)
+Documentation：[docs/README.md](../docs/README.md) · Downloads：[downloads.md](../docs/guide/downloads.md)
 
-## 镜像文件
+## Mirrored files
 
 - [CiciAi.list](./CiciAi.list)
 - [Grok.yaml](./Grok.yaml)

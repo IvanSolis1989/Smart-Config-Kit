@@ -1,65 +1,71 @@
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-release-batch-mobile.svg">
-  <img src="assets/readme/page-release-batch.svg" width="100%" alt="技术指南">
+  <img src="assets/readme/page-release-batch.svg" width="100%" alt="Technical guide">
 </picture>
 
-# 文件级自动刷新发布检查 v1.0.1
+<a id="文件级自动刷新发布检查-v101"></a>
+# File-level automatic-refresh release checks v1.0.1
 
-用固定 Git 基线、精确文件集合和完整哈希检查一次自动刷新批次。按下方顺序生成收据，再分别检查暂存与提交结果。
+**English** | [简体中文](release-batch.zh-CN.md)
+
+Validate an automatic-refresh batch against a fixed Git baseline, exact file set, and full hashes. Generate a receipt, then check staging and commit results separately.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Checks and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
-## 使用入口
+<a id="使用入口"></a>
+## Entry points
 
-1. 固定刷新前 `HEAD`，完成生成和既有验证。
-2. 执行预检，成功后仅从收据 `changedPaths` 精确暂存。
-3. 暂存后用 `--mode staged` 检查；提交后用 `--mode committed` 检查。
+1. Pin the pre-refresh `HEAD`, complete generation, and run existing checks.
+2. Run preflight. Only after success, stage exactly the receipt’s `changedPaths`.
+3. Check `--mode staged` after staging and `--mode committed` after committing.
 
-`tools/validate-release-batch.js` 将一次上游刷新绑定到固定 Git 基线、精确文件集合和完整产物哈希。它只检查、输出收据；不执行下载、生成、stage、commit、pull 或 push。
+`tools/validate-release-batch.js` binds an upstream refresh to a fixed Git baseline, exact file set, and complete output hashes. It only checks and emits receipts; it does not download, generate, stage, commit, pull, or push.
 
-合同位于 `rulesets/source/release-batch-contract.json`，必须已经存在于基线，且本批次不得改动合同。
+The contract at `rulesets/source/release-batch-contract.json` must already exist in the baseline and cannot change within the batch.
 
-设计参考冻结研究中 [Aethersailor 的发布路径检查机制](https://github.com/Aethersailor/Custom_OpenClash_Rules/blob/7027e18af58ac48e12a2cbbbde018dacdb2131f0/.github/workflows/auto-generate-rules.yml#L95-L230)：发布前明确允许路径并拒绝意外改动。
+The design references [Aethersailor’s release-path checks](https://github.com/Aethersailor/Custom_OpenClash_Rules/blob/7027e18af58ac48e12a2cbbbde018dacdb2131f0/.github/workflows/auto-generate-rules.yml#L95-L230) from pinned research: explicitly allow paths and reject unexpected changes before release.
 
-本实现独立编写，没有复制第三方规则、脚本或 workflow 内容。
+This implementation was written independently, without copying third-party rules, scripts, or workflow content.
 
-## 覆盖范围
+<a id="覆盖范围"></a>
+## Coverage
 
-合同的 `staticOutputs` 枚举客户端文件、派生补充规则和 quality 收据的确切路径；MRS、fused 和 Egern manifest 则分别导出动态资产文件名。两版 manifest 的并集只用于判断允许变更路径，当前版清单决定必须存在的完整输出。
+The contract’s `staticOutputs` enumerates exact paths for client files, derived supplemental rules, and quality receipts. MRS, fused, and Egern manifests supply dynamic asset filenames. The union of old/new manifests determines only which changes are allowed; the current manifest determines the complete output that must exist.
 
-旧资产只有退出当前 manifest 后才允许删除，新增资产必须通过对应 provider/segment 文件名规则及既有 validator。rename 按删除和新增两端检查。
+Old assets may be deleted only after leaving the current manifest. New assets must satisfy provider/segment filename rules and existing validators. Renames are checked as both deletion and addition.
 
-动态资产目录还会逐文件对照清单，不能留下旧资产、隐藏一个漏生成的输出或增加未声明文件。静态产物目录不提供目录级许可：例如 `独立内核系/Egern/unexpected.yaml` 仍会被拒绝。
+Dynamic asset directories are also compared file by file against manifests. They cannot retain old assets, conceal a missing generated output, or contain undeclared files. Static-output directories receive no directory-wide permission: `独立内核系/Egern/unexpected.yaml`, for example, is still rejected.
 
-整个 Git 工作集都参与检查：baseline 到工作区、index、unstaged、untracked，使用 Git NUL 输出读取路径。Git 已忽略的缓存/本地工作目录遵循仓库 `.gitignore`，不属于待提交工作集；受 Git 跟踪的 ignored 文件仍参与检查。
+The full Git work set is checked: baseline-to-worktree, index, unstaged, and untracked paths, read through Git’s NUL-delimited output. Git-ignored caches/local work directories follow `.gitignore` and are not part of the pending commit set; tracked files remain checked even if their names match ignore rules.
 
-gate 不打印未知文件内容。symlink（包括祖先目录）、submodule、未合并索引及既有文件 mode 变化均拒绝。
+The gate does not print unknown-file contents. Symlinks, including ancestor directories, submodules, unmerged indexes, and mode changes to existing files are rejected.
 
-源图只有既有 `BEGIN/END AUTO-GENERATED MIHOMO MRS OVERRIDES` 块可以变化，其外内容按 LF 规范化后与基线逐字比较。其他源文件、生成器、工具源码、合同、文档和 workflow 的修改不属于自动刷新允许范围；它们应通过单独维护提交进入下一批基线。
+Only the existing `BEGIN/END AUTO-GENERATED MIHOMO MRS OVERRIDES` block may change in the source graph. Content outside it is compared with the baseline after LF normalization. Other source files, generators, tool source, contracts, documentation, and workflows are outside automatic-refresh scope; they must enter the next baseline through a separate maintenance commit.
 
-合同内唯一工具路径 `tools/runtime/traffic-options.js` 是生成产物。
+The contract’s only tool path, `tools/runtime/traffic-options.js`, is a generated output.
 
-## 预检与精确暂存
+<a id="预检与精确暂存"></a>
+## Preflight and exact staging
 
-先固定刷新前的 `HEAD`，完成生成链路和既有检查，再生成仓库外收据：
+Pin the pre-refresh `HEAD`, complete generation and existing checks, then create a receipt outside the repository:
 
 ```bash
 node tools/validate-release-batch.js --baseline-ref HEAD --output "$RUNNER_TEMP/release-batch.json"
 ```
 
-预检默认执行合同指定的离线 validators，包括 artifact contracts、JS 覆写、进程规则、资产预算、`refresh-rule-quality.js --check` 和 `validate-claude-service-dependencies.js --check`。
+Preflight runs the contract’s offline validators by default, including artifact contracts, JS overrides, process rules, asset budgets, `refresh-rule-quality.js --check`, and `validate-claude-service-dependencies.js --check`.
 
-Claude 服务依赖与 supplemental patch 收据也是确切静态输出。quality check 复用现有源图/manifest/语义收据绑定，gate 自身另外核对 Egern 源图、CMFA、profile 以及全部 Egern 资产哈希。
+Claude service-dependency and supplemental-patch receipts are also exact static outputs. Quality checks reuse existing source-graph/manifest/semantic bindings; the gate additionally verifies Egern source graph, CMFA, profile, and all Egern asset hashes.
 
-validators 运行前后的完整工作集和覆盖哈希必须一致；失败不会产生新收据或 stage。
+The full work set and covered hashes must remain identical before and after validators. Failure creates neither a new receipt nor staged changes.
 
-只在该命令成功后，从收据 JSON 的 `changedPaths` 数组用参数 API 逐路径暂存。不要重新列目录，不要将 JSON 字符串拼进 shell：
+Only after this command succeeds, stage each path from the receipt JSON’s `changedPaths` through an argument API. Do not enumerate directories again or interpolate JSON strings into a shell:
 
 ```javascript
 const fs = require('node:fs');
@@ -72,51 +78,54 @@ if (receipt.changedPaths.length) {
 }
 ```
 
-生成器之后发生的任何新工作集变化都会在下一步被拒绝，不能借暂存步骤自动吸收新路径。无变化批次的 `changedPaths` 是空数组，可以报告 no-op 并跳过提交。
+Any subsequent work-set change is rejected at the next check; staging cannot silently absorb new paths. A no-change batch has an empty `changedPaths` array and can report no-op without a commit.
 
-## 暂存后与提交后检查
+<a id="暂存后与提交后检查"></a>
+## Checks after staging and committing
 
 ```bash
 node tools/validate-release-batch.js --check --receipt "$RUNNER_TEMP/release-batch.json" --mode staged
 ```
 
-这一步要求 `HEAD` 仍是收据基线、无 unstaged/untracked 内容、index 变更路径集合完全相等，并且每个当前产物的 blob 和 mode 与收据相符。收据既保存 baseline 全覆盖 SHA-256，也保存当前工作区原始字节 SHA-256 和经 Git clean filter 得到的 blob；CRLF 工作区与 LF index 可以正常验收，但收据之后的等长内容替换、换行变化或漏 stage 都会失败。
+This requires `HEAD` to remain the receipt baseline, no unstaged/untracked content, an exactly matching index-change path set, and each current output’s blob/mode to match the receipt. The receipt stores baseline-wide SHA-256, current raw-worktree SHA-256, and Git-clean-filtered blobs. A CRLF worktree with LF index can pass, but equal-length content replacement, newline changes, or incomplete staging after the receipt fail.
 
-未变化产物同样需要核对。
+Unchanged outputs are checked too.
 
-提交后可继续检查：
+After committing, run:
 
 ```bash
 node tools/validate-release-batch.js --check --receipt "$RUNNER_TEMP/release-batch.json" --mode committed
 ```
 
-提交必须是固定基线的唯一直接子提交，commit/index/worktree 内容一致，提交集合与收据一致。检查不自动接受 rebase、merge 或远端基线变化。串行 workflow、普通 fast-forward push 和远端 SHA 读回由发布 workflow 负责；需要改变基线时，应从新基线重新生成和验收批次。
+The commit must be the sole direct child of the fixed baseline, with matching commit/index/worktree contents and the exact receipted change set. Checks do not automatically accept rebases, merges, or changed remote baselines. The release workflow owns serialization, ordinary fast-forward push, and remote-SHA readback. A changed baseline requires regenerating and validating the batch from that baseline.
 
-`--output` 只接受明确的仓库外绝对路径（包括现存祖先目录的真实路径检查）；省略时仅输出 JSON。检查模式可选 `--baseline-ref REF`，用于再次断言收据固定的基线。没有 `--check` 的默认模式是 before-stage。
+`--output` accepts only an explicit absolute path outside the repository, including real-path checks of existing ancestors. Without it, output is JSON only. Check mode optionally accepts `--baseline-ref REF` to reassert the fixed receipt baseline. Default mode without `--check` is before-stage.
 
-## API 与验收
+<a id="api-与验收"></a>
+## API and acceptance
 
 <details>
-<summary>维护者：API、隔离测试及验收边界</summary>
+<summary>Maintainers: API, isolated tests, and acceptance boundaries</summary>
 
-`tools/lib/release-batch.js` 导出 `createReleaseBatch({ repoRoot, baselineRef, runValidators })`、`checkReleaseBatch({ repoRoot, receipt, mode, baselineRef })`、`writeExternalJson(repoRoot, output, value)`。
+`tools/lib/release-batch.js` exports `createReleaseBatch({ repoRoot, baselineRef, runValidators })`, `checkReleaseBatch({ repoRoot, receipt, mode, baselineRef })`, and `writeExternalJson(repoRoot, output, value)`.
 
-生产 CLI 固定使用合同 validator；`runValidators` 是隔离 Git fixture 的测试注入点。收据是同一受信 workflow 内的检查证据，不是签名或抵御具有仓库/runner 写权限者的安全边界。
+Production CLI uses the contract validators. `runValidators` is an injection point for isolated Git fixtures. Receipts are checking evidence within the same trusted workflow, not signatures or a security boundary against someone with repository/runner write access.
 
 ```bash
 node --test tools/tests/release-batch.test.js
 ```
 
-测试在临时 Git 仓库里核对 no-op、正常全批次、动态旧资产删除/新增、未知文件、rename 越界、漏 stage、完整产物缺失、等长篡改、源图/合同冻结、CRLF、mode/symlink、validator 失败和无自动 stage。开发分支中的工具改动本来就不属于自动刷新，因此不能把当前开发树检查当作发布成功证据。
+Temporary Git repositories test no-op, normal full batches, dynamic asset removal/addition, unknown files, out-of-scope renames, missing staging, missing outputs, equal-length tampering, source-graph/contract freezing, CRLF, modes/symlinks, validator failure, and absence of automatic staging. Tool changes on development branches are inherently outside automatic-refresh scope, so checking a development tree cannot establish successful release.
 
 </details>
 
-## 合同 1.0.1 的适用范围
+<a id="合同-101-的适用范围"></a>
+## Contract 1.0.1 scope
 
-MRS 正式来源台账 `rulesets/generated/mihomo-mrs/source-ledger.json` 与规则资产一起纳入完整发布批次，不能遗漏或作为未登记文件混入输出目录。
+The formal MRS provenance ledger, `rulesets/generated/mihomo-mrs/source-ledger.json`, belongs to the full release batch alongside assets. It must not be omitted or treated as an undeclared output-directory file.
 
-合同增加了 8 个 Egern supplemental YAML 静态路径：`bytedance-app-guard.yaml`、`game-cn-guard.yaml`、`intl-site-guard.yaml`、`microsoft-ai-guard.yaml`、`microsoft-live-guard.yaml`、`social-guard.yaml`、`stream-jpkr-guard.yaml` 和 `tools-guard.yaml`。
+The contract adds eight static Egern supplemental YAML paths: `bytedance-app-guard.yaml`, `game-cn-guard.yaml`, `intl-site-guard.yaml`, `microsoft-ai-guard.yaml`, `microsoft-live-guard.yaml`, `social-guard.yaml`, `stream-jpkr-guard.yaml`, and `tools-guard.yaml`.
 
-刷新时这些路径与其他静态输出一样必须按合同精确存在并参与哈希检查。
+During refresh, these paths must exist exactly as contracted and participate in hash checks like other static outputs.
 
-源图、工具、生成逻辑或发布合同发生维护变更时，该维护提交不适用以旧合同为基线的自动刷新 gate；先将维护提交纳入新的 Git 基线，再以该基线运行后续刷新。合同自身仍必须已存在于刷新基线，刷新批次不得修改它。
+A maintenance commit changing the source graph, tools, generation logic, or release contract is not an automatic-refresh batch against the old contract. Incorporate it into the new Git baseline first, then run subsequent refreshes from that baseline. The contract must still preexist in the refresh baseline and remain unchanged within the refresh batch.

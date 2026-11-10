@@ -1,64 +1,72 @@
-# Egern 语法参考与纳入判断
+<a id="egern-语法参考与纳入判断"></a>
+# Egern syntax reference and inclusion assessment
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Egern Rules](https://egernapp.com/docs/configuration/rules/)，沿用原生规则的既有目标和按序匹配语义，不引入 Mihomo MRS。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
-
-> 更新于 2026-10-19（上次字段复核 2026-09-30）：完整官方正文、版本和验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
-
-## 当前复核结论
-
-- Apple US/JP 当前稳定版均为2.20.0，2026-07-23 UTC；当前官方可确认的预发布版本/日期未取得，pending。
-- [Policy Groups](https://egernapp.com/docs/configuration/policy_groups/)允许基本组直接挂 `urls` 并混合静态节点；`external` 仍为兼容语法，保留现有 Subscribe/flatten/filter 无需迁移。
-- Egern `smart` 使用自身健康评分和真实失败反馈；现有22个原生smart组会消费客户端改进，不映射成 Mihomo LightGBM。
-- [Rules](https://egernapp.com/docs/configuration/rules/)仍以原生 YAML 集合和远端 `rule_set` 表达；未取得 MRS 或 Clash PROCESS-NAME 支持证据，保持生成转换和进程规则例外。
-- 2.20.0明确加入Snell v1–v5、SSH、SOCKS5-TLS及更多REALITY/gRPC能力；属于节点/订阅能力，本次不增改路由。DNS以[原生forward/upstreams](https://egernapp.com/docs/configuration/dns/)为依据。
-
-## 历史摘要边界
-
-以下保留旧摘要，其中固定规则/资产数量对应旧产物而非当前承诺；当前数量读取 Profile 与生成清单。没有完成真实 App 导入或节点展开验收。
+**English** | [简体中文](REFERENCE-Egern.zh-CN.md)
 
 
-> 2026-10-15 URL 兼容性复核：[官方 Rules 文档](https://egernapp.com/docs/configuration/rules/)示例以 HTTPS URL 作为 `rule_set.match`，并配置 `update_interval`。本次仅替换仓库自有规则 URL 主机，不改变 Egern 原生 YAML 结构；详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+> Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Egern Rules](https://egernapp.com/docs/configuration/rules/) was rechecked; existing native targets and ordered matching were retained without introducing Mihomo MRS. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
-> 2026-09-30 复核：[官方代理类型](https://egernapp.com/docs/configuration/proxies/) 不列 Mihomo 具名 direct/reject；未将 Mihomo 类型过滤字段映射为未经确认的 Egern 字段。本次仅从最终 CMFA 刷新派生元信息与哈希清单，原生规则资产与业务组内容不变。
+> Updated on 2026-10-19 (previous field review: 2026-09-30). See the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md) and [cache receipt](../../docs/upstream/2026-10-19/apple/manifest.json) for complete official text, versions, and verification gaps.
 
-## 结论
+<a id="当前复核结论"></a>
+## Current review conclusions
 
-Egern 有必要并且已经作为正式同步产物纳入仓库。
+- Apple US/JP stable version was 2.20.0, dated 2026-07-23 UTC. An officially verifiable prerelease version/date was not obtained and remains pending.
+- [Policy Groups](https://egernapp.com/docs/configuration/policy_groups/) allows basic groups to attach `urls` directly and mix static nodes. `external` remains compatible; existing Subscribe/flatten/filter does not require migration.
+- Egern `smart` uses its own health scores and actual failure feedback. The existing 22 native smart groups consume client improvements, not Mihomo LightGBM.
+- [Rules](https://egernapp.com/docs/configuration/rules/) still uses native YAML sets and remote `rule_set`. No MRS or Clash PROCESS-NAME support evidence was obtained; generated conversion and process-rule exceptions remain.
+- 2.20.0 explicitly added Snell v1–v5, SSH, SOCKS5-TLS, and more REALITY/gRPC capabilities. These are node/subscription capabilities, not routing changes in this revision. DNS follows [native forward/upstreams](https://egernapp.com/docs/configuration/dns/).
 
-Egern 的能力足够承载本仓库的分流模型：它有订阅型 `external` 策略组、区域 `smart` 选择、业务 `select` 组、顺序匹配规则、远端 `rule_set` 和 DNS forward。限制在于规则集格式：Egern 官方文档没有声明可直接消费 Mihomo `.mrs`，而是使用 Egern 自己的规则集字段。
+<a id="历史摘要边界"></a>
+## Historical-summary boundaries
 
-因此 v5.4.39-egern.1 做正式同步：
+The earlier summary below is retained. Fixed rule/asset counts describe old outputs, not current promises; read current counts from the profile and generated manifest. Real-app import and node-expansion acceptance have not been completed.
 
-- 从 CMFA 生成 `独立内核系/Egern/Egern.yaml`。
-- 保留 22 个区域组 + 33 个业务组。
-- 渲染 927 条 Egern 主规则 + 484 个顶层 `rule_set`。
-- `rulesets/generated/egern/*.yaml` 的 Egern 原生规则集，其中包含由补充规则集转换来的 `provider-scki-*.yaml`。
-- 不把零星单条域名/IP散写进主规则。
+> 2026-10-15 URL compatibility review: [official Rules documentation](https://egernapp.com/docs/configuration/rules/) demonstrates an HTTPS URL in `rule_set.match` with `update_interval`. Only repository-owned rule URL hosts changed, not Egern’s native YAML structure. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
 
-明确不做：
+> 2026-09-30 review: [official proxy types](https://egernapp.com/docs/configuration/proxies/) does not list Mihomo named direct/reject types. Mihomo type-filter fields were not mapped to unconfirmed Egern fields. Only derived metadata/hash manifests were refreshed from final CMFA; native assets and service-group content were unchanged.
 
-- Mihomo `.mrs` 不直接复用，映射为本仓库生成的 Egern 原生 YAML 规则集。
-- 桌面 `PROCESS-NAME` 规则同步。
+<a id="结论"></a>
+## Conclusion
 
-## 官方语法依据
+Egern warrants inclusion and is already a formally synchronized repository output.
 
-- Policy Groups：Egern 支持 `select`、`auto_test`、`smart`、`fallback`、`load_balance`、`external`、`conditional`，且 `external` 可加载订阅。
+Its capabilities can carry this repository’s routing model: subscription-backed `external` groups, regional `smart` selection, service `select` groups, ordered rules, remote `rule_set`, and DNS forwarding. The limitation is rule-set format: official Egern documentation does not claim direct Mihomo `.mrs` consumption; Egern uses its own fields.
+
+Accordingly, v5.4.39-egern.1 established formal synchronization:
+
+- Generate `独立内核系/Egern/Egern.yaml` from CMFA.
+- Preserve 22 regional and 33 service groups.
+- Render 927 Egern main rules and 484 top-level `rule_set` entries.
+- Use native sets at `rulesets/generated/egern/*.yaml`, including `provider-scki-*.yaml` converted from supplemental sets.
+- Do not scatter isolated domain/IP entries through main rules.
+
+Explicit exclusions:
+
+- Do not directly reuse Mihomo `.mrs`; map it to repository-generated native Egern YAML sets.
+- Do not synchronize desktop `PROCESS-NAME` rules.
+
+<a id="官方语法依据"></a>
+## Official syntax references
+
+- Policy Groups: Egern supports `select`, `auto_test`, `smart`, `fallback`, `load_balance`, `external`, and `conditional`; `external` can load subscriptions.
   <https://egernapp.com/docs/configuration/policy_groups/>
-- Rules：规则按出现顺序首个命中生效，`rule_set` 可引用本地或远端规则集。
+- Rules: first match in listed order wins; `rule_set` references local or remote sets.
   <https://egernapp.com/docs/configuration/rules/>
-- Rule Sets：远端规则集使用 `domain_set`、`domain_suffix_set`、`domain_keyword_set`、`ip_cidr_set`、`ip_cidr6_set` 等 YAML 字段。
+- Rule Sets: remote sets use YAML fields such as `domain_set`, `domain_suffix_set`, `domain_keyword_set`, `ip_cidr_set`, and `ip_cidr6_set`.
   <https://egernapp.com/docs/configuration/rules/>
-- DNS：Egern 支持 `bootstrap`、`upstreams`、`forward`、`proxy_nameservers`，可表达本仓库的国内/国外/代理 DNS 分层。
+- DNS: `bootstrap`, `upstreams`, `forward`, and `proxy_nameservers` can express the repository’s China/non-China/proxy DNS layers.
   <https://egernapp.com/docs/configuration/dns/>
-- Profile：主配置支持 `policy_groups`、`rules`、`dns`、`default_subscription_group`、`default_proxy_group` 等顶层字段。
+- Profile: top-level fields include `policy_groups`, `rules`, `dns`, `default_subscription_group`, and `default_proxy_group`.
   <https://egernapp.com/docs/configuration/example/>
-- Mihomo Rule Providers：`format` 支持 `yaml` / `text` / `mrs`，`.mrs` 当前支持 `domain` / `ipcidr`；因此 `.mrs` 保留给 Clash Party / CMFA 使用。
+- Mihomo Rule Providers: `format` supports `yaml` / `text` / `mrs`; `.mrs` supports `domain` / `ipcidr`, so MRS remains for Clash Party / CMFA.
   <https://wiki.metacubex.one/en/config/rule-providers/>
 
-## 转换边界
+<a id="转换边界"></a>
+## Conversion boundaries
 
-1. Clash Party / CMFA 继续优先使用 `.mrs`，因为它是 Mihomo 官方支持的紧凑格式。
-2. Egern 生成器把 `.mrs` URL 映射到 `rulesets/generated/egern/*.yaml`；Hagezi TIF 也落成本仓库 Egern 原生 YAML 规则集。
-3. `GEOSITE` / 非国家 `GEOIP` 通过 MetaCubeX YAML 规则源表达；国家 `GEOIP,CN` 使用 Egern 原生 `geoip`。
-4. `PROCESS-NAME` 不同步；这是平台规则能力缺失，不是预览范围缺口。
-5. Mihomo DNS `nameserver-policy` 不逐字段照搬，改用 Egern `dns.forward`。
+1. Clash Party / CMFA continue preferring `.mrs`, Mihomo’s officially supported compact format.
+2. The Egern generator maps `.mrs` URLs to `rulesets/generated/egern/*.yaml`; Hagezi TIF is also generated as repository-native Egern YAML.
+3. `GEOSITE` / non-country `GEOIP` use MetaCubeX YAML sources; country `GEOIP,CN` uses native Egern `geoip`.
+4. `PROCESS-NAME` is not synchronized. This is a platform rule-capability limitation, not a preview omission.
+5. Mihomo DNS `nameserver-policy` is not copied field by field; Egern `dns.forward` is used instead.

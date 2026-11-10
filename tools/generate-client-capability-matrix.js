@@ -35,6 +35,11 @@ function main(argv) {
   const validation = validateClientCapabilityMatrix(matrix, REPOSITORY_ROOT);
   if (!validation.ok) throw new Error(`invalid client capability matrix: ${formatIssues(validation.issues)}`);
 
+  const translated = renderClientCapabilityMatrix(matrix, 'zh-CN');
+  const translatedTarget = path.join(REPOSITORY_ROOT, 'docs/client-capability-matrix.zh-CN.md');
+  if (args.has('--check')) {
+    if (!fs.existsSync(translatedTarget) || fs.readFileSync(translatedTarget, 'utf8') !== translated) throw new Error('Chinese capability matrix is stale');
+  } else fs.writeFileSync(translatedTarget, translated, 'utf8');
   const rendered = renderClientCapabilityMatrix(matrix);
   const target = path.join(REPOSITORY_ROOT, ...MATRIX_OUTPUT.split('/'));
   const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;

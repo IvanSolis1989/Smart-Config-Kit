@@ -1,163 +1,184 @@
-# Mihomo (MetaCubeX) 官方配置文档参考
+<a id="mihomo-metacubex-官方配置文档参考"></a>
+# Mihomo (MetaCubeX) official-configuration reference
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 CMFA 现有 Mihomo RULE-SET 策略名引用。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+**English** | [简体中文](REFERENCE-mihomo-wiki.zh-CN.md)
 
-> 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与 [CMFA 官方仓库](https://github.com/MetaCubeX/ClashMetaForAndroid)；本次 policy 表继续使用既有 Mihomo 字段，不改变 App 托管边界。
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-> 核对于 2026-10-19：核对 CMFA stable v2.11.35 / Prerelease-alpha，稳定 App 的核心 gitlink 为 `88dcbf7f1614a67c3b36b848ee3592dfa92ada36`，不将 App 版本当成 Mihomo 版本。已复核 DNS、代理组筛选、MRS、规则及 TUN 官方文档；ClashMi 与 ShellCrash 的覆写边界也列入[本次核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。以下摘要属于各自历史日期，本次未逐段重新校验。
+> Reviewed 2026-10-28: GoogleFCM was moved only from downloads/updates to Google services. [Mihomo routing rules](https://wiki.metacubex.one/config/rules/) were reviewed; CMFA’s existing RULE-SET policy-name references remain. DNS, fake-IP, sniffing, other push traffic, and node groups are unchanged. No fields, minimum versions, or device-success claims were added.
 
-> 2026-10-15 URL 兼容性复核：[官方 rule-provider 文档](https://wiki.metacubex.one/en/config/rule-providers/)要求 `type: http` 配置 `url`，并示例 HTTPS raw URL；本次只更换自有规则集 URL 主机，不增删 Mihomo 字段。Clash Party、CMFA、OpenClash、FlClash 共用此 Mihomo 字段依据。详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+> Reviewed 2026-10-23 (previous topic review 2026-10-20): [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) and the [official CMFA repository](https://github.com/MetaCubeX/ClashMetaForAndroid) were reread. The policy table retains existing Mihomo fields and app-owned boundaries.
 
-> 2026-09-30 复核：[代理组](https://wiki.metacubex.one/config/proxy-groups/) 的 `exclude-type` / `empty-fallback` 用于过滤 direct/reject 测速候选和显式 REJECT 空池回退。虽文档对“引入”的描述有歧义，[v1.19.31 核心](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) 遍历已合并成员；现有 v1.19.29 实核 controller 已证明对 `use: Subscribe` 生效且 provider 内 dialer 依赖保持，见 [后续验收](../../docs/research/2026-09-30-routing-runtime-followup.md)。
+> Reviewed 2026-10-19: CMFA stable v2.11.35 / Prerelease-alpha were checked. Stable app core gitlink: `88dcbf7f1614a67c3b36b848ee3592dfa92ada36`. App versions are not Mihomo versions. Official DNS, group filtering, MRS, rule, and TUN documentation was reviewed. ClashMi/ShellCrash override boundaries are also in the [review report](../../docs/upstream/2026-10-19/mihomo/report.md). Summaries below belong to their historical dates and were not all revalidated paragraph by paragraph.
 
-> 抓取自 https://wiki.metacubex.one/ (2026-04-26)
-> 更新于 2026-04-30：最新稳定版 v1.19.24（2026-04-20）。v1.19.17 已移除 relay 组类型（改用 dialer-proxy）——本仓库未使用 relay，无影响。v1.19.24 新增 XHTTP H3/HTTP1.1 模式、BBR profile。Smart/LightGBM 字段无变更。
-> 更新于 2026-05-30：批 A #5 落地——WebFetch `wiki/config/dns` + WebSearch 确认 `direct-nameserver-follow-policy` 语义：默认 `false`（忽略 nameserver-policy），`true` 时 direct 出口域名解析也遵守 nameserver-policy，仅当 direct-nameserver 非空时生效；官方 use case 即「direct 用国内 DoH + policy 指定域名走指定 DNS」。与 `direct-nameserver` 同字段族（耦合添加），本仓库已使用 direct-nameserver，故置 true 不抬高最低内核要求。
-> 更新于 2026-05-30：default-nameserver 由"必须为 IP，不能为域名"修正为"必须为 IP，**可为加密 DNS**"——host 须为 IP，但 scheme 可为 tls://IP / https://IP/dns-query（官方原文"必须为 IP, 可为加密 DNS"）。
-> 更新于 2026-07-14：复核官方“路由规则”页面（页面更新时间 2026-07-08）。`PROCESS-NAME,<进程名>,<策略>` 仍为正式规则类型，支持精确进程名匹配；本仓库使用的 `WorkPro.exe` / `WorkProWebProcess.exe` 写法无字段或语义变更。
-> 更新于 2026-08-08：复核官方“代理组配置”（页面更新 2026-07-18）。`filter` 仍是作用于 `use` / `include-all-proxies` 的正则筛选字段，多个模式以 `|` 分隔；本次仅补充配置输入语法校验，不引入字段变更。
-> 本文件为本地参考，用于审核本仓库各配置文件与官方文档的兼容性。
+> URL compatibility review, 2026-10-15: [official rule-provider documentation](https://wiki.metacubex.one/en/config/rule-providers/) requires `url` for `type: http` and demonstrates HTTPS raw URLs. Only repository-owned rule URL hosts changed, not Mihomo fields. Clash Party, CMFA, OpenClash, and FlClash share this field evidence. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
+
+> Review, 2026-09-30: [group](https://wiki.metacubex.one/config/proxy-groups/) `exclude-type` / `empty-fallback` exclude direct/reject test candidates and provide explicit REJECT empty-pool fallback. Although documentation wording about included members is ambiguous, [v1.19.31 core](https://github.com/MetaCubeX/mihomo/blob/v1.19.31/adapter/outboundgroup/groupbase.go#L211-L225) iterates merged members. Actual v1.19.29 controller tests already established effect on `use: Subscribe` while preserving provider dialer dependencies; see [follow-up acceptance](../../docs/research/2026-09-30-routing-runtime-followup.md).
+
+> Retrieved from https://wiki.metacubex.one/ (2026-04-26).
+> Updated 2026-04-30: latest stable v1.19.24 (2026-04-20). v1.19.17 removed relay groups in favor of dialer-proxy; the repository does not use relay and was unaffected. v1.19.24 added XHTTP H3/HTTP1.1 and BBR profiles. The historical entry reported no Smart/LightGBM field changes.
+> Updated 2026-05-30: batch A #5 used WebFetch `wiki/config/dns` and WebSearch to confirm `direct-nameserver-follow-policy`: default `false` ignores nameserver-policy; `true` follows it for direct-outbound resolution, effective only when direct-nameserver is nonempty. The documented use case is direct resolution through China-based DoH plus domain-specific policy DNS. It belongs to the same field family as direct-nameserver; the repository already used that field, so setting true was recorded as not raising the minimum core requirement.
+> Updated 2026-05-30: default-nameserver wording corrected from “IP, not hostname” to “IP; **encrypted DNS allowed**.” Host must be an IP, but tls://IP / https://IP/dns-query are valid. Original official wording retained: “必须为 IP, 可为加密 DNS”.
+> Updated 2026-07-14: official routing-rules page reviewed (page updated 2026-07-08). `PROCESS-NAME,<进程名>,<策略>` remains an official exact-process rule. No field/semantic changes for `WorkPro.exe` / `WorkProWebProcess.exe`.
+> Updated 2026-08-08: official group configuration reviewed (page updated 2026-07-18). `filter` remains regex filtering on `use` / `include-all-proxies`, with multiple patterns separated by `|` in this historical reference. Only input-syntax validation was added, not field changes.
+> This local reference supports compatibility reviews of repository configurations against official documentation.
 
 ---
 
-## 1. 代理组配置 (proxy-groups)
+<a id="1-代理组配置-proxy-groups"></a>
+## 1. Proxy groups (proxy-groups)
 
-**文档源**: https://wiki.metacubex.one/config/proxy-groups/
+**Documentation source**: https://wiki.metacubex.one/config/proxy-groups/
 
-### 通用字段 (Common Options)
+<a id="通用字段-common-options"></a>
+### Common options
 
-| 字段 | 类型 | 必需 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| `name` | string | 是 | 代理组名称；含特殊字符需加引号 |
-| `type` | string | 是 | 代理组类型（见下方 `type` 有效值） |
-| `proxies` | list | 否 | 引用出站代理或其他代理组 |
-| `use` | list | 否 | 引用代理集合 (proxy-providers) |
-| `url` | string | 否 | 测试地址；仅对 `proxies` 字段中的节点进行测试 |
-| `interval` | int | 否 | 测试间隔（秒） |
-| `lazy` | bool | 否 | 默认 true；当前组未被选择时不测试 |
-| `timeout` | int | 否 | 测试超时（毫秒） |
-| `max-failed-times` | int | 否 | 最大失败次数，默认 5 |
-| `disable-udp` | bool | 否 | 禁用 UDP |
-| `interface-name` | string | 否 | **已废弃**，请使用节点级别配置 |
-| `routing-mark` | int | 否 | **已废弃**，请使用节点级别配置 |
-| `include-all` | bool | 否 | 包含所有出站代理和代理集合（不含其他组） |
-| `include-all-proxies` | bool | 否 | 包含所有出站代理（不含其他组） |
-| `include-all-providers` | bool | 否 | 包含所有代理集合（会使 `use` 失效） |
-| `filter` | string | 否 | 正则包含筛选；可用 `|` 分隔多个；仅对 `use` 和 `include-all-*` 生效 |
-| `exclude-filter` | string | 否 | 正则排除筛选；可用 `|` 分隔多个 |
-| `exclude-type` | string | 否 | 按类型排除（`|` 分隔）；不支持正则 |
-| `expected-status` | string | 否 | 期望 HTTP 状态码；`/` 匹配多个，`-` 匹配范围 |
-| `hidden` | bool | 否 | 在 API 中隐藏 |
-| `icon` | string | 否 | 图标 URL |
+| `name` | string | Yes | Group name; quote special characters |
+| `type` | string | Yes | Group type; values below |
+| `proxies` | list | No | Reference outbounds or other groups |
+| `use` | list | No | Reference proxy-providers |
+| `url` | string | No | Test address; tests only nodes listed in `proxies` |
+| `interval` | int | No | Test interval in seconds |
+| `lazy` | bool | No | Default true; do not test an unselected group |
+| `timeout` | int | No | Test timeout in milliseconds |
+| `max-failed-times` | int | No | Maximum failures, default 5 |
+| `disable-udp` | bool | No | Disable UDP |
+| `interface-name` | string | No | **Deprecated**; configure on nodes instead |
+| `routing-mark` | int | No | **Deprecated**; configure on nodes instead |
+| `include-all` | bool | No | Include all outbounds and providers, excluding other groups |
+| `include-all-proxies` | bool | No | Include all outbounds, excluding other groups |
+| `include-all-providers` | bool | No | Include all providers; overrides `use` |
+| `filter` | string | No | Regex inclusion; separate multiple patterns with `|`; applies only to `use` and `include-all-*` |
+| `exclude-filter` | string | No | Regex exclusion; separate multiple patterns with `|` |
+| `exclude-type` | string | No | Exclude types separated by `|`; no regex |
+| `expected-status` | string | No | Expected HTTP status; `/` separates values, `-` ranges |
+| `hidden` | bool | No | Hide in API |
+| `icon` | string | No | Icon URL |
 
-### `type` 有效值
+<a id="type-有效值"></a>
+### Valid `type` values
 
-| 值 | 说明 |
+| Value | Description |
 |----|------|
-| `select` | 手动选择 |
-| `url-test` | 自动测试延迟，选最低延迟节点 |
-| `fallback` | 按优先级选第一个可用节点 |
-| `load-balance` | 轮询负载均衡 |
-| `relay` | 中继链 |
-| `smart` | AI 智能选择（Smart 内核 v1.18.0+） |
+| `select` | Manual selection |
+| `url-test` | Test latency and choose the lowest-latency node |
+| `fallback` | First available node in priority order |
+| `load-balance` | Round-robin load balancing |
+| `relay` | Relay chain; historical entry, see dated removal notice above |
+| `smart` | AI selection (historically described as Smart core v1.18.0+) |
 
-### Smart 类型特有字段
+<a id="smart-类型特有字段"></a>
+### Smart-specific fields
 
-| 字段 | 类型 | 说明 |
+These historical entries are retained for traceability, not a new claim about current SmartOption:
+
+| Field | Type | Description |
 |------|------|------|
-| `uselightgbm` | bool/string | 是否使用 LightGBM 模型预测权重；`false` 或 `smart` |
-| `collectdata` | bool | 是否收集数据用于模型训练 |
-| `strategy` | string | 选择策略：`sticky-sessions`（默认，基于哈希）或 `round-robin` |
-| `policy-priority` | string | 手动分配权重：`"Premium:0.9;SG:1.3"` |
-| `tolerance` | int | 延迟容差（毫秒），避免频繁切换 |
+| `uselightgbm` | bool/string | Use LightGBM weight prediction; `false` or `smart` |
+| `collectdata` | bool | Collect training data |
+| `strategy` | string | Historical strategy: `sticky-sessions` (default, hash-based) or `round-robin` |
+| `policy-priority` | string | Manual weights: `"Premium:0.9;SG:1.3"` |
+| `tolerance` | int | Latency tolerance in milliseconds to reduce frequent switches |
 
-### `filter` 字段语法
+<a id="filter-字段语法"></a>
+### `filter` syntax
 
-- 使用 Go RE2 正则语法
-- 多个正则用 `|` 分隔
-- 是**子串匹配**（非 word boundary）
-- 例：`TW` 会匹配 `TWN`、`TW01` 等
-- 例：`(?i)港|hk|hongkong|hong kong`
+- Go RE2 regex syntax.
+- Multiple regex patterns separated by `|`.
+- **Substring matching**, not word boundaries.
+- Example: `TW` matches `TWN`, `TW01`, and similar names.
+- Example: `(?i)港|hk|hongkong|hong kong`.
 
-### YAML 锚点/别名支持
+<a id="yaml-锚点别名支持"></a>
+### YAML anchor/alias support
 
-- mihomo 使用 `gopkg.in/yaml.v3`，**支持** YAML 锚点 (`&anchor`) 和别名 (`*anchor`)
-- 支持 map merging (`<<:`)
-- 官方通过 `rule-anchor` 字段提供模板化支持
+- mihomo uses `gopkg.in/yaml.v3` and **supports** anchors (`&anchor`) and aliases (`*anchor`).
+- Map merging (`<<:`) is supported.
+- The historical reference records templating through `rule-anchor`.
 
 ---
 
-## 2. 代理集合配置 (proxy-providers)
+<a id="2-代理集合配置-proxy-providers"></a>
+## 2. Proxy providers (proxy-providers)
 
-**文档源**: https://wiki.metacubex.one/config/proxy-providers/
+**Documentation source**: https://wiki.metacubex.one/config/proxy-providers/
 
-### 字段说明
+<a id="字段说明"></a>
+### Fields
 
-| 字段 | 说明 |
+| Field | Description |
 |------|------|
-| `type` | 必需：`http` / `file` / `inline` |
-| `url` | type 为 `http` 时必需 |
-| `path` | 文件路径，必须唯一；不填则使用 URL MD5 作为文件名 |
-| `interval` | 更新间隔（秒） |
-| `proxy` | 通过指定代理下载/更新 |
-| `size-limit` | 最大下载大小限制（字节），0 为不限制 |
-| `header` | 自定义 HTTP 请求头 |
-| `health-check` | 延迟测试配置 |
-| `override` | 覆盖节点内容（additional-prefix, additional-suffix, proxy-name 等） |
-| `filter` | 正则包含筛选节点；可用 `` ` `` 分隔多个 |
-| `exclude-filter` | 正则排除筛选节点；可用 `` ` `` 分隔多个 |
-| `exclude-type` | 按类型排除（`|` 分隔，不支持正则） |
-| `payload` | type 为 `inline` 时生效；也可作为 http/file 解析失败的备用 |
+| `type` | Required: `http` / `file` / `inline` |
+| `url` | Required for `http` |
+| `path` | Unique file path; defaults to URL MD5 filename if omitted |
+| `interval` | Update interval in seconds |
+| `proxy` | Proxy used for downloads/updates |
+| `size-limit` | Maximum download bytes; 0 means unlimited |
+| `header` | Custom HTTP request headers |
+| `health-check` | Latency-test settings |
+| `override` | Override node content, e.g. additional-prefix, additional-suffix, proxy-name |
+| `filter` | Regex inclusion; multiple patterns separated by `` ` `` |
+| `exclude-filter` | Regex exclusion; multiple patterns separated by `` ` `` |
+| `exclude-type` | Exclude types separated by `|`, without regex |
+| `payload` | Active for `inline`; can also back up failed http/file parsing |
 
-### health-check 子字段
+<a id="health-check-子字段"></a>
+### health-check fields
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| `enable` | bool | 是否启用 |
-| `url` | string | 测试地址，推荐 `https://cp.cloudflare.com` 或 `https://www.gstatic.com/generate_204` |
-| `interval` | int | 测试间隔（秒） |
-| `timeout` | int | 测试超时（毫秒） |
-| `lazy` | bool | 默认 true；当前节点未被使用时不做测试 |
-| `expected-status` | string | 期望状态码 |
+| `enable` | bool | Enable testing |
+| `url` | string | Test address; historical recommendations: `https://cp.cloudflare.com` or `https://www.gstatic.com/generate_204` |
+| `interval` | int | Seconds between tests |
+| `timeout` | int | Test timeout in milliseconds |
+| `lazy` | bool | Default true; do not test an unused node |
+| `expected-status` | string | Expected status code |
 
 ---
 
-## 3. 规则集合配置 (rule-providers)
+<a id="3-规则集合配置-rule-providers"></a>
+## 3. Rule providers (rule-providers)
 
-**文档源**: https://wiki.metacubex.one/config/rule-providers/
+**Documentation source**: https://wiki.metacubex.one/config/rule-providers/
 
-### 字段说明
+<a id="字段说明-1"></a>
+### Fields
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| `type` | string | 必需：`http` / `file` / `inline` |
-| `url` | string | type 为 `http` 时必需 |
-| `path` | string | 可选，文件路径；不填则使用 URL MD5 作为文件名 |
-| `interval` | int | 更新间隔（秒） |
-| `proxy` | string | 通过指定代理下载/更新 |
+| `type` | string | Required: `http` / `file` / `inline` |
+| `url` | string | Required for `http` |
+| `path` | string | Optional path; defaults to URL MD5 filename |
+| `interval` | int | Update interval in seconds |
+| `proxy` | string | Proxy for download/update |
 | `behavior` | string | `domain` / `ipcidr` / `classical` |
-| `format` | string | `yaml`（默认）/ `text` / `mrs` |
-| `size-limit` | int | 最大下载大小（字节），0 为不限制 |
-| `header` | object | 自定义 HTTP 请求头 |
-| `payload` | list | type 为 `inline` 时有效 |
+| `format` | string | `yaml` (default) / `text` / `mrs` |
+| `size-limit` | int | Maximum download bytes; 0 means unlimited |
+| `header` | object | Custom HTTP request headers |
+| `payload` | list | Active for `inline` |
 
-### behavior 说明
+<a id="behavior-说明"></a>
+### behavior
 
-| 值 | 说明 |
+| Value | Description |
 |----|------|
-| `domain` | 域名规则文件 |
-| `ipcidr` | IP/CIDR 规则文件 |
-| `classical` | 经典 Clash 规则格式（含 `DOMAIN-`/`DOMAIN-SUFFIX`/`IP-CIDR` 等类型前缀） |
+| `domain` | Domain rule file |
+| `ipcidr` | IP/CIDR rule file |
+| `classical` | Classic Clash rules with type prefixes such as `DOMAIN-`/`DOMAIN-SUFFIX`/`IP-CIDR` |
 
-### format 说明
+<a id="format-说明"></a>
+### format
 
-| 值 | 说明 |
+| Value | Description |
 |----|------|
-| `yaml` | YAML 格式（默认） |
-| `text` | 文本格式（一行一条规则） |
-| `mrs` | 二进制规则集格式；behavior 只能为 `domain` / `ipcidr` |
+| `yaml` | YAML, default |
+| `text` | One rule per text line |
+| `mrs` | Binary rule set; only `domain` / `ipcidr` behavior |
 
-### RULE-SET 引用语法
+<a id="rule-set-引用语法"></a>
+### RULE-SET reference syntax
 
 ```yaml
 rules:
@@ -168,41 +189,45 @@ rules:
 
 ---
 
-## 4. DNS 配置
+<a id="4-dns-配置"></a>
+## 4. DNS configuration
 
-**文档源**: https://wiki.metacubex.one/config/dns/
+**Documentation source**: https://wiki.metacubex.one/config/dns/
 
-### 字段说明
+<a id="字段说明-2"></a>
+### Fields
 
-| 字段 | 说明 |
+| Field | Description |
 |------|------|
-| `enable` | 是否启用 |
-| `cache-algorithm` | 缓存算法：`lru`（默认）/ `arc` |
-| `prefer-h3` | DOH 优先使用 HTTP/3 |
-| `listen` | DNS 服务监听地址 |
-| `ipv6` | 是否解析 IPv6 |
-| `enhanced-mode` | `fake-ip` / `redir-host`（默认） |
-| `fake-ip-range` | fakeip 地址范围，默认 `198.18.0.1/16` |
-| `fake-ip-range6` | IPv6 fakeip 范围 |
-| `fake-ip-filter` | fakeip 过滤；支持域名通配符和导入域名集 |
-| `fake-ip-filter-mode` | `blacklist`（默认）/ `whitelist` / `rule` |
-| `fake-ip-ttl` | fakeip 查询返回的 TTL |
-| `use-hosts` | 是否响应配置的 hosts，默认 true |
-| `use-system-hosts` | 是否查询系统 hosts，默认 true |
-| `respect-rules` | DNS 连接遵守路由规则；需配置 `proxy-server-nameserver` |
-| `default-nameserver` | 默认 DNS，**必须为 IP，可为加密 DNS**（host 须为 IP，scheme 可 tls:// / https://；如 `tls://223.5.5.5`、`https://223.5.5.5/dns-query` 均合法，仅 host 为域名时不合法） |
-| `nameserver-policy` | 特定域名使用特定 DNS 服务器；key 支持域名通配符和 geosite |
-| `nameserver` | 默认域名解析服务器 |
-| `fallback` | 备用域名解析服务器 |
-| `proxy-server-nameserver` | 代理节点域名解析服务器 |
-| `proxy-server-nameserver-policy` | 节点域名解析策略 |
-| `direct-nameserver` | 直连出口的 DNS 服务器 |
-| `direct-nameserver-follow-policy` | 是否遵守 nameserver-policy（默认 **false** = 忽略；仅当 direct-nameserver 非空时生效。本仓库 v5.4.19 起置 `true`，使 direct 出口域名解析也遵守 policy） |
-| `fallback-filter` | 备用 DNS 过滤器；含 `geoip` / `geoip-code` / `geosite` / `ipcidr` / `domain` |
+| `enable` | Enable DNS |
+| `cache-algorithm` | `lru` (default) / `arc` |
+| `prefer-h3` | Prefer HTTP/3 for DoH |
+| `listen` | DNS service listen address |
+| `ipv6` | Resolve IPv6 |
+| `enhanced-mode` | `fake-ip` / `redir-host` (default) |
+| `fake-ip-range` | Fake-IP range, default `198.18.0.1/16` |
+| `fake-ip-range6` | IPv6 Fake-IP range |
+| `fake-ip-filter` | Fake-IP filtering; supports domain wildcards and imported domain sets |
+| `fake-ip-filter-mode` | `blacklist` (default) / `whitelist` / `rule` |
+| `fake-ip-ttl` | TTL in Fake-IP answers |
+| `use-hosts` | Answer from configured hosts; default true |
+| `use-system-hosts` | Query system hosts; default true |
+| `respect-rules` | DNS connections follow routing rules; requires `proxy-server-nameserver` |
+| `default-nameserver` | **Must use IP hosts; encrypted DNS is allowed.** Schemes may be tls:// / https://, e.g. `tls://223.5.5.5` and `https://223.5.5.5/dns-query`; hostname endpoints are invalid here |
+| `nameserver-policy` | Specific DNS servers for specific domains; keys accept domain wildcards and geosite |
+| `nameserver` | Default domain resolvers |
+| `fallback` | Backup domain resolvers |
+| `proxy-server-nameserver` | Proxy-node domain resolvers |
+| `proxy-server-nameserver-policy` | Node-domain resolution policies |
+| `direct-nameserver` | DNS servers for direct outbounds |
+| `direct-nameserver-follow-policy` | Follow nameserver-policy; default **false**, meaning ignore it. Effective only with nonempty direct-nameserver. Repository v5.4.19+ sets `true` so direct-outbound domain resolution follows policy |
+| `fallback-filter` | Backup DNS filter, including `geoip` / `geoip-code` / `geosite` / `ipcidr` / `domain` |
 
-### fake-ip-filter-mode: rule 模式
 
-当 `fake-ip-filter-mode` 设为 `rule` 时，`fake-ip-filter` 语法变更：
+<a id="fake-ip-filter-mode-rule-模式"></a>
+### fake-ip-filter-mode: rule
+
+With `fake-ip-filter-mode: rule`, `fake-ip-filter` syntax changes:
 
 ```yaml
 dns:
@@ -217,49 +242,54 @@ dns:
     - MATCH,fake-ip
 ```
 
-### DNS 附加参数
+<a id="dns-附加参数"></a>
+### Additional DNS parameters
 
-DNS 服务器地址后可附加参数（用 `#` 添加，`&` 连接）：
+Append parameters to server addresses with `#`, joining them with `&`:
 
-- `proxy` — 通过指定代理连接
-- `interface` — 通过指定接口连接
-- `h3` — 强制 HTTP/3
-- `skip-cert-verify` — 跳过 TLS 证书验证
-- `ecs` — 指定 EDNS Client Subnet
-- `ecs-override` — 强制覆盖 ECS
-- `disable-ipv4` / `disable-ipv6`
-- `disable-qtype-<int>`
+- `proxy`: connect through a specified proxy.
+- `interface`: connect through a specified interface.
+- `h3`: force HTTP/3.
+- `skip-cert-verify`: skip TLS certificate verification.
+- `ecs`: specify EDNS Client Subnet.
+- `ecs-override`: force ECS override.
+- `disable-ipv4` / `disable-ipv6`.
+- `disable-qtype-<int>`.
 
 ---
 
-## 5. Sniffer 配置
+<a id="5-sniffer-配置"></a>
+## 5. Sniffer configuration
 
-**文档源**: https://deepwiki.com/muink/mihomo/4.4-process-detection
+**Documentation source**: https://deepwiki.com/muink/mihomo/4.4-process-detection
 
-### 顶层字段
+<a id="顶层字段"></a>
+### Top-level fields
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| `enable` | bool | 主开关 |
-| `sniffing` | list | 要嗅探的协议：`tls` / `http` / `quic` |
-| `force-domain` | list | 始终触发嗅探的域名 |
-| `skip-domain` | list | 跳过嗅探的域名 |
-| `skip-src-address` | list | 排除的源 IP |
-| `skip-dst-address` | list | 排除的目标 IP |
-| `port-whitelist` | list | 启用嗅探的端口范围 |
-| `force-dns-mapping` | bool | 在 FakeIP/DNSMapping 模式下嗅探连接 |
-| `parse-pure-ip` | bool | 嗅探无主机名的连接（纯 IP） |
+| `enable` | bool | Main switch |
+| `sniffing` | list | Protocols: `tls` / `http` / `quic` |
+| `force-domain` | list | Domains that always trigger sniffing |
+| `skip-domain` | list | Domains excluded from sniffing |
+| `skip-src-address` | list | Excluded source IPs |
+| `skip-dst-address` | list | Excluded destination IPs |
+| `port-whitelist` | list | Port ranges with sniffing enabled |
+| `force-dns-mapping` | bool | Sniff connections in FakeIP/DNSMapping mode |
+| `parse-pure-ip` | bool | Sniff hostless, pure-IP connections |
 
-### 协议嗅探器配置
+<a id="协议嗅探器配置"></a>
+### Protocol-sniffer configuration
 
-每个协议（TLS / HTTP / QUIC）支持：
+Each protocol (TLS / HTTP / QUIC) supports:
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| `override-destination` | bool | 用嗅探到的域名替换 metadata.Host，清除原 DstIP |
-| `ports` | list | 端口范围 |
+| `override-destination` | bool | Replace metadata.Host with the sniffed domain and clear original DstIP |
+| `ports` | list | Port ranges |
 
-### 配置示例
+<a id="配置示例"></a>
+### Example
 
 ```yaml
 sniffer:
@@ -287,45 +317,52 @@ sniffer:
 
 ---
 
-## 6. Smart 内核特有功能
+<a id="6-smart-内核特有功能"></a>
+## 6. Smart-core-specific features
 
+<a id="type-smart"></a>
 ### type: smart
 
-- 引入版本: MetaCubeX/mihomo v1.18.0+
-- 使用 AI 模型选择最优节点
-- 支持 `uselightgbm` 启用 LightGBM 梯度提升模型进行动态权重预测
-- 支持 `collectdata` 收集性能数据用于模型训练
-- 支持 `strategy`: `sticky-sessions` / `round-robin`
-- 支持 `policy-priority`: 手动分配优先级权重
+The historical summary records these claims; do not treat its MetaCubeX attribution or `strategy` field as current Smart-fork verification:
 
-### 与常规 `type: url-test` 的区别
+- Introduced in MetaCubeX/mihomo v1.18.0+ according to the old text.
+- AI model selects an optimal node.
+- `uselightgbm` enables LightGBM gradient-boosting prediction of dynamic weights.
+- `collectdata` collects performance data for training.
+- Historical `strategy`: `sticky-sessions` / `round-robin`.
+- `policy-priority` assigns priority weights manually.
 
-| 特性 | `url-test` | `smart` |
+<a id="与常规-type-url-test-的区别"></a>
+### Differences from ordinary `type: url-test`
+
+| Feature | `url-test` | `smart` |
 |------|-----------|---------|
-| 选择逻辑 | 当前最低延迟 | AI 历史预测 |
-| 触发方式 | 定时测试 | 自适应 |
-| 适用场景 | 节点质量差异大 | 多不稳定节点 |
-| 自学习 | 否 | 是 |
-| LightGBM | 不支持 | 支持 (`uselightgbm`) |
+| Selection | Current lowest latency | AI historical prediction |
+| Trigger | Scheduled tests | Adaptive |
+| Recorded use case | Large node-quality differences | Multiple unstable nodes |
+| Self-learning | No | Yes |
+| LightGBM | Unsupported | Supported (`uselightgbm`) |
 
 ---
 
-## 7. 跨版本兼容性注意事项
+<a id="7-跨版本兼容性注意事项"></a>
+## 7. Cross-version compatibility notes
 
-1. **Go RE2 正则**: filter 字段使用 Go RE2（不支持 backreference 和 lookahead）
-2. **子串匹配**: mihomo 的 `filter` 是子串匹配，`TW` 会匹配 `TWN`
-3. **YAML 锚点**: mihomo 基于 `gopkg.in/yaml.v3`，完全支持 YAML 1.2 锚点和别名
-4. **`MATCH` vs `FINAL`**: Clash/mihomo 使用 `MATCH`，Shadowrocket/Surge 使用 `FINAL`
-5. **GEOIP/GEOSITE**: 需要 `geodata-mode: true` 在 general 中配置
-6. **`interface-name`/`routing-mark` 在 proxy-groups 级别已废弃**: 应使用节点级别配置
-7. **`respect-rules`**: 需配合 `proxy-server-nameserver` 使用，且不建议与 `prefer-h3` 共用
-8. **`include-all-providers`**: 会使 `use` 字段失效
+1. **Go RE2 regex**: filter uses Go RE2, without backreferences or lookahead.
+2. **Substring matching**: mihomo `filter` matches substrings; `TW` matches `TWN`.
+3. **YAML anchors**: mihomo uses `gopkg.in/yaml.v3`; the historical reference records full YAML 1.2 anchor/alias support.
+4. **`MATCH` versus `FINAL`**: Clash/mihomo uses `MATCH`; Shadowrocket/Surge uses `FINAL`.
+5. **GEOIP/GEOSITE**: the historical text requires `geodata-mode: true` in general settings.
+6. **Group-level `interface-name`/`routing-mark` are deprecated**; use node-level configuration.
+7. **`respect-rules`** requires `proxy-server-nameserver` and is not recommended together with `prefer-h3`.
+8. **`include-all-providers`** overrides `use`.
 
 ---
 
-*最后更新: 2026-08-08*
-*源文档: https://wiki.metacubex.one/config/*
+*Historical footer last updated: 2026-08-08*
+*Source documentation: https://wiki.metacubex.one/config/*
 
-### 2026-10-20 业务 DNS policy 复核
+<a id="2026-10-20-业务-dns-policy-复核"></a>
+### 2026-10-20 service-DNS policy review
 
-复核 [Mihomo DNS 官方文档](https://wiki.metacubex.one/config/dns/)：`nameserver-policy` 优先于 `nameserver` / `fallback`，节点 DNS 独立；启用 `respect-rules` 时需配置 `proxy-server-nameserver`。本次同步仅统一 policy 数据来源。
+Reviewed [official Mihomo DNS documentation](https://wiki.metacubex.one/config/dns/): `nameserver-policy` precedes `nameserver` / `fallback`; node DNS is independent; `respect-rules` requires `proxy-server-nameserver`. Synchronization only unified the policy data source.

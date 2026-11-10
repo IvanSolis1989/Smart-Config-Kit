@@ -1,57 +1,71 @@
-# PROXY_YAMLS 借鉴评估与离线检查
+**English** | [中文](2026-11-07-proxy-yamls-review.zh-CN.md)
 
-研究日期：2026-11-07。上游固定快照：[EdisonLe12/PROXY_YAMLS@61ebe346](https://github.com/EdisonLe12/PROXY_YAMLS/tree/61ebe3465672a0c2dd945a92f047e57d479c317b)。SCK 初始对照基线：`5e28b84`；提交前已在 QX 修复后的 `63c9d1d` 重新验证。本次是维护工具更新，不改变客户端路由、DNS、策略组或发布版本。
+<a id="proxy_yamls-借鉴评估与离线检查"></a>
 
-## 结论
+# PROXY_YAMLS adoption review and offline checks
 
-值得借鉴的是空组拒绝直连、稳定手选配合故障转移、倍率感知和推送流量单独考虑的设计思路。但不能直接用两份模板替换 SCK 的多客户端规则图，也不能据模板宣称已兼容 AEROVE Lite。上游没有测试/CI 或测量数据，性能与稳定性描述不是实际验收结果。
+Review date: 2026-11-07. Pinned upstream snapshot: [EdisonLe12/PROXY_YAMLS@61ebe346](https://github.com/EdisonLe12/PROXY_YAMLS/tree/61ebe3465672a0c2dd945a92f047e57d479c317b). Initial SCK comparison baseline: `5e28b84`; revalidated against `63c9d1d` after the QX fix before submission. This maintenance-tool update did not change client routing, DNS, policy groups or release versions.
 
-| 上游设计 | SCK 现状及本次决定 |
+<a id="结论"></a>
+
+## Conclusions
+
+Useful ideas include rejecting direct fallback for empty groups, stable manual selection with failover, multiplier awareness and separate treatment of push traffic. The two templates cannot directly replace SCK's multi-client rule graph or establish AEROVE Lite compatibility. Upstream provided no tests/CI or measurements; performance and stability descriptions are not acceptance evidence.
+
+| Upstream design | Existing SCK behavior and decision |
 | --- | --- |
-| `empty-fallback: REJECT` | SCK 三份 Mihomo JS 已有无存活节点时全局 `REJECT`、空地区组不生成的测试。保留现有机制，不给 Stash/Meow 等不支持的客户端添加字段。 |
-| 手选 → Smart 的 fallback | 对固定出口和故障接续有价值，但会增加组层级；不是所有客户端支持 Smart。作为后续可选方案，不改现有 22 地区/33 业务组契约，也不承诺故障切换维持原 IP。 |
-| 低倍率分组与优先级 | SCK 已有可选 `SCKI_MAX_NODE_MULTIPLIER` 和明确倍率解析。低价优先排序与“倍率上限”不是同一功能；前者留待跨端方案，不照抄正则或任意权重。 |
-| 推送、Apple/Microsoft 与普通流量分开考虑 | 有服务场景价值；SCK 已有业务/DNS 投影。不能用“国内直连优先”笼统替代海外服务分流，需逐服务证据。 |
-| 规则集复用、YAML 锚点 | SCK 已有来源图、MRS 融合及生成器。新增离线安全审计，检查 YAML 展开后的有效字段，避免只搜索原文误报。 |
+| `empty-fallback: REJECT` | All three Mihomo JS variants already test global `REJECT` when no live nodes exist and omission of empty regional groups. Retain that mechanism; do not add unsupported fields to Stash/Meow. |
+| Manual selection → Smart fallback | Potentially useful for stable exits and recovery, but adds group layers and Smart is not universally supported. Retain as a future option without changing the 22-region/33-service contract or promising IP continuity during failover. |
+| Low-multiplier grouping and priorities | SCK already has optional `SCKI_MAX_NODE_MULTIPLIER` and explicit multiplier parsing. Low-price prioritization differs from a multiplier ceiling; defer the former pending a cross-client design instead of copying regexes or arbitrary weights. |
+| Separate consideration of push, Apple/Microsoft and other traffic | Useful at service level; SCK already has service/DNS projections. A blanket China-direct preference cannot replace service-specific routing evidence. |
+| Reusable rule sets and YAML anchors | SCK already has a source graph, MRS fusion and generators. Add offline auditing of effective fields after YAML expansion instead of searching raw source and reporting false positives. |
 
-## 本次具体落地
+<a id="本次具体落地"></a>
 
-新增 `tools/audit-upstream-mihomo.py`：只读、离线审查待引入 Mihomo YAML，报告外部控制器宽监听、模板内置认证、实际生效的跳过证书验证、显式空组直连、TUN 绕过及悬空规则集引用。不访问订阅、不输出认证值/订阅 URL/节点名，不修改任何配置。解析失败也不回显可能包含密钥的原文。
+## Implemented work
+
+Added `tools/audit-upstream-mihomo.py`, a read-only offline audit of candidate Mihomo YAML. It reports broad controller listeners, embedded template authentication, effective disabled certificate verification, explicit direct fallback for empty groups, TUN exclusions and dangling rule-set references. It does not access subscriptions, print authentication values/subscription URLs/node names, or modify configuration. Parse failures do not echo source text that might contain secrets.
 
 ```sh
-# 环境依赖：Python 3 + PyYAML（仅开发检查，不进入客户端运行时）
+# Development dependency: Python 3 + PyYAML; not part of the client runtime
 python tools/audit-upstream-mihomo.py --format mihomo path/to/config.yaml
 python -m unittest discover -s tools/tests -p 'test_upstream_mihomo_audit.py' -v
 ```
 
-退出码：`0` 未发现所列问题，`1` 有人工复核项，`2` 输入/依赖/解析失败。`1` 不代表漏洞已确认；`0` 不代表配置安全或可直接导入。该工具不是核心 schema 验证器，不检查全部 TLS/DNS/分流风险，不支持 Egern schema。请仍用目标版本原生核心和实际客户端验证。
+Exit codes: `0` no listed findings, `1` items requiring human review, `2` input/dependency/parse failure. `1` does not confirm a vulnerability; `0` does not prove safety or import readiness. This is not a core schema validator, does not cover every TLS/DNS/routing risk, and does not support Egern schema. Verification with the target native core version and actual client remains necessary.
 
-固定上游快照的实际扫描结果：4 个复核项，分别是宽监听、内置控制器 secret、内置代理认证和 TUN 排除。没有实际 provider 证书验证关闭告警，也没有悬空 TUN 引用。原因如下：
+The pinned upstream scan produced four review items: broad listener, embedded controller secret, embedded proxy authentication and TUN exclusions. It did not find effective disabled provider certificate validation or dangling TUN references:
 
-- `BaseProvider.override.skip-cert-verify: true` 确实存在于模板锚点，但当前四个 provider 都声明了自己的 `override` 映射。YAML merge 是浅合并，最终覆盖整个 `override`，所以不能把锚点中的 TLS 开关当作当前生效配置。若后续去掉该重写，风险可能重新出现。
-- 该模板的 `Private-IP`、`Trackers-IP`、`China-IP` 均有定义，因此原模板引用不悬空。SCK 动态覆写保留 `tun`，却在清理/融合阶段替换 `rule-providers`，带入整份模板时必须对**变换后的输出**重新审计，不能只审源文件。本次回归覆盖了这种“替换前有效、替换后失效”的情况，没有擅自删改用户的 TUN 设置。
+- `BaseProvider.override.skip-cert-verify: true` exists in the template anchor, but all four current providers define their own `override` mapping. YAML merge is shallow: each replaces the entire `override`. The anchor's TLS option therefore cannot be reported as currently effective. Removing those overrides later could reintroduce the risk.
+- `Private-IP`, `Trackers-IP` and `China-IP` are defined in the template, so its references are not dangling. SCK dynamic overrides preserve `tun` but replace `rule-providers` during cleanup/fusion. Importing the whole template therefore requires auditing the **transformed output**, not just its source. Regression coverage includes references that are valid before replacement but invalid afterward; user TUN settings were not removed or changed.
 
-## 不直接采纳的内容与误判边界
+<a id="不直接采纳的内容与误判边界"></a>
 
-1. **凭据与监听**：固定 secret/账号口令不能当成用户自己的凭据。`0.0.0.0:9090` 只说明非 loopback 监听，不证明已暴露到公网；是否可访问还取决于防火墙/网络。
-2. **TUN 排除 China-IP**：绕过 TUN 后，流量不再按普通规则列表接受广告拦截或用户指定出口约束。这是路由语义变化，不是无条件的性能优化；路由集合字段和 `mips` 栈还依赖目标核心版本。
-3. **倍率误判**：Mihomo 模板低倍率正则中的 `0\.[1-8]` 缺少数值边界，可把 `x10.1` 的子串 `0.1` 或节点 IP 中的同样文本识别为低倍率。“下载/实验”也不能证明计费倍率。SCK 继续使用明确倍率解析，不引入该宽泛正则。
-4. **信息节点过滤**：`USE` 等子串可误伤名称如 `MUSE`，不能不加边界套用于真实节点。各正则引擎的前后查找、内联大小写标志支持不同，不能将 Mihomo/Egern 表达式直接移入所有客户端。
-5. **Meta → AI**：整个 Meta 规则集指向 AI 会连带普通 Facebook/Meta 访问，不能仅凭 Muse 场景改变全部业务归属。
-6. **全局 DoH 拒绝**：对 `Category-DoH`/加密 DNS IP 的拒绝可能影响合法应用；不能未经逐服务验证把防泄漏主张转成全局默认拦截。`no-resolve` 仅控制匹配 IP 规则时触发解析的行为，不能证明所有 DNS 都不泄漏。
-7. **专用出口行为**：PikPak 区域检测拒绝、下载直连、个人域名和链式代理均有使用者场景，非通用默认策略。
+## Designs not adopted directly and false-positive boundaries
 
-## 客户端与来源边界
+1. **Credentials and listeners:** fixed secrets/account passwords are not the user's credentials. `0.0.0.0:9090` establishes non-loopback listening, not public Internet exposure; reachability also depends on firewall/network settings.
+2. **China-IP TUN exclusion:** traffic excluded from TUN no longer follows the normal rule list's ad blocking or user-selected exit constraints. This changes routing semantics rather than providing an unconditional performance optimization. Route-set fields and the `mips` stack also depend on the target core version.
+3. **Multiplier misclassification:** the low-multiplier regex `0\.[1-8]` lacks numeric boundaries. It can match `0.1` inside `x10.1` or identical text in a node IP. Labels meaning download/experimental do not establish billing multipliers. SCK retains explicit parsing rather than importing this broad regex.
+4. **Information-node filtering:** substrings such as `USE` can incorrectly match names such as `MUSE`; they cannot be applied to real nodes without boundaries. Regex engines differ in lookaround and inline case-flag support, so Mihomo/Egern expressions cannot be copied to every client.
+5. **Meta → AI:** assigning the entire Meta rule set to AI would also affect ordinary Facebook/Meta traffic. A Muse-specific use case does not justify changing the entire service classification.
+6. **Global DoH rejection:** rejecting `Category-DoH` or encrypted-DNS IPs can affect legitimate applications. A leak-prevention claim does not justify global blocking without service-specific verification. `no-resolve` controls whether IP-rule matching triggers resolution; it does not prove absence of every DNS leak.
+7. **Special-purpose exits:** rejecting PikPak regional checks, direct downloads, personal domains and chained proxies are user-specific policies, not general defaults.
 
-上游仅包含 `OneSmartProMCX.yaml`（Mihomo Smart 取向）和 `IOS_Egern_Yaml.yaml`（Egern）。Egern 原生 smart priorities/链式字段与 Mihomo 权重语义不同；不能平移到 Quantumult X、Surge、Stash、sing-box、Passwall 或 AEROVE Lite/Meow。此轮没有运行这些客户端，不声称新增兼容支持。
+<a id="客户端与来源边界"></a>
 
-固定提交未包含 LICENSE。Mihomo 文件另外署名模板原作者 YYDS666，指向 [666OS/YYDS](https://github.com/666OS/YYDS)。本次只记录公开可观察的设计与字段并独立编写审计逻辑，**未复制分发上游模板、正则实现或规则集合**。后续若要移植具体代码/模板，应先查清原作者许可与再分发条件；有署名不等于获得许可证。
+## Client and source boundaries
 
-参考字段文档：[Mihomo TUN](https://wiki.metacubex.one/config/inbound/tun/)、[策略组公共字段](https://wiki.metacubex.one/config/proxy-groups/)、[代理集合](https://wiki.metacubex.one/config/proxy-providers/)。链接供后续目标版本核验，本次未将其中任何新字段写入客户端产物。
+Upstream contains only `OneSmartProMCX.yaml` (Mihomo Smart-oriented) and `IOS_Egern_Yaml.yaml` (Egern). Native Egern smart priorities/chaining differ from Mihomo weight semantics and cannot be transferred directly to Quantumult X, Surge, Stash, sing-box, Passwall or AEROVE Lite/Meow. Those clients were not run in this review; no new compatibility support is claimed.
 
-## 验证记录
+The pinned commit has no LICENSE. The Mihomo file also credits original template author YYDS666 and links [666OS/YYDS](https://github.com/666OS/YYDS). This work records publicly observable designs/fields and independently implements audit logic; **it does not copy or redistribute upstream templates, regex implementations or rule collections**. Any later code/template port requires checking the original author's license and redistribution conditions. Attribution is not itself a license grant.
 
-- Python 单元测试 10/10 通过，含浅合并后有效配置、凭据不输出、loopback 不误报、空集合不误报、保留/替换规则集的引用差异。
-- 现有订阅节点过滤测试 73/73 通过，确认既有倍率/空组保护行为。
-- 固定上游 YAML 实扫完成，输出 4 个复核项。
-- 未改变 QX `running_mode_trigger` 修复、客户端生成物、规则图、工作区现有修改；此维护更新不创建正式 Release。
+Field references: [Mihomo TUN](https://wiki.metacubex.one/config/inbound/tun/), [common policy-group fields](https://wiki.metacubex.one/config/proxy-groups/), [proxy providers](https://wiki.metacubex.one/config/proxy-providers/). These links support later target-version verification; this review did not write new fields into client artifacts.
+
+<a id="验证记录"></a>
+
+## Verification record
+
+- Python unit tests: 10/10 passed, including effective shallow-merge behavior, no credential output, no false positives for loopback or empty collections, and reference differences before/after rule-set replacement.
+- Existing subscription-node filtering tests: 73/73 passed, confirming established multiplier and empty-group protections.
+- The pinned upstream YAML scan completed with four review items.
+- The QX `running_mode_trigger` fix, client generated files, rule graph and existing worktree changes were not modified. This maintenance update did not create a formal Release.

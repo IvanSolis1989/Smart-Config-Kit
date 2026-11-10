@@ -31,7 +31,7 @@
   },
   "inputs": {
     "providers_sha256": "20e3e6aa4f0aedd47387a28523e925ec0e87914204a83166eb94e0493922dc39",
-    "fused_manifest_sha256": "7d1c7c856f41fdc1df6dd965f88bf3e53f6077b73df52a2e10c0223f3ddc823b",
+    "fused_manifest_sha256": "4cb4cfb2e93c66aa54842be2505c182a3f6fcbb5d535d5e7173001c9504d70e5",
     "files": {
       "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
       "tools/lib/aerove-rule-assets.js": "d40f797462f21c90ab1925ea2980c6c0bdb8236baf78387701dee0f1bb2b6161",

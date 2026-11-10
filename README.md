@@ -1,45 +1,46 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <h1 align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="docs/assets/readme/hero-mobile.svg">
-    <img src="docs/assets/readme/hero.svg" alt="Smart-Config-Kit：同一规则源，多端原生分流" width="1120">
+    <img src="docs/assets/readme/hero.svg" alt="Smart-Config-Kit: one policy source, native routing across clients" width="1120">
   </picture>
 </h1>
 
 <p align="center">
-  <a href="#start">开始使用</a> ·
-  <a href="#downloads">客户端与下载</a> ·
-  <a href="#routing">分流设计</a> ·
-  <a href="docs/README.md">文档中心</a>
+  <a href="#start">Get started</a> ·
+  <a href="#downloads">Clients and downloads</a> ·
+  <a href="#routing">Routing design</a> ·
+  <a href="docs/README.md">Documentation</a>
 </p>
 
-面向**桌面、移动端与 OpenWrt**的分流配置与覆写脚本。基于同一套规则，生成各客户端需要的原生格式；节点订阅由你自行准备。
+Routing configurations and override scripts for **desktop, mobile, and OpenWrt**. A shared policy source produces each client's native format. Bring your own endpoint subscription.
 
-各客户端的策略组、DNS 和导入能力不同，具体边界在对应教程中说明。
+Policy groups, DNS behavior, and import capabilities differ by client. Each guide documents its boundaries.
 
+[Optional service profiles and local settings](docs/configuration.md): the default full configuration is unchanged. The [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/) lets you select services and supported options across 20 maintained entries, then download the result. See the guide for coverage.
 
-[可选业务方案与本地参数](docs/configuration.md)：默认完整配置保持不变，20 个维护入口可在[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)选择业务与支持的参数后直接下载，覆盖范围见指南。
+## <a name="start"></a>Get started
 
-## <a name="start"></a>从这里开始
+1. **Prepare your subscription:** import it into your client and verify that the endpoints work.
+2. **Choose the matching configuration:** use the client entry below, then follow its instructions to associate a script, import a configuration, or import routing rules.
+3. **Verify actual matches:** <a name="-导入后-60-秒验证清单"></a>use the [post-import checklist](docs/guide/dns-and-verification.md#verification) to check rule downloads, routing, and DNS.
 
-1. **准备节点订阅**：先在客户端导入自己的订阅，确认节点可用。
-2. **选择对应配置**：进入下方客户端入口，按教程关联脚本、导入配置或导入分流规则。
-3. **检查实际命中**：<a name="-导入后-60-秒验证清单"></a>按[导入后验收清单](docs/guide/dns-and-verification.md#verification)检查规则下载、分流与 DNS。
+## <a name="downloads"></a><a name="clients"></a><a name="按内核系列浏览"></a>Find your client
 
-## <a name="downloads"></a><a name="clients"></a><a name="按内核系列浏览"></a>找到你的客户端
-
-按客户端所在系列进入，获取 **Raw 下载链接、版本选择和导入教程**。不知道内核名称时，可直接按卡片上的 APP 名称查找。
+Choose a client family for **raw downloads, version selection, and import instructions**. You do not need to know the core name: look for your application on the cards.
 
 <p align="center">
-  <a href="docs/guide/downloads.md#mihomo"><img src="docs/assets/readme/family-mihomo.svg" alt="Mihomo 内核系：Clash Party、CMFA、OpenClash、FlClash" width="250" height="128"></a>
-  <a href="docs/guide/downloads.md#sing-box"><img src="docs/assets/readme/family-sing-box.svg" alt="sing-box 内核系：SingBox、Karing" width="250" height="128"></a>
-  <a href="docs/guide/downloads.md#xray"><img src="docs/assets/readme/family-xray.svg" alt="Xray 内核系：v2rayN 路由" width="250" height="128"></a>
-  <a href="docs/guide/downloads.md#dual-core"><img src="docs/assets/readme/family-dual-core.svg" alt="双内核系：Passwall、Passwall2" width="250" height="128"></a>
-  <a href="docs/guide/downloads.md#independent"><img src="docs/assets/readme/family-independent.svg" alt="独立内核系：Shadowrocket、Surge、Loon、Quantumult X、Stash、Egern" width="250" height="128"></a>
-  <a href="docs/guide/downloads.md#meow"><img src="docs/assets/readme/family-meow.svg" alt="Meow 内核系：官方 Meow 原生 YAML、AEROVE Lite JS 覆写；各客户端验收进展见教程" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#mihomo"><img src="docs/assets/readme/family-mihomo.svg" alt="Mihomo: Clash Party, CMFA, OpenClash, FlClash" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#sing-box"><img src="docs/assets/readme/family-sing-box.svg" alt="sing-box: SingBox and Karing" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#xray"><img src="docs/assets/readme/family-xray.svg" alt="Xray: v2rayN routing" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#dual-core"><img src="docs/assets/readme/family-dual-core.svg" alt="Dual-core: Passwall and Passwall2" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#independent"><img src="docs/assets/readme/family-independent.svg" alt="Independent clients: Shadowrocket, Surge, Loon, Quantumult X, Stash, Egern" width="250" height="128"></a>
+  <a href="docs/guide/downloads.md#meow"><img src="docs/assets/readme/family-meow.svg" alt="Meow: official native YAML and AEROVE Lite JavaScript override; see client guides for validation status" width="250" height="128"></a>
 </p>
 
 <p>
-  <strong>客户端索引</strong>
+  <strong>Client index</strong>
   <a href="docs/guide/downloads.md#mihomo">Clash Party / Clash Verge Rev / Mihomo Party</a> ·
   <a href="docs/guide/downloads.md#mihomo">CMFA / ClashMi</a> ·
   <a href="docs/guide/downloads.md#mihomo">OpenClash</a> ·
@@ -54,41 +55,41 @@
   <a href="docs/guide/downloads.md#independent">Quantumult X</a> ·
   <a href="docs/guide/downloads.md#independent">Stash</a> ·
   <a href="docs/guide/downloads.md#independent">Egern</a> ·
-  <a href="Meow内核系/Meow/README.md">官方 Meow</a> ·
+  <a href="Meow内核系/Meow/README.md">Official Meow</a> ·
   <a href="Meow内核系/Aerove%20Lite/README.md">AEROVE Lite</a>
 </p>
 
-[打开完整下载目录](docs/guide/downloads.md) · [按平台与协议选择客户端](docs/guide/client-support.md)
+[Full download directory](docs/guide/downloads.md) · [Choose by platform and protocol](docs/guide/client-support.md)
 
-[Meow 内核系](Meow内核系/README.md)提供两个独立入口：**官方 Meow 原生 YAML**与 **AEROVE Lite JS 覆写**。Lite 配套无损 MRS 分片，遵守客户端的单资源预算；官方核心配置校验已通过，Lite 当前候选仍待 App 重验。导入步骤、已完成项目与连接验收进度见各自教程及[支持队列](docs/support-queue.md)。
+The [Meow family](Meow内核系/README.md) has two separate entries: **official Meow native YAML** and the **AEROVE Lite JavaScript override**. Lite uses lossless MRS partitions within the client's per-resource budgets. Official core configuration checks have passed; the current Lite candidate still needs application-level retesting. See each guide and the [support queue](docs/support-queue.md) for import steps, completed checks, and connection validation.
 
-## <a name="routing"></a>一套策略，按客户端落地
+## <a name="routing"></a>One policy, client-specific implementations
 
-- **规则同源**：业务规则和命中顺序集中维护，再生成各端原生配置。
-- **用途与出口分层**：具备策略组能力的客户端可分别选择业务出口与地区节点；FCM 推送跟随 Google 服务所选出口，详见[策略与规则来源](docs/guide/routing-policy.md)。
-- **差异写清楚**：保留平台能力边界，导入后以实际配置和连接日志验收。
+- **Shared rules:** service rules and match order are maintained centrally, then rendered into native client configurations.
+- **Separate services from exits:** clients with policy-group support can select service exits and regional endpoints separately. FCM push follows the exit selected for Google services; see [routing policy and sources](docs/guide/routing-policy.md).
+- **Explicit differences:** platform limitations are documented. Validate the effective configuration and connection logs after import.
 
 <picture>
   <source media="(max-width: 600px)" srcset="docs/assets/readme/overview-mobile.svg">
-  <img src="docs/assets/readme/overview.svg" alt="同一规则源生成原生配置，交给各客户端完成分流；策略组与节点接入能力因平台而异" width="1120">
+  <img src="docs/assets/readme/overview.svg" alt="A shared policy source generates native configurations; each client implements routing, policy groups, and endpoint integration within its own capabilities" width="1120">
 </picture>
 
-[了解 33 业务组、区域策略与规则来源](docs/guide/routing-policy.md)
+[33 service groups, regional policies, and sources](docs/guide/routing-policy.md)
 
-## <a name="dns"></a><a name="guides"></a>按需深入
+## <a name="dns"></a><a name="guides"></a>Explore the guides
 
-**选客户端与配置**　[下载目录](docs/guide/downloads.md) · [协议与导入边界](docs/guide/client-support.md)
+**Choose a client and configuration:** [downloads](docs/guide/downloads.md) · [protocol and import boundaries](docs/guide/client-support.md)
 
-**了解分流与 DNS**　[策略与规则来源](docs/guide/routing-policy.md) · [DNS 设计与验收](docs/guide/dns-and-verification.md)
+**Understand routing and DNS:** [routing policy and sources](docs/guide/routing-policy.md) · [DNS design and verification](docs/guide/dns-and-verification.md)
 
-**管理多机场订阅**　[Sub-Store 聚合教程](SubStore/README.md) · [浏览器同步助手](SubStore/edge-extension/README.md)
+**Combine subscriptions:** [Sub-Store guide](SubStore/README.md) · [browser synchronization helper](SubStore/edge-extension/README.md)
 
-更多高级选项、能力矩阵、维护工具与官方证据，见[文档中心](docs/README.md)。
+See the [documentation index](docs/README.md) for advanced options, capability matrices, maintenance tools, and upstream evidence.
 
-## 参与项目
+## Contribute
 
-遇到问题，先完成[验收与排查](docs/guide/dns-and-verification.md)。仍无法定位时，[提交 Issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)，附客户端版本、脱敏配置和连接日志。
+Start with [verification and troubleshooting](docs/guide/dns-and-verification.md). If the problem remains unresolved, [open an issue](https://github.com/IvanSolis1989/Smart-Config-Kit/issues) with the client version, a redacted configuration, and connection logs.
 
-[维护契约](AGENTS.md#10-readme-与文档编写契约) · [变更日志](CHANGELOG.md) · [上游项目与致谢](docs/guide/acknowledgements.md) · [支持本项目](docs/donate.md)
+[Maintenance contract (Chinese source)](AGENTS.md#10-readme-与文档编写契约) · [Changelog](CHANGELOG.md) · [Upstream projects](docs/guide/acknowledgements.md) · [Support maintenance](docs/donate.md)
 
-<sub>本项目用于个人技术研究与学习，不提供节点、订阅或代理服务。采用 MIT License；第三方规则与数据遵循各自许可证。[使用边界](docs/guide/acknowledgements.md#usage)</sub>
+<sub>This repository provides configuration and routing tools, not endpoints, subscriptions, or a proxy service. No repository-wide license file is currently present; do not infer blanket MIT permission from earlier descriptions. Third-party materials remain subject to their own licenses. Read the [disclaimer and licensing boundaries](docs/disclaimer.md) before use.</sub>

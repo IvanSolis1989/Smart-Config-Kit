@@ -1,872 +1,1030 @@
 <picture>
   <source media="(max-width: 600px)" srcset="docs/assets/readme/page-changelog-mobile.svg">
-  <img src="docs/assets/readme/page-changelog.svg" alt="Smart-Config-Kit 仓库 变更日志" width="100%">
+  <img src="docs/assets/readme/page-changelog.svg" alt="Smart-Config-Kit repository changelog" width="100%">
 </picture>
 
-# Smart-Config-Kit — 变更日志
+<a id="smart-config-kit--变更日志"></a>
 
-> 仓库级变更摘要。各产物的详细变更见对应子目录 `CHANGELOG.md`。
-> 主版本号由 `rulesets/source/routing-graph.js` 的 `SOURCE_GRAPH_VERSION` 与客户端产物版本共同维护；规则权威源是 `rulesets/source/routing-graph.js`。
-> 覆盖 14 个既有客户端配置产物，并提供 Karing sing-box 分流适配入口；各产物按所属内核系列归档。
+# Smart-Config-Kit — Changelog
+
+> Repository-wide change summary. See each product directory's `CHANGELOG.md` for detailed changes.
+> Major versions are maintained jointly by `SOURCE_GRAPH_VERSION` in `rulesets/source/routing-graph.js` and client artifact versions; `rulesets/source/routing-graph.js` is the authoritative routing source.
+> Covers 14 established client configuration products and a Karing sing-box routing adapter, organized by core family.
 
 ---
 
-[![文档中心](docs/assets/readme/nav-docs.svg)](docs/README.md) [返回 README](README.md) · [仓库文档中心](docs/README.md)
+[![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
+
+## Configuration form 1.5.1 (2026-11-10)
+
+- Keep long client paths and parameter text inside narrow layouts with wrapping and shrinkable grid tracks. OpenClash and all other clients retain the same export values and behavior.
+- Extend responsive CI coverage to both tabs, custom service choices and advanced download controls in both languages. Regenerate the embedded catalog from the current verified artifacts.
 
 ## MiMo fallback diagnostics v1.0.1 (2026-11-09)
 
 - Preserve safe failure categories in CI logs without exposing model replies or credentials; do not retry terminal claims or rewrite existing comments. See [details](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#mimo-fallback-diagnostics-v101-2026-11-09).
 
-## 资源校验工具：domain MRS 重叠输入证明 (2026-11-09)
+## Configuration form 1.5.0 and English-first documentation (2026-11-09)
 
-- 修正将 domain MRS 插入次数误当成紧凑遍历行数的假设。按官方固定 Mihomo v1.19.32 行为核对源输入次数、规范化 exact/suffix 谓词集合、编码 leaf 与紧凑输出数量，保留全部资源预算；未以简单放宽不等式代替证明。
-- 增加真实编译的重叠/重复正例、丢失谓词及伪造头部/证明负例。共享规则资产、当前客户端默认路由不变；生成清单需随后重建，尚不代表新上游语义已批准或 App 已验收。
+- The configuration interface starts in English; Chinese is an explicit choice. Language selection does not change exported configuration bytes or rule behavior.
+- Build-time zlib compression reduces the self-contained configuration page size without changing the decoded catalog. Drift checks allow equivalent compression streams across Node versions but still require identical catalog bytes and surrounding interface code.
+- Default documentation entry points and generated visuals use English. Chinese editions remain explicitly selectable; original upstream evidence stays unchanged. The [documentation migration inventory](docs/documentation-language-coverage.md) records English/Chinese coverage and preserved maintenance/source exceptions.
+- Redacted local evidence directories, random run/session identifiers and real subscription-source identities in public historical records, retaining versions, test conclusions, technical limits and public CI links.
+- Added accurate scope and licensing notices. No root license grant is inferred from previous MIT descriptions; third-party licenses and attribution remain applicable.
+- Issue forms start in English with an explicit Chinese alternative. Automated replies continue to follow the author's question language.
 
-## 自动维护工具：提问语言一致性 v1.0.0 (2026-11-09)
+## Domain MRS equivalence proof and issue-language consistency (2026-11-09)
 
-- MiMo 主回复、失败补答与本机 Codex 统一以作者正文语言作答；去除强制中文提示，公开标题、固定失败说明与收据同步本地化，必要技术原文不误译。
-- 静态通知提供 11 种语言；语言不明、歧义或回答不匹配时阻止错误公开内容并保留维护者核对记录，不宣称任意语言或逐词翻译强保证。中文叙述不再夹带不必要的 App、Issue 或 registration；代码中的必要标识可原样保留。
-- 新失败回执使用语言中立的状态标记，兼容旧中文回执与已完成任务去重。本机安装脚本携带共享语言模块；既有本机运行快照需更新，已发布评论不自动改写。本次未变更权限、凭据、模型重试策略或分流业务规则。
+- Domain MRS validation now checks insertion count, normalized exact/suffix predicates, encoded leaves and compact output against the pinned official Mihomo behavior. All resource budgets remain in force; this does not approve a new upstream policy batch or prove device compatibility.
+- MiMo replies, fallback replies and local Codex receipts follow the question language. Ambiguous or mismatched language fails closed. Static notices cover 11 locales; arbitrary-language coverage is not promised.
+- The anti-AD text input uses the verified official Git source while preserving provenance checks and component review requirements. No blanket redistribution permission is inferred from an upstream repository license.
 
-## 同步工具：anti-AD 官方 Git 输入恢复 (2026-11-09)
+<a id="资源校验工具domain-mrs-重叠输入证明-2026-11-09"></a>
+
+## Resource validator: domain MRS overlapping-input proof (2026-11-09)
+
+- Corrected the assumption that domain MRS insertion count equals compact traversal row count. Checked source insertion count, normalized exact/suffix predicate sets, encoded leaves and compact output counts against the pinned official Mihomo v1.19.32 behavior, retaining every resource budget rather than merely relaxing an inequality.
+- Added genuinely compiled overlapping/duplicate positive fixtures and missing-predicate, forged-header/proof negative fixtures. Shared rule assets and default client routing were unchanged; generation manifests still required rebuilding. This did not approve new upstream semantics or establish application acceptance.
+
+<a id="自动维护工具提问语言一致性-v100-2026-11-09"></a>
+
+## Maintenance tools: question-language consistency v1.0.0 (2026-11-09)
+
+- MiMo primary replies, failure fallback replies and local Codex replies followed the author's body language. Removed forced-Chinese instructions and localized public headings, fixed failure messages and receipts without mistranslating necessary technical originals.
+- Static notices covered 11 languages. Unknown/ambiguous language or mismatched replies blocked incorrect public content and retained maintainer review records; this did not promise arbitrary-language or word-for-word translation guarantees. Chinese prose no longer included unnecessary App, Issue or registration wording; necessary code identifiers remained unchanged.
+- New failure receipts used language-neutral status markers, retaining recognition of legacy Chinese receipts and completed-task deduplication. The local installer included the shared language module; existing installed runtime snapshots still required updating. Published comments were not rewritten automatically. Permissions, credentials, model retry policy and routing business rules were unchanged.
+
+<a id="同步工具anti-ad-官方-git-输入恢复-2026-11-09"></a>
+
+## Synchronization tools: restoring the official anti-AD Git input (2026-11-09)
 
 
-- 将融合阶段 `anti-ad` 的文本来源从偶发 HTTP 403 的网站入口切到官方仓库同格式 `anti-ad-clash.yaml`；保持 domain 语义、广告策略及客户端默认配置不变，不以空列表或旧缓存掩盖下载失败。
-- [官方固定 README](https://github.com/privacy-protection-tools/anti-AD/blob/2b83ce2de8e7d217385da1cee42dcaa2ea3f08f6/README.md#L19) 并列声明两个入口；2026-11-09 实际下载均为 2,793,901 字节、103,068 条 domain 规则，SHA256 同为 `fbba61f1772422c1e83a8306e9cfafd10b8028e39dc84cfa18f173a7ced06942`。这是本次快照证据，不保证两端未来同时更新或所有网络可达。
-- Git 下载沿用解析提交、固定提交回退与字节收据校验；补官方 Git 来源的 MIT 声明，保留 `component-review-required`，不把仓库许可扩张为所有聚合数据的授权。本次未刷新上游规则，周同步执行结果另验。
+- Switched the fusion-stage `anti-ad` text source from a website endpoint intermittently returning HTTP 403 to the official repository's same-format `anti-ad-clash.yaml`. Domain semantics, advertising policy and client defaults remained unchanged; empty lists or old caches did not conceal download failures.
+- The [pinned official README](https://github.com/privacy-protection-tools/anti-AD/blob/2b83ce2de8e7d217385da1cee42dcaa2ea3f08f6/README.md#L19) listed both endpoints. Actual downloads on 2026-11-09 were each 2,793,901 bytes and 103,068 domain rules, with identical SHA256 `fbba61f1772422c1e83a8306e9cfafd10b8028e39dc84cfa18f173a7ced06942`. This was snapshot evidence, not a guarantee of future simultaneous updates or reachability on every network.
+- Git downloads retained resolved-commit, pinned-commit fallback and byte-receipt verification. Added the official Git source's MIT declaration while retaining `component-review-required`; a repository license was not extended to all aggregated data. No upstream rule refresh occurred in this change; weekly synchronization results required separate verification.
 
-## 配置工具 v1.4.4 与客户端导入排障 (2026-11-09)
+<a id="配置工具-v144-与客户端导入排障-2026-11-09"></a>
 
-- 重新生成离线配置向导，确保下载包含 QX.14 修复；定时同步在冻结发布批次前重建并校验向导，避免 Pages 与客户端产物漂移。
-- Karing 适配 karing.3 明确自定义规则导入后的 SRS 注册限制，提供只读注册审计；原规则语义不变，不宣称替代 App 真机验收。详情见 Karing 目录变更日志。
-- 自动维护：Codex 失败后的 MiMo 仅回复兜底独立运行，并保留身份核验、任务去重及限次恢复。
+## Configuration tool v1.4.4 and client import troubleshooting (2026-11-09)
 
-## 维护工具：上游 Mihomo 模板引入审计 (2026-11-07)
+- Regenerated the offline configuration wizard so downloads included the QX.14 fix. Scheduled synchronization rebuilt and checked the wizard before freezing a release batch, preventing Pages/client artifact drift.
+- Karing adapter karing.3 documented SRS registration limitations after custom-rule import and supplied a read-only registration audit. Rule semantics were unchanged; this did not replace physical-device application acceptance. See the Karing directory changelog.
+- Maintenance automation: MiMo's reply-only fallback after Codex failure ran independently, retaining identity verification, task deduplication and bounded recovery.
 
-- 新增只读离线审计与回归测试，完成 PROXY_YAMLS 固定快照评估；不改变客户端规则、DNS、版本或在线向导。详情见 [借鉴评估与检查用法](docs/2026-11-07-proxy-yamls-review.md)。
+<a id="维护工具上游-mihomo-模板引入审计-2026-11-07"></a>
 
-## Quantumult X 导入修复 QX.14 (2026-11-07)
+## Maintenance tools: upstream Mihomo template adoption audit (2026-11-07)
 
-- 更正 QX 模式触发语法及反向校验规则；共享分流规则和 Clash Party 产物不变。详情见 [Quantumult X 变更日志](独立内核系/Quantumult%20X/CHANGELOG.md)。
+- Added a read-only offline audit and regression tests, completing assessment of a pinned PROXY_YAMLS snapshot. Client rules, DNS, versions and the online wizard were unchanged. See [assessment and audit usage](docs/2026-11-07-proxy-yamls-review.md).
 
-## 自动化：本地 Codex Issue 派单 v1.0.2 (2026-11-01)
+<a id="quantumult-x-导入修复-qx14-2026-11-07"></a>
 
-- 派单会话显式固定 GPT-6.1 Sol + ultra；解析 MSIX 文件重定向后的真实安装路径，让登录计划任务能在桌面 App 进程外正常启动。
+## Quantumult X import fix QX.14 (2026-11-07)
 
-## 自动化：本地 Codex Issue 派单 v1.0.1 (2026-11-01)
+- Corrected QX mode-trigger syntax and reverse validation rules; shared routing rules and Clash Party artifacts were unchanged. See the [Quantumult X changelog](独立内核系/Quantumult%20X/CHANGELOG.md).
 
-- 实测 GitHub 派单到本机新会话；修正 Windows 计划任务启动失败的登录自启回退，并用实际退出与停止心跳核验 Linux 子进程清理。
+<a id="自动化本地-codex-issue-派单-v102-2026-11-01"></a>
 
-## 自动化：本地 Codex Issue 派单 v1.0.0 (2026-11-01)
+## Automation: local Codex issue dispatch v1.0.2 (2026-11-01)
 
-- Issue 任务通过 Actions artifact 交给本机 Codex 独立会话处理，加入事件去重、串行验证发布、状态恢复与 Windows 登录自启；与 MiMo 后端互斥，详见[自动处理说明](docs/ai-issue-responder.md)。本次仅改变维护自动化，不修改客户端规则、DNS 或产物版本。
+- Explicitly pinned dispatched sessions to GPT-6.1 Sol + ultra; resolved the real installation path after MSIX file redirection so login scheduled tasks could start outside the desktop application process.
 
-## 配置工具 v1.4.3：Windows 浏览器 UDP 保护 (2026-10-31)
+<a id="自动化本地-codex-issue-派单-v101-2026-11-01"></a>
 
-- 处理 [Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193)：新增默认关闭的可信本地浏览器 UDP 拒绝选项，提供在线配置、离线下载及 CLI；详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)与[WebRTC 指南](docs/guide/webrtc-privacy.md)。共享默认规则、DNS 和其他应用的兼容策略不变。
-- 窄屏关闭面板背景模糊，修复滚动后的下载区空白；保留桌面布局与配色。
+## Automation: local Codex issue dispatch v1.0.1 (2026-11-01)
 
-## 文档：FlClash 新旧界面导入指南 (2026-10-31)
+- Tested actual GitHub dispatch into a new local session. Fixed the login-startup fallback after Windows scheduled-task launch failure, and verified Linux child-process cleanup through actual exit and stopped heartbeats.
 
-- 补齐「扩展 → 脚本」入口、按配置关联步骤及新版截图，保留旧版图解；详见 [FlClash 变更日志](Mihomo内核系/FlClash/CHANGELOG.md)。本次不改变运行时与规则基线。
+<a id="自动化本地-codex-issue-派单-v100-2026-11-01"></a>
 
-## 配置工具 v1.4.2 (2026-10-29)
+## Automation: local Codex issue dispatch v1.0.0 (2026-11-01)
 
-- 业务方案下拉选项统一为“完整（Full）”“精简（Lite）”“自选（Custom）”；保留原始方案值、默认完整方案及生成行为。
+- Delivered issue tasks through Actions artifacts to separate local Codex sessions, with event deduplication, serialized validation/publication, state recovery and Windows login startup. This was mutually exclusive with the MiMo backend; see [automation documentation](docs/ai-issue-responder.md). Only maintenance automation changed, not client rules, DNS or artifact versions.
 
-## 配置工具 v1.4.1 (2026-10-29)
+<a id="配置工具-v143windows-浏览器-udp-保护-2026-10-31"></a>
 
-- 在线与离线表单的参数选项及选择摘要使用“中文（英文原值）”；底层枚举、布尔值、默认配置和客户端能力保持不变。
+## Configuration tool v1.4.3: Windows browser UDP protection (2026-10-31)
 
-## 配置工具 v1.4.0 (2026-10-29)
+- Addressed [Issue #193](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/193): added an off-by-default trusted local browser UDP rejection option through online configuration, offline downloads and CLI. See the [Clash Party changelog](Mihomo内核系/Clash%20Party/CHANGELOG.md) and [WebRTC guide](docs/guide/webrtc-privacy.md). Shared default rules, DNS and compatibility policies for other applications remained unchanged.
+- Disabled panel backdrop blur on narrow screens to fix the blank download area after scrolling, preserving desktop layout and colors.
 
-- 增加 GitHub Pages 在线配置入口，页面生成与下载在本机完成，不读取或上传订阅；离线 HTML 继续提供。默认客户端配置和规则源保持不变。
+<a id="文档flclash-新旧界面导入指南-2026-10-31"></a>
 
-## 配置工具 v1.3.0 (2026-10-29)
+## Documentation: FlClash old/new interface import guide (2026-10-31)
 
-- 离线表单支持 20 个维护入口，按客户端能力选择业务方案和参数并下载配置。默认客户端配置和规则源保持不变。
+- Added the Extensions → Scripts entry point, per-profile association steps and new-interface screenshots while retaining the old illustrations. See the [FlClash changelog](Mihomo内核系/FlClash/CHANGELOG.md). Runtime and rule baselines were unchanged.
 
-## 离线配置表单 v1.2.1 (2026-10-29)
+<a id="配置工具-v142-2026-10-29"></a>
 
-- 拒绝浏览器数值输入的原生无效状态，避免不完整指数被误当作关闭倍率筛选；有效留空及默认分流保持。详见 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+## Configuration tool v1.4.2 (2026-10-29)
 
-## 离线配置表单 v1.2.0 (2026-10-29)
+- At this version, business-profile selectors standardized the Chinese labels for Full, Lite and Custom, retaining original profile values, the Full default and generation behavior.
 
-- FlClash 下载合并业务方案与既有测速、QUIC、节点 DNS、倍率及 ZeroTier 参数，双标签共享选择；默认客户端、规则与安全边界保持。详见[配置指南](docs/configuration.md)。
+<a id="配置工具-v141-2026-10-29"></a>
 
-## 离线配置表单 v1.1.0 (2026-10-29)
+## Configuration tool v1.4.1 (2026-10-29)
 
-- FlClash 可在离线表单选择 Full / Lite / Custom 后直接下载 JS，复用 CLI 的可信业务投影；默认客户端、源规则图及共享资产不变。详见[配置指南](docs/configuration.md)与 [FlClash 日志](Mihomo内核系/FlClash/CHANGELOG.md)。
+- At this version, parameter options and selection summaries in online/offline forms used Chinese labels followed by the original English values. Underlying enumerations, booleans, defaults and client capabilities were unchanged.
+
+<a id="配置工具-v140-2026-10-29"></a>
+
+## Configuration tool v1.4.0 (2026-10-29)
+
+- Added GitHub Pages configuration. Generation/download remained local without reading/uploading subscriptions; offline HTML remained available. Default client configurations and routing source were unchanged.
+
+<a id="配置工具-v130-2026-10-29"></a>
+
+## Configuration tool v1.3.0 (2026-10-29)
+
+- Offline form supported 20 maintained entry points, selecting profiles/parameters according to client capabilities and downloading configuration. Default client configuration and routing source were unchanged.
+
+<a id="离线配置表单-v121-2026-10-29"></a>
+
+## Offline configuration form v1.2.1 (2026-10-29)
+
+- Rejected the browser number input's native invalid state, preventing an incomplete exponent from being mistaken for disabled multiplier filtering. Valid empty input and default routing were preserved. See the [FlClash changelog](Mihomo内核系/FlClash/CHANGELOG.md).
+
+<a id="离线配置表单-v120-2026-10-29"></a>
+
+## Offline configuration form v1.2.0 (2026-10-29)
+
+- FlClash downloads combined the business profile with existing latency-test, QUIC, node-DNS, multiplier and ZeroTier parameters, sharing selection across two tabs. Default clients, rules and security boundaries were unchanged. See the [configuration guide](docs/configuration.md).
+
+<a id="离线配置表单-v110-2026-10-29"></a>
+
+## Offline configuration form v1.1.0 (2026-10-29)
+
+- FlClash could download JS directly after selecting Full / Lite / Custom in the offline form, reusing the CLI's trusted business projection. Default clients, the source rule graph and shared assets were unchanged. See the [configuration guide](docs/configuration.md) and [FlClash changelog](Mihomo内核系/FlClash/CHANGELOG.md).
 
 ## v6.0.21 (2026-10-29)
 
-- 增加真实 QuickJS 门禁、全端可选业务投影、统一离线参数入口及显式 hosts-only 兼容；默认完整分流与共享资产保持。详见 [Clash Party 日志](Mihomo内核系/Clash%20Party/CHANGELOG.md) 和[配置指南](docs/configuration.md)。
+- Added a real QuickJS gate, optional business projections across clients, a unified offline parameter entry point and explicit hosts-only compatibility. Default Full routing and shared assets were preserved. See the [Clash Party changelog](Mihomo内核系/Clash%20Party/CHANGELOG.md) and [configuration guide](docs/configuration.md).
 
 ## v6.0.21 (2026-10-28)
 
-- Google FCM 归入 Google 服务，其他推送、DNS 与 fake-IP 保持不变；详见 [Clash Party 变更日志](Mihomo内核系/Clash%20Party/CHANGELOG.md)。
-- 同步本次 FCM 变更的语义审查、来源账本与依赖覆盖记录，并修正 Karing 测试夹具的版本绑定。
+- Google FCM moved into Google services; other push services, DNS and fake-IP remained unchanged. See the [Clash Party changelog](Mihomo内核系/Clash%20Party/CHANGELOG.md).
+- Updated semantic review, source ledger and dependency coverage records for this FCM change, and corrected the version binding in Karing test fixtures.
 
-## 2026-10-27 — AEROVE Lite 原生预算修正
+<a id="2026-10-27--aerove-lite-原生预算修正"></a>
 
-- v6.0.20-meow.5 针对 beta18 实际拒绝与固定 Rust reader 的展开计数重新派生 Lite 专版资源；共享 fused 和官方 Meow YAML 不变。完整 App 验收待完成，详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+## 2026-10-27 — AEROVE Lite native-budget correction
 
-## 2026-10-27 — AEROVE Lite 规则资源预算适配
+- v6.0.20-meow.5 re-derived Lite-specific resources from beta18's actual rejection and the pinned Rust reader's expanded counts. Shared fused assets and official Meow YAML were unchanged. Full application acceptance remained pending; see the [AEROVE Lite changelog](Meow内核系/Aerove%20Lite/CHANGELOG.md).
 
-- v6.0.20-meow.4 为真实 APK 拒绝的超限广告 MRS 派生无损三片，保留 Lite 单资源预算、原优先级与完整规则集合；共享 fused 和官方 Meow YAML 不变。分片清单、固定 SHA、许可证事实与 App 剩余验收见 [AEROVE 分片依据](Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md)。
-- 按固定 beta16 源码与真实 Android execution 更新生产校验接线、QuickJS 原子性及命名 HTTP 代理等已完成项，补全 README 与支持队列；完整资源和真实路由仍待验，详见 [联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+<a id="2026-10-27--aerove-lite-规则资源预算适配"></a>
 
-## 2026-10-24 — Meow 导航与 AEROVE 配置联调核查
+## 2026-10-27 — AEROVE Lite rule-resource budget adaptation
 
-- 补齐首页 Meow 系列卡片、客户端索引及两个独立下载按钮；按固定源码和保存证据同步候选检查结果与剩余阻断，未把生产接线和真实路由标为通过。详见 [AEROVE 联调核查](Meow内核系/Aerove%20Lite/VALIDATION.md)。
+- v6.0.20-meow.4 derived three lossless shards for the oversized advertising MRS rejected by the real APK, retaining Lite's per-resource budget, original precedence and complete rule set. Shared fused assets and official Meow YAML were unchanged. See [AEROVE sharding evidence](Meow内核系/Aerove%20Lite/RESOURCE-SPLITTING.md) for the manifest, pinned SHA, license facts and remaining application acceptance.
+- Updated completed production-validator wiring, QuickJS atomicity and named HTTP proxy items against pinned beta16 source and actual Android execution, and completed the README/support queue. Full resources and real routing still required validation; see the [integration checks](Meow内核系/Aerove%20Lite/VALIDATION.md).
 
-## 2026-10-24 — Meow 与 AEROVE Lite 并列客户端目录
+<a id="2026-10-24--meow-导航与-aerove-配置联调核查"></a>
 
-- v6.0.20-meow.3 将官方 Meow 原生 YAML 与 AEROVE Lite JS 按客户端并列归档，各自维护 README、参考文档和日志，共享生成器与清单；分流语义不变。详见 [官方 Meow 日志](Meow内核系/Meow/CHANGELOG.md)及 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+## 2026-10-24 — Meow navigation and AEROVE configuration integration checks
 
-## 2026-10-24 — Meow 通用原生与 JS 入口
+- Completed the homepage Meow family card, client index and two separate download buttons. Updated candidate-check results and remaining blockers against pinned source and saved evidence without marking production wiring or real routing as passed. See [AEROVE integration checks](Meow内核系/Aerove%20Lite/VALIDATION.md).
 
-- 新增 v6.0.20-meow.2 原生 YAML，将 AEROVE 专属目录改为通用 Meow；核对官方 Android/iOS 输入与版本，真实官方核心校验接入 CI。App 与连接待验，详见 [Meow 日志](Meow内核系/Meow/CHANGELOG.md)。
+<a id="2026-10-24--meow-与-aerove-lite-并列客户端目录"></a>
 
-## 2026-10-24 — AEROVE Lite / meow-rs 预适配
+## 2026-10-24 — Parallel Meow and AEROVE Lite client directories
 
-- 新增 `v6.0.20-meow.1` 分流覆写候选、生成器与支持队列；App/内核验收待完成，原有正式产物基线不变。详见 [AEROVE Lite 日志](Meow内核系/Aerove%20Lite/CHANGELOG.md)。
+- v6.0.20-meow.3 organized official Meow native YAML and AEROVE Lite JS as parallel clients, each with its own README, reference and changelog while sharing the generator and manifest. Routing semantics were unchanged. See the [official Meow changelog](Meow内核系/Meow/CHANGELOG.md) and [AEROVE Lite changelog](Meow内核系/Aerove%20Lite/CHANGELOG.md).
 
-## 2026-10-24 — README 首页与专题导航
+<a id="2026-10-24--meow-通用原生与-js-入口"></a>
 
-- 统一客户端教程、下载专题与现行文档版式，历史资料保留原文并集中导航。
+## 2026-10-24 — Generic Meow native and JS entry points
 
-- 将根 README 重排为快速入门、客户端系列入口和单张架构概览；下载目录、协议矩阵、规则来源、DNS 验收与致谢迁入 `docs/guide/`。保留既有下载地址，拆分长表，并在 `AGENTS.md` §10 固化内容分层、视觉风格与发布验收契约。
+- Added v6.0.20-meow.2 native YAML and renamed the AEROVE-specific directory to generic Meow. Checked official Android/iOS inputs and versions and integrated actual official-core validation into CI. Application and connection validation remained pending; see the [Meow changelog](Meow内核系/Meow/CHANGELOG.md).
 
-## 2026-10-24 — 客户端目录按内核系列归档
+<a id="2026-10-24--aerove-lite--meow-rs-预适配"></a>
 
-- 将 14 个既有客户端目录归档到五类内核系列，并新增 Karing sing-box 分流适配入口；规则源主版本保持 v6.0.20。旧客户端产物 Raw URL 随路径变化，需重新导入；共享 `rulesets/` 资产 URL 不变。详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
-- 顶层目录使用短内核系列名称，APP 清单保留在 README；恢复历史核验档案原文，并让官方缓存校验覆盖历史清单哈希。
-- README 下载按钮与架构、策略、DNS 图统一为圆角玻璃质感 SVG，由 `tools/generate-readme-visuals.js` 生成；发布前检查 GitHub GFM 渲染、亮暗主题与窄屏布局。
+## 2026-10-24 — AEROVE Lite / meow-rs pre-adaptation
 
-## 2026-10-23 — SubStore v1.8.1 验证边界与失败保护
+- Added the `v6.0.20-meow.1` routing-override candidate, generator and support queue. Application/core acceptance remained pending, and existing production artifact baselines were unchanged. See the [AEROVE Lite changelog](Meow内核系/Aerove%20Lite/CHANGELOG.md).
 
-- 补充 local 快照并发检查与跨模块回归，区分旧真实收据、隔离 CI 和待完成的 Cloudflare/发布/手机验收；详见 [SubStore 日志](./SubStore/CHANGELOG.md)。规则与客户端产物不变。
+<a id="2026-10-24--readme-首页与专题导航"></a>
 
-## 2026-10-23 — Issue #187 下载分流复核
+## 2026-10-24 — README homepage and topic navigation
 
-- 确认 `dldir1.qq.com` 已精确收录，补充跨端载荷、下载组出口及微信进程优先级回归与排障说明；规则行为不变。详见 [Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
+- Unified client tutorials, download topics and current-document layouts, retaining historical sources with centralized navigation.
+
+- Reorganized the root README into quick start, client-family entry points and one architecture overview. Moved downloads, protocol matrix, rule sources, DNS acceptance and acknowledgments into `docs/guide/`. Preserved existing download URLs, split long tables and established content layering, visual style and release-acceptance contracts in `AGENTS.md` §10.
+
+<a id="2026-10-24--客户端目录按内核系列归档"></a>
+
+## 2026-10-24 — Client directories organized by core family
+
+- Organized 14 established client directories into five core families and added a Karing sing-box routing adapter. The source-rule major version remained v6.0.20. Old client Raw URLs changed with the paths and required reimport; shared `rulesets/` URLs remained unchanged. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md).
+- Used short core-family names for top-level directories and retained the application list in the README. Restored original historical verification archives and extended official-cache validation to historical manifest hashes.
+- Unified README download buttons and architecture, policy and DNS diagrams as rounded glass-style SVGs generated by `tools/generate-readme-visuals.js`; GitHub GFM rendering, light/dark themes and narrow-screen layouts were checked before publication.
+
+<a id="2026-10-23--substore-v181-验证边界与失败保护"></a>
+
+## 2026-10-23 — SubStore v1.8.1 verification boundaries and failure protection
+
+- Added local-snapshot concurrency checks and cross-module regressions, distinguishing old real receipts, isolated CI and pending Cloudflare/publication/phone acceptance. See the [SubStore changelog](./SubStore/CHANGELOG.md). Rules and client artifacts were unchanged.
+
+<a id="2026-10-23--issue-187-下载分流复核"></a>
+
+## 2026-10-23 — Issue #187 download-routing recheck
+
+- Confirmed that `dldir1.qq.com` was already included exactly; added cross-client payload, download-group egress and WeChat process-priority regressions and troubleshooting. Rule behavior was unchanged. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md).
 
 ## v6.0.20-dns.21 (2026-10-20)
 
-- 统一业务 DNS policy 源数据并同步 Mihomo 客户端投影；组结构、节点择路及规则/MRS/fused 载荷不变。Egern、两版 SingBox、Shadowrocket、Surge、Loon、Quantumult X 保留原生 DNS；v2rayN、Passwall/Passwall2 仅交付路由/分流资产，不拥有 DNS 配置，不适用该 policy 投影。
+- Unified business DNS-policy source data and synchronized Mihomo client projections. Group structures, node selection and rule/MRS/fused payloads were unchanged. Egern, both SingBox variants, Shadowrocket, Surge, Loon and Quantumult X retained native DNS; v2rayN and Passwall/Passwall2 delivered routing assets only, did not own DNS configuration and were outside this policy projection.
 
 
-## 2026-10-20 — Surge Fake IP 接管修复
+<a id="2026-10-20--surge-fake-ip-接管修复"></a>
 
-- FIX#190：Surge `v6.0.20-Surge.12` 移除覆盖自身 Fake IP 池的 TUN 排除路由，增加 CIDR 交集门禁与回归；规则源及其他客户端保持原基线。详见 [Surge 日志](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/CHANGELOG.md)。
+## 2026-10-20 — Surge Fake IP interception fix
 
-## 2026-10-19 — 官方版本研究与必要兼容适配
+- FIX#190: Surge `v6.0.20-Surge.12` removed a TUN exclusion route covering its own Fake IP pool and added CIDR-intersection gates and regressions. The rule source and other clients retained their baselines. See the [Surge changelog](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/CHANGELOG.md).
 
-- 缓存全客户端相关官方发布、配置文档与固定源码；修复 Smart 失效参数、Surge/QX DNS 写法、Passwall SRS 后端门禁和 sing-box 两版 schema。保持源规则图与业务规则载荷；版本、采用决策、原文收据和验证见[研究总览](docs/upstream/2026-10-19/README.md)，各端细节见对应目录 CHANGELOG。
-- 二次复核修正合法 Socks 节点被后端预检误拦的问题，将 1.13 产物纳入自动刷新清单，并把缓存、真实内核和后端回归接入 CI；精简 README 正文，保留图表、下载入口及必要操作边界。
+<a id="2026-10-19--官方版本研究与必要兼容适配"></a>
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.8.0
+## 2026-10-19 — Official-version research and necessary compatibility adaptations
 
-- 增加来源策略限定的持久 local 内容快照同步与条件恢复，一次性链接不保存为远程源；详见[SubStore 日志](SubStore/CHANGELOG.md)。既有远程快照与发布链路保持独立，不改分流产物或客户端版本。
+- Cached relevant official releases, configuration documentation and pinned source across clients. Fixed ineffective Smart parameters, Surge/QX DNS syntax, the Passwall SRS backend gate and schemas for both sing-box variants. Preserved the source rule graph and business-rule payloads; see the [research overview](docs/upstream/2026-10-19/README.md) for versions, adoption decisions, original receipts and verification, and each client CHANGELOG for details.
+- A second review corrected backend preflight incorrectly blocking valid Socks nodes, included the 1.13 artifact in automatic refresh, and integrated cache, real-core and backend regressions into CI. Shortened README prose while retaining diagrams, downloads and necessary operating boundaries.
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.7.0
+<a id="2026-10-18--sub-store-自动订阅同步助手-v180"></a>
 
-- 增加严格限期的受阻源原始快照与云端独立处理，保留健康源自行下载和既有发布链路；受阻源刷新仍需本机运行，详见[SubStore 日志](SubStore/CHANGELOG.md)。仅辅助订阅管理改动，不改路由或客户端产物版本。
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.8.0
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.6.0
+- Added source-policy-constrained persistent local-content snapshot synchronization and conditional recovery. One-time links were not saved as remote sources. See the [SubStore changelog](SubStore/CHANGELOG.md). Existing remote snapshots and publication remained independent; routing artifacts and client versions were unchanged.
 
-- 本机通信改为隐藏 iframe，移除可见中转标签，并补充后台恢复与打包闭包验收；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+<a id="2026-10-18--sub-store-自动订阅同步助手-v170"></a>
 
-## 2026-10-18 — Sub-Store 独立网页管理别名模块 v1.0.0
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.7.0
 
-- 为已审查 Worker 增加独立授权的完整管理前缀，保留旧入口与扩展受限入口；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物。
+- Added strictly time-limited raw snapshots for blocked sources and independent cloud processing, retaining healthy sources' own downloads and the existing publication chain. Refreshing blocked sources still required local execution; see the [SubStore changelog](SubStore/CHANGELOG.md). Only subscription-management helpers changed, not routing or client artifact versions.
 
-## 2026-10-18 — Sub-Store 下载网关 530 恢复模块 v1.0.0
+<a id="2026-10-18--sub-store-自动订阅同步助手-v160"></a>
 
-- 增加限定 GET/HEAD 的网关 530 单次直连恢复与精确 Worker 补丁；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.6.0
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.1
+- Changed local communication to a hidden iframe, removing the visible relay tab, and added background recovery and packaged-closure acceptance. See the [extension changelog](SubStore/edge-extension/CHANGELOG.md). Routing artifacts and client versions were unchanged.
 
-- 修复 Cloudflare Worker 请求参数与空 GET JSON 解析的兼容问题；详见[SubStore 日志](SubStore/CHANGELOG.md)。不改分流产物或客户端版本。
+<a id="2026-10-18--sub-store-独立网页管理别名模块-v100"></a>
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.5.0
+## 2026-10-18 — Sub-Store standalone web-management alias module v1.0.0
 
-- 支持本机与可选独立 Cloudflare Sub-Store 分别验证更新、分目标恢复及私密连接配置导入；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。不改分流产物或客户端版本。
+- Added a separately authorized full-management prefix to the reviewed Worker, preserving old and extension-restricted entry points. See the [SubStore changelog](SubStore/CHANGELOG.md). Routing artifacts were unchanged.
 
-## 2026-10-18 — Sub-Store Fusion 发布完整性模块 v1.0.0
+<a id="2026-10-18--sub-store-下载网关-530-恢复模块-v100"></a>
 
-- 新增订阅数量/来源/错误占位校验与已审查 Worker 的合同补丁，补充严格发布文档和 CI；详见 [SubStore 日志](SubStore/CHANGELOG.md)。仅属辅助订阅发布保护，不改路由或客户端产物版本。
+## 2026-10-18 — Sub-Store download-gateway 530 recovery module v1.0.0
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.1
+- Added one-time direct recovery for gateway 530 responses, limited to GET/HEAD, and a precise Worker patch. See the [SubStore changelog](SubStore/CHANGELOG.md). Routing artifacts and client versions were unchanged.
 
-- 修复 DOM 候选撤下后的旧写入与预渲染激活握手，缓存编码审查项依据实际后端验证后保持不改；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。
+<a id="2026-10-18--sub-store-自动订阅同步助手-v151"></a>
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.4.0
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.5.1
 
-- 为站点自动写入增加首次明确许可，修复跨响应歧义、离开未监听页面的旧写入及失败中转页泄漏；详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)。辅助扩展不改变分流产物。
+- Fixed compatibility of Cloudflare Worker request parameters and empty GET JSON parsing. See the [SubStore changelog](SubStore/CHANGELOG.md). Routing artifacts and client versions were unchanged.
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.2
+<a id="2026-10-18--sub-store-自动订阅同步助手-v150"></a>
 
-- 修复 Codex Review 的候选并发失效、账户参数身份、相对订阅链接及回环节点识别问题，详见[扩展日志](SubStore/edge-extension/CHANGELOG.md)与[修复验证](docs/research/2026-10-18-substore-review-fixes.md)。不改变分流产物。
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.5.0
 
-## 2026-10-18 — Sub-Store 自动订阅同步助手 v1.3.1
+- Supported separately verified updates for local and optional independent Cloudflare Sub-Store instances, per-target recovery and private connection-configuration import. See the [extension changelog](SubStore/edge-extension/CHANGELOG.md). Routing artifacts and client versions were unchanged.
 
-- 新增 Edge / Chrome 扩展：在已授权域名或 IP 上自动识别订阅与机场名，匹配本机现有 Sub-Store 条目、验证并只写回 URL。修复真实浏览器跨 world 文件去重，增加无按钮浏览器回归；验收范围见 [SubStore 日志](SubStore/CHANGELOG.md)及[扩展说明](SubStore/edge-extension/README.md)。辅助工具不改变客户端分流产物版本。
-- 六家真实自动流程、158 项 Node 测试及 15 项独立浏览器流程通过，证据与 Chrome 待验边界见[验收记录](docs/research/2026-10-18-substore-auto-sync-acceptance.md)。
+<a id="2026-10-18--sub-store-fusion-发布完整性模块-v100"></a>
 
-## v6.0.20 — 微信连接端点精确例外 (2026-10-16)
+## 2026-10-18 — Sub-Store Fusion publication-integrity module v1.0.0
 
-- Issue #187：三个经第一方来源确认的微信连接主机纳入精确 DIRECT 例外，保留广告邻域拒绝并同步全端原生资产；范围与待验边界见[研究记录](docs/research/2026-10-16-wechat-issue-187.md)，实现详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
-- 文档：补充 [Windows 11 Microsoft Store 排障](docs/microsoft-store-windows.md)，区分本机代理回环入口与图片 CDN 出口，保留机器和网络适用边界。
+- Added subscription-count, source and error-placeholder validation plus a contract patch for the reviewed Worker, strict publication documentation and CI. See the [SubStore changelog](SubStore/CHANGELOG.md). This only protected auxiliary subscription publication; routing and client artifact versions were unchanged.
 
-## 2026-10-16 Issue 自动回复诊断与过滤处理
+<a id="2026-10-18--sub-store-自动订阅同步助手-v141"></a>
 
-- AUTOMATION：按任务选择 MiMo 上下文，将完整维护契约与用户报告分属 developer/user 消息；无完整编辑目标时仅分析，过滤或截断禁止补丁。#186 分析和文档补丁已真实验收，新增离线回归及独立 CI，详见[自动回复维护说明](docs/ai-issue-responder.md)和[实测收据](docs/research/2026-10-16-mimo-issue-responder-acceptance.md)；客户端规则及版本保持原有基线。
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.4.1
 
-## v6.0.19 — JS fake-ip 继承与 CRLF 同步修复 (2026-10-16)
+- Fixed stale writes after DOM candidates were withdrawn and the prerender-activation handshake. Cache-encoding review items remained unchanged after verification against the actual backend. See the [extension changelog](SubStore/edge-extension/CHANGELOG.md).
 
-- Smart/Normal/FlClash 仅继承缺省或 `blacklist` 模式的合法 fake-ip 豁免项，防止 `whitelist` / `rule` 语义反转；修复同步器丢失 CRLF 的 CR，并补齐模式与字节精确换行回归。详见 [Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)和 [FlClash 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)。
+<a id="2026-10-18--sub-store-自动订阅同步助手-v140"></a>
 
-## v6.0.19 — 远程规则下载修复 (2026-10-15)
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.4.0
 
-- FIX#186：自有规则下载统一改用 GitHub raw，消除 jsDelivr 仓库大小门槛；复用规则载荷并同步全部客户端和下载验证。详见[Clash Party 日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)与[诊断及下载说明](docs/rule-asset-delivery.md)。
-- 在线验收工具支持显式代理、可配置请求/连接时限和串行验证，修复空正文传输错误的有限重试；实际 Shadowrocket 77 个 URL 均取得完整 GET 与哈希匹配收据，保留失败批次和补验时间。
+- Added explicit first-use permission for automatic site writes; fixed cross-response ambiguity, stale writes after leaving an unmonitored page and failed-relay-page leaks. See the [extension changelog](SubStore/edge-extension/CHANGELOG.md). The helper extension did not change routing artifacts.
 
-## v6.0.18 — 首匹配规则质量整合 (2026-10-14)
+<a id="2026-10-18--sub-store-自动订阅同步助手-v132"></a>
 
-- 整合跨服务首匹配修复、八类业务补充规则和六条误伤例外，并同步全部客户端；保留 Claude、QUIC/测速与 ZeroTier 行为。详见 [Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[来源与整合说明](docs/research/2026-10-14-wip-main-integration.md)及 [发布批次检查](docs/release-batch.md)。
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.3.2
 
-## v6.0.17 — ZeroTier 设备选项持久化 (2026-10-14)
+- Fixed candidate-concurrency invalidation, account-parameter identity, relative subscription URLs and loopback-node detection found by Codex Review. See the [extension changelog](SubStore/edge-extension/CHANGELOG.md) and [fix verification](docs/research/2026-10-18-substore-review-fixes.md). Routing artifacts were unchanged.
 
-- [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) / [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 的同步与本地更新保留设备明确开关，新增只读真实 UDP 回包验收；默认图和静态客户端无对应 JS 入口，无需改变资产。命令、固定选择缓存条件及平台范围见 [使用说明](docs/zerotier-planet-proxy.md)。
+<a id="2026-10-18--sub-store-自动订阅同步助手-v131"></a>
 
-## v6.0.17 — Claude Desktop 端点保护与发布门禁 (2026-10-13)
+## 2026-10-18 — Sub-Store automatic subscription synchronizer v1.3.1
 
-- 现有 `scki-adfp-ai` 增加两个官方 Desktop 必需主机的精确匹配；客户端规则集及原生格式维持现有实现。共享 source 语义检查、29 条 ADFP 例外校验、Claude 阶段依赖台账与文件级发布批次门禁。
-- 详见[Claude 服务依赖台账](docs/claude-service-dependencies.md)、[文件级发布检查](docs/release-batch.md)及[Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。未进行真机故障复现或测量，未推送。
+- Added an Edge / Chrome extension to detect subscriptions and provider names automatically on authorized domains or IPs, match existing local Sub-Store entries, validate and write back only the URL. Fixed cross-world file deduplication in the real browser and added button-free browser regressions. See the [SubStore changelog](SubStore/CHANGELOG.md) and [extension documentation](SubStore/edge-extension/README.md) for acceptance scope. This helper did not change client routing artifact versions.
+- Six real automatic workflows, 158 Node tests and 15 independent browser flows passed. See the [acceptance record](docs/research/2026-10-18-substore-auto-sync-acceptance.md) for evidence and the pending Chrome-validation boundary.
 
-## v6.0.16 — 规则质量台账 (2026-10-12)
+<a id="v6020--微信连接端点精确例外-2026-10-16"></a>
 
-- 为共同 source graph 和生成链登记来源/版本与 MRS→fused 收据，新增有序 domain-projection 三态差分及既有 ADFP 例外双向覆盖、来源图目标/广告前置检查；各客户端格式和运行时规则维持原有实现。详见[规则质量台账](docs/rule-quality.md)。
-- 复用当前 fused 载荷；旧资产原始远端输入 SHA 无法反推，不宣称完整历史追溯。本次未改路由策略或进行真机流量测量。
-## v6.0.15 — 可信本地 ZeroTier 根节点 UDP 选项 (2026-10-12)
+## v6.0.20 — Exact WeChat connection-endpoint exceptions (2026-10-16)
 
-- [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) 与 [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 提供默认关闭的四根 UDP/9993 代理开关；默认分流和静态资产保持不变。范围、官方规则字段与启用方法见 [使用说明](docs/zerotier-planet-proxy.md)。Egern 清单只刷新真实来源哈希。
-- JS 验证工作流纳入四根规则、本地开关边界与写前预检回归。
+- Issue #187: three WeChat connection hosts confirmed by first-party sources became exact DIRECT exceptions, retaining rejection of neighboring advertising hosts and synchronizing native assets across clients. See the [research record](docs/research/2026-10-16-wechat-issue-187.md) for scope and pending verification and the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) for implementation.
+- Documentation: added [Windows 11 Microsoft Store troubleshooting](docs/microsoft-store-windows.md), distinguishing the local proxy loopback entry point from image-CDN egress and retaining machine/network applicability boundaries.
 
-## v6.0.15 — 默认测速组按需检查 (2026-10-07)
+<a id="2026-10-16-issue-自动回复诊断与过滤处理"></a>
 
-- 根据实际使用选择，Mihomo 与 Stash 的默认档保持 300 秒并启用 `lazy: true`；900 秒仍是可选省电档。其他客户端沿用各自原生测速调度；海外 QUIC 默认档不变。详见[测速与 QUIC 策略选项](docs/traffic-options.md)。
-- 本次更新 [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 与 [Stash](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/CHANGELOG.md) 的客户端尾号；Egern 只刷新 CMFA 生成来源元数据。
+## 2026-10-16 Automated issue-reply diagnostics and filtering
 
-## v6.0.15 — 测速与海外 QUIC 策略可选 (2026-10-07)
+- AUTOMATION: selected MiMo context by task, separating the complete maintenance contract and user report into developer/user messages. Without complete edit targets, performed analysis only; filtered or truncated output could not produce a patch. Actual #186 analysis and documentation-patch acceptance was recorded, with new offline regressions and separate CI. See [maintenance documentation](docs/ai-issue-responder.md) and [test receipts](docs/research/2026-10-16-mimo-issue-responder-acceptance.md). Client rules and versions retained their baselines.
 
-- 增加 `standard` / `power-save` 健康检查档与 `block-foreign` / `follow-rules` 海外 UDP/443 档，集中保存并联动客户端配置；使用方法及各平台限制见 [测速与 QUIC 策略选项](docs/traffic-options.md)。
-- 选项生成复用已发布融合资产，并改进 Windows 上生成文件的原子写入可靠性；规则源变更仍走完整构建链。
-- 各客户端实现与版本记录见 [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) 及其他对应目录的 CHANGELOG。
+<a id="v6019--js-fake-ip-继承与-crlf-同步修复-2026-10-16"></a>
 
-## v6.0.14 — inline 订阅兼容与测速候选隔离 (2026-09-30)
+## v6.0.19 — JS fake-ip inheritance and CRLF synchronization fixes (2026-10-16)
 
-- 横向研究 HotKids、Repcz 与其他高星脚本后，五个订阅处理器支持受控 inline payload 展平；具名直连/拒绝出站保留依赖但不进入测速组。CMFA 同步原生类型过滤，Stash 明确平台限制，Egern 刷新派生清单。
-- 补齐写前结构检查、FlClash 规则集容器修复及内置名称检查；详见 [后续优化与逐端验收](docs/research/2026-09-30-routing-runtime-followup.md) 和各目录 CHANGELOG。规则权威源与融合资产保持 v6.0.14。
+- Smart/Normal/FlClash inherited valid fake-ip exemptions only in absent or `blacklist` mode, preventing semantic reversal in `whitelist` / `rule` modes. Fixed the synchronizer dropping CR from CRLF and added mode and byte-exact line-ending regressions. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) and [FlClash changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md).
 
-## v6.0.14 — 订阅节点预检与可选倍率筛选 (2026-09-30)
+<a id="v6019--远程规则下载修复-2026-10-15"></a>
 
-- 研究 MyClash 等分流仓库后，统一三个 JS 与两个 OpenClash 脚本的预检、默认关闭的倍率上限及空节点处理，修复 OpenClash 对正常线路的误过滤。规则权威源与融合资产保持 v6.0.14；逐端适用性及源码取舍见 [研究报告](docs/research/2026-09-30-routing-script-research.md)。
-- 详情：[Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)、[FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)、[OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md)；使用方法见 [节点筛选指南](docs/subscription-node-filter.md)。
+## v6.0.19 — Remote rule-download fix (2026-10-15)
 
-## v6.0.14 — 微信 HTTPDNS 精确直连例外 (2026-09-29)
+- FIX#186: standardized repository-owned rule downloads on GitHub raw, eliminating the jsDelivr repository-size threshold. Reused rule payloads and synchronized all clients and download validation. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) and [diagnostics/download documentation](docs/rule-asset-delivery.md).
+- Online acceptance tooling supported explicit proxies, configurable request/connect timeouts and serial validation, and corrected bounded retries for empty-body transfer errors. All 77 actual Shadowrocket URLs obtained complete GET and matching-hash receipts, retaining failed batches and follow-up verification times.
 
-- FIX：将 `dns.weixin.qq.com` 与 `dns.weixin.qq.com.cn` 放入最前置 DIRECT 补充规则，避免命中 BlockHttpDNS 拒绝规则；其他 HTTPDNS 条目仍保持现有拦截策略。
-- SYNC：按规则权威源重建 14 种客户端产物及融合资产；source 统计保持 514 providers / 973 rules，fused 保持 132 providers / 151 rules。
-- VERIFY：新增首命中回归检查，两个域名均命中 `scki-fused-001-direct`。
+<a id="v6018--首匹配规则质量整合-2026-10-14"></a>
+
+## v6.0.18 — First-match rule-quality integration (2026-10-14)
+
+- Integrated cross-service first-match fixes, supplemental rules for eight business categories and six false-positive exceptions, synchronizing all clients while preserving Claude, QUIC/latency-test and ZeroTier behavior. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md), [sources/integration notes](docs/research/2026-10-14-wip-main-integration.md) and [release-batch checks](docs/release-batch.md).
+
+<a id="v6017--zerotier-设备选项持久化-2026-10-14"></a>
+
+## v6.0.17 — Persistent ZeroTier device options (2026-10-14)
+
+- Synchronization and local updates in [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) / [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) preserved explicit device switches and added read-only acceptance of actual UDP responses. The default graph and static clients had no corresponding JS entry point, so their assets needed no change. See [usage documentation](docs/zerotier-planet-proxy.md) for commands, pinned-selection cache conditions and platform scope.
+
+<a id="v6017--claude-desktop-端点保护与发布门禁-2026-10-13"></a>
+
+## v6.0.17 — Claude Desktop endpoint protection and release gates (2026-10-13)
+
+- Added exact matches for two official hosts required by Desktop to existing `scki-adfp-ai`; client rule sets and native formats retained their implementation. Shared source semantic checks, 29 ADFP exception checks, the Claude dependency ledger and file-level release-batch gate were included.
+- See the [Claude service-dependency ledger](docs/claude-service-dependencies.md), [file-level release checks](docs/release-batch.md) and [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md). No physical-device fault reproduction or measurement was performed, and nothing was pushed in this change.
+
+<a id="v6016--规则质量台账-2026-10-12"></a>
+
+## v6.0.16 — Rule-quality ledger (2026-10-12)
+
+- Registered source/version and MRS→fused receipts for the shared source graph and generation chain. Added ordered three-state domain-projection diffs, bidirectional coverage of existing ADFP exceptions, and source-graph target/pre-advertising checks. Client formats and runtime rules retained their existing implementations. See the [rule-quality ledger](docs/rule-quality.md).
+- Reused current fused payloads. Original remote-input SHA values cannot be recovered from old assets, so complete historical provenance was not claimed. Routing policies were unchanged and no real-device traffic measurements were taken.
+<a id="v6015--可信本地-zerotier-根节点-udp-选项-2026-10-12"></a>
+
+## v6.0.15 — Trusted local ZeroTier root-node UDP option (2026-10-12)
+
+- [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md) and [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) provided an off-by-default switch to proxy the four roots' UDP/9993 traffic. Default routing and static assets were unchanged. See [usage documentation](docs/zerotier-planet-proxy.md) for scope, official rule fields and activation. Egern's manifest refreshed only actual source hashes.
+- The JS validation workflow included four-root rules, local-switch boundaries and pre-write validation regressions.
+
+<a id="v6015--默认测速组按需检查-2026-10-07"></a>
+
+## v6.0.15 — On-demand checks in default latency groups (2026-10-07)
+
+- Following the recorded usage choice, default Mihomo and Stash profiles retained 300 seconds and enabled `lazy: true`; 900 seconds remained an optional power-saving profile. Other clients retained their native test scheduling; the default non-CN QUIC profile was unchanged. See [latency and QUIC policy options](docs/traffic-options.md).
+- Updated client suffix versions for [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md), [CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md), [OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md), [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) and [Stash](%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/CHANGELOG.md). Egern refreshed only CMFA generation-source metadata.
+
+<a id="v6015--测速与海外-quic-策略可选-2026-10-07"></a>
+
+## v6.0.15 — Optional latency and non-CN QUIC policies (2026-10-07)
+
+- Added `standard` / `power-save` health-check profiles and `block-foreign` / `follow-rules` non-CN UDP/443 profiles, saved centrally and applied across client configurations. See [latency and QUIC policy options](docs/traffic-options.md) for usage and platform limits.
+- Option generation reused published fused assets and improved atomic-write reliability for generated files on Windows. Rule-source changes still used the complete build chain.
+- See the changelogs for [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md), [CMFA](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CHANGELOG.md), [OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md), [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md) and the other corresponding directories for implementation/version records.
+
+<a id="v6014--inline-订阅兼容与测速候选隔离-2026-09-30"></a>
+
+## v6.0.14 — Inline subscription compatibility and latency-candidate isolation (2026-09-30)
+
+- After comparing HotKids, Repcz and other highly starred scripts, five subscription processors supported controlled inline-payload flattening. Named direct/reject outbounds retained dependencies but did not enter latency groups. CMFA synchronized native-type filtering, Stash documented platform limits and Egern refreshed its derived manifest.
+- Completed pre-write structural checks, FlClash rule-set-container repair and built-in-name checks. See [follow-up optimization and per-client acceptance](docs/research/2026-09-30-routing-runtime-followup.md) and each directory's CHANGELOG. The authoritative routing source and fused assets remained v6.0.14.
+
+<a id="v6014--订阅节点预检与可选倍率筛选-2026-09-30"></a>
+
+## v6.0.14 — Subscription-node preflight and optional multiplier filtering (2026-09-30)
+
+- After studying MyClash and other routing repositories, unified preflight, off-by-default multiplier limits and empty-node handling across three JS scripts and two OpenClash scripts; fixed OpenClash filtering out valid nodes. The authoritative rule source and fused assets remained v6.0.14. See the [research report](docs/research/2026-09-30-routing-script-research.md) for client applicability and source-adoption decisions.
+- Details: [Clash Party](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md), [FlClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md), [OpenClash](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/CHANGELOG.md); see the [node-filtering guide](docs/subscription-node-filter.md) for usage.
+
+<a id="v6014--微信-httpdns-精确直连例外-2026-09-29"></a>
+
+## v6.0.14 — Exact WeChat HTTPDNS direct exceptions (2026-09-29)
+
+- FIX: placed `dns.weixin.qq.com` and `dns.weixin.qq.com.cn` in the leading DIRECT supplemental rules to avoid BlockHttpDNS rejection. Other HTTPDNS entries retained the existing blocking policy.
+- SYNC: rebuilt 14 client artifact types and fused assets from the authoritative rule source; source statistics remained 514 providers / 973 rules, and fused statistics remained 132 providers / 151 rules.
+- VERIFY: added first-match regressions showing both domains matched `scki-fused-001-direct`.
 
 ## v6.0.13-dns.8 / v6.0.13-normal.9 (2026-09-21)
 
-- FIX#183：兼容 Clash Party v2.0.3+ 订阅 DNS 覆写保护；明确客户端内置 `controlDns` 自动关闭与本仓库 JS DNS 写入是两个不同层次。
-- SYNC：Smart / Normal JS 在原始订阅含受保护 DNS 字段时输出脱敏边界诊断，随后继续应用仓库 DNS 基线；FlClash 不引入 Clash Party 专属 guard。
-- VERIFY：新增受保护源 DNS 字段 fixture，确认 `nameserver`、`proxy-server-nameserver`、`nameserver-policy` 等最终字段仍由仓库脚本控制。
-- DOCS：同步 Clash Party 使用教程、根 DNS 指南、私有节点 DNS 指南及 `AGENTS.md` 陷阱/自检条目；详见 [Clash Party 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md)。
+- FIX#183: adapted to Clash Party v2.0.3+ subscription DNS-override protection, distinguishing the client's built-in automatic disabling of `controlDns` from this repository's JS DNS writes as separate layers.
+- SYNC: Smart / Normal JS emitted sanitized boundary diagnostics when the original subscription contained protected DNS fields, then continued applying the repository DNS baseline. FlClash did not acquire the Clash Party-specific guard.
+- VERIFY: added a protected source-DNS fixture confirming that final fields including `nameserver`, `proxy-server-nameserver` and `nameserver-policy` remained controlled by the repository script.
+- DOCS: updated the Clash Party tutorial, root DNS guide, private-node DNS guide and `AGENTS.md` pitfall/self-check entries. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md).
 
 ## v6.0.13-dns.7 / v6.0.13-normal.8 / v6.0.13-flclash.10 (2026-09-21)
 
-- FIX#182：修复 Clash Party v2.0.3 更新后 `dns.fake-ip-filter[3]` 的 `rule-set:cn domain` 悬空/非法引用导致覆写载入失败。
-- SYNC：Clash Party Smart、Normal 与 FlClash 统一输出 `fake-ip-filter-mode: blacklist`，清理会被覆写重建流程淘汰的源 provider 引用；静态 CMFA / Stash / OpenClash 产物无同构订阅继承路径，保持不变。
-- VERIFY：三端回归通过，策略组/规则/provider 数量保持 `55 / 151 / 132`。
-- CONTRACT：按 `AGENTS.md` §3.5.1 / §8.4 固化该运行时语法陷阱；官方 Mihomo DNS 语法以 `fake-ip-filter-mode` 与单 token `rule-set:xxx` / `geosite:xxx` 为准。
+- FIX#182: fixed override loading failure after Clash Party v2.0.3 caused by the dangling/invalid `rule-set:cn domain` reference in `dns.fake-ip-filter[3]`.
+- SYNC: Clash Party Smart, Normal and FlClash consistently emitted `fake-ip-filter-mode: blacklist` and removed inherited provider references eliminated by override rebuilding. Static CMFA / Stash / OpenClash artifacts had no equivalent subscription-inheritance path and remained unchanged.
+- VERIFY: regressions passed for all three implementations; policy-group/rule/provider counts remained `55 / 151 / 132`.
+- CONTRACT: documented this runtime syntax pitfall in `AGENTS.md` §3.5.1 / §8.4. Official Mihomo DNS syntax used `fake-ip-filter-mode` and single-token `rule-set:xxx` / `geosite:xxx` references.
 
-## v6.0.13 LINUX DO 大陆备用域名国内路由 (2026-09-03)
+<a id="v6013-linux-do-大陆备用域名国内路由-2026-09-03"></a>
 
-- FIX-LINUXDO-CN-ROUTE：将 `linuxdo.org` 及全部子域加入前置的 `🏠 国内网站` 融合段，避免落入通用国际站点/IP 兜底。
-- GUARD：主站 `linux.do` 保持 `🚫 受限网站`；新增回归固定 apex、`connect`、`invite` 子域的首命中和两类域名的分离语义。
-- SYNC：以 `39b9a1e` 固定载荷定向重放全部客户端，仅第 013 段新增一个域名，不发布 fresh-cache 的无关上游漂移。
+## v6.0.13 LINUX DO alternate-domain CN policy routing (2026-09-03)
 
-## v6.0.12 NVIDIA 中国账号登录精确直连 (2026-09-01)
+- FIX-LINUXDO-CN-ROUTE: added `linuxdo.org` and all subdomains to the earlier `🏠 国内网站` fused segment to avoid generic international site/IP fallback.
+- GUARD: the main `linux.do` site retained `🚫 受限网站`; new regressions fixed first-match behavior for apex, `connect` and `invite`, and separation of the two domain families.
+- SYNC: replayed all clients against payload pinned to `39b9a1e`. Only segment 013 gained one domain; unrelated upstream drift from fresh cache was not published.
 
-- FIX#181-PC：`login.nvidia.cn` 加入最前置的精确 `DIRECT` 融合资产，避开 Smart 通用健康检查无法识别的目标站点 TLS 失败。
-- SCOPE：仅处理 NVIDIA 中国账号登录主机；`download.nvidia.com`、`developer.nvidia.com` 与其余 NVIDIA 域名继续由下载组接管。
-- SYNC：以 `HEAD` 固定载荷受控重放 132 个融合 provider / 151 条主规则并同步全部客户端；未发布缓存中的无关上游规则漂移。
+<a id="v6012-nvidia-中国账号登录精确直连-2026-09-01"></a>
 
-## v6.0.11-flclash.7 应用层配置修正 (2026-08-31)
+## v6.0.12 Exact direct routing for NVIDIA China account login (2026-09-01)
 
-- FIX#181：纠正 FlClash DNS 二次覆盖、Android VPN HTTP 代理与应用排除的使用说明；保留规则与 DNS 运行时基线。详见 [FlClash 变更日志](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md)。
+- FIX#181-PC: added `login.nvidia.cn` to the leading exact `DIRECT` fused asset to avoid destination TLS failures undetected by Smart's generic health check.
+- SCOPE: handled only the NVIDIA China account-login host; `download.nvidia.com`, `developer.nvidia.com` and other NVIDIA domains retained download-group routing.
+- SYNC: performed controlled replay of 132 fused providers / 151 main rules against payload pinned to `HEAD`, synchronizing all clients without publishing unrelated cached upstream drift.
 
-## v6.0.11 Gemini / Accademia Gemini Google 路由 (2026-08-22)
+<a id="v6011-flclash7-应用层配置修正-2026-08-31"></a>
 
-- ROUTING：仅将 `RULE-SET,gemini` 与 `RULE-SET,acc-gemini` 的目标从 `🤖 AI 服务` 调整为 `🔍 Google 服务`；`szkane-ai` 的顺序与 AI 目标保持不变。
-- SYNC：以 `HEAD` 固定载荷受控重放并重建 72 个策略段（69 个非空原生资产）及全部客户端派生产物；未引入上游规则刷新。
+## v6.0.11-flclash.7 Application-layer configuration corrections (2026-08-31)
 
-## 2026-08-22 仓库自动化修复
+- FIX#181: corrected instructions for FlClash's second DNS override, Android VPN HTTP proxy and application exclusions, retaining rule and DNS runtime baselines. See the [FlClash changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/CHANGELOG.md).
 
-- AUTOMATION：Issue 自动回复切换至 Xiaomi MiMo，统一首轮 / 追问模型与可选 Token Plan 端点配置；本次不修改规则源或客户端产物版本。
+<a id="v6011-gemini--accademia-gemini-google-路由-2026-08-22"></a>
 
-## v6.0.10 网易游戏精确直连修复 (2026-08-08)
+## v6.0.11 Gemini / Accademia Gemini Google routing (2026-08-22)
 
-- FIX#179-NETEASE-GAME-DIRECT：`drpf-g10.proxima.nie.netease.com` 与 `sigma-performance-g10.proxima.nie.netease.com` 加入仓库自有的首段精确直连规则集。
-  - 此前两个主机会落入 `DOMAIN-SUFFIX,netease.com` 的“国内游戏”宽规则；现在在规则开头命中 `DIRECT`，不再继承该策略组的手动代理选择。
-  - 只豁免报告中的两个精确主机名；`proxima.nie.netease.com` 父域的广告/隐私规则不被整体放宽。
-- VERIFY：重建 MRS、融合文本/MRS/SRS、CMFA、Stash、Egern、SingBox、Xray 与 Passwall / Passwall2 派生产物，并新增首命中回归。
+- ROUTING: changed only the targets of `RULE-SET,gemini` and `RULE-SET,acc-gemini` from `🤖 AI 服务` to `🔍 Google 服务`; `szkane-ai` order and AI target remained unchanged.
+- SYNC: performed controlled replay against payload pinned to `HEAD` and rebuilt 72 policy segments (69 nonempty native assets) and every derived client artifact, without an upstream rule refresh.
 
-## v6.0.9 Actions 与 CMFA/Stash 正则修复 (2026-08-08)
+<a id="2026-08-22-仓库自动化修复"></a>
 
-- FIX-CMFA-APAC-HOME-REGEX：修复 `🏡 亚太家宽` 的末尾多余右括号；此前会让 CMFA 载入该策略组筛选正则时失败，并由 Stash 生成链路同步带入。
-- GUARD：产物合同验证现逐一编译 CMFA 与 Stash 的全部策略组 `filter`，拒绝 Go RE2 不支持的 lookaround / backreference，不再只依赖地区样例命中来间接发现语法错误。
-- ACTIONS：同步任务的 cron 重新登记为每周一 05:23 JST；历史 run 默认保留从 1 天调整为 30 天，清理器升级到 Node 24 运行时、保留 `0` 的全删语义、拒绝非法输入，并将删除失败作为失败状态上报。
-- AUTO-SYNC-GUARD：Egern Issue #176 回归不再冻结上游规则库的条目数量，改为验证原生资产的非空、no-resolve 语义与国内权威段先于最终国际兜底的顺序，允许正常上游更新自动发布。
+## 2026-08-22 Repository automation fix
 
-## v6.0.9 节点命名归类兼容 (2026-08-02)
+- AUTOMATION: switched automated issue replies to Xiaomi MiMo, unifying first-reply/follow-up models and optional Token Plan endpoint settings. Rule sources and client artifact versions were unchanged.
 
-- FIX-NODE-ISO-LOWERCASE：修复含编号的小写 ISO 两位地区码无法进入区域策略组的问题；yun hk01、yun us01、yun jp01、yun sg01、yun tw01 等命名现与原有大写形式等价。
-- CROSS-CLIENT-AUDIT：Clash Party Smart/Normal、FlClash、OpenClash Normal/Smart、Shadowrocket、Surge、Quantumult X 同步收敛；CMFA、Stash、Egern、Loon 已有不区分大小写的筛选器，经同一组样例验证无需改动。
-- GUARD：JS 与 Apple 文本产物仅为“ISO 两位码后接编号”的形式启用小写兼容，避免把自然语言中的普通小写词（如 us、in）误归类；OpenClash 仅在字母与数字交界处规范化，保留原区域正则。
-- PLATFORM-BOUNDARY：sing-box Full、v2rayN Xray、Passwall / Passwall2 只消费静态出站或分流规则，不从订阅节点名动态建立地区组，因此不适用此运行时分类修复。源规则图、MRS/fused/SRS 资产与路由语义不变。
+<a id="v6010-网易游戏精确直连修复-2026-08-08"></a>
 
-## v6.0.9 订阅适配层、profile 与能力矩阵 (2026-07-25)
+## v6.0.10 Exact direct-routing fix for NetEase games (2026-08-08)
 
-- RUNTIME-ADAPTER：将五份订阅覆写的私有 Node-DNS 处理收敛为同构的 `captureNodeDns → snapshot → applyNodeDns` Module/Adapter seam；capture 与 apply 的 profile 必须匹配，缺少仓库 PSS 基线时零写入。
-- PROFILE：新增唯一受信任源 `tools/runtime/subscription-adapter-profiles.json`，提供 `off / policy / adaptive` 三档，默认 `adaptive`。三档不改变 `routing-graph.js`、55 组、规则、rule-provider 或全局 DNS；机场订阅不能选择 profile。
-- HARDENING：后置、大小写不同的活动节点精确 policy 可在有界扫描内优先命中；通配符扫描保持单独上限。resolver URL path/query 保持大小写，冲突 fail-closed；每条接受的 policy 与其 bootstrap resolver hosts 原子保留。
-- MATRIX：新增可验证的 14 产品 × 4 能力矩阵（订阅输入、动态分组、Node-DNS、可选 sidecar），由 JSON 单一源生成 Markdown，并在 CI/产物合同中校验证据与文档漂移。
-- DOCS/VERIFY：复核 Mihomo DNS、FlClash v0.8.94、OpenClash v0.47.133 官方资料；新增 JS/Ruby 三档、大小写精确 key、profile-mismatch、bootstrap 容量与矩阵回归。源规则图、MRS/fused/SRS 资产及静态路由语义不变。
+- FIX#179-NETEASE-GAME-DIRECT: added `drpf-g10.proxima.nie.netease.com` and `sigma-performance-g10.proxima.nie.netease.com` to the repository-owned leading exact-direct rule set.
+  - Previously both hosts matched the broad `DOMAIN-SUFFIX,netease.com` rule targeting the `国内游戏` group. They now matched `DIRECT` at the start of the rules and no longer inherited that group's manually selected proxy.
+  - Exempted only the two exact reported hosts; advertising/privacy rules for the parent `proxima.nie.netease.com` were not broadly relaxed.
+- VERIFY: rebuilt MRS, fused text/MRS/SRS, CMFA, Stash, Egern, SingBox, Xray and Passwall / Passwall2 derived artifacts and added first-match regressions.
 
-## v6.0.9 私有节点 DNS 适配 (2026-07-25)
+<a id="v609-actions-与-cmfastash-正则修复-2026-08-08"></a>
 
-- RUNTIME-NODE-DNS：Clash Party Smart/Normal、FlClash 与 OpenClash Normal/Smart 新增同一受限 Node-DNS Adapter。它只为活动节点 FQDN 物化精确 `proxy-server-nameserver-policy` 和必要 bootstrap hosts；订阅不能替换全局业务 DNS、fake-ip 或固定 PSS 基线。
-- HARDENING：保留 Mihomo hosts 的标量域名重定向语义，支持 IPv4 / IPv6 / IPv4-mapped IPv6 bootstrap，`*.` 优先于更宽的 `+.` / `.`，resolver hosts 在容量上限前收集；输入与输出均有确定性上限。
-- CROSS-CLIENT-AUDIT：CMFA、Stash、Egern、Shadowrocket、Surge、Loon、Quantumult X、Sing-box、v2rayN Xray、Passwall / Passwall2 是静态或路由产物，没有订阅运行时 seam，明确不宣称自动接管私有节点 DNS；详见 [私有节点 DNS 指南](docs/private-node-dns.md)。
-- VERIFY：新增同步漂移检查、JS 运行时回归与两份真实 OpenClash Ruby heredoc 合同；源规则图、MRS/fused/SRS 资产与静态产物版本不变。
+## v6.0.9 Actions and CMFA/Stash regex fixes (2026-08-08)
 
-## v6.0.9 平台修复 (2026-07-24)
+- FIX-CMFA-APAC-HOME-REGEX: removed an extra trailing closing parenthesis from `🏡 亚太家宽`; it previously caused CMFA to fail loading the group filter and propagated through Stash generation.
+- GUARD: artifact-contract validation compiled every CMFA/Stash policy-group `filter`, rejecting lookaround/backreferences unsupported by Go RE2 instead of relying only on regional sample matches to expose syntax errors indirectly.
+- ACTIONS: re-registered synchronization cron for Monday 05:23 JST. Default historical-run retention changed from 1 to 30 days; the cleaner moved to Node 24, retained `0` as delete-all, rejected invalid input and reported deletion failures as failure status.
+- AUTO-SYNC-GUARD: the Egern Issue #176 regression no longer froze upstream rule counts. It checked nonempty native assets, no-resolve semantics and authoritative CN-policy segments preceding final international fallback, allowing legitimate upstream refreshes to publish automatically.
 
-- FlClash v6.0.9-flclash.2：修复只关闭 `dns.ipv6`、却未关闭顶层 IPv6 的配置缺口；补充 Android VPN/系统代理设置说明和回归校验。规则源与其他客户端产物未改变。
+<a id="v609-节点命名归类兼容-2026-08-02"></a>
+
+## v6.0.9 Node-name classification compatibility (2026-08-02)
+
+- FIX-NODE-ISO-LOWERCASE: fixed numbered lowercase two-letter ISO region codes missing regional groups. Names such as yun hk01, yun us01, yun jp01, yun sg01 and yun tw01 became equivalent to their existing uppercase forms.
+- CROSS-CLIENT-AUDIT: aligned Clash Party Smart/Normal, FlClash, OpenClash Normal/Smart, Shadowrocket, Surge and Quantumult X. CMFA, Stash, Egern and Loon already had case-insensitive filters and needed no change after the same sample checks.
+- GUARD: JS and Apple text artifacts enabled lowercase compatibility only for two-letter ISO codes immediately followed by numbers, avoiding misclassification of ordinary lowercase words such as us/in. OpenClash normalized only letter/digit boundaries, retaining its regional regexes.
+- PLATFORM-BOUNDARY: sing-box Full, v2rayN Xray and Passwall / Passwall2 consumed static outbounds or routing rules and did not dynamically construct regional groups from subscription node names, so this runtime classification fix did not apply. The source rule graph, MRS/fused/SRS assets and routing semantics were unchanged.
+
+<a id="v609-订阅适配层profile-与能力矩阵-2026-07-25"></a>
+
+## v6.0.9 Subscription adapter layer, profiles and capability matrix (2026-07-25)
+
+- RUNTIME-ADAPTER: unified private Node-DNS handling across five subscription overrides into the same `captureNodeDns → snapshot → applyNodeDns` Module/Adapter seam. Capture/apply profiles had to match; absence of the repository PSS baseline caused zero writes.
+- PROFILE: added the sole trusted source `tools/runtime/subscription-adapter-profiles.json`, with `off / policy / adaptive` profiles and `adaptive` default. None changed `routing-graph.js`, the 55 groups, rules, rule-providers or global DNS; provider subscriptions could not select profiles.
+- HARDENING: later, differently cased exact policies for active nodes could take priority within a bounded scan; wildcard scanning retained a separate limit. Resolver URL paths/queries preserved case, conflicts failed closed, and each accepted policy and its bootstrap resolver hosts were retained atomically.
+- MATRIX: added a verifiable 14-product × 4-capability matrix (subscription input, dynamic grouping, Node-DNS and optional sidecar), generating Markdown from a single JSON source and checking evidence/document drift in CI and artifact contracts.
+- DOCS/VERIFY: reviewed official Mihomo DNS, FlClash v0.8.94 and OpenClash v0.47.133 materials. Added JS/Ruby three-profile, case-exact key, profile-mismatch, bootstrap-capacity and matrix regressions. The source graph, MRS/fused/SRS assets and static-routing semantics were unchanged.
+
+<a id="v609-私有节点-dns-适配-2026-07-25"></a>
+
+## v6.0.9 Private-node DNS adaptation (2026-07-25)
+
+- RUNTIME-NODE-DNS: Clash Party Smart/Normal, FlClash and OpenClash Normal/Smart gained the same constrained Node-DNS Adapter. It materialized only exact `proxy-server-nameserver-policy` entries and necessary bootstrap hosts for active-node FQDNs. Subscriptions could not replace global business DNS, fake-ip or the fixed PSS baseline.
+- HARDENING: preserved scalar-domain redirection in Mihomo hosts, supporting IPv4 / IPv6 / IPv4-mapped IPv6 bootstrap. `*.` took precedence over broader `+.` / `.`, resolver hosts were collected before capacity limits, and input/output had deterministic bounds.
+- CROSS-CLIENT-AUDIT: CMFA, Stash, Egern, Shadowrocket, Surge, Loon, Quantumult X, Sing-box, v2rayN Xray and Passwall / Passwall2 were static/routing products without a subscription runtime seam; no automatic private-node DNS takeover was claimed. See the [private-node DNS guide](docs/private-node-dns.md).
+- VERIFY: added synchronization-drift checks, JS runtime regressions and two actual OpenClash Ruby heredoc contracts. The source graph, MRS/fused/SRS assets and static artifact versions were unchanged.
+
+<a id="v609-平台修复-2026-07-24"></a>
+
+## v6.0.9 Platform fix (2026-07-24)
+
+- FlClash v6.0.9-flclash.2: fixed the gap where only `dns.ipv6` was disabled but top-level IPv6 remained enabled; added Android VPN/system-proxy instructions and regression checks. Rule sources and other client artifacts were unchanged.
 
 ## v6.0.9 (2026-07-19)
 
-- FIX#176 后续全量审计：上游 `szkane-ai` 的 `api.github.com` 规则覆盖浏览器普通 GitHub API 调用，现将通用域名放入 `scki-github-api-tools` 补充规则集，并在广义 AI 规则前融合到 `🔧 工具与服务`。
-- PRECISION：桌面 Mihomo、sing-box 与 Xray fallback 仅在 `Code Helper` 或 `Code Helper (Plugin)` 访问 `api.github.com` 时保留 `🤖 AI 服务`；无进程识别能力的 Egern、iOS 与路由器产物使用通用工具组回退，`api.githubcopilot.com` 继续归入 AI。
-- SYNC：源图 `514 providers / 973 rules` 编译为 `69` 段、`127` 个 Mihomo provider / `146` 条主规则、`66` 个文本 / SRS 资产、`86` 条 Xray RuleObject；MRS `failed=0`、fused `unresolved=0`。
+- FIX#176 follow-up full audit: upstream `szkane-ai` matched ordinary browser calls to `api.github.com`. Moved that generic domain into supplemental `scki-github-api-tools`, fused into `🔧 工具与服务` before broad AI rules.
+- PRECISION: desktop Mihomo, sing-box and Xray fallback retained `🤖 AI 服务` only when `Code Helper` or `Code Helper (Plugin)` accessed `api.github.com`. Egern, iOS and router artifacts without process identification used generic tools-group fallback; `api.githubcopilot.com` stayed in AI.
+- SYNC: compiled source `514 providers / 973 rules` into `69` segments, `127` Mihomo providers / `146` main rules, `66` text / SRS assets and `86` Xray RuleObjects; MRS `failed=0`, fused `unresolved=0`.
 
-## 文档治理 (2026-07-16)
+<a id="文档治理-2026-07-16"></a>
 
-- GOVERNANCE-SINGLE-SOURCE：将原 `CLAUDE.md` 的完整维护手册与原 `AGENTS.md` 的多代理协作、受保护文件和常见错误约定合并为唯一入口 `AGENTS.md`，删除双文件优先级与同步负担。
-- AUTOMATION：Issue 模板、AI 自动回复工作流、OpenClash 产物注释、测试和设计文档统一引用 `AGENTS.md`；规则权威源仍为 `rulesets/source/routing-graph.js`，本次不修改任何运行时规则或客户端版本。
-- REPO-HYGIENE：将本机 `.claude/` 配置和内部 `.full-review/` 审查工作区加入 `.gitignore`，从公开仓库索引移除但保留本机文件。
+## Documentation governance (2026-07-16)
+
+- GOVERNANCE-SINGLE-SOURCE: merged the complete former `CLAUDE.md` maintenance manual and former `AGENTS.md` multi-agent, protected-file and common-error conventions into the sole entry point `AGENTS.md`, eliminating dual-file precedence and synchronization overhead.
+- AUTOMATION: issue templates, AI-reply workflows, OpenClash artifact comments, tests and design documents uniformly referenced `AGENTS.md`. `rulesets/source/routing-graph.js` remained authoritative; runtime rules and client versions were unchanged.
+- REPO-HYGIENE: added local `.claude/` settings and internal `.full-review/` workspace to `.gitignore`, removing them from the public index while preserving local files.
 
 ## v6.0.8 (2026-07-15)
 
-- FIX#176 全量审计：将全部共享边缘/CDN、`geolocation-!cn`、IP 与地域兜底规则置于国内权威策略之后，而非仅为已报告域名添加例外；`scki-fused-064-intl-site` 成为统一的通用国际兜底段。
-- RELEASE-CACHE：自托管融合资产统一使用 `?scki=v6.0.8`，Mihomo 同时写入版本化本地 `path`，避免配置更新后继续复用旧 `.mrs` / residual 文件。
-- VERIFY：新增全量泛化 fallback 顺序、Issue #176 域名族和资产缓存隔离回归；14 类派生产物均由正式链路重建，MRS `failed=0`、fused `unresolved=0`。
+- FIX#176 full audit: placed all shared edge/CDN, `geolocation-!cn`, IP and regional fallback rules after authoritative CN policies instead of adding exceptions only for reported domains. `scki-fused-064-intl-site` became the unified generic international fallback segment.
+- RELEASE-CACHE: self-hosted fused assets uniformly used `?scki=v6.0.8`; Mihomo also wrote versioned local `path` values to avoid reusing old `.mrs` / residual files after configuration updates.
+- VERIFY: added complete generic-fallback ordering, Issue #176 domain-family and asset-cache-isolation regressions. Rebuilt all 14 derived product types through the production chain; MRS `failed=0`, fused `unresolved=0`.
 
 ## v6.0.7 (2026-07-14)
 
-- FIX#176：修复首匹配优先级倒置。`RULE-SET,cn` 及具名国内域名策略现在先于共享 Cloudflare / CloudFront / Fastly IP、`GEOIP,ID` 和 16 个非中国地域 domain/IP 兜底执行；国内域名解析到境外 CDN / GeoIP 时不再被提前送往 `🌐 国外网站`。
-- REGRESSION：以 `www.mi.com`、`api-paas.yunxuetang.cn`、`apiws-phx-tc.yunxuetang.cn`、`images.yxt.com`、`stc.yxt.com` 建立回归语义，并把源图与 14 类产物的 CN 段 → 通用国际 fallback 顺序纳入合同校验。
-- SYNC：按 `source graph -> MRS -> fused -> 原生派生` 重建；MRS `failed=0`、fused `unresolved=0`，输出为 126 个 Mihomo provider / 143 条主规则、65 个移动端文本资产、65 个 sing-box SRS / Passwall shunt rule、83 条 v2rayN Xray RuleObject。
+- FIX#176: corrected inverted first-match precedence. `RULE-SET,cn` and named CN-domain policies preceded shared Cloudflare / CloudFront / Fastly IPs, `GEOIP,ID` and 16 non-CN regional domain/IP fallbacks. CN domains resolving to non-CN CDN / GeoIP addresses were no longer sent early to `🌐 国外网站`.
+- REGRESSION: established semantics for `www.mi.com`, `api-paas.yunxuetang.cn`, `apiws-phx-tc.yunxuetang.cn`, `images.yxt.com` and `stc.yxt.com`, and added CN-segment → generic international-fallback ordering to source-graph and 14-product contracts.
+- SYNC: rebuilt through source graph → MRS → fused → native derivation; MRS `failed=0`, fused `unresolved=0`. Output: 126 Mihomo providers / 143 main rules, 65 mobile text assets, 65 sing-box SRS / Passwall shunt rules and 83 v2rayN Xray RuleObjects.
 
 ## v6.0.6 (2026-07-14)
 
-- DIRECT-WORKPRO-WEB：将 `WorkProWebProcess.exe` 纳入 `local-process-direct` 补充规则集；`WorkPro.exe` 与其 Web 子进程统一进入 TUN 后由融合 `PROCESS-NAME` 规则命中 `DIRECT`，不再以 TUN 排除或 IP 路由排除绕过规则引擎。
-- SYNC：按 `source graph -> MRS -> fused -> 原生派生` 完成 14 类产物重建；Mihomo MRS `failed=0`、融合规则集 `unresolved=0`，主规则仍为 124 个融合 provider / 141 条规则。
+- DIRECT-WORKPRO-WEB: added `WorkProWebProcess.exe` to supplemental `local-process-direct`. Both `WorkPro.exe` and its web child entered TUN and matched `DIRECT` through fused `PROCESS-NAME` rules instead of bypassing the rule engine through TUN/IP-route exclusions.
+- SYNC: rebuilt 14 product types through source graph → MRS → fused → native derivation; Mihomo MRS `failed=0`, fused `unresolved=0`. Main rules remained 124 fused providers / 141 rules.
 
 ## v6.0.5 (2026-07-14)
 
-- DIRECT-WORKPRO：将既有的 WorkPro.exe 本地直连条目纳入永久回归清单并完成全产物重建；桌面 Mihomo、sing-box 与 Xray fallback 固定输出 DIRECT，平台不支持进程匹配的路径保持明确豁免。
+- DIRECT-WORKPRO: added the existing WorkPro.exe local-direct entry to permanent regression coverage and rebuilt every product. Desktop Mihomo, sing-box and Xray fallback emitted DIRECT; unsupported process-matching paths retained explicit platform exemptions.
 
 ## v6.0.4 (2026-07-13)
 
-- DIRECT-ITWDB：将 `itwdb.com` 主域名纳入仓库维护的默认直连补充规则集，`workpro.itwdb.com` 及全部子域名随 `DOMAIN-SUFFIX` 语义直连；未新增主分流内联规则。
-- SYNC：按 `source graph -> MRS -> fused -> 原生派生` 全链路重建 14 类产物；Mihomo MRS `failed=0`、融合规则集 `unresolved=0`，各端继续按原生格式消费直连段。
+- DIRECT-ITWDB: added `itwdb.com` to repository-maintained default-direct supplemental rules. `workpro.itwdb.com` and all subdomains followed `DOMAIN-SUFFIX` direct semantics; no main-routing inline rules were added.
+- SYNC: rebuilt 14 products through source graph → MRS → fused → native derivation; Mihomo MRS `failed=0`, fused `unresolved=0`. Clients continued consuming direct segments in their native formats.
 
 ## v6.0.3 (2026-07-12)
 
-- FIX#FUSED-DOMAIN-PAYLOAD：修复融合编译器把 classical `DOMAIN` / `DOMAIN-SUFFIX` 行原样写入 Mihomo `behavior: domain` YAML 的根本错误。该行为的 payload 必须是裸精确域名或 wildcard（如 `+.chatgpt.com`）；旧产物虽可编译为 `.mrs`，但实际不会命中，因而会继续落入后续的“国外网站”段。
-- SEMANTIC-PRESERVATION：`DOMAIN` 转为精确 host，`DOMAIN-SUFFIX` 转为 `+.` wildcard；`DOMAIN-KEYWORD`、`DOMAIN-REGEX` 不被错误宽化为 wildcard，而是保留为 classical residual YAML。MRS 同步链与最终 fused 链共享同一转换器，避免两条生成链再次分叉。
-- AI-PRECEDENCE：新增小范围 `scki-adfp-ai` 前置守卫，覆盖 ChatGPT 使用的 DataDog / Sentry telemetry host，确保它们不会被通用广告/隐私列表先拦截；`chatgpt.com`、`chat.openai.com`、`oaistatic.com` 及 `a.nel.cloudflare.com` 均在广告段与“国外网站”段之前归入 `🤖 AI 服务`。
-- BUILD-CONSISTENCY：仓库自有规则 URL 在本地构建时优先读取工作区文件，再由 CI/发布使用同一 URL 映射，杜绝因 CDN 尚未包含未提交补充规则而生成陈旧 MRS。Stash 头部统计也改为从 CMFA 与 fused manifest 动态读取。
-- SYNC：源图更新为 513 providers / 970 rules，最终为 68 个语义段、124 个 Mihomo provider / 141 条主规则、64 个移动端非空文本资产、65 个 sing-box SRS / Passwall shunt rule、83 条 v2rayN Xray RuleObject、82 条 sing-box route rule，`unresolved=0`。
-- VERIFY：新增 domain payload / repository URL 回归测试，产物合同拒绝 classical 前缀混入 fused `*-domain.yaml`，并断言 AI 误伤守卫位于广告段之前；以 Clash Party 随附 Mihomo Smart 内核对 OpenAI 主站、子域、oaistatic、Sentry、DataDog 与 Cloudflare NEL 实际拨号命中进行回归。
+- FIX#FUSED-DOMAIN-PAYLOAD: fixed the fusion compiler writing classical `DOMAIN` / `DOMAIN-SUFFIX` rows unchanged into Mihomo `behavior: domain` YAML. This payload required bare exact hosts or wildcards such as `+.chatgpt.com`; old artifacts compiled into `.mrs` but did not match and fell through to the later international-site segment.
+- SEMANTIC-PRESERVATION: converted `DOMAIN` to exact hosts and `DOMAIN-SUFFIX` to `+.` wildcards. `DOMAIN-KEYWORD` / `DOMAIN-REGEX` remained classical residual YAML rather than being incorrectly broadened into wildcards. MRS synchronization and final fusion shared the same converter to prevent divergence.
+- AI-PRECEDENCE: added narrowly scoped leading `scki-adfp-ai` guards for ChatGPT's DataDog / Sentry telemetry hosts, avoiding earlier generic advertising/privacy blocks. `chatgpt.com`, `chat.openai.com`, `oaistatic.com` and `a.nel.cloudflare.com` entered `🤖 AI 服务` before advertising and international-site segments.
+- BUILD-CONSISTENCY: local builds read workspace files first for repository-owned rule URLs, with CI/publication using the same URL mapping. This prevented stale MRS generation when CDN had not received uncommitted supplemental rules. Stash header statistics also read dynamically from CMFA and the fused manifest.
+- SYNC: source graph became 513 providers / 970 rules, producing 68 semantic segments, 124 Mihomo providers / 141 main rules, 64 nonempty mobile text assets, 65 sing-box SRS / Passwall shunt rules, 83 v2rayN Xray RuleObjects and 82 sing-box route rules; `unresolved=0`.
+- VERIFY: added domain-payload/repository-URL regressions; contracts rejected classical prefixes in fused `*-domain.yaml` and required AI false-positive guards before advertising. Used Clash Party's bundled Mihomo Smart core to regress actual dial matches for OpenAI main/subdomains, oaistatic, Sentry, DataDog and Cloudflare NEL.
 
 ## v6.0.2-region.1 (2026-07-12)
 
-- FIX#REGION-CARRIER-PRIORITY：修复 Clash Party Smart、Clash Party Normal 与 FlClash 的节点名区域分类。运营商/线路营销词（如 `中国电信`、`电信移动联通推荐`、`China Telecom`）不再先于国旗、国家名或 ISO 代码把海外节点错误归为 `CN`。
-- EFFECT：用户报告的 `🇯🇵AWS日本01 | 电信移动联通推荐` 现归为 `JP`，会同时出现在 `🇯🇵 日韩节点` 和包含日本的 `🌏 亚太节点`；此前只出现在后者是因其被误分类到 `CN`。
-- CROSS-CLIENT-AUDIT：CMFA、Stash、OpenClash、Shadowrocket、Surge、Loon、Quantumult X 已核对为独立地区过滤，样例本已命中日韩组；SingBox、v2rayN、Passwall、Passwall2 为静态路由产物，无运行时订阅节点分类。本次不改 `routing-graph.js`、融合规则集、MRS/SRS、GeoIP/GeoSite/MMDB/ASN 数据库或其派生产物。
-- VERIFY：新增三组分类回归和两组目标代理组成员断言，覆盖所有三份动态 JS 覆写。
+- FIX#REGION-CARRIER-PRIORITY: fixed node-name regional classification in Clash Party Smart, Normal and FlClash. Carrier/line marketing tokens such as `中国电信`, `电信移动联通推荐` and `China Telecom` no longer overrode flags, country names or ISO codes to misclassify non-CN nodes as `CN`.
+- EFFECT: the reported `🇯🇵AWS日本01 | 电信移动联通推荐` name classified as `JP` and appeared in both `🇯🇵 日韩节点` and Japan-inclusive `🌏 亚太节点`. Previously it appeared only in the latter due to incorrect `CN` classification.
+- CROSS-CLIENT-AUDIT: CMFA, Stash, OpenClash, Shadowrocket, Surge, Loon and Quantumult X used independent regional filters and already matched the Japan/Korea sample. SingBox, v2rayN and Passwall/Passwall2 were static routing products without runtime subscription-node classification. `routing-graph.js`, fused sets, MRS/SRS, GeoIP/GeoSite/MMDB/ASN databases and their derivatives were unchanged.
+- VERIFY: added three classification regressions and two target-group membership assertions covering all three dynamic JS overrides.
 
 ## v6.0.2-substore.2 (2026-07-11)
 
-- SUBSTORE-REAL-MIRROR-FIX：根据 Clash Party 内置 Sub-Store 的实际快照复现，确认同账户双域名镜像的总配额/到期日相同，而 `upload` / `download` 会因 CDN 缓存相差数十 KB。自动去重改为 host 无关订阅资源身份 + 相同 `total` / `expire`，组内仍取最大计数，避免整份镜像配额再次相加。
-- SUBSTORE-LOGGER-FIX：修复从 `$substore` 解构后以裸函数调用 `info` 的 receiver 丢失。运行时会在最终状态日志处抛错并回退持久化，造成页面仍显示旧的 13.16 TiB 流量头；现改为保留 receiver，并将日志失败隔离在汇总路径之外。
-- VERIFY：回归测试改用真实故障模型（相同镜像资源和计划元数据、不同已用流量），并模拟 receiver 敏感的 `$substore.info`，确保未来不会重新要求四个字段字节级相等或因日志失败放大为汇总失败。本次仍只改 SubStore 辅助脚本，不改变融合规则或 14 类客户端正式产物。
+- SUBSTORE-REAL-MIRROR-FIX: reproduced from actual bundled Sub-Store snapshots in Clash Party. Same-account dual-domain mirrors shared total quota/expiry, while `upload` / `download` differed by tens of KB due to CDN caching. Automatic deduplication used host-independent resource identity + equal `total` / `expire`, retaining groupwise maximum counters instead of adding mirror quotas again.
+- SUBSTORE-LOGGER-FIX: fixed losing the receiver when calling destructured `$substore.info` as a bare function. Runtime failure at final-status logging had rolled back persistence, leaving the old 13.16 TiB header visible. Preserved the receiver and isolated logging failure from aggregation.
+- VERIFY: regressions used the real failure model (same mirror resource/plan metadata, different used traffic) and receiver-sensitive `$substore.info`, preventing a return to byte-identical four-field requirements or logging errors becoming aggregation failures. Only SubStore helper scripts changed, not fused rules or 14 production client types.
 
 ## v6.0.2-substore.1 (2026-07-11)
 
-- SUBSTORE-MIRROR-FLOW：修复组合订阅含多个同账户镜像地址时，`subscription-userinfo` 被按成员逐条累加而翻倍的问题。完整流量快照且 host 无关 URL 身份一致时自动合并；路径不同或 CDN 缓存略有延迟时，可用订阅 URL 的 `flowDedup` 显式归组并取每项最大计数。
-- SUBSTORE-VERIFY：新增 6 项 Node 回归测试与专属 GitHub Actions 校验，覆盖独立订阅不误合并、`flowDedup=off` 逃生开关、CDN 快照差异以及最终 `$options._res` / collection 持久化结果。本次仅修改 SubStore 辅助脚本与文档，不影响 `rulesets/source/routing-graph.js` 或 14 类客户端正式产物。
+- SUBSTORE-MIRROR-FLOW: fixed `subscription-userinfo` doubling when a collection contained several mirrors of one account. Complete usage snapshots with matching host-independent URL identity merged automatically; differing paths or CDN delays could use explicit URL `flowDedup` grouping with per-field maximum counters.
+- SUBSTORE-VERIFY: added 6 Node regressions and dedicated GitHub Actions checks for not merging independent subscriptions, `flowDedup=off`, CDN snapshot differences and final `$options._res` / collection persistence. Only SubStore helpers/docs changed, not `rulesets/source/routing-graph.js` or 14 production client types.
 
 ## v6.0.2-ci.1 (2026-07-11)
 
-- CI-FUSED：修复定时 `Sync All Fused Rule Sets` 工作流，完整执行 `source graph -> MRS -> fused -> 14 类客户端派生` 链路，提交范围覆盖源图、融合产物、MRS、Egern 和全部客户端目录，并通过互斥并发组避免两个刷新任务竞争写入 `main`。
-- EGERN-CONTRACT：以确定性生成清单替换会随上游去重结果漂移的 Egern 固定计数快照。清单双向校验 CMFA、规则图、Profile、原生 YAML 内容哈希与引用顺序，既允许合法上游变化，也拒绝陈旧或不完整产物。
-- VERIFY：新增 `tools/tests/egern-generation-manifest.test.js`，覆盖实际失败样本 `109` 条规则 / `92` 个顶层 `rule_set` / `97` 个原生 YAML，并纳入定时工作流、完整合同、重复与远程资产预算验证。
-- REPO-HYGIENE：删除历史误提交但无 `.gitmodules` 映射的 `.claude/worktrees/strict-direct-rule-clean` gitlink，并忽略本地 `.claude/worktrees/`；避免 `actions/checkout` 收尾阶段误报 submodule `git exit 128`，不删除用户本地工作树。
-- ACTIONS-RUNTIME：`actions/checkout` 与 `actions/setup-node` 升级到官方 v6，消除 GitHub 托管 runner 对动作内部 Node 20 的弃用提示；工作流仍显式使用项目 Node 22 执行生成器和验证器。
+- CI-FUSED: fixed scheduled `Sync All Fused Rule Sets` to run source graph → MRS → fused → 14 client derivations in full. Commit scope included the graph, fused artifacts, MRS, Egern and every client directory; a mutual-exclusion concurrency group prevented two refresh jobs racing to write `main`.
+- EGERN-CONTRACT: replaced Egern fixed-count snapshots, which drifted with upstream deduplication, with a deterministic generation manifest. Bidirectional checks covered CMFA, rule graph, Profile, native-YAML hashes and reference order, accepting legitimate upstream changes while rejecting stale/incomplete artifacts.
+- VERIFY: added `tools/tests/egern-generation-manifest.test.js` covering the actual failing sample of `109` rules / `92` top-level `rule_set`s / `97` native YAML files; included it in scheduled workflows, full contracts, duplicate checks and remote-asset budgets.
+- REPO-HYGIENE: removed the mistakenly committed `.claude/worktrees/strict-direct-rule-clean` gitlink without a `.gitmodules` mapping and ignored local `.claude/worktrees/`. This avoided submodule `git exit 128` during `actions/checkout` cleanup without deleting local user worktrees.
+- ACTIONS-RUNTIME: upgraded `actions/checkout` and `actions/setup-node` to official v6, removing hosted-runner deprecation warnings for action-internal Node 20. Workflows still explicitly used project Node 22 for generators and validators.
 
 ## v6.0.2 (2026-07-10)
 
-- FIX#175：修复 Shadowrocket 规则总量导致 Network Extension 无法稳定启用的问题。根因不是 71 个 URL 本身，而是融合编译器将 `HageziUltimate.mrs` 错换为 191 万条完整 TIF，并把 249 条运行时 GEOIP 国家规则放大为 76 万至 111 万条 CIDR；两类错误叠加使旧产物达到约 75.44 MiB / 310 万条。
-- FUSED-DEDUP：新增独立规则优化器，统一大小写、尾点、CIDR 网络地址和 GEOIP/ASN 语法；段内执行精确去重、DOMAIN-SUFFIX / DOMAIN-KEYWORD 覆盖消除和父 CIDR 包含消除，并按首匹配顺序删除后续分段的精确重复。784,480 条规范化输入最终保留 575,652 条，安全删除 208,828 条。
-- SOURCE-IDENTITY：不透明 `.mrs` 改为按精确 URL 映射同源文本。HaGeZi Ultimate 对应 `wildcard/ultimate-onlydomains.txt`，禁止再按 provider 名替换成语义不同的完整 TIF；嵌套 GEOSITE/GEOIP 或上游下载失败时构建直接失败，不再静默回退。
-- GEOIP-NATIVE：Mihomo 与 iOS 文本目标保留 ISO 国家码 GEOIP；服务型 GEOIP 按目标能力展开；sing-box 无 headless GEOIP/ASN 字段，因此仅在 `.srs` 编译目标中物化 CIDR。Egern 使用原生 `geoip_set` / `asn_set` 并保留 `no_resolve`。
-- IOS-BUDGET：Shadowrocket / Loon 只引用 63 个非空远程资产，当前约 16.06 MiB / 575,499 条；Surge 为 16.07 MiB / 575,673 条，Quantumult X 为 15.56 MiB / 575,498 条。正式 validator 同时检查 18 MiB 单资产上限和 iOS 类客户端 32 MiB / 100 万文本规则聚合预算，禁止用分片绕过总量限制。
-- TARGET-NORMALIZE：provider payload 中夹带的 `DIRECT` / `REJECT-DROP` 不再被误当成规则修饰符；最终策略只由外层融合目标决定。Mihomo 用独立 bucket 承载 `no-resolve`，Sing-box 在去重前按最终 headless 字段消除该平台不表达的修饰差异，并对无法转换的目标类型直接失败，禁止静默丢规则。
-- TARGET-EMPTY：源端全局精确去重后删除 1 个空分段；目标格式物化后不再发布空文本、空 YAML 或空 SRS。最终为 67 个源语义段、63 个移动端文本规则集、64 个 sing-box SRS / Passwall shunt rule。
-- SINGBOX-COALESCE：Sing-box 不再把 113 个 Mihomo bucket tag 重复映射到同一 SRS；改为 64 个唯一 SRS、64 条融合路由引用，Full JSON 共 71 个 remote rule_set（含 7 个运行时 GEO 辅助）和 81 条 route rule。
-- MRS-IDEMPOTENCE：修复 `apply-mihomo-mrs-overrides.js` 把“覆盖块已是最新”误判为“缺少锚点”的问题，并消除 CRLF 文件每次执行累加空行的 2 字节漂移；端到端测试要求连续执行后的源图字节完全一致。
-- SYNC：14 类客户端全部升级到 v6.0.2 基线；Mihomo 为 113 个融合 provider / 130 条主规则，v2rayN Xray 为 82 条 RuleObject，Egern 为 99 个非空原生 YAML / 111 条主规则 / 94 个 rule_set 引用。
+- FIX#175: fixed excessive rule volume preventing reliable Shadowrocket Network Extension startup. The cause was not 71 URLs themselves: the fusion compiler incorrectly replaced `HageziUltimate.mrs` with 1.91 million full-TIF rules and expanded 249 runtime country GEOIP rules into 760,000–1.11 million CIDRs, combining into about 75.44 MiB / 3.1 million rules.
+- FUSED-DEDUP: added an independent optimizer normalizing case, trailing dots, CIDR network addresses and GEOIP/ASN syntax. Within segments it removed exact duplicates, DOMAIN-SUFFIX / DOMAIN-KEYWORD coverage and child CIDRs; first-match ordering removed later exact duplicates across segments. Of 784,480 normalized inputs, 575,652 remained and 208,828 were safely removed.
+- SOURCE-IDENTITY: mapped opaque `.mrs` URLs exactly to same-source text. HaGeZi Ultimate used `wildcard/ultimate-onlydomains.txt`, prohibiting provider-name-based substitution with semantically different full TIF. Nested GEOSITE/GEOIP or upstream download failures failed the build rather than silently falling back.
+- GEOIP-NATIVE: Mihomo and iOS text targets retained ISO-country GEOIP; service GEOIP expanded according to target capabilities. sing-box lacked headless GEOIP/ASN fields, so CIDRs materialized only for `.srs` compilation. Egern used native `geoip_set` / `asn_set` with `no_resolve`.
+- IOS-BUDGET: Shadowrocket / Loon referenced only 63 nonempty remote assets, about 16.06 MiB / 575,499 rules at that version; Surge was 16.07 MiB / 575,673 and Quantumult X 15.56 MiB / 575,498. The production validator checked both 18 MiB per asset and 32 MiB / 1 million text rules per iOS-class client, prohibiting shards from bypassing aggregate limits.
+- TARGET-NORMALIZE: `DIRECT` / `REJECT-DROP` embedded in provider payloads were no longer mistaken for rule modifiers; the outer fused target alone determined policy. Mihomo used separate `no-resolve` buckets. Before deduplication, Sing-box removed modifier distinctions absent from final headless fields and failed unsupported target conversions rather than silently dropping rules.
+- TARGET-EMPTY: removed 1 empty segment after source-global exact deduplication. Target materialization no longer published empty text/YAML/SRS. Final counts: 67 source semantic segments, 63 mobile text sets and 64 sing-box SRS / Passwall shunt rules.
+- SINGBOX-COALESCE: stopped mapping 113 Mihomo bucket tags repeatedly to the same SRS. Used 64 unique SRS and 64 fused route references; Full JSON had 71 remote rule_sets (including 7 runtime GEO helpers) and 81 route rules.
+- MRS-IDEMPOTENCE: fixed `apply-mihomo-mrs-overrides.js` treating an up-to-date override block as a missing anchor, and eliminated 2-byte drift from accumulating blank lines in CRLF files. End-to-end tests required byte-identical source graphs after consecutive runs.
+- SYNC: all 14 client types upgraded to v6.0.2; Mihomo had 113 fused providers / 130 main rules, v2rayN Xray had 82 RuleObjects, and Egern had 99 nonempty native YAML files / 111 main rules / 94 rule_set references.
 
 ## v6.0.1 (2026-07-10)
 
-- FIX#174：修复 Shadowrocket 加载 `scki-fused-005-ad`（原 51.10 MiB）和 `scki-fused-057-intl-site`（原 20.15 MiB）时，CDN 返回 `403/forbidden`、客户端报“文件过大”的问题。根因是融合编译器把一个策略段始终写成单个文本文件，未约束远程分发文件体积。
-- FUSED-REMOTE-SHARDS：`tools/build-fused-rule-sets.js` 为 Clash / Surge / Quantumult X 文本产物增加 18 MiB UTF-8 上限，严格按规则行分片并保留源规则图的先后顺序、策略目标和段内语义。广告段生成 3 个分片，国外网站尾段生成 2 个分片；Shadowrocket、Surge、Loon、Quantumult X 自动引用所有同策略分片。
-- EGERN-NATIVE：`tools/generate-egern-from-cmfa.js` 对超限 Egern 原生 YAML 规则集执行同样的有序分片；广告域名规则集从 1 个拆为 3 个，主配置从 130 条规则 / 113 个 `rule_set` 引用调整为 132 / 115，仅是同策略分片引用增加，分流语义不变。
-- VERIFY：新增 `tools/validate-generated-remote-asset-size.js`，扫描所有客户端实际引用的本仓库 `rulesets/generated/` URL，缺文件或任一文件超过 18 MiB 即失败；`validate-artifact-contracts.js` 改读 fused manifest 的实际 parts，验证分片引用、顺序、Egern 映射和远程资产上限，防止再次生成无法分发的配置。
-- BUILD-IDEMPOTENCE：修复融合编译器在 CRLF JS 文件上清理旧 `applyMihomoFusedRuleSets(config)` 调用时漏匹配的问题；重复构建后每个 JS 覆写只保留一个注入调用，`validate-js-overwrites.js` 对此建立静态回归断言。
-- SYNC：14 个客户端产物同步至 Clash Party / source graph `v6.0.1`。Mihomo `.mrs`、sing-box `.srs`、v2rayN Xray 与 Passwall / Passwall2 原生 fallback 保持各自格式，不将二进制或原生规则格式强制转换为文本分片。
+- FIX#174: fixed CDN `403/forbidden` and Shadowrocket “file too large” errors for `scki-fused-005-ad` (formerly 51.10 MiB) and `scki-fused-057-intl-site` (20.15 MiB). The compiler always emitted a policy segment as one text file without bounding distribution size.
+- FUSED-REMOTE-SHARDS: `tools/build-fused-rule-sets.js` added an 18 MiB UTF-8 limit for Clash / Surge / Quantumult X text, splitting only at rule boundaries while preserving source order, targets and segment semantics. Advertising produced 3 shards and the international-site tail 2; Shadowrocket, Surge, Loon and Quantumult X automatically referenced all same-policy shards.
+- EGERN-NATIVE: `tools/generate-egern-from-cmfa.js` applied the same ordered splitting to oversized native Egern YAML. Advertising-domain sets changed from 1 to 3, and main configuration from 130 rules / 113 `rule_set` references to 132 / 115. Only same-policy references increased; routing semantics were unchanged.
+- VERIFY: added `tools/validate-generated-remote-asset-size.js` to scan repository `rulesets/generated/` URLs actually referenced by every client, failing for missing files or files above 18 MiB. `validate-artifact-contracts.js` read actual fused-manifest parts to check shard references/order, Egern mapping and size limits, preventing undistributable configurations.
+- BUILD-IDEMPOTENCE: fixed the fusion compiler missing old `applyMihomoFusedRuleSets(config)` calls when cleaning CRLF JS files. Repeated builds retained one injection call per JS override, enforced by static regression assertions in `validate-js-overwrites.js`.
+- SYNC: all 14 client artifacts aligned with Clash Party / source graph `v6.0.1`. Mihomo `.mrs`, sing-box `.srs`, v2rayN Xray and Passwall / Passwall2 native fallbacks retained their formats rather than forcing binary/native rules into text shards.
 
 ## Unreleased (2026-07-09)
 
-- SOURCE-GRAPH：新增 `rulesets/source/routing-graph.js` 作为规则权威输入，集中记录上游 provider、原始规则顺序、MRS 归一化映射和最终分流目标。
-- APP-SIMPLIFY：Clash Party Smart/Normal 与 FlClash JS 覆写脚本移除 raw provider/rule 注入和 MRS 映射表，只保留节点/策略组逻辑与最终融合规则集调用。
-- FALLBACK-FUSED：v2rayN Xray 由非空 fused sing-box JSON 展平成 82 条原生 Xray RuleObject；Passwall / Passwall2 使用 64 条原生 `rule-set:remote` fused shunt rule，不再维护 33 条手写域名/IP 展平列表。
-- TOOLING：`sync-mihomo-mrs-rule-providers.js` 改读 source graph raw 输入；`apply-mihomo-mrs-overrides.js` 只更新 source graph；`build-fused-rule-sets.js` 改读 source graph normalized 输入，并联动 `generate-fused-fallback-artifacts.js` 生成 v2rayN / Passwall / Passwall2 fallback 产物。
-- VERIFY：全产物合同新增 source graph authority、fallback fused 映射和 Passwall 原生 `.srs` 引用检查，并禁止客户端 JS 重新携带原始上游规则框架。本次不改变最终融合规则语义，最终 Mihomo-family 输出为 `113 providers / 130 rules`。
+- SOURCE-GRAPH: added `rulesets/source/routing-graph.js` as the authoritative input, centrally recording upstream providers, original order, MRS normalization maps and final routing targets.
+- APP-SIMPLIFY: removed raw provider/rule injection and MRS maps from Clash Party Smart/Normal and FlClash JS overrides, retaining only node/group logic and the final fused-rule-set call.
+- FALLBACK-FUSED: flattened nonempty fused sing-box JSON into 82 native v2rayN Xray RuleObjects. Passwall / Passwall2 used 64 native `rule-set:remote` fused shunt rules instead of maintaining 33 handwritten flattened domain/IP lists.
+- TOOLING: `sync-mihomo-mrs-rule-providers.js` read source-graph raw input; `apply-mihomo-mrs-overrides.js` updated only the source graph; `build-fused-rule-sets.js` read normalized source-graph input and invoked `generate-fused-fallback-artifacts.js` for v2rayN / Passwall / Passwall2 fallbacks.
+- VERIFY: all-product contracts checked source-graph authority, fallback fused mapping and native Passwall `.srs` references, forbidding client JS from reacquiring raw upstream rule frameworks. Final fused semantics were unchanged; Mihomo-family output was `113 providers / 130 rules`.
 
 ## v6.0.0 (2026-07-09)
 
-- FUSED-RULESETS：新增 `tools/build-fused-rule-sets.js`，将源 `474 providers / 931 rules` 编译为 `68` 个策略顺序段、`113` 个融合 provider、`130` 条主规则，保留 `17` 条必要内联规则，`unresolved=0`。
-- MIHOMO-MRS：支持 `.mrs` 的 Mihomo 产物优先引用融合后的 `*-domain.mrs` / `*-ipcidr.mrs` / `*-ipcidr-no-resolve.mrs`；不可转部分落到 `*-residual.yaml`，不再依赖静态兼容映射表膨胀主配置。
-- NATIVE-FUSED：Shadowrocket / Surge / Loon / Quantumult X 迁移到融合文本规则集；Egern 生成 118 个原生 YAML 规则集；SingBox 生成 68 个 `.srs` 规则集。
-- GOVERNANCE：`CLAUDE.md` / `AGENTS.md` 固化 “source graph → MRS → 融合规则集 → 各端产物” 的单向链路，禁止后续把 Clash Party / CMFA 当成权威源。
-- VERIFY：同步更新 JS / PROCESS-NAME / 全产物合同校验，融合 manifest 与 `.mrs` manifest 纳入验收。
+- FUSED-RULESETS: added `tools/build-fused-rule-sets.js`, compiling `474 providers / 931 rules` into `68` ordered policy segments, `113` fused providers and `130` main rules, retaining `17` necessary inline rules with `unresolved=0`.
+- MIHOMO-MRS: supporting Mihomo products preferred fused `*-domain.mrs` / `*-ipcidr.mrs` / `*-ipcidr-no-resolve.mrs`; unconvertible rules went to `*-residual.yaml`, avoiding static compatibility maps inflating the main configuration.
+- NATIVE-FUSED: Shadowrocket / Surge / Loon / Quantumult X migrated to fused text sets; Egern generated 118 native YAML sets and SingBox generated 68 `.srs` sets.
+- GOVERNANCE: `CLAUDE.md` / `AGENTS.md` established the one-way source graph → MRS → fused sets → client artifacts chain, prohibiting Clash Party / CMFA being treated as authoritative sources again.
+- VERIFY: updated JS / PROCESS-NAME / all-product contracts and included fused/`.mrs` manifests in acceptance.
 
 ## v5.4.39 (2026-07-09)
 
-- MRS-PARTIAL：全量复查剩余 `YamlRule` / `TextRule`，可迁移部分全部迁移；`.mrs` manifest 当前为 converted=267、split=39、partial=30、existing_mrs=35、retained=20、failed=0。
-- MIHOMO-MRS：Mihomo 系产物同步到 474 providers / 931 rules；424 个 provider 使用 `.mrs`，30 个 provider 使用本仓库残余 classical YAML，20 个确认为全量不可迁移保留原格式。
-- SCKI-SUPPLEMENTAL：补充规则集里可表达为 domain/ipcidr 的 `scki-*` 已迁移到 `.mrs`；两个 `PROCESS-NAME` 规则集继续保留为平台例外。
-- DERIVED：Egern 重新生成为 927 条主规则、484 个 rule_set；SingBox 生成器改为从 `.mrs` manifest 回溯 `scki-*` 源规则并展开为原生 route rules。
-- VERIFY：`.mrs` 映射表在 JS 产物中改为压缩生成层，静态 YAML 产物直接写最终规则集地址；合同校验同步检查 partial / residual 文件数量与引用。
+- MRS-PARTIAL: fully rechecked remaining `YamlRule` / `TextRule` inputs and migrated every convertible part. The `.mrs` manifest recorded converted=267, split=39, partial=30, existing_mrs=35, retained=20, failed=0.
+- MIHOMO-MRS: Mihomo artifacts aligned at 474 providers / 931 rules: 424 providers used `.mrs`, 30 used repository residual classical YAML and 20 confirmed wholly unconvertible providers retained their original formats.
+- SCKI-SUPPLEMENTAL: domain/ipcidr-compatible `scki-*` supplemental rules migrated to `.mrs`; two `PROCESS-NAME` sets remained platform exceptions.
+- DERIVED: regenerated Egern with 927 main rules and 484 rule_sets; the SingBox generator traced `scki-*` sources through the `.mrs` manifest and expanded them into native route rules.
+- VERIFY: `.mrs` maps became a compact generated layer in JS, while static YAML wrote final set URLs directly. Contracts checked partial/residual file counts and references.
 
 ## v5.4.38 (2026-07-09)
 
-- SCKI-SUPPLEMENTAL：新增 `rulesets/supplemental/` 公共补充规则集，将广告误伤、抖音 Web、RustDesk、Google Workspace、下载更新等零星直写域名/IP/进程整理为规则集引用。
-- MIHOMO-MRS：支持 `.mrs` 的 Mihomo 产物（Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash）迁移上游规则源：35 个复用上游 `.mrs`，255 个纯 domain/ipcidr provider 转为本仓库 `.mrs`，38 个混合 provider 拆分为 domain/ipcidr 双 `.mrs`，48 个含 GEOIP/端口/进程等不支持类型的 provider 保留原格式。
-- EGERN：`独立内核系/Egern/` 从 Preview 升级为正式同步产物，由 CMFA 生成 22 个 `smart` 区域组、33 个业务组、882 条 Egern 主规则与 439 个顶层 `rule_set`；Egern 不直接消费 Mihomo `.mrs`，而是映射到本仓库生成的 Egern 原生 YAML 规则集。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash、Stash、Egern、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2 元数据和产物同步到 v5.4.38。
-- VERIFY：合同校验改为检查 `scki-*` 补充规则集引用、`.mrs` 清单、正式 Egern YAML 结构；JS 产物为 55 组、884 条规则、429 providers。
+- SCKI-SUPPLEMENTAL: added public `rulesets/supplemental/` sets, organizing scattered advertising false-positive, Douyin Web, RustDesk, Google Workspace and download/update domain/IP/process entries into set references.
+- MIHOMO-MRS: supporting products (Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, FlClash, Stash) migrated upstream sources: 35 reused upstream `.mrs`, 255 pure domain/ipcidr providers became repository `.mrs`, 38 mixed providers split into paired domain/ipcidr `.mrs`, and 48 containing unsupported GEOIP/port/process types retained original formats.
+- EGERN: promoted `独立内核系/Egern/` from Preview to production synchronization. CMFA generated 22 `smart` regional groups, 33 business groups, 882 native main rules and 439 top-level `rule_set`s. Egern did not consume Mihomo `.mrs` directly; it mapped to generated native YAML sets.
+- SYNC: aligned metadata/artifacts for Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, FlClash, Stash, Egern, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall and Passwall2 at v5.4.38.
+- VERIFY: contracts checked `scki-*` references, the `.mrs` manifest and production Egern YAML structure; JS artifacts had 55 groups, 884 rules and 429 providers.
 
 ## v5.4.37-stash.1 (2026-07-07)
 
-- FEAT#173-STASH：新增 Stash 专用目录，包含由 CMFA 自动裁剪生成的 `独立内核系/Stash/Stash.yaml`、使用说明、CHANGELOG 与 Stash Wiki 字段参考。
-- TOOLING：新增 `tools/generate-stash-from-cmfa.js`，并把 Stash YAML 纳入 `validate-artifact-contracts.js` 与 CI 路径触发。
-- COMPAT：Stash 产物保留 22 区域组、33 业务组、376 rule-provider 与规则顺序；删除 Stash Wiki 未确认的 Mihomo 扩展字段和 provider 下载代理字段。
+- FEAT#173-STASH: added a Stash directory containing CMFA-derived `独立内核系/Stash/Stash.yaml`, usage instructions, CHANGELOG and Stash Wiki field references.
+- TOOLING: added `tools/generate-stash-from-cmfa.js` and included Stash YAML in `validate-artifact-contracts.js` and CI path triggers.
+- COMPAT: retained 22 regional groups, 33 business groups, 376 rule-providers and rule order; removed Mihomo extension fields and provider download-proxy fields unconfirmed by Stash Wiki.
 
 ## v5.4.37 (2026-06-29)
 
-- DNS-POLICY#170：Mihomo 系列补齐 `nameserver-policy` 的 `geosite:cn` 与 `geosite:geolocation-!cn` 绑定，国内域名固定国内 DoH，非国内域名固定 Cloudflare/Google DoH，减少先走国内递归再 fallback 的 DNS 暴露面。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、FlClash 同步；OpenClash 参考快照元数据同步到 v5.4.37。
-- DOCS：根 README DNS 流程图、Clash Party / FlClash 手动 DNS 示例同步 DoH-over-IP bootstrap、hosts 预解析、geosite nameserver-policy 与 Sniffer skip 列表；清理 Clash Party README 旧业务组/规则数说明。
-- VERIFY：`validate-js-overwrites.js` 与 `validate-artifact-contracts.js` 新增 geosite DNS policy 断言，覆盖 JS 输出、CMFA YAML 与 OpenClash heredoc。
-- SCOPE：Shadowrocket / Surge / Loon / Quantumult X / SingBox / v2rayN / Passwall / Passwall2 没有 Mihomo `nameserver-policy` 同字段面，配置不改；PR 描述需逐项列出不适用原因。
+- DNS-POLICY#170: completed Mihomo `nameserver-policy` bindings for `geosite:cn` and `geosite:geolocation-!cn`, assigning CN domains to CN DoH and non-CN domains to Cloudflare/Google DoH to reduce exposure from first using CN recursion and then fallback.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart and FlClash; OpenClash reference-snapshot metadata moved to v5.4.37.
+- DOCS: updated the root DNS diagram and Clash Party / FlClash manual DNS examples for DoH-over-IP bootstrap, hosts pre-resolution, geosite nameserver-policy and Sniffer skip lists; removed stale Clash Party business-group/rule counts.
+- VERIFY: `validate-js-overwrites.js` and `validate-artifact-contracts.js` gained geosite DNS-policy assertions covering JS output, CMFA YAML and OpenClash heredocs.
+- SCOPE: Shadowrocket / Surge / Loon / Quantumult X / SingBox / v2rayN / Passwall / Passwall2 lacked an equivalent Mihomo `nameserver-policy` surface and were unchanged; PR descriptions were required to list non-applicability reasons individually.
 
 ## v5.4.36 (2026-06-29)
 
-- CLEAN#171-DIRECT：删除 22 条经逐条确认的冗余直写规则：2 条本地前序覆盖（`video.unext.jp` / `dl.delivery.mp.microsoft.com`）+ 20 条远程 provider 同策略前序覆盖。
-- CONFIRM：20 条确认可删候选覆盖 Stripe、Outlook mail、Notion/Atlassian 协作、英欧流媒体、Yandex/Python、Mozilla/Ubuntu；对应前序同策略 provider 为 `stripe`、`mail`、`notion` / `atlassian`、`all4` / `my5` / `skygo`、`yandex` / `python` / `developer`、`mozilla` / `ubuntu`。
-- KEEP：12 条候选保留（AI 7 条、Binance 3 条、Microsoft login 2 条），因为同目标证明之前存在不同策略 `.mrs` 规则集，无法证明严格无行为变化。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、FlClash 已同步；Passwall / Passwall2 同步删除展平规则 `channel4.com` / `sky.com`；v2rayN 仅更新版本元数据。
+- CLEAN#171-DIRECT: removed 22 individually confirmed redundant inline rules: 2 covered by earlier local entries (`video.unext.jp` / `dl.delivery.mp.microsoft.com`) + 20 covered by earlier same-policy remote providers.
+- CONFIRM: the 20 removable candidates covered Stripe, Outlook mail, Notion/Atlassian collaboration, UK/EU streaming, Yandex/Python and Mozilla/Ubuntu; covering same-policy providers were `stripe`, `mail`, `notion` / `atlassian`, `all4` / `my5` / `skygo`, `yandex` / `python` / `developer`, `mozilla` / `ubuntu`.
+- KEEP: retained 12 candidates (7 AI, 3 Binance, 2 Microsoft login) because different-policy `.mrs` sets preceded the same-target proof, preventing proof of strictly unchanged behavior.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox and FlClash; Passwall / Passwall2 removed flattened `channel4.com` / `sky.com`; v2rayN updated metadata only.
 
 ## v5.4.35 (2026-06-28)
 
-- CLEAN#170-UPSTREAM：删除 8 个经 live upstream recheck 仍被前序同目标规则 100% 覆盖的冗余上游规则集：`marketing`、`acc-vf-paypal`、`encoretvb`、`findmy`、`wildrift`、`acfun`、`acc-fl-douyin`、`acc-fl-xiaohongshu`。
-- CLEAN#170-DIRECT：删除 3 条已被前置 Douyin 国内流媒体守卫同目标覆盖的后置直写规则：`douyin.com`、`douyinpic.com`、`douyinvod.com`。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；SingBox Full 由 generator 重新生成。
-- SCOPE：`privacy` 不删，因仍有 `IP-CIDR,0.0.0.1/32` 未被前序覆盖；Passwall/Passwall2 保留展平静态 `domain:encoretvb.com`，仅做基线元数据对齐。
-- VERIFY：全量 Mihomo provider 数 384 → 376；SR/独立内核系/Surge/Loon 远程规则 288 → 283；QX `filter_remote` 285 → 280。
+- CLEAN#170-UPSTREAM: removed 8 redundant upstream sets still 100% covered by earlier same-target rules after live recheck: `marketing`, `acc-vf-paypal`, `encoretvb`, `findmy`, `wildrift`, `acfun`, `acc-fl-douyin`, `acc-fl-xiaohongshu`.
+- CLEAN#170-DIRECT: removed three later inline rules already covered by the earlier same-target Douyin CN-streaming guard: `douyin.com`, `douyinpic.com`, `douyinvod.com`.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall, Passwall2 and FlClash; regenerated SingBox Full through its generator.
+- SCOPE: retained `privacy` because `IP-CIDR,0.0.0.1/32` lacked earlier coverage. Passwall/Passwall2 retained flattened static `domain:encoretvb.com`, updating baseline metadata only.
+- VERIFY: total Mihomo providers 384 → 376; SR/Surge/Loon remote rules 288 → 283; QX `filter_remote` 285 → 280.
 
 ## v5.4.34 (2026-06-28)
 
-- FIX#169-AMAP：新增高德地图 / AMap 专用国内规则前置，`webapi.amap.com` 等高德核心域名早于 `geolocation-!cn` / 国外兜底命中 `🏠 国内网站`。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；SingBox Full 由 generator 重新生成。
-- VERIFY：新增 AMap/GaoDe 首匹配合同断言，确认广告/威胁规则仍在前，高德国内规则早于 foreign tail。
+- FIX#169-AMAP: added leading AMap-specific CN rules, routing core hosts such as `webapi.amap.com` to `🏠 国内网站` before `geolocation-!cn` / international fallback.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall, Passwall2 and FlClash; regenerated SingBox Full through its generator.
+- VERIFY: added AMap/GaoDe first-match assertions confirming advertising/threat rules stayed earlier and AMap CN rules preceded the foreign tail.
 
 ## v5.4.33 (2026-06-27)
 
-- FEAT#169-AI-CODING：接入 `VPSDance/ai-proxy-rules` 的 `coding` 场景，补齐 Codex / Claude Code / Cursor / Zed / Windsurf / Replit / Sourcegraph / Amazon Q / Augment 等 AI 编程工具覆盖。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；SingBox Full 由 generator 重新生成。
-- SCOPE：不新增业务组，仍归入 `🤖 AI 服务`；Passwall / Passwall2 因 VPSDance 暂无 `.srs`，使用手工域名兜底而非 `rule-set:remote`。
+- FEAT#169-AI-CODING: integrated `coding` from `VPSDance/ai-proxy-rules`, covering Codex / Claude Code / Cursor / Zed / Windsurf / Replit / Sourcegraph / Amazon Q / Augment and other AI coding tools.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall, Passwall2 and FlClash; regenerated SingBox Full through its generator.
+- SCOPE: no new business group; these remained `🤖 AI 服务`. Because VPSDance lacked `.srs`, Passwall / Passwall2 used manual domain fallbacks rather than `rule-set:remote`.
 
 ## v5.4.32 (2026-06-25)
 
-- FIX#168-CN-GAME：国内游戏直连规则前置到 HoYoverse / Game / category-games 等国外游戏宽规则之前，避免国内游戏被先命中代理。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；Passwall/v2rayN 补齐米哈游/网易/WeGame 等国内游戏域名集合。
-- VERIFY：新增国内游戏优先级合同断言，覆盖 `yuanshen.com` / `mihoyo.com` 早于 HoYoverse、Game、category-games 宽规则。
+- FIX#168-CN-GAME: placed CN-game direct rules before broad HoYoverse / Game / category-games international-game rules to prevent earlier proxy matches.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall, Passwall2 and FlClash. Passwall/v2rayN completed CN-game domains for miHoYo/NetEase/WeGame and others.
+- VERIFY: added CN-game precedence assertions covering `yuanshen.com` / `mihoyo.com` before broad HoYoverse, Game and category-games rules.
 
 ## v5.4.31 (2026-06-20)
 
-- FIX#167-DOUYIN：抖音 Web / `zjcdn.com` 视频 CDN 前置到 `📺 国内流媒体`，避免被 TikTok、广告或国外兜底规则抢先命中。
-- SYNC：Clash Party Smart/Normal、CMFA、OpenClash Normal/Smart、Shadowrocket、Surge、Loon、Quantumult X、SingBox、v2rayN、Passwall、Passwall2、FlClash 同步；SingBox Full 由 generator 重新生成。
-- VERIFY：新增 Douyin Web guard 回归断言，覆盖 `www.douyin.com`、`v5-dy-o.zjcdn.com`、`v5-dy-ov-experiment.zjcdn.com` 这类首匹配路径。
+- FIX#167-DOUYIN: moved Douyin Web / `zjcdn.com` video CDN into an earlier `📺 国内流媒体` guard to avoid TikTok, advertising or international fallback matching first.
+- SYNC: synchronized Clash Party Smart/Normal, CMFA, OpenClash Normal/Smart, Shadowrocket, Surge, Loon, Quantumult X, SingBox, v2rayN, Passwall, Passwall2 and FlClash; regenerated SingBox Full through its generator.
+- VERIFY: added Douyin Web guard regressions for first-match paths such as `www.douyin.com`, `v5-dy-o.zjcdn.com` and `v5-dy-ov-experiment.zjcdn.com`.
 
 ## v5.4.30 (2026-06-17)
 
-- FEAT#166-GOOGLE：新增 `🔍 Google 服务` 业务组，插入在 `🔧 工具与服务` 之前；Google 基础服务、Scholar、Google IP 与 Google QUIC 从工具组拆出。
-- SYNC：业务组从 32 调整为 33，总组数从 54 调整为 55；SingBox selector/urltest 计数为 54；Passwall/Passwall2 展平 shunt rules 调整为 33 条。
-- SCOPE：YouTube、Gemini/NotebookLM、Gmail、Google Voice、Meet、FCM、下载更新等既有专属归属保持不变。
+- FEAT#166-GOOGLE: added `🔍 Google 服务` before `🔧 工具与服务`, separating Google base services, Scholar, Google IP and Google QUIC from tools.
+- SYNC: business groups 32 → 33, total groups 54 → 55; SingBox selector/urltest count was 54; Passwall/Passwall2 flattened shunt rules became 33.
+- SCOPE: existing dedicated assignments for YouTube, Gemini/NotebookLM, Gmail, Google Voice, Meet, FCM and downloads/updates remained unchanged.
 
 ## v5.4.29 (2026-06-10)
 
-- PERF#165-LATENCY：全端统一区域自动测速间隔为 300s，降低高频测速对机场订阅与低端设备的压力。
-- SYNC：Clash Party Smart `120s -> 300s`；Mihomo/url-test 家族、iOS 四件套与 OpenClash `180s -> 300s`；SingBox urltest `3m -> 5m`；CMFA proxy-provider health-check 保持/确认 300s。
-- N/A：v2rayN Xray、Passwall、Passwall2 不承载自动区域测速字段，仅元数据对齐 v5.4.29 基线。
-- VERIFY：新增 300s interval 合同守卫，防止后续产物回退到 120/180s。
+- PERF#165-LATENCY: standardized regional automatic testing at 300s across clients, reducing high-frequency probing load on subscription providers and low-end devices.
+- SYNC: Clash Party Smart `120s -> 300s`; Mihomo/url-test family, four iOS clients and OpenClash `180s -> 300s`; SingBox urltest `3m -> 5m`; CMFA proxy-provider health-check retained/confirmed 300s.
+- N/A: v2rayN Xray, Passwall and Passwall2 had no automatic regional-testing fields and only aligned metadata to v5.4.29.
+- VERIFY: added 300s interval contracts to prevent regression to 120/180s.
 
 ## v5.4.28 (2026-06-07)
 
-- ★ CLEAN#165 P2：全产物联动清理已被上游同策略规则集覆盖的直写域名（基线 -38 行，6 段）：
-  - **🇭🇰 香港流媒体** (4): mytvsuper.com/nowe.com/rthk.hk/cabletv.com.hk
-  - **🇹🇼 台湾流媒体** (5): litv.tv/friday.tw/linetv.tw/hamivideo.hinet.net
-  - **🇯🇵 日韩流媒体** (6): tver.jp/dmm.com/dmm.co.jp/nicovideo.jp/nicovideo.me/dmc.nico
-  - **🇪🇺 欧洲流媒体** (3): itv.com/itvstatic.com/britbox.com
-  - **🌐 其他国外流媒体** (6): wetv.vip/wetvinfo.com/viki.com/viki.io/mewatch.sg/discoveryplus.com
-  - **🎮 国外游戏** (12): ubisoft.com/ubi.com/riotgames.com/leagueoflegends.com/valorant.com/rockstargames.com/gog.com/gogalaxy.com/supercell.com/garena.com/hoyoverse.com/hoyolab.com
-- **全产物联动**：Clash Party / FlClash / CMFA / OpenClash Normal+Smart / Shadowrocket / Surge / Loon / Quantumult X 同步清理；SingBox（需修改生成器，本轮豁免）/ v2rayN（无此冗余）/ 双内核系/Passwall/Passwall2（规则语法不同，不适用）。
-- 详见 `Mihomo内核系/Clash Party/CHANGELOG.md`。
+- ★ CLEAN#165 P2: removed inline domains already covered by upstream same-policy sets across products (baseline -38 lines, 6 segments):
+  - **Hong Kong streaming** (4): mytvsuper.com/nowe.com/rthk.hk/cabletv.com.hk
+  - **Taiwan streaming** (5): litv.tv/friday.tw/linetv.tw/hamivideo.hinet.net
+  - **Japan/Korea streaming** (6): tver.jp/dmm.com/dmm.co.jp/nicovideo.jp/nicovideo.me/dmc.nico
+  - **European streaming** (3): itv.com/itvstatic.com/britbox.com
+  - **Other international streaming** (6): wetv.vip/wetvinfo.com/viki.com/viki.io/mewatch.sg/discoveryplus.com
+  - **International games** (12): ubisoft.com/ubi.com/riotgames.com/leagueoflegends.com/valorant.com/rockstargames.com/gog.com/gogalaxy.com/supercell.com/garena.com/hoyoverse.com/hoyolab.com
+- **Cross-product synchronization**: Clash Party / FlClash / CMFA / OpenClash Normal+Smart / Shadowrocket / Surge / Loon / Quantumult X removed these together. SingBox required generator changes and was exempt in this batch; v2rayN had no such redundancy; Passwall/Passwall2 used different syntax and were not applicable.
+- See `Mihomo内核系/Clash Party/CHANGELOG.md`.
 
 ## v5.4.27 (2026-06-07)
 
-- CLEAN#165：全量下载 348 个可文本解析的上游规则集（`.mrs` 二进制仅计入覆盖来源、不作为删除证据），解析 244,417 条上游规则；发现 365 条直写域名/IP 与上游存在重叠。
-- 本轮只删除”移除后首个命中仍为同策略上游规则集”的冗余项：Clash/mihomo 家族 7 条直写域名（Claude/PayPal/HBO/Hulu/Xbox 覆盖）+ 双内核系/Passwall/Passwall2 2 条 HBO/Max `geosite:hbo` 本地兜底。
-- SYNC：Clash Party(Smart+Normal) / CMFA / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / FlClash 同步删除；SingBox Full 已由 generator 重新生成；v2rayN Xray 路由无本轮直写候选，仅元数据对齐。
+- CLEAN#165: downloaded 348 text-parseable upstream sets (`.mrs` binaries counted only as coverage sources, not deletion evidence), parsed 244,417 upstream rules and found 365 inline domain/IP overlaps.
+- Removed only entries whose first match after deletion remained a same-policy upstream set: 7 inline domains across Clash/Mihomo (Claude/PayPal/HBO/Hulu/Xbox coverage) + 2 HBO/Max local `geosite:hbo` fallbacks in Passwall/Passwall2.
+- SYNC: Clash Party(Smart+Normal) / CMFA / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / FlClash removed them together. Regenerated SingBox Full; v2rayN Xray had no candidates in this batch and updated metadata only.
 
 ## v5.4.26 (2026-06-07)
 
-- FIX#164：腾讯 WorkBuddy `copilot.tencent.com` 被 szkane `AiDomain.list` 的 `DOMAIN-KEYWORD,copilot` 子串误吞到 `🤖 AI 服务`（国外代理）导致对话报错；在所有 AI rule-set 之前前置 `copilot.tencent.com → 🏠 国内网站` 防吞规则。详见各子目录 CHANGELOG。
-- SYNC：Clash Party(Smart+Normal) / CMFA / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / FlClash 同步前置规则并 bump 至 `v5.4.26-*`；SingBox / v2rayN / Passwall / Passwall2 经核实不受影响（geosite 路径无 copilot 子串关键词，顺流 `geosite:cn` 直连），仅对齐版本号。
-- VERIFY：`tools/validate-js-overwrites.js` 新增 FIX#164 回归守卫。
+- FIX#164: szkane `AiDomain.list`'s `DOMAIN-KEYWORD,copilot` incorrectly captured Tencent WorkBuddy `copilot.tencent.com` into `🤖 AI 服务`, whose proxy path caused conversation errors. Added `copilot.tencent.com → 🏠 国内网站` before all AI sets. See each client CHANGELOG.
+- SYNC: Clash Party(Smart+Normal) / CMFA / OpenClash(Normal+Smart) / Shadowrocket / Surge / Loon / Quantumult X / FlClash gained the leading rule and bumped to `v5.4.26-*`. SingBox / v2rayN / Passwall / Passwall2 were verified unaffected (their geosite paths lacked the copilot keyword and reached direct `geosite:cn`), updating versions only.
+- VERIFY: `tools/validate-js-overwrites.js` gained a FIX#164 regression guard.
 
 ## v5.4.25-review.1 (2026-06-05)
 
-- REVIEW：全仓代码审查修复 SingBox QUIC 规则不可达、业务组顺序偏差、QX 本地规则误放 `[filter_remote]`、OpenClash 固定 `/tmp` 临时文件风险、PROCESS-NAME 验证盲点与 CI 覆盖缺口。
-- SYNC：CMFA / OpenClash / QX / SingBox / Passwall / Passwall2 按平台尾号递增并补齐 CHANGELOG；SingBox Full 已重新生成。
-- VERIFY：扩展合同验证覆盖 SingBox 业务组顺序、无条件 FINAL 规则、fake-ip-filter 必需条目、QX 分段语法与 PROCESS-NAME CI 校验。
+- REVIEW: repository-wide review fixed unreachable SingBox QUIC rules, business-group order drift, QX local rules misplaced in `[filter_remote]`, fixed-`/tmp` OpenClash temporary-file risks, PROCESS-NAME validation blind spots and CI gaps.
+- SYNC: incremented platform suffixes and completed CHANGELOGs for CMFA / OpenClash / QX / SingBox / Passwall / Passwall2; regenerated SingBox Full.
+- VERIFY: extended contracts for SingBox business-group order, unconditional FINAL, required fake-ip-filter entries, QX section syntax and PROCESS-NAME CI checks.
 
 ## v5.4.25 (2026-06-04)
 
-- FIX：修复 CMFA `proxy-groups` 顶层 YAML 结构，补上 Ruby YAML 解析验证，防止导入/生成链路再次静默失效。
-- SYNC：SR / Surge / Loon / QX / SingBox / v2rayN / Passwall / Passwall2 元数据对齐 Clash Party v5.4.25。
-- FIX：Passwall active rules 将无效 `geosite:kakaotalk` 改为 `geosite:kakao` + Kakao 显式域名兜底，并让 apply 脚本默认 `--replace` 防重复追加。
-- HARDEN：AI responder 限制 `/ai-help` 写权限触发者，并校验 `AI_PATCH` 路径边界；QX 文档移除不存在的 `srk_to_qx.py` 生成声明。
-- VERIFY：扩展 `tools/validate-artifact-contracts.js` 覆盖 CMFA 解析、SingBox 生成器元数据、Passwall/Passwall2 规则同源性。
+- FIX: repaired CMFA's top-level `proxy-groups` YAML structure and added Ruby YAML parsing to prevent silent import/generation failures.
+- SYNC: aligned SR / Surge / Loon / QX / SingBox / v2rayN / Passwall / Passwall2 metadata with Clash Party v5.4.25.
+- FIX: replaced invalid `geosite:kakaotalk` with `geosite:kakao` + explicit Kakao-domain fallbacks in active Passwall rules, making the apply script default to `--replace` to prevent duplicate appends.
+- HARDEN: restricted `/ai-help` write-triggering actors and validated `AI_PATCH` path boundaries; QX docs removed the nonexistent `srk_to_qx.py` generation claim.
+- VERIFY: extended `tools/validate-artifact-contracts.js` to cover CMFA parsing, SingBox generator metadata and Passwall/Passwall2 rule-source consistency.
 
 ## v5.4.24 (2026-06-03)
 
-- CLEAN：清除全产物 21 条冗余规则 + 3 个未引用 rule-provider（深度审查验证，逐条对比上游原始文件）
-- 删除 Binance/Google 子/ProtonMail/音乐/社交/流媒体重复 DOMAIN-SUFFIX + GEOIP 重复条目
-- 根 README 精简 + CHANGELOG 规范写入 CLAUDE.md / AGENTS.md
-- 同步：全 14 文件（含 FlClash）
+- CLEAN: removed 21 redundant rules + 3 unreferenced rule-providers across products (deep review comparing each entry with original upstream files).
+- Removed duplicate DOMAIN-SUFFIX + GEOIP entries for Binance/Google subdomains/ProtonMail/music/social/streaming.
+- Shortened the root README and recorded CHANGELOG conventions in CLAUDE.md / AGENTS.md.
+- Synchronized all 14 files, including FlClash.
 
 ## v5.4.23 (2026-06-02)
 
-- FIX#161：zhimg.com / zhihu.co 加入国内网站直连（知乎图片 CDN + 短链未被 geosite:cn 覆盖）
-- FIX#162：SR/独立内核系/Surge/Loon/QX 修复失效远程规则 URL（HaGeZi TIF 403 / RemoteDesktop 不存在 / BiliIntl 路径更名）
-- 同步：全 12 产物
+- FIX#161: Add zhimg.com / zhihu.co to the China Websites direct-routing group (Zhihu image CDN and short links were not covered by geosite:cn).
+- FIX#162: Repair invalid remote rule URLs for SR/Independent-family/Surge/Loon/QX (HaGeZi TIF 403 / missing RemoteDesktop / renamed BiliIntl path).
+- Synchronize all 12 artifacts.
 
 ## v5.4.22 (2026-05-31)
 
-- GeTui(个推)推送 SDK getui.com / getui.net / gepush.com 加直连白名单（避免被广告/隐私表拦截导致 App 推送失败）
-- 借鉴 Proxy-override #1 QUIC 精细化：AND 规则白名单豁免（YouTube/Google/MS/Apple），其余非 CN QUIC REJECT
-- 首次补齐 CMFA + OpenClash + FlClash 的 QUIC AND 规则；SingBox generator 扩展 QUIC 转换
-- 兜底判据 GEOIP,CN -> GEOSITE,cn（fake-ip 下更可靠）
-- 配套新增 sniffer（QUIC/443 SNI 嗅探 + force-dns-mapping）
-- iOS 四件套标注 N/A（block-quic/disable-udp-ports 不支持 AND/NOT 白名单豁免）
+- Add GeTui push SDK domains getui.com / getui.net / gepush.com to the direct-routing allowlist to prevent advertising/privacy lists from breaking app notifications.
+- Adopt Proxy-override #1 granular QUIC handling: AND-rule allowlist exemptions for YouTube/Google/MS/Apple; REJECT other non-CN QUIC traffic.
+- Add QUIC AND rules to CMFA, OpenClash and FlClash for the first time; extend QUIC conversion in the SingBox generator.
+- Change the fallback criterion from GEOIP,CN to GEOSITE,cn for more reliable matching with fake-ip.
+- Add the accompanying sniffer configuration (QUIC/443 SNI sniffing + force-dns-mapping).
+- Mark the four iOS clients N/A: block-quic/disable-udp-ports do not support AND/NOT allowlist exemptions.
 
 ## v5.4.21 (2026-05-31)
 
-- 借鉴 Proxy-override #4 DoH-over-IP bootstrap：default-nameserver 从纯明文 IP 升级为 DoH-over-IP + 1 明文兜底
-- 消除 bootstrap 阶段 DNS 泄漏（阿里 + Google + Cloudflare DoH-over-IP）
+- Adopt Proxy-override #4 DoH-over-IP bootstrap: replace plaintext-only default-nameserver IPs with DoH-over-IP plus one plaintext fallback.
+- The original record described this as eliminating bootstrap-stage DNS leaks using Alibaba, Google and Cloudflare DoH-over-IP; this historical claim is not a new verification or guarantee.
 
 ## v5.4.20 (2026-05-30)
 
-- 借鉴 Proxy-override #6 节点过滤关键词补充：isInfoNode 新增中文「免费/试用/应急」+ 英文 Sign/Login/Register/Help/FAQ（\b 词边界防误伤 Signal）
-- 回归测试：新增 tools/test-info-node-filter.js（6 mihomo 产物一致性）+ 扩展 validate-js-overwrites.js fixture
+- Adopt Proxy-override #6 information-node keywords: add the literal Chinese matches `免费/试用/应急` and English Sign/Login/Register/Help/FAQ to isInfoNode (use \b word boundaries to avoid matching Signal).
+- Regression coverage: add tools/test-info-node-filter.js for consistency across 6 Mihomo artifacts and extend the validate-js-overwrites.js fixture.
 
 ## v5.4.19 (2026-05-30)
 
-- 借鉴 Proxy-override 批 A 低风险三项：
-  - #2 国内 SDK/CDN 直连前置（jpush/umeng 加入白名单；baomitu/bootcss/staticfile/upaiyun 前置国内网站段）
-  - #3 fake-ip-filter 补全 10 条（远控 todesk/oray/sunlogin/teamviewer/anydesk + 游戏 battlenet + B站 P2P mcdn.bilivideo.cn）
-  - #5 direct-nameserver-follow-policy: true（direct 出口域名解析遵循 nameserver-policy）
-- 全产物联动：#2 全 14 产物；#3/#5 限 6 mihomo 家族
-- 版本统一跳过烧毁的 v5.4.18，全产物对齐到 v5.4.19
+- Adopt three low-risk changes from Proxy-override batch A:
+  - #2: Prioritize direct routing for China-region SDK/CDN domains: allowlist jpush/umeng and move baomitu/bootcss/staticfile/upaiyun ahead of the China Websites section.
+  - #3: Add 10 fake-ip-filter entries for remote access (todesk/oray/sunlogin/teamviewer/anydesk), gaming (battlenet) and Bilibili P2P (mcdn.bilivideo.cn).
+  - #5: Set direct-nameserver-follow-policy: true so direct-egress domain resolution follows nameserver-policy.
+- Coordinate artifacts: #2 covers all 14 artifacts; #3/#5 apply only to the 6 Mihomo-family artifacts.
+- Skip the unusable v5.4.18 version and align all artifacts at v5.4.19.
 
 ## v5.4.17 (2026-05-26)
 
-- FIX#DNS-SPLIT-BOOTSTRAP：DNS 固定 default-nameserver 纯 IP 自举，其它 resolver 全部 DoH
-- nameserver/direct-nameserver 固定国内 DoH；proxy-server-nameserver/fallback 固定境外 DoH
-- prefer-h3: false / respect-rules: true / cache-algorithm: arc 写入主线
-- OpenClash FIX#KR-WB：Ruby REGIONS 裸 KR 补词边界；FIX#HOSTS-ALIGN：use-hosts 修正为 true
-- SingBox DNS 冗余修复 + rule_set 去重
+- FIX#DNS-SPLIT-BOOTSTRAP: Fix default-nameserver to IP-only bootstrap and use DoH for all other resolvers.
+- Fix nameserver/direct-nameserver to China-region DoH and proxy-server-nameserver/fallback to DoH outside that region.
+- Add prefer-h3: false / respect-rules: true / cache-algorithm: arc to the mainline.
+- OpenClash FIX#KR-WB: Add word boundaries around bare KR in Ruby REGIONS; FIX#HOSTS-ALIGN: Correct use-hosts to true.
+- Fix redundant SingBox DNS configuration and deduplicate rule_set.
 
 ## v5.4.16 (2026-05-22 / 2026-05-20)
 
-- FEAT#GAME-ACCEL：新增 16 条游戏加速器 PROCESS-NAME -> DIRECT 白名单（UU/小黑/迅游/雷神/NNer）
-- FIX#149-P0：paddle.com 前置到金融支付，避免 analytics.paddle.com 被 anti-AD 误拦截
-- Surge FIX#SURGE-PORT-RULE：DST-PORT -> DEST-PORT（Surge 官方语法）
+- FEAT#GAME-ACCEL: Add 16 PROCESS-NAME -> DIRECT allowlist rules for game accelerators (UU/Xiaohei/Xunyou/Leishen/NNer).
+- FIX#149-P0: Place paddle.com ahead in Financial Payments to prevent anti-AD from incorrectly blocking analytics.paddle.com.
+- Surge FIX#SURGE-PORT-RULE: Change DST-PORT to DEST-PORT, the official Surge syntax.
 
 ## v5.4.15 (2026-05-20)
 
-- DOC#GEOSITE-LEDGER：新增 docs/GEOSITE_COVERAGE_LEDGER.md 覆盖台账
-- REFACTOR#AD-FP-MODULE：广告误伤白名单提升为 AD_FALSE_POSITIVE_ALLOWLIST，injectRules() 顶部统一注入
+- DOC#GEOSITE-LEDGER: Add the coverage ledger docs/GEOSITE_COVERAGE_LEDGER.md.
+- REFACTOR#AD-FP-MODULE: Promote advertising false-positive exceptions to AD_FALSE_POSITIVE_ALLOWLIST and inject them consistently at the start of injectRules().
 
 ## v5.4.14 (2026-05-20)
 
-- FIX#CF-R2-P0：cloudflarestorage.com 前置到国外网站，避免 Sukka phishing 把 Cloudflare R2 存储域误导向广告拦截
+- FIX#CF-R2-P0: Prioritize cloudflarestorage.com in Foreign Websites to prevent Sukka phishing rules from routing Cloudflare R2 storage domains to ad blocking.
 
 ## v5.4.13 (2026-05-19)
 
-- FIX#STUN-REALIP：STUN/TURN NAT 探测改为真实 IP + 标准端口直连
-- fake-ip-filter 补充 stun1-4.l.google.com / STUN/TURN 通配 / global.turn.twilio.com
-- DST-PORT 补齐 5349 / 19302 / 19305 / 19307
+- FIX#STUN-REALIP: Use real IP responses and direct routing on standard ports for STUN/TURN NAT discovery.
+- Extend fake-ip-filter with stun1-4.l.google.com, STUN/TURN wildcards and global.turn.twilio.com.
+- Add DST-PORT entries for 5349 / 19302 / 19305 / 19307.
 
 ## v5.4.12 (2026-05-12)
 
-- FIX#RD-REALIP：RustDesk 域名加入 fake-ip-filter 真实 IP 回应，避免 rendezvous/relay 在 TUN/fake-ip 下打洞失败
-- Loon FIX#LOON-REMOTE-RULE：288 条远程规则集 URL 恢复到 [Remote Rule] 段
+- FIX#RD-REALIP: Add RustDesk domains to fake-ip-filter for real IP responses, avoiding rendezvous/relay hole-punch failures under TUN/fake-ip.
+- Loon FIX#LOON-REMOTE-RULE: Restore 288 remote rule-set URLs to the [Remote Rule] section.
 
 ## v5.4.11 (2026-05-12)
 
-- FIX#RD-PROC：RustDesk 桌面进程统一命中会议协作（不再归入本地工具直连白名单）
-- FIX#DNS-BOOTSTRAP：DNS 自举改为 IP-first，避免 TUN/fake-ip 下 DoH 域名无法解析导致死锁
+- FIX#RD-PROC: Route RustDesk desktop processes consistently through Meetings and Collaboration rather than the local-tools direct-routing allowlist.
+- FIX#DNS-BOOTSTRAP: Use IP-first DNS bootstrap to avoid deadlock when DoH domains cannot resolve under TUN/fake-ip.
 
 ## v5.4.9 (2026-05-11)
 
-- FEAT#LOCAL-TOOLS：新增桌面本地工具 PROCESS-NAME -> DIRECT 白名单
-- 覆盖 Oray/Sunlogin/AweSun/AnyDesk/ToDesk/RustDesk/TeamViewer/ZeroTier/Tailscale/frpc/frps/ngrok/natapp/cloudflared/Navicat
-- 新增 docs/process-name-compatibility.md 与 tools/validate-process-name-direct.js
+- FEAT#LOCAL-TOOLS: Add a PROCESS-NAME -> DIRECT allowlist for local desktop tools.
+- Cover Oray/Sunlogin/AweSun/AnyDesk/ToDesk/RustDesk/TeamViewer/ZeroTier/Tailscale/frpc/frps/ngrok/natapp/cloudflared/Navicat.
+- Add docs/process-name-compatibility.md and tools/validate-process-name-direct.js.
 
 ## v5.4.8 (2026-05-09)
 
-- ORDER#RULE-TAIL：重排中后段业务规则匹配顺序（UI 代理组顺序不变）
-- 国内流媒体从 TikTok 之前移至国内网站之前，避免 ByteDance 共用域被抢先命中
+- ORDER#RULE-TAIL: Reorder middle and late business-rule matching without changing the UI proxy-group order.
+- Move China Media from before TikTok to before China Websites to avoid prematurely matching shared ByteDance domains.
 
 ## v5.4.7 (2026-05-09)
 
-- FEAT#TikTok：新增独立「🎵 TikTok」业务组（32 业务组），从社交媒体独立为专属 select 组
-- FIX#HK：香港节点分类补全——REGION_DB kw 追加「港」，修复广港/深港等 IEPL/IPLC 跨境专线节点名匹配
+- FEAT#TikTok: Add a dedicated `🎵 TikTok` select group, separate from Social Media, bringing business groups to 32.
+- FIX#HK: Extend Hong Kong classification by adding the literal keyword `港` to REGION_DB kw, covering IEPL/IPLC cross-border node names such as `广港` and `深港`.
 
 ## v5.4.6 (2026-05-08)
 
-- FEAT#145：WeChat CDN cdn.weixin.qq.com 直连（全线 14 产物同步）
+- FEAT#145: Route the WeChat CDN cdn.weixin.qq.com directly across all 14 artifacts.
 
 ## v5.4.5 (2026-05-07)
 
-- 全球节点置顶 + 全产品组顺序同步
+- Pin Global Nodes first and synchronize group order across products.
 
 ## v5.4.3 (2026-05-06)
 
-- 家宽节点识别新增 \bhome\b 关键词（部分节点名仅含 Home，原 home[-_ ]?(ip|broadband) 无法匹配）
+- Add \bhome\b for residential-node detection: some names contain only Home, which the previous home[-_ ]?(ip|broadband) pattern did not match.
 
 ## v5.4.2 (2026-05-05)
 
-- FIX#41-P0：小米核心服务 DIRECT 白名单——修复 miuiprivacy/advertisingmitv 误杀认证安全域名（11 条规则前置广告拦截段）
+- FIX#41-P0: Add a DIRECT allowlist for Xiaomi core services to correct miuiprivacy/advertisingmitv false positives on authentication/security domains (11 rules before ad blocking).
 
 ## v5.4.1-normal.2 (2026-05-05)
 
-- FIX#FlClash-Review-P0：修复标准 Mihomo JS 运行时分类桶初始化回归（HK/TW/CN/JP/KR/SG/US/EU/AM/AF/OTHER/ALL buckets）
+- FIX#FlClash-Review-P0: Fix classification-bucket initialization regression in the standard Mihomo JS runtime (HK/TW/CN/JP/KR/SG/US/EU/AM/AF/OTHER/ALL buckets).
 
 ## v5.4.0 (2026-05-05)
 
-- FEAT#SG：新增「🇸🇬 狮城节点」+「🏡 狮城家宽」独立区域组
-- 新加坡从亚太节点中拆分为独立区域（REGION_ORDER: GLOBAL/HK/TW/SG/JPKR/APAC/...）
-- 区域组 18 -> 20（10 全部 + 10 家宽），总组 49 -> 51
-- 同步：全部 12 个产物
+- FEAT#SG: Add separate Singapore node and residential groups, with configuration identifiers `🇸🇬 狮城节点` and `🏡 狮城家宽`.
+- Split Singapore from Asia-Pacific into its own region (REGION_ORDER: GLOBAL/HK/TW/SG/JPKR/APAC/...).
+- Increase regional groups from 18 to 20 (10 all-node + 10 residential groups), and total groups from 49 to 51.
+- Synchronize all 12 artifacts.
 
 ## v5.3.2 (2026-04-28)
 
-- 微信/QQ 全系列进程强制 DIRECT（Weixin.exe / WeChatAppEx.exe / QQ.exe / WeChat.exe）
+- Force all WeChat/QQ process variants to DIRECT (Weixin.exe / WeChatAppEx.exe / QQ.exe / WeChat.exe).
 
 ## v5.3.1 (2026-04-28)
 
-- Weixin.exe 进程强制 DIRECT（微信进程直连，不走代理）
+- Force Weixin.exe to DIRECT, bypassing the proxy for that WeChat process.
 
 ## v5.3.0 (2026-04-26)
 
-- ★ REFACTOR#2：流媒体分组架构重构——按区域 -> 按平台（7 -> 13 流媒体组）
-- 拆出 5 个主流平台独立组：Netflix / Disney+ / HBO/Max / Hulu / Prime Video
-- 拆出 2 个全球平台独立组：YouTube / 音乐流媒体
-- 保留 4 个区域锁区组：香港/台湾/日韩/欧洲流媒体
-- 删除美国流媒体 + 东南亚流媒体，新增「🌐 其他国外流媒体」兜底
-- 流媒体组 7 -> 13，业务组 25 -> 31，总组 43 -> 49
-- 全版本联动：全部 10 产物 + 11 子目录 README + 14 CHANGELOG
+- ★ REFACTOR#2: Restructure streaming groups from region-based to platform-based grouping (7 -> 13 streaming groups).
+- Split out 5 major platforms into separate groups: Netflix / Disney+ / HBO/Max / Hulu / Prime Video.
+- Split out 2 global-platform groups: YouTube / Music Streaming.
+- Retain 4 region-restricted streaming groups: Hong Kong / Taiwan / Japan and Korea / Europe.
+- Remove US Streaming and Southeast Asia Streaming; add the Other Foreign Streaming fallback (`🌐 其他国外流媒体`).
+- Increase streaming groups from 7 to 13, business groups from 25 to 31, and total groups from 43 to 49.
+- Coordinate all versions: all 10 artifacts + 11 subdirectory READMEs + 14 CHANGELOG files.
 
 ## v5.2.11 (2026-04-26)
 
-- ★ REFACTOR#1：业务组合并精简 28 -> 25（降低用户认知负担）
-- 合并搜索引擎+开发者服务 -> 工具与服务；邮件服务 -> 国外网站；云与CDN -> 国外网站
-- 下载更新策略从 DIRECT 优先改为代理优先；BT/PT Tracker 保留独立
-- 全版本联动
+- ★ REFACTOR#1: Consolidate business groups from 28 to 25 to reduce configuration complexity.
+- Merge Search Engines and Developer Services into Tools and Services; merge Email Services and Cloud/CDN into Foreign Websites.
+- Change Download Updates from DIRECT-first to proxy-first; retain a separate BT/PT Tracker group.
+- Coordinate all versions.
 
 ## v5.2.10 (2026-04-25)
 
-- FIX#39：境外 DoH 端点（dns.google / cloudflare-dns.com）从云与CDN改路由到受限网站（防 CDN 组被设直连导致 DoH 失败）
-- 同构联动全产物；v2rayN/双内核系/Passwall/Passwall2 标记平台例外
+- FIX#39: Move DoH endpoints dns.google / cloudflare-dns.com from Cloud/CDN to Restricted Websites to avoid DoH failures when the CDN group is set to direct routing.
+- Apply equivalent changes across artifacts; mark v2rayN/Dual-core/Passwall/Passwall2 as platform exceptions.
 
 ## v5.2.9 (2026-04-25)
 
-- 全量代码审查：修复 3 个 P0/P1 基线 bug + 跨产物同构修复
-  - P0 FIX#30：PROCESS-NAME 规则硬编码常量引用失效
-  - P1 FIX#31：APAC_OTHER iso 列表缺 IN/IND（印度节点归类失败）
-  - P1 FIX#32：jsdelivr 规则注释与代码矛盾
-  - iOS 同构 FIX#33~#36：SR/独立内核系/Surge/Loon/QX 裸子串 US/PL/SE 跨匹配 + nowtv typo + 日期
-  - CMFA FIX#37：补齐 nameserver-policy
+- Full code review: fix 3 P0/P1 baseline bugs and equivalent cross-artifact issues.
+  - P0 FIX#30: Repair broken hard-coded constant references in PROCESS-NAME rules.
+  - P1 FIX#31: Add missing IN/IND to the APAC_OTHER iso list, fixing classification of India nodes.
+  - P1 FIX#32: Resolve contradictory jsdelivr rule comments and code.
+  - iOS equivalents FIX#33~#36: Repair bare US/PL/SE substring cross-matches in SR/Independent-family/Surge/Loon/QX, the nowtv typo and the date.
+  - CMFA FIX#37: Complete nameserver-policy.
   - Passwall2 FIX#38：geosite:kakaotalk -> geosite:kakao
 
 ## v5.2.8 (2026-04-23)
 
-- FIX#28-P0：CMFA/OpenClash 亚太节点 filter 补 HK/TW/JP/KR 子串（同构 bug 补齐）
-- OpenClash Ruby GROUP_MAP 扩充 + 去掉分类循环 break
+- FIX#28-P0: Add HK/TW/JP/KR substrings to CMFA/OpenClash Asia-Pacific node filters, fixing equivalent bugs.
+- Expand OpenClash Ruby GROUP_MAP and remove the break from the classification loop.
 
 ## v5.2.7 (2026-04-23)
 
-- FIX#27-P1：消除 mihomo 加载 3 个 classical rule-provider 时的 parse warning
-- 新建 mirrors/ 目录托管 CiciAi.list / UK.list / Grok.yaml 清洗副本（仅删问题行）
-- 4 个 mihomo-family 产物 URL 切到本仓库 jsdelivr 镜像
+- FIX#27-P1: Eliminate parse warnings when Mihomo loads 3 classical rule-providers.
+- Create mirrors/ with cleaned CiciAi.list / UK.list / Grok.yaml copies, removing only problematic lines.
+- Switch URLs in 4 Mihomo-family artifacts to this repository's jsdelivr mirrors.
 
 ## v5.2.6 (2026-04-22)
 
-- FIX#24-P0：补齐 ISO alpha-3 国家代码（TWN/JPN/KOR/SGP），修复命名节点归类失败
-- FIX#25-P0：统一空区域不建 Smart 组，消除 HK/全节点污染台湾/日韩组
-- FIX#26-P0：cleanupSubscription 全量清空订阅原生 proxy-groups
-- 同步修正：本 PR 同步修订 CLAUDE.md/AGENTS.md，新增同构 bug 全产物审计强制动作
+- FIX#24-P0: Add ISO alpha-3 country codes TWN/JPN/KOR/SGP to fix node-name classification failures.
+- FIX#25-P0: Consistently avoid creating Smart groups for empty regions, preventing HK/all-node entries from contaminating Taiwan and Japan/Korea groups.
+- FIX#26-P0: Make cleanupSubscription completely clear subscription-native proxy-groups.
+- Coordinated maintenance change: this historical PR also revised CLAUDE.md/AGENTS.md to require cross-artifact audits for equivalent bugs.
 
 ## v5.2.5 (2026-04-20)
 
-- FIX#23-P1：删除 acc-geositecn + acc-china 两个与 geosite:cn 纯重复的 rule-provider（省 ~5 MB 内存）
+- FIX#23-P1: Remove acc-geositecn and acc-china rule-providers as exact duplicates of geosite:cn, saving approximately 5 MB of memory.
 
 ## v5.2.4 (2026-04-20)
 
-- FIX#22-P0：snapchat rule-provider 拉取 403 修复（meta-rules-dat 上游文件名 snap.mrs 非 snapchat.mrs）
+- FIX#22-P0: Fix the Snapchat rule-provider download 403: the upstream meta-rules-dat filename is snap.mrs, not snapchat.mrs.
 
 ## v5.2.3 (2026-04-20)
 
-- FIX#21-P1：替换 bm7 BBC/Snap 规则源为 MetaCubeX geosite provider，消除 USER-AGENT 解析警告
-- 初版 Loon / Surge / Quantumult X / v2rayN / Passwall2 产物
+- FIX#21-P1: Replace bm7 BBC/Snap sources with MetaCubeX geosite providers to eliminate USER-AGENT parse warnings.
+- Initial Loon / Surge / Quantumult X / v2rayN / Passwall2 artifacts.
 
 ## v5.2.2 (2026-04-13)
 
-- FIX#20-P2：PI.ai（inflection.ai/pi.ai）从 AI 服务移至受限网站（GFW 封锁）
-- 初版 Shadowrocket / FlClash 产物；初版 OpenClash Full 产物
+- FIX#20-P2: Move PI.ai (inflection.ai/pi.ai) from AI Services to Restricted Websites, recording GFW blocking as the reason.
+- Initial Shadowrocket / FlClash artifacts and OpenClash Full artifact.
 
 ## v5.2.1 (2026-04-01 ~ 04-09)
 
-- FIX#17-P0：jsdelivr CDN 永久直连，RP_PROXY 从云与CDN改为受限网站（修复 DNS 循环依赖，单日 4931 条失败）
-- FIX#18-P1：删除已死的 ckrvxr 规则源（持续 404）
-- FIX#19-P1：DST-PORT,7680,REJECT 规则顺序修复（提前到 GEOIP,private 之前）
-- FIX#20-P2：GSCService.exe 加入 TUN exclude-process
+- FIX#17-P0: Route jsdelivr CDN directly and move RP_PROXY from Cloud/CDN to Restricted Websites, fixing a DNS circular dependency associated with 4,931 failures in one day.
+- FIX#18-P1: Remove the defunct ckrvxr source that persistently returned 404.
+- FIX#19-P1: Move DST-PORT,7680,REJECT before GEOIP,private to correct rule order.
+- FIX#20-P2: Add GSCService.exe to TUN exclude-process.
 
 ## v5.1.9 (2026-03)
 
-- CLEAN#1-P1：清理防吞盾（FIX#14）产生的 ~16 条 dead rules
-- CFG#1-P2：移除覆写中的 geo-update-interval 和 geosite CDN URL（由用户 UI 管理）
+- CLEAN#1-P1: Remove approximately 16 dead rules left by the broad-match shield from FIX#14.
+- CFG#1-P2: Remove geo-update-interval and the geosite CDN URL from the override, leaving them under user UI control.
 
 ## v5.1.8 (2026-03)
 
-- FIX#11-P0：dns.google 被 szkane-ai 宽规则吞入 AI 服务（前置 DOMAIN 拦截到 CLOUD_CDN）
-- FIX#14-P0：Google 全系子服务被 szkane-ai 宽规则吞入 AI 服务（防吞盾：邮件/IM/会议/下载/搜索/流媒体）
-- PERF#2-P0：fastly.jsdelivr.net EOF 风暴缓解（步长 10s -> 15s + 随机抖动 + CDN 混合策略）
-- FIX#12-P1：GSCService.exe -> ip.cip.cc DNS 解析失败
-- FIX#13-P2：acc-copilot 误匹配微软 Delivery Optimization 遥测域名
-- PERF#4-P2：geosite.dat CDN 错开 + geo-update-interval 24h -> 72h
+- FIX#11-P0: Prevent the broad szkane-ai rule from absorbing dns.google into AI Services by placing a DOMAIN rule for CLOUD_CDN first.
+- FIX#14-P0: Shield Google subservices from the broad szkane-ai rule absorbing them into AI Services: email, IM, meetings, downloads, search and streaming.
+- PERF#2-P0: Mitigate fastly.jsdelivr.net EOF storms with a 10s -> 15s interval, random jitter and a mixed-CDN strategy.
+- FIX#12-P1: Fix DNS resolution failure for GSCService.exe -> ip.cip.cc.
+- FIX#13-P2: Correct acc-copilot falsely matching Microsoft Delivery Optimization telemetry domains.
+- PERF#4-P2: Stagger geosite.dat CDN use and change geo-update-interval from 24h to 72h.
 
 ## v5.1.7 (2026-03)
 
-- PERF#1-P1：3 个 domain-behavior provider 升级为 .mrs 二进制格式（anti-ad / loyalsoldier-gfw / loyalsoldier-greatfire）
-- FIX#10-P0：hagezi-tif URL 双修（CDN + 文件名）
+- PERF#1-P1: Upgrade 3 domain-behavior providers to binary .mrs format: anti-ad / loyalsoldier-gfw / loyalsoldier-greatfire.
+- FIX#10-P0: Correct both the CDN and filename in the hagezi-tif URL.
 
 ## v5.1.6 (2026-03)
 
-- FEAT#2-P0：新增 Hagezi Threat Intelligence Feeds（威胁情报：malware/cryptojacking/C2/scam/spam）
+- FEAT#2-P0: Add Hagezi Threat Intelligence Feeds for malware/cryptojacking/C2/scam/spam.
 
 ## v5.1.5 (2026-03)
 
-- REFACTOR#1-P1：删除「🇮🇩 印尼本地」独立代理组（29 -> 28 业务策略组）
-- 印尼银行/电商/出行等域名分拆到金融支付/国外网站；GEOIP,ID -> 国外网站
+- REFACTOR#1-P1: Remove the separate Indonesia Local proxy group (`🇮🇩 印尼本地`), reducing business policy groups from 29 to 28.
+- Split Indonesian banking/e-commerce/transport domains between Financial Payments and Foreign Websites; route GEOIP,ID to Foreign Websites.
 
 ## v5.1.4 (2026-03)
 
-- FEAT#1-P1：新增「🚫 受限网站」GFW 代理组（4 源覆盖：Loyalsoldier gfw/greatfire + GEOSITE,gfw + szkane ProxyGFWlist）
+- FEAT#1-P1: Add the Restricted Websites GFW proxy group (`🚫 受限网站`) with 4 sources: Loyalsoldier gfw/greatfire + GEOSITE,gfw + szkane ProxyGFWlist.
 
 ## v5.1.3 (2026-03)
 
-- FIX#7-P1：Zoho 宽域名收窄为 mail.zoho.* 精确子域名
-- FIX#8-P2：Kwai 国际版从国内媒体移到东南亚流媒体（海外 APP 需代理）
-- FIX#9-P2：ehgallery 从美国流媒体移到国外网站（非流媒体服务）
+- FIX#7-P1: Narrow broad Zoho domain matching to specific mail.zoho.* subdomains.
+- FIX#8-P2: Move international Kwai from China Media to Southeast Asia Streaming; the historical rationale was that the international app needed proxy routing.
+- FIX#9-P2: Move ehgallery from US Streaming to Foreign Websites because it is not a streaming service.
 
 ## v5.1.2 (2026-03)
 
-- FIX#1-P0：Asia_China GeoRouting 从国外网站修正为国内网站（.cn 域名/中国 IP 段误走代理）
-- FIX#2-P1：BilibiliHMT 从国内媒体修正为香港流媒体（港澳台 B 站需代理解锁）
-- FIX#3-P1：补充 5 个孤儿 provider 规则引用
-- FIX#4~#6：HomeIP US/JP 归属修正 + Aqara Global 归属修正 + 删除 3 个 DNS provider
+- FIX#1-P0: Correct Asia_China GeoRouting from Foreign Websites to China Websites, fixing unintended proxy routing of .cn domains and China-region IP ranges.
+- FIX#2-P1: Move BilibiliHMT from China Media to Hong Kong Streaming; the historical rationale was proxy routing for access to the Hong Kong/Macao/Taiwan service.
+- FIX#3-P1: Add missing rule references for 5 orphan providers.
+- FIX#4~#6: Correct HomeIP US/JP assignments and Aqara Global assignment; remove 3 DNS providers.
 
 ## v5.1 (2026-02 ~ 2026-03)
 
-- 集成 Ckrvxr AntiPCDN + SukkaW reject_phishing + szkane crypto-exchanges
-- 集成 Accademia 全量 35 规则目录 + szkane 全量规则
-- geox-url 切换 Loyalsoldier 加强版 MMDB（含 cloudflare/telegram/netflix IP 段）
-- 新增 GEOIP 精准标签路由（geoip:cloudflare/telegram/netflix）
-- 所有外部规则 URL 统一 fastly.jsdelivr.net CDN
+- Integrate Ckrvxr AntiPCDN, SukkaW reject_phishing and szkane crypto-exchanges.
+- Integrate all 35 Accademia rule directories and the full szkane rule collection.
+- Switch geox-url to the enhanced Loyalsoldier MMDB, including cloudflare/telegram/netflix IP ranges.
+- Add precise GEOIP tag routing for geoip:cloudflare/telegram/netflix.
+- Standardize all external rule URLs on the fastly.jsdelivr.net CDN.
 
 ## v5.0 (2026-01 ~ 2026-02)
 
-- ★ rule-providers 从 72 扩展到 326（+254 个 blackmatrix7 规则集）
-- 实现 100% blackmatrix7 服务覆盖（排除已删除/国内兜底/聚合/重复/停服/测试规则）
-- 刷新步长从 25s 缩短到 10s（冷启动窗口约 54 分钟）
-- 新增 13 个广告拦截/隐私保护 provider
-- 新增 42 个国内流媒体 / 22 个美国流媒体 / 30 个国外网站 / 15 个下载更新 / 15 个云与CDN / 13 个苹果服务 / 13 个开发者 / 10 个社交媒体 / 10 个国外游戏 / 8 个会议协作 / 7 个区域流媒体 / 6 个搜索引擎 / 6 个即时通讯 provider
+- ★ Expand rule-providers from 72 to 326 (+254 blackmatrix7 rule sets).
+- Record 100% blackmatrix7 service coverage, excluding deleted, China-region fallback, aggregate, duplicate, discontinued and test rules.
+- Reduce the refresh interval from 25s to 10s, with a cold-start window of approximately 54 minutes.
+- Add 13 ad-blocking/privacy-protection providers.
+- Add providers for China Media (42), US Streaming (22), Foreign Websites (30), Download Updates (15), Cloud/CDN (15), Apple Services (13), Developer Services (13), Social Media (10), Foreign Games (10), Meetings and Collaboration (8), Regional Streaming (7), Search Engines (6) and Instant Messaging (6).
 
 ## v4.5.8 (2025-12)
 
-- P0 修复：AWS 域名前置于 RULE-SET,amazon 之前；Google 下载域名前置于 RULE-SET,google 之前
-- P0 修复：live.com 范围收窄（DOMAIN-SUFFIX -> DOMAIN,mail.live.com）
-- P1 修复：naver.com 拆分为流媒体子域名；清理 ~10 条同区块内冗余死规则
-- P2 修复：TLS 指纹改用确定性哈希；台湾节点 Emoji 修正
+- P0 fixes: Place AWS domains before RULE-SET,amazon and Google download domains before RULE-SET,google.
+- P0 fix: Narrow live.com matching from DOMAIN-SUFFIX to DOMAIN,mail.live.com.
+- P1 fixes: Split naver.com into streaming subdomains and remove approximately 10 redundant dead rules within the same sections.
+- P2 fixes: Use a deterministic hash for TLS fingerprints and correct Taiwan node emoji.
 
 ---
 
-> 更早版本（v4.5.7 及之前）见 `Mihomo内核系/Clash Party/CHANGELOG.md`。
+> For earlier versions (v4.5.7 and before), see `Mihomo内核系/Clash Party/CHANGELOG.md`.

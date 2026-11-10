@@ -1,60 +1,63 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-docs-mobile.svg">
-  <img src="assets/readme/page-docs.svg" alt="Smart-Config-Kit 文档中心" width="100%">
+  <img src="assets/readme/page-docs.svg" alt="Smart-Config-Kit documentation" width="100%">
 </picture>
 
-# 文档中心
+# Documentation
 
-从选配置、完整导入到运行验收，按当前任务选择阅读路径。专题与客户端教程随仓库版本统一维护。
+Choose a path from configuration selection and complete import instructions to runtime verification. Topic guides and client tutorials are maintained with the repository.
 
-[![下载目录](assets/readme/nav-downloads.svg)](guide/downloads.md) [![导入后验收](assets/readme/nav-verify.svg)](guide/dns-and-verification.md#verification)
+[![Downloads](assets/readme/nav-downloads.svg)](guide/downloads.md) [![Post-import verification](assets/readme/nav-verify.svg)](guide/dns-and-verification.md#verification)
 
-[项目首页](../README.md) · [下载目录](guide/downloads.md) · [客户端选择](guide/client-support.md) · [提交问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[Project home](../README.md) · [Downloads](guide/downloads.md) · [Client selection](guide/client-support.md) · [Report a problem](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
 
-## 先完成这三步
+## Start with these three steps
 
-1. **[找到配置](guide/downloads.md)**：按内核系列查找全部客户端、Raw 文件与导入教程。
-2. **[确认客户端能力](guide/client-support.md)**：按平台选客户端，核对协议、最低版本和 GUI 导入边界。
-3. **[完成导入后验收](guide/dns-and-verification.md)**：了解解析路径，检查规则下载、实际命中与最终出口。
+1. **[Find the configuration](guide/downloads.md):** browse clients, raw files, and import guides by core family.
+2. **[Check client capabilities](guide/client-support.md):** confirm platform, protocols, minimum versions, and graphical-client import boundaries.
+3. **[Verify after import](guide/dns-and-verification.md):** inspect resolution paths, rule downloads, actual matches, and final exits.
 
-## Meow 系客户端入口
+## Meow clients
 
-- [官方 Meow](../Meow内核系/Meow/README.md)：官方核心及 Android/iOS 原生 YAML，先替换节点订阅 URL；核心配置校验与 App 导入分别验收。
-- [AEROVE Lite](../Meow内核系/Aerove%20Lite/README.md)：JS 覆写；[验收记录](../Meow内核系/Aerove%20Lite/VALIDATION.md)区分已通过的候选检查、生产接线及 APK 真实联调。
-- [Meow 内核系](../Meow内核系/README.md) · [下载入口](guide/downloads.md#meow) · [支持队列](support-queue.md#meow)。
+- [Official Meow](../Meow内核系/Meow/README.md): native YAML for the official core and Android/iOS applications. Replace the endpoint subscription URL first. Core checks and application import are separate acceptance steps.
+- [AEROVE Lite](../Meow内核系/Aerove%20Lite/README.md): JavaScript override. The [validation record](../Meow内核系/Aerove%20Lite/VALIDATION.md) distinguishes candidate checks, production integration, and real APK testing.
+- [Meow family](../Meow内核系/README.md) · [Downloads](guide/downloads.md#meow) · [Support queue](support-queue.md#meow)
 
-## 理解分流设计
+## Understand the routing design
 
-- **[策略与规则来源](guide/routing-policy.md)**：架构、33 业务组、区域选择和规则来源。
-- [跨客户端能力矩阵](client-capability-matrix.md)：15 个既有语义产品的订阅输入、动态分组、Node-DNS 与可选能力；Meow 候选边界见上述独立入口。
-- [规则质量与来源台账](rule-quality.md)：来源收据、有序语义、例外治理与发布约束。
-- [GEOSITE 覆盖台账](GEOSITE_COVERAGE_LEDGER.md)：已有分类、补充规则与覆盖依据。
+- **[Policy and rule sources](guide/routing-policy.md):** architecture, 33 service groups, regional choices, and sources.
+- [Cross-client capability matrix](client-capability-matrix.md): subscription input, dynamic grouping, node DNS, and optional capabilities for 15 existing semantic products. Meow candidate boundaries are documented separately above.
+- [Rule quality and source ledger](rule-quality.md): source receipts, ordered semantics, exceptions, and release constraints.
+- [GEOSITE coverage ledger](GEOSITE_COVERAGE_LEDGER.md): categories, supplemental rules, and coverage evidence.
 
-## 订阅与高级选项
+## Subscriptions and advanced options
 
-- **[统一配置入口](configuration.md)**：[在线配置下载](https://ivansolis1989.github.io/Smart-Config-Kit/)、离线备用、本地 JS 安全更新、全端业务方案与功能覆盖范围。
+- **[Configuration entry point](configuration.md):** [online downloads](https://ivansolis1989.github.io/Smart-Config-Kit/), offline fallback, safe local JavaScript updates, cross-client service profiles, and feature coverage.
+- **[Sub-Store aggregation](../SubStore/README.md):** clean, name, deduplicate, and combine subscriptions.
+- [Browser subscription synchronization](../SubStore/edge-extension/README.md): account sign-in, site permissions, and subscription-update boundaries.
+- [Endpoint filtering and rate multipliers](subscription-node-filter.md): cleanup, residential-endpoint classification, and filtering semantics.
+- [Private endpoint DNS](private-node-dns.md): bounded projection of active endpoint hostnames and static-client limitations.
+- [Speed tests and QUIC options](traffic-options.md): optional traffic behavior and cross-client support.
+- [WebRTC privacy and verification](guide/webrtc-privacy.md): direct STUN trade-offs, browser privacy policy, and connection evidence.
+- [ZeroTier UDP proxying](zerotier-planet-proxy.md): an optional, default-off configuration and its validation.
+- [PROCESS-NAME compatibility](process-name-compatibility.md): platform-specific process-rule limitations.
 
-- **[Sub-Store 多机场聚合](../SubStore/README.md)**：清洗、命名、去重并生成单一订阅。
-- [浏览器订阅同步助手](../SubStore/edge-extension/README.md)：账号登录、站点授权与订阅更新边界。
-- [节点过滤与倍率筛选](subscription-node-filter.md)：订阅清洗、家宽识别和筛选语义。
-- [私有节点 DNS](private-node-dns.md)：活动节点域名的受限投影及静态端边界。
-- [测速与 QUIC 选项](traffic-options.md)：可选流量行为与跨端支持范围。
-- [WebRTC 隐私与验收](guide/webrtc-privacy.md)：STUN 直连取舍、浏览器隐私策略与连接证据。
-- [ZeroTier UDP 代理](zerotier-planet-proxy.md)：默认关闭的可选方案与验证方式。
-- [PROCESS-NAME 兼容性](process-name-compatibility.md)：各平台进程规则限制。
+## Maintenance and evidence
 
-## 维护与证据
+- **[Maintenance contract (Chinese source)](../AGENTS.md):** generation order, synchronized versions, documentation requirements, and visual acceptance.
+- [Maintenance tools](../tools/README.md): upstream documentation cache, generators, and validators.
+- [Client support queue](support-queue.md): candidates, interface boundaries, and remaining acceptance work.
+- [Rule asset delivery](rule-asset-delivery.md): download URLs and complete-content verification.
+- [Release batches](release-batch.md): generated artifacts, versions, and release checks.
+- [Official references and historical reviews](archive/README.md): client references, dated upstream checks, and original topic-validation records.
+- [AI issue replies](ai-issue-responder.md) · [Notifications](telegram.md) · [Changelog](../CHANGELOG.md)
 
-- **[仓库维护契约](../AGENTS.md)**：生成链路、版本同步和 README 编写与视觉验收要求。
-- [维护工具](../tools/README.md)：官方文档缓存、生成与验证工具。
-- [客户端支持队列](support-queue.md)：预适配候选、接口边界与正式支持的剩余验收。
-- [规则资产交付](rule-asset-delivery.md)：下载 URL 与完整内容校验。
-- [发布批次](release-batch.md)：生成物、版本与发布验收。
-- [官方参考与历史核验](archive/README.md)：客户端 REFERENCE、注明日期的官方版本复核和专题验收原文。
-- [AI Issue 自动回复](ai-issue-responder.md) · [通知说明](telegram.md) · [变更日志](../CHANGELOG.md)
+Historical evidence in `upstream/2026-10-19/` retains paths from its recorded `base_commit`. Use the [download directory](guide/downloads.md) for current client locations.
 
-历史核验档案 `upstream/2026-10-19/` 按当时的 `base_commit` 保留原路径；当前客户端位置以[下载目录](guide/downloads.md)为准。
+## Community and support
 
-## 社区与支持
+[Upstream projects](guide/acknowledgements.md) · [Disclaimer and licensing boundaries](disclaimer.md) · [Support maintenance](donate.md)
 
-[上游项目与致谢](guide/acknowledgements.md) · [使用边界](guide/acknowledgements.md#usage) · [支持项目](donate.md)
+[Documentation language coverage and retained source archives](documentation-language-coverage.md)

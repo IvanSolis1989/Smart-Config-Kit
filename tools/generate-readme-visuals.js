@@ -4,9 +4,13 @@
 // README presentation assets only. No network, rule generation or runtime changes.
 const fs = require('node:fs');
 const path = require('node:path');
-const out = path.join(__dirname, '..', 'docs', 'assets', 'readme');
+const locale = process.argv.includes('--locale=zh-CN') ? 'zh-CN' : 'en';
+const out = path.join(__dirname, '..', 'docs', 'assets', 'readme', ...(locale === 'zh-CN' ? ['zh-CN'] : []));
+const translations = require('./lib/readme-visual-en.json');
+const { createVisualTranslator, assertEnglish } = require('./lib/readme-visual-locale');
+const translate = createVisualTranslator(translations, locale);
 const check = process.argv.includes('--check');
-const esc = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const esc = value => translate(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const ink = '#18324f';
 const muted = '#506780';
 const font = "'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif";
@@ -311,7 +315,7 @@ function pagePrism(x, y, scale, accent, stroke) {
 for (const [slug, title, subtitle, color] of pages) {
   const [tint, , accent, stroke] = colors[color];
   // Estimate mixed CJK/Latin width conservatively, keeping mobile text readable.
-  const titleUnits = [...title].reduce((sum, ch) => sum + (/[^\x00-\x7F]/.test(ch) ? 1 : .65), 0);
+  const titleUnits = [...translate(title)].reduce((sum, ch) => sum + (/[^\x00-\x7F]/.test(ch) ? 1 : .65), 0);
   const mobileTitleSize = Math.max(25, Math.min(30, Math.floor(372 / titleUnits)));
   document(`page-${slug}.svg`, 1000, 180, title, subtitle,
     `<path d="M30 148H608" stroke="${stroke}" stroke-opacity=".45"/>
@@ -344,6 +348,7 @@ for (const [slug, label, color, icon] of navButtons) {
 let failures = 0;
 if (!check) fs.mkdirSync(out, { recursive: true });
 for (const [name, svg] of assets) {
+  if (locale === 'en') assertEnglish(svg);
   const file = path.join(out, name);
   if (check) {
     if (!fs.existsSync(file) || fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n') !== svg) {

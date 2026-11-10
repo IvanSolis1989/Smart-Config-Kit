@@ -1,25 +1,31 @@
-# FlClash 离线直接下载验证记录
+<a id="flclash-离线直接下载验证记录"></a>
+# FlClash offline direct-download validation record
 
-离线配置表单 v1.1.0 支持 Full / Lite / Custom 直接下载 JS；正式脚本仍为 `v6.0.21-flclash.25`。本次不修改默认规则、节点/DNS 运行时、共享资源或其他客户端入口。
+**English** | [简体中文](2026-10-29-flclash-offline-download.zh-CN.md)
 
-## 实现边界
 
-- 构建阶段从源图目录、现有安全闭包与正式 FlClash 源生成可信 bundle。CLI 和浏览器复用 `business-profile-script.js` 中的同一个脚本 emitter，未引入新依赖。
-- 浏览器只校验业务选择并组装文本；不执行嵌入的 main、不读用户脚本、不联网、不使用 eval/Function。JSON 嵌入转义 `<`、U+2028 和 U+2029，标签说明通过 textContent 填充。
-- Full 下载为发布 Git 源的标准 LF 文本；不是 Windows CRLF 检出文件的原字节。原 CLI Full 的原字节复制合同保留。Lite/Custom 与 CLI 同方案输出在统一 LF 后逐字一致。
-- 直接下载只使用业务选择，本地参数保持发布默认。「本地 JS 参数」和其他客户端的 JSON + CLI 路径保留。
+Offline configuration form v1.1.0 supports direct JS downloads for Full / Lite / Custom; the released script remains `v6.0.21-flclash.25`. This change does not modify default rules, node/DNS runtime, shared assets, or other client entries.
 
-## 验证结果
+<a id="实现边界"></a>
+## Implementation boundaries
 
-- 专项及相关回归 44/44 通过、无跳过：浏览器导出 6、表单事件 3、全端业务投影 19、真实业务 QuickJS 16。摘要显示随后调整，并重新运行表单 3/3 与生成器 `--check`。
-- 30 种 Full/Lite/Custom 选择与 CLI 输出一致，包含所有 24 个单业务、自定义空/混合/全选；非法、重复、非字符串及稀疏数组拒绝。
-- 共享 emitter 提取前后，Smart / Normal / FlClash / AEROVE 各 3 个方案，共 12 个输出比较一致（统一 LF）。默认客户端与 `rulesets/` 在 Git 中无修改。
-- 实际浏览器分别下载 Full、Lite、Custom（AI + YouTube），读回文件名和完整内容后与生成器一致。每份实际下载文件的 7 个场景通过 Node/真实 QuickJS 完整输出、引用身份和拒绝不变对照，共 21 组。
-- 浏览器下载动作期间 CDP `Network.requestWillBeSent` 为 0 条事件；页面源码检查无外部资源和网络/动态执行入口。离线约束限表单生成，客户端导入后的远程规则下载仍需网络。
-- 严格产物合同 2500 checks / 22 artifacts、JS 覆写、进程直连白名单、Karing 及 README 视觉资产同步检查通过。旧非主入口 `OpenClash(mihomo).conf` 的版本提示保持。
-- 表单桌面明暗、390px 窄屏、Custom 勾选及下载区域检查通过；5 份使用说明共 15 个明暗/窄屏渲染检查，无页面横向溢出，103 条本地链接有效。既有远程附件图片未包含在本机静态预览白名单内。
-- 独立只读复核无阻断。测试及生成使用 Windows 隐藏窗口、Idle 优先级。
+- At build time, the source-graph catalog, existing safety closure, and released FlClash source produce a trusted bundle. CLI and browser share the same script emitter in `business-profile-script.js`; no new dependency was added.
+- The browser only validates service selections and assembles text. It does not execute the embedded main, read user scripts, access the network, or use eval/Function. Embedded JSON escapes `<`, U+2028, and U+2029; label descriptions use textContent.
+- Full downloads contain standard LF text from the released Git source, not the raw bytes of a Windows CRLF checkout. The CLI Full raw-copy contract is retained. Lite/Custom are identical to the corresponding CLI outputs after LF normalization.
+- Direct downloads use service selections only; local parameters retain release defaults. The local-JS-parameter and other-client JSON + CLI paths remain available.
 
-本机详细日志与读回哈希位于忽略目录 `.cache/flclash-direct-download/`、`.cache/myclash-adoption/direct-download-qa-*`；不提交本机下载文件。设备导入和真实业务连接需在 FlClash 关联订阅后验收，不把生成或 QuickJS 成功等同于真机恢复。
+<a id="验证结果"></a>
+## Validation results
 
-使用方法见[配置指南](../configuration.md)；最终 main 指针及 CI 状态以本次发布后的读回为准。
+- Focused and related regressions passed 44/44, with no skips: browser export 6, form events 3, cross-client service projection 19, and actual service-profile QuickJS 16. After a later summary-display adjustment, form tests passed again 3/3 and the generator passed `--check`.
+- Thirty Full/Lite/Custom selections matched CLI output, including all 24 individual services and empty/mixed/all-selected custom profiles. Invalid, duplicate, non-string, and sparse arrays were rejected.
+- Before and after extracting the shared emitter, Smart / Normal / FlClash / AEROVE outputs matched for three profiles each, twelve outputs total, after LF normalization. Default client files and `rulesets/` had no Git changes.
+- A real browser downloaded Full, Lite, and Custom (AI + YouTube); filenames and full content matched the generator after readback. Seven scenarios per downloaded file passed full-output, reference-identity, and unchanged-on-rejection comparisons between Node and real QuickJS, twenty-one cases total.
+- CDP recorded zero `Network.requestWillBeSent` events during browser downloads. Page-source checks found no external assets or network/dynamic-execution entry points. Offline behavior applies to form generation; remote rule downloads after client import still require a network.
+- Strict artifact contracts passed 2500 checks / 22 artifacts, along with JS overrides, the direct-routing process allowlist, Karing, and README visual-asset synchronization. The old secondary `OpenClash(mihomo).conf` version notice remains.
+- The form passed desktop light/dark, 390px narrow-screen, Custom selection, and download-area checks. Five usage guides passed fifteen light/dark/narrow renders without page-level horizontal overflow; 103 local links were valid. Existing remote attachment images were outside the local static-preview allowlist.
+- Independent read-only review found no blocker. Tests and generation ran in hidden Windows windows at Idle priority.
+
+Detailed local logs and readback hashes are in ignored directories `.cache/flclash-direct-download/` and `.cache/myclash-adoption/direct-download-qa-*`; local downloads are not committed. Device import and real service connections require acceptance after associating a subscription in FlClash. Generation or QuickJS success is not evidence of recovery on a physical device.
+
+See the [configuration guide](../configuration.md). The final main pointer and CI status require readback after this release.

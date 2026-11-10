@@ -1,23 +1,25 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../docs/assets/readme/page-family-independent-mobile.svg">
-  <img src="../docs/assets/readme/page-family-independent.svg" alt="独立客户端配置：Shadowrocket、Surge、Loon、Quantumult X、Stash 与 Egern" width="100%">
+  <img src="../docs/assets/readme/page-family-independent.svg" alt="Independent client configurations" width="100%">
 </picture>
 
-# 独立客户端配置入口
+# Independent client configurations
 
-本系列收录 Shadowrocket、Surge、Loon、Quantumult X、Stash 与 Egern 的原生配置入口。它们按仓库维护分类归档，并不表示使用同一种内核；各自的配置格式与导入方式见对应教程。
+Native configuration entries for Shadowrocket, Surge, Loon, Quantumult X, Stash, and Egern. This is a repository maintenance category, not a claim that these applications share a core. Each guide describes its own format and import procedure.
 
-[![配置下载](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md#independent) [![文档中心](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![DNS 与导入后验收](../docs/assets/readme/nav-verify.svg)](../docs/guide/dns-and-verification.md)
+[![Downloads](../docs/assets/readme/nav-downloads.svg)](../docs/guide/downloads.md#independent) [![Documentation](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [![DNS and verification](../docs/assets/readme/nav-verify.svg)](../docs/guide/dns-and-verification.md)
 
-快速导航：[配置下载](../docs/guide/downloads.md#independent) · [文档中心](../docs/README.md) · [DNS 与导入后验收](../docs/guide/dns-and-verification.md)
+Quick links: [downloads](../docs/guide/downloads.md#independent) · [documentation](../docs/README.md) · [DNS and post-import verification](../docs/guide/dns-and-verification.md)
 
-## 客户端教程
+## Client guides
 
-- [Shadowrocket（小火箭）](./Shadowrocket/README.md)
+- [Shadowrocket](./Shadowrocket/README.md)
 - [Surge](./Surge/README.md)
 - [Loon](./Loon/README.md)
 - [Quantumult X](./Quantumult%20X/README.md)
 - [Stash](./Stash/README.md)
 - [Egern](./Egern/README.md)
 
-按实际使用的客户端选择配置，并从该客户端的配置导入入口加载；通用下载页提供 Raw 文件链接。
+Select the configuration for your actual application and load it through that application’s configuration-import interface. The shared download directory provides raw file links.

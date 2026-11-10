@@ -1,0 +1,64 @@
+{
+  "name": "中文 / 功能与规则建议",
+  "description": "提出规则、客户端适配或分流改进，并提供依据。",
+  "title": "[Feature] ",
+  "labels": [
+    "enhancement"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "自动化可能辅助分析或提出修复，但不保证判断正确或问题已解决。回复跟随问题正文的语言，不受文档默认语言影响。请先脱敏订阅链接、凭据和私密日志；当前流程见 docs/ai-issue-responder.md。"
+      }
+    },
+    {
+      "type": "dropdown",
+      "id": "kind",
+      "attributes": {
+        "label": "建议类型",
+        "options": [
+          "规则来源与覆盖",
+          "业务或区域组",
+          "现有规则目标",
+          "客户端或内核支持",
+          "DNS / sniffer / fake-IP 策略",
+          "其他改进"
+        ]
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "what",
+      "attributes": {
+        "label": "建议内容",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "why",
+      "attributes": {
+        "label": "为什么需要",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "alternatives",
+      "attributes": {
+        "label": "已有替代方案",
+        "description": "请提供具体版本、操作步骤和可核对依据；日志及链接须先脱敏。"
+      }
+    }
+  ]
+}

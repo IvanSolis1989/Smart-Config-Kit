@@ -1,69 +1,64 @@
-name: ✨ 功能建议 / 新规则请求
-description: 想加新的 rule-provider、新业务组、新客户端支持，或对现有策略提改进建议。AI 会按 4 类加法原则先做初步可行性评估。
-title: "[建议] "
-labels: ["enhancement"]
-
-body:
-  - type: markdown
-    attributes:
-      value: |
-        > 🤖 **AI 会按 4 类加法原则先评估**：① 新兴服务 / ② 拆 geosite 总类 / ③ 广告多源互补 / ④ 地区长尾 ASN。如果建议和 geosite 某分类 > 95% 重叠，AI 会先指出"可能被拒绝"并解释原因；落在 4 类之一则会给肯定评估。
-        >
-        > ⚠️ **AI 不承诺任何采纳结果**——最终是否加入、什么版本加入，全部由维护者决定。
-        >
-        > ---
-        >
-        > 请对照加法原则先自查（详见 README 的 🎯 差异化价值章节 + `AGENTS.md`），能大幅提高被采纳率。
-
-  - type: dropdown
-    id: kind
-    attributes:
-      label: 建议类型
-      options:
-        - 新增 rule-provider（填补 geosite 空白）
-        - 拆分现有 geosite 总类为子服务
-        - 新增业务组 / 区域组
-        - 修改现有规则的目标组
-        - 支持新客户端 / 新内核
-        - DNS / Sniffer / fake-ip 策略调整
-        - 其它改进建议
-    validations:
-      required: true
-
-  - type: textarea
-    id: what
-    attributes:
-      label: 想加什么 / 改什么
-      description: 具体要加的域名 / 规则源 URL / 组名
-      placeholder: |
-        例：
-        新增 rule-provider: acc-newai
-        URL: https://raw.githubusercontent.com/.../newai.yaml
-        覆盖：character.ai / mistral.ai / 等新 AI 服务
-        建议归入：🤖 AI 服务
-    validations:
-      required: true
-
-  - type: textarea
-    id: why
-    attributes:
-      label: 为什么需要（对照 4 类加法原则）
-      description: |
-        请说明这个建议落在哪一类：
-        ① 新兴服务（geosite 还没收录） / ② 拆 geosite 总类 / ③ 广告多源互补 / ④ 地区长尾 ASN
-      placeholder: |
-        例：① 新兴服务。character.ai 和 mistral.ai 在 geosite:category-ai-!cn 里都没有，
-        目前走 FINAL 掉到 🐟 漏网之鱼，用户反馈需要固定走 🇺🇸 美国节点才能稳定访问。
-    validations:
-      required: true
-
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: 有没有已有替代方案
-      description: 现有 rule-provider / geosite 分类能不能覆盖？为什么不够用？
-      placeholder: |
-        例：geosite:openai 只覆盖 OpenAI 系；geosite:category-ai-!cn 2 周才更新一次，
-        新服务上线当天没法正确路由。
-    validations:
-      required: false
+{
+  "name": "Feature / rule request (English)",
+  "description": "Propose a rule, client adapter or routing improvement with supporting evidence.",
+  "title": "[Feature] ",
+  "labels": [
+    "enhancement"
+  ],
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "Automated analysis may assist with triage or propose a fix, but it is not a guarantee of correctness or resolution. Replies follow the language of your question, not the documentation default. Please redact subscription URLs, credentials and private logs. See docs/ai-issue-responder.md for the current workflow."
+      }
+    },
+    {
+      "type": "dropdown",
+      "id": "kind",
+      "attributes": {
+        "label": "Request type",
+        "options": [
+          "Rule source / coverage",
+          "Service or regional group",
+          "Existing rule target",
+          "Client or core support",
+          "DNS / sniffer / fake-IP policy",
+          "Other improvement"
+        ]
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "what",
+      "attributes": {
+        "label": "Proposed change",
+        "description": "Provide precise domains, source URLs, behavior and affected clients."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "why",
+      "attributes": {
+        "label": "Why it is needed",
+        "description": "Explain the coverage gap or reproducible limitation. Include evidence rather than assumptions about a region or service."
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "alternatives",
+      "attributes": {
+        "label": "Existing alternatives",
+        "description": "Could an existing rule source or configuration option satisfy the need? Explain trade-offs."
+      }
+    }
+  ]
+}

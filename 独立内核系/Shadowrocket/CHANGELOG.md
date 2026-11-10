@@ -1,274 +1,277 @@
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="Shadowrocket 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Shadowrocket changelog" width="100%">
 </picture>
 
-# Shadowrocket — 变更日志
+<a id="shadowrocket--变更日志"></a>
 
-> `独立内核系/Shadowrocket/Shadowrocket.conf` 的变更日志。
-> 主版本号跟随 Clash Party 主线；尾段（`-SR.N`）独立递增。
+# Shadowrocket — Changelog
+
+> Changelog for `独立内核系/Shadowrocket/Shadowrocket.conf`.
+> Major versions follow Clash Party; the `-SR.N` suffix increments independently.
 
 ---
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
 ## v6.0.21-SR.12 (2026-10-28)
 
-- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。
+- Moved Google FCM from downloads to Google services. The 15 domains, 26 IPv4 predicates, rule order and 55 groups were unchanged, as were other push services, DNS and fake-IP.
 
 ## v6.0.20-SR.11 (2026-10-24)
 
-- 将客户端目录归入内核系列分类，原有配置文件与说明保留在客户端子目录；规则语义和配置字段不变。旧 Raw 配置链接因路径迁移而变化，现有用户需重新导入对应配置；共享 `rulesets/` 资产地址保持不变。
+- Organized client directories by core family, retaining files/guides within client subdirectories. Rule semantics/fields were unchanged. Raw configuration URLs changed with paths, requiring reimport; shared `rulesets/` URLs remained unchanged.
 
-## 2026-10-19 — 官方文档与版本核对
+<a id="2026-10-19--官方文档与版本核对"></a>
 
-- 缓存当前官方发布记录、配置文档和适用源码，更新 REFERENCE 时效与能力边界；详见[核对报告](../../docs/upstream/2026-10-19/apple/report.md)。本次文档核对不改变本产物的规则、策略组或生成载荷。
+## 2026-10-19 — Official documentation and version review
+
+- Cached official release records, configuration documentation and relevant source, updating REFERENCE currency/capability boundaries. See the [review report](../../docs/upstream/2026-10-19/apple/report.md). This documentation review changed no rules, policy groups or generated payloads.
 
 ## v6.0.20-SR.10 (2026-10-16)
 
-- Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。
-- 不扩大到父域或子域，`ad.weixin.qq.com`、`log.weixin.qq.com` 保持广告拒绝；不改变其他策略或规则顺序。
-- 依据与有限静态验收范围见[微信连接复查](../../docs/research/2026-10-16-wechat-issue-187.md)；报告者设备是否恢复仍待实际复测。
+- Issue #187: added exact DIRECT exceptions in existing `scki-adfp-direct` for `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, `hkshort.weixin.qq.com`, preventing WeChat connection endpoints from matching ads first.
+- No parent/subdomain expansion; `ad.weixin.qq.com` and `log.weixin.qq.com` remained rejected. Other policies and ordering were unchanged.
+- See [WeChat review](../../docs/research/2026-10-16-wechat-issue-187.md) for evidence and bounded static acceptance. Reporter-device recovery still required retesting.
 
 ## v6.0.19-SR.9 (2026-10-15)
 
-- FIX#186：自有远程规则资产统一使用 GitHub raw HTTPS，避开 jsDelivr 仓库大小门槛；保留版本查询参数与原生格式。
-- 复用已验证的融合载荷，规则内容、顺序和策略不变；补充 raw/CDN 引用识别回归。原因、下载前提与官方字段依据见[规则下载说明](../../docs/rule-asset-delivery.md)。
-- 77 个实际配置 URL 完整下载与哈希验收闭合；保留最初失败和五项有界补验记录。工具明确使用现有代理并提供合理时限，不再把 Windows curl 的另一条传输路径及固定 15 秒限制当作配置可用性的唯一依据。
+- FIX#186: unified repository-owned remote assets on GitHub raw HTTPS to avoid jsDelivr repository-size limits, preserving version queries and native formats.
+- Reused verified fused payloads; content, ordering and policies were unchanged. Added raw/CDN-reference regressions. See [delivery guidance](../../docs/rule-asset-delivery.md) for cause, download prerequisites and official fields.
+- Completed full-download/hash acceptance for 77 actual configuration URLs, retaining the initial failure and five bounded follow-up checks. Tooling explicitly used the existing proxy and reasonable timeouts instead of treating Windows curl's different transport path and fixed 15-second limit as the sole configuration-availability criterion.
 
 ## v6.0.18-SR.8 (2026-10-14)
 
-- 修复跨服务首匹配误归类；规范 Apple/Microsoft 过宽关键词和共享 AWS/Azure/CDN 后缀，加入 game-cn、microsoft-live、microsoft-ai、intl-site、stream-jpkr、tools、social、bytedance-app 八类 guard。证书吊销/状态查询的 CA 精确主机直连与微软邮件精确国际策略新增 6 条 ADFP 记录，总数 35。`api.byteoversea.com` 作为精确 TikTok 规则，不扩共享后缀。保留现有 Claude Desktop `a-api`/`a-cdn` 精确例外、QUIC/测速选项和默认关闭的 ZeroTier 代理开关。Crisp relay 仅为静态 ASN 覆盖风险推断，并非实测事故。
-- 源规则图 v6.0.18：525 providers / 984 source rules；生成 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 non-empty SRS across 81 segments。
+- Fixed cross-service first-match misclassification: narrowed broad Apple/Microsoft keywords and shared AWS/Azure/CDN suffixes, adding eight guard classes: game-cn, microsoft-live, microsoft-ai, intl-site, stream-jpkr, tools, social, bytedance-app. Six ADFP records for exact CA revocation/status hosts via DIRECT and exact Microsoft international-mail policy brought the total to 35. `api.byteoversea.com` was an exact TikTok rule, not a shared-suffix expansion. Existing Claude Desktop `a-api`/`a-cdn` exceptions, QUIC/latency options and default-off ZeroTier proxy remained. Crisp relay was a static ASN-overlap risk inference, not a measured incident.
+- Source graph v6.0.18: 525 providers / 984 source rules; generated 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 nonempty SRS across 81 segments.
 
 ## v6.0.17-SR.7 (2026-10-13)
 
-- 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。
-- 本端规则集与原生语法沿用现有实现；来源语义 gate、29 条 ADFP 例外校验、Claude 服务阶段清单及文件级发布批次检查接入同一发布链。详见 [Claude 服务依赖台账](../../docs/claude-service-dependencies.md) 与 [发布批次检查](../../docs/release-batch.md)。未进行真机故障复现或测量。
-
+- Added exact `a-api.anthropic.com` and `a-cdn.anthropic.com` to `scki-adfp-ai` for Claude Desktop application-code/user-content loading through AI policy. Based on [official requirements](https://code.claude.com/docs/en/desktop#network-access-requirements), without inferring specific `a-api` paths.
+- Existing rule sets/native syntax remained. Source-semantic gates, 29 ADFP checks, Claude stage inventory and file-level release-batch checks joined the publication chain. See [Claude dependencies](../../docs/claude-service-dependencies.md) and [release-batch checks](../../docs/release-batch.md). No real-device reproduction or measurement occurred.
 
 ## v6.0.16-SR.7 (2026-10-12)
 
-- 本端随 v6.0.16 主线登记来源/版本收据、有序 domain-projection 差分及现有 ADFP 例外双向校验；客户端转换格式、规则顺序和目标策略沿用既有实现，未新增运行时规则。详见[规则质量台账](../../docs/rule-quality.md)。
-- 复用当前 fused 载荷，只记录当前可观察字节及转换收据；旧资产的原始远端输入 SHA 无法从输出反推，因此不宣称完整历史来源追溯，也未进行真机流量测量。
+- Following v6.0.16, recorded source/version receipts, ordered domain-projection diffs and bidirectional ADFP validation. Conversion format, order and target policies remained; no runtime rules were added. See [rule-quality ledger](../../docs/rule-quality.md).
+- Reused current fused payloads, recording only observable bytes and conversion receipts. Original remote-input SHA values cannot be reconstructed from old outputs; no claim of complete historical provenance or real-device traffic measurement was made.
 
 ## v6.0.15-SR.7 (2026-10-07)
 
-- 受管配置加入 900 秒测速档及海外 UDP/443 策略选择，保留 Shadowrocket 原生语法边界。
-- 切换命令、平台能力及验证方法见 [测速与 QUIC 策略选项](../../docs/traffic-options.md)。
+- Managed configuration gained a 900-second latency profile and non-CN UDP/443 policy selection, retaining Shadowrocket's native syntax boundaries.
+- See [latency and QUIC options](../../docs/traffic-options.md) for switching commands, capabilities and verification.
 
 ## v6.0.14-SR.6 (2026-09-29)
 
-- FIX：第 001 远程 DIRECT RULE-SET 加入微信 HTTPDNS 两个精确主机；规则优先于 BlockHttpDNS 拒绝规则。
+- FIX: added the two exact WeChat HTTPDNS hosts to remote DIRECT RULE-SET 001, preceding BlockHttpDNS rejection.
 
 ## v6.0.13-SR.5 (2026-09-03)
 
-- FIX-LINUXDO-CN-ROUTE：第 013 远程 RULE-SET 增加 `linuxdo.org` 后缀并绑定 `🏠 国内网站`；`linux.do` 保持第 059 受限网站路由。
+- FIX-LINUXDO-CN-ROUTE: remote RULE-SET 013 gained the `linuxdo.org` suffix targeting `🏠 国内网站`; `linux.do` retained restricted-sites routing in segment 059.
 
 ## v6.0.12-SR.4 (2026-09-01)
 
-- FIX#181-PC：第一个融合 `DIRECT` RULE-SET 增加 `login.nvidia.cn` 精确主机，先于 NVIDIA 下载规则生效；其余 NVIDIA 域名保持原策略。
+- FIX#181-PC: the first fused `DIRECT` RULE-SET gained exact host `login.nvidia.cn`, taking precedence over NVIDIA download rules. Other NVIDIA domains retained their policies.
 
 ## v6.0.11-SR.3 (2026-08-22)
 
-- ROUTING：69 个远程融合 RULE-SET 重放后，Gemini 与 Accademia Gemini 进入 `🔍 Google 服务`；其余 AI 段及 szkane 顺序不变。
+- ROUTING: after replaying 69 remote fused RULE-SETs, Gemini and Accademia Gemini entered `🔍 Google 服务`; other AI segments and szkane ordering were unchanged.
 
 ## v6.0.10-SR.3 (2026-08-08)
 
-- FIX#179-NETEASE-GAME-DIRECT：`drpf-g10.proxima.nie.netease.com` 与 `sigma-performance-g10.proxima.nie.netease.com` 位于第一个融合 `DIRECT` RULE-SET，不再落入用户可改为代理的“国内游戏”策略组。
-- GUARD：仅精确主机直连，保留 `proxima.nie.netease.com` 父域既有的 anti-AD 处理。
+- FIX#179-NETEASE-GAME-DIRECT: `drpf-g10.proxima.nie.netease.com` and `sigma-performance-g10.proxima.nie.netease.com` were placed in the first fused `DIRECT` RULE-SET rather than the user-switchable `国内游戏` policy group.
+- GUARD: only exact hosts routed directly; existing anti-AD treatment of parent `proxima.nie.netease.com` remained.
 
 ## v6.0.9-SR.2 (2026-08-02)
 
-- FIX-NODE-ISO-LOWERCASE：11 个地区及家宽 policy-regex-filter 在原有大写匹配旁新增“小写 ISO 两位码紧接编号”分支；yun hk01、yun us01、yun jp01、yun sg01、yun tw01 及其家宽变体可进入对应组。
-- GUARD/VERIFY：普通小写短词不扩宽为地区码；跨客户端合同逐一验证 12 个命名样例的主组、聚合组、家宽组及无编号短词保护。
+- FIX-NODE-ISO-LOWERCASE: 11 region/residential policy-regex-filter entries gained lowercase two-letter ISO codes immediately followed by numbers alongside uppercase matching. yun hk01, yun us01, yun jp01, yun sg01, yun tw01 and residential variants could enter the corresponding groups.
+- GUARD/VERIFY: ordinary lowercase short words were not broadened into region codes; the cross-client contract checked main/aggregate/residential groups and unnumbered-word protection for 12 naming samples.
 
 ## v6.0.9-SR.1 (2026-07-19)
 
-- 新增通用 GitHub API 工具组融合段，位于上游广义 AI 规则之前；iOS 无 Windows 进程匹配，使用通用回退。
+- Added a generic GitHub API tools-group fused segment before upstream broad AI rules. iOS lacked Windows process matching and used the generic fallback.
 
 ## v6.0.8-SR.1 (2026-07-15)
 
-- 65 个融合 RULE-SET 同步国内权威优先级，并以发布版本缓存键加载自托管资产。
+- Synchronized authoritative CN-policy precedence in 65 fused RULE-SETs and loaded self-hosted assets with release-version cache keys.
 
 ## v6.0.7-SR.1 (2026-07-14)
 
-- FIX#176：iOS 融合文本引用顺序更新，国内域名段位于通用国际 CDN / GeoIP fallback 之前；新增后置 fallback 文本资产后总数为 65。
+- FIX#176: updated iOS fused-text reference order so CN-domain segments preceded generic international CDN / GeoIP fallback. The new later fallback text asset brought the total to 65.
 
 ## v6.0.6-SR.1 (2026-07-14)
 
-- PLATFORM：Windows 的 `WorkPro.exe` / `WorkProWebProcess.exe` 进程直连由桌面 Mihomo、sing-box 与 Xray 产物承载；Shadowrocket iOS 不伪造不支持的 `PROCESS-NAME` 规则，继续消费同步后的融合文本资产。
+- PLATFORM: desktop Mihomo, sing-box and Xray artifacts handled direct routing for Windows `WorkPro.exe` / `WorkProWebProcess.exe`. Shadowrocket iOS did not fabricate unsupported `PROCESS-NAME` rules and continued consuming synchronized fused text assets.
 
 ## v6.0.5-SR.1 (2026-07-14)
 
-- PLATFORM：WorkPro.exe 的 Windows 桌面直连由源图回归契约保护；Shadowrocket iOS 路径不伪造 PROCESS-NAME 规则。
+- PLATFORM: source-graph regression contracts protected Windows desktop direct routing for WorkPro.exe; the Shadowrocket iOS path did not fabricate PROCESS-NAME rules.
 
 ## v6.0.4-SR.1 (2026-07-13)
 
-- DIRECT-ITWDB：默认 `DIRECT` 融合文本段新增 `DOMAIN-SUFFIX,itwdb.com`，Shadowrocket 同步覆盖 WorkPro 及全部子域名。
+- DIRECT-ITWDB: added `DOMAIN-SUFFIX,itwdb.com` to the default `DIRECT` fused text segment, covering WorkPro and all subdomains in Shadowrocket.
 
 ## v6.0.3-SR.1 (2026-07-12)
 
-- SYNC：移动端文本目标同步为 64 个非空融合 RULE-SET；所有 URL 仍只指向仓库生成资产，不直接调用上游规则集。
-- AI-PRECEDENCE：ChatGPT/OpenAI 主域、oaistatic、Cloudflare NEL 与必要 Sentry/DataDog telemetry 在广告和国外网站段之前进入 `🤖 AI 服务`。
-- SEMANTICS：文本规则沿源图顺序保留；Mihomo MRS grammar 修复不把 keyword/regex 错误扩展为 wildcard。
+- SYNC: mobile text targets synchronized to 64 nonempty fused RULE-SETs. All URLs still referenced repository-generated assets, not upstream rule sets directly.
+- AI-PRECEDENCE: ChatGPT/OpenAI main domains, oaistatic, Cloudflare NEL and necessary Sentry/DataDog telemetry entered `🤖 AI 服务` before advertising and international-site segments.
+- SEMANTICS: preserved source-graph ordering in text rules; the Mihomo MRS grammar fix did not incorrectly broaden keywords/regexes into wildcards.
 
 ## v6.0.2-SR.1 (2026-07-10)
 
-- FIX#175：远程规则从 71 个放大分片收敛为 63 个移动端非空融合段；聚合体积由约 75.44 MiB 降至 16.06 MiB，文本规则由约 310 万条降至 575,499 条。
-- ROOT-CAUSE：修复 HaGeZi Ultimate 被错误替换为完整 TIF，以及 249 条国家 GEOIP 被展开成 76 万以上 CIDR 的双重放大；国家 GEOIP 现在保留为 SR 原生规则，服务型 GEOIP 才转换为 CIDR。
-- DEDUP：每个同策略段删除精确重复、被 DOMAIN-SUFFIX / DOMAIN-KEYWORD 覆盖的域名和被父网段覆盖的 CIDR；最终 Clash 文本二次优化删除数为 0。
-- BUDGET：新增 32 MiB / 100 万条客户端聚合门禁，并继续保留 18 MiB 单资产门禁，防止以后通过增加分片数掩盖总量回归。
+- FIX#175: reduced 71 inflated remote shards to 63 nonempty mobile fused segments; aggregate size fell from about 75.44 MiB to 16.06 MiB and text rules from about 3.1 million to 575,499.
+- ROOT-CAUSE: fixed both HaGeZi Ultimate being incorrectly replaced by full TIF and 249 country GEOIP rules expanding into more than 760,000 CIDRs. Country GEOIP stayed native in SR; only service GEOIP converted to CIDRs.
+- DEDUP: removed exact duplicates, domains covered by DOMAIN-SUFFIX / DOMAIN-KEYWORD and CIDRs covered by parent networks within each same-policy segment. A second optimization of final Clash text removed 0 rules.
+- BUDGET: added a 32 MiB / 1 million-rule aggregate client gate while retaining the 18 MiB per-asset gate, preventing increased shard counts from concealing total-size regressions.
 
 ## v6.0.1-SR.1 (2026-07-10)
 
-- FIX#174：`scki-fused-005-ad` 从单个 51.10 MiB RULE-SET 拆为 3 个同策略、有序分片；`scki-fused-057-intl-site` 从 20.15 MiB 拆为 2 个同策略、有序分片，避免 CDN / Shadowrocket 对超限单文件返回 `403/forbidden`。
-- SEMANTICS：5 个分片仍按原分流位置连续匹配，策略目标分别保持 `🛑 广告拦截` 和 `🌐 国外网站`；规则内容、策略组和最终匹配优先级不变。
-- VERIFY：生成时每个远程文本资产限制为 18 MiB，且合同校验会扫描本配置实际引用 URL 的文件存在性和字节数。
+- FIX#174: split `scki-fused-005-ad` from one 51.10 MiB RULE-SET into 3 ordered same-policy shards and `scki-fused-057-intl-site` from 20.15 MiB into 2 ordered same-policy shards, avoiding CDN / Shadowrocket `403/forbidden` responses for oversized files.
+- SEMANTICS: the 5 shards matched consecutively at their original routing positions, retaining `🛑 广告拦截` and `🌐 国外网站` targets. Rule contents, policy groups and final matching precedence were unchanged.
+- VERIFY: generation limited every remote text asset to 18 MiB; contracts checked existence and byte counts for the actual URLs referenced by this configuration.
 
 ## v6.0.0-SR.1 (2026-07-09)
 
-- FUSED-RULESETS：迁移到 68 个融合远程 RULE-SET。
-- META：跟随 Clash Party v6.0.0 更新版本元数据；策略组保持不变。
+- FUSED-RULESETS: migrated to 68 fused remote RULE-SETs.
+- META: updated version metadata to Clash Party v6.0.0; policy groups were unchanged.
 
 ## v5.4.39-SR.1 (2026-07-09)
 
-- META：跟随 Clash Party v5.4.39 更新版本元数据。
-- N/A：Shadowrocket 不支持 Mihomo `.mrs` rule-provider；规则语义延续 v5.4.38-SR.1。
+- META: updated version metadata to Clash Party v5.4.39.
+- N/A: Shadowrocket did not support Mihomo `.mrs` rule-providers; rule semantics remained v5.4.38-SR.1.
 
 ## v5.4.38-SR.1 (2026-07-09)
 
-- SCKI-SUPPLEMENTAL：删除零星本地白名单直写，改为 13 个仓库维护的 supplemental `RULE-SET`。
-- SYNC：版本元数据同步 Clash Party v5.4.38。
+- SCKI-SUPPLEMENTAL: replaced scattered inline local allowlist entries with 13 repository-maintained supplemental `RULE-SET`s.
+- SYNC: aligned version metadata with Clash Party v5.4.38.
 
 ## v5.4.37-SR.1 (2026-06-29)
 
-- META#170-DNS-POLICY：跟随 Clash Party v5.4.37 更新版本元数据。
-- N/A：Shadowrocket `.conf` 不支持 Mihomo `nameserver-policy` / `geosite:*` DNS policy 字段；现有 `dns-server` / `fallback-dns-server` 语义不变。
+- META#170-DNS-POLICY: updated version metadata to Clash Party v5.4.37.
+- N/A: Shadowrocket `.conf` did not support Mihomo `nameserver-policy` / `geosite:*` DNS-policy fields; existing `dns-server` / `fallback-dns-server` semantics were unchanged.
 
 ## v5.4.36-SR.1 (2026-06-29)
 
-- CLEAN#171-DIRECT：同步删除 22 条经逐条确认的冗余 `DOMAIN` / `DOMAIN-SUFFIX` 规则，远程规则集保持不变。
-- AI / Binance / Microsoft login 候选因不同策略 `.mrs` 前置阻断，继续保留。
+- CLEAN#171-DIRECT: removed 22 individually confirmed redundant `DOMAIN` / `DOMAIN-SUFFIX` rules; remote rule sets were unchanged.
+- AI / Binance / Microsoft-login candidates remained because earlier different-policy MRS prevented safe deletion.
 
 ## v5.4.35-SR.1 (2026-06-28)
 
-- ★ CLEAN#170-UPSTREAM：删除 5 个已被前序同目标规则覆盖的远程 RULE-SET：Marketing、EncoreTVB、FindMy、WildRift、AcFun。
-- CLEAN#170-DIRECT：删除 3 条已被前置 Douyin 国内流媒体守卫同目标覆盖的后置直写规则：`douyin.com`、`douyinpic.com`、`douyinvod.com`。
-- 远程 RULE-SET 实测数 288 → 283；匹配顺序不变。
+- ★ CLEAN#170-UPSTREAM: removed 5 remote RULE-SETs already covered by earlier same-target rules: Marketing, EncoreTVB, FindMy, WildRift and AcFun.
+- CLEAN#170-DIRECT: removed three later inline rules already covered by the earlier same-target Douyin China-streaming guard: `douyin.com`, `douyinpic.com`, `douyinvod.com`.
+- Measured remote RULE-SET count changed 288 → 283; matching order was unchanged.
 
 ## v5.4.34-SR.1 (2026-06-28)
 
-- ★ FIX#169-AMAP：新增 blackmatrix7 Shadowrocket `GaoDe.list`，归入 `🏠 国内网站`。
-- 顺序保持在广告/威胁规则之后、国外网站兜底之前，修复 `webapi.amap.com` 高德 API 误走国外的风险。
+- ★ FIX#169-AMAP: added blackmatrix7 Shadowrocket `GaoDe.list` targeting `🏠 国内网站`.
+- Kept it after advertising/threat rules and before the international-site fallback, addressing the risk of the `webapi.amap.com` Amap API matching that fallback.
 
 ## v5.4.33-SR.1 (2026-06-27)
 
-- ★ FEAT#169-AI-CODING：新增 VPSDance Shadowrocket `coding.list`，归入 `🤖 AI 服务`。
+- ★ FEAT#169-AI-CODING: added VPSDance Shadowrocket `coding.list` targeting `🤖 AI 服务`.
 
 ## v5.4.32-SR.1 (2026-06-25)
 
-- ★ FIX#168-CN-GAME：将国内游戏内联规则和 SteamCN 等规则集整体前置到国外游戏 RULE-SET 之前，避免 HoYoverse/Game 宽规则抢先代理。
-- 文件头与 README 对齐 Clash Party v5.4.32。
+- ★ FIX#168-CN-GAME: moved all CN-game inline rules and sets such as SteamCN before international-game RULE-SETs to prevent broad HoYoverse/Game rules proxying them first.
+- Aligned the file header and README with Clash Party v5.4.32.
 
 ## v5.4.31-SR.1 (2026-06-20)
 
-- ★ FIX#167-DOUYIN：新增抖音 Web 国内流媒体前置规则，`douyin.com` / `zjcdn.com` 等域名先于 TikTok 和国外规则集命中 `📺 国内流媒体`。
-- 文件头与 README 对齐 Clash Party v5.4.31。
+- ★ FIX#167-DOUYIN: added leading Douyin Web CN-streaming rules so `douyin.com`, `zjcdn.com` and related domains matched `📺 国内流媒体` before TikTok and international rule sets.
+- Aligned the file header and README with Clash Party v5.4.31.
 
 ## v5.4.30-SR.1 (2026-06-17)
 
-- ★ FEAT#166-GOOGLE：新增 `🔍 Google 服务` 策略组，位于 `🔧 工具与服务` 之前。
-- `GoogleSearch` / `GoogleDrive` / `GoogleEarth` / `Google` / `Scholar` 规则集改投新组；工具组保留非 Google 搜索和开发者服务。
+- ★ FEAT#166-GOOGLE: added `🔍 Google 服务` before `🔧 工具与服务`.
+- `GoogleSearch` / `GoogleDrive` / `GoogleEarth` / `Google` / `Scholar` moved to the new group; tools retained non-Google search and developer services.
 
 ## v5.4.29-SR.1 (2026-06-10)
 
-- ★ PERF#165-LATENCY：22 个区域 `url-test` 组 `interval=180 -> interval=300`，降低订阅节点测速频率。
-- 规则与策略组语义不变；FINAL 仍走 `🐟 漏网之鱼`。
-- README 与文件头对齐 Clash Party v5.4.29。
+- ★ PERF#165-LATENCY: changed 22 regional `url-test` groups from `interval=180 -> interval=300`, reducing subscription-node testing frequency.
+- Rule/group semantics were unchanged; FINAL still used `🐟 漏网之鱼`.
+- Aligned README/header with Clash Party v5.4.29.
 
 ## v5.4.27-SR.1 (2026-06-07)
 
-- ★ CLEAN#165：同步清理 7 条已由前置远程规则集覆盖的本地直写域名（Claude / PayPal / HBO / Hulu / Xbox）；删除后仍命中同策略组。
+- ★ CLEAN#165: removed 7 inline domains already covered by earlier remote rule sets (Claude / PayPal / HBO / Hulu / Xbox); they still matched the same policy groups afterward.
 
 ## v5.4.26-SR.1 (2026-06-07)
 
-- ★ FIX#164：腾讯 WorkBuddy `copilot.tencent.com` 国内直连防吞——szkane `AiDomain.list` 的 `DOMAIN-KEYWORD,copilot` 子串会把它误吞到 `🤖 AI 服务`（国外代理）导致对话报错；在 szkane AiDomain RULE-SET 之前前置 `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站`（与既有 RustDesk 防吞守卫并置）。基线 Clash Party v5.4.26。
+- ★ FIX#164: protected Tencent WorkBuddy `copilot.tencent.com` from misclassification: the `DOMAIN-KEYWORD,copilot` substring in szkane `AiDomain.list` incorrectly sent it to `🤖 AI 服务`, whose proxy routing caused conversation errors. Added `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站` before szkane AiDomain RULE-SET alongside the existing RustDesk guard. Baseline: Clash Party v5.4.26.
 
 ## v5.4.25-SR.1 (2026-06-04)
 
-- ★ SYNC：产物头部版本和基线声明对齐 Clash Party v5.4.25；规则语义延续 v5.4.23-SR.2，无新增 SR 专属规则变更。
+- ★ SYNC: aligned artifact header/version and baseline with Clash Party v5.4.25; rule semantics remained v5.4.23-SR.2, without new SR-specific rules.
 
 ## v5.4.23-SR.2 (2026-06-02)
 
-- ★ FIX#162：修复 Shadowrocket 远程规则列表加载 `Invalid status`：
-  - `ruleset.skk.moe/List/non_ip/reject_phishing.conf` 已 404，SR 不支持 `domainset`，改用同为 non_ip 通用格式的 `reject.conf`。
-  - 移除已失效的 HaGeZi `share/surge-tif-medium.txt`（jsDelivr 403；当前 HaGeZi 无 SR RULE-SET 等价格式）。
-  - 移除上游已不存在的 `独立内核系/Shadowrocket/RemoteDesktop/RemoteDesktop.list`（仅 Clash 端仍有进程名规则，SR 不适用）。
-  - `BiliIntl/BiliIntl.list` 路径改为当前上游 `BiliBiliIntl/BiliBiliIntl.list`。
+- ★ FIX#162: fixed `Invalid status` while loading Shadowrocket remote rule lists:
+  - `ruleset.skk.moe/List/non_ip/reject_phishing.conf` returned 404. SR did not support `domainset`, so it switched to `reject.conf` in the same generic non_ip format.
+  - Removed expired HaGeZi `share/surge-tif-medium.txt` (jsDelivr 403; no equivalent HaGeZi SR RULE-SET format then existed).
+  - Removed upstream-deleted `独立内核系/Shadowrocket/RemoteDesktop/RemoteDesktop.list` (only Clash retained process-name rules, not applicable to SR).
+  - Corrected `BiliIntl/BiliIntl.list` to the then-current upstream `BiliBiliIntl/BiliBiliIntl.list` path.
 
 ## v5.4.23-SR.1 (2026-06-02)
 
-- ★ FIX#161：`DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` → 🏠 国内网站 直连（知乎图片 CDN + 短链，同步基线）。
+- ★ FIX#161: `DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` targeted `🏠 国内网站` direct routing for Zhihu image CDN/short links, matching the baseline.
 
 ## v5.4.22-SR.1 (2026-05-31)
 
-- ★ GeTui(个推)推送 SDK `getui.com` / `getui.net` / `gepush.com` 加直连白名单（review 后补；延续 #2，被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行）。
+- ★ Added GeTui push SDK `getui.com` / `getui.net` / `gepush.com` to direct exceptions after review. Continuing #2, generic ad/privacy feeds treated them as trackers despite carrying application push such as Mi Home; the owner chose to allow them.
 
-- N/A#1 QUIC 精细化：SR block-quic 是引擎级开关，不支持 AND/NOT 白名单豁免。引擎标注见文件内注释。
+- N/A#1 QUIC refinement: SR block-quic was engine-level without AND/NOT allowlist exemptions. See engine annotations in the file.
 
 ## v5.4.21-SR.1 (2026-05-31)
 
-#4 借鉴 Proxy-override：全部 DoH URL（dns-server / proxy-dns-server / fallback-dns-server）从域名改为 IP-host DoH，消除 bootstrap 阶段 DNS 泄漏；SR 无独立 bootstrap 字段，直接用 IP DoH 即免自举。
+#4 Adopted from Proxy-override: changed every DoH URL (dns-server / proxy-dns-server / fallback-dns-server) from domain-host to IP-host DoH. The historical entry recorded elimination of bootstrap DNS leakage: SR had no independent bootstrap field, and IP DoH avoided hostname bootstrapping. This is not a new universal leak-free guarantee.
 
 ## v5.4.20-SR.1 (2026-05-30)
 
-- N/A#6 节点过滤关键词补充（批 B）：Shadowrocket 不处理订阅去 junk（无 isInfoNode / exclude-filter 等运行时 junk 过滤器），#6 不适用；版本跟随 Clash Party v5.4.20 基线对齐。
+- N/A#6 additional node-filter keywords (batch B): Shadowrocket did not remove subscription junk at runtime and lacked filters such as isInfoNode / exclude-filter, so #6 did not apply. The version followed Clash Party v5.4.20.
 
 ## v5.4.19-SR.1 (2026-05-30)
 
-借鉴 Proxy-override 批 A · #2 国内 SDK/CDN 直连前置（跟随 Clash Party v5.4.19；spec：`docs/2026-05-30-proxy-override-借鉴设计.md`）：
+Proxy-override adoption batch A · #2 leading CN SDK/CDN direct rules (following Clash Party v5.4.19; spec: `docs/2026-05-30-proxy-override-借鉴设计.md`):
 
-- jpush / `msg.umeng.com` 前置到广告拦截 RULE-SET 之前强制 DIRECT（承载合法 App 推送/消息；与 mihomo 家族行为对齐，避免跨端不一致）
-- `baomitu.com` / `bootcss.com` / `staticfile.org` / `upaiyun.com` 加入 🏠 国内网站段
-- 不适用 #3 fake-ip-filter（iOS Shadowrocket 无该字段）/ #5 direct-nameserver-follow-policy（非 mihomo 内核）
-- 🔢 版本：v5.4.17-SR.1 → v5.4.19-SR.1（全产物跳过烧毁的 .18 统一到 v5.4.19）
+- Placed jpush / `msg.umeng.com` before advertising RULE-SETs with forced DIRECT for legitimate push/messages, aligning the Mihomo family and avoiding cross-client inconsistency.
+- Added `baomitu.com` / `bootcss.com` / `staticfile.org` / `upaiyun.com` to the `🏠 国内网站` segment.
+- #3 fake-ip-filter did not apply (iOS Shadowrocket had no such field), nor did #5 direct-nameserver-follow-policy (not Mihomo).
+- 🔢 Version: v5.4.17-SR.1 → v5.4.19-SR.1 (all products skipped invalidated .18 and aligned at v5.4.19).
 ## v5.4.17-SR.2 (2026-05-30)
 
-- ★ FIX#KR-WB：日韩 / 亚太 `policy-regex-filter` 裸 `KR` 补词边界 `(?<![a-zA-Z])KR(?![a-zA-Z])`（与本文件 US/SG 写法一致）
-  - 大小写敏感下仅大写 `KR` 子串误伤（KRAKEN / DARKROOM → 🇯🇵 日韩节点），加边界后消除
-  - 覆盖日韩节点 / 日韩家宽 / 亚太节点 / 亚太家宽 4 行；KOR/Korea/Seoul/🇰🇷 完整词不受影响
-  - §1.5 同构审计：主线 Clash Party×3 JS + CMFA 本就带边界未改；OpenClash/独立内核系/Loon/独立内核系/Surge/QX 同步修复
-  - 回归测试见 `tools/test-kr-boundary.js`
+- ★ FIX#KR-WB: added `(?<![a-zA-Z])KR(?![a-zA-Z])` word boundaries to bare `KR` in Japan/Korea and APAC `policy-regex-filter`, consistent with US/SG patterns in this file.
+  - Under case-sensitive matching, only uppercase `KR` substrings were false positives (KRAKEN / DARKROOM → `🇯🇵 日韩节点`); boundaries removed those matches.
+  - Covered four node/residential lines for Japan/Korea and APAC; complete KOR/Korea/Seoul/🇰🇷 matches were unaffected.
+  - §1.5 parallel audit: all three mainline Clash Party JS scripts + CMFA already had boundaries and were unchanged; OpenClash/Loon/Surge/QX were fixed together.
+  - Regression tests: `tools/test-kr-boundary.js`.
 
 ## v5.4.17-SR.1 (2026-05-26)
 
-- ✅ FIX#DNS-SPLIT-BOOTSTRAP：Shadowrocket DNS 同步 v5.4.17 split-bootstrap 语义
-  - `dns-server` 只保留国内 DoH；`proxy-dns-server` 固定境外 DoH + 国内 DoH 兜底
-  - `fallback-dns-server` 固定 Cloudflare + Google DoH
-  - Shadowrocket 无独立 `default-nameserver` 字段，DoH 域名自举由客户端实现
+- ✅ FIX#DNS-SPLIT-BOOTSTRAP: Shadowrocket DNS synchronized v5.4.17 split-bootstrap semantics.
+  - `dns-server` retained CN DoH only; `proxy-dns-server` used fixed non-CN DoH + CN DoH fallback.
+  - `fallback-dns-server` was fixed to Cloudflare + Google DoH.
+  - Shadowrocket had no separate `default-nameserver`; the client implemented DoH-hostname bootstrap.
 
 ## v5.4.16-SR.1 (2026-05-20)
 
-- ✅ FIX#149-P0：前置 `DOMAIN-SUFFIX,paddle.com,🏦 金融支付`
-  - issue #149 反馈 Antigravity 登录 Google 后回跳失败，日志中 `analytics.paddle.com` 频繁命中拦截
-  - 当前 anti-AD/DustinWin 源包含 `analytics.paddle.com`；Shadowrocket 本地规则需放在 anti-AD 远程规则之前
+- ✅ FIX#149-P0: placed `DOMAIN-SUFFIX,paddle.com,🏦 金融支付` earlier.
+  - Issue #149 reported Antigravity failing to redirect back after Google login, with `analytics.paddle.com` frequently blocked in logs.
+  - The anti-AD/DustinWin source then included `analytics.paddle.com`; Shadowrocket's local exception needed to precede the anti-AD remote rules.
 
 ## v5.4.15-SR.1 (2026-05-20)
 
-- 🧾 DOC#GEOSITE-LEDGER：同步 Clash Party v5.4.15 元数据，新增 GEOSITE 覆盖台账引用。
-- ♻️ REFACTOR#AD-FP-MODULE：阶段 1 顶部显式标记 Anti-ad false-positive allowlist，并将小米误伤白名单与 Cloudflare R2 白名单统一放到广告/钓鱼/TIF 规则之前。
+- 🧾 DOC#GEOSITE-LEDGER: synchronized v5.4.15 metadata and added GEOSITE coverage references.
+- ♻️ REFACTOR#AD-FP-MODULE: explicitly labeled the top of stage 1 as Anti-ad false-positive allowlist and placed both Xiaomi false-positive exceptions and Cloudflare R2 exceptions before advertising/phishing/TIF rules.
 
 ## v5.4.14-SR.1 (2026-05-20)
 
-- ✅ FIX#CF-R2-P0：`cloudflarestorage.com` 规则前置到阶段 1 顶部
-  - 避免 Sukka phishing 远程规则源把 Cloudflare R2 对象存储域误导向 `🛑 广告拦截`
-  - 后段 `🌐 国外网站` 重复条目已移除
+- ✅ FIX#CF-R2-P0: moved the `cloudflarestorage.com` rule to the top of stage 1.
+  - Prevented the Sukka phishing remote source from misrouting Cloudflare R2 object-storage domains to `🛑 广告拦截`.
+  - Removed the duplicate later `🌐 国外网站` entry.
 
 ## v5.4.13-SR.1 (2026-05-19)
 
-- ✅ FIX#STUN-PORTS：补齐 STUN/TURN 标准端口 `5349 / 19302 / 19305 / 19307 -> DIRECT`
-- N/A#FAKE-IP：Shadowrocket 无 Mihomo `fake-ip-filter`；QUIC 仍由 `block-quic = all-proxy` 控制
+- ✅ FIX#STUN-PORTS: completed standard STUN/TURN ports `5349 / 19302 / 19305 / 19307 -> DIRECT`.
+- N/A#FAKE-IP: Shadowrocket had no Mihomo `fake-ip-filter`; QUIC remained controlled by `block-quic = all-proxy`.
 
 ## v5.4.12-SR.1 (2026-05-12)
 
@@ -277,204 +280,229 @@
 
 ## v5.4.11-SR.1 (2026-05-12)
 
-- ✅ FIX#RD-DOMAIN：`rustdesk.com` 继续归入 `🧑‍💼 会议协作`，用于补齐 iOS 无进程匹配能力时的 RustDesk 域名兜底
-- ✅ FIX#DNS-BOOTSTRAP：`dns-server` / `proxy-dns-server` 调整为 IP-first + DoH 兜底，降低首次解析失败概率
+- ✅ FIX#RD-DOMAIN: `rustdesk.com` remained in `🧑‍💼 会议协作`, supplying a domain fallback where iOS lacked process matching.
+- ✅ FIX#DNS-BOOTSTRAP: changed `dns-server` / `proxy-dns-server` to IP-first + DoH fallback to reduce first-resolution failures.
 
 ## v5.4.9-SR.1 (2026-05-11)
 
-- ★ META#LOCAL-TOOLS：跟随 Clash Party v5.4.9 基线；本端不启用新增 PROCESS-NAME 直连清单，避免 Shadowrocket iOS / macOS 通用配置里出现不等价或被忽略的进程匹配。
-- 直连工具清单已进入 `docs/process-name-compatibility.md` 与测试夹具，桌面端由 mihomo / sing-box / Surge Mac 承接。
+- ★ META#LOCAL-TOOLS: followed Clash Party v5.4.9. Did not enable the new PROCESS-NAME direct list here, avoiding nonequivalent or ignored process matching in the shared Shadowrocket iOS/macOS configuration.
+- Recorded the direct-tool list in `docs/process-name-compatibility.md` and test fixtures; desktop Mihomo / sing-box / Surge Mac handled it.
 
 ## v5.4.8-SR.2 (2026-05-11)
 
-- ★ FIX#SR-AF-P1：补回被业务组引用但未定义的 `🌍 非洲节点` url-test 组
-  - 将 `🌍 非洲节点` / `🏡 非洲家宽` 放回区域组段，避免非洲候选引用落到不存在的策略组
-  - 同构审计：Surge / Loon / QX / CMFA 均已定义非洲节点组；Shadowrocket 为单端漏同步
+- ★ FIX#SR-AF-P1: restored the undefined `🌍 非洲节点` url-test group referenced by business groups.
+  - Restored `🌍 非洲节点` / `🏡 非洲家宽` to regional groups, preventing African-candidate references to nonexistent policies.
+  - Parallel audit: Surge / Loon / QX / CMFA already defined the African node group; only Shadowrocket had missed synchronization.
 
 ## v5.4.8-SR.1 (2026-05-09)
 
-- ★ ORDER#RULE-TAIL：同步 Clash Party v5.4.8 规则尾段匹配顺序
-  - `[Proxy Group]` UI 顺序不变；仅调整 `[Rule]` 顺序
-  - `🎵 TikTok` 保持前置，避免 ByteDance 共用域被国内流媒体抢先命中
+- ★ ORDER#RULE-TAIL: synchronized v5.4.8 tail-rule order.
+  - `[Proxy Group]` UI order was unchanged; only `[Rule]` order changed.
+  - Kept `🎵 TikTok` earlier to prevent CN-streaming rules from capturing shared ByteDance domains first.
 
 ## v5.4.7-SR.1 (2026-05-09)
 
-- ★ FEAT#TikTok：新增独立 `🎵 TikTok` 业务组（32 业务组），置于 `📺 国内流媒体` 与 `🎥 Netflix` 之间
-  - TikTok 从 `📱 社交媒体` 独立为专属 select 组，使用标准全球代理链路
-  - `RULE-SET,TikTok.list` 规则目标从 `📱 社交媒体` 改为 `🎵 TikTok`，前置于 Netflix 规则块
-- ★ FIX#HK：香港节点 `policy-regex-filter` 追加 `|广港`，补全 IEPL/IPLC 跨境专线节点分类
+- ★ FEAT#TikTok: added independent `🎵 TikTok` group (32 service groups), between `📺 国内流媒体` and `🎥 Netflix`.
+  - Split TikTok from `📱 社交媒体` into its own select group using the standard global proxy chain.
+  - Changed `RULE-SET,TikTok.list` from `📱 社交媒体` to `🎵 TikTok`, before the Netflix block.
+- ★ FIX#HK: appended `|广港` to Hong Kong node `policy-regex-filter`, completing classification of IEPL/IPLC cross-border dedicated-line node names.
 
 ## v5.4.6-SR.1 (2026-05-08)
 
-- ★ FEAT#145：WeChat CDN 直连 — 新增 `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT`
-  - 于阶段 7（国内邮箱直连）`mail.qq.com` 后新增，WeChat CDN 域名直连
-  - 跟随 Clash Party v5.4.6 基线
+- ★ FEAT#145: added WeChat CDN direct rule `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT`.
+  - Added after `mail.qq.com` in stage 7 (CN mail direct routing), routing the WeChat CDN domain directly.
+  - Followed v5.4.6 baseline.
 
 ## v5.4.5-SR.1 (2026-05-07)
 
-- ★ 全球节点置顶 + 全产品组顺序同步（跟随基线 v5.4.5）
+- ★ Moved global nodes first and synchronized group ordering across products, following v5.4.5.
 
 ## v5.4.4-SR.1 (2026-05-07)
 
-- ★ FIX#144：新增 bbys.app 直连规则（国内可访问视频站点 CDN 域名直连）
-  - 于阶段 28（国内网站兜底）末尾新增 `DOMAIN-SUFFIX,bbys.app,DIRECT`
-  - 跟随 Clash Party v5.4.4 基线
-- ★ FEAT#143：家宽 policy-regex-filter 新增 IEPL/IPLC/专线识别
-  - 所有 10 个家宽区域组的 `policy-regex-filter` 中 residential 子模式追加 `[Ii][Pp][Ll][Cc]|[Ii][Ee][Pp][Ll]|专线`
-  - 匹配含 IPLC/IEPL/专线标识的家宽类型节点
-- ★ 主版本号 v5.4.3 → v5.4.4，Build 2026-05-06 → 2026-05-07
-- FIX#142（DNS 冷启动）为 Clash Party JS 专属修复，静态配置文件豁免
+- ★ FIX#144: added a direct rule for bbys.app, recorded in this version as direct CDN access for that video site.
+  - Added `DOMAIN-SUFFIX,bbys.app,DIRECT` at the end of stage 28 (CN-site fallback).
+  - Followed Clash Party v5.4.4.
+- ★ FEAT#143: residential policy-regex-filter gained IEPL/IPLC/dedicated-line recognition.
+  - Appended `[Ii][Pp][Ll][Cc]|[Ii][Ee][Pp][Ll]|专线` to the residential subpattern in all 10 residential regional groups' `policy-regex-filter`.
+  - Matched residential-type node names containing IPLC/IEPL/`专线` identifiers.
+- ★ Major version v5.4.3 → v5.4.4; Build 2026-05-06 → 2026-05-07.
+- FIX#142 (DNS cold start) was specific to Clash Party JS; static configuration files were exempt.
 
 ## v5.4.3-SR.1 (2026-05-06)
 
-- ★ FEAT：家宽 policy-regex-filter 添加 `|[Hh]ome` 关键词（跟随 Clash Party v5.4.3 基线）
-  - 所有 9 个家宽区域组的 policy-regex-filter 追加 `|[Hh]ome`，匹配仅含 Home 的节点名
+- ★ FEAT: residential policy-regex-filter gained `|[Hh]ome` (following Clash Party v5.4.3).
+  - Appended `|[Hh]ome` to all 9 residential regional filters, matching names containing only Home as the residential indicator.
 
 ## v5.4.2-SR.1 (2026-05-05)
 
-- ★ FIX#41-P0：小米核心服务 DIRECT 白名单（跟随 Clash Party v5.4.2 基线）
-  - 新增 11 条 DOMAIN/DOMAIN-SUFFIX DIRECT 规则前置广告拦截段
+- ★ FIX#41-P0: Xiaomi core-service DIRECT exceptions, following v5.4.2.
+  - Added 11 DOMAIN/DOMAIN-SUFFIX DIRECT rules before the advertising segment.
 
 ## v5.4.0-SR.1 (2026-05-05)
 
-- ★ FEAT#SG：新增 🇸🇬 狮城节点 + 🏡 狮城家宽 独立区域组
-  - 新加坡从 🌏 亚太节点 中拆分为独立区域
-  - 区域组总数：18 → 20（10 全部 + 10 家宽），总组数：49 → 51
-  - 跟随基线 Clash Party v5.4.0
+- ★ FEAT#SG: added independent `🇸🇬 狮城节点` and `🏡 狮城家宽` groups.
+  - Split Singapore into a separate region from `🌏 亚太节点`.
+  - Regional groups: 18 → 20 (10 all-node + 10 residential); total groups: 49 → 51.
+  - Followed Clash Party v5.4.0.
 
 ## v5.3.0-SR.1 (2026-04-26)
 
-- ★ REFACTOR#2：流媒体分组架构重构——按区域 → 按平台（7→13 流媒体组）
-  - 拆出 5 个主流平台独立组：🎥 Netflix / 🎬 Disney+ / 📡 HBO/Max / 📺 Hulu / 🎬 Prime Video
-  - 拆出 2 个全球平台独立组：📹 YouTube / 🎵 音乐流媒体
-  - 保留 4 个区域锁区组：🇭🇰 香港流媒体 / 🇹🇼 台湾流媒体 / 🇯🇵 日韩流媒体 / 🇪🇺 欧洲流媒体
-  - 新增 🌐 其他国外流媒体 兜底（接收长尾平台 + 原东南亚流媒体）
-  - 业务组 25→31，总组 43→49
-## v5.2.11-SR.1 (2026-04-26) — 业务组合并精简 28→25（降低用户认知负担）
+- ★ REFACTOR#2: changed streaming grouping from region-based to platform-based (7 → 13 groups).
+  - Added independent Netflix / Disney+ / HBO/Max / Hulu / Prime Video groups.
+  - Split global YouTube / music-streaming groups.
+  - Retained Hong Kong / Taiwan / Japan-Korea / Europe regional streaming groups.
+  - Added other-international-streaming fallback for long-tail platforms and former Southeast Asia streaming.
+  - Service groups: 25 → 31; total groups: 43 → 49.
 
-- ★ **REFACTOR#1**：跟随 Clash Party v5.2.11 基线，业务组合并精简
-  - 合并 🔍搜索引擎 + 📟开发者服务 → 新增 🔧工具与服务
-  - 合并 📧邮件服务 → 🌐国外网站
-  - 合并 ☁️云与CDN → 🌐国外网站
-  - 📥下载更新 策略从 DIRECT 优先改为代理优先
-  - 🛰️BT/PT Tracker 保留独立
+<a id="v5211-sr1-2026-04-26--业务组合并精简-2825降低用户认知负担"></a>
+
+## v5.2.11-SR.1 (2026-04-26) — Business groups consolidated 28→25 to reduce navigation complexity
+
+- ★ REFACTOR#1: followed v5.2.11 to consolidate service groups and reduce selection complexity.
+  - Merged search engines and developer services into tools/services.
+  - Merged mail services into international sites.
+  - Merged cloud/CDN into international sites.
+  - Changed downloads/updates from DIRECT-first to proxy-first.
+  - Retained independent BT/PT Tracker.
 - Bump: `v5.2.10-SR.1` → `v5.2.11-SR.1`
 
-## v5.2.10-SR.1 (2026-04-25) — 境外 DoH 端点改路由到 🚫 受限网站
+<a id="v5210-sr1-2026-04-25--境外-doh-端点改路由到--受限网站"></a>
 
-- ★ **FIX#39**（同构联动）：跟随 Clash Party v5.2.10 基线
-  - `DOMAIN,dns.google,☁️ 云与CDN` → `🚫 受限网站`
-  - `DOMAIN,dns.google.com,☁️ 云与CDN` → `🚫 受限网站`
-  - `DOMAIN-SUFFIX,cloudflare-dns.com,☁️ 云与CDN` → `🚫 受限网站`
-  - 注：`[General] proxy-dns-server` / `fallback-dns-server` 仍保留 cloudflare/google DoH URL 不动
-    （这些是 SR App 自身上游 DoH 配置，与策略组路由无关）
-- Bump: `v5.2.8-SR.7` → `v5.2.10-SR.1`（主版本追平到 v5.2.10）
+## v5.2.10-SR.1 (2026-04-25) — Non-CN DoH endpoints moved to restricted-sites routing
 
-## v5.2.8-SR.7 (2026-04-25) — 欧洲节点 filter 补全 GR/RO/HU/CZ 及多国关键词扩充
+- ★ FIX#39: synchronized shared behavior with v5.2.10.
+  - `DOMAIN,dns.google,☁️ 云与CDN` → `🚫 受限网站`.
+  - `DOMAIN,dns.google.com,☁️ 云与CDN` → `🚫 受限网站`.
+  - `DOMAIN-SUFFIX,cloudflare-dns.com,☁️ 云与CDN` → `🚫 受限网站`.
+  - Note: retained cloudflare/google DoH URLs in `[General] proxy-dns-server` / `fallback-dns-server`.
+    (These were SR's own upstream DoH settings, independent of policy-group routing.)
+- Bump: `v5.2.8-SR.7` → `v5.2.10-SR.1` (major version aligned at v5.2.10).
 
-- ★ **FIX#29-P2**（同构 bug）：🇪🇺 欧洲节点 + 🏡 欧洲家宽 group filter 补全缺失欧洲国家
-  - 上轮 OpenClash 补齐了 15 个欧洲国家 REGIONS，但 iOS 产物 EU filter 未同步
-  - 修复：SR/独立内核系/Surge/独立内核系/Loon/QX 的 EU node + EU home filter 新增 GR/RO/HU/CZ 代码 + 全量关键词
-    （Greece/Athens/Romania/Bucharest/Hungary/Budapest/Czech/Prague + 中文 + 旗帜 emoji）
-  - 同时扩充 PT/BE/IE/DK/NO 的关键词（城市名 + 中文名 + 🇵🇹/🇧🇪/🇮🇪/🇩🇰/🇳🇴）
-  - 同构审计：Clash Party JS / OpenClash 已覆盖；CMFA 用 include-all-proxies 兜底全球组（N/A）；SingBox/v2rayN 无运行时节点分类（N/A）
-- 版本号 `v5.2.8-SR.6` → `v5.2.8-SR.7` 
+<a id="v528-sr7-2026-04-25--欧洲节点-filter-补全-grrohucz-及多国关键词扩充"></a>
 
+## v5.2.8-SR.7 (2026-04-25) — Completed European filters with GR/RO/HU/CZ and additional country keywords
 
+- ★ **FIX#29-P2** (parallel bug): completed missing European countries in `🇪🇺 欧洲节点` + `🏡 欧洲家宽` filters.
+  - The previous OpenClash update added 15 European countries to REGIONS, but iOS artifact EU filters had not followed.
+  - Fix: added GR/RO/HU/CZ codes and full keywords to SR/Surge/Loon/QX EU node + residential filters
+    (Greece/Athens/Romania/Bucharest/Hungary/Budapest/Czech/Prague + Chinese names + flag emoji).
+  - Also expanded PT/BE/IE/DK/NO keywords (city names + Chinese names + 🇵🇹/🇧🇪/🇮🇪/🇩🇰/🇳🇴).
+  - Parallel audit: Clash Party JS / OpenClash already covered these; CMFA used include-all-proxies as a global fallback (N/A); SingBox/v2rayN had no runtime node classification (N/A).
+- Version `v5.2.8-SR.6` → `v5.2.8-SR.7`.
 
-## v5.2.8-SR.6 (2026-04-24) — DNSPod DoH 端点切换为纯 IP 形式
+<a id="v528-sr6-2026-04-24--dnspod-doh-端点切换为纯-ip-形式"></a>
 
-- ★ `dns-server` / `proxy-dns-server` 里的 `https://doh.pub/dns-query` 全部替换为
+## v5.2.8-SR.6 (2026-04-24) — DNSPod DoH endpoints changed to IP-only form
+
+- ★ Replaced all `https://doh.pub/dns-query` entries in `dns-server` / `proxy-dns-server` with
   `https://1.12.12.12/dns-query`
-  - DNSPod 纯 IP 形式 DoH 端点，**无需 bootstrap 解析 `doh.pub` 域名**，iOS 冷启动
-    或低信号环境下更稳
-- 版本号 `v5.2.8-SR.5` → `v5.2.8-SR.6`
+  - DNSPod IP-host DoH endpoints, **avoiding bootstrap resolution of `doh.pub`**, for more reliable iOS cold starts
+    or operation under weak signal.
+- Version `v5.2.8-SR.5` → `v5.2.8-SR.6`.
 
-## v5.2.8-SR.5 (2026-04-23) — 基线对齐 Clash Party v5.2.8（无代码改动）
+<a id="v528-sr5-2026-04-23--基线对齐-clash-party-v528无代码改动"></a>
 
-- 跟随基线 bump：`v5.2.6-SR.4` → `v5.2.8-SR.5`
-- v5.2.7（mirror URL 切换）：SR 直接拉上游 URL，不走 mirror，无需改动
-- v5.2.8（CMFA/OpenClash 亚太 filter 同构修复）：SR `policy-regex-filter` 已有 HK/TW/JP/KR 完整覆盖，无需改动
+## v5.2.8-SR.5 (2026-04-23) — Aligned with Clash Party v5.2.8 (no code changes)
 
-## v5.2.6-SR.4 (2026-04-23) — FINAL 兜底补 `dns-failed` 标志
+- Baseline bump: `v5.2.6-SR.4` → `v5.2.8-SR.5`.
+- v5.2.7 (mirror URL change): SR fetched upstream URLs directly without the mirror and needed no change.
+- v5.2.8 (CMFA/OpenClash APAC-filter fix): SR `policy-regex-filter` already fully covered HK/TW/JP/KR and needed no change.
 
-跨产物审计（PR #65）发现 CLAUDE.md §3.3 硬约束违反：
+<a id="v526-sr4-2026-04-23--final-兜底补-dns-failed-标志"></a>
+
+## v5.2.6-SR.4 (2026-04-23) — Added `dns-failed` to FINAL fallback
+
+Cross-product audit (PR #65) found a violation of the then-current CLAUDE.md §3.3 requirement:
 
 - ★ **FIX#SR-03-P1**：`FINAL,🐟 漏网之鱼` → `FINAL,🐟 漏网之鱼,dns-failed`
-  - 文件：`独立内核系/Shadowrocket/Shadowrocket.conf:1340`
-  - 原因：Shadowrocket 的 FINAL 规则默认只在**规则表走完**后兜底；DNS 超时/解析失败**不会**自动落入 FINAL，会直接报错。带上 `dns-failed` 标志后 DNS 失败也会走兜底节点。
-  - 权威：CLAUDE.md §3.3 明文规定 `FINAL,🐟 漏网之鱼,dns-failed`；同仓库 `独立内核系/Surge/Surge.conf:1321` 已对齐。
-  - 同期审计确认：Loon / Quantumult X 官方文档**未记载** `dns-failed` 标志——Loon `final_rule` 页无说明、QX `sample.conf` 只有 `final, <policy>` 形态，按 CLAUDE.md §2.3 保守原则**不添加**。
+  - File: `独立内核系/Shadowrocket/Shadowrocket.conf:1340`.
+  - Cause: Shadowrocket FINAL normally handled traffic only **after the rule table completed**; DNS timeout/resolution failure did **not** automatically enter FINAL and instead errored. Adding `dns-failed` routed DNS failures through the fallback node too.
+  - Authority: CLAUDE.md §3.3 explicitly required `FINAL,🐟 漏网之鱼,dns-failed`; `独立内核系/Surge/Surge.conf:1321` in the same repository already matched.
+  - The same audit found **no documented** `dns-failed` flag in official Loon / Quantumult X materials: Loon's `final_rule` page did not describe it, and QX `sample.conf` showed only `final, <policy>`. Under CLAUDE.md §2.3's conservative rule, it was **not added** there.
 
-头部版本号 v5.2.5-SR.3 → v5.2.6-SR.4（对齐主线 v5.2.6）。
+Header version v5.2.5-SR.3 → v5.2.6-SR.4 (aligned with mainline v5.2.6).
 
-## v5.2.5-SR.3 (2026-04-22) — 移除 72 条 Clash YAML 规则集 + anti-AD/Sukka 兼容修复
+<a id="v525-sr3-2026-04-22--移除-72-条-clash-yaml-规则集--anti-adsukka-兼容修复"></a>
 
-深度审查发现仓库 iOS 三兄弟（Loon / Shadowrocket / Quantumult X）共享同一批"Clash Party v5.2.4 基线遗毒"：
-- 72 条 Accademia Clash classical `.yaml` RULE-SET（SR 的"auto-detect yaml"只有非官方文档声称，保守视作 Loon 已验证失效同款）
-- `anti-ad.net/surge.txt` 裸域名（Loon v5.2.4-Loon.3 已确认部分国内 ISP 会劫持返回 HTML）
-- Sukka `List/domainset/*.conf`（Surge 专属二级路径，Loon 不认，SR 官方同样没保证）
+## v5.2.5-SR.3 (2026-04-22) — Removed 72 Clash YAML rule sets and fixed anti-AD/Sukka compatibility
 
-本次按 Loon v5.2.4-Loon.2 / .3 已验证的修复模板同步应用：
+Deep review found the same inherited Clash Party v5.2.4 problems across Loon / Shadowrocket / Quantumult X:
+- 72 Accademia Clash classical `.yaml` RULE-SETs (only unofficial sources claimed SR auto-detected YAML, so conservatively treated them like the verified Loon failure).
+- Bare-host `anti-ad.net/surge.txt` (Loon v5.2.4-Loon.3 had confirmed some affected CN ISPs intercepted DNS and returned HTML).
+- Sukka `List/domainset/*.conf` (a Surge-specific subpath unrecognized by Loon and not guaranteed in official SR documentation either).
 
-### 改动
+Applied the verified Loon v5.2.4-Loon.2 / .3 fixes:
 
-- ★ FIX#SR-01-P1：**删除 72 条 Clash classical `.yaml` RULE-SET**（71 Accademia + 1 ACL4SSR Zoom.yaml），SR 可能沉默加载为 0 条
+<a id="改动"></a>
+
+### Changes
+
+- ★ FIX#SR-01-P1: **removed 72 Clash classical `.yaml` RULE-SETs** (71 Accademia + 1 ACL4SSR Zoom.yaml), which SR could silently load as zero rules.
 - ★ FIX#SR-02-P0：`anti-ad.net/surge.txt` → `fastly.jsdelivr.net/gh/privacy-protection-tools/anti-AD@master/anti-ad-surge.txt`
 - ★ FIX#SR-03-P0：Sukka `List/domainset/reject_phishing.conf` → `List/non_ip/reject_phishing.conf`
-- ★ FIX#SR-04-P1：72 条 yaml 删除后的关键域名补 DOMAIN-SUFFIX 兜底：
-  - 🏦 金融支付：Monzo / N26 / Chime + 24 国际银行（Chase / BofA / HSBC / Barclays / DBS / MUFG / RBC / ANZ 等）
-  - 🧑‍💼 会议协作：Zoom × 5 / RustDesk / Parsec × 3
-  - 🌐 国外网站：Wayback Machine / Pornhub × 3
+- ★ FIX#SR-04-P1: after removing 72 YAML entries, added DOMAIN-SUFFIX fallbacks for critical domains:
+  - `🏦 金融支付`: Monzo / N26 / Chime + 24 international banks (Chase / BofA / HSBC / Barclays / DBS / MUFG / RBC / ANZ and others).
+  - `🧑‍💼 会议协作`: Zoom × 5 / RustDesk / Parsec × 3.
+  - `🌐 国外网站`: Wayback Machine / Pornhub × 3.
 
-### 元信息
+<a id="元信息"></a>
 
-- 版本：`v5.2.2-SR.2` → **`v5.2.5-SR.3`**（主版本对齐 Clash Party JS `VERSION = 'v5.2.5'`）
+### Metadata
+
+- Version: `v5.2.2-SR.2` → **`v5.2.5-SR.3`** (major version aligned with Clash Party JS `VERSION = 'v5.2.5'`).
 - Build：2026-04-20 → 2026-04-22
-- 架构一句话：`250+ RULE-SET` → `~290 RULE-SET`
-- 清理 15 行孤立的 `# Accademia xxx` 注释头（原 yaml 段已删）
+- Architecture summary: `250+ RULE-SET` → `~290 RULE-SET`.
+- Removed 15 orphaned `# Accademia xxx` comment headings whose YAML sections were gone.
 
-### 已接受的回归损失（与 Loon 一致）
+<a id="已接受的回归损失与-loon-一致"></a>
 
-Accademia `FakeLocation × 10`（国内 APP IP 伪装）、`GeoRouting × 17 区域`、`eMuleServer`、`HomeIP`、各国银行细粒度 YAML —— 没有 `.list` 等价源；关键域名已补 DOMAIN-SUFFIX 兜底。完整覆盖请换 CMFA / OpenClash / SingBox。
+### Accepted coverage regression (same as Loon)
 
-### 自检
+Accademia `FakeLocation × 10` (CN-application IP presentation), `GeoRouting × 17 regions`, `eMuleServer`, `HomeIP` and country-specific banking YAML had no equivalent `.list` sources. Critical domains received DOMAIN-SUFFIX fallbacks. The historical entry identified CMFA / OpenClash / SingBox as alternatives retaining full coverage.
 
-- 代理组 37 个 ✓
-- `.yaml,` RULE-SET 残留：0 条 ✓
-- `anti-ad.net` 残留：0 次 ✓
-- `skk.moe/List/domainset/`：0 次；`List/non_ip/`：1 次 ✓
+<a id="自检"></a>
+
+### Self-checks
+
+- 37 proxy groups ✓
+- Remaining `.yaml,` RULE-SETs: 0 ✓
+- Remaining `anti-ad.net` references: 0 ✓
+- `skk.moe/List/domainset/`: 0 occurrences; `List/non_ip/`: 1 ✓
 
 ---
 
 ## v5.2.2-SR.2 (2026-04-20)
 
-与 Clash Party 业务组严格对齐：
+Strictly aligned business groups with Clash Party:
 
-- ★ 移除多余的 `🎵 TikTok` 业务组（基线共 28 组），TikTok / lemon8 规则并入 `📱 社交媒体`
-- ★ 修复 `💬 即时通讯` 引用的区域组 emoji 错误（`🇸🇬 亚太节点` → `🌏 亚太节点`，原引用不存在）
+- ★ Removed the extra `🎵 TikTok` business group (baseline 28 groups); merged TikTok / lemon8 rules into `📱 社交媒体`.
+- ★ Fixed the incorrect regional-group emoji referenced by `💬 即时通讯` (`🇸🇬 亚太节点` → `🌏 亚太节点`; the original target did not exist).
 
 ## v5.2.2-SR.1 (2026-04-16)
 
-DNS 段重构，映射用户 Clash DNS 配置：
+Refactored DNS to map the user's Clash DNS configuration:
 
-- ★ 新增 `proxy-dns-server`（隐藏参数，对应 Clash `proxy-server-nameserver`）
-- ★ `fallback-dns-server` 从 system 改为国外 DoH（对应 Clash `fallback`）
-- ★ `dns-server` 精简为国内 DoH（对应 Clash `nameserver + direct-nameserver`）
-- ★ 标注 4 项 Clash DNS / 数据库功能无法迁移（bootstrap / respect-rules / fallback-filter / dat 格式）
+- ★ Added `proxy-dns-server` (hidden parameter corresponding to Clash `proxy-server-nameserver`).
+- ★ Changed `fallback-dns-server` from system to non-CN DoH (corresponding to Clash `fallback`).
+- ★ Reduced `dns-server` to CN DoH (corresponding to Clash `nameserver + direct-nameserver`).
+- ★ Documented 4 unportable Clash DNS/database features (bootstrap / respect-rules / fallback-filter / dat format).
 
-## 初版 (从 Clash Party v5.2.2 迁移重构)
+<a id="初版-从-clash-party-v522-迁移重构"></a>
 
-- 9 区域 url-test 组（`policy-regex-filter` 自动按地区聚合节点）
-- 28 业务策略组（与原版 1:1 对应）
-- 规则源：`blackmatrix7/ios_rule_script/rule/独立内核系/Shadowrocket/` + szkane + 原生 GEOIP
+## Initial version (migrated/refactored from Clash Party v5.2.2)
 
-### 与 Clash Party 主线的差异（iOS 平台 + SR 引擎限制）
+- 9 regional url-test groups (`policy-regex-filter` automatically grouped node names by region).
+- 28 business policy groups (1:1 with the original).
+- Rule sources: `blackmatrix7/ios_rule_script/rule/独立内核系/Shadowrocket/` + szkane + native GEOIP.
 
-- 删除 PROCESS-NAME 规则（iOS 无进程识别 API）
-- 删除 TUN `exclude-process`（SR 无该机制）
-- 删除 Smart fingerprint 注入（SR 不暴露 TLS 指纹控制）
-- GEOSITE 全部替换为 RULE-SET（SR 不原生支持 GEOSITE）
-- Meta `.mrs` 二进制格式全部替换为 blackmatrix7 Shadowrocket `.list`
-- Accademia 部分 YAML classical 保留（SR 按内容识别，可解析）— v5.2.5-SR.3 起全部删除，改用 `.list` 等价源 + DOMAIN-SUFFIX 兜底
-- rule-provider 的周期刷新改由 SR 的「自动更新配置」统一管理
+<a id="与-clash-party-主线的差异ios-平台--sr-引擎限制"></a>
+
+### Differences from Clash Party mainline (iOS platform + SR engine limits)
+
+- Removed PROCESS-NAME rules (iOS lacked a process-identification API).
+- Removed TUN `exclude-process` (SR lacked that mechanism).
+- Removed Smart fingerprint injection (SR did not expose TLS fingerprint controls).
+- Replaced all GEOSITE with RULE-SETs (no native SR GEOSITE support).
+- Replaced all Meta `.mrs` binaries with blackmatrix7 Shadowrocket `.list` files.
+- Initially retained some Accademia classical YAML under the assumption SR recognized it by content; all were removed from v5.2.5-SR.3 onward in favor of equivalent `.list` sources + DOMAIN-SUFFIX fallbacks.
+- Replaced periodic rule-provider refresh with SR's unified automatic configuration-update mechanism.

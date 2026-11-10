@@ -1,72 +1,78 @@
 <picture>
   <source media="(max-width: 600px)" srcset="assets/readme/page-microsoft-store-mobile.svg">
-  <img src="assets/readme/page-microsoft-store.svg" width="100%" alt="技术指南">
+  <img src="assets/readme/page-microsoft-store.svg" width="100%" alt="Technical guide">
 </picture>
 
-# Windows 11 Microsoft Store 页面和图片排障
+<a id="windows-11-microsoft-store-页面和图片排障"></a>
+# Troubleshooting Windows 11 Microsoft Store pages and images
 
-按“代理入口 → 图片 CDN → 实际响应”的顺序排查 Windows 11 Microsoft Store。页面恢复和图片恢复需要分别确认。
+**English** | [简体中文](microsoft-store-windows.zh-CN.md)
+
+Investigate Windows 11 Microsoft Store in this order: proxy entry, image CDN, then actual response. Confirm page recovery and image recovery separately.
 
 <p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
+  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="Downloads"></a>
+  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="Documentation"></a>
+  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="Checks and troubleshooting"></a>
 </p>
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
-## 使用入口
+<a id="使用入口"></a>
+## Entry points
 
-1. 确认实际 TUN、系统代理与 Store 连接记录。
-2. 只有满足下方条件时，才为 Store 包单独添加回环豁免并读回。
-3. 取得实际失败图片 URL，比较同一网络和目标下的出站响应。
+1. Confirm actual TUN state, system proxy, and Store connection records.
+2. Add and read back a loopback exemption for the Store package alone only if the conditions below hold.
+3. Obtain the actual failing image URL and compare outbound responses for the same network and destination.
 
-Store 页面打不开、报 `0x80072EFD`，与页面已打开但应用图标或详情图片空白，可能发生在不同的连接环节。先确认 Store 流量能否进入本机 Mihomo，再检查图片 CDN 经 `Ⓜ️ 微软服务` 策略组的实际出站。
+A Store page that will not open or reports `0x80072EFD` may fail at a different connection stage from a page that opens but has blank application icons/detail images. First establish whether Store traffic reaches local Mihomo, then inspect the image CDN’s actual outbound through `Ⓜ️ 微软服务` (Microsoft services).
 
-## 1. 确认 Store 能进入本机代理
+<a id="1-确认-store-能进入本机代理"></a>
+## 1. Confirm Store reaches the local proxy
 
-在 Clash Party 中先确认**实际运行的内核 TUN 状态**、系统代理地址和端口，以及连接面板是否出现 Store 请求。配置文件里存在 `tun:` 字段，只说明配置了该字段，不能证明当前内核已启用 TUN。
+In Clash Party, inspect the **running core’s actual TUN state**, system-proxy address/port, and whether Store requests appear in the connection panel. A `tun:` field in a configuration proves only that the field is configured, not that TUN is active in the current core.
 
-如果系统代理指向 `127.0.0.1`，Store 作为 AppContainer 应用访问本机代理时还可能受 Windows 回环隔离影响。Microsoft 的 [UWP 网络故障排查文档](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/troubleshooting-uwp-firewall)说明了这一机制和按包添加客户端回环豁免的命令。
+If the system proxy points to `127.0.0.1`, Store, as an AppContainer application, may be affected by Windows loopback isolation when accessing the local proxy. Microsoft’s [UWP network troubleshooting documentation](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/troubleshooting-uwp-firewall) describes this mechanism and per-package client-loopback exemptions.
 
-先在 PowerShell 读取 Store 的真实 Package Family Name，并检查现有豁免：
+First read Store’s actual Package Family Name and existing exemptions in PowerShell:
 
 ```powershell
 $store = Get-AppxPackage -Name Microsoft.WindowsStore
-if (-not $store) { throw '未找到 Microsoft.WindowsStore 包' }
-if ($store.PackageFamilyName -ne 'Microsoft.WindowsStore_8wekyb3d8bbwe') { throw 'Store 包标识与预期不符，请先核对' }
+if (-not $store) { throw 'Microsoft.WindowsStore package not found' }
+if ($store.PackageFamilyName -ne 'Microsoft.WindowsStore_8wekyb3d8bbwe') { throw 'Unexpected Store package identity; verify it first' }
 $store.PackageFamilyName
 CheckNetIsolation.exe LoopbackExempt -s
 ```
 
-若确认当前 Store 包没有豁免，并且 Store 到本机代理的 TCP 连接卡在 `SYN_SENT`、Mihomo 没有对应连接记录，可在**管理员 PowerShell** 中仅为这个包添加客户端回环豁免，再读回列表：
+If the current Store package has no exemption, its TCP connection to the local proxy remains in `SYN_SENT`, and Mihomo shows no corresponding connection, use **administrator PowerShell** to add a client-loopback exemption only for that package, then read the list back:
 
 ```powershell
 $store = Get-AppxPackage -Name Microsoft.WindowsStore
-if (-not $store) { throw '未找到 Microsoft.WindowsStore 包' }
-if ($store.PackageFamilyName -ne 'Microsoft.WindowsStore_8wekyb3d8bbwe') { throw 'Store 包标识与预期不符，请先核对' }
+if (-not $store) { throw 'Microsoft.WindowsStore package not found' }
+if ($store.PackageFamilyName -ne 'Microsoft.WindowsStore_8wekyb3d8bbwe') { throw 'Unexpected Store package identity; verify it first' }
 & CheckNetIsolation.exe LoopbackExempt -a "-n=$($store.PackageFamilyName)"
 CheckNetIsolation.exe LoopbackExempt -s
 ```
 
-核对列表里出现该包的 Family Name 后，重新打开 Store 并查看 Mihomo 连接日志。回环豁免针对 Store 到 `127.0.0.1` 本机代理的入口；它不决定微软图片服务器的出站能否成功。一次排障中，TUN 的实际运行状态也在验证期间发生变化，因此不能只凭页面恢复就把原因单独归给回环豁免。
+After confirming the package Family Name in the list, reopen Store and inspect Mihomo logs. The exemption affects Store’s entry into the local `127.0.0.1` proxy, not successful outbound access to Microsoft’s image servers. During one investigation, actual TUN state also changed during validation, so page recovery alone could not isolate the exemption as the sole cause.
 
-不要对所有 AppContainer 批量添加豁免。
+Do not bulk-add exemptions for all AppContainers.
 
-## 2. 页面可打开但图片仍为空
+<a id="2-页面可打开但图片仍为空"></a>
+## 2. The page opens but images remain blank
 
-从 Store 的 `Microsoft-Windows-Store/Operational` 事件等记录取得**实际失败的图片 URL**，再用主机名和时间对照 Mihomo 连接记录，核对命中规则、策略组和所选出站。
+Obtain the **actual failing image URL** from records such as Store’s `Microsoft-Windows-Store/Operational` events. Match its hostname and time against Mihomo records to inspect the rule, policy group, and selected outbound.
 
-Mihomo 的 TLS 连接记录通常只有主机和策略信息，不能从中还原完整图片 URL。若只看到图片连接命中 `Ⓜ️ 微软服务 → DIRECT`，这只能证明规则选择，不能证明 TLS 握手或图片响应成功。Mihomo 的[规则文档](https://wiki.metacubex.one/config/rules/)说明规则按顺序匹配；最终是否获取内容仍需检查连接结果。
+Mihomo TLS records usually contain only host/policy information and cannot reconstruct a full image URL. A match to `Ⓜ️ 微软服务 → DIRECT` proves rule selection only, not a successful TLS handshake or image response. Mihomo’s [rule documentation](https://wiki.metacubex.one/config/rules/) explains ordered matching; successful content retrieval still requires connection-result evidence.
 
-用同一个图片 URL，在同一网络下经本地代理分别比较 `Ⓜ️ 微软服务` 选 `DIRECT` 与选**当前可用节点**时的响应。例子中的端口和 URL 应替换为自己的实际值：
+Using the same image URL and network through the local proxy, compare the `Ⓜ️ 微软服务` group set to `DIRECT` versus a **currently working node**. Replace the example port and URL with actual values:
 
 ```powershell
-curl.exe -L --connect-timeout 8 --max-time 20 --proxy 'http://127.0.0.1:<本地代理端口>' -o NUL -w 'HTTP=%{http_code} bytes=%{size_download}' '<实际图片URL>'
+curl.exe -L --connect-timeout 8 --max-time 20 --proxy 'http://127.0.0.1:<local-proxy-port>' -o NUL -w 'HTTP=%{http_code} bytes=%{size_download}' '<actual-image-URL>'
 ```
 
-一次实测中，相同的两张 Store 图片在 `DIRECT` 下均出现 `curl: (35)` TLS 握手失败、下载 0 字节；只把 `Ⓜ️ 微软服务` 组切到当时可用的全球节点后，两张图片均返回 HTTP 200，下载内容的文件签名也确认为 PNG，随后 Store 页面图片与图标实际恢复。
+In one actual test, the same two Store images both failed under `DIRECT` with `curl: (35)` TLS errors and zero downloaded bytes. Changing only `Ⓜ️ 微软服务` to a then-working global node produced HTTP 200 for both; downloaded file signatures confirmed PNG, and Store images/icons visibly recovered.
 
-这说明该网络上的图片 CDN 直连出口存在问题。可先在客户端为该业务组选择经实测可用的节点，再重新打开 Store 确认图片与详情实际渲染；不据此把整个微软服务组的仓库默认策略改为全局代理，也不推断所有地区都需要代理。
+This demonstrates a problem with that network’s direct image-CDN path. Select a tested working node for this service group in the client, then reopen Store and confirm actual image/detail rendering. It does not justify changing the repository default for all Microsoft services to global proxying or assuming every region requires a proxy.
 
-页面与图片都恢复后，再记录当时的 TUN/系统代理状态、Store 包回环豁免、命中规则、业务组选择和两次 HTTP 结果。若页面仍不显示，继续按实际失败 URL 和连接日志定位，不要仅凭连接计数判断成功。
+Once both pages and images recover, record TUN/system-proxy state, the Store package exemption, matched rules, group selection, and both HTTP results. If the page still fails to render, continue from actual failed URLs and logs rather than treating connection counts as proof of success.

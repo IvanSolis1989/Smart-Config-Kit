@@ -1,526 +1,545 @@
+<!-- Full English translation of the historical record. -->
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="FlClash 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="FlClash changelog" width="100%">
 </picture>
 
-# FlClash — 变更日志
+<a id="flclash--变更日志"></a>
 
-> FlClash 覆写脚本 `FlClash(mihomo).js`，使用标准 Mihomo 内核的 url-test 区域组。
-> 规则权威源：`rulesets/source/routing-graph.js`；FlClash 消费最终融合规则集，区域组与 Clash Party Normal 对齐。
+# FlClash — Changelog
+
+> FlClash override `FlClash(mihomo).js`, using standard Mihomo url-test regional groups.
+> Routing authority: `rulesets/source/routing-graph.js`. FlClash consumes final fused rule sets; regional groups align with Clash Party Normal.
 
 ---
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
-
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
 ## v6.0.21-flclash.26 (2026-10-31)
 
-- 跟随 Clash Party 增加默认关闭的 Windows 浏览器 UDP 保护：可信本地 `browserUdpPolicy=reject` 拒绝 Chrome / Edge / Firefox 的任意 UDP；在线/离线表单与 CLI 可选，更新保留选择。
-- 默认规则和 DNS 不变；Android 不适用。需 TUN 及有效进程识别，HTTP/3 和 UDP 通话可能受影响；不宣称禁用全部 WebRTC。见 [Issue #193 指南](../../docs/guide/webrtc-privacy.md)。
+- Followed Clash Party with Windows browser UDP protection, off by default: trusted local `browserUdpPolicy=reject` rejects any Chrome / Edge / Firefox UDP. Available through online/offline forms and CLI, with selection preserved across updates.
+- Default rules and DNS remained unchanged; not applicable to Android. Requires TUN and working process identification; HTTP/3 and UDP calls may be affected. This does not claim to disable all WebRTC. See [Issue #193 guidance](../../docs/guide/webrtc-privacy.md).
 
-## 文档：新旧界面导入指南 (2026-10-31)
+<a id="文档新旧界面导入指南-2026-10-31"></a>
 
-- 处理 [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194)：并列说明 v0.9.0 / v0.9.1 的「扩展 → 脚本」和旧版「覆写」入口，补充新版截图，保留旧版步骤与截图。
-- 同步脚本头部导入注释和官方源码参考，明确每份配置分别选择脚本模式并关联；Lite / Custom 仍用本地脚本，避免 URL 同步覆盖定制方案。
-- 仅修正文档；运行时代码、客户端版本、规则、分组和 DNS 不变。离线配置页同步嵌入的新注释，Meow 清单仅刷新输入哈希；其他客户端不受影响，无需规则再生成。
+## Documentation: old and new interface import guides (2026-10-31)
 
-## 配置工具 v1.4.2 (2026-10-29)
+- Addressed [Issue #194](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/194): documented v0.9.0 / v0.9.1 Extend → Script alongside the legacy Override entry point, adding new screenshots while retaining old steps/screenshots.
+- Updated script-header import comments and official source references; clarified separate Script-mode selection and association per profile. Lite / Custom continued using local scripts to avoid URL updates overwriting customization.
+- Documentation only: runtime code, client version, rules, groups and DNS unchanged. Offline configuration embedded the new comments; Meow manifests refreshed input hashes only. Other clients were unaffected; no rule regeneration was required.
 
-- 配置表单的业务方案选项补齐 Full / Lite / Custom 英文名；默认选择、配置生成与客户端脚本保持不变。
+<a id="配置工具-v142-2026-10-29"></a>
 
-## 配置工具 v1.4.1 (2026-10-29)
+## Configuration tool v1.4.2 (2026-10-29)
 
-- 配置表单将测速、QUIC、ZeroTier 与节点 DNS 选项及摘要显示为“中文（英文原值）”；仅调整页面文字，不改脚本、参数值与安全边界。
+- Added Full / Lite / Custom English names to service-profile options. Defaults, generation and client scripts remained unchanged.
 
-## 配置工具 v1.4.0 (2026-10-29)
+<a id="配置工具-v141-2026-10-29"></a>
 
-- 增加 GitHub Pages 在线配置入口，页面生成与下载在本机完成，不读取或上传订阅；离线 HTML 继续提供。默认客户端配置和规则源保持不变。
+## Configuration tool v1.4.1 (2026-10-29)
 
-## 配置工具 v1.3.0 (2026-10-29)
+- The form displayed latency, QUIC, ZeroTier and node-DNS options/summaries as Chinese labels with original English values. Text only; scripts, values and safety boundaries were unchanged.
 
-- 离线表单支持 20 个维护入口，按客户端能力选择业务方案和参数并下载配置。默认客户端配置和规则源保持不变。
+<a id="配置工具-v140-2026-10-29"></a>
 
-## 离线配置表单 v1.2.1 (2026-10-29)
+## Configuration tool v1.4.0 (2026-10-29)
 
-- 倍率输入同时检查浏览器原生 `validity.badInput`；不完整指数等无效输入不再被空字符串转成 null，JS/本地参数 JSON 均拒绝下载。
-- 真正留空仍关闭倍率筛选，修正输入后可恢复下载；业务与参数合并、源脚本及默认行为保持。
+- Added GitHub Pages configuration. Generation/download remained local without reading/uploading subscriptions; offline HTML remained available. Default client configurations and routing source were unchanged.
 
-## 离线配置表单 v1.2.0 (2026-10-29)
+<a id="配置工具-v130-2026-10-29"></a>
 
-- 业务 Full/Lite/Custom 与测速、QUIC、节点 DNS、倍率及 ZeroTier 合并下载，不再需要 CLI；两个标签共享选择，JSON 高级导出保留独立 schema。
-- 复用共享定义及可信常量槽，只允许现有 typed 白名单值，不联网、不执行用户或嵌入源代码；默认下载、源脚本、共享资产和运行时拒绝边界保持。
-- 正式默认脚本仍为 `v6.0.21-flclash.25`，工具使用独立版本；说明全端业务能力与 FlClash 直接下载的不同覆盖范围。
+## Configuration tool v1.3.0 (2026-10-29)
 
-## 离线配置表单 v1.1.0 (2026-10-29)
+- Offline form supported 20 maintained entry points, selecting profiles/parameters according to client capabilities and downloading configuration. Default client configuration and routing source were unchanged.
 
-- 选择 Full / Lite / Custom 后可直接下载 FlClash JS，无需 CLI、Node.js 或 Ruby；保留其他客户端的 JSON + CLI 入口。
-- 表单嵌入构建时验证的可信源与共享投影模板，不联网、不运行脚本、不读取个人配置；Full 保持发布源内容，Lite/Custom 与 CLI 同方案一致，下载文本统一 LF。
-- 直接下载仅采用业务选择；测速、QUIC、DNS、倍率及客户端 App 托管边界保持原默认，本地参数页不隐式合并。
-- 正式 `v6.0.21-flclash.25` 脚本及共享资产不变，表单通过独立版本记录工具变化。
+<a id="离线配置表单-v121-2026-10-29"></a>
+
+## Offline configuration form v1.2.1 (2026-10-29)
+
+- Multiplier input also checked native `validity.badInput`; invalid incomplete exponents no longer became null through empty-string conversion. Both JS and local-parameter JSON downloads were rejected.
+- A genuinely blank field still disabled multiplier filtering; correcting input restored download. Profile/parameter merging, source scripts and defaults were preserved.
+
+<a id="离线配置表单-v120-2026-10-29"></a>
+
+## Offline configuration form v1.2.0 (2026-10-29)
+
+- Combined Full/Lite/Custom with latency, QUIC, node DNS, multiplier and ZeroTier downloads without CLI. Both tabs shared selection; advanced JSON export retained separate schemas.
+- Reused shared definitions and trusted constant slots, allowing only existing typed allowlisted values. No network access or execution of user/embedded source. Default downloads, source scripts, shared assets and runtime rejection boundaries were preserved.
+- The official default script remained `v6.0.21-flclash.25`; the tool used an independent version. Documented the different scope of cross-client profiles and direct FlClash downloads.
+
+<a id="离线配置表单-v110-2026-10-29"></a>
+
+## Offline configuration form v1.1.0 (2026-10-29)
+
+- Full / Lite / Custom could directly download FlClash JS without CLI, Node.js or Ruby; other clients retained JSON + CLI entry points.
+- Embedded build-validated trusted source and shared projection templates without networking, running scripts or reading personal configuration. Full preserved release content; Lite/Custom matched equivalent CLI profiles. Downloads used LF.
+- Direct download used service selection only. Latency, QUIC, DNS, multiplier and application-managed boundaries retained defaults; local parameters were not implicitly merged.
+- Official `v6.0.21-flclash.25` and shared assets were unchanged; independent form versions recorded tool changes.
 
 ## v6.0.21-flclash.25 (2026-10-29)
 
-- 同步显式 hosts-only 运行时，与两款 Clash Party JS 共用受限模块；默认 adaptive、节点身份、规则及应用 UI 托管边界不变。
-- 新增真实 QuickJS 全配置和桥接引用身份门禁；统一参数入口及可选业务投影见[配置指南](../../docs/configuration.md)。
+- Synchronized explicit hosts-only runtime through the same restricted module as both Clash Party scripts. Default adaptive mode, node identity, rules and application-UI ownership remained unchanged.
+- Added real QuickJS full-configuration and bridge-reference identity gates. See the [configuration guide](../../docs/configuration.md) for unified parameters and optional service projections.
 
 ## v6.0.21-flclash.24 (2026-10-28)
 
-- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。
+- Moved Google FCM from downloads to Google services. The 15 domains, 26 IPv4 predicates, rule order and 55 groups were unchanged, as were other push services, DNS and fake-IP.
 
 ## v6.0.20-flclash.23 (2026-10-24)
 
-- 将客户端目录归入内核系列分类，原有配置文件与说明保留在客户端子目录；规则语义和配置字段不变。旧 Raw 配置链接因路径迁移而变化，现有用户需重新导入对应配置；共享 `rulesets/` 资产地址保持不变。
+- Organized client directories by core family, retaining files/guides within client subdirectories. Rule semantics/fields were unchanged. Raw configuration URLs changed with paths, requiring reimport; shared `rulesets/` URLs remained unchanged.
 
 ## v6.0.20-flclash.22 (2026-10-20)
 
-- 业务 DNS policy 改由统一源数据投影生成；组结构、节点择路及规则载荷不变。
+- Business DNS policy became a projection of unified source data. Group structure, node selection and rule payloads were unchanged.
 
+<a id="2026-10-19--官方文档与版本核对"></a>
 
-## 2026-10-19 — 官方文档与版本核对
+## 2026-10-19 — Official documentation and version review
 
-- 缓存当前官方发布记录、配置文档和适用源码，更新 REFERENCE 时效与能力边界；详见[核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。本次文档核对不改变本产物的规则、策略组或生成载荷。
+- Cached official releases, configuration documentation and applicable source, updating REFERENCE freshness/capability boundaries. See the [review](../../docs/upstream/2026-10-19/mihomo/report.md). This documentation review changed no rules, groups or generated payloads.
 
 ## v6.0.20-flclash.21 (2026-10-16)
 
-- Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。
-- 不扩大到父域或子域，`ad.weixin.qq.com`、`log.weixin.qq.com` 保持广告拒绝；不改变其他策略或规则顺序。
-- 依据与有限静态验收范围见[微信连接复查](../../docs/research/2026-10-16-wechat-issue-187.md)；报告者设备是否恢复仍待实际复测。
+- Issue #187: added exact DIRECT exceptions in existing `scki-adfp-direct` for `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, `hkshort.weixin.qq.com`, preventing WeChat connection endpoints from matching ads first.
+- No parent/subdomain expansion; `ad.weixin.qq.com` and `log.weixin.qq.com` remained rejected. Other policies and ordering were unchanged.
+- See [WeChat review](../../docs/research/2026-10-16-wechat-issue-187.md) for evidence and bounded static acceptance. Reporter-device recovery still required retesting.
 
 ## v6.0.19-flclash.20 (2026-10-16)
 
-- 与 Smart/Normal 同步修复 fake-ip 列表继承：仅缺省或 `blacklist` 的合法条目可以合并；先检查原模式，丢弃 `whitelist`、`rule` 和非法模式的原列表，保留仓库固定豁免。
-- 现有 CI 的 JS 合同入口覆盖模式归一化、未知/非字符串模式、非法项过滤、基线保留、去重和二次运行稳定性；无新 Mihomo 字段或最低版本变化。
-- 共用测速选项同步器保留标记块后的完整 CRLF，消除 Windows 字节比较的错误不同步；回归覆盖 LF/CRLF、文件末尾与再次生成稳定性，保持严格检查门槛。
-- 更新官方参考：FlClash 最新 [v0.9.0](https://github.com/chen08209/FlClash/releases/tag/v0.9.0) 调整 DNS 等按键覆盖界面；本次仅验证 JS 配置输出，未做新界面或设备导入验收。
+- Synchronized Smart/Normal fake-ip inheritance fix: merge valid entries only for absent or `blacklist` mode. Check original mode first; discard original `whitelist`, `rule` and invalid-mode lists while retaining fixed repository exceptions.
+- Existing CI JS contracts covered mode normalization, unknown/non-string modes, invalid-entry filtering, baseline retention, deduplication and rerun stability. No new Mihomo fields or minimum-version changes.
+- Shared latency-option synchronizer preserved complete CRLF after marked blocks, eliminating false Windows byte-comparison drift. Regressions covered LF/CRLF, EOF and regeneration stability without weakening checks.
+- Updated reference: latest FlClash [v0.9.0](https://github.com/chen08209/FlClash/releases/tag/v0.9.0) changed per-key DNS/other override UI. Only JS configuration output was validated; no new-interface or device-import acceptance was performed.
 
 ## v6.0.19-flclash.19 (2026-10-15)
 
-- FIX#186：自有远程规则资产统一使用 GitHub raw HTTPS，避开 jsDelivr 仓库大小门槛；保留版本查询参数与原生格式。
-- 复用已验证的融合载荷，规则内容、顺序和策略不变；补充 raw/CDN 引用识别回归。原因、下载前提与官方字段依据见[规则下载说明](../../docs/rule-asset-delivery.md)。
+- FIX#186: unified repository-owned remote assets on GitHub raw HTTPS to avoid jsDelivr repository-size limits, preserving version queries and native formats.
+- Reused verified fused payloads; content, ordering and policies were unchanged. Added raw/CDN-reference regressions. See [delivery guidance](../../docs/rule-asset-delivery.md) for cause, download prerequisites and official fields.
 
 ## v6.0.18-flclash.18 (2026-10-14)
 
-- 修复跨服务首匹配误归类；规范 Apple/Microsoft 过宽关键词和共享 AWS/Azure/CDN 后缀，加入 game-cn、microsoft-live、microsoft-ai、intl-site、stream-jpkr、tools、social、bytedance-app 八类 guard。证书吊销/状态查询的 CA 精确主机直连与微软邮件精确国际策略新增 6 条 ADFP 记录，总数 35。`api.byteoversea.com` 作为精确 TikTok 规则，不扩共享后缀。保留现有 Claude Desktop `a-api`/`a-cdn` 精确例外、QUIC/测速选项和默认关闭的 ZeroTier 代理开关。Crisp relay 仅为静态 ASN 覆盖风险推断，并非实测事故。
-- 源规则图 v6.0.18：525 providers / 984 source rules；生成 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 non-empty SRS across 81 segments。
+- Fixed cross-service first-match misclassification: narrowed broad Apple/Microsoft keywords and shared AWS/Azure/CDN suffixes, adding eight guard classes: game-cn, microsoft-live, microsoft-ai, intl-site, stream-jpkr, tools, social, bytedance-app. Six ADFP records for exact CA revocation/status hosts via DIRECT and exact Microsoft international-mail policy brought the total to 35. `api.byteoversea.com` was an exact TikTok rule, not a shared-suffix expansion. Existing Claude Desktop `a-api`/`a-cdn` exceptions, QUIC/latency options and default-off ZeroTier proxy remained. Crisp relay was a static ASN-overlap risk inference, not a measured incident.
+- Source graph v6.0.18: 525 providers / 984 source rules; generated 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 nonempty SRS across 81 segments.
 
 ## v6.0.17-flclash.17 (2026-10-14)
 
-- 同构 JS 的同步和本地部署保留该设备明确的 ZeroTier 布尔选择；仓库发布值仍为 false，非法/重复常量拒绝处理，测速/QUIC 的保留由本地参数控制。
-- 复核官方 latest 仍为 v0.8.99；手机执行语法、默认规则图和区域组算法未新增字段。其他静态平台不消费该 JS 常量，平台矩阵与验证见 [本地选项说明](../../docs/zerotier-planet-proxy.md)。
+- Shared-JS synchronization and local deployment preserved an explicitly chosen device-local ZeroTier boolean. Repository release value stayed false; invalid/duplicate constants were rejected. Local parameters controlled latency/QUIC retention.
+- Official latest remained v0.8.99. No new mobile execution syntax, default graph fields or regional algorithms. Other static clients did not consume the JS constant; see [local-option scope and checks](../../docs/zerotier-planet-proxy.md).
 
 ## v6.0.17-flclash.16 (2026-10-13)
 
-- 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。
-- 本端规则集与原生语法沿用现有实现；来源语义 gate、29 条 ADFP 例外校验、Claude 服务阶段清单及文件级发布批次检查接入同一发布链。详见 [Claude 服务依赖台账](../../docs/claude-service-dependencies.md) 与 [发布批次检查](../../docs/release-batch.md)。未进行真机故障复现或测量。
-
+- Added exact `a-api.anthropic.com` and `a-cdn.anthropic.com` to `scki-adfp-ai` for Claude Desktop application-code/user-content loading through AI policy. Based on [official requirements](https://code.claude.com/docs/en/desktop#network-access-requirements), without inferring specific `a-api` paths.
+- Existing rule sets/native syntax remained. Source-semantic gates, 29 ADFP checks, Claude stage inventory and file-level release-batch checks joined the publication chain. See [Claude dependencies](../../docs/claude-service-dependencies.md) and [release-batch checks](../../docs/release-batch.md). No real-device reproduction or measurement occurred.
 
 ## v6.0.16-flclash.16 (2026-10-12)
 
-- 本端随 v6.0.16 主线登记来源/版本收据、有序 domain-projection 差分及现有 ADFP 例外双向校验；客户端转换格式、规则顺序和目标策略沿用既有实现，未新增运行时规则。详见[规则质量台账](../../docs/rule-quality.md)。
-- 复用当前 fused 载荷，只记录当前可观察字节及转换收据；旧资产的原始远端输入 SHA 无法从输出反推，因此不宣称完整历史来源追溯，也未进行真机流量测量。
+- Following v6.0.16, recorded source/version receipts, ordered domain-projection diffs and bidirectional ADFP validation. Conversion format, order and target policies remained; no runtime rules were added. See [rule-quality ledger](../../docs/rule-quality.md).
+- Reused current fused payloads, recording only observable bytes and conversion receipts. Original remote-input SHA values cannot be reconstructed from old outputs; no claim of complete historical provenance or real-device traffic measurement was made.
 
 ## v6.0.15-flclash.16 (2026-10-12)
 
-- 同步可信本地、默认关闭的 ZeroTier 四根 UDP/9993 代理选项、写前目标组校验及幂等规则插入；订阅和系统环境变量不能开启。手机默认分流保持原样，逐端范围见 [使用说明](../../docs/zerotier-planet-proxy.md)。
-- 复核官方 v0.8.99 的脚本执行入口，更新参考；纯本地布尔常量及已有普通函数语法保持 v0.8.85 的脚本最低要求。
+- Synchronized trusted local, default-off UDP/9993 proxying for four ZeroTier roots, prewrite target validation and idempotent insertion. Subscriptions/system environment could not enable it. Mobile defaults remained; see [per-client scope](../../docs/zerotier-planet-proxy.md).
+- Reviewed official v0.8.99 script entry point and updated references. Local boolean constants and existing ordinary-function syntax preserved the v0.8.85 minimum script requirement.
 
 ## v6.0.15-flclash.15 (2026-10-07)
 
-- 默认 `standard` 档保持 300 秒并启用 `lazy: true`；`power-save` 仍为 900 秒加 `lazy: true`。QUIC 默认策略不变。
+- Default `standard` remained 300 seconds with `lazy: true`; `power-save` remained 900 seconds with `lazy: true`. QUIC defaults were unchanged.
 
 ## v6.0.15-flclash.14 (2026-10-07)
 
-- JS 覆写支持运行时健康检查与海外 UDP/443 选择；省电档调整可测速组。
-- 切换命令、平台能力及验证方法见 [测速与 QUIC 策略选项](../../docs/traffic-options.md)。
+- JS override added runtime health-check and international UDP/443 selection; power-save adjusted testable groups.
+- See [latency and QUIC options](../../docs/traffic-options.md) for switching commands, capabilities and verification.
 
 ## v6.0.14-flclash.13 (2026-09-30)
 
-- INLINE：同步受控 inline payload 展平、共享对象保护和统一节点预检，成功后移除展平 provider；保持已有 proxies 数组引用。
-- CANDIDATES：保留具名直连/拒绝依赖出站，排除其测速分类；仅有支持出站时全球组使用 `REJECT`。
-- FIX：源 `rule-providers` 是数组、标量等错误容器时重建对象，避免日志计数正常却在 JSON 中丢失全部融合规则集；补齐 `PASS-RULE` 保留名称。
-- VERIFY：实际 main 回归及序列化读回；规则/组名/DNS 基线保持 v6.0.14，逐端限制见 [后续研究](../../docs/research/2026-09-30-routing-runtime-followup.md)。
+- INLINE: synchronized controlled inline-payload flattening, shared-object protection and unified preflight; removed flattened providers after success while preserving the existing proxies-array reference.
+- CANDIDATES: retained named direct/reject dependency outbounds but excluded them from latency classification. With support outbounds only, the global group used `REJECT`.
+- FIX: rebuilt malformed `rule-providers` containers such as arrays/scalars, preventing valid-looking log counts while serialization lost all fused providers. Added reserved name `PASS-RULE`.
+- VERIFY: actual main regressions and serialized readback. Rules/group names/DNS retained v6.0.14; see [follow-up research](../../docs/research/2026-09-30-routing-runtime-followup.md) for client limits.
 
 ## v6.0.14-flclash.12 (2026-09-30)
 
-- FILTER：同步 Clash Party 的共享节点预检和默认关闭的倍率上限，保守解析显式标签，未知/歧义倍率保留；修复公告英文词对子串节点名的误匹配。
-- GUARD：异常字段、重名歧义、名称冲突、provider 输入与筛选产生的链式依赖断裂在写入前拒绝；无可用节点时显式 `REJECT`。原地更新数组，保留 FlClash 桥接引用。
-- SCOPE：源图、融合规则、组名和全局 DNS 保持 v6.0.14。静态端无同构 JS 输入处理，完整理由见 [逐端研究矩阵](../../docs/research/2026-09-30-routing-script-research.md)。
-- REFERENCE：复核官方 v0.8.98 的脚本后 App patch 顺序，更新参考与参数教程；新增 VM 回归和嵌入运行时一致性检查。
+- FILTER: synchronized shared Clash Party preflight and default-off multiplier ceiling. Conservatively parsed explicit tags, retaining unknown/ambiguous multipliers; fixed English notice words matching substrings of valid names.
+- GUARD: rejected malformed fields, duplicate-name ambiguity, name conflicts, provider input and filtering-broken dial dependencies before writes. Explicit `REJECT` when no usable nodes. Updated arrays in place to preserve bridge references.
+- SCOPE: graph, fused rules, names and global DNS retained v6.0.14. Static clients lacked the same JS input path; see [per-client research](../../docs/research/2026-09-30-routing-script-research.md).
+- REFERENCE: reviewed official v0.8.98 post-script application patch order, updated references/parameter guide, added VM regressions and embedded-runtime consistency checks.
 
 ## v6.0.14-flclash.11 (2026-09-29)
 
-- FIX：微信 HTTPDNS 两个精确域名命中首段 DIRECT 规则，避免 BlockHttpDNS 拦截微信图片模块的解析请求。
-- SCOPE：仅豁免 `dns.weixin.qq.com`、`dns.weixin.qq.com.cn`；其他 BlockHttpDNS 域名及 FlClash DNS 基线不变。
-- VERIFY：新增路由回归用例，检查最终融合域名资产的首命中策略为 DIRECT。
+- FIX: two exact WeChat HTTPDNS domains matched the first DIRECT segment, avoiding BlockHttpDNS rejection of image-module resolution.
+- SCOPE: only `dns.weixin.qq.com` and `dns.weixin.qq.com.cn` were exempted. Other BlockHttpDNS domains and FlClash DNS baseline remained unchanged.
+- VERIFY: routing regressions checked DIRECT as the first match in final fused domain assets.
 
 ## v6.0.13-flclash.10 (2026-09-21)
 
-- ★ FIX#182：同步修复 `dns.fake-ip-filter` 继承客户端旧 rule 模式和 `rule-set:cn domain` 悬空引用的问题。
-  - 显式输出 `fake-ip-filter-mode: blacklist`。
-  - 丢弃会随订阅 provider 清理而失效的 `rule-set:*` / `RULE-SET,...` 项，保留合法域名通配与内置 `geosite:*`。
-- VERIFY：与 Clash Party Smart / Normal 共用同一 Issue #182 回归夹具，保持 QuickJS/Dart 原地数组契约、55 个策略组、151 条规则和 132 个 provider 不变。
-- CONTRACT：见 `AGENTS.md` §3.5.1 / §8.4；官方 Mihomo DNS 语法以 `fake-ip-filter-mode` 与单 token `rule-set:xxx` / `geosite:xxx` 为准。
+- ★ FIX#182: synchronized repair of inherited old rule-mode `dns.fake-ip-filter` and dangling `rule-set:cn domain` references.
+  - Explicitly emitted `fake-ip-filter-mode: blacklist`.
+  - Discarded `rule-set:*` / `RULE-SET,...` entries invalidated by subscription-provider cleanup; retained valid domain wildcards and built-in `geosite:*`.
+- VERIFY: shared Issue #182 fixtures with Clash Party Smart / Normal, preserving QuickJS/Dart in-place arrays, 55 groups, 151 rules and 132 providers.
+- CONTRACT: `AGENTS.md` §3.5.1 / §8.4; official Mihomo syntax uses `fake-ip-filter-mode` and single-token `rule-set:xxx` / `geosite:xxx`.
 
 ## v6.0.13-flclash.9 (2026-09-03)
 
-- FIX-LINUXDO-CN-ROUTE：与 Clash Party Normal 同步第 013 国内网站资产；`linuxdo.org` 及子域不再落入国外网站，`linux.do` 保持受限网站。
-- SCOPE：保留 v6.0.11-flclash.7 的应用层 DNS / Android VPN 修正，不改变 TUN、系统代理或应用排除配置。
+- FIX-LINUXDO-CN-ROUTE: synchronized segment 013 China-site assets with Clash Party Normal. `linuxdo.org` and subdomains no longer fell into international sites; `linux.do` retained restricted-site routing.
+- SCOPE: preserved v6.0.11-flclash.7 application DNS / Android VPN fixes without changing TUN, system proxy or exclusions.
 
 ## v6.0.12-flclash.8 (2026-09-01)
 
-- FIX#181-PC：与 Clash Party Normal 同步首段精确直连资产；`login.nvidia.cn` 优先于 NVIDIA 下载宽规则，其余 NVIDIA 域名不变。
-- SCOPE：保留 v6.0.11-flclash.7 的应用层 DNS / Android VPN 修正，不重新引入 UI DNS 覆盖或系统代理要求。
+- FIX#181-PC: synchronized first-segment exact direct assets. `login.nvidia.cn` preceded broad NVIDIA download rules; other NVIDIA domains were unchanged.
+- SCOPE: preserved v6.0.11-flclash.7 application DNS / Android VPN fixes without reintroducing UI DNS override or system-proxy requirements.
 
 ## v6.0.11-flclash.7 (2026-08-31)
 
-- FIX#181-DOC：关联脚本后关闭应用层「DNS 覆写」及独立的「追加系统 DNS」，移除要求重复粘贴 UI DNS YAML 的教程与脚本头部错误提示；说明 UI 整体替换 DNS、丢失未知字段、最终配置验证和 IPv6 的应用层边界。
-- ANDROID：校正 VPN「系统代理」的 UI 名称，说明它附加 HTTP 代理但不关闭 TUN，以及与应用访问控制/分流 VPN 混用的风险；提供保留国内 APP 排除名单的排障步骤。
-- DNS/GEOX：区分国内 DoH、随机未分类 DNS 查询、节点 bootstrap 与真实泄漏；GeoX 默认 URL 优先，不再承诺 CDN 国内更快或要求强制替换。
-- REFERENCE：按 FlClash v0.8.96 官方源码、Mihomo DNS 文档和 Android VpnService API 校正参考说明。
-- SCOPE：本次只修正 FlClash 使用契约与版本元信息；DNS 算法、源规则图、55 组定义、132 个 provider、151 条规则及其他客户端配置均不改，不刷新上游规则资产。
+- FIX#181-DOC: after script association, disabled application DNS override and separate Append system DNS. Removed instructions/header text requiring duplicate UI DNS YAML; documented whole-block replacement, lost unknown fields, final validation and application IPv6 boundaries.
+- ANDROID: corrected the VPN System proxy label; explained the extra HTTP proxy, unchanged TUN and risks with access control/split VPN. Added diagnostics preserving excluded China-service applications.
+- DNS/GEOX: distinguished China DoH, random unclassified queries, node bootstrap and actual leakage. Preferred default GeoX URLs, removing promises of faster China CDN access or mandatory replacement.
+- REFERENCE: corrected explanations using official FlClash v0.8.96 source, Mihomo DNS documentation and Android VpnService API.
+- SCOPE: only FlClash usage contract/version metadata changed. DNS algorithm, graph, 55 group definitions, 132 providers, 151 rules and other clients remained; upstream assets were not refreshed.
 
 ## v6.0.11-flclash.6 (2026-08-22)
 
-- ROUTING：与 Clash Party Normal 同步 132 个融合 provider / 151 条规则；Gemini 与 Accademia Gemini 改走 `🔍 Google 服务`，szkane AI 规则保持原位。
+- ROUTING: synchronized 132 fused providers / 151 rules. Gemini and Accademia Gemini moved to `🔍 Google 服务`; szkane AI rules retained their positions.
 
 ## v6.0.10-flclash.6 (2026-08-08)
 
-- FIX#179-NETEASE-GAME-DIRECT：与 Clash Party Normal 同步首段精确直连融合规则；两个网易游戏服务主机优先于 anti-AD 与国内游戏宽规则。
+- FIX#179-NETEASE-GAME-DIRECT: synchronized first-segment exact direct rules. Two NetEase game-service hosts preceded anti-AD and broad China-game rules.
 
 ## v6.0.9-flclash.5 (2026-08-02)
 
-- FIX-NODE-ISO-LOWERCASE：与 Clash Party Normal 同构升级，支持 yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01 等小写 ISO 两位码加编号的订阅节点。
-- GUARD/VERIFY：仅对带编号的两位 ISO 码做不区分大小写匹配；共享 JS 合同验证 12 个原始样例的分类桶、区域主组和聚合组。
+- FIX-NODE-ISO-LOWERCASE: synchronized support for lowercase two-letter ISO codes plus numbers, such as yun hk01 / yun us01 / yun jp01 / yun sg01 / yun tw01.
+- GUARD/VERIFY: case-insensitive matching only for numbered two-letter ISO codes. Shared contracts checked classification buckets, primary regional and aggregate groups for 12 original examples.
 
 ## v6.0.9-flclash.4 (2026-07-25)
 
-- PROFILE：FlClash 覆写同步 `off / policy / adaptive` 的受信任 Node-DNS profile，默认 `adaptive`；三档不会改变 QuickJS/Dart bridge 的原地数组契约、55 组、规则或全局 DNS。
-- ADAPTER-HARDENING：使用同一 capture/apply Module seam，拒绝 profile-mismatch、无 PSS baseline、冲突 resolver path 及超限的半条 policy；后置、大小写不同的活动节点精确 policy 有界优先。
-- VERIFY/DOCS：共享 JS 合同新增 profile、bootstrap 原子容量与精确 key 回归；复核 FlClash v0.8.94（2026-07-11），未见覆写 API / DNS 对象 breaking change。
+- PROFILE: synchronized trusted Node-DNS profiles `off / policy / adaptive`, defaulting to `adaptive`. All preserved QuickJS/Dart in-place-array contracts, 55 groups, rules and global DNS.
+- ADAPTER-HARDENING: shared capture/apply module seam rejected profile mismatches, missing PSS baseline, conflicting resolver paths and over-budget partial policies. Later case-varied exact active-node policies received bounded precedence.
+- VERIFY/DOCS: added profile, atomic bootstrap-capacity and exact-key regressions. Reviewed FlClash v0.8.94 (2026-07-11), finding no override-API / DNS-object breaking change.
 
 ## v6.0.9-flclash.3 (2026-07-25)
 
-- NODE-DNS：与 Clash Party Normal 同步受限私有节点 DNS Adapter。只为活动节点 FQDN 生成精确 node policy 与必要 hosts，不让订阅替换 FlClash 的全局 DNS 基线。
-- VERIFY：共享 JS 合同验证 scalar hosts、IPv4/IPv6 bootstrap、通配符优先级、容量限制和幂等性；FlClash QuickJS 原地更新约束保持不变。
+- NODE-DNS: synchronized the restricted private-node DNS adapter. Generated exact node policies/necessary hosts only for active-node FQDNs, preventing subscriptions replacing global DNS.
+- VERIFY: shared contracts covered scalar hosts, IPv4/IPv6 bootstrap, wildcard precedence, capacity and idempotence. QuickJS in-place-update constraints remained.
 
 ## v6.0.9-flclash.2 (2026-07-24)
 
-- FIX#FLCLASH-IPV6：覆写脚本新增顶层 `ipv6: false`。此前只关闭 `dns.ipv6`，无法阻止内核继续接受 IPv6 流量；现在与 DNS AAAA 禁用策略保持一致。
-- DOC#ANDROID-NETWORK：补充 Android VPN、系统代理、VPN 绕过、DNS 劫持和 PreferH3 的正确组合；明确脚本不能代替 FlClash 应用层 VPN 开关。
-- REGRESSION：`validate-js-overwrites.js --target flclash` 固定校验顶层 IPv6 必须关闭。
+- FIX#FLCLASH-IPV6: added top-level `ipv6: false`. Previously only `dns.ipv6` was disabled, which did not stop core IPv6 traffic. The setting aligned with disabled AAAA resolution.
+- DOC#ANDROID-NETWORK: documented the combination of Android VPN, system proxy, VPN bypass, DNS hijacking and PreferH3. Scripts cannot replace application VPN controls.
+- REGRESSION: `validate-js-overwrites.js --target flclash` required disabled top-level IPv6.
 
 ## v6.0.9-flclash.1 (2026-07-19)
 
-- 与 Clash Party Normal 同步：普通 `api.github.com` 先归工具组，仅指定 Code Helper 进程组合保留 AI 路由。
+- Synchronized ordinary `api.github.com` routing to tools first, retaining AI routing only for the specified Code Helper process combination.
 
 ## v6.0.8-flclash.1 (2026-07-15)
 
-- 同步国内权威优先级和 Mihomo 版本化融合规则缓存，保持与 Clash Party Normal 的路由语义一致。
+- Synchronized China-authority priority and versioned Mihomo fused-rule caching, matching Clash Party Normal routing semantics.
 
 ## v6.0.7-flclash.1 (2026-07-14)
 
-- FIX#176：标准 Mihomo 覆写同步 CN 域名权威段优先于共享 CDN / 国家 / 非中国地域 fallback 的融合顺序。
+- FIX#176: synchronized fused ordering with authoritative CN domains before shared CDN / country / non-China geographic fallbacks.
 
 ## v6.0.6-flclash.1 (2026-07-14)
 
-- DIRECT-WORKPRO-WEB：标准 Mihomo 覆写同步 fused direct residual，父进程与 Web 子进程均以精确 `PROCESS-NAME` 命中 `DIRECT`；不使用 TUN 排除绕过。
+- DIRECT-WORKPRO-WEB: synchronized fused direct residuals; parent and web subprocesses matched exact `PROCESS-NAME` to `DIRECT`, not TUN exclusions.
 
 ## v6.0.5-flclash.1 (2026-07-14)
 
-- DIRECT-WORKPRO：标准 Mihomo 覆写跟随 scki-local-process-direct 的永久回归清单，WorkPro.exe 固定进入 fused direct residual。
+- DIRECT-WORKPRO: followed the permanent scki-local-process-direct regression inventory, keeping WorkPro.exe in fused direct residuals.
 
 ## v6.0.4-flclash.1 (2026-07-13)
 
-- DIRECT-ITWDB：标准 Mihomo 覆写消费的默认 `DIRECT` 融合 MRS 纳入 `itwdb.com`，覆盖 WorkPro 子域名且不新增单条主规则。
+- DIRECT-ITWDB: added `itwdb.com` to default DIRECT fused MRS, covering WorkPro subdomains without extra inline main rules.
 
 ## v6.0.3-flclash.1 (2026-07-12)
 
-- SYNC：跟随 source graph v6.0.3，消费 124 个融合 `.mrs` / residual provider 与 141 条主规则。
-- FIX#FUSED-DOMAIN-PAYLOAD：与 Clash Party Normal 使用同一正确 domain payload，OpenAI/ChatGPT 域名不再因 MRS 语法失配落入国外网站兜底。
+- SYNC: followed source graph v6.0.3 with 124 fused `.mrs` / residual providers and 141 main rules.
+- FIX#FUSED-DOMAIN-PAYLOAD: shared corrected domain payload with Clash Party Normal, preventing OpenAI/ChatGPT from falling into international fallback because of MRS syntax mismatch.
 
 ## v6.0.2-flclash.2 (2026-07-12)
 
-- FIX#REGION-CARRIER-PRIORITY：与 Clash Party Smart / Normal 同步修复运营商营销词抢占真实落地地区的分类缺陷。`🇯🇵AWS日本01 | 电信移动联通推荐` 现归类为 `JP`，同时进入 `🇯🇵 日韩节点` 和 `🌏 亚太节点`。
-- REGRESSION：共享 JS 覆写回归验证覆盖日本 AWS + 中文运营商标签（含 `中国电信`）、美国 AWS + `China Telecom` 标签，以及无地区信息的纯运营商标签兜底为 `CN`。
-- SCOPE：融合规则集、source graph 和 FlClash 业务分流规则均未改变；本次只修复运行时节点区域归类。
+- FIX#REGION-CARRIER-PRIORITY: synchronized the fix for carrier marketing labels overriding actual exit geography. `🇯🇵AWS日本01 | 电信移动联通推荐` classified as `JP` and entered both `🇯🇵 日韩节点` and `🌏 亚太节点`.
+- REGRESSION: shared tests covered Japan AWS plus Chinese carrier tags including `中国电信`, US AWS plus `China Telecom`, and carrier-only labels without geography falling back to `CN`.
+- SCOPE: fused assets, source graph and business routing were unchanged; only runtime regional classification changed.
 
 ## v6.0.2-flclash.1 (2026-07-10)
 
-- SYNC：跟随 source graph v6.0.2，消费 113 个融合 `.mrs` / residual provider 与 130 条主规则。
-- PERF：继承编译器同策略语义去重和原生 GEOIP residual，不再加载错误放大的 HaGeZi / 国家 CIDR 内容。
+- SYNC: source graph v6.0.2, with 113 fused `.mrs` / residual providers and 130 main rules.
+- PERF: inherited same-policy semantic deduplication and native GEOIP residuals, avoiding incorrectly expanded HaGeZi / country CIDR data.
 
 ## v6.0.1-flclash.1 (2026-07-10)
 
-- SYNC：FlClash 继续只消费 source graph 编译出的融合 Mihomo `.mrs` / residual 规则集，113 个 provider 与 130 条主规则不变。
-- DELIVERY：Issue #174 的文本规则集分片由统一融合编译器处理；FlClash 不引入上游 provider 直连或第二套规则框架。
+- SYNC: continued consuming only source-graph-compiled fused Mihomo `.mrs` / residuals, retaining 113 providers and 130 rules.
+- DELIVERY: the common compiler handled Issue #174 text-set splitting. No direct upstream-provider fetching or second rule framework was introduced.
 
 ## Unreleased (2026-07-09)
 
-- SOURCE-GRAPH：移除 raw provider / raw rules / MRS 映射表，改为只消费 `tools/build-fused-rule-sets.js` 生成的最终融合规则集。
-- RULES：最终输出为 `113` 个融合 provider 与 `130` 条规则；规则语义不变。
+- SOURCE-GRAPH: removed raw provider/rule/MRS mapping tables, consuming only final fused output from `tools/build-fused-rule-sets.js`.
+- RULES: final output contained `113` fused providers and `130` rules; semantics were unchanged.
 
 ## v6.0.0-flclash.1 (2026-07-09)
 
-- FUSED-RULESETS：同步 Clash Party Normal v6.0.0，标准 Mihomo 内核版本使用融合 `.mrs` / residual YAML。
-- SCALE：规则规模压缩为 `113` 个融合 provider 与 `130` 条规则，保持 55 个代理组不变。
+- FUSED-RULESETS: synchronized Clash Party Normal v6.0.0; standard Mihomo used fused `.mrs` / residual YAML.
+- SCALE: reduced to `113` fused providers and `130` rules while retaining 55 groups.
 
 ## v5.4.39-flclash.1 (2026-07-09)
 
-- SYNC：同步 Clash Party Normal v5.4.39，规则规模更新为 474 providers、929 条规则。
-- MIHOMO-MRS：424 个 provider 使用 `.mrs`；30 个 partial provider 追加残余 YAML；20 个全量不可转 provider 保留原格式。
-- SOURCE-SIZE：继承压缩 `.mrs` 映射表，避免 QuickJS 覆写源码因多行兼容表继续膨胀。
+- SYNC: synchronized Clash Party Normal v5.4.39 with 474 providers and 929 rules.
+- MIHOMO-MRS: 424 providers used `.mrs`; 30 partial providers appended residual YAML; 20 wholly unconvertible providers retained original formats.
+- SOURCE-SIZE: inherited compact `.mrs` mappings to prevent multiline compatibility tables inflating QuickJS source.
 
 ## v5.4.38-flclash.1 (2026-07-09)
 
-- SCKI-SUPPLEMENTAL：同步 Clash Party Normal v5.4.38，主 rules 改为引用补充规则集。
-- MIHOMO-MRS：同步 429 providers、884 条规则，其中 366 个 provider 使用 `.mrs`；保持 QuickJS/Dart bridge 的数组/对象原地更新契约。
-- FIX：保持 FlClash 原数组引用，避免覆写后规则数组身份变化。
+- SCKI-SUPPLEMENTAL: synchronized Clash Party Normal v5.4.38; main rules referenced supplemental sets.
+- MIHOMO-MRS: synchronized 429 providers and 884 rules, including 366 MRS providers; preserved QuickJS/Dart in-place array/object updates.
+- FIX: preserved original FlClash array references so override did not change rules-array identity.
 
 ## v5.4.37-flclash.1 (2026-06-29)
 
-- ★ DNS-POLICY#170：同步 Clash Party Normal v5.4.37，`overwriteGeneral()` 为 Mihomo `nameserver-policy` 新增 `geosite:cn` 与 `geosite:geolocation-!cn` 解析器分流。
-- 手动 DNS 示例同步 DoH-over-IP bootstrap、hosts 预解析、geosite policy 与 `direct-nameserver-follow-policy: true`，避免 FlClash UI 进阶配置覆盖掉脚本 DNS 合同。
+- ★ DNS-POLICY#170: synchronized Clash Party Normal v5.4.37; `overwriteGeneral()` added `geosite:cn` / `geosite:geolocation-!cn` resolver routing to `nameserver-policy`.
+- Manual DNS examples gained DoH-over-IP bootstrap, hosts pre-resolution, geosite policy and `direct-nameserver-follow-policy: true`, preventing advanced UI configuration overriding the script DNS contract.
 
 ## v5.4.36-flclash.1 (2026-06-29)
 
-- CLEAN#171-DIRECT：同步删除 22 条经逐条确认的冗余直写规则。
-- 与 Clash Party Normal 保持 100% 规则等价；AI / Binance / Microsoft login 候选因不同策略 `.mrs` 前置阻断，继续保留。
+- CLEAN#171-DIRECT: synchronized removal of 22 individually verified redundant inline rules.
+- Retained 100% rule equivalence with Clash Party Normal. AI / Binance / Microsoft-login candidates remained because earlier different-policy MRS prevented safe deletion.
 
 ## v5.4.35-flclash.1 (2026-06-28)
 
-- ★ CLEAN#170-UPSTREAM：同步 Clash Party v5.4.35，删除 8 个已被前序同目标规则覆盖的冗余上游规则集。
-- CLEAN#170-DIRECT：删除 3 条已被前置 Douyin 国内流媒体守卫同目标覆盖的后置直写规则：`douyin.com`、`douyinpic.com`、`douyinvod.com`。
-- Provider 生成同步缩减到 376；匹配顺序不变，FlClash 仍使用标准 Mihomo `url-test` 区域组。
+- ★ CLEAN#170-UPSTREAM: synchronized v5.4.35, removing eight upstream sets already covered by earlier same-target rules.
+- CLEAN#170-DIRECT: removed three later inline rules already covered by the earlier same-target Douyin China-streaming guard: `douyin.com`, `douyinpic.com`, `douyinvod.com`.
+- Provider output decreased to 376. Match ordering remained; FlClash continued standard Mihomo `url-test` regions.
 
 ## v5.4.34-flclash.1 (2026-06-28)
 
-- ★ FIX#169-AMAP：同步 Clash Party v5.4.34，新增 MetaCubeX `amap` rule-provider 与 `RULE-SET,amap,🏠 国内网站`。
-- 规则放在广告/威胁规则之后、TikTok/GFW/geolocation-!cn 宽规则之前，修复 `webapi.amap.com` 误走国外的首匹配风险。
+- ★ FIX#169-AMAP: synchronized v5.4.34, adding MetaCubeX `amap` provider and `RULE-SET,amap,🏠 国内网站`.
+- Placed after ad/threat rules but before broad TikTok/GFW/geolocation-!cn rules, correcting first-match risk of international routing for `webapi.amap.com`.
 
 ## v5.4.33-flclash.1 (2026-06-27)
 
-- ★ FEAT#169-AI-CODING：新增 `vpsdance-ai-coding` rule-provider，来源为 VPSDance `rules/clash/coding.yaml`，归入 `🤖 AI 服务`。
+- ★ FEAT#169-AI-CODING: added `vpsdance-ai-coding` from VPSDance `rules/clash/coding.yaml`, targeting `🤖 AI 服务`.
 
 ## v5.4.32-flclash.1 (2026-06-25)
 
-- ★ FIX#168-CN-GAME：同步 Clash Party Normal v5.4.32，将国内游戏块前置到国外游戏宽规则之前，避免 HoYoverse / Game / category-games 抢先代理国内游戏域名。
-- 新增 JS 覆写回归断言覆盖国内游戏优先级。
+- ★ FIX#168-CN-GAME: synchronized Normal v5.4.32; moved China games before broad international game rules so HoYoverse / Game / category-games did not proxy China-game domains first.
+- Added JS regressions for China-game priority.
 
 ## v5.4.31-flclash.1 (2026-06-20)
 
-- ★ FIX#167-DOUYIN：同步 Clash Party Normal v5.4.31，新增抖音 Web 国内流媒体前置守卫，`douyin.com` / `zjcdn.com` 等域名先于 TikTok 和国外兜底规则命中 `📺 国内流媒体`。
-- 新增 JS 覆写回归断言，防止前置顺序回退。
+- ★ FIX#167-DOUYIN: synchronized Normal v5.4.31 with a leading Douyin Web guard. `douyin.com` / `zjcdn.com` and related domains matched `📺 国内流媒体` before TikTok/international fallback.
+- Added JS regression assertions against priority reversal.
 
 ## v5.4.30-flclash.1 (2026-06-17)
 
-- ★ FEAT#166-GOOGLE：同步 Clash Party v5.4.30，新增 `🔍 Google 服务` 业务组并置于 `🔧 工具与服务` 之前。
-- Google 基础服务、Scholar、Google IP 与 Google QUIC 规则从工具组拆出；业务组数量调整为 33。
+- ★ FEAT#166-GOOGLE: synchronized v5.4.30, adding `🔍 Google 服务` before `🔧 工具与服务`.
+- Split Google base services, Scholar, IP and QUIC from tools; service-group count became 33.
 
 ## v5.4.29-flclash.1 (2026-06-10)
 
-- ★ PERF#165-LATENCY：22 个区域 `url-test` 组 `interval: 180 -> 300`，与 Clash Party Normal / CMFA 对齐。
-- 规则、DNS、节点过滤与业务策略组语义不变。
+- ★ PERF#165-LATENCY: changed 22 regional `url-test` intervals `180 -> 300`, matching Normal / CMFA.
+- Rules, DNS, node filtering and service-group semantics remained unchanged.
 
 ## v5.4.27-flclash.1 (2026-06-07)
 
-- ★ CLEAN#165：同步 Clash Party Normal 清理 7 条已由 `claude` / `paypal` / `hbo` / `hulu` / `xbox` rule-provider 先行覆盖的直写域名，规则命中策略不变。
+- ★ CLEAN#165: synchronized removal of seven inline domains already covered by `claude` / `paypal` / `hbo` / `hulu` / `xbox` providers, without changing policies.
 
 ## v5.4.26-flclash.1 (2026-06-07)
 
-- ★ FIX#164：腾讯 WorkBuddy `copilot.tencent.com` 国内直连防吞——szkane `AiDomain.list` 的 `DOMAIN-KEYWORD,copilot` 子串会把它误吞到 `🤖 AI 服务`（国外代理）导致对话报错；在所有 AI rule-set 之前前置 `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站`。基线 Clash Party v5.4.26。
+- ★ FIX#164: protected Tencent WorkBuddy `copilot.tencent.com` from szkane `AiDomain.list` substring `DOMAIN-KEYWORD,copilot`, which incorrectly sent it through `🤖 AI 服务` and caused conversation errors. Added `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站` before every AI set. Baseline: Clash Party v5.4.26.
 
 ## v5.4.25-flclash.1 (2026-06-03)
 
-- ★ 审查修复：GEOIP 重复规则去重（`GEOIP,netflix` / `GEOIP,google` / `GEOIP,ID` 各出现 2 次 → 保留 GEOIP 标签路由集中区块）
+- ★ Review fix: deduplicated `GEOIP,netflix`, `GEOIP,google`, `GEOIP,ID` (two occurrences each), retaining the consolidated GEOIP-label routing block.
 
 ## v5.4.24-flclash.1 (2026-06-03)
 
-- ★ CLEAN：清除 18 条冗余规则 + 3 个未引用 provider（同步基线 v5.4.24，下载上游文件逐条验证）。
-  - 删除 4 条 Binance DOMAIN-SUFFIX（binance.com/cloud/me/future.com，RULE-SET 已含）
-  - 删除 3 个 Google 子 RULE-SET 引用 + provider（googlesearch/googledrive/googleearth，Google 元集已覆盖）
-  - 删除 3 条 ProtonMail DOMAIN-SUFFIX（protonmail.com/proton.me/pm.me，RULE-SET 已含）
-  - 删除 5 条音乐流媒体 DOMAIN-SUFFIX（soundcloud/sndcdn/pandora/deezer/tidal，各自 RULE-SET 已含）
-  - 删除 2 条社交媒体 DOMAIN-SUFFIX（tumblr/clubhouse，各自 RULE-SET 已含）
-  - 删除 2 条流媒体 DOMAIN-SUFFIX（vimeo/dailymotion，各自 RULE-SET 已含）
+- ★ CLEAN: removed 18 redundant rules and three unreferenced providers, matching v5.4.24 after downloading and checking upstream files individually.
+  - Removed four Binance DOMAIN-SUFFIX entries (binance.com/cloud/me/future.com), already in RULE-SET.
+  - Removed three Google child RULE-SET references/providers (googlesearch/googledrive/googleearth), covered by the parent Google set.
+  - Removed three ProtonMail DOMAIN-SUFFIX entries (protonmail.com/proton.me/pm.me), already in RULE-SET.
+  - Removed five music DOMAIN-SUFFIX entries (soundcloud/sndcdn/pandora/deezer/tidal), covered by their sets.
+  - Removed two social DOMAIN-SUFFIX entries (tumblr/clubhouse), covered by their sets.
+  - Removed two streaming DOMAIN-SUFFIX entries (vimeo/dailymotion), covered by their sets.
 
 ## v5.4.23-flclash.1 (2026-06-02)
 
-- ★ FIX#161：`DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` → 🏠 国内网站 直连（知乎图片 CDN + 短链，同步基线）。
+- ★ FIX#161: `DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` targeted `🏠 国内网站` direct routing for Zhihu image CDN/short links, matching the baseline.
 
 ## v5.4.22-flclash.1 (2026-05-31)
 
-- ★ GeTui(个推)推送 SDK `getui.com` / `getui.net` / `gepush.com` 加直连白名单（review 后补；延续 #2，被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行）。
+- ★ Added GeTui push SDK `getui.com` / `getui.net` / `gepush.com` to direct exceptions after review. Continuing #2, generic ad/privacy feeds treated them as trackers despite carrying application push such as Mi Home; the owner chose to allow them.
 
-#1 借鉴 Proxy-override：QUIC 精细化——AND 规则白名单豁免（YouTube/Google/MS/Apple 的 QUIC 走对应业务组）；其余非 CN QUIC REJECT。
+#1 Proxy-override adaptation: refined QUIC using AND-rule exceptions, sending YouTube/Google/MS/Apple QUIC through corresponding service groups and rejecting other non-CN QUIC.
 
-- 配套新增 `config.sniffer`（QUIC/443 SNI 嗅探 + `force-dns-mapping`，对齐 CMFA/OpenClash）——使真 IP QUIC（fake-ip-filter 域名）也能 GEOSITE 匹配，避免误 REJECT（review 修复）。
-- 兜底判据 `GEOIP,CN` → `GEOSITE,cn`（fake-ip 下更可靠）。
+- Added `config.sniffer` with QUIC/443 SNI sniffing and `force-dns-mapping`, matching CMFA/OpenClash, so real-IP QUIC for fake-ip-filter domains could match GEOSITE instead of incorrect rejection (review fix).
+- Changed fallback criterion from `GEOIP,CN` to `GEOSITE,cn`, recorded as more reliable with fake-ip.
 
 ## v5.4.21-flclash.1 (2026-05-31)
 
-#4 借鉴 Proxy-override：`default-nameserver` 从纯明文 IP 升级为 DoH-over-IP + 1 明文兜底；消除 bootstrap 阶段 DNS 泄漏。
+#4 Proxy-override adaptation: replaced plaintext-IP-only `default-nameserver` with DoH-over-IP plus one plaintext fallback. The historical release described this as eliminating bootstrap DNS leakage; the retained plaintext fallback means it is not a general zero-leak guarantee.
 
 ## v5.4.20-flclash.1 (2026-05-30)
 
-借鉴 Proxy-override 批 B · #6 节点过滤关键词补充（跟随 Clash Party v5.4.20）：
+Proxy-override batch B, #6 node-filter keywords, following Clash Party v5.4.20:
 
-- junk 节点过滤器 `isInfoNode` 新增：中文 `免费` / `试用` / `应急`；英文（`\b` 词边界）`Sign` / `Login` / `Register` / `Help` / `FAQ`
-- 不加「更新」「地址」（误伤风险高）
-- 回归：`tools/validate-js-overwrites.js` flclash target fixture（junk 过滤 + Signal 守卫）+ `tools/test-info-node-filter.js` 一致性
-- 🔢 版本：v5.4.19-flclash.1 → v5.4.20-flclash.1
+- Added `isInfoNode` keywords: Chinese `免费` / `试用` / `应急`, and English `Sign` / `Login` / `Register` / `Help` / `FAQ` with `\b` boundaries.
+- Did not add `更新` / `地址` because of false-positive risk.
+- Regressions: FlClash target fixtures in `tools/validate-js-overwrites.js` (junk filtering and Signal guard) plus `tools/test-info-node-filter.js` consistency.
+- 🔢 Version: v5.4.19-flclash.1 → v5.4.20-flclash.1.
 
 ## v5.4.19-flclash.1 (2026-05-30)
 
-借鉴 Proxy-override 批 A（跟随 Clash Party v5.4.19；spec：`docs/2026-05-30-proxy-override-借鉴设计.md`）：
+Proxy-override batch A, following Clash Party v5.4.19; spec: `docs/2026-05-30-proxy-override-借鉴设计.md`:
 
-- ✅ #2 国内 SDK/CDN 直连前置：jpush / `msg.umeng.com` 加 `AD_FALSE_POSITIVE_ALLOWLIST` 强制 DIRECT（绕过 `jiguangtuisong` / `youmengchuangxiang` 拦截）；`baomitu.com` / `bootcss.com` / `staticfile.org` / `upaiyun.com` 前置到 🏠 国内网站段
-- ✅ #3 fake-ip-filter 补全 10 条（远控 todesk/oray/sunlogin/teamviewer/anydesk · 游戏 battlenet.com.cn/wotgame.cn/wggames.cn/wowsgame.cn · B站 P2P mcdn.bilivideo.cn）
-- ✅ #5 `direct-nameserver-follow-policy: true`（direct 出口域名解析遵循 nameserver-policy；本仓库 policy 仅含境外 CDN，零国内误伤）
-- 🔢 版本对齐：v5.4.18-flclash.2 → v5.4.19-flclash.1（全产物跳过烧毁的 .18 统一到 v5.4.19）
+- ✅ #2 China SDK/CDN priority: added jpush / `msg.umeng.com` to `AD_FALSE_POSITIVE_ALLOWLIST` for forced DIRECT, ahead of `jiguangtuisong` / `youmengchuangxiang` blocks. Moved `baomitu.com` / `bootcss.com` / `staticfile.org` / `upaiyun.com` ahead in the China-site segment.
+- ✅ #3 Added ten fake-ip-filter entries: remote access todesk/oray/sunlogin/teamviewer/anydesk; games battlenet.com.cn/wotgame.cn/wggames.cn/wowsgame.cn; Bilibili P2P mcdn.bilivideo.cn.
+- ✅ #5 Added `direct-nameserver-follow-policy: true` so direct-outbound domain resolution followed nameserver-policy. That release recorded the policy as containing only international CDNs, with no China-domain false positives.
+- 🔢 Aligned v5.4.18-flclash.2 → v5.4.19-flclash.1; all artifacts skipped the invalid .18 release and converged on v5.4.19.
 
 ## v5.4.18-flclash.2 (2026-05-30)
 ## v5.4.17-flclash.2 (2026-05-30)
 
-- ★ FIX#VERSION-PREFIX：主版本前缀由误写的 v5.4.18 修正为 v5.4.17，对齐 baseline（主线 Smart JS）与其余 9 产物（CLAUDE.md §4；修复 validate-artifact-contracts 的 `js.flclash.version-prefix` 检查。内容（url-test/DNS 调优）不变，仅版本号前缀修正）
-- ⚡ PERF#URLTEST-LATENCY：url-test 组参数全面调优，解决卡顿/高延迟/无法联网
-  - `lazy: false`（全组节点主动测速，不再只测当前节点，避免"卡在劣化节点上"）
-  - `interval: 120 → 180`（lazy=false 下合理拉长间隔，减少全组测速风暴）
-  - `tolerance: 30 → 10`（切换阈值从 30ms 降至 10ms，节点劣化时更快切换）
-- ⚡ PERF#DNS-RESILIENCE：DNS 引导与代理层优化
-  - `default-nameserver` 移除境外 `1.1.1.1` / `8.8.8.8`，改用 `223.5.5.5` / `119.29.29.29` / `180.76.76.76`（全量国内自举，打破 fake-ip 循环依赖）
-  - `proxy-server-nameserver` 不再混入国内 DoH（代理链路 DNS 纯走境外 Cloudflare/Google DoH）
+- ★ FIX#VERSION-PREFIX: corrected mistaken v5.4.18 prefix to v5.4.17, matching main Smart JS and nine other artifacts (historical CLAUDE.md §4), fixing `js.flclash.version-prefix` in validate-artifact-contracts. url-test/DNS tuning was unchanged; version prefix only.
+- ⚡ PERF#URLTEST-LATENCY: tuned url-test groups to address stalls, high latency and connectivity failures.
+  - `lazy: false`: actively tested all group nodes instead of only the current node, avoiding remaining on degraded nodes.
+  - `interval: 120 → 180`: increased interval with lazy=false to limit full-group testing bursts.
+  - `tolerance: 30 → 10`: reduced switching threshold from 30 ms to 10 ms for faster movement from degraded nodes.
+- ⚡ PERF#DNS-RESILIENCE: DNS bootstrap/proxy-layer tuning.
+  - Removed international `1.1.1.1` / `8.8.8.8` from `default-nameserver`, using `223.5.5.5` / `119.29.29.29` / `180.76.76.76`. That release used China-based bootstrap to break fake-ip circular dependencies.
+  - Removed China DoH from `proxy-server-nameserver`; that release used only Cloudflare/Google DoH for proxy-chain DNS.
 
 ## v5.4.17-flclash.1 (2026-05-26)
 
-- ✅ FIX#DNS-SPLIT-BOOTSTRAP：同步 Clash Party Normal v5.4.17 DNS 合同
-  - `default-nameserver` 纯 IP，自举以外的 resolver 全部 DoH
-  - 关闭 `prefer-h3`，开启 `respect-rules: true`，并补齐 `nameserver-policy` / `fallback-filter.geosite`
+- ✅ FIX#DNS-SPLIT-BOOTSTRAP: synchronized Normal v5.4.17 DNS contract.
+  - `default-nameserver` used IPs only; all non-bootstrap resolvers used DoH.
+  - Disabled `prefer-h3`, enabled `respect-rules: true`, and completed `nameserver-policy` / `fallback-filter.geosite`.
 
 ## v5.4.16-flclash.2 (2026-05-22)
 
-- ✅ FEAT#GAME-ACCEL：新增游戏加速器 `PROCESS-NAME -> DIRECT` 白名单
-  - 新增 16 条进程名（UU / 小黑 / 迅游 / 雷神 / NNer 加速器），同步 Clash Party Normal 基线
+- ✅ FEAT#GAME-ACCEL: added game-accelerator `PROCESS-NAME -> DIRECT` exceptions.
+  - Added 16 process names for UU / Xiaohei / Xunyou / Leishen / NNer accelerators, matching Normal.
 
 ## v5.4.16-flclash.1 (2026-05-20)
 
-- ✅ FIX#149-P0：同步 Clash Party Normal v5.4.16，前置 `paddle.com -> 🏦 金融支付`
-  - 覆盖 anti-AD/DustinWin 对 `analytics.paddle.com` 的误拦截，避免 Antigravity 账号设置/许可链路被广告规则抢先命中
+- ✅ FIX#149-P0: synchronized Normal v5.4.16, placing `paddle.com -> 🏦 金融支付` early.
+  - Protected `analytics.paddle.com` from anti-AD/DustinWin false positives so Antigravity account/licensing paths did not hit ads first.
 
 ## v5.4.15-flclash.1 (2026-05-20)
 
-- 🧾 DOC#GEOSITE-LEDGER：同步 Clash Party Normal v5.4.15，新增 GEOSITE 覆盖台账引用。
-- ♻️ REFACTOR#AD-FP-MODULE：将广告误伤白名单提升为 AD_FALSE_POSITIVE_ALLOWLIST，并在 injectRules() 顶部统一注入。
+- 🧾 DOC#GEOSITE-LEDGER: synchronized Normal v5.4.15 and added a GEOSITE coverage-ledger reference.
+- ♻️ REFACTOR#AD-FP-MODULE: promoted ad exceptions to AD_FALSE_POSITIVE_ALLOWLIST and injected them at the start of injectRules().
 
 ## v5.4.14-flclash.1 (2026-05-20)
 
-- ✅ FIX#CF-R2-P0：同步 Clash Party Normal v5.4.14，前置 `cloudflarestorage.com -> 🌐 国外网站`
-  - 覆盖 Sukka phishing 对 Cloudflare R2 存储域的误拦截
-  - 后段 `🌐 国外网站` 重复条目已移除
+- ✅ FIX#CF-R2-P0: synchronized Normal v5.4.14, placing `cloudflarestorage.com -> 🌐 国外网站` early.
+  - Corrected Sukka phishing false positives for Cloudflare R2 storage domains.
+  - Removed the duplicate later `🌐 国外网站` entry.
 
 ## v5.4.13-flclash.1 (2026-05-19)
 
-- ✅ FIX#STUN-REALIP：同步 Clash Party Normal v5.4.13，补齐 STUN/TURN fake-ip 排除与标准端口直连
-  - 覆写脚本会把 STUN/TURN 通配、`stun1-4.l.google.com`、`global.turn.twilio.com` 合并进 `fake-ip-filter`
-  - `DST-PORT 5349 / 19302 / 19305 / 19307` 走 `DIRECT`
+- ✅ FIX#STUN-REALIP: synchronized Normal v5.4.13 with STUN/TURN fake-ip exclusions and direct standard ports.
+  - Merged STUN/TURN wildcards, `stun1-4.l.google.com` and `global.turn.twilio.com` into `fake-ip-filter`.
+  - `DST-PORT 5349 / 19302 / 19305 / 19307` used `DIRECT`.
 
 ## v5.4.12-flclash.2 (2026-05-12)
 
-- 📝 DOC#IMPORT-HTML：FlClash 导入 URL 改为 `%28mihomo%29` 编码写法，并补充 `unexpected token '<'` 排障说明
-  - 该错误表示客户端拿到 GitHub/错误页 HTML，而不是 JS 脚本；规则与 DNS 逻辑不变
+- 📝 DOC#IMPORT-HTML: encoded FlClash import URL as `%28mihomo%29` and added `unexpected token '<'` diagnostics.
+  - The error indicated GitHub/error-page HTML instead of JavaScript. Rules and DNS logic were unchanged.
 
 ## v5.4.12-flclash.1 (2026-05-12)
 
-- ✅ FIX#RD-REALIP：覆写脚本在 DNS `fake-ip-filter` 中保留 `+.rustdesk.com`
-  - 与 Clash Party Normal v5.4.12 对齐，RustDesk 仍走会议协作代理链路但 DNS 使用真实 IP
+- ✅ FIX#RD-REALIP: retained `+.rustdesk.com` in DNS `fake-ip-filter`.
+  - Aligned with Normal v5.4.12: RustDesk retained collaboration proxy routing while DNS used real IPs.
 
 ## v5.4.11-flclash.1 (2026-05-12)
 
-- ✅ FIX#RD-PROC：RustDesk 进程规则从本地工具 `DIRECT` 白名单移出，改走 `🧑‍💼 会议协作`
-- ✅ FIX#DNS-BOOTSTRAP：内置 DNS 示例与脚本输出均改为 IP-first，降低 DoH 域名解析死锁概率
+- ✅ FIX#RD-PROC: removed RustDesk processes from local-tool DIRECT exceptions and routed them to `🧑‍💼 会议协作`.
+- ✅ FIX#DNS-BOOTSTRAP: embedded DNS examples/output became IP-first to reduce DoH hostname-resolution deadlock risk.
 
 ## v5.4.9-flclash.1 (2026-05-11)
 
-- ✅ FEAT#LOCAL-TOOLS：跟随 Clash Party v5.4.9 新增桌面本地工具 `PROCESS-NAME -> DIRECT` 白名单
-  - Windows/macOS/Linux 可命中；Android 端不依赖该清单
-  - 清单由 `tools/fixtures/process-name-direct-tools.json` 与 `tools/validate-process-name-direct.js` 校验
+- ✅ FEAT#LOCAL-TOOLS: followed v5.4.9 with desktop local-tool `PROCESS-NAME -> DIRECT` exceptions.
+  - Applicable on Windows/macOS/Linux; Android did not rely on this list.
+  - Validated through `tools/fixtures/process-name-direct-tools.json` and `tools/validate-process-name-direct.js`.
 
 ## v5.4.8-flclash.1 (2026-05-09)
 
-- ★ ORDER#RULE-TAIL：跟随 Clash Party Normal v5.4.8-normal.1 重排规则尾段匹配顺序
+- ★ ORDER#RULE-TAIL: followed Normal v5.4.8-normal.1 to reorder tail-rule matching.
 
 ## v5.4.7-flclash.1 (2026-05-09)
 
-- ★ FEAT#TikTok：新增独立 `🎵 TikTok` 业务组（32 业务组），置于 `📺 国内流媒体` 与 `🎥 Netflix` 之间
-  - 跟随 Clash Party Normal v5.4.7-normal.1 基线；BIZ + groups + rules + FP 同步
-- ★ FIX#HK：`REGION_DB` HK kw 加 `'港'`，补全广港/深港等 IEPL/IPLC 跨境专线节点分类
+- ★ FEAT#TikTok: added independent `🎵 TikTok` group (32 service groups), between `📺 国内流媒体` and `🎥 Netflix`.
+  - Followed Normal v5.4.7-normal.1; synchronized BIZ, groups, rules and FP.
+- ★ FIX#HK: added `'港'` to REGION_DB HK keywords for Guangzhou/Hong Kong and Shenzhen/Hong Kong IEPL/IPLC labels.
 
 ## v5.4.6-flclash.1 (2026-05-08)
 
-- ★ FEAT#145：WeChat CDN 直连 — 新增 `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT`
-  - 置于 iwipwedabay.com 后、binance 前
-  - 跟随 Clash Party Normal v5.4.6-normal.1 基线
+- ★ FEAT#145: added WeChat CDN direct rule `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT`.
+  - Placed after iwipwedabay.com and before binance.
+  - Followed Normal v5.4.6-normal.1.
 
 ## v5.4.5-flclash.1 (2026-05-07)
 
-- ★ 全球节点置顶 + 全产品组顺序同步（跟随基线 v5.4.5）
+- ★ Moved global nodes first and synchronized group ordering across products, following v5.4.5.
 
 ## v5.4.4-flclash.1 (2026-05-07)
 
-- ★ FIX#142-CRITICAL：DNS 安全兜底 nameserver 注入 — 避免空 DNS 导致 DIRECT 超时
-  - overwriteGeneral 新增 DNS 保护代码，在 App UI 未配置 DNS 时自动注入 `223.5.5.5` / `119.29.29.29`
-  - 设置 `enhanced-mode: fake-ip` 确保 DNS 解析模式不会因外部配置缺失而失效
-- ★ FIX#144-P1：bbys.app DIRECT 直连规则
-  - injectRules 中 acc-chinamax 规则后新增 `DOMAIN-SUFFIX,bbys.app,DIRECT`
-- ★ FEAT#143：IEPL/IPLC 家宽识别关键词扩展
-  - RESIDENTIAL_PATTERNS 新增 `/\biplc\b/i`、`/\biepl\b/i`、`/专线/` 三条规则
-- 跟随基线 Clash Party v5.4.4
+- ★ FIX#142-CRITICAL: injected fallback nameservers to prevent empty DNS causing DIRECT timeouts.
+  - overwriteGeneral added protection injecting `223.5.5.5` / `119.29.29.29` when application DNS was unconfigured.
+  - Set `enhanced-mode: fake-ip` so missing external configuration did not leave resolution mode invalid.
+- ★ FIX#144-P1: bbys.app DIRECT rule.
+  - Added `DOMAIN-SUFFIX,bbys.app,DIRECT` after acc-chinamax in injectRules.
+- ★ FEAT#143: expanded IEPL/IPLC residential detection.
+  - Added `/\biplc\b/i`, `/\biepl\b/i` and `/专线/` to RESIDENTIAL_PATTERNS.
+- Followed Clash Party v5.4.4.
 
 ## v5.4.3-flclash.1 (2026-05-06)
 
-- ★ FEAT：家宽节点识别新增 `\bhome\b` 关键词（跟随 Clash Party v5.4.3 基线）
-  - `RESIDENTIAL_PATTERNS` 数组追加 `/\bhome\b/i`，匹配仅含 Home 的节点名
+- ★ FEAT: added `\bhome\b` residential keyword, following v5.4.3.
+  - Appended `/\bhome\b/i` to RESIDENTIAL_PATTERNS to match names containing only Home as the indicator.
 
 ## v5.4.2-flclash.2 (2026-05-05)
 
-- ★ FIX#41-P0-QuickJS：injectRules 重赋值 → 原地 splice+push（修复 QuickJS ↔ Dart FFI 桥接层丢失路由规则）
-  - `config.rules = [...]` 在 FlClash QuickJS 环境中创建新数组，Dart 端持有旧引用 → 所有规则丢失
-  - 改为 `_newRules` 临时数组 + `config.rules.splice(0)` + 逐个 `push` 原地写入
-  - 此 bug 导致 FlClash 用户在 cleanupSubscription 清空规则后注入的 1000+ 条规则全部丢失
+- ★ FIX#41-P0-QuickJS: changed injectRules reassignment to in-place splice/push, repairing rule loss across QuickJS ↔ Dart FFI.
+  - `config.rules = [...]` created a new QuickJS array while Dart retained the old reference, losing all rules.
+  - Used temporary `_newRules`, `config.rules.splice(0)` and individual in-place `push` calls.
+  - The bug lost all 1000+ injected rules after cleanupSubscription cleared them.
 
 ## v5.4.2-flclash.1 (2026-05-05)
 
-- ★ FIX#41-P0：小米核心服务 DIRECT 白名单（跟随 Clash Party v5.4.2 基线）
-  - 新增 11 条 DIRECT 规则前置广告拦截段，修复 miuiprivacy/advertisingmitv 误杀认证安全域名
+- ★ FIX#41-P0: Xiaomi core-service DIRECT exceptions, following v5.4.2.
+  - Added 11 DIRECT rules before ad blocking, correcting miuiprivacy/advertisingmitv rejection of authentication/security domains.
 
 ## v5.4.1-flclash.2 (2026-05-05)
 
-- ★ FIX#FlClash-Review-P0：恢复 FlClash 覆写脚本的有效 UTF-8 字符串字面量
-  - 修复 `REGION_DB` / `SMART` / `BIZ` 被 mojibake 破坏后产生的 `SyntaxError`
-  - 从 `ClashParty(mihomo).js` 重新同步干净规则逻辑，并保留 FlClash 的 QuickJS 日志包装与数组原地修改约束
-- ★ FIX#FlClash-Review-P0：补回 `classifyAllNodes` 初始化 buckets
-  - 样例 `TWN 01 AnyRoute IEPL x2.5` → 台湾，`SGP 01 AnyRoute IEPL x2.5` → 狮城，未知家宽节点 → 其他家宽
-  - 同构审计：Clash Party Normal 同步修复；Smart 主线正常；其余静态/非 JS 产物无此初始化回归
+- ★ FIX#FlClash-Review-P0: restored valid UTF-8 string literals.
+  - Fixed `SyntaxError` caused by mojibake in `REGION_DB` / `SMART` / `BIZ`.
+  - Resynchronized clean logic from `ClashParty(mihomo).js`, retaining QuickJS log wrappers and in-place arrays.
+- ★ FIX#FlClash-Review-P0: restored classifyAllNodes bucket initialization.
+  - `TWN 01 AnyRoute IEPL x2.5` classified as Taiwan; `SGP 01 AnyRoute IEPL x2.5` as Singapore; unknown residential nodes as other residential.
+  - Shared-bug audit: Normal received the same repair; Smart was unaffected; static/non-JS artifacts lacked this initialization regression.
 
 ## v5.4.0-flclash.1 (2026-05-05)
 
-- ★ FEAT#SG：新增 🇸🇬 狮城节点 + 🏡 狮城家宽 独立区域组
-  - 新加坡从 🌏 亚太节点 中拆分为独立区域
-  - 区域组总数：18 → 20（10 全部 + 10 家宽），总组数：49 → 51
-  - 跟随基线 Clash Party v5.4.0
+- ★ FEAT#SG: added independent `🇸🇬 狮城节点` and `🏡 狮城家宽` groups.
+  - Split Singapore into a separate region from `🌏 亚太节点`.
+  - Regional groups: 18 → 20 (10 all-node + 10 residential); total groups: 49 → 51.
+  - Followed Clash Party v5.4.0.
 
 ## v5.3.2-flclash.1 (2026-05-03)
 
-- 初始版本，基于 Clash Party Normal v5.3.2 完整移植
-  - 18 url-test 区域组（9 全部 + 9 家宽）+ 31 业务策略组（含 13 流媒体平台组）
-  - 371+ rule-providers，覆盖 AI/流媒体/游戏/金融/社交/开发等全部场景
-  - word-boundary 正则节点分类（REGION_DB 同 Clash Party v5.3.2）
-  - 家宽自动识别 + 信息节点过滤
-  - 订阅垃圾 proxy-groups / rules / rule-providers 自动清理
-  - TLS 指纹自动注入（client-fingerprint）
-- 适配 FlClash 覆写脚本环境：
-  - `console.log` → 条件包装（兼容 QuickJS 引擎）
-  - 全局设置精简：移除 `geox-url`/`geodata-mode`/TUN/端口覆写（FlClash UI 托管）
-  - 数组操作改用原地修改（splice/push），避免 QuickJS FFI 桥接层重赋值丢失
-- **导入方式确认**：FlClash 覆写脚本需要两步操作——先在「覆写脚本」创建脚本，再在订阅「更多→覆写」关联
-- 必改配置文档化：GeoX URL（外部资源）+ DNS（进阶配置）
-- 与 CMFA YAML 并行提供
+- Initial complete port of Clash Party Normal v5.3.2.
+  - 18 url-test regional groups (9 all-node + 9 residential) plus 31 service groups, including 13 streaming groups.
+  - 371+ providers covering AI, streaming, games, finance, social and development categories.
+  - Word-boundary regex classification using the same REGION_DB as v5.3.2.
+  - Automatic residential detection and informational-node filtering.
+  - Automatic cleanup of unwanted subscription proxy-groups / rules / rule-providers.
+  - Automatic TLS fingerprint injection (`client-fingerprint`).
+- Adapted to FlClash's override host:
+  - Wrapped `console.log` conditionally for QuickJS.
+  - Removed `geox-url` / `geodata-mode` / TUN / port overrides from global settings because the UI owned them.
+  - Changed arrays to in-place splice/push to avoid reassignment loss across QuickJS FFI.
+- **Import confirmed:** first create the script in Override scripts, then associate it via subscription More → Override.
+- Documented required GeoX URL (external resources) and DNS (advanced configuration) settings.
+- Offered alongside CMFA YAML.

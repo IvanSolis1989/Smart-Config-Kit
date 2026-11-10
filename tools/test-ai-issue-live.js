@@ -45,7 +45,7 @@ function applySandboxPatch({ repoRoot, caseDir, result, rawResponse, original })
   const modified = fs.readFileSync(path.join(caseDir, 'modified_files.txt'), 'utf8').trim().split(/\r?\n/);
   assert.deepEqual(modified, ['docs/README.md']);
   const updated = fs.readFileSync(path.join(sandbox, 'docs/README.md'), 'utf8');
-  const expected = replaceUniqueH1(original, '# 文档中心', '# 文档索引');
+  const expected = replaceUniqueH1(original, '# Documentation', '# Documentation index');
   assert.notEqual(normalize(expected), normalize(original), 'the task must actually change the title');
   assert.equal(normalize(updated), normalize(expected), 'saved result must preserve all other contents');
   assert.equal(fs.readFileSync(path.join(repoRoot, 'docs/README.md'), 'utf8'), original, 'live tests must not edit the repository target');
@@ -116,7 +116,7 @@ async function main(argv = process.argv.slice(2), env = process.env) {
     specs.push({ name: 'issue-186', ...issue, codeMod: true, category: 'bug' });
   }
   if (selectedCase !== 'issue-186') specs.push({ name: 'docs-title', codeMod: true, category: 'documentation',
-    title: '修正 docs/README.md 标题', body: '仅将 docs/README.md 中唯一的一级标题行 `# 文档中心` 改成 `# 文档索引`，保留前置 <picture> 区块及其余所有内容逐字不变。请输出完整文件补丁及中文 PR 标题和正文；无需修改其它文件。',
+    title: '修正 docs/README.md 标题', body: '仅将 docs/README.md 中唯一的一级标题行 `# Documentation` 改成 `# Documentation index`，保留前置 <picture> 区块及其余所有内容逐字不变。请输出完整文件补丁及中文 PR 标题和正文；无需修改其它文件。',
     original: fs.readFileSync(path.join(repoRoot, 'docs/README.md'), 'utf8') });
   const receipts = [];
   for (const spec of specs) receipts.push(await runCase({ repoRoot, outputDir, spec, apiKey,

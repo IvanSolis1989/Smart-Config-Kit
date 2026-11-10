@@ -1,55 +1,69 @@
-# Passwall2 配置参考文档
+<a id="passwall2-配置参考文档"></a>
+# Passwall2 configuration reference
 
-> 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [官方 shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua)，保持 rule-set:remote SRS 条件语法，实际业务出口仍由 LuCI 用户配置。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
+**English** | [简体中文](REFERENCE-passwall2.zh-CN.md)
 
-> 更新于 2026-10-19：官方稳定标签的 UI 与后端分别核验，见[完整报告与原文缓存](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)。下方为历史摘要，未整篇当前化；以本节后端边界为准。
 
-## 2026-10-19 现行核验
+> Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Official shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua) was rechecked. rule-set:remote SRS condition syntax remains; LuCI users still configure actual service exits. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
-- 官方稳定版 [26.10.1-2](https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/tag/26.10.1-2) 发布于 2026-10-02；本次列表中最新标记预发布的是较早的 26.9.9-2（2026-09-09），不能把它当成比稳定版更新的候选。
-- 分流节点为 `protocol='_shunt'`；`type='sing-box'` 与 `type='Xray'` 分别进入不同生成器，全局入口读取 `@global[0].node`。
-- `rule-set:remote:...srs` 由 sing-box 后端转成 `route.rule_set`，Xray 后端显式跳过该输入。因此本仓库 fused `.srs` 路径必须限定 sing-box 后端。
-- 稳定标签 `util_xray.lua` 在过滤后 `domains=nil` 且 `ip=nil` 时仍可能插入无目标域/IP条件的规则；配合本仓库 `network='tcp,udp'` 会扩大匹配范围。不能把“无报错”作为兼容验收，安装脚本必须在写 UCI 前阻断该组合。
-- 新版本仍需实际 OpenWrt 设备验证；本次证明为固定官方源码的数据流与隔离测试，不代表真实流量已验收。
+> Updated on 2026-10-19: official stable-tag UI and backends were checked separately; see the [full report and cached originals](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2). Older summaries below were not fully updated; backend boundaries in this section take precedence.
 
-## 历史摘要（未整篇复核）
+<a id="2026-10-19-现行核验"></a>
+## Review current as of 2026-10-19
 
-> 2026-10-15 URL 兼容性复核：继续使用本文件已记录的 `rule-set:remote:https://.../*.srs` 原生语法，来源为 Passwall2 官方解析器源码；本次仅换 URL 主机，没有重新确认解析器对 scheme 的限制。详见 [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md)。
+- Official stable [26.10.1-2](https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/tag/26.10.1-2) was published on 2026-10-02. The latest listed prerelease was the older 26.9.9-2 (2026-09-09), not a newer-than-stable candidate.
+- Shunt nodes use `protocol='_shunt'`; `type='sing-box'` and `type='Xray'` invoke different generators. The global entry reads `@global[0].node`.
+- The sing-box backend converts `rule-set:remote:...srs` into `route.rule_set`; Xray explicitly skips it. Repository fused `.srs` therefore requires the sing-box backend.
+- Stable-tag `util_xray.lua` can still insert a rule lacking destination domain/IP conditions after filtering leaves `domains=nil` and `ip=nil`. Combined with repository `network='tcp,udp'`, this broadens matching. No error is not acceptance; installation must block this combination before UCI writes.
+- New versions still require an actual OpenWrt device. This review establishes pinned official source data flow and isolated tests, not accepted real traffic.
 
-> 更新于 2026-07-09：复核当前 `shunt_rules.lua` 解析器。Passwall2 的 `domain_list` 与 `ip_list` 仍接受 `rule-set:remote:` / `rule-set:local:`，因此本仓库的 Passwall2 fallback 直接引用 `rulesets/generated/fused/sing-box/*.srs`，不再维护手写域名/IP 展平列表。
+<a id="历史摘要未整篇复核"></a>
+## Historical summary (not fully re-reviewed)
+
+> 2026-10-15 URL compatibility review: retains documented native `rule-set:remote:https://.../*.srs` syntax from the official Passwall2 parser. Only URL hosts changed; parser scheme limits were not rechecked. See [`docs/rule-asset-delivery.md`](../../docs/rule-asset-delivery.md).
+
+> Updated on 2026-07-09: rechecked current `shunt_rules.lua`. Passwall2 `domain_list` / `ip_list` still accept `rule-set:remote:` / `rule-set:local:`. Repository fallback references `rulesets/generated/fused/sing-box/*.srs` directly instead of maintaining handwritten flattened domain/IP lists.
 >
-> 更新于 2026-05-31（上次获取 2026-04-30）：Passwall2 最新版 v26.5.19-1（2026-05-18）。从 v26.4.20-1 升级 4 个版本。`shunt_rules.lua` 分流规则语法无变更。
+> Updated on 2026-05-31 (previous retrieval: 2026-04-30): latest Passwall2 v26.5.19-1 (2026-05-18), four versions after v26.4.20-1. Shunt syntax was unchanged.
 >
-> 更新于 2026-04-30（上次获取 2026-04-26）：Passwall2 最新版 v26.4.20-1（2026-04-19）。新增 APK 包管理支持（OpenWrt 新包管理器）。`shunt_rules.lua` 分流规则语法无变更。
+> Updated on 2026-04-30 (previous retrieval: 2026-04-26): latest Passwall2 v26.4.20-1 (2026-04-19), adding APK package-management support for OpenWrt’s new package manager. Shunt syntax was unchanged.
 >
-> 来源 URL：
-> - https://github.com/Openwrt-Passwall/openwrt-passwall2 (Passwall2 源码)
-> - https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua (分流规则解析器源码)
-> - https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555 (Passwall vs Passwall2 差异讨论)
+> Source URLs:
+> - https://github.com/Openwrt-Passwall/openwrt-passwall2 (Passwall2 source)
+> - https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua (shunt-rule parser)
+> - https://github.com/Openwrt-Passwall/openwrt-passwall2/discussions/555 (Passwall versus Passwall2)
 >
-> 获取日期：2026-07-09
+> Retrieved: 2026-07-09
 
 ---
 
-## 1. Passwall2 简介
+<a id="1-passwall2-简介"></a>
+## 1. About Passwall2
 
-Passwall2 是 OpenWrt 上的精简分流代理插件（由 Openwrt-Passwall 组织维护）。
+Passwall2 is a reduced OpenWrt shunt-routing proxy plugin maintained by Openwrt-Passwall.
 
-**定位：** 精简分流版 — 专注分流规则匹配。砍掉了四列表（直连/屏蔽/GFW/代理）和 ACL，只保留基于分流规则的流量控制。
+**Positioning:** focuses on shunt matching. It removes the four lists (direct/block/GFW/proxy) and ACLs, retaining rule-based traffic control.
 
-**与 Passwall 的关系：** 两者是**并行维护**的独立插件，不是新旧版本关系。Passwall 是全功能版（四列表 + ACL + TCP/UDP 分选），Passwall2 是精简分流版。规则语法完全互通。
+**Relationship to Passwall:** separate plugins maintained **in parallel**, not old/new versions. Passwall is the full edition with four lists, ACLs, and separate TCP/UDP selection; Passwall2 is reduced. Their rule syntax is interchangeable.
 
 ---
 
-## 2. 分流规则 UCI 配置
+<a id="2-分流规则-uci-配置"></a>
+## 2. UCI shunt-rule configuration
 
-### 2.1 UCI 配置名
+<a id="21-uci-配置名"></a>
+### 2.1 UCI configuration name
+
+Use `passwall2`. Original example/comments are retained:
 
 ```bash
 CONFIG_NAME="passwall2"  # Passwall2 使用 "passwall2"
 ```
 
-### 2.2 分流规则操作
+<a id="22-分流规则操作"></a>
+### 2.2 Shunt-rule operations
+
+This adds a shunt rule, remark, domain/IP conditions, network, unified target node, and commits. Original comments and configured labels remain:
 
 ```bash
 # 添加一条新分流规则
@@ -77,85 +91,91 @@ uci commit passwall2
 
 ---
 
-## 3. 域名列表 (domain_list) 语法
+<a id="3-域名列表-domain_list-语法"></a>
+## 3. Domain-list (domain_list) syntax
 
-根据 `shunt_rules.lua` 解析器源码，域名列表支持以下格式：
+According to the `shunt_rules.lua` parser:
 
-| 格式 | 示例 | 说明 |
+| Format | Example | Meaning |
 |------|------|------|
-| 纯字符串 | `sina.com` | **关键字匹配**。域名中包含此字符串即匹配 (由 Lua 的 `datatypes.hostname` 校验) |
-| `domain:` | `domain:google.com` | **子域名匹配**。推荐格式 |
-| `full:` | `full:www.google.com` | **完整匹配** |
-| `regexp:` | `regexp:\\.goo.*\\.com$` | **正则匹配** |
-| `geosite:` | `geosite:cn` | **预定义域名列表**。引用 geosite.dat 文件 |
-| `rule-set:remote:` | `rule-set:remote:https://...geosite-cn.srs` | **远程 Sing-Box 规则集** |
-| `rule-set:local:` | `rule-set:local:/usr/share/sing-box/geosite-cn.srs` | **本地 Sing-Box 规则集** |
-| `rs:remote:` | `rs:remote:https://...` | 同上，缩写 |
-| `rs:local:` | `rs:local:/path/to/file.srs` | 同上，缩写 |
-| `ext:` | `ext:geosite.dat:cn` | **外部文件** |
-| `#` | `# 注释` | **注释行**，以 `#` 开头的行为注释 |
+| Plain string | `sina.com` | **Keyword match**: domain contains the string, validated by Lua `datatypes.hostname` |
+| `domain:` | `domain:google.com` | **Subdomain match**, recommended |
+| `full:` | `full:www.google.com` | **Exact match** |
+| `regexp:` | `regexp:\\.goo.*\\.com$` | **Regex match** |
+| `geosite:` | `geosite:cn` | **Predefined domain list**, referencing geosite.dat |
+| `rule-set:remote:` | `rule-set:remote:https://...geosite-cn.srs` | **Remote Sing-Box set** |
+| `rule-set:local:` | `rule-set:local:/usr/share/sing-box/geosite-cn.srs` | **Local Sing-Box set** |
+| `rs:remote:` | `rs:remote:https://...` | Abbreviated remote form |
+| `rs:local:` | `rs:local:/path/to/file.srs` | Abbreviated local form |
+| `ext:` | `ext:geosite.dat:cn` | **External file** |
+| `#` | `# 注释` | **Comment line**, beginning with `#` |
 
-**不支持：** Clash 格式的 `DOMAIN-SUFFIX,` / `DOMAIN-KEYWORD,` / `IP-CIDR,` 等逗号前缀格式。
+**Unsupported:** Clash comma-prefixed forms such as `DOMAIN-SUFFIX,`, `DOMAIN-KEYWORD,`, and `IP-CIDR,`.
 
 ---
 
-## 4. IP 列表 (ip_list) 语法
+<a id="4-ip-列表-ip_list-语法"></a>
+## 4. IP-list (ip_list) syntax
 
-| 格式 | 示例 | 说明 |
+| Format | Example | Meaning |
 |------|------|------|
-| 纯 IP | `127.0.0.1` | 单个 IP 地址 (由 `datatypes.ipmask4` / `ipmask6` 校验) |
-| CIDR | `10.0.0.0/8` | IP 段 |
-| `geoip:` | `geoip:cn` | 预定义 GeoIP 分类 |
-| `rule-set:remote:` | `rule-set:remote:https://...geoip-cn.srs` | 远程 Sing-Box 规则集 |
-| `rule-set:local:` | `rule-set:local:/usr/share/sing-box/geoip-cn.srs` | 本地 Sing-Box 规则集 |
-| `rs:remote:` | `rs:remote:https://...` | 缩写 |
-| `rs:local:` | `rs:local:/path/to` | 缩写 |
-| `ext:` | `ext:geoip.dat:cn` | 外部文件 |
-| `#` | `#注释` | **注释行** |
+| Plain IP | `127.0.0.1` | Single address, validated by `datatypes.ipmask4` / `ipmask6` |
+| CIDR | `10.0.0.0/8` | IP range |
+| `geoip:` | `geoip:cn` | Predefined GeoIP category |
+| `rule-set:remote:` | `rule-set:remote:https://...geoip-cn.srs` | Remote Sing-Box set |
+| `rule-set:local:` | `rule-set:local:/usr/share/sing-box/geoip-cn.srs` | Local Sing-Box set |
+| `rs:remote:` | `rs:remote:https://...` | Abbreviation |
+| `rs:local:` | `rs:local:/path/to` | Abbreviation |
+| `ext:` | `ext:geoip.dat:cn` | External file |
+| `#` | `#注释` | **Comment line** |
 
 ---
 
-## 5. 其他 UCI 字段
+<a id="5-其他-uci-字段"></a>
+## 5. Other UCI fields
 
-| 字段 | 示例 | 说明 |
+| Field | Example | Meaning |
 |------|------|------|
-| `remarks` | `🤖 AI 服务` | 规则备注名 |
-| `domain_list` | (多行文本) | 域名列表 (TextValue) |
-| `ip_list` | (多行文本) | IP 列表 (TextValue) |
-| `network` | `tcp,udp` | 网络协议 (ListValue: tcp,udp / tcp / udp) |
-| `protocol` | `http tls bittorrent` | 嗅探协议 (多选) |
-| `inbound` | `tproxy socks` | 入站标识 (多选) |
-| `source` | `192.168.1.0/24 geoip:private` | 来源 IP (DynamicList) |
-| `port` | `80,443` | 目标端口 |
-| **`node`** | `node_tag` | **Passwall2 专用**：统一目标节点 (不区分 TCP/UDP) |
-| `invert` | `1` | 反选匹配结果 (仅 Sing-Box) |
+| `remarks` | `🤖 AI 服务` | Rule remark |
+| `domain_list` | Multiline text | Domain list, TextValue |
+| `ip_list` | Multiline text | IP list, TextValue |
+| `network` | `tcp,udp` | Network protocol; ListValue: tcp,udp / tcp / udp |
+| `protocol` | `http tls bittorrent` | Sniffed protocols, multiple choices |
+| `inbound` | `tproxy socks` | Inbound tags, multiple choices |
+| `source` | `192.168.1.0/24 geoip:private` | Source IP, DynamicList |
+| `port` | `80,443` | Destination port |
+| **`node`** | `node_tag` | **Passwall2-specific** unified target, not separate TCP/UDP |
+| `invert` | `1` | Inverted matching, Sing-Box only |
 
 ---
 
-## 6. 与 Passwall 的差异
+<a id="6-与-passwall-的差异"></a>
+## 6. Differences from Passwall
 
-| 特性 | Passwall2 | Passwall |
+| Feature | Passwall2 | Passwall |
 |------|-----------|----------|
 | UCI config name | `passwall2` | `passwall` |
-| 节点字段 | `node` (统一) | `tcp_node` / `udp_node` |
-| 四列表 | 不支持 | 支持 |
-| ACL | 不支持 | 支持 |
-| TCP/UDP 分选 | 不支持 | 支持 |
-| trojan-plus | 不支持 | 支持 |
-| 规则语法 | 完全相同 | 完全相同 |
-| `.list` 文件 | 互通 | 互通 |
+| Node fields | Unified `node` | `tcp_node` / `udp_node` |
+| Four lists | Unsupported | Supported |
+| ACL | Unsupported | Supported |
+| Separate TCP/UDP selection | Unsupported | Supported |
+| trojan-plus | Unsupported | Supported |
+| Rule syntax | Identical | Identical |
+| `.list` files | Interchangeable | Interchangeable |
 
 ---
 
-## 7. `.list` 文件格式
+<a id="7-list-文件格式"></a>
+## 7. `.list` file format
 
-`.list` 文件是为方便用户复制贴入 LuCI 界面而准备的纯文本文件：
+These are plain-text files for copying into LuCI:
 
-- 每行一条规则条目
-- 空行和 `#` 注释行被忽略
-- 条目格式与 `domain_list` / `ip_list` 字段完全一致
-- 示例：
-  ```
+- One rule entry per line.
+- Blank lines and `#` comments are ignored.
+- Entries use exactly the `domain_list` / `ip_list` formats.
+- Original example, with an ad-blocking comment:
+
+```
   # 🛑 广告拦截
   geosite:category-ads-all
   ```

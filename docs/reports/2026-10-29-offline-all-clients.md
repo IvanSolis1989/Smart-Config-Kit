@@ -1,35 +1,42 @@
-# 全端离线配置表单验收
+<a id="全端离线配置表单验收"></a>
+# All-client offline configuration form acceptance
 
-表单工具 v1.3.0 将现有 20 个维护入口接入客户端选择、Full/Lite/Custom 和按端参数下载。规则权威源、正式客户端版本与默认产物、共享 fused/MRS 资产均保持原样；本次发布的是离线交付工具，不新增 App 支持或真实连接验收承诺。
+**English** | [简体中文](2026-10-29-offline-all-clients.zh-CN.md)
 
-## 实现与复用
 
-`offline-configuration-export.js` 消费原有入口清单、源图业务计划和附件闭包。平台纯函数提取到 `business-profile-platform-core.js`，CLI 与浏览器共用；Node 侧保留 Ruby YAML 适配。可选 YAML 采用 JSON 兼容 YAML，构建时用独立 Ruby 解析器读回验证；[YAML 1.2 规范](https://yaml.org/spec/1.2.2/)定义其与 JSON 的兼容关系。Full 默认仍直接导出发布文本的 LF 形式。
+Form tool v1.3.0 connects the existing twenty maintained entries to client selection, Full/Lite/Custom, and client-specific parameter downloads. Rule authorities, released client versions and default artifacts, and shared fused/MRS assets remain unchanged. This release delivers an offline tool, not new app support or a claim of real-connection acceptance.
 
-`offline-client-options.js` 从既有运行时与原生适配编译参数槽或有限预设，不执行配置。三份桌面 JS 保持五项；AEROVE 保持 App 托管 DNS/off；OpenClash 沿用四项既有默认值和环境优先。原生端仅提供已有字段映射，Egern 和 QX 的限制在页面中说明，不生成无效开关。
+<a id="实现与复用"></a>
+## Implementation and reuse
 
-浏览器只解压可信快照、组装文本和下载。单文件保留原生扩展名并带业务方案名；多文件 ZIP 保留 Passwall 手工列表、AEROVE 原字节分片/预算及适用来源清单。被改动配置不携带声称原始配置哈希仍有效的默认 adapter 清单。OpenClash 完整脚本使用固定自定义文件入口，保留原教程中的备份、文件权限与核心核对要求。
+`offline-configuration-export.js` consumes the existing entry inventory, source-graph service plan, and attachment closure. Pure platform functions were extracted into `business-profile-platform-core.js` and shared by CLI and browser; the Node side retains the Ruby YAML adapter. Optional YAML uses JSON-compatible YAML, read back during builds by an independent Ruby parser. The [YAML 1.2 specification](https://yaml.org/spec/1.2.2/) defines JSON compatibility. Default Full still exports the released text directly in LF form.
 
-ZIP 复用 [fflate 0.8.3](https://github.com/101arrowz/fflate)，官方 npm 包已核对 SHA-512 SRI；来源、版本和许可证位于 `tools/vendor/fflate/`，完整 MIT 许可同时内嵌 HTML。仅调用同步压缩/解压与 ZIP API，无运行期 CDN、worker、网络或用户脚本执行。
+`offline-client-options.js` compiles parameter slots or finite presets from existing runtimes and native adapters without executing configurations. The three desktop JS entries retain five options; AEROVE retains app-managed DNS/off; OpenClash retains four existing defaults and environment-variable precedence. Native clients receive only existing field mappings. Egern and QX limitations are explained on the page; no invalid switches are generated.
 
-## 验证证据
+The browser only decompresses trusted snapshots, assembles text, and downloads files. Single files retain native extensions and include the service-profile name. Multi-file ZIPs retain Passwall manual lists, AEROVE original-byte shards/budgets, and applicable provenance manifests. Modified configurations do not carry default adapter manifests falsely asserting that original configuration hashes remain valid. Complete OpenClash scripts use fixed custom-file entry points and retain the original tutorial’s backup, file-permission, and core-verification requirements.
 
-- 在重构前冻结 `5f57c598e34226da50d7cf835b99ec52f3e27426` 平台实现的 80 份输出：20 入口 × Full、Lite、Custom（AI/YouTube）、Custom 空集。新工具全部对照通过；20 份 Full 为精确 LF 文本，其他方案按原生结构或精确投影对照，OpenClash 另核对 YAML 外的 shell。
-- 参数回归 8/8 通过，包含非法类型/未知字段/getter、AEROVE DNS 锁定、OpenClash ENV 优先和小数、Node-DNS 能力缺失、每条 QUIC 守卫唯一性、可信源漂移拒绝。WeakMap 绑定已有原文引用，不重复嵌入大配置。
-- 导出核心基础 6 项、方案文件名及六种代表格式的混合参数定向检查通过。共享业务与真实 QuickJS 运行时回归 35/35 通过、无跳过，涵盖原位身份、独立候选、代理链、安全拒绝、原子发布与并发保护。
-- 严格产物合同 2500 checks / 22 artifacts、三份 JS 覆写、PROCESS-NAME、Karing 和 README 视觉资产检查通过。既有非主入口 OpenClash `.conf` 基线提示不变，主 `.sh` 仍为权威。
-- 实际生成的 sing-box 1.14 Custom 与 1.13 Lite，均结合省电测速和 follow-rules，并通过对应官方核心 `check`。
-- 六份改动入口文档完成桌面亮色、桌面暗色、390px 共 18 个实际渲染视图；无页面整体横向溢出，110 个本地链接存在。既有远程附件没有加入本机预览白名单。测试和生成均使用隐藏窗口、Idle 优先级。
-- 表单 UI 7 项回归覆盖 20×4 下载、实际 ZIP 解包、分端参数状态、坏数值与恢复、路径及许可证；最终后端冻结后再次生成并通过 `--check`、页面默认文件名及跨端状态定向检查。HTML 为 16,797,827 字节，解压可信 bundle 为 47,914,901 字节。
-- 真实浏览器读回 12 份下载、73 个文件，含 JS/YAML/JSON/conf/shell、Passwall/Karing/AEROVE ZIP；每份内容及二进制附件逐字节匹配生成器。三个实际下载的 FlClash Full/Lite/Custom 各完成 7 个 Node/QuickJS 场景，共 21 组完整对照。手机布局实际下载成功；选择、切页和生成下载期间网络请求事件为 0。
-- 表单完成桌面亮色、桌面暗色和 390px 自选业务全页面检查，无整体横向溢出；原生 badInput 实际拒绝，修正输入后成功下载。交付页重新打开，所有客户端参数均从默认状态开始，未保留测试中的非默认选择。
+ZIP support reuses [fflate 0.8.3](https://github.com/101arrowz/fflate). The official npm package was checked against SHA-512 SRI; source, version, and license are in `tools/vendor/fflate/`, and the full MIT license is embedded in HTML. Only synchronous compression/decompression and ZIP APIs are used: no runtime CDN, worker, network, or user-script execution.
 
-本机详细证据位于忽略目录 `.cache/offline-all-clients/`、`.cache/offline-configuration-20261029/` 及参数/UI 的定向测试日志；不提交下载样本或用户配置。
+<a id="验证证据"></a>
+## Validation evidence
 
-## 兼容性核对与边界
+- Eighty outputs from the pre-refactor platform implementation at `5f57c598e34226da50d7cf835b99ec52f3e27426` were frozen: twenty entries × Full, Lite, Custom (AI/YouTube), and empty Custom. All new-tool comparisons passed. Twenty Full outputs were exact LF text; other profiles were compared by native structures or exact projections, with OpenClash shell outside YAML checked separately.
+- Parameter regressions passed 8/8, including invalid types/unknown fields/getters, AEROVE DNS locking, OpenClash ENV precedence and decimals, missing Node-DNS capabilities, uniqueness of each QUIC guard, and rejection of trusted-source drift. WeakMap binds existing source references rather than embedding large configurations twice.
+- Six export-core basics, profile filenames, and targeted mixed-parameter checks across six representative formats passed. Shared service-profile and real-QuickJS runtime regressions passed 35/35 without skips, covering in-place identity, independent candidates, proxy chains, safe rejection, atomic publication, and concurrency protection.
+- Strict artifact contracts passed 2500 checks / 22 artifacts, alongside three JS overrides, PROCESS-NAME, Karing, and README visual assets. The existing secondary OpenClash `.conf` baseline notice remains; the primary `.sh` remains authoritative.
+- Actually generated sing-box 1.14 Custom and 1.13 Lite configurations, both combining power-saving tests with follow-rules, passed the corresponding official core `check`.
+- Six changed entry documents received eighteen actual desktop-light, desktop-dark, and 390px renders, with no page-level horizontal overflow and 110 existing local links. Existing remote attachments were outside the local preview allowlist. Tests and generation used hidden windows at Idle priority.
+- Seven form-UI regressions covered 20×4 downloads, actual ZIP extraction, per-client parameter state, invalid numbers and recovery, paths, and licenses. After freezing the final backend, the form was regenerated and passed `--check`, default-filename, and cross-client-state targeted checks. HTML size was 16,797,827 bytes; the decompressed trusted bundle was 47,914,901 bytes.
+- A real browser read back twelve downloads containing seventy-three files, including JS/YAML/JSON/conf/shell and Passwall/Karing/AEROVE ZIPs. Every content file and binary attachment matched the generator byte for byte. Three actual FlClash Full/Lite/Custom downloads each completed seven Node/QuickJS scenarios, twenty-one full comparisons total. Mobile-layout downloading succeeded. Network-request events remained zero during selections, tab changes, generation, and downloads.
+- The form passed full-page desktop-light, desktop-dark, and 390px Custom-service checks without page-level horizontal overflow. Native badInput was actually rejected; correcting input allowed downloads. The delivery page was reopened with all client parameters at defaults, without retaining nondefault test selections.
 
-当前读取核对了 [Mihomo interval/lazy](https://wiki.metacubex.one/config/proxy-groups/)、[Stash 组字段](https://stash.wiki/en/proxy-protocols/proxy-groups)、[Surge block-quic](https://manual.nssurge.com/profile/general.html)、[Loon UDP 端口](https://nsloon.app/docs/General/)、[QX 官方样例](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)、[sing-box urltest](https://sing-box.sagernet.org/configuration/outbound/urltest/)、[Egern 原生组](https://egernapp.com/docs/configuration/policy_groups/)、[Karing 自定义分流](https://karing.app/en/tutorial/custom-diversion)和[Meow 原生 YAML](https://meow-rs.github.io/meow-rs/guide/guide/configuration)。未发现影响本次既有字段映射的能力变化。Shadowrocket 官方帮助站本次仍不可读取，沿用已维护的受限映射，不宣称新增官方兼容性证据。
+Detailed local evidence is in ignored directories `.cache/offline-all-clients/`, `.cache/offline-configuration-20261029/`, and targeted parameter/UI test logs. Download samples and user configurations are not committed.
 
-SR/Surge 的 all-proxy、Loon 的全部 UDP/443、QX 后台检测和 sing-box 的间隔均在界面按实际行为解释；不称为各端等价性能优化。Egern QUIC 需要原生资产重建，本次不提供独立切换。Karing 仅规则，Xray 仅三出站路由，Passwall 仍要求对应后端和 LuCI 目标，Meow/AEROVE 的 App 验收继续单列。
+<a id="兼容性核对与边界"></a>
+## Compatibility review and boundaries
 
-离线指配置生成阶段；导入后远程规则与节点资源仍按配置下载。最终 main 指针、工作区及 CI 由发布后读回确认。
+The review read [Mihomo interval/lazy](https://wiki.metacubex.one/config/proxy-groups/), [Stash group fields](https://stash.wiki/en/proxy-protocols/proxy-groups), [Surge block-quic](https://manual.nssurge.com/profile/general.html), [Loon UDP ports](https://nsloon.app/docs/General/), [the official QX sample](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf), [sing-box urltest](https://sing-box.sagernet.org/configuration/outbound/urltest/), [Egern native groups](https://egernapp.com/docs/configuration/policy_groups/), [Karing custom routing](https://karing.app/en/tutorial/custom-diversion), and [Meow native YAML](https://meow-rs.github.io/meow-rs/guide/guide/configuration). No capability changes affecting these existing field mappings were found. Shadowrocket’s official help site was still unreadable during this review; the maintained limited mapping was retained without claiming new official compatibility evidence.
+
+SR/Surge all-proxy behavior, Loon’s treatment of all UDP/443, QX background testing, and sing-box intervals are explained according to their actual behavior, not described as equivalent cross-client performance optimizations. Egern QUIC requires rebuilding native assets, so no independent switch is provided here. Karing is rules-only, Xray is three-outbound routing only, Passwall still requires the matching backend and LuCI targets, and Meow/AEROVE app acceptance remains separate.
+
+Offline refers to configuration generation. Remote rules and node assets are still downloaded as configured after import. The final main pointer, worktree, and CI require post-release readback.

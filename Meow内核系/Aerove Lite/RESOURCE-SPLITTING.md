@@ -1,16 +1,22 @@
-# AEROVE Lite 规则资源拆分依据
+[**English**](RESOURCE-SPLITTING.md) | [中文](RESOURCE-SPLITTING.zh-CN.md)
 
-本轮保留共享 fused 规则资产，为 AEROVE Lite 单独派生四个广告及两个国内站点 MRS 分片。固定 Rust reader 与 App 原样头部/条目预算的本地检查已通过；当前仍是配置候选，完整 App 原生预检、JNI、Android、真实 HTTP 下载及 VPN 分流待验收。
+<a id="aerove-lite-规则资源拆分依据"></a>
 
-[使用说明](README.md) · [联调核查](VALIDATION.md) · [资源及 SHA 清单](rule-assets/manifest.json) · [适配总清单](../adapter-manifest.json)
+# AEROVE Lite rule-resource splitting evidence
 
-## 实际阻断与选择
+This change preserves shared fused assets and derives four ad and two China-site MRS shards specifically for AEROVE Lite. Local checks using the pinned Rust reader and the application's unchanged header/entry budgets passed. This remains a configuration candidate: full native application preflight, JNI, Android, real HTTP downloads and VPN routing acceptance remain pending.
 
-固定 beta18 源码 [`457fab8455ac8713fc9828e129d2050b11bf1beb`](https://github.com/IvanSolis1989/Aerove/commit/457fab8455ac8713fc9828e129d2050b11bf1beb) 的 [run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068)，attempt 1 实际执行全 Smart 用例，旧 `v6.0.20-meow.4` 的广告 `part-001` 报 `rule-provider trie exceeds 500000 nodes`。该失败来自原生展开条目的点分标签累计，门槛没有提高。
+[Usage](README.md) · [Integration validation](VALIDATION.md) · [Resources and SHA manifest](rule-assets/manifest.json) · [Adapter manifest](../adapter-manifest.json)
 
-以下 beta16 是历史阻断：
+<a id="实际阻断与选择"></a>
 
-固定 App 源码为 [`d52726dc24756847b2b268d307a611cc37f994a3`](https://github.com/IvanSolis1989/Aerove/commit/d52726dc24756847b2b268d307a611cc37f994a3)，固定核心为 `727ddcd06f592e2f12c5222c4de6cce328df808c`。[Actions 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043) 中，`SmartConfigMeowScriptAndroidTest.realQuickJsRepositoryComposerAndAllPinnedRulePayloadsReachNativeValidation` 实际执行后失败，shard 2、JUnit 状态 `-2`。开发留存的 `lite125-remaining-readback/FAILURES.json` 保存该 Smart 特定案例，原 `job-2.log:6533` 的错误为：
+## Observed blockers and chosen approach
+
+Attempt 1 of [run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068), pinned beta18 source [`457fab8455ac8713fc9828e129d2050b11bf1beb`](https://github.com/IvanSolis1989/Aerove/commit/457fab8455ac8713fc9828e129d2050b11bf1beb), executed the full Smart case. Old `v6.0.20-meow.4` ad `part-001` failed with `rule-provider trie exceeds 500000 nodes`. The failure came from accumulated dot-separated labels in natively expanded entries; the limit was not increased.
+
+The following beta16 failure is historical:
+
+Pinned application source was [`d52726dc24756847b2b268d307a611cc37f994a3`](https://github.com/IvanSolis1989/Aerove/commit/d52726dc24756847b2b268d307a611cc37f994a3), with core `727ddcd06f592e2f12c5222c4de6cce328df808c`. In [Actions 40335340043](https://github.com/IvanSolis1989/Aerove/actions/runs/40335340043), `SmartConfigMeowScriptAndroidTest.realQuickJsRepositoryComposerAndAllPinnedRulePayloadsReachNativeValidation` executed and failed on shard 2, JUnit status `-2`. Development evidence `lite125-remaining-readback/FAILURES.json` retains this Smart-specific case; original `job-2.log:6533` reports:
 
 ```text
 $.rule-providers.scki-fused-010-ad-domain
@@ -18,60 +24,70 @@ rule_set_invalid: $.payload.mrs.count:
 official MRS header declares 411634 entries, over 250000
 ```
 
-原资源为 `scki-fused-010-ad-domain.mrs`，3,350,568 字节，SHA-256 `e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848`；该次夹具固定本仓库 `89abb221a157acc98d6b52c85583e6b5a5b2742b`。App `ResourceBundleManager.kt:873` 是异常构造，`:465–472` 调用并包装规则预检，实际拒绝来自 Rust 的 MRS 头部计数检查。
+The original asset was `scki-fused-010-ad-domain.mrs`, 3,350,568 bytes, SHA-256 `e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848`. That fixture pinned this repository to `89abb221a157acc98d6b52c85583e6b5a5b2742b`. Application `ResourceBundleManager.kt:873` constructs the exception; lines 465–472 invoke and wrap rule preflight. The actual rejection originated in Rust's MRS header-count check.
 
-| 方案 | 影响与本轮决定 |
+| Approach | Impact and decision |
 | --- | --- |
-| 共享 fused 资产统一拆分 | 会改变所有消费客户端的资源引用与生成合同，扩大本次 Lite 容量适配的影响范围。未采用。 |
-| Lite 专版派生 | 从同一规则权威源及共享资产生成，保持策略顺序、目标组和完整匹配集合，仅投影 Lite 的 provider 与规则引用。采用。 |
+| Split shared fused assets for every client | Changes references and generation contracts for all consumers, broadening the Lite capacity adaptation. Not adopted. |
+| Derive Lite-specific assets | Generate from the same routing authority/shared assets, preserving order, target groups and complete match sets; project only Lite provider/rule references. Adopted. |
 
-本轮不修改 App 安全门槛，不删除规则，不改共享 fused 资产。官方 meow YAML 保持 `v6.0.20-meow.3` 原字节；本地 Lite JS 候选为 `v6.0.20-meow.5`。后续上游刷新必须重新生成并检查全部资源，不能将本次分片数量视为永久常量。跨平台源文本指纹使用 canonical LF，MRS 本身使用原始二进制 SHA；LF/CRLF 回归与资产损坏拒绝均有测试。
+This change neither modifies application safety limits nor removes rules nor changes shared fused assets. Official meow YAML retains original `v6.0.20-meow.3` bytes; the local Lite JS candidate is `v6.0.20-meow.5`. Future upstream refreshes must regenerate and check every asset; shard counts are not permanent constants. Cross-platform source fingerprints use canonical LF, while MRS uses raw binary SHA. LF/CRLF regression and damaged-asset rejection are tested.
 
-## 固定 App 预算与计数语义
+<a id="固定-app-预算与计数语义"></a>
 
-预算事实见固定 App 的 [`config_validation.rs`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/meow-native/src/config_validation.rs#L17-L35)、`:219–267` 和 [`ResourceBundleManager.kt`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/data/ResourceBundleManager.kt#L863-L865)。
+## Pinned application budgets and count semantics
 
-| 边界 | 每个规则资源的要求 |
+Budget evidence: pinned application [`config_validation.rs`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/meow-native/src/config_validation.rs#L17-L35), lines 219–267, and [`ResourceBundleManager.kt`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/app/src/main/java/dev/aerove/lite/data/ResourceBundleManager.kt#L863-L865).
+
+| Boundary | Per-rule-resource requirement |
 | --- | --- |
-| MRS 头部与实际展开条数 | 均不超过 250,000；domain 与 IPCIDR 的成功插入计数均可能大于去重/合并后转储条数，两者都必须检查。 |
-| 单条长度 | `trim` 后不超过 2,048 个 UTF-8 字节。 |
-| 单条及累计标签 | `entry.split('.').count()` 每条不超过 128，逐条累加不超过 500,000；保留原始匹配前缀。 |
-| 展开文本 | `Σ(UTF8(trim(entry)).length + 1)` 不超过 64 MiB，包含每条换行。 |
-| 输入与 MRS 解压 | 输入不超过 64 MiB，MRS 解压不超过 256 MiB。 |
+| MRS header and actual expanded entry counts | Each ≤250,000. Successful domain/IPCIDR insertion counts may exceed deduplicated/merged dump counts; check both. |
+| Single entry length | After `trim`, ≤2,048 UTF-8 bytes. |
+| Individual and cumulative labels | `entry.split('.').count()` ≤128 per entry, summed ≤500,000; retain original match prefixes. |
+| Expanded text | `Σ(UTF8(trim(entry)).length + 1)` ≤64 MiB, including each newline. |
+| Input and MRS decompression | Input ≤64 MiB; decompressed MRS ≤256 MiB. |
 
-### Domain 重复/重叠输入证明（2026-11-09）
+<a id="domain-重复重叠输入证明2026-11-09"></a>
 
-官方 Mihomo v1.19.32 的 [domain_strategy.go](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/provider/domain_strategy.go) 在每次成功 `Insert` 后递增头部计数；[DomainSetBuilder](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/component/trie/domain_set.go) 构建集合后去重，`DumpMrs` 再将裸域和 suffix-only 合并成 `+.domain`。所以 `example.test` 与 `+.example.test` 两次插入合法产生 header=2、转储=1、编码 leaf=2，不能用头部与转储行数恒等判断损坏。
+### Domain duplicate/overlapping-input proof (2026-11-09)
 
-有源 YAML 的 domain MRS 必须同时证明：所有输入均为有效插入、头部计数等于输入次数、源与原生转储规范化后的 exact/suffix 谓词集合相同、唯一谓词数等于编码 leaf 数、紧凑转储数一致；将来源哈希与 `domain_proof` 写入并回读核对清单。没有源文本时不放宽原计数校验。头部、原生展开条目/标签、文本字节与分片并集预算仍保留，不接受删谓词或伪造头部的“修复”。此证明不替代 Rust reader 或 App 真机验收。
+Official Mihomo v1.19.32 [domain_strategy.go](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/rules/provider/domain_strategy.go) increments header count after each successful `Insert`. [DomainSetBuilder](https://github.com/MetaCubeX/mihomo/blob/v1.19.32/component/trie/domain_set.go) deduplicates when building the set; `DumpMrs` combines bare-domain and suffix-only predicates into `+.domain`. Thus inserting `example.test` and `+.example.test` legitimately gives header=2, dump=1, encoded leaves=2. Header/dump equality is not a valid universal corruption test.
 
-这里的 500,000 是完整展开条目的点分标签累计值，不是 MRS 二进制 `labels` 数组字节数，也不是整个 bundle 的标签上限。App 另有 **256 个资源、256 MiB bundle** 的聚合预算；配置解析还受通用 YAML 值预算约束，不能只验证各片。
+For domain MRS with source YAML, prove all inputs are valid insertions, header count equals insertion count, normalized source/native-dump exact/suffix predicate sets match, unique predicate count equals encoded leaves, and compact dump counts agree. Record source hashes and `domain_proof`, then read back the manifest. Without source text, do not relax original count checks. Keep header, native expanded-entry/label, text-byte and shard-union budgets. Do not “repair” by deleting predicates or forging headers. This proof does not replace Rust-reader or real-application acceptance.
 
-固定 App 的 [`full-runtime.patch`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/meow-native/patches/full-runtime.patch) 中，`DomainSetIndex::new_controlled` 使用 `index_slots=500000` 计算稀疏采样步长，控制 rank/select 索引内存，**不是额外的 500k 拒绝门槛**。二进制结构另检查 bitmap 的 set-bit 总数不超过 `labels.len()+1`；完整原生解码仍是必要条件。
+The 500,000 limit counts dot-separated labels across fully expanded entries. It is neither the byte length of the MRS binary `labels` array nor a bundle-wide label cap. The application separately enforces **256 resources / 256 MiB per bundle**; general YAML-value budgets also constrain parsing. Per-shard checks alone are insufficient.
 
-## 已保存的派生资产
+In pinned [`full-runtime.patch`](https://github.com/IvanSolis1989/Aerove/blob/d52726dc24756847b2b268d307a611cc37f994a3/apps/aerove-lite/meow-native/patches/full-runtime.patch), `DomainSetIndex::new_controlled` uses `index_slots=500000` to choose sparse sampling stride and control rank/select index memory. It is **not an additional 500k rejection limit**. Binary validation separately checks bitmap set bits ≤`labels.len()+1`; full native decoding remains necessary.
 
-原广告资源的 canonical 集合包含 411,634 个唯一 predicate、1,260,199 个点分标签。Mihomo `DumpMrs` 将 `+.domain` 和裸域两个编码 leaf 折叠，固定 Rust reader 会枚举两条，因此 canonical 计数不能代替原生预算计数。旧广告 `part-001` 为 canonical 146,916 条 / 499,998 标签，Rust 实际展开 293,832 条 / 853,080 标签；`part-002` 为 169,023 / 499,997，Rust 展开 263,286 / 722,695，均被拒绝；`part-003` 通过。共享 `075-cn-site-domain` 的原生展开为 231,701 条 / 580,034 标签，同样超限。
+<a id="已保存的派生资产"></a>
 
-当前候选将广告拆为四片、国内站点拆为两片，其他 147 个规则源复用；投影为 **153 个 provider、172 条规则、55 个 fixture 策略组，规则资源 4,496,629 字节**。两组 canonical 与实际 Rust leaf 集合均已独立核对，`missing=0 / added=0`；广告保留 411,634 个唯一 predicate / 1,260,199 个 canonical 标签，对应原生 652,813 个唯一 leaf / 1,835,979 个标签。每片 canonical 与 native 指标、SHA 和字节数见 [资源清单](rule-assets/manifest.json)，脚本身份见[适配清单](../adapter-manifest.json)。
+## Saved derived assets
 
-## 验证范围与接取条件
+The original ad canonical set contains 411,634 unique predicates and 1,260,199 dot-separated labels. Mihomo `DumpMrs` folds two encoded leaves for `+.domain` and bare-domain matching, while the pinned Rust reader enumerates both. Canonical counts therefore cannot replace native-budget counts. Old ad `part-001`: canonical 146,916 entries / 499,998 labels, Rust-expanded 293,832 / 853,080. `part-002`: canonical 169,023 / 499,997, Rust-expanded 263,286 / 722,695. Both were rejected; `part-003` passed. Shared `075-cn-site-domain` expands to 231,701 entries / 580,034 labels and also exceeds the limit.
 
-- 隔离重建的固定真实 Rust `mrs_parser` SHA-256 为 `6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3`；全部 111 个投影 MRS 已通过该 reader 及 App 原样头部/条目预算，`native_metrics` 与 Rust `foreach` 一致。固定来源、SHA、字节与结果见 [native-budget-evidence.json](native-budget-evidence.json) 和 [resource-split-evidence.json](resource-split-evidence.json)。
-- 23 项本地组件测试全部通过，无跳过；官方 Meow `-t` 通过原生 YAML 的 `149/168/55` 与 Lite 投影的 `153/172/55`，使用本地资源和合成节点。既有 25 项发布批次合同测试的输入未变，复用其已保存结果。
-- 以上不执行完整 App checked matcher / native preflight、JNI、APK、HTTP 或 VPN；本地 harness 与官方 CLI 均不能代替完整 App 联调。发布 CI 和外部字节读回另记交付收据。
-- 官方 Meow 原生 YAML v3 与共享 fused 规则图字节不变；这是 Lite 平台专属投影，不触发全平台重新生成。
+The candidate splits ads into four resources and China-site rules into two, reusing 147 other sources. Projection totals: **153 providers, 172 rules, 55 fixture policy groups, 4,496,629 bytes of rule resources**. Both canonical and actual Rust-leaf sets were independently compared with `missing=0 / added=0`. Ads retain 411,634 unique predicates / 1,260,199 canonical labels, corresponding to 652,813 unique native leaves / 1,835,979 labels. See the [resource manifest](rule-assets/manifest.json) for per-shard canonical/native metrics, SHA and bytes, and [adapter manifest](../adapter-manifest.json) for script identity.
 
-AEROVE 接取同批脚本及资源后，仍需核对实际下载字节和 SHA、最终 YAML、provider 路径及 bundle 总预算，执行逐资源预检、完整 `validatePrepared`，再验 VPN、广告匹配、国内外与业务出口。App 自有 Geo、订阅及派生资源须计入 256 个资源 / 256 MiB 的最终预算。保留失败、取消、恢复和更新结果，不删规则或放宽准入。
+<a id="验证范围与接取条件"></a>
 
-## 来源与许可证边界
+## Verification scope and integration acceptance
 
-根 [README](../../README.md) 和 [许可说明](../../docs/guide/acknowledgements.md#license) 声明仓库采用 MIT、第三方规则与数据遵循各自许可证；当前没有 tracked `LICENSE` 正文文件，不能声称已随仓库保存该正文。
+- The isolated rebuild of the pinned real Rust `mrs_parser` has SHA-256 `6ccf928c318e5524669775c35767cfa12dd21f349abe0bba430fb15507f34eb3`. All 111 projected MRS assets passed this reader and unchanged application header/entry budgets; `native_metrics` match Rust `foreach`. Sources, SHA, bytes and results: [native-budget-evidence.json](native-budget-evidence.json), [resource-split-evidence.json](resource-split-evidence.json).
+- All 23 local component tests passed without skips. Official Meow `-t` passed native YAML `149/168/55` and Lite projection `153/172/55`, using local resources and synthetic nodes. Existing 25 release-batch contract inputs were unchanged, so their saved results were reused.
+- These checks do not execute full application checked matcher / native preflight, JNI, APK, HTTP or VPN. Neither local harness nor official CLI replaces full integration. Release CI and external byte readback are recorded separately in delivery receipts.
+- Official Meow native YAML v3 and shared fused routing-graph bytes are unchanged. This is a Lite-specific projection, not a cross-platform regeneration.
 
-广告段的 10 条源规则记录在 [fused manifest](../../rulesets/generated/fused/manifest.json) 的 `source_segments` 中，段 ID 为 `scki-fused-010-ad`。来源身份与许可证明细唯一入口为 [upstream-sources.json](../../rulesets/source/upstream-sources.json)，本次捕获与输出关联见 [source-ledger.json](../../rulesets/generated/source-ledger.json)：
+After integrating same-release scripts/resources, AEROVE still must verify downloaded bytes/SHA, final YAML, provider paths and total bundle budgets, execute per-resource preflight and complete `validatePrepared`, then test VPN, ad matching, China/international destinations and service exits. Application-owned Geo, subscription and derived resources count toward the final 256-resource / 256-MiB limit. Keep failure, cancellation, recovery and update results. Do not delete rules or relax admission.
 
-- `anti-ad` 当前捕获来源为 DustinWin，声明 `GPL-3.0`；Sukka 服务声明 `AGPL-3.0`。两者均为 `declared` 且 `component-review-required`，固定声明 URL、提交及 LICENSE SHA 见 registry；代码仓库声明不等于全部聚合数据许可已核完。
-- MiHomoer 与 Accademia 当前为 `unknown`，不能推断许可已清。
-- 拆片保留原来源，不将派生规则统一标为 MIT。Mihomo `v1.19.32` 仅作为本地转换工具，本交付不附带其二进制；固定 App 核心 `727ddcd…` 的 MIT 身份沿用既有源码证据，也不覆盖第三方规则数据。
+<a id="来源与许可证边界"></a>
 
-来源及许可未决项须继续保留，技术校验通过不代表许可审查完成。
+## Provenance and licensing boundaries
+
+Earlier root README and acknowledgement text described MIT, while noting separate third-party licenses. No tracked root `LICENSE` text substantiated a repository-wide grant. The current [README](../../README.md) and [disclaimer](../../docs/disclaimer.md) correct that ambiguity: do not infer blanket MIT permission. This clarification does not change the historical technical results above.
+
+The ad segment's ten source rules are recorded in the [fused manifest](../../rulesets/generated/fused/manifest.json) `source_segments`, segment `scki-fused-010-ad`. [upstream-sources.json](../../rulesets/source/upstream-sources.json) is the authoritative source-identity/licensing-evidence registry; capture/output relationships appear in [source-ledger.json](../../rulesets/generated/source-ledger.json):
+
+- The recorded `anti-ad` capture comes from DustinWin with declared `GPL-3.0`; Sukka services declare `AGPL-3.0`. Both are `declared` and `component-review-required`. The registry retains declaration URLs, commits and LICENSE SHA. Code-repository declarations do not establish full licensing review of all aggregated data.
+- MiHomoer and Accademia remain `unknown`; licensing clearance cannot be inferred.
+- Shards retain source attribution; derived rules are not relabeled uniformly as MIT. Mihomo `v1.19.32` is a local converter, with no binary included in this delivery. Pinned application core `727ddcd…` retains its existing MIT source evidence, which does not cover third-party rule data.
+
+Keep provenance/licensing uncertainties explicit. Passing technical checks does not complete licensing review.

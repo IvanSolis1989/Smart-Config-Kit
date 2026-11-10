@@ -1,98 +1,97 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-karing-mobile.svg">
-  <img src="../../docs/assets/readme/page-karing.svg" alt="Karing 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-karing.svg" alt="Karing import guide" width="100%">
 </picture>
 
-# Karing 原生分流导入指南
+# Karing native routing import guide
 
 <a id="karing-原生分流适配"></a>
 
+Import same-source fused rules into Karing's custom routing groups. Configure nodes, node groups, DNS, TUN and the final default action in the application itself.
 
+[![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Import verification](../../docs/assets/readme/nav-verify.svg)](#verification)
 
-将同源融合规则导入 Karing 的自定义分流组。节点、节点组、DNS、TUN 和最终默认动作仍在 App 中设置。
+[Before you start](#before-start) · [Import](#import) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-[![下载入口](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
-
-[开始前](#before-start) · [分步导入](#import) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
-
-> 配置版本：`v6.0.21-karing.3` · Build：2026-11-09。规则源：`rulesets/source/routing-graph.js` v6.0.21，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
+> Configuration: `v6.0.21-karing.3` · Build: 2026-11-09. Source: `rulesets/source/routing-graph.js` v6.0.21, derived through the fused manifest and SingBox 1.13 routing. See [CHANGELOG](CHANGELOG.md).
 
 <a id="before-start"></a>
 <a id="下载配置"></a>
 
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
 
-[可选业务方案与本地参数](../../docs/configuration.md)：完整配置继续作为默认；可选投影输出到独立目录，运行时参数支持范围见统一指南。
+## Before you start: nodes and routing file
 
-## 开始前：准备节点与分流文件
+1. Add your own node subscription to Karing and confirm the nodes work.
+2. Download [diversion_rules_custom.json](diversion_rules_custom.json). This is **custom routing-group JSON**. It neither executes Clash Party / FlClash JS nor passes a complete sing-box configuration unchanged to Karing.
+3. Start with a clean custom routing list. Before updating, back up existing settings and remove old `SCKI` entries to prevent stale names or incorrect ordering.
 
-1. 在 Karing 添加自己的节点订阅，确认节点可用。
-2. 下载本目录的 [diversion_rules_custom.json](diversion_rules_custom.json)。这是 **自定义分流组 JSON**，不执行 Clash Party / FlClash JS，也不将完整 sing-box 配置原样交给 Karing。
-3. 首次导入使用干净的自定义分流列表；更新前备份现有设置并移除旧 `SCKI` 项，防止旧名称残留或顺序错位。
+[![Download Karing routing JSON](../../docs/assets/readme/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
 
-[![下载 Karing 分流 JSON](../../docs/assets/readme/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
+The button opens the raw file; copy the link or save it locally. Normal import needs only this JSON. It references remote fused SRS assets and standard sing-box source rule-sets for complex conditions.
 
-按钮打开 Raw 文件，可复制链接或另存为。普通导入只需这一份 JSON；它会引用远程融合 SRS 和复杂条件的标准 sing-box source 规则集。
+### Online selection and local import
 
-### 在线选择与本地导入
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/), choose Karing routing, Full / Lite / Custom and the QUIC parameter, then download and import routing JSON as below. If a ZIP is downloaded, fully extract it and select `diversion_rules_custom.json`; the accompanying manifest is reference material. The file contains only routing adaptation. Nodes, DNS and the final default action still require application settings.
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Karing 分流**、Full、Lite 或 Custom 业务方案及 QUIC 参数，下载后按下方步骤导入分流 JSON。若下载为 ZIP，先完整解压，再选择其中的 `diversion_rules_custom.json`；伴随清单供参考。此文件只包含分流适配，节点、DNS 和最终默认动作仍需在 App 中设置。
-
-更新时刷新页面，重新选择业务和参数并下载；备份现有设置，移除旧 `SCKI` 项后导入新的同类本地分流文件。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
+To update, refresh the page, select the same services and parameters and download again. Back up settings, remove old `SCKI` entries, then import the new local routing file. Do not overwrite a customized file using the official full-configuration remote URL. Selection and generation run locally in the browser without reading or uploading subscriptions or personal configurations.
 
 <a id="import"></a>
 <a id="导入"></a>
 
-## 分步导入
+## Import steps
 
-1. 打开 **设置 → 分流 → 分流规则 → 编辑 → 自定义分流组**，在菜单中选择 **导入**。
-2. 选择已保存的 `diversion_rules_custom.json`，确认导入并启用规则。
-3. 按名称中的序号保持顺序。每个段是独立规则，同一业务出现在多个段时不要合并。
-4. 检查动作：`direct` 和 `block` 按源配置默认动作生成，代理业务统一使用 `currentSelected`。需要独立地区或业务出口时，先在 Karing 创建自定义节点组，再逐项绑定对应分流规则；本文件不会自动创建或恢复原配置的嵌套策略组。
-5. 在 Karing 分流设置中，将 **最终默认动作**选为 **当前选择**。导入文件没有空匹配 FINAL。
-6. 在 App 中核对 DNS、TUN、嗅探和规则下载设置，并检查 ISP / 内置国家地区规则是否抢先匹配，按需要调整。
-7. **受影响版本的注册检查**：Karing 1.2.25.2802 已报告“组已导入，但探测中没有对应 SRS”。若遇到此现象，逐个打开 `SCKI` 自定义组，不改任何内容直接保存；这会走 App 的远程资产注册路径。不要合并或改动规则顺序。当前没有已验证的一键批量替代方法。
-8. 返回 Karing 首页，关闭再打开连接使设置生效；随后打开 **分流规则探测**，确认远程规则下载成功，再进行下方验收。
+1. Open **Settings → Routing → Routing rules → Edit → Custom routing groups**, then choose **Import** from the menu. Exact labels depend on application language/version.
+2. Select the saved `diversion_rules_custom.json`, confirm import and enable the rules.
+3. Preserve the numeric order in names. Every segment is an independent rule. Do not merge multiple segments belonging to the same service.
+4. Check actions: `direct` and `block` follow source defaults; proxy services use `currentSelected`. For separate regional/service exits, first create custom node groups in Karing, then bind each routing rule manually. This file does not automatically create or restore nested source policy groups.
+5. In Karing routing settings, set the **final default action** to **Current selection**. The import file has no empty-match FINAL rule.
+6. Check DNS, TUN, sniffing and rule-download settings. Check whether ISP / built-in country-region rules match earlier, and adjust as needed.
+7. **Registration check for affected versions:** Karing 1.2.25.2802 has a report of imported groups whose SRS entries are missing from probing. If affected, open each `SCKI` custom group and save without changing anything. This invokes the application's remote-asset registration path. Do not merge or reorder rules. No one-click batch alternative has been verified.
+8. Return to Karing's home screen, turn the connection off and on to apply settings, then open **Routing rule probing** and confirm remote downloads before acceptance below.
 
-入口依据见官方[自定义分流](https://karing.app/tutorial/custom-diversion)、[分流组编辑](https://karing.app/app-manual/diversion-rule-edit)及[固定源码与兼容边界](REFERENCE-Karing.md)。
+See official [custom routing](https://karing.app/tutorial/custom-diversion), [group editing](https://karing.app/app-manual/diversion-rule-edit) and the [pinned source / compatibility reference](REFERENCE-Karing.md).
 
 <a id="verification"></a>
 
-## 导入验收
+## Import verification
 
-- 规则已启用，序号顺序完整；直连、拦截和当前选择三种动作与导入预览一致。
-- 远程规则下载成功，当前选择或手工绑定的节点能够连接；最终默认动作仍为“当前选择”。
-- 通过实际连接与最终生成配置核对命中结果。进程匹配依赖桌面系统权限；IP 规则的 `no-resolve` 和先解析行为需要实机读回确认。
+- Rules are enabled and numeric order is intact. Direct, block and current-selection actions match the import preview.
+- Remote rules download successfully; the current or manually bound node connects. The final default action remains Current selection.
+- Check matches using actual connections and final generated configuration. Process matching depends on desktop system permissions. IP-rule `no-resolve` and resolve-first behavior require real-device readback.
 
-[adapter-manifest.json](adapter-manifest.json) 记录每条输入规则、动作映射、默认出口解析链、URL、输入/资产哈希、人工设置和未执行的客户端验收。当前生成结果为 97 条规则（28 直连、5 拦截、64 当前选择）及 19 个复杂条件资产，具体以清单为准。
+[adapter-manifest.json](adapter-manifest.json) records every input rule, action mapping, default-exit resolution chain, URL, input/asset hash, manual setting and unperformed client acceptance. Current output contains 97 rules (28 direct, 5 block, 64 current selection) and 19 complex-condition assets; the manifest is authoritative.
 
-继续检查[运行验证清单](../../docs/guide/dns-and-verification.md#verification)。本地测试与核心编译不等同于 Karing 实机验收；现有证据未包含 Karing App 的下载、导入和连接测试。
+Continue with the [runtime verification checklist](../../docs/guide/dns-and-verification.md#verification). Local tests and core compilation do not equal Karing real-device acceptance. Existing evidence does not include application download, import and connection testing.
 
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-**为什么业务组没有自动出现？** 分流 JSON 只提供规则和默认动作。节点组由 App 单独管理，需要按步骤手工创建、绑定；`currentSelected` 跟随当前选择。
+**Why are service groups not created automatically?** Routing JSON supplies rules and default actions only. Node groups are managed separately by the application; create and bind them manually. `currentSelected` follows the current selection.
 
-**能直接导入 SingBox Full 或 Clash JS 吗？** 本页仅覆盖 Karing 原生分流 JSON。完整配置转换和嵌套组并未获得无损导入证明，参见 [REFERENCE-Karing](REFERENCE-Karing.md)。
+**Can I import SingBox Full or Clash JS directly?** This page covers only Karing native routing JSON. Lossless import of full configuration conversion or nested groups has not been established. See [REFERENCE-Karing](REFERENCE-Karing.md).
 
-**更新后有重复规则，或命中顺序不对？** 先备份现有设置，移除旧 `SCKI` 项后重新导入干净列表；同时检查内置规则优先级和最终默认动作。
+**Why are rules duplicated or ordered incorrectly after updating?** Back up settings, remove old `SCKI` entries, then import into a clean list. Also check built-in rule precedence and the final default action.
 
-**组已出现，但探测中没有 SRS？** 先按第 7 步逐组保存。自定义组 URL 引用和 App 的远程资产注册是两回事；导入列表可见不代表已下载。见 [Issue #196](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/196) 与[官方源码依据](REFERENCE-Karing.md#issue-196自定义组可见但远程资产未登记)。不要向 JSON 添加未经支持的 `rule_set_items` 或为了“修复”恢复整份 App 备份。
+**Groups exist, but SRS is absent from probing?** Save each group as described in step 7. Custom-group URL references and application remote-asset registration are separate: a visible imported list does not prove downloads occurred. See [Issue #196](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/196) and [source evidence](REFERENCE-Karing.md#issue-196自定义组可见但远程资产未登记). Do not add unsupported `rule_set_items` to the JSON or restore a complete application backup as a workaround.
 
-**已登记，但下载返回网络错误？** 才检查 App 下载网络及当前节点，参考[规则下载说明](../../docs/rule-asset-delivery.md)。两类失败不要混同。
+**Assets are registered, but downloads report network errors?** Then check the application download network and selected node. See [rule asset delivery](../../docs/rule-asset-delivery.md). Do not conflate registration failure with download failure.
 
-**维护人员如何核对注册？** 若已有 App 内部 diversion 配置副本，可只读运行 `node tools/audit-karing-registration.js <custom-rules.json> <internal-diversion-config-copy.json>`。工具列出缺少登记的组；普通自定义导出不够，注册通过也不代表真实下载通过。不要提供订阅、密钥或覆盖 App 数据。
+**How can maintainers check registration?** With an existing copy of the application's internal diversion configuration, run read-only `node tools/audit-karing-registration.js <custom-rules.json> <internal-diversion-config-copy.json>`. The tool lists unregistered groups. A normal custom export is insufficient, and passing registration does not prove real downloads. Do not supply subscriptions or keys, or overwrite application data.
 
 <a id="advanced"></a>
 
-## 进阶参考
+## Advanced reference
 
 <details>
-<summary>维护与受控刷新</summary>
+<summary>Maintenance and controlled refresh</summary>
 
-### 维护
+### Maintenance
 
-从仓库根目录执行：
+Run from the repository root:
 
 ```sh
 node tools/generate-karing.js
@@ -100,15 +99,15 @@ node tools/generate-karing.js --check
 node --test tools/tests/karing-generation.test.js
 ```
 
-普通生成与 `--check` 均只读已绑定输入，不下载规则。`--check` 不写文件，遇到漂移、缺失资产、非法出站、循环默认选择或不能无损转换的匹配字段会失败。
+Normal generation and `--check` read only bound inputs and do not download rules. `--check` writes no files and fails on drift, missing assets, invalid outbounds, cyclic default selection or match fields that cannot be converted losslessly.
 
-5 个 QUIC 例外依赖外部 geosite SRS，精确解码快照存于 `rulesets/source/karing-support/*.json.gz`。只有明确刷新时才运行：
+Five QUIC exceptions depend on external geosite SRS. Exact decoded snapshots are stored in `rulesets/source/karing-support/*.json.gz`. Run the following only for an explicit refresh:
 
 ```sh
 node tools/generate-karing.js --refresh-support
 ```
 
-刷新需要可用网络和已有 sing-box 核心（默认 `.cache/fused-rule-sets/sing-box/sing-box.exe`，其他平台默认 `sing-box`；可设 `SING_BOX_113_BIN`）。它只下载复杂匹配实际引用的 support SRS，解码后保存 URL、取回时间及二进制/source/gzip 哈希，随后生成产物。上游规则会变化，刷新后应审查差异。生成 source JSON 使用 version 3（标准 sing-box >=1.11）；这不是 Karing 最低版本或实机兼容性承诺。
+Refresh needs network access and an existing sing-box core (default `.cache/fused-rule-sets/sing-box/sing-box.exe`, or `sing-box` on other platforms; override with `SING_BOX_113_BIN`). It downloads only support SRS referenced by complex matches, decodes them, records URLs, retrieval times and binary/source/gzip hashes, then generates output. Upstream rules change; review refresh diffs. Generated source JSON uses version 3 (standard sing-box >=1.11); this is not a minimum Karing version or a real-device compatibility guarantee.
 </details>
 
-[客户端支持](../../docs/guide/client-support.md) · [分流策略](../../docs/guide/routing-policy.md) · [官方参考](REFERENCE-Karing.md) · [反馈问题](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)
+[Client support](../../docs/guide/client-support.md) · [Routing policy](../../docs/guide/routing-policy.md) · [Official reference](REFERENCE-Karing.md) · [Report a problem](https://github.com/IvanSolis1989/Smart-Config-Kit/issues)

@@ -278,3 +278,10 @@ test('Chinese and English full publish/resume receipts pass the final public rep
     });
   }
 });
+
+test('commit metadata stays English independently of Chinese issue replies', () => {
+  const {formatCommitMessage}=require('../lib/local-codex-worker');
+  assert.equal(formatCommitMessage(196),'[agent: codex] fix(#196): apply verified issue changes');
+  assert.throws(()=>formatCommitMessage('196\nother'),/Invalid issue number/);
+  assert.throws(()=>formatCommitMessage(-1),/Invalid issue number/);
+});

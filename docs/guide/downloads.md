@@ -1,146 +1,148 @@
+**English** | [中文](downloads.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../assets/readme/page-downloads-mobile.svg">
-  <img src="../assets/readme/page-downloads.svg" alt="配置下载" width="100%">
+  <img src="../assets/readme/page-downloads.svg" alt="Configuration downloads" width="100%">
 </picture>
 
-# 配置下载
+# Configuration downloads
 
-找到你的客户端，选择正确的配置格式，再按对应教程完成导入。
+Find your client, select the matching format, and follow its import guide.
 
-[![文档中心](../assets/readme/nav-docs.svg)](../README.md) [![导入后验收](../assets/readme/nav-verify.svg)](dns-and-verification.md#verification)
+[![Documentation](../assets/readme/nav-docs.svg)](../README.md) [![Post-import validation](../assets/readme/nav-verify.svg)](dns-and-verification.md#verification)
 
-[项目首页](../../README.md) · [文档中心](../README.md) · [导入后验收](dns-and-verification.md#verification)
+[Project home](../../README.md) · [Documentation](../README.md) · [Post-import validation](dns-and-verification.md#verification)
 
-点击下载按钮打开 `main` 的 Raw 文件，右键可复制链接。**15 个既有客户端入口、19 个独立文件**均附导入教程；另提供 **2 个 Meow 系候选入口**，分别是官方 Meow YAML 与 AEROVE Lite JS。兼容入口可能指向同一文件，候选入口的 App 验收状态单独记录。
+Download buttons open Raw files on `main`; right-click to copy a URL. The **15 established client entries and 19 distinct files** have import guides. There are also **two Meow-family candidates**: official Meow YAML and AEROVE Lite JS. Compatible entries may share a file. Candidate app validation is recorded separately.
 
-[Mihomo](#mihomo) · [sing-box](#sing-box) · [Xray](#xray) · [双内核](#dual-core) · [独立客户端](#independent) · [Meow 适配](#meow)
+[Mihomo](#mihomo) · [sing-box](#sing-box) · [Xray](#xray) · [Dual-core](#dual-core) · [Independent clients](#independent) · [Meow adapters](#meow)
 
-## <a id="mihomo"></a>Mihomo 内核系
+## <a id="mihomo"></a>Mihomo family
 
 ### Clash Party / Clash Verge Rev / Mihomo Party
 
-JS 覆写需关联节点订阅；Clash Verge Rev 默认选 Normal，Smart 仅用于已安装 vernesong Smart 内核和模型的环境。
+Associate a JS override with your endpoint subscription. Use Normal for Clash Verge Rev unless the vernesong Smart core and model are installed.
 
-[![下载 Smart JS](../assets/readme/button-smart-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![下载 Normal JS](../assets/readme/button-normal-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/README.md)
+[![Download Smart JS](../assets/readme/button-smart-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo-smart%29.js) [![Download Normal JS](../assets/readme/button-normal-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/ClashParty%28mihomo%29.js) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/README.md)
 
 ### CMFA / ClashMi
 
-原生 Mihomo YAML；ClashMi 的 TUN 由 App 托管，导入后仍需核对最终配置。
+Native Mihomo YAML. ClashMi manages TUN in the app; inspect the effective configuration after import.
 
-[![下载 CMFA YAML](../assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/README.md)
+[![Download CMFA YAML](../assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/README.md)
 
 ### OpenClash
 
-Smart / Normal SH 二选一，放入教程指定的固定自定义脚本入口；UI CONF 是配套 UCI 配置快照，分别上传，不能互换。
+Choose either Smart or Normal SH and install it at the fixed custom-script path in the guide. UI CONF is a separate companion UCI snapshot; upload each to its proper location. They are not interchangeable.
 
-[![下载 Smart SH](../assets/readme/button-smart-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh) [![下载 Normal SH](../assets/readme/button-normal-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh) [![下载 UI CONF](../assets/readme/button-ui-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.conf) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/README.md)
+[![Download Smart SH](../assets/readme/button-smart-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo-smart%29.sh) [![Download Normal SH](../assets/readme/button-normal-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.sh) [![Download UI CONF](../assets/readme/button-ui-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/OpenClash%28mihomo%29.conf) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/OpenClash/README.md)
 
 ### FlClash
 
-推荐 JS 关联当前活动订阅，区域组使用 url-test；CMFA YAML 是静态备选，TUN 与端口由应用管理。
+The recommended JS override attaches to the active subscription and uses url-test regional groups. CMFA YAML is a static alternative. The app manages TUN and ports.
 
-[![下载 FlClash JS](../assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js) [![下载 备选 CMFA YAML](../assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md)
+[![Download FlClash JS](../assets/readme/button-flclash-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/FlClash%28mihomo%29.js) [![Download alternative CMFA YAML](../assets/readme/button-cmfa-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/FlClash/README.md)
 
-## <a id="sing-box"></a>sing-box 内核系
+## <a id="sing-box"></a>sing-box family
 
 ### sing-box / Hiddify / HomeProxy
 
-Full 要求 sing-box 1.14.3+，已验官方 1.14.3；1.13 兼容文件已验官方 1.13.14。先替换示例节点，再检查实际内核和完整配置导入模式。
+Full requires sing-box 1.14.3 or later and was checked with official 1.14.3. The 1.13 variant was checked with official 1.13.14. Replace example endpoints and verify the actual core version and full-configuration import mode.
 
-[![下载 sing-box JSON](../assets/readme/button-sing-box-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) [![下载 sing-box 1.13 JSON](../assets/readme/button-sing-box-113.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/README.md)
+[![Download sing-box JSON](../assets/readme/button-sing-box-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) [![Download sing-box 1.13 JSON](../assets/readme/button-sing-box-113.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/README.md)
 
-Hiddify 4.1.1 优先核对 1.13 兼容文件与完整配置模式；官方内核检查不等于 App 导入及连接验收。HomeProxy 从 UCI 重建配置，尚无经验证的 Full JSON → UCI 转换器；不能承诺原样保留全部配置。
+For Hiddify 4.1.1, first check the 1.13 variant and full-configuration mode. A core check does not validate app import or connectivity. HomeProxy rebuilds configuration from UCI; there is no verified Full JSON-to-UCI converter, so lossless import is not promised.
 
 ### Karing
 
-仅导入自定义分流 JSON，业务代理指向 currentSelected；节点组、DNS、TUN 和默认动作在 App 手工设置。
+Import custom diversion JSON only. Service proxy rules target currentSelected; configure endpoint groups, DNS, TUN and the default action manually in the app.
 
-[![下载 Karing 分流 JSON](../assets/readme/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
+[![Download Karing diversion JSON](../assets/readme/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/README.md)
 
-## <a id="xray"></a>Xray 内核系
+## <a id="xray"></a>Xray family
 
 ### v2rayN
 
-优先按实际核心选择 Mihomo YAML 或 sing-box JSON；Xray JSON 仅用于路由设置导入，只有 proxy / direct / block 三类出口。
+Prefer Mihomo YAML or sing-box JSON according to the active core. Xray JSON is for routing-settings import only and has three exits: proxy / direct / block.
 
-[![下载 mihomo YAML](../assets/readme/button-mihomo-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![下载 sing-box JSON](../assets/readme/button-sing-box-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) [![下载 Xray 路由 JSON](../assets/readme/button-xray-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/v2rayN%28xray%29.json) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)
+[![Download mihomo YAML](../assets/readme/button-mihomo-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Meta%20For%20Android/CMFA%28mihomo%29.yaml) [![Download sing-box JSON](../assets/readme/button-sing-box-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) [![Download Xray routing JSON](../assets/readme/button-xray-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/v2rayN%28xray%29.json) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Xray%E5%86%85%E6%A0%B8%E7%B3%BB/v2rayN/README.md)
 
-## <a id="dual-core"></a>Passwall 双内核系
+## <a id="dual-core"></a>Passwall dual-core family
 
 ### Passwall
 
-全功能 LuCI 插件；本仓库 fused SRS 分流要求实际后端为 sing-box，脚本写入前会检查。
+Full-featured LuCI plugin. This repository's fused SRS routing requires a sing-box backend; the script checks before writing settings.
 
-[![下载 Passwall SH](../assets/readme/button-passwall-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.md)
+[![Download Passwall SH](../assets/readme/button-passwall-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/Passwall%28xray%2Bsing-box%29-apply.sh) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall/README.md)
 
 ### Passwall2
 
-精简分流 LuCI 插件，与 Passwall 并行维护；本仓库 fused SRS 同样仅用于 sing-box 分流后端。
+A focused routing LuCI plugin maintained alongside Passwall. This repository's fused SRS assets likewise require the sing-box routing backend.
 
-[![下载 Passwall2 SH](../assets/readme/button-passwall2-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.md)
+[![Download Passwall2 SH](../assets/readme/button-passwall2-sh.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/Passwall2%28xray%2Bsing-box%29-apply.sh) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E5%8F%8C%E5%86%85%E6%A0%B8%E7%B3%BB/Passwall2/README.md)
 
-## <a id="independent"></a>独立内核系
+## <a id="independent"></a>Independent clients
 
 ### Shadowrocket
 
-使用 Shadowrocket 原生 CONF；按教程导入规则与策略，不与其他 Apple 客户端混用。
+Use native Shadowrocket CONF and follow its guide for rules and policies. Do not substitute configurations for other Apple-platform clients.
 
-[![下载 Shadowrocket CONF](../assets/readme/button-shadowrocket-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/README.md)
+[![Download Shadowrocket CONF](../assets/readme/button-shadowrocket-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/Shadowrocket.conf) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Shadowrocket/README.md)
 
 ### Surge
 
-使用 Surge 原生 CONF；DNS 字段与 Shadowrocket、Loon 不同，按本端教程设置。
+Use native Surge CONF. Its DNS fields differ from Shadowrocket and Loon; follow the Surge guide.
 
-[![下载 Surge CONF](../assets/readme/button-surge-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/README.md)
+[![Download Surge CONF](../assets/readme/button-surge-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/Surge.conf) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Surge/README.md)
 
 ### Loon
 
-使用 Loon 原生 CONF；保留本端 DNS、Remote Filter 和规则语法。
+Use native Loon CONF, retaining its DNS, Remote Filter and rule syntax.
 
-[![下载 Loon CONF](../assets/readme/button-loon-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/README.md)
+[![Download Loon CONF](../assets/readme/button-loon-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/Loon.conf) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Loon/README.md)
 
 ### Quantumult X
 
-使用 QX 原生 CONF；policy / filter_remote / filter_local 使用独立语法。
+Use native Quantumult X CONF; policy / filter_remote / filter_local have client-specific syntax.
 
-[![下载 Quantumult X CONF](../assets/readme/button-quantumult-x-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/README.md)
+[![Download Quantumult X CONF](../assets/readme/button-quantumult-x-conf.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/QuantumultX.conf) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Quantumult%20X/README.md)
 
 ### Stash
 
-使用从 CMFA 裁剪生成的 Stash YAML，兼容 Clash Premium；不提供 Smart + LightGBM 择路。
+Use Stash YAML generated by trimming CMFA to supported Clash Premium-compatible fields. It does not provide Smart + LightGBM route selection.
 
-[![下载 Stash YAML](../assets/readme/button-stash-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/README.md)
+[![Download Stash YAML](../assets/readme/button-stash-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/Stash.yaml) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Stash/README.md)
 
 ### Egern
 
-使用 Egern 原生 YAML 与适配规则集；不能直接消费 Mihomo MRS。
+Use native Egern YAML and its adapted rule sets. Egern cannot directly consume Mihomo MRS.
 
-[![下载 Egern YAML](../assets/readme/button-egern-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/README.md)
+[![Download Egern YAML](../assets/readme/button-egern-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml) [![Import guide](../assets/readme/nav-tutorial.svg)](../../%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/README.md)
 
-## <a id="meow"></a>Meow 内核系
+## <a id="meow"></a>Meow family
 
-两个客户端使用同源分流，各自的格式、导入方式及验收状态分别维护。
+Both clients use the shared routing source, but formats, import procedures and validation status are maintained separately.
 
-### 官方 Meow（Android / iOS）与官方核心
+### Official Meow (Android / iOS) and core
 
-原生 YAML，使用前替换模板节点订阅 URL。官方核心配置校验已通过；官方 Android/iOS 的完整导入与连接见[官方 App 队列](../support-queue.md#meow-official-apps)。
+Replace the subscription placeholder in the native YAML before use. Official core validation passed; full Android/iOS import and connectivity are tracked in the[official app queue](../support-queue.md#meow-official-apps).
 
-[![下载 Meow YAML](../assets/readme/button-meow-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.yaml) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Meow/README.md)
+[![Download Meow YAML](../assets/readme/button-meow-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Meow/Meow%28meow%29.yaml) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Meow/README.md)
 
 ### AEROVE Lite
 
-JS 覆写，需要 main(config) 宿主和已展开节点的订阅；脚本引用同批专版 MRS 分片以保留 Lite 资源预算。生产 Meow 校验链已接通，新候选已通过固定 Rust reader 与 App 原样头部/条目预算检查；固定 APK 全资源重验及真实路由进度见[AEROVE 队列](../support-queue.md#aerove-lite-meow)。
+The JS override requires a main(config) host and a subscription with expanded endpoints. It references matching MRS shards to preserve Lite resource budgets. The production Meow validation chain is connected; the candidate passed the pinned Rust reader and unchanged app header/entry budgets. Pinned-APK full-asset and actual-routing validation are tracked in the[AEROVE queue](../support-queue.md#aerove-lite-meow).
 
-[![下载 AEROVE Lite JS](../assets/readme/button-aerove-lite-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/AeroveLite%28meow%29.js) [![导入教程](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Aerove%20Lite/README.md)
+[![Download AEROVE Lite JS](../assets/readme/button-aerove-lite-js.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Meow%E5%86%85%E6%A0%B8%E7%B3%BB/Aerove%20Lite/AeroveLite%28meow%29.js) [![Import guide](../assets/readme/nav-tutorial.svg)](../../Meow内核系/Aerove%20Lite/README.md)
 
-## 使用前确认
+## Before use
 
-1. **客户端与内核**：以实际核心为准，v2rayN 等多核客户端尤其需要确认。
-2. **导入类型**：脚本、完整配置、原生分流规则与 UCI 快照对应不同入口。
-3. **已有节点**：本仓库不提供节点；先准备自己的可用订阅或节点。
+1. **Client and core:** verify the actual core, especially in multi-core clients such as v2rayN.
+2. **Import type:** scripts, full configurations, native routing rules and UCI snapshots use different entry points.
+3. **Your endpoints:** this repository supplies none. Prepare your own working subscription or endpoints first.
 
-客户端文件按内核系列归档，旧 Raw 地址随目录迁移而变化；使用旧地址的用户需重新导入。共享 rulesets 资产 URL 保持不变。多个机场合并可先阅读 [Sub-Store 教程](../../SubStore/README.md)。导入后执行 [运行验证清单](dns-and-verification.md#verification)，协议条件见 [客户端选择与支持](client-support.md)。
+Client files are grouped by core family. Directory migration changed old Raw URLs; reimport if you still use those URLs. Shared rulesets asset URLs are unchanged. To combine subscriptions, read the [Sub-Store guide](../../SubStore/README.md). After import, follow the [runtime validation checklist](dns-and-verification.md#verification); protocol requirements are covered in [client support guide](client-support.md).
 
 ---
 
-[← 项目首页](../../README.md) · [文档索引](../README.md)
+[← Project home](../../README.md) · [Documentation index](../README.md)

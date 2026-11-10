@@ -1,77 +1,62 @@
-<picture>
-  <source media="(max-width: 600px)" srcset="assets/readme/page-telegram-mobile.svg">
-  <img src="assets/readme/page-telegram.svg" width="100%" alt="技术指南">
-</picture>
+<picture><source media="(max-width: 600px)" srcset="assets/readme/page-telegram-mobile.svg"><img src="assets/readme/page-telegram.svg" width="100%" alt="Channel notifications"></picture>
 
-# Olympus 官方频道自动通知
+# Olympus channel notifications
 
-维护 Olympus 频道的根日志通知，了解预览、发送与恢复的区别。常规检查从 `preview` 开始，实际发送模式的效果见下方。
+**English** | [中文](telegram.zh-CN.md)
 
-<p>
-  <a href="guide/downloads.md"><img src="assets/readme/nav-downloads.svg" width="145" height="38" alt="下载配置"></a>
-  <a href="README.md"><img src="assets/readme/nav-docs.svg" width="145" height="38" alt="文档目录"></a>
-  <a href="guide/dns-and-verification.md"><img src="assets/readme/nav-verify.svg" width="145" height="38" alt="检查与排障"></a>
-</p>
+This guide covers root-changelog notifications and the difference between previewing, sending and recovering a notification. Start routine checks with `preview`.
 
-[下载配置](guide/downloads.md) · [文档目录](README.md) · [检查与排障](guide/dns-and-verification.md)
+[Downloads](guide/downloads.md) · [Documentation](README.md) · [Validation](guide/dns-and-verification.md)
 
-## 使用入口
+## Start here
 
-1. 先配置 Actions Secret 并授予机器人频道发布权限。
-2. 用手动 workflow 的 `preview` 核对内容和来源提交。
-3. 实际通知后检查 commit status 回执；不确定发送先核对频道，再选择恢复方式。
+1. Configure the Actions secret and grant the bot permission to post in the channel.
+2. Run the workflow in `preview` mode to inspect content and its source commit.
+3. After a real notification, inspect the commit-status receipt. If delivery is uncertain, inspect the channel before choosing a recovery mode.
 
-频道：[Olympus](https://t.me/IvanSolis89)；讨论群：[Olympus_Habitue](https://t.me/Olympus_Habitue)；
-机器人：`@Olympus_TL_bot`。
+Channel: [Olympus](https://t.me/IvanSolis89). Discussion group: [Olympus_Habitue](https://t.me/Olympus_Habitue). Bot: `@Olympus_TL_bot`.
 
-## 通知内容与触发
+## Content and triggers
 
-`.github/workflows/telegram-release.yml` 仅在 main 的根 `CHANGELOG.md` 改动时自动通知。
-普通提交、子目录日志和 GitHub Release 不触发频道更新；通知脚本自身的提交只执行测试和差异检查。
-脚本比较完整 push 的 before/after，只有根日志实际修改才发送，正文取该提交根日志的第一节。
-通知只包含一次标题、最多四条实际更新内容和一个[仓库链接](https://github.com/IvanSolis1989/Smart-Config-Kit)，
-关闭链接预览，不发送配置文件或压缩包。
-根日志引用的同日子目录日志会展开为实际描述，合并重复内容，不机械转发“详见某日志”。
+`.github/workflows/telegram-release.yml` automatically notifies only when the root `CHANGELOG.md` changes on main. Ordinary commits, subdirectory changelogs and GitHub Releases do not trigger Smart-Config-Kit channel updates. Changes to the notification script itself run tests and diff checks.
 
-## 首次配置
+The script compares the complete push before/after and sends only if the root changelog actually changed. It takes the first section of that commit's root changelog. Notifications contain one title, up to four actual changes and one [repository link](https://github.com/IvanSolis1989/Smart-Config-Kit). Link previews are disabled; configurations and archives are not sent.
 
-1. 在 Settings → Secrets and variables → Actions 保存 `TELEGRAM_BOT_TOKEN`。
-2. 将机器人设为频道管理员并授予“发布消息”。
-3. Telegram 自动把频道新帖转发至关联讨论群，机器人无须群管理权限。
+Same-day subdirectory changelog references are expanded into actual descriptions and deduplicated rather than forwarding a generic “see changelog” line. New public documentation and release summaries should be written in English; existing issue replies continue to follow each question's language.
 
-Token 不进入源码、日志和文档，无须部署常驻服务器。Smart-Config-Kit 不再使用 `TELEGRAM_API_ID`、`TELEGRAM_API_HASH`，无需安装上传依赖。
+## Initial setup
 
-## 手动验证与恢复
+1. Save `TELEGRAM_BOT_TOKEN` under Settings → Secrets and variables → Actions.
+2. Make the bot a channel administrator with permission to post messages.
+3. Telegram forwards new channel posts to its linked discussion group; the bot does not require group-administrator permission.
 
-Actions → **Telegram release notification** → Run workflow，选择 main：
+Keep tokens out of source code, logs and documentation. No persistent notification server is required. Smart-Config-Kit no longer uses `TELEGRAM_API_ID` or `TELEGRAM_API_HASH`, and does not need file-upload dependencies.
 
-- `preview`：只预览根日志最新节；tag 可填写提交 SHA，留空取 main，不发消息。
-- `test`：发送一条静音“机器人部署测试”，验证 Secret 和频道权限。
-- `send`：发送指定提交的更新内容和仓库链接；tag 留空取 main。
-- `recover`：先检查频道确认上次没有成功发送，再使用此模式；它允许重试不确定发送，可能造成重复消息。
-- `edit`：更新已有成功通知的文字内容。
+## Manual checks and recovery
 
-## 回执与恢复
+In Actions → **Telegram release notification** → Run workflow, select main:
 
-文字通知回执保存在来源提交的 GitHub commit status：`telegram/olympus/link-changelog-<SHA>`。
-同一提交已有 success 回执时跳过；首次发送前写 pending，消息发送成功后写 success 和频道消息链接。
-网络失败或回执保存失败保留 pending，自动重跑不会盲目再发。
-确认原消息已存在时，可将该 context 改为 success 并附原消息链接，无须重发。
-通知按仓库串行，失败在 Actions 明确显示，不更改规则、配置、版本号或用户数据。
+- `preview`: display the latest root-changelog section without sending. `tag` may be a commit SHA; blank means main.
+- `test`: send a silent deployment-test message to check the secret and channel permission.
+- `send`: send changes and a repository link for the selected commit; blank `tag` means main.
+- `recover`: use only after checking that the prior message was not delivered. It permits retrying uncertain delivery and can create duplicates.
+- `edit`: update the text of an existing successful notification.
 
-## 维护与参考
+## Delivery receipts
 
-脚本和行为测试位于 `.github/scripts/telegram-release*.mjs`，使用 Node 自带测试运行器：
+Receipts are GitHub commit statuses on the source commit, with context `telegram/olympus/link-changelog-<SHA>`. A success receipt skips repeat sending. The first attempt records pending before sending, then success and the message URL after delivery.
+
+Network failure or failure to save the receipt leaves pending; automatic reruns do not blindly resend. If the original message is confirmed to exist, the context can be corrected to success with its message URL without sending again. Notifications are serialized by repository. Failures are visible in Actions and do not change routing, configurations, version numbers or user data.
+
+## Maintenance and references
+
+Scripts and tests are in `.github/scripts/telegram-release*.mjs`:
 
 ```sh
 node --test .github/scripts/telegram-release.test.mjs .github/scripts/telegram-artifacts.test.mjs
 python3 .github/scripts/telegram-files.test.py
 ```
 
-Aerove 共用发布机器人，按自己的公开 Release 通知并发送原始产物文件，独立维护工作流。
-频道 numeric ID 固定，改公开用户名时需同步消息链接。
+Aerove shares the bot but has an independent workflow based on its own public Releases and original artifact files. Do not change its behavior when maintaining this repository's notification language. The channel's numeric ID is fixed; update message URLs when the public username changes.
 
-依据：[Telegram sendMessage](https://core.telegram.org/bots/api#sendmessage)、
-[关联讨论群](https://core.telegram.org/api/discussion)、
-[GitHub 路径过滤](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)、
-[发送回执的 commit statuses API](https://docs.github.com/en/rest/commits/statuses)。
+References: [Telegram sendMessage](https://core.telegram.org/bots/api#sendmessage), [linked discussions](https://core.telegram.org/api/discussion), [GitHub path filters](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore), and [commit statuses](https://docs.github.com/en/rest/commits/statuses).

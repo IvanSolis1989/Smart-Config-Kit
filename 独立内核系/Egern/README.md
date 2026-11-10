@@ -1,139 +1,141 @@
+[**English**](README.md) | [中文](README.zh-CN.md)
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-egern-mobile.svg">
-  <img src="../../docs/assets/readme/page-egern.svg" alt="Egern 导入指南" width="100%">
+  <img src="../../docs/assets/readme/page-egern.svg" alt="Egern import guide" width="100%">
 </picture>
 
-# Egern 使用教程
+# Egern guide
 
-可导入的 Egern Profile，使用 22 个原生 smart 区域组与 33 个业务组。先替换订阅地址，再下载原生 YAML 规则集并验证请求。
+An importable Egern profile with 22 native smart regional groups and 33 service groups. Replace the subscription URL first, then download native YAML rule sets and verify requests.
 
-[![下载目录](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![文档导航](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![导入步骤](../../docs/assets/readme/nav-tutorial.svg)](#import) [![导入验收](../../docs/assets/readme/nav-verify.svg)](#verification)
+[![Downloads](../../docs/assets/readme/nav-downloads.svg)](../../docs/guide/downloads.md) [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [![Import steps](../../docs/assets/readme/nav-tutorial.svg)](#import) [![Import verification](../../docs/assets/readme/nav-verify.svg)](#verification)
 
-[开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
+[Before you start](#before-start) · [Download](#download) · [Import in order](#import) · [Required settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#reference)
 
-> 配置：`Egern.yaml` · **v6.0.21-egern.13**（Build 2026-10-29）
-> 22 原生 smart 区域组 + 33 业务组；跟随 Clash Party v6.0.21 分流基线。
+> Configuration: `Egern.yaml` · **v6.0.21-egern.13**(Build 2026-10-29)
+> 22 native smart regional groups + 33 service groups, following the Clash Party v6.0.21 routing baseline.
 
 <a id="before-start"></a>
 
 
-## 开始前
+## Before you start
 
-- 准备 Egern、机场订阅 URL 与上方模板；本配置不含可用节点。
-- 截至 2026-10-19，稳定版 2.20.0 要求 iOS 16+；其他设备兼容性以[官方商店](https://apps.apple.com/app/egern/id1616105820)为准。
-- Egern `smart` 使用自身自适应逻辑，不是 Mihomo Smart / LightGBM；本配置使用原生 `rule_set`，不能据 Mihomo 兼容性推断支持 `.mrs`。
+- Prepare Egern, your provider subscription URL and the template. This configuration contains no working nodes.
+- As reviewed on 2026-10-19, stable 2.20.0 requires iOS 16+. Check other device compatibility in the [official store](https://apps.apple.com/app/egern/id1616105820).
+- Egern `smart` uses its own adaptive logic, not Mihomo Smart / LightGBM. This configuration uses native `rule_set`; Mihomo compatibility does not establish `.mrs` support.
 
 <a id="download"></a>
 
-## 获取配置
+## Download
 
-[![下载 Egern YAML](../../docs/assets/readme/button-egern-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
+[![Download Egern YAML](../../docs/assets/readme/button-egern-yaml.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml)
 
-点击按钮打开 Raw 原始文件；右键按钮可复制链接，需要本地文件时可另存为。
+Click to open the raw file; right-click to copy its link, or save a local copy.
 
-**Egern YAML 直链：**
+**Egern YAML direct URL:**
 
 ```text
 https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/%E7%8B%AC%E7%AB%8B%E5%86%85%E6%A0%B8%E7%B3%BB/Egern/Egern.yaml
 ```
 
-下载 Egern Profile，按下文导入并接入节点订阅。
+Download the Egern profile, import below and add your subscription.
 
-配置下载和远程规则更新需要访问 GitHub Raw；失败时参见[下载排错](../../docs/rule-asset-delivery.md)。本地定制先保留副本，远程更新可能覆盖修改。
+Configuration downloads and remote-rule updates require GitHub Raw. See [download troubleshooting](../../docs/rule-asset-delivery.md). Back up local customizations because remote updates may overwrite them.
 
-### 在线选择与本地导入
+### Online selection and local import
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，选择 **Egern** 和 Full、Lite 或 Custom 业务方案。此端没有测速、QUIC、运行时节点 DNS 或倍率参数：测速保留原生 `smart`，修改 QUIC 需配套生成规则资产。
+Open the [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/) and select **Egern**, Full / Lite / Custom. No latency-test, QUIC, runtime node DNS or multiplier parameters are offered: latency selection retains native `smart`, and QUIC changes require corresponding generated rule assets.
 
-下载 YAML 后按下方步骤替换 `policy_groups → Subscribe → urls` 的订阅占位地址，在配置管理中导入并选中 Profile，再刷新订阅和规则。
+After downloading YAML, replace subscription placeholders in `policy_groups → Subscribe → urls` as below. Import and select the profile in configuration management, then refresh subscriptions and rules.
 
-Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线。更新时刷新在线页面，重新选择相同业务方案和参数并下载；先备份已有配置及节点定制，再按上述方式替换或重新导入。不要用本仓库完整配置直链刷新覆盖定制文件。选择和生成在本机完成，不读取或上传订阅和个人配置。含订阅地址的配置应妥善保管，托管时避免公开暴露。详见[在线配置指南](../../docs/configuration.md)。
+Lite / Custom trim service groups to the selected profile; counts below describe Full. To update, refresh the page, reselect the same profile/parameters and download. Back up configuration and node customizations, then replace or reimport as above. Do not overwrite customized files with this repository’s full-configuration URL. Selection and generation are local and do not read or upload subscriptions or personal configurations. Protect subscription-bearing files and avoid publicly exposing hosted copies. See the [configuration guide](../../docs/configuration.md).
 
 <a id="import"></a>
 
-## 按顺序导入
+## Import in order
 
-### 1. 下载并替换订阅地址
+### 1. Download and replace the subscription URL
 
-保存 `Egern.yaml` 到本地，在副本的 `policy_groups -> Subscribe -> urls` 中替换机场订阅；这里的 Subscribe 是 `external` 项中 `name: Subscribe` 的组。将 `https://example.com/your-subscription-url` 换成实际 URL，保留 Subscribe 名称与其他策略组引用。
+Save `Egern.yaml` locally. In your copy, replace the subscription in `policy_groups -> Subscribe -> urls`; Subscribe is the `external` entry whose `name` is `Subscribe`. Replace `https://example.com/your-subscription-url` with the real URL, preserving the Subscribe name and references from other groups.
 
-### 2. 导入并启用 Profile
+### 2. Import and enable the profile
 
-在 Egern 的配置管理中导入修改后的 YAML，并选择该 Profile。若使用自己的远程托管地址，先确保托管的是已替换订阅的副本。此教程尚未完成具体版本的菜单与 App 导入验收，以当前客户端显示为准。
+Import the edited YAML in Egern configuration management and select that profile. If remotely hosting it, ensure the hosted copy already contains your subscription. Exact-version menus and application import acceptance have not been completed for this guide; follow the current client interface.
 
-### 3. 下载并连接
+### 3. Download and connect
 
-刷新 Subscribe，检查订阅节点与远程 `rule_set` 下载完成。GitHub Raw 不可达时，先使用可用代理下载。确认区域组实际成员，选择业务组上游，再启动连接；首次连接按系统提示授权 VPN。
+Refresh Subscribe and confirm node and remote `rule_set` downloads complete. If GitHub Raw is unreachable, use a working proxy first. Check actual regional members, select service-group upstreams and connect. Authorize VPN when prompted on first connection.
 
 <a id="settings"></a>
 
-## 必要设置
+## Required settings
 
-### 策略组与订阅
+### Policy groups and subscriptions
 
-22 个原生 `smart` 区域组按节点名称筛选，33 个业务组选择上游。检查 Subscribe 实际展开的节点，再检查区域组成员；策略选择参考[分流策略](../../docs/guide/routing-policy.md)。
+The 22 native `smart` regional groups filter by node names; 33 service groups choose upstreams. Inspect expanded Subscribe nodes, then regional members. See [routing policy](../../docs/guide/routing-policy.md) for selection.
 
-当前保留兼容的 `external` 订阅写法。2.20.0 支持基本组直接附 `urls`，本配置暂无迁移需要。
+The compatible `external` subscription syntax is retained. Version 2.20.0 supports `urls` directly on basic groups, but this configuration does not currently need that migration.
 
-### DNS 与平台边界
+### DNS and platform boundaries
 
-DNS 使用 Egern 原生 `bootstrap`、`upstreams`、`proxy_nameservers` 与 `forward`；保持模板结构，按[官方 DNS 文档](https://egernapp.com/docs/configuration/dns/)理解分流，不能直接复制 Mihomo DNS 字段。
+DNS uses native Egern `bootstrap`, `upstreams`, `proxy_nameservers` and `forward`. Preserve the template structure and consult [official DNS documentation](https://egernapp.com/docs/configuration/dns/); do not directly copy Mihomo DNS fields.
 
-进程规则缺少对应官方字段证据，相关逻辑作为平台例外；不把 iOS 限制推断为所有桌面平台能力。字段与生成依据见 [REFERENCE](REFERENCE-Egern.md)。
+No official field evidence establishes corresponding process-rule support, so this logic is a platform exception. Do not generalize iOS limitations to every desktop platform. See [REFERENCE](REFERENCE-Egern.md) for fields and generation evidence.
 
 <a id="verification"></a>
 
-## 导入验收
+## Import verification
 
-1. 确认当前启用本目录配置，22 个区域组与 33 个业务组已载入；检查区域组内确有可用节点。
-2. 确认订阅与全部 `rule_set` 下载成功；连接开关开启不能代替下载检查。
-3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
-4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+1. Confirm this configuration is active with 22 regional and 33 service groups loaded. Check that regional groups contain working nodes.
+2. Confirm the subscription and all `rule_set` downloads succeeded. An enabled connection switch does not replace download checks.
+3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`; inspect request/connection logs for AI, Netflix and China-streaming matches and actual exits.
+4. Complete the [DNS and post-import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
 
-本仓库尚未完成该 App 的实际导入与 DNS 故障验收；静态配置检查不能替代设备上的验证。
+This repository has not completed real application import and DNS-failure acceptance. Static configuration checks do not replace device verification.
 
 <a id="faq"></a>
 
-## 常见问题
+## Troubleshooting
 
-### 导入后区域组为空？
+### Regional groups are empty after import?
 
-先确认 Subscribe 的占位 URL 已替换，订阅成功下载且格式受 Egern 支持，再核对节点名中的地区标识和 smart 组实际成员。本仓库尚未完成真实订阅展开验收。
+Confirm the Subscribe placeholder is replaced, download succeeded and the format is supported by Egern. Then check regional identifiers in node names and actual smart-group members. Real subscription-expansion acceptance remains uncompleted in this repository.
 
-### 规则集无法更新？
+### Rule sets fail to update?
 
-确认配置引用的是 Egern 原生规则资产，检查 GitHub Raw 连通性与客户端错误，按[下载排错](../../docs/rule-asset-delivery.md)处理；不要替换为 Mihomo `.mrs`。
+Confirm references target native Egern rule assets. Check GitHub Raw connectivity and client errors using [download troubleshooting](../../docs/rule-asset-delivery.md). Do not substitute Mihomo `.mrs`.
 
-### 原生 smart 是 LightGBM 吗？
+### Is native smart LightGBM?
 
-不是。Egern 使用自身健康评分与真实失败反馈；服务可用性仍应通过请求日志和实际出口验收。
+No. Egern uses its own health scoring and real failure feedback. Verify service availability through request logs and actual exits.
 
-### 更新配置会影响订阅定制吗？
+### Will updates affect subscription customizations?
 
-先保留副本；下载新模板后重新检查 Subscribe 地址、业务组选择与本地修改，再应用更新。
+Keep a backup. After downloading a new template, recheck the Subscribe URL, service selections and local edits before applying.
 
 <a id="reference"></a>
 
-## 进阶与参考
+## Advanced reference
 
 <details>
-<summary>维护者：生成 Profile 与规则资产</summary>
+<summary>Maintainers: generate profiles and rule assets</summary>
 
-仓库维护通过生成器更新 Egern Profile 与原生 YAML 规则集；不要手工修改仓库生成结果。用户可编辑自己的本地副本。
+Maintainers update Egern profiles and native YAML rule sets through generators. Do not manually edit generated repository outputs. Users may edit their own local copies.
 
 ```bash
 node tools/generate-egern-supplemental.js
 node tools/generate-egern-from-cmfa.js
 ```
 
-完整来源链路与字段取舍见 [REFERENCE-Egern.md](REFERENCE-Egern.md)。
+See [REFERENCE-Egern.md](REFERENCE-Egern.md) for the complete source chain and field decisions.
 
 </details>
 
-官方依据：[策略组](https://egernapp.com/docs/configuration/policy_groups/) · [规则](https://egernapp.com/docs/configuration/rules/) · [DNS](https://egernapp.com/docs/configuration/dns/)。官方缓存、版本证据与 App 验证缺口见上方复核报告。
+Official references: [Policy groups](https://egernapp.com/docs/configuration/policy_groups/) · [Rules](https://egernapp.com/docs/configuration/rules/) · [DNS](https://egernapp.com/docs/configuration/dns/). See the review linked below for official caches, version evidence and application-verification gaps.
 
-[分流策略](../../docs/guide/routing-policy.md) · [客户端支持](../../docs/guide/client-support.md) · [DNS 与验收](../../docs/guide/dns-and-verification.md)
+[Routing policy](../../docs/guide/routing-policy.md) · [Client support](../../docs/guide/client-support.md) · [DNS and verification](../../docs/guide/dns-and-verification.md)
 
-[测速与 QUIC](../../docs/traffic-options.md) · [微信连接排错](../../docs/research/2026-10-16-wechat-issue-187.md) · [Claude Desktop 网络依赖](../../docs/claude-service-dependencies.md)
+[Latency testing and QUIC](../../docs/traffic-options.md) · [WeChat troubleshooting](../../docs/research/2026-10-16-wechat-issue-187.md) · [Claude Desktop network dependencies](../../docs/claude-service-dependencies.md)
 
-[配置变更记录](CHANGELOG.md) · [官方资料复核与待验边界](../../docs/upstream/2026-10-19/apple/report.md) · [支持本项目](../../docs/donate.md)
+[Changelog](CHANGELOG.md) · [Official review and pending acceptance](../../docs/upstream/2026-10-19/apple/report.md) · [Support the project](../../docs/donate.md)

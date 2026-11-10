@@ -1,527 +1,543 @@
+<!-- Full English translation of the historical record. -->
+
 <picture>
   <source media="(max-width: 600px)" srcset="../../docs/assets/readme/page-changelog-mobile.svg">
-  <img src="../../docs/assets/readme/page-changelog.svg" alt="Clash Meta For Android (CMFA) 变更日志" width="100%">
+  <img src="../../docs/assets/readme/page-changelog.svg" alt="Clash Meta For Android (CMFA) changelog" width="100%">
 </picture>
 
-# Clash Meta For Android (CMFA) — 变更日志
+<a id="clash-meta-for-android-cmfa--变更日志"></a>
 
-> `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml` 的变更日志。
-> 主版本号跟随 Clash Party 主线。
+# Clash Meta For Android (CMFA) — Changelog
+
+> History of `Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml`.
+> Major versions follow the Clash Party mainline.
 
 ---
 
-[![文档中心](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [返回 README](../../README.md) · [仓库文档中心](../../docs/README.md)
+[![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
 ## v6.0.21-cmfa.15 (2026-10-28)
 
-- Google FCM 从下载更新调整至 Google 服务；15 个域名与 26 个 IPv4 谓词、规则顺序及 55 个策略组不变。其他推送、DNS 与 fake-IP 不变。
+- Moved Google FCM from downloads to Google services. The 15 domains, 26 IPv4 predicates, rule order and 55 groups were unchanged, as were other push services, DNS and fake-IP.
 
 ## v6.0.20-cmfa.14 (2026-10-24)
 
-- 将客户端目录归入内核系列分类，原有配置文件与说明保留在客户端子目录；规则语义和配置字段不变。旧 Raw 配置链接因路径迁移而变化，现有用户需重新导入对应配置；共享 `rulesets/` 资产地址保持不变。
+- Organized client directories by core family, retaining files/guides within client subdirectories. Rule semantics/fields were unchanged. Raw configuration URLs changed with paths, requiring reimport; shared `rulesets/` URLs remained unchanged.
 
 ## v6.0.20-cmfa.13 (2026-10-20)
 
-- 业务 DNS policy 改由统一源数据投影生成；不改组结构、节点择路或规则/MRS/fused 载荷。
+- Business DNS policy became a projection of unified source data without changing groups, node selection or rule/MRS/fused payloads.
 
+<a id="2026-10-19--官方文档与版本核对"></a>
 
-## 2026-10-19 — 官方文档与版本核对
+## 2026-10-19 — Official documentation and version review
 
-- 缓存当前官方发布记录、配置文档和适用源码，更新 REFERENCE 时效与能力边界；详见[核对报告](../../docs/upstream/2026-10-19/mihomo/report.md)。本次文档核对不改变本产物的规则、策略组或生成载荷。
+- Cached official releases, configuration documentation and applicable source, updating REFERENCE freshness/capability boundaries. See the [review](../../docs/upstream/2026-10-19/mihomo/report.md). This documentation review changed no rules, groups or generated payloads.
 
 ## v6.0.20-cmfa.12 (2026-10-16)
 
-- Issue #187：在既有 `scki-adfp-direct` 中为 `szlong.weixin.qq.com`、`hklong.weixin.qq.com`、`hkshort.weixin.qq.com` 增加精确 DIRECT 例外，防止微信连接端点先命中广告集合。
-- 不扩大到父域或子域，`ad.weixin.qq.com`、`log.weixin.qq.com` 保持广告拒绝；不改变其他策略或规则顺序。
-- 依据与有限静态验收范围见[微信连接复查](../../docs/research/2026-10-16-wechat-issue-187.md)；报告者设备是否恢复仍待实际复测。
+- Issue #187: added exact DIRECT exceptions in existing `scki-adfp-direct` for `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, `hkshort.weixin.qq.com`, preventing WeChat connection endpoints from matching ads first.
+- No parent/subdomain expansion; `ad.weixin.qq.com` and `log.weixin.qq.com` remained rejected. Other policies and ordering were unchanged.
+- See [WeChat review](../../docs/research/2026-10-16-wechat-issue-187.md) for evidence and bounded static acceptance. Reporter-device recovery still required retesting.
 
 ## v6.0.19-cmfa.11 (2026-10-15)
 
-- FIX#186：自有远程规则资产统一使用 GitHub raw HTTPS，避开 jsDelivr 仓库大小门槛；保留版本查询参数与原生格式。
-- 复用已验证的融合载荷，规则内容、顺序和策略不变；补充 raw/CDN 引用识别回归。原因、下载前提与官方字段依据见[规则下载说明](../../docs/rule-asset-delivery.md)。
+- FIX#186: unified repository-owned remote assets on GitHub raw HTTPS to avoid jsDelivr repository-size limits, preserving version queries and native formats.
+- Reused verified fused payloads; content, ordering and policies were unchanged. Added raw/CDN-reference regressions. See [delivery guidance](../../docs/rule-asset-delivery.md) for cause, download prerequisites and official fields.
 
 ## v6.0.18-cmfa.10 (2026-10-14)
 
-- 修复跨服务首匹配误归类；规范 Apple/Microsoft 过宽关键词和共享 AWS/Azure/CDN 后缀，加入 game-cn、microsoft-live、microsoft-ai、intl-site、stream-jpkr、tools、social、bytedance-app 八类 guard。证书吊销/状态查询的 CA 精确主机直连与微软邮件精确国际策略新增 6 条 ADFP 记录，总数 35。`api.byteoversea.com` 作为精确 TikTok 规则，不扩共享后缀。保留现有 Claude Desktop `a-api`/`a-cdn` 精确例外、QUIC/测速选项和默认关闭的 ZeroTier 代理开关。Crisp relay 仅为静态 ASN 覆盖风险推断，并非实测事故。
-- 源规则图 v6.0.18：525 providers / 984 source rules；生成 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 non-empty SRS across 81 segments。
+- Fixed cross-service first-match misclassification: narrowed broad Apple/Microsoft keywords and shared AWS/Azure/CDN suffixes, adding eight guard classes: game-cn, microsoft-live, microsoft-ai, intl-site, stream-jpkr, tools, social, bytedance-app. Six ADFP records for exact CA revocation/status hosts via DIRECT and exact Microsoft international-mail policy brought the total to 35. `api.byteoversea.com` was an exact TikTok rule, not a shared-suffix expansion. Existing Claude Desktop `a-api`/`a-cdn` exceptions, QUIC/latency options and default-off ZeroTier proxy remained. Crisp relay was a static ASN-overlap risk inference, not a measured incident.
+- Source graph v6.0.18: 525 providers / 984 source rules; generated 149 Mihomo providers / 168 main rules / 19 inline rules / 107 MRS / 78 nonempty SRS across 81 segments.
 
 ## v6.0.17-cmfa.9 (2026-10-13)
 
-- 在现有 `scki-adfp-ai` 精确加入 `a-api.anthropic.com` 与 `a-cdn.anthropic.com`，供 Claude Desktop 应用代码和用户内容加载所需主机走 AI 服务策略。依据 [官方 Desktop 网络要求](https://code.claude.com/docs/en/desktop#network-access-requirements)；不推断 `a-api` 的具体路径。
-- 本端规则集与原生语法沿用现有实现；来源语义 gate、29 条 ADFP 例外校验、Claude 服务阶段清单及文件级发布批次检查接入同一发布链。详见 [Claude 服务依赖台账](../../docs/claude-service-dependencies.md) 与 [发布批次检查](../../docs/release-batch.md)。未进行真机故障复现或测量。
-
+- Added exact `a-api.anthropic.com` and `a-cdn.anthropic.com` to `scki-adfp-ai` for Claude Desktop application-code/user-content loading through AI policy. Based on [official requirements](https://code.claude.com/docs/en/desktop#network-access-requirements), without inferring specific `a-api` paths.
+- Existing rule sets/native syntax remained. Source-semantic gates, 29 ADFP checks, Claude stage inventory and file-level release-batch checks joined the publication chain. See [Claude dependencies](../../docs/claude-service-dependencies.md) and [release-batch checks](../../docs/release-batch.md). No real-device reproduction or measurement occurred.
 
 ## v6.0.16-cmfa.9 (2026-10-12)
 
-- 本端随 v6.0.16 主线登记来源/版本收据、有序 domain-projection 差分及现有 ADFP 例外双向校验；客户端转换格式、规则顺序和目标策略沿用既有实现，未新增运行时规则。详见[规则质量台账](../../docs/rule-quality.md)。
-- 复用当前 fused 载荷，只记录当前可观察字节及转换收据；旧资产的原始远端输入 SHA 无法从输出反推，因此不宣称完整历史来源追溯，也未进行真机流量测量。
+- Following v6.0.16, recorded source/version receipts, ordered domain-projection diffs and bidirectional ADFP validation. Conversion format, order and target policies remained; no runtime rules were added. See [rule-quality ledger](../../docs/rule-quality.md).
+- Reused current fused payloads, recording only observable bytes and conversion receipts. Original remote-input SHA values cannot be reconstructed from old outputs; no claim of complete historical provenance or real-device traffic measurement was made.
 
 ## v6.0.15-cmfa.9 (2026-10-07)
 
-- `standard` 默认档的 url-test 组和 `Subscribe.health-check` 保持 300 秒并启用 `lazy: true`；900 秒档仍可选。QUIC 默认策略不变。
+- Default `standard` url-test groups and `Subscribe.health-check` retained 300 seconds with `lazy: true`; 900 seconds remained optional. QUIC defaults were unchanged.
 
 ## v6.0.15-cmfa.8 (2026-10-07)
 
-- 静态 YAML 随受管选项切换测速间隔、lazy 与海外 UDP/443 前置规则。
-- 切换命令、平台能力及验证方法见 [测速与 QUIC 策略选项](../../docs/traffic-options.md)。
+- Managed options switched static-YAML latency intervals, lazy behavior and leading international UDP/443 rules.
+- See [latency and QUIC options](../../docs/traffic-options.md) for switching commands, capabilities and verification.
 
 ## v6.0.14-cmfa.7 (2026-09-30)
 
-- CANDIDATES：22 个原生地区/全球/家宽 url-test 组使用 `exclude-type: direct|reject`，保留 provider 的具名支持出站和链路依赖，但不把它们当作远端测速候选。
-- EMPTY：各测速组配置 `empty-fallback: REJECT`，排除支持出站后不再默认直连。
-- VERIFY：Mihomo v1.19.29 本机 controller 验证 use-provider 的实际成员与空池回退，v1.19.31 官方源码交叉核对；详见 [后续研究](../../docs/research/2026-09-30-routing-runtime-followup.md)。55 组名称、规则和 DNS 不变。
+- CANDIDATES: all 22 native regional/global/residential url-test groups used `exclude-type: direct|reject`, preserving named support outbounds and dial dependencies without treating them as remote latency candidates.
+- EMPTY: configured `empty-fallback: REJECT` for every test group, avoiding default direct fallback after support outbounds were excluded.
+- VERIFY: a local Mihomo v1.19.29 controller verified actual use-provider members and empty-pool fallback, cross-checked against official v1.19.31 source. See [follow-up research](../../docs/research/2026-09-30-routing-runtime-followup.md). Names of all 55 groups, rules and DNS were unchanged.
 
 ## v6.0.14-cmfa.6 (2026-09-29)
 
-- FIX：同步首段 DIRECT 融合资产，微信 HTTPDNS 两个精确域名先于 BlockHttpDNS 拦截规则直连。
-- SYNC：跟随 Clash Party v6.0.14；保持 132 个融合 provider / 151 条主规则。
+- FIX: synchronized first-segment DIRECT assets, routing two exact WeChat HTTPDNS domains directly before BlockHttpDNS.
+- SYNC: followed Clash Party v6.0.14, retaining 132 fused providers / 151 main rules.
 
 ## v6.0.13-cmfa.5 (2026-09-03)
 
-- FIX-LINUXDO-CN-ROUTE：同步第 013 融合域名资产，`linuxdo.org` 及子域进入 `🏠 国内网站`；`linux.do` 保持受限网站。
-- SYNC：保持 132 个融合 provider / 151 条主规则，仅升级发布缓存键并接受目标资产的单域名增量。
+- FIX-LINUXDO-CN-ROUTE: synchronized segment 013 so `linuxdo.org` and subdomains targeted `🏠 国内网站`; `linux.do` retained restricted-site routing.
+- SYNC: retained 132 fused providers / 151 rules, upgrading only release-cache keys and the target asset's single-domain addition.
 
 ## v6.0.12-cmfa.4 (2026-09-01)
 
-- FIX#181-PC：同步首段精确直连资产，`login.nvidia.cn` 优先于 NVIDIA 下载规则；其余 NVIDIA 下载/开发域名不变。
-- SYNC：保持 132 个融合 provider / 151 条主规则，仅升级发布缓存键并重放授权差异。
+- FIX#181-PC: synchronized exact direct assets so `login.nvidia.cn` preceded NVIDIA download rules; other NVIDIA download/developer domains were unchanged.
+- SYNC: retained 132 fused providers / 151 rules, upgrading cache keys and replaying the authorized diff only.
 
 ## v6.0.11-cmfa.3 (2026-08-22)
 
-- ROUTING：同步 Gemini 与 Accademia Gemini 的融合引用至 `🔍 Google 服务`；不移动或改写 `szkane-ai`。
-- SYNC：规则缓存路径升级至 `v6.0.11`，对应 132 个融合 provider / 151 条主规则。
+- ROUTING: synchronized Gemini / Accademia Gemini fused references to `🔍 Google 服务` without moving or rewriting `szkane-ai`.
+- SYNC: upgraded rule-cache paths to `v6.0.11`, with 132 fused providers / 151 rules.
 
 ## v6.0.10-cmfa.3 (2026-08-08)
 
-- FIX#179-NETEASE-GAME-DIRECT：同步首段融合直连资产；两个报告的网易游戏服务主机在 anti-AD 与国内游戏宽规则之前命中 `DIRECT`。
+- FIX#179-NETEASE-GAME-DIRECT: synchronized first-segment assets; two reported NetEase game hosts matched `DIRECT` before anti-AD and broad China-game rules.
 
 ## v6.0.9-cmfa.2 (2026-08-08)
 
-- FIX-APAC-HOME-REGEX：`🏡 亚太家宽` 的 `filter` 末尾多余一个右括号，导致 Mihomo 无法编译该策略组正则；现已修复，CN / 港台日韩新马与其它亚太家宽节点恢复可筛选。
-- GUARD：合同验证会逐一编译所有 CMFA 策略组 `filter`，并拒绝 Go RE2 不支持的 lookaround / backreference，而非仅覆盖固定地区样例。
+- FIX-APAC-HOME-REGEX: removed an extra closing parenthesis from `🏡 亚太家宽` filter that prevented Mihomo regex compilation, restoring selection of CN / Hong Kong / Taiwan / Japan / Korea / Singapore / Malaysia and other APAC residential nodes.
+- GUARD: contracts compiled every CMFA group filter and rejected Go RE2-unsupported lookaround/backreferences instead of testing only fixed regional samples.
 
 ## v6.0.9-cmfa.1 (2026-07-19)
 
-- 同步 `api.github.com` 的通用工具组融合段并置于广义 AI 规则前；桌面进程例外保留在 Mihomo 规则顺序中。
+- Synchronized generic `api.github.com` tools routing before broad AI rules, preserving desktop-process exceptions in Mihomo ordering.
 
 ## v6.0.8-cmfa.1 (2026-07-15)
 
-- 全量同步国内权威优先级，并为全部融合 rule-provider 写入版本化 URL 与本地缓存路径。
+- Fully synchronized China-authority priority and added versioned URLs/local cache paths to every fused provider.
 
 ## v6.0.7-cmfa.1 (2026-07-14)
 
-- FIX#176：CMFA 规则顺序同步国内域名权威段优先于通用国际 CDN / GeoIP fallback；中国站点落在境外 CDN IP 时继续命中 `🏠 国内网站`。
+- FIX#176: placed authoritative China-domain segments before generic international CDN / GeoIP fallback; China sites on international CDN IPs still matched `🏠 国内网站`.
 
 ## v6.0.6-cmfa.1 (2026-07-14)
 
-- DIRECT-WORKPRO-WEB：`scki-local-process-direct` 的 fused direct residual 同时包含 `WorkPro.exe` 和 `WorkProWebProcess.exe`；支持进程匹配的桌面 Mihomo 消费端固定路由至 `DIRECT`。
+- DIRECT-WORKPRO-WEB: fused direct residuals from `scki-local-process-direct` included `WorkPro.exe` and `WorkProWebProcess.exe`, routing supporting desktop Mihomo clients to `DIRECT`.
 
 ## v6.0.5-cmfa.1 (2026-07-14)
 
-- DIRECT-WORKPRO：WorkPro.exe 随 scki-local-process-direct 保留在默认 direct 融合 residual；回归清单要求桌面 Mihomo 消费端始终命中 DIRECT。
+- DIRECT-WORKPRO: kept WorkPro.exe in default direct residuals; regressions required DIRECT on desktop Mihomo consumers.
 
 ## v6.0.4-cmfa.1 (2026-07-13)
 
-- DIRECT-ITWDB：`itwdb.com` 随 `scki-local-direct` 编译为 Mihomo domain MRS 的 `+.itwdb.com` payload，固定命中默认 `DIRECT`，覆盖 WorkPro 子域名。
-- SYNC：由 source graph v6.0.4 重新生成融合 provider 与规则顺序，`unresolved=0`。
+- DIRECT-ITWDB: compiled `itwdb.com` from `scki-local-direct` into `+.itwdb.com` domain-MRS payload, covering WorkPro subdomains through default DIRECT.
+- SYNC: regenerated fused providers/order from source graph v6.0.4 with `unresolved=0`.
 
 ## v6.0.3-cmfa.1 (2026-07-12)
 
-- FIX#FUSED-DOMAIN-PAYLOAD：融合 `behavior: domain` provider 现仅含 Mihomo 原生精确 / wildcard payload；keyword / regex 留在 classical residual，避免静默漏匹配或语义扩大。
-- AI-PRECEDENCE：OpenAI / ChatGPT 域名及其必要的 telemetry / Cloudflare 关联域名在广告与国外网站段之前命中 `🤖 AI 服务`。
-- SYNC：由 source graph v6.0.3 生成 124 个融合 rule-provider / 141 条规则，`unresolved=0`。
+- FIX#FUSED-DOMAIN-PAYLOAD: domain providers retained only native exact/wildcard payloads; keyword/regex remained classical residuals, preventing silent misses or semantic expansion.
+- AI-PRECEDENCE: OpenAI/ChatGPT and required telemetry/Cloudflare-associated domains matched `🤖 AI 服务` before ads/international sites.
+- SYNC: source graph v6.0.3 generated 124 fused providers / 141 rules with `unresolved=0`.
 
 ## v6.0.2-cmfa.1 (2026-07-10)
 
-- SYNC：跟随 source graph / Clash Party v6.0.2，更新为 113 个融合 rule-provider、130 条主规则和 55 个策略组。
-- PERF：域名/IP `.mrs` 已在同策略段内完成规范化与语义去重；国家/服务 GEOIP 保留为少量 residual YAML，避免将运行时数据库查询放大为 CIDR 列表。
-- FAIL-CLOSED：融合 manifest 出现 unresolved source、非法残余规则或聚合预算超限时不再生成本产物。
+- SYNC: followed source graph / Clash Party v6.0.2 with 113 fused providers, 130 rules and 55 groups.
+- PERF: normalized and semantically deduplicated domain/IP MRS within same-policy segments. Country/service GEOIP remained small residual YAML instead of expanding runtime database queries into CIDR lists.
+- FAIL-CLOSED: refused generation when the fused manifest had unresolved sources, invalid residuals or exceeded aggregate budgets.
 
 ## v6.0.1-cmfa.1 (2026-07-10)
 
-- SYNC：跟随 Clash Party v6.0.1 和 source graph v6.0.1 重新同步；CMFA 保持融合 `.mrs` / residual YAML 消费方式、113 个 rule-provider 与 130 条主规则。
-- DELIVERY：本端不消费大文本规则集，因此不改变规则语义；远程文本分片修复由同一融合链路供 Shadowrocket / Surge / Loon / Quantumult X 使用。
+- SYNC: followed Clash Party/source graph v6.0.1, retaining fused MRS/residual YAML, 113 providers and 130 rules.
+- DELIVERY: this client did not consume large text sets, so semantics remained unchanged; the same pipeline supplied text-splitting fixes to Shadowrocket / Surge / Loon / Quantumult X.
 
 ## v6.0.0-cmfa.1 (2026-07-09)
 
-- FUSED-RULESETS：跟随 Clash Party v6.0.0 融合规则集架构，CMFA 直接引用融合后的 `.mrs` / residual YAML。
-- SCALE：规则区从 `474 providers / 931 rules` 压缩为 `113` 个融合 provider 与 `130` 条规则。
-- BASELINE：CMFA 继续是派生产物，不能作为上游权威源；权威输入固定为 Clash Party Smart 运行时输出。
+- FUSED-RULESETS: followed v6.0.0 architecture, referencing fused MRS / residual YAML directly.
+- SCALE: reduced `474 providers / 931 rules` to `113` fused providers and `130` rules.
+- BASELINE: CMFA remained derived, not authoritative. This historical release recorded Clash Party Smart runtime output as its fixed authority input.
 
 ## v5.4.39-cmfa.1 (2026-07-09)
 
-- MRS-PARTIAL：全量复查并迁移剩余可转 `YamlRule` / `TextRule`，CMFA 当前为 474 providers、929 条规则。
-- MIHOMO-MRS：424 个 provider 使用 `.mrs`，30 个 provider 使用 `rulesets/generated/mihomo-mrs/*-classical.yaml` 承载不支持 `.mrs` 的残余规则，20 个 provider 因全量不可转继续保留。
-- SCKI-SUPPLEMENTAL：domain/ipcidr 补充规则集改为引用本仓库生成 `.mrs`；`scki-local-process-direct` / `scki-work-process` 保持 Clash classical 文本规则集。
-- VERIFY：合同校验新增 partial / residual 计数与 `scki-*` `.mrs` 引用检查。
+- MRS-PARTIAL: reviewed/migrated remaining convertible YamlRule/TextRule inputs; CMFA had 474 providers and 929 rules.
+- MIHOMO-MRS: 424 providers used MRS; 30 used `rulesets/generated/mihomo-mrs/*-classical.yaml` residuals; 20 wholly unconvertible providers retained their formats.
+- SCKI-SUPPLEMENTAL: domain/ipcidr supplemental sets switched to repository-generated MRS. `scki-local-process-direct` / `scki-work-process` retained Clash classical text.
+- VERIFY: added partial/residual counts and `scki-*` MRS-reference checks.
 
 ## v5.4.38-cmfa.1 (2026-07-09)
 
-- SCKI-SUPPLEMENTAL：同步 Clash Party v5.4.38 的 15 个 `scki-*` rule-provider。
-- MIHOMO-MRS：上游规则源同步迁移到 429 providers、884 条规则，其中 366 个 provider 使用 `.mrs`，38 个混合 classical provider 拆分为 domain/ipcidr 双 `.mrs`。
-- VERIFY：合同校验改为检查补充规则集引用，不再要求主规则散写单条白名单。
+- SCKI-SUPPLEMENTAL: synchronized 15 `scki-*` providers from v5.4.38.
+- MIHOMO-MRS: migrated upstream sources to 429 providers / 884 rules, including 366 MRS providers and 38 mixed classical providers split into domain/ipcidr MRS pairs.
+- VERIFY: contracts checked supplemental references rather than requiring scattered inline exceptions.
 
 ## v5.4.37-cmfa.1 (2026-06-29)
 
-- ★ DNS-POLICY#170：`dns.nameserver-policy` 新增 `geosite:cn` → AliDNS / DNSPod DoH、`geosite:geolocation-!cn` → Cloudflare / Google DoH。
-- 与 Clash Party v5.4.37 的 DNS 行为对齐；`direct-nameserver-follow-policy: true` 保持启用，说明文字同步为 CDN + geosite policy。
+- ★ DNS-POLICY#170: added `geosite:cn` → AliDNS/DNSPod DoH and `geosite:geolocation-!cn` → Cloudflare/Google DoH in `dns.nameserver-policy`.
+- Aligned DNS with v5.4.37, retaining `direct-nameserver-follow-policy: true`; descriptions covered CDN + geosite policies.
 
 ## v5.4.36-cmfa.1 (2026-06-29)
 
-- CLEAN#171-DIRECT：同步删除 22 条经逐条确认的冗余直写规则，provider 保持 376，规则语义与 Clash Party v5.4.36 对齐。
-- AI / Binance / Microsoft login 候选因不同策略 `.mrs` 前置阻断，继续保留。
+- CLEAN#171-DIRECT: removed 22 individually verified redundant inline rules, retaining 376 providers and v5.4.36 semantics.
+- AI / Binance / Microsoft-login candidates remained because earlier different-policy MRS prevented safe deletion.
 
 ## v5.4.35-cmfa.1 (2026-06-28)
 
-- ★ CLEAN#170-UPSTREAM：同步删除 8 个冗余 rule-provider 及对应 `RULE-SET` 行：`marketing`、`acc-vf-paypal`、`encoretvb`、`findmy`、`wildrift`、`acfun`、`acc-fl-douyin`、`acc-fl-xiaohongshu`。
-- CLEAN#170-DIRECT：删除 3 条已被前置 Douyin 国内流媒体守卫同目标覆盖的后置直写规则：`douyin.com`、`douyinpic.com`、`douyinvod.com`。
-- Provider / RULE-SET 实测数：384 → 376；所有剩余 provider 下载代理继续保持 `🚫 受限网站`。
-- `privacy` 保留，因 `IP-CIDR,0.0.0.1/32` 未被前序规则覆盖。
+- ★ CLEAN#170-UPSTREAM: removed eight redundant providers and RULE-SET lines: `marketing`, `acc-vf-paypal`, `encoretvb`, `findmy`, `wildrift`, `acfun`, `acc-fl-douyin`, `acc-fl-xiaohongshu`.
+- CLEAN#170-DIRECT: removed three later inline rules already covered by the earlier same-target Douyin China-streaming guard: `douyin.com`, `douyinpic.com`, `douyinvod.com`.
+- Measured provider / RULE-SET count: 384 → 376. Remaining download proxies stayed `🚫 受限网站`.
+- Retained `privacy` because earlier rules did not cover `IP-CIDR,0.0.0.1/32`.
 
 ## v5.4.34-cmfa.1 (2026-06-28)
 
-- ★ FIX#169-AMAP：新增 MetaCubeX `amap.mrs` provider，下载代理保持 `🚫 受限网站`。
-- 将 `RULE-SET,amap,🏠 国内网站` 放在广告/威胁规则之后、`proxy` / `geolocation-!cn` 国外兜底之前，修复 `webapi.amap.com` 误走国外的首匹配风险。
+- ★ FIX#169-AMAP: added MetaCubeX `amap.mrs`, retaining download proxy `🚫 受限网站`.
+- Placed `RULE-SET,amap,🏠 国内网站` after ads/threats but before proxy/geolocation-!cn fallback, preventing first-match international misrouting of `webapi.amap.com`.
 
 ## v5.4.33-cmfa.1 (2026-06-27)
 
-- ★ FEAT#169-AI-CODING：新增 `vpsdance-ai-coding` rule-provider，来源为 VPSDance `rules/clash/coding.yaml`。
-- 保留国内游戏优先级修复，AI 编程工具仍归入 `🤖 AI 服务`。
+- ★ FEAT#169-AI-CODING: added `vpsdance-ai-coding` from VPSDance `rules/clash/coding.yaml`.
+- Preserved China-game priority; AI coding tools remained in `🤖 AI 服务`.
 
 ## v5.4.32-cmfa.1 (2026-06-25)
 
-- ★ FIX#168-CN-GAME：`🕹️ 国内游戏` 规则块前置到 `🎮 国外游戏` 之前；早期散落的 `GEOSITE,category-games` 归回国外游戏块，避免抢先吞掉国内游戏域名。
-- 新增合同断言覆盖 `yuanshen.com` / `mihoyo.com` 早于 HoYoverse/Game/category-games 宽规则。
+- ★ FIX#168-CN-GAME: moved `🕹️ 国内游戏` before `🎮 国外游戏`; returned early scattered `GEOSITE,category-games` to international games to avoid premature China-game matches.
+- Contracts checked `yuanshen.com` / `mihoyo.com` before broad HoYoverse/Game/category-games rules.
 
 ## v5.4.31-cmfa.1 (2026-06-20)
 
-- ★ FIX#167-DOUYIN：在广告/TikTok/国外尾部规则前增加抖音 Web 国内流媒体守卫，覆盖 `douyin.com` 与 `zjcdn.com` 等视频 CDN 域名。
-- 版本头与 README 对齐 Clash Party v5.4.31，并补跨端合同断言。
+- ★ FIX#167-DOUYIN: added a Douyin Web China-streaming guard before ads/TikTok/international tail rules, covering `douyin.com`, `zjcdn.com` and related video CDN domains.
+- Header/README aligned with v5.4.31; added cross-client contracts.
 
 ## v5.4.30-cmfa.1 (2026-06-17)
 
-- ★ FEAT#166-GOOGLE：新增 `🔍 Google 服务` 业务组，插入在 `🔧 工具与服务` 之前。
-- `scholar` / `google` / `google-ip` 规则与 Google QUIC 规则改投新组；`🔧 工具与服务` 仅保留非 Google 搜索和开发者服务。
+- ★ FEAT#166-GOOGLE: added `🔍 Google 服务` before `🔧 工具与服务`.
+- Moved scholar/google/google-ip and Google QUIC to the new group; tools retained only non-Google search/developer services.
 
 ## v5.4.29-cmfa.1 (2026-06-10)
 
-- ★ PERF#165-LATENCY：22 个区域 `url-test` 组统一使用 `interval: 300`，替代原 `180`。
-- 订阅 `proxy-providers.Subscribe.health-check.interval` 确认维持 `300`，避免 provider 与区域组出现不同测速节奏。
-- 版本头与 README 对齐 Clash Party v5.4.29。
+- ★ PERF#165-LATENCY: all 22 regional url-test groups used `interval: 300` instead of 180.
+- Confirmed `proxy-providers.Subscribe.health-check.interval` remained 300 to align provider/group test cadence.
+- Header/README aligned with v5.4.29.
 
 ## v5.4.28-cmfa.1 (2026-06-07)
 
-- ★ CLEAN#165 P2：清理 6 个流媒体/游戏段中已被同策略 RULE-SET 覆盖的 38 条直写 `DOMAIN-SUFFIX` 规则。
-  - 覆盖段：🇭🇰 香港流媒体（-4）、🇹🇼 台湾流媒体（-5）、🇯🇵 日韩流媒体（-6）、🇪🇺 欧洲流媒体（-3）、🌐 其他国外流媒体（-6）、🎮 国外游戏（-12）、剩余 2 条为 v5.4.27 已清理的补记。
-  - 每段上方添加 `# CLEAN#165:` 注释标注被移除的域名列表及对应 RULE-SET。
+- ★ CLEAN#165 P2: removed 38 inline DOMAIN-SUFFIX rules already covered by same-policy sets across six streaming/game segments.
+  - Segments: Hong Kong streaming (-4), Taiwan (-5), Japan/Korea (-6), Europe (-3), other international streaming (-6), international games (-12); two remaining entries documented earlier v5.4.27 cleanup.
+  - Added `# CLEAN#165:` comments listing removed domains and covering RULE-SETs above each segment.
 
 ## v5.4.27-cmfa.1 (2026-06-07)
 
-- ★ CLEAN#165：同步基线清理 7 条已由 `claude` / `paypal` / `hbo` / `hulu` / `xbox` rule-provider 先行覆盖的直写域名，规则命中策略不变。
+- ★ CLEAN#165: removed seven inline domains already covered by claude/paypal/hbo/hulu/xbox providers, preserving matching policy.
 
 ## v5.4.26-cmfa.1 (2026-06-07)
 
-- ★ FIX#164：腾讯 WorkBuddy `copilot.tencent.com` 国内直连防吞——szkane `AiDomain.list` 的 `DOMAIN-KEYWORD,copilot` 子串会把它误吞到 `🤖 AI 服务`（国外代理）导致对话报错；在 `RULE-SET,openai` 等所有 AI rule-set 之前前置 `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站`。基线 Clash Party v5.4.26。
+- ★ FIX#164: prevented szkane `AiDomain.list` substring `DOMAIN-KEYWORD,copilot` sending Tencent WorkBuddy `copilot.tencent.com` to `🤖 AI 服务` and causing conversation errors. Inserted `DOMAIN-SUFFIX,copilot.tencent.com,🏠 国内网站` before `RULE-SET,openai` and all AI sets. Baseline: v5.4.26.
 
 ## v5.4.25-cmfa.3 (2026-06-05)
 
-- ★ SYNC#FAKE-IP-FILTER：补齐 `+.courier.push.apple.com` / `+.miui.com` / `+.xiaomi.com` / `+.xiaomi.net` / `+.mijia.tech` / `+.gotui.com`，与 Clash Party Smart/Normal/FlClash 的 57 条 fake-ip-filter 完全对齐。
-- ★ VERIFY：`tools/validate-artifact-contracts.js` 新增 fake-ip-filter 必需条目校验，防止 mihomo 家族再次漏同步。
+- ★ SYNC#FAKE-IP-FILTER: added `+.courier.push.apple.com`, `+.miui.com`, `+.xiaomi.com`, `+.xiaomi.net`, `+.mijia.tech`, `+.gotui.com`, matching all 57 entries in Smart/Normal/FlClash.
+- ★ VERIFY: added required fake-ip-filter checks in `tools/validate-artifact-contracts.js` to prevent Mihomo-family drift.
 
 ## v5.4.25-cmfa.2 (2026-06-04)
 
-- ★ FIX#CMFA-YAML-P0：修复 `proxy-groups:` 下首个 `url-test` 组缺少列表项缩进导致的 YAML 解析失败。
-- ★ 验证补强：`tools/validate-artifact-contracts.js --strict-ruby` 现在会实际解析 CMFA YAML，并校验 54 组 / 382+ providers / 900+ rules。
+- ★ FIX#CMFA-YAML-P0: fixed missing list indentation on the first url-test group under proxy-groups, which caused YAML parse failure.
+- ★ Validation: `tools/validate-artifact-contracts.js --strict-ruby` actually parsed CMFA YAML and checked 54 groups / 382+ providers / 900+ rules.
 
 ## v5.4.25-cmfa.1 (2026-06-03)
 
-- ★ 审查修复：`GEOIP,CN` 重复规则去重（规则区块末尾出现 2 次 → 保留 1 条）
+- ★ Review fix: deduplicated two trailing `GEOIP,CN` rules to one.
 
 ## v5.4.23-cmfa.1 (2026-06-02)
 
-- ★ FIX#161：`DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` → 🏠 国内网站 直连（知乎图片 CDN + 短链，同步基线）。
+- ★ FIX#161: `DOMAIN-SUFFIX,zhimg.com` + `DOMAIN-SUFFIX,zhihu.co` targeted `🏠 国内网站` direct routing for Zhihu image CDN/short links, matching the baseline.
 
 ## v5.4.22-cmfa.1 (2026-05-31)
 
-- ★ GeTui(个推)推送 SDK `getui.com` / `getui.net` / `gepush.com` 加直连白名单（review 后补；延续 #2，被通用广告/隐私表当 tracker 拦截但承载 App 推送如米家；owner 选放行）。
+- ★ Added GeTui push SDK `getui.com` / `getui.net` / `gepush.com` to direct exceptions after review. Continuing #2, generic ad/privacy feeds treated them as trackers despite carrying application push such as Mi Home; the owner chose to allow them.
 
-#1 借鉴 Proxy-override：QUIC 精细化——AND 规则白名单豁免（YouTube/Google/MS/Apple 的 QUIC 走对应业务组）；其余非 CN QUIC REJECT。首次补齐 CMFA 的 QUIC AND 规则（此前缺失）。
+#1 Proxy-override adaptation: refined QUIC through AND-rule exceptions for YouTube/Google/MS/Apple service groups; rejected other non-CN QUIC. Added previously missing CMFA QUIC AND rules.
 
-- 兜底判据 `GEOIP,CN` → `GEOSITE,cn`（**有意的语义变更**，fake-ip 下更可靠）；CMFA 既有 `sniffer`（force-dns-mapping）保障真 IP QUIC 的 GEOSITE 匹配。
+- Changed fallback from `GEOIP,CN` to `GEOSITE,cn`, an intentional semantic change recorded as more reliable with fake-ip. Existing force-dns-mapping sniffing supported real-IP QUIC GEOSITE matches.
 
 ## v5.4.21-cmfa.1 (2026-05-31)
 
-#4 借鉴 Proxy-override：`default-nameserver` 从纯明文 IP 升级为 DoH-over-IP + 1 明文兜底；消除 bootstrap 阶段 DNS 泄漏。
+#4 Proxy-override adaptation: replaced plaintext-IP-only `default-nameserver` with DoH-over-IP plus one plaintext fallback. The historical release described this as eliminating bootstrap DNS leakage; the retained plaintext fallback means it is not a general zero-leak guarantee.
 
 ## v5.4.20-cmfa.1 (2026-05-30)
 
-借鉴 Proxy-override 批 B · #6 节点过滤关键词补充（spec：`docs/2026-05-30-proxy-override-借鉴设计.md`）：
+Proxy-override batch B, #6 node-filter keywords; spec: `docs/2026-05-30-proxy-override-借鉴设计.md`:
 
-- proxy-providers `exclude-filter` 正则新增：中文 `免费` / `试用` / `应急`；英文 `\bSign\b` / `\bLogin\b` / `\bRegister\b` / `\bHelp\b` / `\bFAQ\b`（Go RE2 子串引擎下用 `\b` 词边界，避免误伤 Signal 等）
-- 不加「更新」「地址」（误伤风险高，owner spec 排除）
-- 一致性回归：`tools/test-info-node-filter.js` 覆盖本产物 exclude-filter
-- 🔢 版本：v5.4.19-cmfa.1 → v5.4.20-cmfa.1
+- Added exclude-filter keywords `免费` / `试用` / `应急`, and `\bSign\b` / `\bLogin\b` / `\bRegister\b` / `\bHelp\b` / `\bFAQ\b`. Go RE2 substring matching used word boundaries to protect names such as Signal.
+- Excluded `更新` / `地址` due to false-positive risk, as specified by the owner.
+- `tools/test-info-node-filter.js` covered this artifact's exclude-filter.
+- 🔢 Version: v5.4.19-cmfa.1 → v5.4.20-cmfa.1.
 
 ## v5.4.19-cmfa.1 (2026-05-30)
 
-借鉴 Proxy-override 批 A（跟随 Clash Party v5.4.19；spec：`docs/2026-05-30-proxy-override-借鉴设计.md`）：
+Proxy-override batch A, following Clash Party v5.4.19; spec: `docs/2026-05-30-proxy-override-借鉴设计.md`:
 
-- ✅ #2 国内 SDK/CDN 直连前置
-  - jpush / `msg.umeng.com` 前置到 `RULE-SET,jiguangtuisong` / `youmengchuangxiang` 广告拦截规则之前强制 DIRECT（沿用 paddle / 小米误杀前置白名单机制）
-  - `baomitu.com` / `bootcss.com` / `staticfile.org` / `upaiyun.com` 前置到 🏠 国内网站段 `RULE-SET,cn` 之前
-- ✅ #3 fake-ip-filter 补全 10 条（远控 todesk/oray/sunlogin/teamviewer/anydesk · 游戏 battlenet.com.cn/wotgame.cn/wggames.cn/wowsgame.cn · B站 P2P mcdn.bilivideo.cn）
-- ✅ #5 `direct-nameserver-follow-policy: true`（direct 出口域名解析遵循 nameserver-policy；本仓库 policy 仅含境外 CDN，零国内误伤）
-- 🔢 版本：v5.4.17-cmfa.1 → v5.4.19-cmfa.1（全产物跳过烧毁的 .18 统一到 v5.4.19）
+- ✅ #2 Added leading China SDK/CDN direct rules.
+  - Forced jpush / `msg.umeng.com` DIRECT before jiguangtuisong / youmengchuangxiang ad sets, reusing Paddle/Xiaomi false-positive guards.
+  - Placed `baomitu.com`, `bootcss.com`, `staticfile.org`, `upaiyun.com` before `RULE-SET,cn` in the China-site segment.
+- ✅ #3 Added ten fake-ip-filter entries: remote access todesk/oray/sunlogin/teamviewer/anydesk; games battlenet.com.cn/wotgame.cn/wggames.cn/wowsgame.cn; Bilibili P2P mcdn.bilivideo.cn.
+- ✅ #5 Added `direct-nameserver-follow-policy: true` so direct-outbound domain resolution followed nameserver-policy. That release recorded the policy as containing only international CDNs, with no China-domain false positives.
+- 🔢 Version: v5.4.17-cmfa.1 → v5.4.19-cmfa.1; all artifacts skipped invalid .18 and converged on v5.4.19.
 ## v5.4.17-cmfa.2 (2026-05-30)
 
-- ★ FIX#HOSTS-ALIGN：`use-hosts: false` → `true`，对齐主线启用 hosts 预解析
-  - 主线（Clash Party Smart JS）`use-hosts` 默认 true 且 hosts 固定全部 DoH 域名 IP，用于消除 fake-ip 冷启动循环依赖 + 防 DoH 域名被污染
-  - CMFA 此前显式 `use-hosts: false` 关掉了已对齐主线的 hosts 块（dns.alidns.com / doh.pub / dns.google / cloudflare-dns.com）；改 true 后生效
-  - §1 DNS 跨产物联动：OpenClash Normal/Full 同步（并补全各自 hosts 缺失的 alidns/doh.pub）
+- ★ FIX#HOSTS-ALIGN: changed use-hosts false → true to enable baseline hosts pre-resolution.
+  - Main Smart JS defaulted use-hosts to true and pinned DoH-host IPs, intended to break fake-ip cold-start loops and resist DoH hostname poisoning.
+  - CMFA previously disabled its aligned hosts block for dns.alidns.com / doh.pub / dns.google / cloudflare-dns.com; true activated it.
+  - §1 DNS synchronization also updated OpenClash Normal/Full and completed their missing alidns/doh.pub hosts.
 
 ## v5.4.17-cmfa.1 (2026-05-26)
 
-- ✅ FIX#DNS-SPLIT-BOOTSTRAP：同步 Clash Party v5.4.17 DNS 合同
-  - `default-nameserver` 只保留 `223.5.5.5 / 119.29.29.29 / 1.1.1.1 / 8.8.8.8`
-  - `nameserver` / `direct-nameserver` 全部使用国内 DoH；`proxy-server-nameserver` / `fallback` 使用境外 DoH
-  - 关闭 `prefer-h3`，开启 `respect-rules: true`，补齐 `nameserver-policy` 与 `fallback-filter.geosite`
+- ✅ FIX#DNS-SPLIT-BOOTSTRAP: synchronized v5.4.17 DNS contract.
+  - default-nameserver retained only `223.5.5.5 / 119.29.29.29 / 1.1.1.1 / 8.8.8.8`.
+  - That release used China DoH for nameserver/direct-nameserver and international DoH for proxy-server-nameserver/fallback.
+  - Disabled prefer-h3, enabled respect-rules and completed nameserver-policy/fallback-filter.geosite.
 
 ## v5.4.16-cmfa.2 (2026-05-22)
 
-- ✅ FEAT#GAME-ACCEL：新增游戏加速器 `PROCESS-NAME -> DIRECT` 白名单
-  - 新增 16 条 PROCESS-NAME 规则（UU / 小黑 / 迅游 / 雷神 / NNer 加速器）
-  - 同步 Clash Party v5.4.16 基线
+- ✅ FEAT#GAME-ACCEL: added game-accelerator `PROCESS-NAME -> DIRECT` exceptions.
+  - Added 16 PROCESS-NAME rules for UU / Xiaohei / Xunyou / Leishen / NNer accelerators.
+  - Synchronized v5.4.16 baseline.
 
 ## v5.4.16-cmfa.1 (2026-05-20)
 
-- ✅ FIX#149-P0：rules 顶部前置 `DOMAIN-SUFFIX,paddle.com,🏦 金融支付`
-  - 当前 anti-AD/DustinWin 源包含 `analytics.paddle.com`，该白名单必须位于 `RULE-SET,anti-ad` 之前
-  - 修复 Antigravity 登录/账号设置中 Paddle 许可支付链路被广告规则误拦截的问题
+- ✅ FIX#149-P0: placed `DOMAIN-SUFFIX,paddle.com,🏦 金融支付` at the start of rules.
+  - anti-AD/DustinWin then included `analytics.paddle.com`, requiring the exception before `RULE-SET,anti-ad`.
+  - Repaired ad rejection of Paddle licensing/payment paths during Antigravity login/account settings.
 
 ## v5.4.15-cmfa.1 (2026-05-20)
 
-- 🧾 DOC#GEOSITE-LEDGER：同步 Clash Party v5.4.15 元数据，新增 GEOSITE 覆盖台账引用。
-- ♻️ REFACTOR#AD-FP-MODULE：rules 顶部显式标记 Anti-ad false-positive allowlist；规则顺序与 v5.4.14 保持等价。
+- 🧾 DOC#GEOSITE-LEDGER: synchronized v5.4.15 metadata and added GEOSITE coverage references.
+- ♻️ REFACTOR#AD-FP-MODULE: labelled the leading ad false-positive allowlist explicitly; ordering remained equivalent to v5.4.14.
 
 ## v5.4.14-cmfa.1 (2026-05-20)
 
-- ✅ FIX#CF-R2-P0：前置 `DOMAIN-SUFFIX,cloudflarestorage.com,🌐 国外网站`
-  - 覆盖 Sukka `reject_phishing` 对 Cloudflare R2 存储域的误拦截
-  - 后段 CDN/国外网站重复条目已移除，规则首匹配稳定落到 `🌐 国外网站`
+- ✅ FIX#CF-R2-P0: placed `DOMAIN-SUFFIX,cloudflarestorage.com,🌐 国外网站` early.
+  - Corrected Sukka reject_phishing false positives for Cloudflare R2.
+  - Removed the later CDN/international duplicate, ensuring first-match international routing.
 
 ## v5.4.13-cmfa.1 (2026-05-19)
 
-- ✅ FIX#STUN-REALIP：STUN/TURN 域名不再拿 fake-ip，标准探测端口直连
-  - `fake-ip-filter-mode` 改回 `blacklist`，移除不存在的 `RULE-SET,Google` / `RULE-SET,AI` 等引用
-  - 补齐 `stun1-4.l.google.com`、STUN/TURN 通配与 `DST-PORT 5349 / 19302 / 19305 / 19307`
+- ✅ FIX#STUN-REALIP: STUN/TURN domains stopped receiving fake-ip; standard detection ports went direct.
+  - Restored blacklist mode and removed nonexistent `RULE-SET,Google` / `RULE-SET,AI` references.
+  - Added stun1-4.l.google.com, STUN/TURN wildcards and DST-PORT 5349 / 19302 / 19305 / 19307.
 
 ## v5.4.12-cmfa.1 (2026-05-12)
 
-- ✅ FIX#RD-REALIP：`DOMAIN-SUFFIX,rustdesk.com,real-ip` 加入 `fake-ip-filter-mode: rule`
-  - RustDesk 域名仍由会议协作规则走代理，但 DNS 返回真实 IP，避免 rendezvous/relay 拿到 198.18.x fake-ip
+- ✅ FIX#RD-REALIP: added `DOMAIN-SUFFIX,rustdesk.com,real-ip` to historical fake-ip-filter rule mode.
+  - RustDesk domains retained collaboration proxy routing but received real DNS IPs instead of 198.18.x for rendezvous/relay.
 
 ## v5.4.11-cmfa.1 (2026-05-12)
 
-- ✅ FIX#RD-PROC：RustDesk 进程规则从 `DIRECT` 改为 `🧑‍💼 会议协作`，并保留 `DOMAIN-SUFFIX,rustdesk.com` 前置保护
-- ✅ FIX#DNS-BOOTSTRAP：DNS `nameserver` / `direct-nameserver` / `proxy-server-nameserver` 改为 IP-first，避免 DoH 自举死锁
+- ✅ FIX#RD-PROC: moved RustDesk processes from DIRECT to `🧑‍💼 会议协作`, retaining the leading rustdesk.com guard.
+- ✅ FIX#DNS-BOOTSTRAP: nameserver/direct-nameserver/proxy-server-nameserver became IP-first to avoid DoH bootstrap deadlock.
 
 ## v5.4.9-cmfa.1 (2026-05-11)
 
-- ✅ FEAT#LOCAL-TOOLS：同步 Clash Party v5.4.9 的桌面本地工具 `PROCESS-NAME -> DIRECT` 白名单
-  - 面向 ClashMi Windows/macOS/Linux 与其他桌面 Mihomo YAML 消费端；Android 导入不报错但不以桌面进程名为主要命中路径
-  - 仅使用精确进程名，不使用宽泛 `PROCESS-NAME-REGEX`
-
+- ✅ FEAT#LOCAL-TOOLS: synchronized v5.4.9 desktop local-tool PROCESS-NAME → DIRECT exceptions.
+  - Targeted ClashMi Windows/macOS/Linux and other desktop Mihomo consumers. Android accepted import but did not rely primarily on desktop process names.
+  - Used exact names only, not broad PROCESS-NAME-REGEX.
 
 ## v5.4.8-cmfa.2 (2026-05-11)
 
-- ★ META#BASELINE：同步文件头基线为 Clash Party v5.4.8
-  - 不改变 proxy-groups / rule-providers / rules 语义
+- ★ META#BASELINE: aligned header baseline to v5.4.8.
+  - No change to proxy-groups/rule-providers/rules semantics.
 
 ## v5.4.8-cmfa.1 (2026-05-09)
 
-- ★ ORDER#RULE-TAIL：同步 Clash Party v5.4.8 规则尾段匹配顺序
+- ★ ORDER#RULE-TAIL: synchronized v5.4.8 tail-rule order.
 
 ## v5.4.7-cmfa.1 (2026-05-09)
 
-- ★ FEAT#TikTok：新增独立 `🎵 TikTok` 业务组（32 业务组），置于 `📺 国内流媒体` 与 `🎥 Netflix` 之间
-  - proxy-groups 插入 `🎵 TikTok` select 组（引用 `*id002`）；rules 从 `📱 社交媒体` 独立并前置
-- ★ FIX#HK：香港节点/家宽 `filter:` 追加 `|港`，补全广港/深港等 IEPL/IPLC 跨境专线节点分类
+- ★ FEAT#TikTok: added independent `🎵 TikTok` group (32 service groups), between `📺 国内流媒体` and `🎥 Netflix`.
+  - Added `🎵 TikTok` select group referencing `*id002`; split its rules from social media and moved them earlier.
+- ★ FIX#HK: appended `|港` to Hong Kong node/residential filters for Guangzhou/Shenzhen-to-Hong-Kong IEPL/IPLC labels.
 
 ## v5.4.6-cmfa.1 (2026-05-08)
 
-- ★ FEAT#145：WeChat CDN 直连
-  - 新增 `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT`（置于 iwipwedabay.com 后、binance 前）
-  - 跟随 Clash Party v5.4.6 基线
+- ★ FEAT#145: WeChat CDN direct routing.
+  - Added `DOMAIN-SUFFIX,cdn.weixin.qq.com,DIRECT` after iwipwedabay.com and before binance.
+  - Followed v5.4.6 baseline.
 
 ## v5.4.5-cmfa.1 (2026-05-07)
 
-- ★ 全球节点置顶 + 全产品组顺序同步（跟随基线 v5.4.5）
+- ★ Moved global nodes first and synchronized group ordering across products, following v5.4.5.
 
 ## v5.4.4-cmfa.1 (2026-05-07)
 
-- ★ FIX#144：bbys.app DIRECT 规则
-  - 新增 `DOMAIN-SUFFIX,bbys.app,DIRECT` 规则（置于 acc-chinamax 后、GFW 前），bbys.app 视频域名直连
-- ★ FEAT#143：家宽 filter 新增 IEPL/IPLC/专线识别
-  - 所有家宽区域组的 `filter:` 正则中追加 `iplc|iepl|专线`，匹配含 IPLC/IEPL/专线标识的家宽类型节点
-- ★ FIX#142（DNS 冷启动）为 Clash Party JS 专属修复，静态配置豁免（无同构改动）
+- ★ FIX#144: bbys.app DIRECT rule.
+  - Added `DOMAIN-SUFFIX,bbys.app,DIRECT` after acc-chinamax and before GFW for direct video access.
+- ★ FEAT#143: added IEPL/IPLC/dedicated-line residential detection.
+  - Appended `iplc|iepl|专线` to all residential-region filters.
+- ★ FIX#142 DNS cold-start repair was JS-specific; static configuration was exempt with no shared runtime change.
 - Bump: `v5.4.3-cmfa.1` → `v5.4.4-cmfa.1`
 
 ## v5.4.3-cmfa.1 (2026-05-06)
 
-- ★ FEAT：家宽 filter 添加 `|home` 关键词（跟随 Clash Party v5.4.3 基线）
-  - 所有 11 个家宽区域组的 `filter:` 内 `resi(dential)?|...|broadband|isp` 追加 `|home`，匹配仅含 Home 的节点名
+- ★ FEAT: added `|home` to residential filters, following v5.4.3.
+  - Appended it after `resi(dential)?|...|broadband|isp` in all 11 residential filters to match Home-only indicators.
 
 ## v5.4.2-cmfa.1 (2026-05-05)
 
-- ★ FIX#41-P0：小米核心服务 DIRECT 白名单（跟随 Clash Party v5.4.2 基线）
-  - 新增 11 条 DIRECT 规则前置广告拦截段，修复 miuiprivacy/advertisingmitv 误杀认证安全域名
+- ★ FIX#41-P0: Xiaomi core-service DIRECT exceptions, following v5.4.2.
+  - Added 11 DIRECT rules before ad blocking, correcting miuiprivacy/advertisingmitv rejection of authentication/security domains.
 
 ## v5.4.0-cmfa.1 (2026-05-05)
 
-- ★ FEAT#SG：新增 🇸🇬 狮城节点 + 🏡 狮城家宽 独立 url-test 区域组
-  - 新加坡从 🌏 亚太节点 filter 中移除，独立成组
-  - 所有 31 业务组 proxy 列表增加狮城选择
-  - 区域组总数：18 → 20（10 全部 + 10 家宽），总组数：49 → 51
-  - 跟随基线 Clash Party v5.4.0
+- ★ FEAT#SG: added independent `🇸🇬 狮城节点` / `🏡 狮城家宽` url-test groups.
+  - Removed Singapore from APAC filtering and created its separate group.
+  - Added Singapore to proxy candidates for all 31 service groups.
+  - Regional groups: 18 → 20 (10 all-node + 10 residential); total groups: 49 → 51.
+  - Followed Clash Party v5.4.0.
 
 ## v5.3.0-cmfa.1 (2026-04-26)
 
-- ★ REFACTOR#2：流媒体分组架构重构——按区域 → 按平台（7→13 流媒体组）
-  - 拆出 5 个主流平台独立组：🎥 Netflix / 🎬 Disney+ / 📡 HBO/Max / 📺 Hulu / 🎬 Prime Video
-  - 拆出 2 个全球平台独立组：📹 YouTube / 🎵 音乐流媒体
-  - 保留 4 个区域锁区组：🇭🇰 香港流媒体 / 🇹🇼 台湾流媒体 / 🇯🇵 日韩流媒体 / 🇪🇺 欧洲流媒体
-  - 新增 🌐 其他国外流媒体 兜底（接收长尾平台 + 原东南亚流媒体）
-  - 业务组 25→31，总组 43→49
-## v5.2.11-cmfa.1 (2026-04-26) — 业务组合并精简 28→25（降低用户认知负担）
+- ★ REFACTOR#2: changed streaming grouping from region-based to platform-based (7 → 13 groups).
+  - Added independent Netflix / Disney+ / HBO/Max / Hulu / Prime Video groups.
+  - Split global YouTube / music-streaming groups.
+  - Retained Hong Kong / Taiwan / Japan-Korea / Europe regional streaming groups.
+  - Added other-international-streaming fallback for long-tail platforms and former Southeast Asia streaming.
+  - Service groups: 25 → 31; total groups: 43 → 49.
 
-- ★ **REFACTOR#1**：跟随 Clash Party v5.2.11 基线，业务组合并精简
-  - 合并 🔍搜索引擎 + 📟开发者服务 → 新增 🔧工具与服务
-  - 合并 📧邮件服务 → 🌐国外网站
-  - 合并 ☁️云与CDN → 🌐国外网站
-  - 📥下载更新 策略从 DIRECT 优先改为代理优先
-  - 🛰️BT/PT Tracker 保留独立
+<a id="v5211-cmfa1-2026-04-26--业务组合并精简-2825降低用户认知负担"></a>
+
+## v5.2.11-cmfa.1 (2026-04-26) — Service groups consolidated 28 → 25
+
+- ★ REFACTOR#1: followed v5.2.11 to consolidate service groups and reduce selection complexity.
+  - Merged search engines and developer services into tools/services.
+  - Merged mail services into international sites.
+  - Merged cloud/CDN into international sites.
+  - Changed downloads/updates from DIRECT-first to proxy-first.
+  - Retained independent BT/PT Tracker.
 - Bump: `v5.2.10-cmfa.1` → `v5.2.11-cmfa.1`
 
-## v5.2.10-cmfa.1 (2026-04-25) — 境外 DoH 端点改路由到 🚫 受限网站
+<a id="v5210-cmfa1-2026-04-25--境外-doh-端点改路由到--受限网站"></a>
 
-- ★ **FIX#39**（同构联动）：跟随 Clash Party v5.2.10 基线
-  - `DOMAIN,dns.google,☁️ 云与CDN` → `🚫 受限网站`
-  - `DOMAIN,dns.google.com,☁️ 云与CDN` → `🚫 受限网站`
-  - `DOMAIN-SUFFIX,cloudflare-dns.com,☁️ 云与CDN` → `🚫 受限网站`
-  - 原因：dns.google / cloudflare-dns.com 在境内被 GFW 阻断，语义上属"受限网站"而非"CDN"；
-    放在 `🚫 受限网站` 后即使 `☁️ 云与CDN` 被用户改成直连，DoH 仍能走代理。
-  - 国内 DoH 端点（doh.pub / dns.alidns.com）保留 `nameserver` / `direct-nameserver` 配置不变。
-- Bump: `v5.2.8-cmfa.6` → `v5.2.10-cmfa.1`（主版本追平到 v5.2.10）
+## v5.2.10-cmfa.1 (2026-04-25) — International DoH endpoints routed to restricted sites
 
-## v5.2.8-cmfa.6 (2026-04-25) — 补齐 18 区域 filter 中缺失的裸 ISO alpha-2 代码
+- ★ FIX#39: synchronized shared behavior with v5.2.10.
+  - `DOMAIN,dns.google,☁️ 云与CDN` → `🚫 受限网站`.
+  - `DOMAIN,dns.google.com,☁️ 云与CDN` → `🚫 受限网站`.
+  - `DOMAIN-SUFFIX,cloudflare-dns.com,☁️ 云与CDN` → `🚫 受限网站`.
+  - That release recorded dns.google/cloudflare-dns.com as blocked from China, classifying them as restricted sites rather than CDN.
+    This kept DoH proxied even if the cloud/CDN group was manually changed to direct.
+  - China DoH endpoints doh.pub/dns.alidns.com retained nameserver/direct-nameserver settings.
+- Bump: `v5.2.8-cmfa.6` → `v5.2.10-cmfa.1`, aligning the major version.
 
-- ★ **FIX#29-P2**：CMFA 区域 filter 缺少裸 ISO alpha-2 代码（`HK`/`TW`/`JP`/`KR`/`SG`/`US`/`CA`/`EU`/`AF`）
-  - 现象：节点命名为 `HK-01` / `JP-01` / `US-01`（无旗帜 emoji 且无 alpha-3 代码）时，
-    CMFA `filter:` 因缺少裸 2 字母代码而无法分类 → 节点落入默认全局组。
-    其他产物（Clash Party JS word-boundary regex、OpenClash Ruby 子串、SR/独立内核系/Surge/独立内核系/Loon/QX 显式罗列）
-    均能正确分类此类命名。
-  - 根因：CMFA filter 使用 Go RE2 子串匹配，裸 `US` 会误命中 `MUSIC`/`FOCUS`/`JUST` 等
-    含 `US` 子串的单词。早期版本为规避此问题故意省略了裸代码。
-  - 修复：对 18 个区域 filter（9 全部 + 9 家宽）添加 `(^|[^a-zA-Z])CODE([^a-zA-Z]|$)` 字边界模拟模式。
-    该模式在 Go RE2 中正常工作（标准捕获组 + 锚点 + 字符类组合，不依赖 `\b`/lookahead 等 RE2 不支持的语法）。
-    - `(^|[^a-zA-Z])` 匹配字符串开头或非字母字符
-    - `CODE` 为具体的 2 字母 ISO 代码
-    - `([^a-zA-Z]|$)` 匹配非字母字符或字符串结尾
-    - 效果：`HK-01` ✅ / `NODE_US` ✅ / `JP01` ✅ / `MUSIC` ❌ / `FOCUS` ❌ / `TWD` ❌
-  - 影响区域：🇭🇰 香港 / 🇹🇼 台湾 / 🇯🇵 日韩 / 🌏 亚太 / 🇺🇸 美国 / 🇪🇺 欧洲 / 🌎 美洲 / 🌍 非洲
-    （9 全部 + 9 家宽 = 18 处 filter，含 2 组 AND 复合 home filter 各两侧同时补齐）
-  - 全量审计跳过：OpenClash Ruby 已含裸代码（子串匹配）；JS baseline 已有 word-boundary；
-    SR/独立内核系/Surge/独立内核系/Loon/QX 已有显式罗列；SingBox/v2rayN 无运行时分类（N/A）。
-  - 版本号 `v5.2.8-cmfa.5` → `v5.2.8-cmfa.6`
+<a id="v528-cmfa6-2026-04-25--补齐-18-区域-filter-中缺失的裸-iso-alpha-2-代码"></a>
 
-## v5.2.8-cmfa.5 (2026-04-24) — DNSPod DoH 端点切换为纯 IP 形式
+## v5.2.8-cmfa.6 (2026-04-25) — Completed bare ISO alpha-2 codes in 18 regional filters
 
-- ★ `nameserver` / `proxy-server-nameserver` / `direct-nameserver` 三段里的
-  `https://doh.pub/dns-query` 全部替换为 `https://1.12.12.12/dns-query`
-  - DNSPod 同时提供 `doh.pub` 域名形式与 `1.12.12.12` 纯 IP 形式两种 DoH 端点
-  - 纯 IP 形式**无需 bootstrap DNS 解析 `doh.pub`**，消除"冷启动时 DoH 自依赖"的
-    潜在死锁（bootstrap 阶段 `default-nameserver` 只需解析 `dns.alidns.com` 和
-    `dns.cloudflare.com`，不再需要解析 `doh.pub`）
-- 版本号 `v5.2.8-cmfa.4` → `v5.2.8-cmfa.5`
+- ★ FIX#29-P2: filters lacked bare `HK`/`TW`/`JP`/`KR`/`SG`/`US`/`CA`/`EU`/`AF` codes.
+  - Names such as HK-01 / JP-01 / US-01, without flags or alpha-3 codes,
+    could not be classified and fell into the global group.
+    Other artifacts used JS word boundaries, OpenClash Ruby substrings or explicit SR/Surge/Loon/QX alternatives
+    and classified these names correctly.
+  - Go RE2 substring filters made bare US also match MUSIC/FOCUS/JUST;
+    earlier versions had therefore deliberately omitted bare codes.
+  - Added `(^|[^a-zA-Z])CODE([^a-zA-Z]|$)` to 18 filters (9 all-node + 9 residential).
+    This uses standard capture groups, anchors and character classes supported by Go RE2, avoiding unsupported lookahead. The historical note also mentioned avoiding reliance on `\b`.
+    - `(^|[^a-zA-Z])` matches start or a nonletter.
+    - CODE is the two-letter ISO code.
+    - `([^a-zA-Z]|$)` matches a nonletter or end.
+    - Results: HK-01 ✅ / NODE_US ✅ / JP01 ✅ / MUSIC ❌ / FOCUS ❌ / TWD ❌.
+  - Regions: Hong Kong / Taiwan / Japan-Korea / APAC / US / Europe / Americas / Africa.
+    Nine all-node plus nine residential filters were updated, including both sides of two compound home filters.
+  - Other artifacts required no update: OpenClash already had bare substrings; JS had word boundaries;
+    SR/Surge/Loon/QX listed alternatives; SingBox/v2rayN had no runtime classification (N/A).
+  - Version: v5.2.8-cmfa.5 → v5.2.8-cmfa.6.
+
+<a id="v528-cmfa5-2026-04-24--dnspod-doh-端点切换为纯-ip-形式"></a>
+
+## v5.2.8-cmfa.5 (2026-04-24) — DNSPod DoH switched to an IP endpoint
+
+- ★ In nameserver / proxy-server-nameserver / direct-nameserver,
+  replaced `https://doh.pub/dns-query` with `https://1.12.12.12/dns-query`.
+  - DNSPod offered both hostname and IP endpoints.
+  - IP-form DoH avoided bootstrap resolution of doh.pub, removing that potential
+    cold-start self-dependency; default-nameserver then needed only dns.alidns.com and
+    dns.cloudflare.com, not doh.pub, according to the recorded configuration.
+- Version: v5.2.8-cmfa.4 → v5.2.8-cmfa.5.
 
 ## v5.2.8-cmfa.4 (2026-04-24)
 
-- ★ **删除 2 个离线 rule-provider**（与 Clash Party v5.2.1 对齐）
-  - `ckrvxr-antifraud`（`Ckrvxr/MihomoRules/.../AntiAntiFraud.yaml`）—— 源仓库持续 404，Clash Party JS 在 v5.2.1 已删除并注释 `v5.2.1 REMOVED`
-  - `ckrvxr-antipcdn`（`Ckrvxr/MihomoRules/.../AntiPCDN.yaml`）—— 同上
-  - 同时删除 `rules:` 段中对应的 2 条 `RULE-SET,ckrvxr-antifraud,🛑 广告拦截` / `RULE-SET,ckrvxr-antipcdn,🛑 广告拦截`
-  - rule-providers 数量 386 → 384（与 OpenClash 对齐）
-- ★ **修正 3 条规则目标组归属**（对齐 Clash Party JS 基线）：
-  - `deepseek.com`：`🤖 AI 服务` → `🏠 国内网站`（基线 `BIZ.CN_SITE`）
-  - `inflection.ai`：`🤖 AI 服务` → `🚫 受限网站`（基线 `BIZ.GFW`）
-  - `pi.ai`：`🤖 AI 服务` → `🚫 受限网站`（基线 `BIZ.GFW`）
-- 版本号 `v5.2.8-cmfa.3` → `v5.2.8-cmfa.4`
+- ★ Removed two offline providers, matching Clash Party v5.2.1.
+  - ckrvxr-antifraud (`Ckrvxr/MihomoRules/.../AntiAntiFraud.yaml`): persistent source 404; JS had removed it in v5.2.1 with a REMOVED comment.
+  - ckrvxr-antipcdn (`Ckrvxr/MihomoRules/.../AntiPCDN.yaml`): same reason.
+  - Removed corresponding `RULE-SET,ckrvxr-antifraud,🛑 广告拦截` / `RULE-SET,ckrvxr-antipcdn,🛑 广告拦截`.
+  - Providers: 386 → 384, matching OpenClash.
+- ★ Corrected three targets to match JS baseline:
+  - deepseek.com: AI → China sites (`BIZ.CN_SITE`).
+  - inflection.ai: AI → restricted sites (`BIZ.GFW`).
+  - pi.ai: AI → restricted sites (`BIZ.GFW`).
+- Version: v5.2.8-cmfa.3 → v5.2.8-cmfa.4.
 
 ## v5.2.8-cmfa.3 (2026-04-23)
 
-- ★ **FIX#28-P0**（节点分类同构 bug 补齐）：🌏 亚太节点 filter 补 HK/TW/JP/KR 子串
-  - 现象：CMFA 侧用户订阅的香港/台湾/日韩节点进不了 🌏 亚太节点组。
-  - 根因：L486 亚太 filter 只匹配 `新加坡|Singapore|SGP|马来西亚|...|🇸🇬|🇲🇾|...`，未包含 HK/TW/JP/KR 任何标识 → mihomo 按 Go RE2 子串匹配时，港台日韩节点全部落空。与 Clash Party JS 主线语义不一致（`apacNodes = c.HK.concat(c.TW, c.CN, c.JP, c.KR, c.SG, c.APAC_OTHER)`）。
-  - 修复：
-    - L486 🌏 亚太节点 filter 头部补 `香港|HongKong|Hong\s*Kong|HKG|🇭🇰|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷`（与香港/台湾/日韩节点 filter 关键词一致，避免裸 `HK`/`TW`/`JP`/`KR` 误命中 HKD / TWD 等非节点字符串）
-    - L495 🏡 亚太家宽 filter 同步扩展（两侧 lookahead/lookbehind 的子区域关键词都加）
-  - 💡 美洲节点（L540）已包含 `美国|United\s*States|USA|LAX|...|🇺🇸`，不需要改；欧洲/非洲亦已正确覆盖所属国家。
-  - 同构 bug 审计（CLAUDE.md §1.5 强制）：OpenClash Ruby Normal / Full 命中同构 bug，本 PR 一并修复（见 `Mihomo内核系/OpenClash/CHANGELOG.md` v5.2.8-oc-normal.3 / v5.2.8-oc-full.3）。Clash Party JS / Normal JS / Shadowrocket / Surge / Loon / QX 核对均已有正确覆盖；SingBox / v2rayN 无运行时分类（N/A）。
-  - 跟随基线：Clash Party v5.2.8 → CMFA bump 到 `v5.2.8-cmfa.3`。
+- ★ FIX#28-P0: completed shared regional-classification repair by adding HK/TW/JP/KR substrings to APAC.
+  - Hong Kong/Taiwan/Japan/Korea subscription nodes were absent from the APAC group.
+  - At L486, the filter matched only `新加坡|Singapore|SGP|马来西亚|...|🇸🇬|🇲🇾|...`, omitting HK/TW/JP/KR. Go RE2 therefore missed them, unlike JS `apacNodes = c.HK.concat(c.TW, c.CN, c.JP, c.KR, c.SG, c.APAC_OTHER)`.
+  - Fix:
+    - Prepended L486 APAC filter with `香港|HongKong|Hong\s*Kong|HKG|🇭🇰|台湾|台灣|Taiwan|Taipei|TPE|TWN|🇹🇼|日本|东京|大阪|Japan|Tokyo|Osaka|NRT|KIX|JPN|🇯🇵|韩国|首尔|Korea|Seoul|ICN|KOR|🇰🇷`, matching regional keywords while avoiding bare HK/TW/JP/KR collisions with HKD/TWD.
+    - Expanded both sides of the L495 APAC residential composite filter (the original record called them lookahead/lookbehind).
+  - Americas L540 already included `美国|United\s*States|USA|LAX|...|🇺🇸`; Europe/Africa already covered their countries.
+  - Historical CLAUDE.md §1.5 audit: OpenClash Normal/Full had the same bug and were fixed in the PR (OpenClash CHANGELOG v5.2.8-oc-normal.3 / v5.2.8-oc-full.3). Party Smart/Normal, Shadowrocket, Surge, Loon and QX already covered them. SingBox/v2rayN had no runtime classification.
+  - Followed Clash Party v5.2.8; CMFA bumped to v5.2.8-cmfa.3.
 
 ## v5.2.7-cmfa.1 (2026-04-23)
 
-- ★ **FIX#27-P1**：消除 mihomo 加载 3 个 classical rule-provider 的 parse warning（与 Clash Party v5.2.7 同步）
-  - 现象（用户报告）：CMFA 启动 / reload 日志反复打印
+- ★ FIX#27-P1: removed parse warnings from three classical providers, matching v5.2.7.
+  - Users reported repeated startup/reload logs:
     - `parse classical rule [USER-AGENT,TikTok*] error: unsupported rule type: USER-AGENT`
     - `parse classical rule [USER-AGENT,BBCiPlayer*] error: unsupported rule type: USER-AGENT`
     - `parse classical rule [IP-CIDR , 17.253.4.125] error: payloadRule error`
-  - 根因：upstream `szkane/ClashRuleSet` 的 `CiciAi.list` / `UK.list` 各含 1 行 USER-AGENT（mihomo `classical` provider 不识别，是 Surge / iOS 遗留语法）；upstream `Accademia/Additional_Rule_For_Clash` 的 `Grok.yaml` 含 1 行 `IP-CIDR         , 17.253.4.125`（多余空格 + 缺 CIDR 掩码）。
-  - 修复：把 `szkane-ciciai` / `szkane-uk` / `acc-grok` 的 URL 切到本仓库根目录新增的 `mirrors/` 子目录的清洗副本（仅删问题行，剩余规则字节级一致）。TikTok / BBC 域名分别已由 `geosite:tiktok` / `geosite:bbc` 提供 100% 覆盖；17.253.4.125 是 Apple `time.apple.com` anycast，与 Grok 路由无关。
-  - 跟随基线：Clash Party v5.2.7 → CMFA bump 到 `v5.2.7-cmfa.1`。
+  - Upstream szkane CiciAi.list / UK.list each contained one USER-AGENT line unsupported by Mihomo classical (legacy Surge/iOS syntax). Accademia Grok.yaml contained `IP-CIDR         , 17.253.4.125` with extra spaces and no mask.
+  - Switched szkane-ciciai / szkane-uk / acc-grok to cleaned repository mirrors, removing only invalid lines with remaining bytes unchanged. geosite:tiktok / geosite:bbc already fully covered TikTok/BBC domains. 17.253.4.125 was Apple time.apple.com anycast, unrelated to Grok.
+  - Followed v5.2.7; CMFA bumped to v5.2.7-cmfa.1.
 
-## docs (2026-04-23) — 追加 ClashMi 兼容说明（纯文档，YAML 未改动）
+<a id="docs-2026-04-23--追加-clashmi-兼容说明纯文档yaml-未改动"></a>
 
-- ★ **README §一 顶部"适用客户端"行**：追加 **[ClashMi](https://github.com/KaringX/clashmi)**（KaringX 跨平台 Flutter GUI，iOS/macOS/Android/Windows/Linux）。
-- ★ **README 新增 §九〈兼容客户端：ClashMi（跨平台）〉**：导入方式 + 与 CMFA 行为一致点（37 代理组 / 387 RULE-SET / fake-ip DNS / 区域组 url-test）+ ClashMi 专属差异表 6 项。
-- ★ **根 `README.md`**：
-  - 顶部"覆盖客户端"列表补 `ClashMi`
-  - 协议矩阵"客户端列名缩写对照"里 **CMFA** 条目扩展到包含 ClashMi，指向 CMFA §九
-- ★ **`CLAUDE.md` §0 备注链**：新增一段〈关于 ClashMi〉（与〈关于 Hiddify〉对称，说明"mihomo 跨平台 GUI 版"的复用模式）。
-- **关键兼容性论据**（均引自 ClashMi 官方 [FAQ](https://clashmi.app/guide/faq)）：
-  - ClashMi bundle 的是 MetaCubeX mihomo **mainline**（非 vernesong Smart fork）—— 与 CMFA 同源。
-  - ClashMi 内核定制会把 `GEOIP,*` / `GEOSITE,*` **强制转换**为 rule-set → 本 YAML 自检 **0 条 GEOIP / 0 条 GEOSITE / 387 条 RULE-SET**，转换零触发。
-  - iOS VPN Extension 50 MB 内存硬顶 → 本 YAML 使用 `.mrs` 二进制 + 懒加载，不触发 OOM。
-  - iOS 端 IP-ASN 不可用 → 本 YAML 未使用 ASN 规则。
-  - `tun:` 由 App UI 托管 → 本 YAML 未写 `tun:` 段，天然兼容。
-- **版本号策略**：本次仅改 `README.md` / `CHANGELOG.md` / 根 `README.md` / `CLAUDE.md`，**未触及** `CMFA(mihomo).yaml`，故不 bump YAML 版本号。
+## docs (2026-04-23) — ClashMi compatibility documentation; YAML unchanged
+
+- ★ Added [ClashMi](https://github.com/KaringX/clashmi), the KaringX Flutter GUI for iOS/macOS/Android/Windows/Linux, to README section 1's client list.
+- ★ Added README section 9: import methods, shared CMFA behavior (then recorded as 37 groups / 387 RULE-SETs / fake-ip / url-test), and six ClashMi differences.
+- ★ Root README:
+  - Added ClashMi to the covered-client list.
+  - Extended the CMFA abbreviation in the protocol matrix to include ClashMi and link section 9.
+- ★ Historical CLAUDE.md §0 added a ClashMi note, parallel to Hiddify, explaining reuse by a cross-platform Mihomo GUI.
+- Compatibility evidence was drawn from the official [FAQ](https://clashmi.app/guide/faq):
+  - Bundled MetaCubeX mainline, not vernesong Smart, shared CMFA's core lineage.
+  - Forced GEOIP/GEOSITE conversion to rule sets did not trigger: that YAML had 0 GEOIP / 0 GEOSITE / 387 RULE-SETs.
+  - The historical entry claimed MRS plus lazy loading avoided the iOS extension's 50 MB OOM limit. This was a recorded claim, not device-memory proof or a current guarantee.
+  - iOS lacked IP-ASN; YAML used no ASN rules.
+  - Application-managed TUN matched the YAML's absence of a tun section.
+- Version policy: README/CHANGELOG/root README/historical CLAUDE.md changed, but CMFA YAML did not, so no YAML version bump.
 
 ## v5.2.6 (2026-04-22)
 
-- ★ **FIX#24-P0**（同构 bug 补齐）：`filter:` 正则补 ISO alpha-3 国家代码
-  - 现象：机场节点命名为 `TWN 01 / JPN 01 / KOR 01 / SGP 01` 时，mihomo 按 `filter:` 正则做子串匹配。
-    原 TW 组只有 `Taiwan|Taipei|TPE|🇹🇼`；JP/KR 组只有 `Japan|Korea|Tokyo|Osaka|Seoul|NRT|KIX|ICN|🇯🇵|🇰🇷`；
-    APAC 组没有 `SG/Singapore/🇸🇬`。这些 alpha-3 命名节点一律漏过滤 → 台湾/日韩/亚太组少节点
-  - 修复：
-    - L521 🇹🇼 台湾节点 filter：补 `TWN`
-    - L548 🌏 亚太节点 filter：补 `新加坡|Singapore|SGP|🇸🇬`
-    - L557 🇯🇵 日韩节点 filter：补 `JPN|KOR`
-  - 同步 Clash Party v5.2.6 FIX#24（JS REGION_DB + OpenClash Ruby REGIONS 同步修复）
+- ★ FIX#24-P0: added ISO alpha-3 country codes to filter regexes.
+  - Provider names TWN 01 / JPN 01 / KOR 01 / SGP 01 were matched by Mihomo substring regex.
+    Original Taiwan alternatives were only `Taiwan|Taipei|TPE|🇹🇼`; Japan/Korea had `Japan|Korea|Tokyo|Osaka|Seoul|NRT|KIX|ICN|🇯🇵|🇰🇷`;
+    APAC lacked SG/Singapore/🇸🇬, so alpha-3 nodes were missing from these regional groups.
+  - Fix:
+    - Added TWN to L521 Taiwan filter.
+    - Added `新加坡|Singapore|SGP|🇸🇬` to L548 APAC filter.
+    - Added JPN/KOR to L557 Japan/Korea filter.
+  - Synchronized v5.2.6 FIX#24 alongside JS REGION_DB and OpenClash Ruby REGIONS.
 
 ## v5.2.5 (2026-04-20)
 
-- ★ 同步 Clash Party v5.2.5 FIX#23-P1：删除 `acc-geositecn` + `acc-china` 两个 rule-provider（与 `geosite:cn` 纯重复）
-- 头部版本号从 v5.2.2 同步到 v5.2.5
+- ★ Synchronized v5.2.5 FIX#23-P1: removed acc-geositecn / acc-china providers as pure duplicates of geosite:cn.
+- Header version: v5.2.2 → v5.2.5.
 
 ## v5.2.2 (2026-04-20)
 
-对齐 Clash Party FIX#17-P0：
+Aligned with Clash Party FIX#17-P0:
 
-- ★ `rule-providers` 统一 `proxy: '🚫 受限网站'`（389 处，原值 `'☁️ 云与CDN'`）
-- ★ 头部版本号从 v5.2.0 同步到 v5.2.2
+- ★ Unified 389 provider entries to `proxy: '🚫 受限网站'`, formerly `'☁️ 云与CDN'`.
+- ★ Header version: v5.2.0 → v5.2.2.
 
-## v5.2.0 (初版)
+<a id="v520-初版"></a>
 
-- 9 url-test 区域组 + 28 业务策略组 + 375+ rule-providers
-- 所有 GEOSITE / GEOIP 高级标签已用等效 RULE-SET 替代，无需等 `.dat` 下载
-- 区域组使用 `type: url-test`（静态 YAML 不支持 Mihomo Smart + LightGBM；LightGBM 仅在桌面端 Clash Party JS 运行时注入）
+## v5.2.0 (initial release)
+
+- Nine url-test regions, 28 service groups and 375+ providers.
+- The release replaced advanced GEOSITE/GEOIP labels with equivalent RULE-SETs, recording that no .dat download wait was needed.
+- Regional groups used url-test. The historical entry described Smart/LightGBM as absent from static YAML and injected only at desktop Clash Party JS runtime; this records that artifact's design, not a universal core-format restriction.

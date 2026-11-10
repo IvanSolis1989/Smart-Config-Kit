@@ -1,21 +1,28 @@
-# 离线表单直接下载 FlClash JS
+<a id="离线表单直接下载-flclash-js"></a>
+# Download FlClash JS directly from the offline form
 
-目标：用户在既有离线表单选 Full / Lite / Custom 后直接下载可关联的 FlClash JS，无需运行 CLI。其他客户端的 JSON + CLI 入口保留；本地参数页维持原有安全更新方式。
+**English** | [简体中文](2026-10-29-flclash-offline-download.zh-CN.md)
 
-## 实现与责任
+> English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
-- 复用 `business-profiles` 的源图业务目录、安全闭包与现有 `projectScript`，提取共享纯脚本模板。Node 构建时验证源与模板，浏览器仅校验选择并组装可信文本，不执行 main、不读取用户代码、不联网。
-- 业务模块所有者维护 `flclash-browser-export.js`、共享脚本模板与独立回归；表单所有者维护生成器、HTML 和表单事件测试；主线程维护 CI、说明、日志、实际浏览器验收与发布。单文件单写者。
-- Full 下载保持发布源内容；Lite/Custom 与 CLI 的同方案输出一致。保留拒绝非法输入、DNS、代理链、QUIC、基础业务和 FlClash 原位引用合同。
-- 表单标识独立工具版本 1.1.0；正式默认客户端及共享 MRS/fused 文件不改，不触发规则/运行时全端重生成。共享脚本提取必须验证字节/语义无变化。
+Goal: users select Full / Lite / Custom in the existing offline form and download an associable FlClash JS file without CLI. Other clients retain JSON + CLI entry points; local parameters retain their existing safe update mechanism.
 
-## 验收与收口
+<a id="实现与责任"></a>
+## Implementation and ownership
 
-1. 先失败用例，再验证三种方案、空/单项/混合/全业务选择与 CLI 的一致性，真实 QuickJS 覆盖成功身份和拒绝不变。
-2. 实际浏览器选 Lite/Custom 并下载文件，读回文件名、内容和完整运行结果；检查离线页面不产生网络请求、无动态代码执行、无用户脚本输入。
-3. 核对桌面明暗与窄屏渲染，更新 FlClash 和统一教程、根及相关 CHANGELOG，接入生成物检查和 CI。
-4. 与修改前 `482627dfeb8336569194540dd32011391baf02f4` 比较默认产物未变，运行直接相关回归；提交推 main，读回远端指针和触发的 CI。
+- Reuse the business-profiles source-graph service catalog, safety closure and existing projectScript, extracting shared pure script templates. Node validates sources/templates at build time; the browser validates choices and assembles trusted text, without executing main, reading user code or networking.
+- The business-module owner maintains flclash-browser-export.js, shared templates and isolated regressions; the form owner maintains generator, HTML and event tests; the coordinating thread owns CI, documentation, changelogs, actual browser acceptance and publication. One writer per file.
+- Full downloads retain published source content; Lite/Custom match the same CLI profile. Preserve rejection of invalid input and the DNS, proxy-chain, QUIC, base-service and FlClash in-place-reference contracts.
+- The form uses independent tool version 1.1.0. Default client artifacts and shared MRS/fused files remain unchanged, without triggering all-client rule/runtime regeneration. Template extraction requires unchanged byte/semantic verification.
 
-复用依据：本仓库已有可信源业务投影与 Blob JSON 下载，无需引入新依赖或第三方规则实现。MyClash 的按需服务设计在既有研究中作为参考；其节点变换和订阅信任处理不适用于本次安全边界，继续使用本仓库实现。
+<a id="验收与收口"></a>
+## Acceptance and completion
 
-实现、独立复核及本地验收已完成，详见[验证记录](../../reports/2026-10-29-flclash-offline-download.md)。最终提交、推送和 CI 结果由本次交付读回确认。
+1. Start with failing tests, then compare all three profiles and empty/single/mixed/all-service choices against CLI; actual QuickJS covers successful identity and unchanged rejection.
+2. Select Lite/Custom and download in a real browser. Read back filename, content and full runtime output. Confirm no page network requests, dynamic code execution or user-script input.
+3. Review desktop light/dark and narrow layouts; update FlClash/unified guides and root/relevant CHANGELOGs; add generated-artifact checks/CI.
+4. Compare unchanged default artifacts against pre-change `482627dfeb8336569194540dd32011391baf02f4`, run directly relevant regressions, commit/push main and read back remote pointers/triggered CI.
+
+Reuse rationale: trusted service projection and Blob JSON downloads already exist locally; no new dependency/third-party rule implementation is needed. MyClash's on-demand service design is a reference in existing research, but its node transformations/subscription trust handling do not fit this safety boundary. Continue using local implementations.
+
+Implementation, independent review and local acceptance are complete; see the [validation record](../../reports/2026-10-29-flclash-offline-download.md). Final commit, push and CI outcomes are confirmed by delivery-time readback.

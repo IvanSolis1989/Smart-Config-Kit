@@ -13,7 +13,7 @@ function fixture(t, transform = (value) => value) {
   const caseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-live-parser-'));
   t.after(() => fs.rmSync(caseDir, { recursive: true, force: true }));
   const original = fs.readFileSync(path.join(repoRoot, 'docs/README.md'), 'utf8');
-  const updated = transform(replaceUniqueH1(original, '# 文档中心', '# 文档索引'));
+  const updated = transform(replaceUniqueH1(original, '# Documentation', '# Documentation index'));
   const rawResponse = `<!-- AI_REPLY -->\n修改标题。\n<!-- /AI_REPLY -->\n<!-- AI_PATCH:docs/README.md -->\n${updated}\n<!-- /AI_PATCH -->\n<!-- AI_PR -->\n文档：修正索引标题\n|\n仅修改标题。\n<!-- /AI_PR -->`;
   const result = { status: 'ok', hasPatch: true, patchableFiles: ['docs/README.md'] };
   fs.writeFileSync(path.join(caseDir, 'response.txt'), rawResponse);
