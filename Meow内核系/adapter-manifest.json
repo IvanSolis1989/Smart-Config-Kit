@@ -11,13 +11,13 @@
     "Mihomo内核系/FlClash/FlClash(mihomo).js": "1c692381d0069d89edab73a31a43afa13e1d2079e2c58eb0852597e498df1e14",
     "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
     "rulesets/source/routing-graph.js": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
-    "rulesets/generated/fused/manifest.json": "b4ced6cd147588a53ee525221f0bd6e0eb9d98d915f92a3f8f9939e2ed1d421d",
+    "rulesets/generated/fused/manifest.json": "bdceec6c7f02873dc5a19ffc32ec7ccb4ddae9a16952e30db7d7eb560ca6c862",
     "tools/generate-meow.js": "d32d48d0ed788740196168186cc0423f8291fac416278592d2ef5851423ec23a",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
     "tools/lib/aerove-rule-assets.js": "d40f797462f21c90ab1925ea2980c6c0bdb8236baf78387701dee0f1bb2b6161",
     "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
     "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
-    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "bdc3440d9e3a4c475d73b2afbaa8d8991d69fffa3097b941495992cf8415ed39"
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "6a9987205b0d2426d86a5bb21abf0dc6475d4d8351030c4e7138d8feb59f14f0"
   },
   "output": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
