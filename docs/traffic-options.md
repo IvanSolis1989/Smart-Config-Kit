@@ -119,6 +119,35 @@ Field references: [Mihomo group `interval`/`lazy`](https://wiki.metacubex.one/co
 
 Clients also impose background restrictions, app suspension, and manual-test behavior. Configuration fields alone do not establish battery savings.
 
+### Use a preferred node with failover
+
+If a service normally needs a fixed egress, add an ordered `fallback` group to a **local copy of the Mihomo YAML**. Choose two nodes that meet the service’s region requirements. Put the primary first and prefer a different network path for the backup. This follows the PROXY_YAMLS approach of separating service selection from failover. Mihomo’s `fallback` picks the first node in list order that passes its health check. [Design reference](https://github.com/EdisonLe12/PROXY_YAMLS/blob/04de735ca7d51cc0975d77cab5ad651bf98b0f2e/OneSmartProMCX.yaml#L235-L250) · [Mihomo documentation](https://wiki.metacubex.one/config/proxy-groups/fallback/)
+
+1. Copy the YAML your client actually loaded and use the local copy for testing. If you use a JS override, get the resulting configuration from the client and load the copy on its own. Running the JS override again rebuilds the policy groups.
+2. Append the item below to the existing `proxy-groups` list. Replace `Primary node name` and `Backup node name` with the exact names of two real nodes listed under `proxies` in your copy.
+
+   ```yaml
+   - name: "Local preferred egress"
+     type: fallback
+     proxies:
+       - "Primary node name"
+       - "Backup node name"
+     url: "https://www.gstatic.com/generate_204"
+     expected-status: 204
+     interval: 300
+     lazy: true
+     empty-fallback: REJECT
+   ```
+
+3. In the local copy, find the service `select` group you want to adjust, such as `🔧 工具与服务`, and add `Local preferred egress` to its existing `proxies` list. After importing the copy, manually select `Local preferred egress` in that service group.
+4. Open a new connection to confirm that it uses the primary node. Make the primary unavailable under controlled conditions and trigger another health check. Open a new connection to verify that it uses the backup. When the primary becomes available again, check the egress of a fresh connection. Switch back to the original configuration when you finish testing.
+
+`empty-fallback` applies only when the candidate list is empty. If neither node is reachable, the service can still fail to connect. Failover can change the egress IP, and long-lived connections may need to reconnect. For services with strict login session requirements, verify the backup egress and reconnection behavior first. [Mihomo group fields](https://wiki.metacubex.one/config/proxy-groups/#empty-fallback)
+
+### Compare speeds using the service’s actual route
+
+Regional groups use probe endpoints to measure node reachability and latency. To compare performance for a specific service, keep the network and destination the same and test each egress in turn. Verify the matched policy and final node in the connection log, then record the success rate, time to first byte, or download speed across repeated requests. When using a speed test website, check the egress used by both the test page and the actual test server before using the result to judge the service’s performance. [PROXY_YAMLS dedicated routing for speed tests](https://github.com/EdisonLe12/PROXY_YAMLS/blob/04de735ca7d51cc0975d77cab5ad651bf98b0f2e/OneSmartProMCX.yaml#L350-L352)
+
 <a id="海外-udp443-与-quic"></a>
 ## Non-China UDP/443 and QUIC
 

@@ -108,6 +108,35 @@ OpenClash Smart/Normal 的 shell 脚本可在运行环境用 `SCKI_HEALTH_CHECK_
 
 各客户端还有自身的后台限制、应用休眠与手动测速行为，不能仅凭字段推断电量收益。
 
+### 固定主用节点，故障后使用备用
+
+如果某项业务平时需要固定出口，可以在 **Mihomo 本地 YAML 副本**中为它添加一个有序 `fallback` 组。选两个符合该业务地区要求的节点，主用排在前面，备用优先选择另一条线路。这里采用 PROXY_YAMLS 将业务选择与故障转移分层的做法，Mihomo 的 `fallback` 会按列表顺序选择第一个通过健康检查的节点。[设计参考](https://github.com/EdisonLe12/PROXY_YAMLS/blob/04de735ca7d51cc0975d77cab5ad651bf98b0f2e/OneSmartProMCX.yaml#L235-L250) · [Mihomo 官方说明](https://wiki.metacubex.one/config/proxy-groups/fallback/)
+
+1. 复制客户端实际加载的 YAML，用本地副本试用。若使用 JS 覆写，先从客户端取得覆写后的配置，并让副本独立加载。后续再次运行 JS 覆写会重建策略组。
+2. 把下面的项目追加到已有的 `proxy-groups` 列表。将 `主用节点名` 和 `备用节点名` 改为副本中 `proxies` 列表里两个真实节点的完整名称。
+
+   ```yaml
+   - name: "本地固定出口"
+     type: fallback
+     proxies:
+       - "主用节点名"
+       - "备用节点名"
+     url: "https://www.gstatic.com/generate_204"
+     expected-status: 204
+     interval: 300
+     lazy: true
+     empty-fallback: REJECT
+   ```
+
+3. 在副本中找到要调整的业务 `select` 组，例如 `🔧 工具与服务`，把 `本地固定出口` 加进它已有的 `proxies` 候选列表。导入后从该业务组手动选择 `本地固定出口`。
+4. 用一条新连接确认主用节点出站。在可控条件下使主用节点不可用并重新触发健康检查，再用新连接核对是否改走备用。恢复时检查新连接的最终出口。结束试用时切回原配置。
+
+`empty-fallback` 只在候选为空时生效。两个节点都不通时，业务仍可能连接失败。切到备用可能更换出口 IP，已有长连接也可能需要重连。对登录态要求严格的业务，应先验证备用出口与重连行为。[Mihomo 通用字段](https://wiki.metacubex.one/config/proxy-groups/#empty-fallback)
+
+### 用同一业务出口比较实际速度
+
+地区组健康检查用探测站点判断节点可达性和延迟。要比较某项业务的表现，固定同一网络和目标，分别选择两个出口，在连接日志中确认实际命中策略和最终节点，再记录重复请求的成功率、首包时间或下载速度。使用测速网站时，先看测速页面和实际测试服务器各自的连接出口，避免拿另一条线路的成绩判断业务体验。[PROXY_YAMLS 的测速独立选路](https://github.com/EdisonLe12/PROXY_YAMLS/blob/04de735ca7d51cc0975d77cab5ad651bf98b0f2e/OneSmartProMCX.yaml#L350-L352)
+
 ## 海外 UDP/443 与 QUIC
 
 `block-foreign` 以源规则图的原有四项服务例外加非国内 UDP/443 拒绝为基准；`follow-rules` 去掉这条专用拒绝，让 UDP/443 进入后续正常业务规则。它并不保证目标网站一定使用 HTTP/3，也不改变节点本身的 UDP 能力。
