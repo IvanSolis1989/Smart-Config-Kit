@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "generator": "tools/generate-egern-from-cmfa.js",
-  "asset_revision": "v6.0.21",
+  "asset_revision": "v6.0.22",
   "source": {
-    "cmfa_sha256": "7dd912af7e291d37f6abe5568869d0cee5aaae7a966742113945eb7d3dd92abf",
-    "routing_graph_sha256": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
+    "cmfa_sha256": "19bfa90d9eca316b5f03ccc05a9d1bd3f2eb91b573e2d50cb1a7795837b0fad3",
+    "routing_graph_sha256": "9f84a6493932c0318501b83f35f3c70bdcd6882c243be995e817e0b3ea702a4e",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },
   "rendered": {
-    "profile_sha256": "60c12f70d7b4aa3f80b78d734d3cd718baed50c9ebe559286170f383649d32af",
+    "profile_sha256": "354fd8f3802f208485594a97942898e3de7c1cd4ab4cbe99fa7bd55da86e6347",
     "rule_count": 153,
     "rule_set_ref_count": 136,
     "native_rule_set_count": 141,
@@ -47,8 +47,8 @@
       },
       {
         "file": "provider-scki-fused-001-direct-domain.yaml",
-        "bytes": 996,
-        "sha256": "baba167842800325152b803f897040bbcdd4ed243a3b5a6bedab45bbcda92514"
+        "bytes": 1043,
+        "sha256": "dffa7fbe9ade77332f89fa18927271614f3985d96c24f0c7409b5d7908bf3d46"
       },
       {
         "file": "provider-scki-fused-002-intl-site-domain.yaml",
@@ -92,8 +92,8 @@
       },
       {
         "file": "provider-scki-fused-010-ad-domain.yaml",
-        "bytes": 10583413,
-        "sha256": "a1607bf81db23775996cf9e0b67571a30b0b3eee2593cc16aba72f5d283a0932"
+        "bytes": 10583366,
+        "sha256": "a3cb042a457497d106e7fba287cbfeff28dcd4d9fd5df10538a5b0f678fa10b8"
       },
       {
         "file": "provider-scki-fused-010-ad-ipcidr.yaml",

@@ -91,6 +91,10 @@ function setLocalTrafficOptions(source, values, label = 'script') {
       if (value === 'reject') throw new Error('Source lacks the selected browser UDP capability: reject; update to a supporting script or explicitly select off');
       continue;
     }
+    if (key === 'aiHongKongPolicy' && !declaration) {
+      if (value === 'exclude') throw new Error('Source lacks the selected AI Hong Kong capability: exclude; update to a supporting script or explicitly select allow');
+      continue;
+    }
     const literal = value === null || typeof value === 'boolean' || typeof value === 'number' ? String(value) : `'${value}'`;
     if (declaration) {
       if (parsed.options[key] !== value) edits.push({ ...declaration, text: declaration.line.replace(new RegExp(`(=\\s*)(?:true|false|null|${NUMBER_LITERAL}|'[^']*'|"[^"]*")`), `$1${literal}`) });
@@ -123,6 +127,10 @@ function planLocalTrafficOptions(targetSource, source = targetSource, requested 
     // Older and App-managed scripts cannot gain this behavior by inserting an
     // unused constant. Keep their supported off behavior and bytes unchanged.
     delete options.browserUdpPolicy;
+  }
+  if (!Object.hasOwn(incoming, 'aiHongKongPolicy')) {
+    if (options.aiHongKongPolicy === 'exclude') throw new Error('Source lacks the selected AI Hong Kong capability: exclude; update to a supporting script or explicitly select allow');
+    delete options.aiHongKongPolicy;
   }
   const profile=options.subscriptionAdapterProfile;
   if(profile && profile!=='off') {

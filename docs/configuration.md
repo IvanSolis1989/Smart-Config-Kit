@@ -19,7 +19,7 @@ The default Full configuration is unchanged. Open the [configuration page](https
 
 | Client | Available options |
 | --- | --- |
-| Clash Party Smart / Normal, FlClash | Health checks, QUIC, endpoint DNS, multiplier cap, ZeroTier; UDP protection for selected Windows browsers |
+| Clash Party Smart / Normal, FlClash | Health checks, QUIC, endpoint DNS, multiplier cap, ZeroTier, AI Hong Kong node exclusion, and UDP protection for selected Windows browsers |
 | AEROVE Lite | Health checks, QUIC, multiplier cap, ZeroTier; DNS is app-managed and remains off |
 | OpenClash, both variants | Health checks, QUIC, endpoint DNS, multiplier cap; runtime environment variables still override downloaded defaults |
 | CMFA, Stash, Meow | Health checks and QUIC |
@@ -57,6 +57,7 @@ node tools/configure.js --settings 'D:\Configs\settings.json' --target 'D:\Confi
 | `--health-check` | `standard` / `power-save` | Standard by default; power saving changes check timing, not service selection |
 | `--quic` | `block-foreign` / `follow-rules` | Retains the existing non-China QUIC policy and service exceptions by default |
 | `--browser-udp` | `off` / `reject` | Off by default; rejects all UDP for Windows Chrome / Edge / Firefox, potentially affecting calls and HTTP/3 |
+| `--ai-hong-kong` | `allow` / `exclude` | Allows Hong Kong nodes by default. Select `exclude` to filter them from AI Service only. |
 | `--max-multiplier` | Positive number / `off` | Off by default; unknown or conflicting multiplier values do not trigger removal |
 | `--dns-profile` | `off` / `policy` / `adaptive` / `hosts-only` | `adaptive` by default; trusted local settings only |
 | `--zerotier` | `on` / `off` | Off by default; an explicit device-local choice |
@@ -74,6 +75,18 @@ If the new source lacks the selected endpoint DNS mode, updating fails before sa
 These options apply only to this repository's JS scripts that implement the corresponding capabilities. Follow client guides for static configurations and system networking. The earlier `configure-traffic-options.js` entry point still works.
 
 Browser UDP protection covers only the three specified Windows processes and requires TUN interception and working process identification. It defaults to `off` and cannot be enabled by a subscription. AEROVE Lite and other native entries do not expose it. See [WebRTC privacy and connection validation](guide/webrtc-privacy.md) for enablement, recovery and limitations.
+
+## Exclude Hong Kong nodes from AI Service
+
+For Clash Party Smart, Clash Party Normal, or FlClash, select **Exclude** under **Hong Kong nodes for AI services** in the configuration form. To update an existing local script, run:
+
+```bash
+node tools/configure.js --target 'D:\Configs\local.js' --ai-hong-kong exclude
+```
+
+Reload the override in your client. With exclusion active, AI Service expands any mixed region group into its eligible nodes and keeps region groups containing only eligible nodes. Hong Kong nodes remain available to other groups. If no eligible proxy is available, AI Service rejects the connection. Use `--ai-hong-kong allow` to restore the default.
+
+The option uses the node name and Hong Kong flag. It does not verify the actual exit IP location. Local script updates preserve the choice when the new script supports it.
 
 ## Generate service profiles
 

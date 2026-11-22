@@ -11,6 +11,10 @@
 
 > Native custom-routing artifacts follow the authoritative routing graph. See README and adapter manifest for platform differences.
 
+## v6.0.22-karing.4 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 ## v6.0.21-karing.3 (2026-11-09)
 
 - Issue #196: distinguished custom-rule URL references from application remote-asset registration, adding save-each-group activation steps for affected versions and pinned official-source evidence.

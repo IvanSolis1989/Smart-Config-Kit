@@ -50,10 +50,16 @@ function parseArgs(args) {
       if ('browserUdpPolicy' in options) throw new Error('Duplicate browser UDP option');
       options.browserUdpPolicy = value;
     }
+    else if (arg === '--ai-hong-kong' && args[i + 1]) {
+      const value = args[++i];
+      if (!['allow', 'exclude'].includes(value)) throw new Error('AI Hong Kong must be allow or exclude');
+      if ('aiHongKongPolicy' in options) throw new Error('Duplicate AI Hong Kong option');
+      options.aiHongKongPolicy = value;
+    }
     else throw new Error(`Unknown or incomplete argument: ${arg}`);
   }
-  if (!options.target && ('zeroTierPlanetProxy' in options || 'browserUdpPolicy' in options || options.source || options.preserveLocal)) {
-    throw new Error('--zerotier-planet-proxy, --browser-udp, --source and --preserve-local require --target; ZeroTier and browser UDP are local options');
+  if (!options.target && ('zeroTierPlanetProxy' in options || 'browserUdpPolicy' in options || 'aiHongKongPolicy' in options || options.source || options.preserveLocal)) {
+    throw new Error('--zerotier-planet-proxy, --browser-udp, --ai-hong-kong, --source and --preserve-local require --target; ZeroTier, browser UDP and AI Hong Kong are local options');
   }
   if (!options.target && !('healthCheckProfile' in options) && !('quicPolicy' in options)) {
     throw new Error('Specify --health-check-profile and/or --quic-policy');

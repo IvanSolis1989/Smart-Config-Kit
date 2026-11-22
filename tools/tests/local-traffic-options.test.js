@@ -70,6 +70,8 @@ test('local CLI rejects global ZeroTier and unrelated options before writing', (
   }
   assert.equal(parseArgs(['--target', 'x.js', '--zerotier', 'off']).zeroTierPlanetProxy, false);
   assert.equal(parseArgs(['--target','x.js','--browser-udp','reject']).browserUdpPolicy, 'reject');
+  assert.equal(parseArgs(['--target','x.js','--ai-hong-kong','exclude']).aiHongKongPolicy, 'exclude');
+  for (const args of [['--ai-hong-kong','exclude'],['--target','x.js','--ai-hong-kong','off'],['--target','x.js','--ai-hong-kong','allow','--ai-hong-kong','exclude']]) assert.throws(()=>parseArgs(args));
 });
 
 test('CLI dry-run has no writes, deployment backs up original, and repeated calls are idempotent', t => {

@@ -18,6 +18,68 @@ const targets = [
 const five = graph.getQuicRules('block-foreign');
 const ids = require('../lib/fused-contract-segments').resolveContractSegments();
 
+function runAiPolicy(target, policy, names) {
+  let source = fs.readFileSync(path.join(root, target), 'utf8');
+  const declaration = `const SCKI_AI_HONG_KONG_POLICY = '${policy}'`;
+  assert.match(source, /const SCKI_AI_HONG_KONG_POLICY = 'allow'/);
+  source = source.replace(/const SCKI_AI_HONG_KONG_POLICY = '[^']*'/, declaration);
+  const sandbox = { console: { log() {}, error() {} } };
+  vm.createContext(sandbox);
+  vm.runInContext(`${source}\nthis.__main = main`, sandbox, { filename: target, timeout: 15000 });
+  const config = { proxies: names.map((name, index) => ({ name, type: 'ss', server: `node-${index}.invalid`, port: 443, cipher: 'aes-128-gcm', password: 'x' })), 'proxy-groups': [], rules: [] };
+  const before = structuredClone(config);
+  sandbox.__main(config);
+  return { config: JSON.parse(JSON.stringify(config)), before };
+}
+
+function reachableNodes(config, name) {
+  const group = config['proxy-groups'].find(item => item.name === name);
+  return group ? group.proxies.flatMap(candidate => reachableNodes(config, candidate)) : [name];
+}
+
+for (const [target] of targets) {
+  test(`${target}: AI exclusion closes Hong Kong paths while preserving other groups`, () => {
+    const hongKong = ['HK Node', '香港 家宽', 'HKG Home', 'hkg Residential', 'Hong Kong Residential', 'hk01 Mobile', '🇭🇰 Mobile'];
+    const others = ['US Home', 'JP Node', 'SG Residential', 'HKGarden', 'HKX Edge'];
+    const names = hongKong.concat(others);
+    const allowed = runAiPolicy(target, 'allow', names).config;
+    const excluded = runAiPolicy(target, 'exclude', names).config;
+    assert.deepEqual(excluded['proxy-groups'].map(group => group.name), allowed['proxy-groups'].map(group => group.name));
+    assert.deepEqual(excluded['proxy-groups'].filter(group => group.name !== '🤖 AI 服务'), allowed['proxy-groups'].filter(group => group.name !== '🤖 AI 服务'));
+    assert.deepEqual(excluded.proxies, allowed.proxies);
+    assert.deepEqual(excluded.rules, allowed.rules);
+    assert.deepEqual(excluded['rule-providers'], allowed['rule-providers']);
+    const leaves = reachableNodes(excluded, '🤖 AI 服务');
+    for (const name of hongKong) assert(!leaves.includes(name), `AI cannot reach ${name}`);
+    for (const name of others) assert(leaves.includes(name), `AI retains ${name}`);
+    assert(!leaves.includes('DIRECT'));
+    assert(reachableNodes(allowed, '🤖 AI 服务').includes('HK Node'));
+    const candidates = excluded['proxy-groups'].find(group => group.name === '🤖 AI 服务').proxies;
+    assert.equal(new Set(candidates).size, candidates.length);
+    assert(candidates.includes('🇺🇸 美国节点'), 'uncontaminated region selector is preserved');
+    assert(candidates.includes('🏡 美国家宽'), 'uncontaminated home selector is preserved');
+    assert(!candidates.includes('🌍 全球节点'));
+    assert(!candidates.includes('🌏 亚太节点'));
+  });
+  test(`${target}: AI all-Hong-Kong subscription rejects without a DIRECT escape`, () => {
+    const result = runAiPolicy(target, 'exclude', ['HK Home', '香港 Node']).config;
+    assert.deepEqual(result['proxy-groups'].find(group => group.name === '🤖 AI 服务').proxies, ['REJECT']);
+    assert.deepEqual(reachableNodes(result, '🤖 AI 服务'), ['REJECT']);
+    assert(reachableNodes(result, '🌍 全球节点').includes('HK Home'));
+  });
+  test(`${target}: AI exclusion keeps safe global selectors when Hong Kong is absent`, () => {
+    const names = ['US Home', 'SG Node'];
+    const allowed = runAiPolicy(target, 'allow', names).config;
+    const excluded = runAiPolicy(target, 'exclude', names).config;
+    const candidates = config => config['proxy-groups'].find(group => group.name === '🤖 AI 服务').proxies;
+    assert.deepEqual(candidates(excluded), candidates(allowed).filter(name => name !== 'DIRECT'));
+  });
+  test(`${target}: invalid AI policy rejects before mutating the subscription`, () => {
+    const { config, before } = runAiPolicy(target, 'invalid', ['HK Node', 'US Home']);
+    assert.deepEqual(config, before);
+  });
+}
+
 function run(target, profile, policy) {
   let source = fs.readFileSync(path.join(root, target), 'utf8');
   source = source.replace(/const SCKI_HEALTH_CHECK_PROFILE = '[^']*'/, `const SCKI_HEALTH_CHECK_PROFILE = '${profile}'`)

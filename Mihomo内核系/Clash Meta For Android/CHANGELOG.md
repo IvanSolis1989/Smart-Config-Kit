@@ -16,6 +16,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-cmfa.16 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 ## v6.0.21-cmfa.15 (2026-10-28)
 
 - Moved Google FCM from downloads to Google services. The 15 domains, 26 IPv4 predicates, rule order and 55 groups were unchanged, as were other push services, DNS and fake-IP.

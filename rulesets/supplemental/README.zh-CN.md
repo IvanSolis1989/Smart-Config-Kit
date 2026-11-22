@@ -54,3 +54,9 @@ The 2026-10-04 logged routing audit records shared certificate-status endpoints 
 `clash/adfp-direct.list` protects only the exact `DOMAIN` hosts `szlong.weixin.qq.com`, `hklong.weixin.qq.com`, and `hkshort.weixin.qq.com` with DIRECT before the ad feeds. Tencent's first-party [captured WeChat service-discovery response](../../docs/research/2026-10-16-wechat-issue-187.zh-CN.md) lists all three connection endpoints; the captured response, hash and [Huawei's independent connection allowance](https://support.huaweicloud.com/qiankuncmn-qiankuncs/qiankuncs_cmn_uaa_01_1011.html) for `szlong.weixin.qq.com` are documented in the [bounded Issue #187 review](../../docs/research/2026-10-16-wechat-issue-187.zh-CN.md).
 
 These exceptions do not cover `weixin.qq.com` or child hosts. The advertising neighbours `ad.weixin.qq.com` and `log.weixin.qq.com` remain rejected. The regression checks first-match policy and matching boundaries; the reporter's real-device recovery still requires verification after reloading the configuration.
+
+## Issue #203 钉钉与豆包兼容性例外
+
+`clash/adfp-direct.list` 在广告规则前仅对 `static.dingtalk.com` 和 `mcs.doubao.com` 做精确直连。[Issue #203](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/203) 报告两个域名被拒绝时图片加载失败。冻结的 HaGeZi Ultimate 输入和生成规则都能复现拦截。[钉钉 CLI 讨论](https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli/issues/273) 记录了 `static.dingtalk.com/media/` 图片链接。
+
+[HaGeZi #7801](https://github.com/hagezi/dns-blocklists/issues/7801) 将 `mcs.doubao.com` 分类为遥测。本次针对报告做兼容性放行，该主机的遥测请求也可以通过。豆包图片加载是否恢复仍需在报告者的客户端验证。两个例外仅覆盖上述主机名，`log.doubao.com` 和 `resolver.dingtalk.com` 继续拦截。

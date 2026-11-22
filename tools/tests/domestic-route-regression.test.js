@@ -381,3 +381,37 @@ test('WeChat connection exceptions preserve sibling ad rejection and do not exem
     assert.equal(firstDomainRoute(host)?.policy, CN_SITE, `${host} must retain the domestic policy outside the exact exceptions`);
   }
 });
+
+test('Issue #203 source exceptions are exact DIRECT guards without exempting advertising siblings', () => {
+  const graph = getRawRoutingGraph();
+  const guardIndex = graph.rules.indexOf('RULE-SET,scki-adfp-direct,DIRECT');
+  const adIndex = graph.rules.indexOf('RULE-SET,anti-ad,🛑 广告拦截');
+  assert.ok(guardIndex >= 0 && guardIndex < adIndex, 'the direct exceptions must precede ad feeds');
+  const guardEntries = readText('rulesets/supplemental/clash/adfp-direct.list')
+    .split(/\r?\n/).filter(line => line && !line.startsWith('#'));
+  const registry = JSON.parse(readText('rulesets/source/adfp-exceptions.json'));
+  for (const [host, parent, sibling] of [
+    ['static.dingtalk.com', 'dingtalk.com', 'resolver.dingtalk.com'],
+    ['mcs.doubao.com', 'doubao.com', 'log.doubao.com'],
+  ]) {
+    assert.ok(guardEntries.includes(`DOMAIN,${host}`), `${host} needs an exact early DIRECT exception`);
+    const record = registry.records.find(record => record.rule === `DOMAIN,${host}`);
+    assert.equal(record?.provider, 'scki-adfp-direct');
+    assert.equal(record?.match_scope, 'exact');
+    assert.equal(record?.target_policy, DIRECT);
+    for (const negative of [parent, sibling, `child.${host}`, `${host}.example`]) {
+      assert.ok(guardEntries.every(entry => matchEntry(entry, { host: negative }).status === 'no-match'),
+        `${negative} must stay outside the direct guard`);
+    }
+    assert.equal(firstDomainRoute(sibling)?.policy, '🛑 广告拦截', `${sibling} must retain ad rejection`);
+  }
+});
+
+test('Issue #203 reported image hosts reach the generated early DIRECT guard', () => {
+  for (const host of ['static.dingtalk.com', 'mcs.doubao.com']) {
+    assert.deepEqual(firstDomainRoute(host), {
+      provider: `${CONTRACT_SEGMENTS['scki-fused-001-direct']}-domain`,
+      policy: DIRECT,
+    }, `${host} must precede the ad feeds after regeneration`);
+  }
+});

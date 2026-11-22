@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.21",
-  "registry_sha256": "db1675bf9bf82144e86f01c1aa68f2f9fae1261a331c8140c9d42f6bc1dce4ef",
-  "total_records": 38,
+  "source_graph_version": "v6.0.22",
+  "registry_sha256": "6dd63ca26338154d7e777ccf47f5deae867c732c35e5af4364fffc1bbddf2421",
+  "total_records": 40,
   "coverage": {
-    "scki-adfp-direct": 29,
+    "scki-adfp-direct": 31,
     "scki-adfp-intl-site": 3,
     "scki-adfp-payments": 1,
     "scki-adfp-ai": 5
@@ -19,15 +19,15 @@
   "scope": "Registered payload coverage, matching boundaries and static early first-match probes; no live-client claim.",
   "registry": {
     "path": "rulesets/source/adfp-exceptions.json",
-    "sha256": "db1675bf9bf82144e86f01c1aa68f2f9fae1261a331c8140c9d42f6bc1dce4ef",
-    "bytes": 40117,
+    "sha256": "6dd63ca26338154d7e777ccf47f5deae867c732c35e5af4364fffc1bbddf2421",
+    "bytes": 42181,
     "text_normalization": "LF"
   },
   "payloads": [
     {
       "path": "rulesets/supplemental/clash/adfp-direct.list",
-      "sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716",
-      "bytes": 1251,
+      "sha256": "eafe4987db2383791b3a954a3f1df866cb89703fcb12fcf378d0d49530c78e43",
+      "bytes": 1385,
       "text_normalization": "LF"
     },
     {
@@ -50,6 +50,16 @@
     }
   ],
   "probes": [
+    {
+      "host": "static.dingtalk.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "issue-203-dingtalk-static"
+    },
+    {
+      "host": "mcs.doubao.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "issue-203-doubao-mcs"
+    },
     {
       "host": "a-api.anthropic.com",
       "expected_policy": "🤖 AI 服务",
@@ -297,6 +307,40 @@
     }
   ],
   "ordered_positive_probes": [
+    {
+      "host": "static.dingtalk.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "issue-203-dingtalk-static",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "DIRECT",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
+        "entry": "DOMAIN,static.dingtalk.com",
+        "entryIndex": 29,
+        "index": 0,
+        "policy": "DIRECT",
+        "provider": "scki-fused-001-direct-domain"
+      }
+    },
+    {
+      "host": "mcs.doubao.com",
+      "expected_policy": "DIRECT",
+      "exception_id": "issue-203-doubao-mcs",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "DIRECT",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
+        "entry": "DOMAIN,mcs.doubao.com",
+        "entryIndex": 30,
+        "index": 0,
+        "policy": "DIRECT",
+        "provider": "scki-fused-001-direct-domain"
+      }
+    },
     {
       "host": "a-api.anthropic.com",
       "expected_policy": "🤖 AI 服务",

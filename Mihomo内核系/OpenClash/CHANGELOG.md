@@ -18,6 +18,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-oc-smart.20 / v6.0.22-oc-normal.19 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 ## v6.0.21-oc-normal.18 / v6.0.21-oc-smart.19 (2026-10-29)
 
 - Both shell/Ruby variants synchronize explicit hosts-only profiles and local environment options; only exact active-node IP hosts are projected, preserving node domains, repository hosts, and existing DNS/rules.

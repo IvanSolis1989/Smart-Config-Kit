@@ -18,7 +18,7 @@ Routing configurations and override scripts for **desktop, mobile, and OpenWrt**
 
 Policy groups, DNS behavior, and import capabilities differ by client. Each guide documents its boundaries.
 
-[Optional service profiles and local settings](docs/configuration.md): the default full configuration is unchanged. The [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/) lets you select services and supported options across 20 maintained entries, then download the result. See the guide for coverage.
+[Optional service profiles and local settings](docs/configuration.md): the default full configuration is unchanged. The [configuration page](https://ivansolis1989.github.io/Smart-Config-Kit/) lets you select services and supported options across 20 maintained entries, then download the result. For Clash Party and FlClash, the AI Service group can exclude Hong Kong nodes.
 
 ## <a name="start"></a>Get started
 

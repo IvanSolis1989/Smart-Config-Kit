@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const {spawnSync}=require('node:child_process');
-const { parseLocalTrafficOptions, planLocalTrafficOptions } = require('../lib/local-traffic-options');
+const { parseLocalTrafficOptions, setLocalTrafficOptions, planLocalTrafficOptions } = require('../lib/local-traffic-options');
 const { validateSettings, parseArgs, main } = require('../configure');
 
 const source = (profile = 'adaptive', multiplier = 'null') => `// >>> SCKI NODE DNS HINTS: BEGIN\nvar SCKI_SUBSCRIPTION_ADAPTER_PROFILES = {\n  "off": { id: "off", nodeDnsProjection: "off" },\n  "policy": { id: "policy", nodeDnsProjection: "policy" },\n  "adaptive": { id: "adaptive", nodeDnsProjection: "adaptive" },\n  "hosts-only": { id: "hosts-only", nodeDnsProjection: "hosts-only" }\n}\nconst SCKI_SUBSCRIPTION_ADAPTER_PROFILE = '${profile}'\nconst SCKI_MAX_NODE_MULTIPLIER = ${multiplier}\nconst SCKI_HEALTH_CHECK_PROFILE = 'standard'\nconst SCKI_QUIC_POLICY = 'block-foreign'\nconst SCKI_ZEROTIER_PLANET_PROXY = false\nthrow new Error('Never execute target scripts')\n`;
@@ -41,6 +41,41 @@ test('browser UDP choice is typed, preserved on updates and explicit options tak
   for (const value of ['true','proxy',true,null]) {
     assert.throws(() => validateSettings({schema_version:1,localOptions:{browserUdpPolicy:value}}), /Invalid trusted local option/);
   }
+});
+
+test('AI Hong Kong choice is typed, persists across updates, and requires a supporting script', () => {
+  const older = source();
+  const supported = older + "const SCKI_AI_HONG_KONG_POLICY = 'allow'\n";
+  const excluded = supported.replace("SCKI_AI_HONG_KONG_POLICY = 'allow'", "SCKI_AI_HONG_KONG_POLICY = 'exclude'");
+  assert.equal(parseArgs(['--target','x.js','--ai-hong-kong','exclude']).localOptions.aiHongKongPolicy, 'exclude');
+  assert.equal(validateSettings({schema_version:1,localOptions:{aiHongKongPolicy:'exclude'}}).localOptions.aiHongKongPolicy, 'exclude');
+  assert.equal(planLocalTrafficOptions(excluded,supported).options.aiHongKongPolicy,'exclude');
+  assert.equal(planLocalTrafficOptions(excluded,supported,{aiHongKongPolicy:'allow'}).options.aiHongKongPolicy,'allow');
+  assert.match(planLocalTrafficOptions(supported,supported,{aiHongKongPolicy:'exclude'}).updated,/SCKI_AI_HONG_KONG_POLICY = 'exclude'/);
+  assert.equal(planLocalTrafficOptions(older,older,{aiHongKongPolicy:'allow'}).updated,older);
+  assert.throws(()=>planLocalTrafficOptions(older,older,{aiHongKongPolicy:'exclude'}),/AI Hong Kong capability/i);
+  assert.throws(()=>setLocalTrafficOptions(older,{aiHongKongPolicy:'exclude'}),/AI Hong Kong capability/i);
+  assert.equal(setLocalTrafficOptions(older,{aiHongKongPolicy:'allow'}),older);
+  assert.throws(()=>planLocalTrafficOptions(excluded,older),/AI Hong Kong capability/i);
+  assert.equal(planLocalTrafficOptions(excluded,older,{aiHongKongPolicy:'allow'}).updated,older);
+  for (const value of ['off','reject',true,null]) assert.throws(()=>validateSettings({schema_version:1,localOptions:{aiHongKongPolicy:value}}),/Invalid trusted local option/);
+});
+
+test('AI Hong Kong CLI saves a supported choice and refuses unsupported updates without writing', t => {
+  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'scki-ai-hong-kong-'));
+  t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
+  const target=path.join(directory,'local.js'), incoming=path.join(directory,'older.js');
+  fs.writeFileSync(target,source()+"const SCKI_AI_HONG_KONG_POLICY = 'allow'\n");
+  fs.writeFileSync(incoming,source());
+  main(['--target',target,'--ai-hong-kong','exclude','--dry-run']);
+  assert.equal(parseLocalTrafficOptions(fs.readFileSync(target,'utf8')).options.aiHongKongPolicy,'allow');
+  assert.equal(fs.readdirSync(directory).length,2);
+  main(['--target',target,'--ai-hong-kong','exclude']);
+  const saved=fs.readFileSync(target,'utf8'), files=fs.readdirSync(directory).sort();
+  assert.equal(parseLocalTrafficOptions(saved).options.aiHongKongPolicy,'exclude');
+  assert.throws(()=>main(['--target',target,'--source',incoming]),/AI Hong Kong capability/i);
+  assert.equal(fs.readFileSync(target,'utf8'),saved);
+  assert.deepEqual(fs.readdirSync(directory).sort(),files);
 });
 
 test('browser UDP reject cannot silently deploy to an older or App-managed script without the slot', () => {

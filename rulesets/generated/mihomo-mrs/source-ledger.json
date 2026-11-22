@@ -45947,8 +45947,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "d65f77cec6f77d9c189a8e900ee12adeeda090ce7dcee7604f4abfa68cfa7eb7",
-          "bytes": 1072
+          "sha256": "eafe4987db2383791b3a954a3f1df866cb89703fcb12fcf378d0d49530c78e43",
+          "bytes": 1385
         },
         "source": {
           "id": "scki",
@@ -45971,14 +45971,14 @@
       "conversion": {
         "status": "converted",
         "type_counts": {
-          "domain": 26
+          "domain": 31
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "domain",
             "file": "scki-adfp-direct.mrs",
-            "entries": 26,
+            "entries": 31,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -45989,8 +45989,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "8dcfecc996bf5e5529e33ee7cd946269488d01719f69ebfabb627d007d2411e5",
-                "bytes": 348
+                "sha256": "84685869dfded124ae35bb3c44bd4c7ab4c4aa111c3754ce819f1001cc376405",
+                "bytes": 387
               },
               "source": {
                 "id": "repository-local",
@@ -46019,8 +46019,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "8dcfecc996bf5e5529e33ee7cd946269488d01719f69ebfabb627d007d2411e5",
-                "bytes": 348
+                "sha256": "84685869dfded124ae35bb3c44bd4c7ab4c4aa111c3754ce819f1001cc376405",
+                "bytes": 387
               },
               "source": {
                 "id": "repository-local",

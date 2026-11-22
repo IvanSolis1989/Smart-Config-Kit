@@ -135,7 +135,7 @@ const blobHash = bytes => crypto.createHash('sha1').update(`blob ${bytes.length}
 function validateSupplementalPatch({ receipt, snapshotBytes, baselineSnapshotBytes, baselineManifestText,
   baselineSourceText, baselineSupplementText, currentSupplementText, baselineFiles, currentFiles,
   readBaseline, bindings, targetSegmentId }) {
-  const { assertTypedDomains, assertLocalDelta } = require('./snapshot-supplemental-patch');
+  const { assertTypedDomains, assertLocalDelta, sameDomainPayload } = require('./snapshot-supplemental-patch');
   const compiler = require('../build-fused-rule-sets');
   const { toMihomoDomainPayload } = require('./mihomo-domain-payload');
   if (receipt.schema_version !== 1 || receipt.mode !== 'partial-sync' || !/^[a-f0-9]{40}$/.test(receipt.baseline_commit || '')) throw new Error('Invalid Egern supplemental receipt');
@@ -180,7 +180,7 @@ function validateSupplementalPatch({ receipt, snapshotBytes, baselineSnapshotByt
     const afterBytes = currentFiles.get(sourceFile);
     if (!afterBytes) throw new Error('Missing Egern patched domain source');
     const before = compiler.parsePayloadEntries(beforeText), after = compiler.parsePayloadEntries(afterBytes.toString('utf8'));
-    if (change.id === targetSegmentId && JSON.stringify(before) !== JSON.stringify(compiler.parsePayloadEntries(baselineSupplementText).map(toMihomoDomainPayload))) throw new Error('Egern supplemental baseline differs from isolated target');
+    if (change.id === targetSegmentId && !sameDomainPayload(before, compiler.parsePayloadEntries(baselineSupplementText).map(toMihomoDomainPayload))) throw new Error('Egern supplemental baseline differs from isolated target');
     const adds = change.added.map(toMihomoDomainPayload), deletes = change.deleted.map(toMihomoDomainPayload);
     if (new Set(before).size !== before.length || new Set(after).size !== after.length || deletes.some(entry => !before.includes(entry)) || adds.some(entry => before.includes(entry))) throw new Error('Invalid Egern source DOMAIN delta');
     const expected = [...before.filter(entry => !deletes.includes(entry)), ...adds];

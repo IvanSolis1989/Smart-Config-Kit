@@ -117,7 +117,7 @@ test('Pages workflow builds only main, validates saved HTML and uploads the allo
 });
 
 test('scheduled source refresh regenerates and freezes the offline form before release validation', () => {
-  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/sync-mihomo-mrs-rule-providers.yml'), 'utf8');
+  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/sync-mihomo-mrs-rule-providers.yml'), 'utf8').replace(/\r\n/g, '\n');
   const generate = workflow.indexOf('node tools/generate-configuration-form.js\n');
   assert.ok(generate > workflow.lastIndexOf('node tools/generate-meow.js\n'));
   assert.ok(generate < workflow.indexOf('node tools/validate-release-batch.js'));

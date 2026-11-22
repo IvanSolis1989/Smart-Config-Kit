@@ -17,11 +17,13 @@ domain_set:
   - "idm.api.io.mi.com"
   - "login.nvidia.cn"
   - "mazu.sec.miui.com"
+  - "mcs.doubao.com"
   - "msg.umeng.com"
   - "ocsp.digicert.com"
   - "ocsp.sectigo.com"
   - "register.xmpush.xiaomi.com"
   - "sigma-performance-g10.proxima.nie.netease.com"
+  - "static.dingtalk.com"
   - "szlong.weixin.qq.com"
 domain_suffix_set:
   - "account.xiaomi.com"

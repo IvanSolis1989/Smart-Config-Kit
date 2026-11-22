@@ -16,6 +16,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.22-v2n.12 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 <a id="v6021-v2n11-2026-10-28"></a>
 
 ## v6.0.21-v2n.11 (2026-10-28)

@@ -15,7 +15,7 @@ Complete same-source sing-box configuration with 20 regional groups, 33 service 
 
 [Preparation](#before-start) · [Import](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-> Version: `v6.0.21-sing.12` · Build: 2026-10-28 · Routing baseline: `rulesets/source/routing-graph.js` v6.0.21. See [CHANGELOG](CHANGELOG.md).
+> Version: `v6.0.22-sing.13` · Build: 2026-11-22 · Routing baseline: `rulesets/source/routing-graph.js` v6.0.22. See [CHANGELOG](CHANGELOG.md).
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>

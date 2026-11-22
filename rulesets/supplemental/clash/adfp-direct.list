@@ -7,6 +7,9 @@ DOMAIN,dns.weixin.qq.com.cn
 DOMAIN,szlong.weixin.qq.com
 DOMAIN,hklong.weixin.qq.com
 DOMAIN,hkshort.weixin.qq.com
+## Issue #203 compatibility exceptions; exact hosts only, not the parent namespaces.
+DOMAIN,static.dingtalk.com
+DOMAIN,mcs.doubao.com
 ## NetEase game-service endpoints: exact DIRECT before generic NetEase game routing.
 DOMAIN,drpf-g10.proxima.nie.netease.com
 DOMAIN,sigma-performance-g10.proxima.nie.netease.com

@@ -9,6 +9,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.22-egern.14 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 ## v6.0.21-egern.13 (2026-10-29)
 
 - Updated graph provenance receipts. The generator recognizes core-family paths to avoid duplicate generated provenance comments. DNS, policy groups and routing were unchanged.

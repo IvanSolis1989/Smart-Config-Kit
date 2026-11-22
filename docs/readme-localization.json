@@ -30,14 +30,14 @@
     {
       "english": "Mihomo内核系/Clash Party/README.md",
       "chinese": "Mihomo内核系/Clash Party/README.zh-CN.md",
-      "english_sha256": "d1177cb137ef84561894dc76585fb774f9c7aefdc76fdd25ba65ea7cf7c13021",
-      "chinese_sha256": "6de3bf4ce3a0bc44f3a8c9af4aaf3be063d60b9f77506fccccefe30349d39801"
+      "english_sha256": "d8f0c119e03293b48050305a9b8fda9a395262bf6b2d901ac092ebce32d89a9a",
+      "chinese_sha256": "69296e0b4103092f73d67c145dbab23a9834d979b4cba1b63b3f7559f0ec57c0"
     },
     {
       "english": "Mihomo内核系/FlClash/README.md",
       "chinese": "Mihomo内核系/FlClash/README.zh-CN.md",
-      "english_sha256": "528e2592b9c0dbb50e9440ee16927712fc2004b8cd5e96110c4a7644b00555c9",
-      "chinese_sha256": "445a702cc109f015f9c74f64faf855ce56821b7e56b0026f7b5f5de9c5960e94"
+      "english_sha256": "dadc58e38bcc458702da1098569c59efeb587601c2f2eb5384a05dbe57022608",
+      "chinese_sha256": "e79731b7265193b6ea2f9a584b0c0083ccedb6157f80499c426fae85086a33da"
     },
     {
       "english": "Mihomo内核系/OpenClash/README.md",
@@ -54,8 +54,8 @@
     {
       "english": "README.md",
       "chinese": "README.zh-CN.md",
-      "english_sha256": "287b9265ee5d2b37f1921f98e3b69718fd234a21eec19becb33519acbad12d3e",
-      "chinese_sha256": "c31b9c0dfb5e75008f4474480eb06dd9770f4e3ac488207cdfdfcf091fea3baa"
+      "english_sha256": "cc08cda3eeb4896974dfa04720b36ec87ea55d7290c19f68701ab5baaa5d01bc",
+      "chinese_sha256": "db21bce6c3800eb06a50ac0f23230ce16a791858326e859e8bab154e3177be5c"
     },
     {
       "english": "Sing-box内核系/Karing/README.md",
@@ -72,8 +72,8 @@
     {
       "english": "Sing-box内核系/SingBox/README.md",
       "chinese": "Sing-box内核系/SingBox/README.zh-CN.md",
-      "english_sha256": "3a740c1c466806970805d9470aa9f38a2509feb00d57d44780878aa05d004e4d",
-      "chinese_sha256": "35efc40903d004fca57ac58ce63f1b4b08ede1e2d773a3938285928fa6867ff8"
+      "english_sha256": "033cebaa5720f1dae508465b116c845d215a5328159a99ce8fe15a6b5d519e95",
+      "chinese_sha256": "25aa7fa8c3881c40ee2eed87528042817a2348def6faa85258fb1d349126c59c"
     },
     {
       "english": "SubStore/README.md",
@@ -144,8 +144,8 @@
     {
       "english": "rulesets/supplemental/README.md",
       "chinese": "rulesets/supplemental/README.zh-CN.md",
-      "english_sha256": "d0d80f55d068a6f5a880f44bbf616541cb59402edb8b13fc5679c80678d79233",
-      "chinese_sha256": "718ddcfdeb49cf4aafa421b6d02cd321e3b056a0b0d858ed3df1e022c33a803c"
+      "english_sha256": "893b890e93ad72902aa56f8029b46be1f7b2db74612a4800140901b65c30726c",
+      "chinese_sha256": "d8bdce3067034cb3cc6eafda812ee701dfe9b30dcfba2dcb3a8120450c8b5b05"
     },
     {
       "english": "tools/README.md",

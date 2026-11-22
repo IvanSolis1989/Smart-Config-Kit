@@ -11,6 +11,10 @@
 
 [Core family](../README.md) · [Support queue](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.22-meow.9 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 <a id="资源校验工具domain-mrs-重叠输入证明-2026-11-09"></a>
 
 ## Resource validation: overlapping domain MRS input proof (2026-11-09)

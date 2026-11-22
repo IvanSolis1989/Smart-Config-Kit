@@ -9,6 +9,10 @@
 
 [Usage](README.md) · [Support queue](../../docs/support-queue.md#meow) · [Documentation](../../docs/README.md)
 
+## v6.0.22-meow.5 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+
 ## v6.0.21-meow.6 / v6.0.21-meow.4 (2026-10-28)
 
 - Moved Google FCM from download updates to Google services. The 15 domain and 26 IPv4 predicates, rule order and 55 policy groups remained unchanged. Other push services, DNS and fake-IP were unchanged.

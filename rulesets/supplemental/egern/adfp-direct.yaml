@@ -7,6 +7,8 @@ domain_set:
   - "szlong.weixin.qq.com"
   - "hklong.weixin.qq.com"
   - "hkshort.weixin.qq.com"
+  - "static.dingtalk.com"
+  - "mcs.doubao.com"
   - "drpf-g10.proxima.nie.netease.com"
   - "sigma-performance-g10.proxima.nie.netease.com"
   - "i.mi.com"

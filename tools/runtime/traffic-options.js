@@ -18,7 +18,8 @@ var SckiTrafficOptions = (function() {
         (options.healthCheckProfile !== 'standard' && options.healthCheckProfile !== 'power-save') ||
         (options.quicPolicy !== 'block-foreign' && options.quicPolicy !== 'follow-rules') ||
         (options.zeroTierPlanetProxy !== undefined && typeof options.zeroTierPlanetProxy !== 'boolean') ||
-        (Object.prototype.hasOwnProperty.call(options, 'browserUdpPolicy') && options.browserUdpPolicy !== 'off' && options.browserUdpPolicy !== 'reject')) {
+        (Object.prototype.hasOwnProperty.call(options, 'browserUdpPolicy') && options.browserUdpPolicy !== 'off' && options.browserUdpPolicy !== 'reject') ||
+        (Object.prototype.hasOwnProperty.call(options, 'aiHongKongPolicy') && options.aiHongKongPolicy !== 'allow' && options.aiHongKongPolicy !== 'exclude')) {
       throw new Error('Invalid SCKI traffic options');
     }
     return options;
@@ -89,7 +90,45 @@ var SckiTrafficOptions = (function() {
     return rules;
   }
 
-  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy, applyBrowserUdpPolicy: applyBrowserUdpPolicy };
+  function applyAiHongKongPolicy(config, mode, hongKongNodes, aiGroupName) {
+    if (mode !== 'allow' && mode !== 'exclude') throw new Error('Invalid SCKI AI Hong Kong policy');
+    if (mode === 'allow') return config;
+    var groups = config['proxy-groups'];
+    var byName = Object.create(null);
+    var excluded = Object.create(null);
+    var seen = Object.create(null);
+    var candidates = [];
+    for (var h = 0; h < hongKongNodes.length; h++) excluded[hongKongNodes[h]] = true;
+    // Flag-only names are unambiguous for this local AI policy. Do not alter
+    // the shared classifier or any other group's membership to recognize them.
+    for (var p = 0; p < config.proxies.length; p++) {
+      var proxyName = config.proxies[p].name;
+      if (proxyName.indexOf('🇭🇰') >= 0) excluded[proxyName] = true;
+    }
+    for (var g = 0; g < groups.length; g++) byName[groups[g].name] = groups[g];
+    var ai = byName[aiGroupName];
+    function append(name) {
+      if (name !== 'DIRECT' && !excluded[name] && !seen[name]) {
+        seen[name] = true;
+        candidates.push(name);
+      }
+    }
+    // Generated region groups contain leaf nodes. Keep safe selectors intact;
+    // flatten only contaminated selectors so GLOBAL/APAC cannot bypass exclusion.
+    for (var i = 0; i < ai.proxies.length; i++) {
+      var name = ai.proxies[i];
+      var group = byName[name];
+      if (group && group.proxies.some(function(node) { return !!excluded[node]; })) {
+        for (var n = 0; n < group.proxies.length; n++) append(group.proxies[n]);
+      } else {
+        append(name);
+      }
+    }
+    ai.proxies = candidates.length ? candidates : ['REJECT'];
+    return config;
+  }
+
+  return { validate: validate, applyHealthCheckProfile: applyHealthCheckProfile, applyQuicPolicy: applyQuicPolicy, requireZeroTierPlanetProxyTarget: requireZeroTierPlanetProxyTarget, applyZeroTierPlanetProxy: applyZeroTierPlanetProxy, applyBrowserUdpPolicy: applyBrowserUdpPolicy, applyAiHongKongPolicy: applyAiHongKongPolicy };
 })();
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;

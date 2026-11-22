@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { buildOfflineConfigurationBundle, renderOfflineConfigurationExporter } = require('./lib/offline-configuration-export');
 const output = path.join(__dirname, '../docs/configuration.html');
-const FORM_VERSION = '1.5.1';
+const FORM_VERSION = '1.5.2';
 const serialize = value => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 const { validateDisplayCatalog, renderConfigurationLocale, localizeStaticMarkup } = require('./lib/configuration-locale');
 const uiSource = fs.readFileSync(path.join(__dirname, 'lib/configuration-form-ui.js'), 'utf8').replace('__FORM_VERSION__', FORM_VERSION);

@@ -16,6 +16,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-flclash.27 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+- Add an optional Hong Kong exclusion for the AI Service group. The default still allows Hong Kong nodes. With exclusion enabled, the AI group rejects connections if it has no eligible proxies (#204).
+
 ## v6.0.21-flclash.26 (2026-10-31)
 
 - Followed Clash Party with Windows browser UDP protection, off by default: trusted local `browserUdpPolicy=reject` rejects any Chrome / Edge / Firefox UDP. Available through online/offline forms and CLI, with selection preserved across updates.

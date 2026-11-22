@@ -83,6 +83,7 @@ test('explicit Chinese parameter choices display Chinese and original literals w
     healthCheckProfile: { standard:'标准（standard）', 'power-save':'省电（power-save）' },
     quicPolicy: { 'block-foreign':'拦截（block-foreign）', 'follow-rules':'按规则（follow-rules）' },
     browserUdpPolicy: { off:'关闭（off）', reject:'拒绝（reject）' },
+    aiHongKongPolicy: { allow:'允许（allow）', exclude:'排除（exclude）' },
     zeroTierPlanetProxy: { true:'开启（true）', false:'关闭（false）' },
     subscriptionAdapterProfile: { off:'关闭适配（off）', policy:'显式策略（policy）', adaptive:'自适应（adaptive）', 'hosts-only':'精确映射（hosts-only）' },
   };
@@ -103,7 +104,7 @@ test('bilingual parameter selections preserve typed JSON, configuration bytes an
   language(page, 'zh');
   for (const [key, value] of Object.entries(options)) { page.ids[key].value = String(value); page.ids[key].listeners.change(); }
   const settings = JSON.parse(page.download('download-local-json').bytes);
-  assert.deepEqual(settings.localOptions, { ...options, maxNodeMultiplier:null });
+  assert.deepEqual(settings.localOptions, { ...options, aiHongKongPolicy:'allow', maxNodeMultiplier:null });
   checkDownload(page.download(), generateOfflineConfiguration(bundle, { client:'flclash', profile:'full', localOptions:options }));
   for (const text of ['省电（power-save）','按规则（follow-rules）','拒绝（reject）','开启（true）','精确映射（hosts-only）']) assert.ok(page.ids['selection-summary'].textContent.includes(text), text);
 });

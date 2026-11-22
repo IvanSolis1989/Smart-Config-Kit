@@ -16,6 +16,10 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## v6.0.22 (2026-11-22)
+
+- Fix DingTalk and Doubao host routing and add optional AI group filtering to the JS overrides. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#v6022-dns26--v6022-normal26-2026-11-22).
+
 ## Configuration form 1.5.1 (2026-11-10)
 
 - Keep long client paths and parameter text inside narrow layouts with wrapping and shrinkable grid tracks. OpenClash and all other clients retain the same export values and behavior.

@@ -1,17 +1,16 @@
 {
   "schema_version": 1,
   "mode": "partial-sync",
-  "baseline_commit": "80d74e1194904f9d18570290dd6c6fca1d75002b",
-  "baseline_source_sha256": "7e811b95e015c611b0b9e96abeba35f47a6b8b7719268789dc1ad610be170a36",
-  "baseline_manifest_sha256": "36cff1a70f38ca8f5697447852f8340f3105a0b3507615bc95f713902824a009",
-  "baseline_payload_sha256": "1b535774468e72fed9511b502688aae557ddbbfaeec545e989f4e6aa6eba6bdc",
-  "baseline_supplemental_sha256": "d65f77cec6f77d9c189a8e900ee12adeeda090ce7dcee7604f4abfa68cfa7eb7",
+  "baseline_commit": "21b05e478d94313c7b703beb141b77aa21bffe19",
+  "baseline_source_sha256": "58d4288900b607d3c30c3ec792b17cf669052fa41b1eb5ca94e03b9f06113b6e",
+  "baseline_manifest_sha256": "bdceec6c7f02873dc5a19ffc32ec7ccb4ddae9a16952e30db7d7eb560ca6c862",
+  "baseline_payload_sha256": "416754f307ca6319793458ccf65141196a3ee9a47985ff32e2168c112975235e",
+  "baseline_supplemental_sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716",
   "provider_id": "scki-adfp-direct",
   "local_delta": {
     "added": [
-      "DOMAIN,szlong.weixin.qq.com",
-      "DOMAIN,hklong.weixin.qq.com",
-      "DOMAIN,hkshort.weixin.qq.com"
+      "DOMAIN,static.dingtalk.com",
+      "DOMAIN,mcs.doubao.com"
     ],
     "removed": []
   },
@@ -25,8 +24,8 @@
     "verification": "content-sha256",
     "content_normalization": "LF",
     "content": {
-      "sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716",
-      "bytes": 1251
+      "sha256": "eafe4987db2383791b3a954a3f1df866cb89703fcb12fcf378d0d49530c78e43",
+      "bytes": 1385
     },
     "source": {
       "id": "scki",
@@ -49,9 +48,8 @@
     {
       "id": "scki-fused-001-direct",
       "added": [
-        "DOMAIN,szlong.weixin.qq.com",
-        "DOMAIN,hklong.weixin.qq.com",
-        "DOMAIN,hkshort.weixin.qq.com"
+        "DOMAIN,static.dingtalk.com",
+        "DOMAIN,mcs.doubao.com"
       ],
       "deleted": []
     },
@@ -59,9 +57,8 @@
       "id": "scki-fused-010-ad",
       "added": [],
       "deleted": [
-        "DOMAIN,hklong.weixin.qq.com",
-        "DOMAIN,hkshort.weixin.qq.com",
-        "DOMAIN,szlong.weixin.qq.com"
+        "DOMAIN,static.dingtalk.com",
+        "DOMAIN,mcs.doubao.com"
       ]
     }
   ],
@@ -69,111 +66,111 @@
   "outputs": [
     {
       "file": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.yaml",
-      "sha256": "0f49043b78a083cec86793cb498e370e12071931d78291254cfdc9cb7cde3702",
-      "bytes": 743
+      "sha256": "101eeac7065b2479d12c18d56cb05ce634fac74ce0f1a1822c343cf4c749d0dd",
+      "bytes": 790
     },
     {
       "file": "rulesets/generated/fused/clash/scki-fused-001-direct.list",
-      "sha256": "24ea8457fdec3eec76ef22e27ccb8688902f1bf42c2ce4aefa579c141747e692",
-      "bytes": 803
+      "sha256": "65e6145b78654c3f3f1a1ef3695a817e57889acc122ec01c599b497a7e81beef",
+      "bytes": 852
     },
     {
       "file": "rulesets/generated/fused/surge/scki-fused-001-direct.list",
-      "sha256": "24ea8457fdec3eec76ef22e27ccb8688902f1bf42c2ce4aefa579c141747e692",
-      "bytes": 803
+      "sha256": "65e6145b78654c3f3f1a1ef3695a817e57889acc122ec01c599b497a7e81beef",
+      "bytes": 852
     },
     {
       "file": "rulesets/generated/fused/quantumultx/scki-fused-001-direct.list",
-      "sha256": "c4b2b53ccdc53b582ed58b235343c861fc60a922e354e60481a47aedac45e979",
-      "bytes": 774
+      "sha256": "03687626c1671ae3ab5ce8405d7e79b32138f888f4dbbeec54d09b6d60d54316",
+      "bytes": 821
     },
     {
       "file": "rulesets/generated/fused/egern/scki-fused-001-direct.yaml",
-      "sha256": "0c6681aeab8be71b1a2e2027910a0bdfd4362c79b59b7d207ebdd62b2703679c",
-      "bytes": 795
+      "sha256": "9e99bf323697b5eaf020e2160023b4f13d34271958fa1fa3ffd9bbaed2c259e3",
+      "bytes": 842
     },
     {
       "file": "rulesets/generated/fused/sing-box/scki-fused-001-direct.json",
-      "sha256": "7b2b6c5bff0957f051ad67ba1012f56f96dd1feda07e3c58c6e3b90a489d88e2",
-      "bytes": 970
+      "sha256": "5b508995ff3a9ac086e9839492f13f6a776a5ddf61e4fbec052fc7e7f6d10bf4",
+      "bytes": 1027
     },
     {
       "file": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
-      "sha256": "09d8e66027959663a6993b6b536dc951d525f6d2e0f576b32566c701a4d9ba2c",
-      "bytes": 11065510
+      "sha256": "81c02b9749b7cf9c59f6799114bde516aee8e6324add388c6e2c0ef11a38c6ca",
+      "bytes": 11065463
     },
     {
       "file": "rulesets/generated/fused/clash/scki-fused-010-ad.list",
-      "sha256": "98441ed5f113cd83033547204d6c3e4ad179b5c334eb71a9e7062a208867f01c",
-      "bytes": 12467176
+      "sha256": "321a71c03dce0b2ec13633e53cfa9e481d9e0727685d389703ab71e8186e9dc5",
+      "bytes": 12467127
     },
     {
       "file": "rulesets/generated/fused/surge/scki-fused-010-ad.list",
-      "sha256": "98441ed5f113cd83033547204d6c3e4ad179b5c334eb71a9e7062a208867f01c",
-      "bytes": 12467176
+      "sha256": "321a71c03dce0b2ec13633e53cfa9e481d9e0727685d389703ab71e8186e9dc5",
+      "bytes": 12467127
     },
     {
       "file": "rulesets/generated/fused/quantumultx/scki-fused-010-ad.list",
-      "sha256": "a8e211cc6c03b0c545cbdcd56f0c5d5c039b35d15e84f4aa1f6cf52f0533d0fd",
-      "bytes": 12061839
+      "sha256": "e97d65fa516c8f99e4c90d0139d9837b1fce806ad52a23cf72335d3466ff8a93",
+      "bytes": 12061792
     },
     {
       "file": "rulesets/generated/fused/egern/scki-fused-010-ad.yaml",
-      "sha256": "25c679cca6521215d881daf298efbcc97d691463d631cc6616764b2cced36ebd",
-      "bytes": 10381317
+      "sha256": "0c1cdef98c33f006818fb51e4454ee7318e86c0197f789127cb604e46db12504",
+      "bytes": 10381270
     },
     {
       "file": "rulesets/generated/fused/sing-box/scki-fused-010-ad.json",
-      "sha256": "1ff25b3d6425c52f3bf2b816c7d09b0c5f89b90308331baacb88f0d5bd200a82",
-      "bytes": 12408080
+      "sha256": "1b235cb97c661a0a319002a0e5157e8b8eca1922d2cf7d662df3a2dbabc3fee1",
+      "bytes": 12408023
     },
     {
       "file": "rulesets/generated/fused/mihomo/scki-fused-001-direct-domain.mrs",
-      "sha256": "940a8bda33182199c0f7f608e3af90f4a9e82779fe091f7ae160e9ff237fa00b",
-      "bytes": 364
+      "sha256": "84685869dfded124ae35bb3c44bd4c7ab4c4aa111c3754ce819f1001cc376405",
+      "bytes": 387
     },
     {
       "file": "rulesets/generated/fused/sing-box/scki-fused-001-direct.srs",
-      "sha256": "e59b2c7e8ba6fbb6c4c8f57c0ad232a997973197a1c78cc42c651b8a01d4ee1b",
-      "bytes": 346
+      "sha256": "d5e7d6dea20c1bf51a2aa60dc38c0258f71a0eaf08fbe1eb227d0eeeecf69230",
+      "bytes": 367
     },
     {
       "file": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs",
-      "sha256": "e67273b13675c7ab758f32a4bc697b9d845a6f750e1688fba149e82fa7b9b848",
-      "bytes": 3350568
+      "sha256": "6ba389e85d8418472345c8f8ced97c5876cfa1fd1c627f8f94ffefdacb9eafb4",
+      "bytes": 3350413
     },
     {
       "file": "rulesets/generated/fused/sing-box/scki-fused-010-ad.srs",
-      "sha256": "feadb6d6439f2f1dc5b9ae21d5589eeeb3bec9e7c4bf9f62a102ccabe0a56b84",
-      "bytes": 3045117
+      "sha256": "a9984574d0dd385770d63d279785cd6da872710bf0bcf927b2677a1f3db98b4f",
+      "bytes": 3045174
     },
     {
       "file": "rulesets/generated/mihomo-mrs/scki-adfp-direct.mrs",
-      "sha256": "940a8bda33182199c0f7f608e3af90f4a9e82779fe091f7ae160e9ff237fa00b",
-      "bytes": 364
+      "sha256": "84685869dfded124ae35bb3c44bd4c7ab4c4aa111c3754ce819f1001cc376405",
+      "bytes": 387
     }
   ],
   "stage_manifest_outputs": [
     {
       "file": "rulesets/generated/mihomo-mrs/manifest.json",
-      "sha256": "9aa47ff42fbbbd92d87b0da76812286c194ec364b703b811451f22c41744e1df",
+      "sha256": "1212a6d92312be8d73cbf91cc456ac587d08871535955a65f19adb3939b4e5d6",
       "bytes": 1533760
     },
     {
       "file": "rulesets/generated/fused/manifest.json",
-      "sha256": "959eb91d5d0b08895c9fe24a7bf0ba99f4fa51b8118764463853908d2b1ef618",
-      "bytes": 338250
+      "sha256": "d460381e34c743937113b8ab6c483823e42128a326aded29e87bf2abb9b87931",
+      "bytes": 339221
     }
   ],
   "binding": {
-    "fused_payload_sha256": "e3d526c00e90c835faab4ce98de1214e88ba54a69188848264a0c3fb43278e31",
-    "traffic_source_fingerprint": "624747a3b08cc024a2112b136242d24144aa0bbbd8ec02ea63ba8bf180d79d44",
-    "local_source_sha256": "8da263ad74d2d7042b0fd5ad9ec2f2267757f87be9a696beed36e86718765716"
+    "fused_payload_sha256": "0672b1b95ab40a804d1fcc46adfc0365ce8ca8d7b57b8aeb335dd3f17421e103",
+    "traffic_source_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305",
+    "local_source_sha256": "eafe4987db2383791b3a954a3f1df866cb89703fcb12fcf378d0d49530c78e43"
   },
   "converters": {
     "mihomo": {
-      "sha256": "82cd796a23492f43a71c1ec27e4e5e0b3d58932014da5a36e79ed9b11fee8162",
-      "file": "mihomo-v1.19.29.exe"
+      "sha256": "04f8d7fc2b314771e1ecbf15951d59f0e1cb7914503c88cfb6972ff6a824e314",
+      "file": "mihomo-v1.19.32.exe"
     },
     "sing_box": {
       "sha256": "db0d779948214cf761011d154c3a5da36df20394fa01a9fc798f1dc39fe9d183",

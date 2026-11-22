@@ -19,7 +19,7 @@
 
 | 客户端 | 可选参数 |
 | --- | --- |
-| Clash Party Smart / Normal、FlClash | 测速、QUIC、节点 DNS、倍率、ZeroTier；Windows 指定浏览器 UDP 保护 |
+| Clash Party Smart / Normal、FlClash | 测速、QUIC、节点 DNS、倍率、ZeroTier、AI 服务香港节点排除、Windows 指定浏览器 UDP 保护 |
 | AEROVE Lite | 测速、QUIC、倍率、ZeroTier；DNS 由 App 托管并保持 off |
 | OpenClash 两版 | 测速、QUIC、节点 DNS、倍率；运行环境变量仍优先于下载副本默认值 |
 | CMFA、Stash、Meow | 测速、QUIC |
@@ -55,6 +55,7 @@ node tools/configure.js --settings 'D:\Configs\settings.json' --target 'D:\Confi
 | `--health-check` | `standard` / `power-save` | 默认标准；省电档改变测速时机，不等于业务精简 |
 | `--quic` | `block-foreign` / `follow-rules` | 默认保留现有海外 QUIC 策略及服务例外 |
 | `--browser-udp` | `off` / `reject` | 默认关闭；Windows Chrome / Edge / Firefox 全部 UDP 拒绝，通话和 HTTP/3 可能受影响 |
+| `--ai-hong-kong` | `allow` / `exclude` | 默认允许香港节点。选择 `exclude` 后仅从 AI 服务候选中排除香港节点。 |
 | `--max-multiplier` | 正数 / `off` | 默认关闭；未知或矛盾倍率不据此删除 |
 | `--dns-profile` | `off` / `policy` / `adaptive` / `hosts-only` | 默认 `adaptive`；仅可信本地设置有效 |
 | `--zerotier` | `on` / `off` | 默认关闭；设备本地选择 |
@@ -72,6 +73,18 @@ node tools/configure.js --target 'D:\Configs\local.js' --source 'D:\Configs\new.
 这些选项只适用于含对应能力的本仓库 JS；静态端的 DNS 与系统网络设置仍按客户端教程配置。原 `configure-traffic-options.js` 入口继续可用。
 
 浏览器 UDP 保护仅适用于 Windows 三个指定进程，需 TUN 接管及有效进程识别；默认 `off`，订阅不能开启。AEROVE Lite 和其他原生入口不提供该参数。启用、恢复和 WebRTC 边界见[WebRTC 隐私与连接验收](guide/webrtc-privacy.md)。
+
+## 从 AI 服务排除香港节点
+
+在配置页选择 Clash Party Smart、Clash Party Normal 或 FlClash，再把 **AI 服务香港节点**设为**排除**。也可以更新已有的本地脚本：
+
+```bash
+node tools/configure.js --target 'D:\Configs\local.js' --ai-hong-kong exclude
+```
+
+在客户端重新加载覆写脚本。启用后，AI 服务会从含香港节点的下级组提取可用节点，保留仅含可用节点的下级组。香港节点仍可用于其他组。如果没有可用代理，AI 服务会拒绝连接。用 `--ai-hong-kong allow` 恢复默认行为。
+
+该选项依据节点名称和香港旗帜识别，实际出口 IP 所在地需另行核对。更新至支持此选项的脚本时会保留已有设置。
 
 ## 生成可选业务方案
 

@@ -22,11 +22,11 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.8`;
-const BUILD = '2026-10-31';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.9`;
+const BUILD = '2026-11-22';
 // The native client has no Lite per-resource cap; preserve its published bytes.
-const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.4`;
-const NATIVE_BUILD = '2026-10-28';
+const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
+const NATIVE_BUILD = '2026-11-22';
 const canonical = text => text.replace(/\r\n/g, '\n');
 const hash = text => crypto.createHash('sha256').update(canonical(text)).digest('hex');
 const read = file => canonical(fs.readFileSync(path.join(ROOT, file), 'utf8'));
@@ -80,6 +80,10 @@ function renderScript(input, splits) {
   source = replaceOnce(source, "const SCKI_BROWSER_UDP_POLICY = 'off'\n", '');
   source = replaceOnce(source, ', browserUdpPolicy: SCKI_BROWSER_UDP_POLICY', '');
   source = replaceOnce(source, '    SckiTrafficOptions.applyBrowserUdpPolicy(config.rules, SCKI_BROWSER_UDP_POLICY)\n', '');
+  // The optional AI policy is exposed only by the desktop/Mihomo JS exports.
+  source = replaceOnce(source, "const SCKI_AI_HONG_KONG_POLICY = 'allow'\n", '');
+  source = replaceOnce(source, ', aiHongKongPolicy: SCKI_AI_HONG_KONG_POLICY', '');
+  source = replaceOnce(source, '    SckiTrafficOptions.applyAiHongKongPolicy(config, SCKI_AI_HONG_KONG_POLICY, c.HK, BIZ.AI)\n', '');
   // Delete the complete Node-DNS/global-settings module. Do not copy unsupported
   // Mihomo fields and then silently strip them from the user's configuration.
   source = removeBetween(source, '// >>> SCKI NODE DNS HINTS: BEGIN', 'function cleanupSubscription(config)');

@@ -18,6 +18,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-dns.26 / v6.0.22-normal.26 (2026-11-22)
+
+- Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).
+- Add an optional Hong Kong exclusion for the AI Service group. The default still allows Hong Kong nodes. With exclusion enabled, the AI group rejects connections if it has no eligible proxies (#204).
+
 <a id="同步工具anti-ad-官方-git-输入恢复-2026-11-09"></a>
 
 ## Configuration form 1.5.1 (2026-11-10)

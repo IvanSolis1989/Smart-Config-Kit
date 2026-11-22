@@ -3,6 +3,48 @@
   "description": "Reviewed narrow exceptions for the four existing adfp supplemental providers. routing-graph.js remains authoritative for provider targets and order.",
   "records": [
     {
+      "id": "issue-203-dingtalk-static",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,static.dingtalk.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Issue #203 reports DingTalk image breakage and rejection of this exact host; first-party DingTalk CLI discussion documents its media URL. The frozen HaGeZi Ultimate feed reproduces the static ad-route collision. Only this host is exempted; reporter-side recovery remains unverified.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Issue #203 DingTalk and Doubao compatibility exceptions",
+          "level": "static"
+        }
+      ],
+      "positive_examples": ["static.dingtalk.com"],
+      "negative_examples": ["dingtalk.com", "child.static.dingtalk.com", "static.dingtalk.com.example", "resolver.dingtalk.com"],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
+      "id": "issue-203-doubao-mcs",
+      "provider": "scki-adfp-direct",
+      "rule": "DOMAIN,mcs.doubao.com",
+      "match_scope": "exact",
+      "target_policy": "DIRECT",
+      "reason": "Issue #203 reports Doubao image breakage alongside rejection of this exact host. HaGeZi issue #7801 classifies it as telemetry, so this is a bounded compatibility decision that allows that host's telemetry, not proof that it serves images or that blocking always breaks Doubao. The frozen feed reproduces rejection; reporter-side recovery remains unverified.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "Issue #203 DingTalk and Doubao compatibility exceptions",
+          "level": "static"
+        }
+      ],
+      "positive_examples": ["mcs.doubao.com"],
+      "negative_examples": ["doubao.com", "child.mcs.doubao.com", "mcs.doubao.com.example", "log.doubao.com"],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
       "id": "claude-desktop-a-api",
       "provider": "scki-adfp-ai",
       "rule": "DOMAIN,a-api.anthropic.com",

@@ -19,7 +19,7 @@
 各客户端的策略组、DNS 和导入能力不同，具体边界在对应教程中说明。
 
 
-[可选业务方案与本地参数](docs/configuration.zh-CN.md)：默认完整配置保持不变，20 个维护入口可在[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)选择业务与支持的参数后直接下载，覆盖范围见指南。
+[可选业务方案与本地参数](docs/configuration.zh-CN.md)：默认采用完整配置，20 个维护入口可在[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)选择业务与支持的参数后直接下载。Clash Party 和 FlClash 可单独为 AI 服务排除香港节点。
 
 ## <a name="start"></a>从这里开始
 

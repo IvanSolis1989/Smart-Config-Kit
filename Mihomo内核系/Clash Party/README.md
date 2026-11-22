@@ -16,7 +16,7 @@ Apply a JS override to a Mihomo node subscription to generate consistent groups,
 <a id="-smart-版-vs-普通版怎么选"></a>
 <a id="before-you-start"></a>
 
-[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. Optional projections use separate directories; see the shared guide for supported runtime parameters.
+[Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. To filter Hong Kong nodes from AI Service, choose **Exclude** under **Hong Kong nodes for AI services** and reload the exported override.
 
 ## Before you start: client and core
 

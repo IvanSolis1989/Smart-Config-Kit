@@ -7,7 +7,7 @@ const read = p => fs.readFileSync(p, 'utf8');
 test('desktop typed slots preserve defaults and reject unknown/injected values', () => {
  const source=read('Mihomo内核系/FlClash/FlClash(mihomo).js');
  const spec=buildClientOptionSpec('flclash',source);
- assert.equal(Object.keys(spec.schema).length,6);
+ assert.equal(Object.keys(spec.schema).length,7);
  assert.equal(applyClientOptions(spec,source,{}),source);
  assert.match(applyClientOptions(spec,source,{maxNodeMultiplier:2}),/SCKI_MAX_NODE_MULTIPLIER = 2/);
  assert.match(applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/SCKI_BROWSER_UDP_POLICY = 'reject'/);
@@ -21,6 +21,7 @@ test('AEROVE locks DNS while OpenClash preserves environment priority',()=>{
  assert.equal(Object.keys(spec.schema).length,4);
  assert.throws(()=>applyClientOptions(spec,source,{subscriptionAdapterProfile:'adaptive'}));
  assert.throws(()=>applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/Unknown local option/);
+ assert.throws(()=>applyClientOptions(spec,source,{aiHongKongPolicy:'exclude'}),/Unknown local option/);
  const oc=read('Mihomo内核系/OpenClash/OpenClash(mihomo).sh');
  const out=applyClientOptions(buildClientOptionSpec('openclash-normal',oc),oc,{maxNodeMultiplier:2,healthCheckProfile:'power-save'});
  assert.throws(()=>applyClientOptions(buildClientOptionSpec('openclash-normal',oc),oc,{browserUdpPolicy:'reject'}),/Unknown local option/);
@@ -43,6 +44,8 @@ test('native matrix keeps defaults exact and supported presets serialize in brow
  for(const [id,path] of Object.entries(entries)) {
    const source=read(path),spec=buildClientOptionSpec(id,source);
    assert.equal(spec.schema.browserUdpPolicy,undefined,id);
+   assert.equal(spec.schema.aiHongKongPolicy,undefined,id);
+   assert.throws(()=>applyClientOptions(spec,source,{aiHongKongPolicy:'exclude'}),/Unknown local option/);
    assert.throws(()=>applyClientOptions(spec,source,{browserUdpPolicy:'reject'}),/Unknown local option/);
    if(id==='v2rayn') assert(Buffer.byteLength(JSON.stringify(spec))<10000,'Xray option spec must not duplicate large source');
    assert.equal(applyClientOptions(spec,source,{}),source,id);
@@ -81,6 +84,18 @@ test('OpenClash positive decimals do not silently become unsupported exponent sy
  assert.throws(()=>applyClientOptions(spec,source,{maxNodeMultiplier:1e21}));
  const hostile={}; Object.defineProperty(hostile,'quicPolicy',{get(){throw Error('getter invoked');}});
  assert.throws(()=>applyClientOptions(spec,source,hostile),/data properties/);
+});
+
+test('AI Hong Kong typed slots exist only in supported desktop JS clients',()=>{
+ const entries={smart:'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',normal:'Mihomo内核系/Clash Party/ClashParty(mihomo).js',flclash:'Mihomo内核系/FlClash/FlClash(mihomo).js'};
+ for(const [id,path] of Object.entries(entries)) {
+   const source=read(path),spec=buildClientOptionSpec(id,source);
+   assert.deepEqual(spec.schema.aiHongKongPolicy.values,['allow','exclude']);
+   assert.equal(spec.schema.aiHongKongPolicy.default,'allow');
+   assert.equal(applyClientOptions(spec,source,{}),source);
+   assert.match(applyClientOptions(spec,source,{aiHongKongPolicy:'exclude'}),/SCKI_AI_HONG_KONG_POLICY = 'exclude'/);
+   assert.throws(()=>buildClientOptionSpec(id,source.replace(/^const SCKI_AI_HONG_KONG_POLICY[^\r\n]*\r?\n/m,'')),/Missing trusted option aiHongKongPolicy/);
+ }
 });
 test('build rejects missing advertised DNS capability and incomplete exact QUIC catalog',()=>{
  const js=read('Mihomo内核系/FlClash/FlClash(mihomo).js');
