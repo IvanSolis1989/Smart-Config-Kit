@@ -155,8 +155,17 @@ function inventoryFromManifests(contract, read) {
     const adapter = json(read, contract.manifests.meow);
     const descriptor = adapter.aerove_rule_assets;
     assert(descriptor?.manifest === 'Meow内核系/Aerove Lite/rule-assets/manifest.json', 'Invalid AEROVE asset manifest');
-    const manifest = json(read, descriptor.manifest);
-    assert(manifest.schema_version === 1 && manifest.version === adapter.version, 'AEROVE manifest version binding failed');
+    const manifestBytes = read(descriptor.manifest);
+    const manifest = JSON.parse(manifestBytes.toString('utf8'));
+    assert(manifest.schema_version === 1, 'Unsupported AEROVE asset manifest schema');
+    // Lite JS and its rule assets have independent revisions. Both track the
+    // fused baseline, and the adapter records the exact asset manifest it read.
+    const sameBaseline = value => typeof fused.baseline_version === 'string'
+      && typeof value === 'string' && value.startsWith(`${fused.baseline_version}-meow.`)
+      && /^[0-9]+$/.test(value.slice(fused.baseline_version.length + '-meow.'.length));
+    assert(sameBaseline(adapter.version), 'AEROVE adapter revision must use the fused baseline version');
+    assert(sameBaseline(manifest.version), 'AEROVE asset revision must use the fused baseline version');
+    assert(adapter.input_sha256_lf?.[descriptor.manifest] === sha256(normalized(manifestBytes)), 'AEROVE asset manifest hash binding failed');
     const identities = assets => {
       assert(Array.isArray(assets) && assets.length <= 256, 'Invalid AEROVE assets');
       const unique = new Set();
