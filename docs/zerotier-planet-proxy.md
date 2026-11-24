@@ -19,7 +19,13 @@ Use this local option only on a device where direct root-node UDP has been confi
 [Downloads](guide/downloads.md) · [Documentation](README.md) · [Checks and troubleshooting](guide/dns-and-verification.md)
 
 <a id="使用入口"></a>
-## Entry points
+## Clash Party with a remote override
+
+Refresh the Smart or Normal override, then choose 🇺🇸 美国节点 in 🛰️ ZeroTier 根节点 on the device that needs it. Clash Party stores the explicit selection with Mihomo's [profile.store-selected](https://wiki.metacubex.one/en/config/general/#cache). Refresh the override again and verify the selected group, ZeroTier ONLINE status and actual peer connectivity.
+
+The published scripts include four exact UDP/9993 root rules. On a new device the selector defaults to [PASS](https://wiki.metacubex.one/en/config/proxies/built-in/#pass), which continues through the ordinary rules. If the subscription has no US group, PASS is the only available choice. The local JS constant sets only the initial preference before there is a stored selection.
+
+## Local copies and FlClash
 
 1. Link the override as a local-type file and inspect updates with `--dry-run` first.
 2. Explicitly choose `--zerotier on` or `off` for an existing local JS file.
@@ -43,13 +49,13 @@ node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --z
 node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --zerotier off
 ```
 
-The first pair updates an existing override, retaining its ZeroTier boolean and, with `--preserve-local`, health-check/QUIC choices. The last pair explicitly enables/disables this device only; without `--source`, only the existing local file is adjusted.
+The first pair updates an existing override, retaining its ZeroTier boolean and, with `--preserve-local`, health-check/QUIC choices. The last pair sets the initial preference in Clash Party or enables/disables the rules in FlClash. Without `--source`, only the existing local file is adjusted.
 
 `--target` must be an existing regular `.js` file; `--source` may instead point to Normal or FlClash source. The tool strictly reads a unique trusted top-level `const` without executing target code. Invalid or duplicate switches reject writing; a missing switch means the published default `false`.
 
 Explicit arguments take priority. A real update backs up the original, replaces it atomically, and reads it back. Dry runs and identical repeated updates do not write. ZeroTier arguments require a local target file and cannot change repository-wide defaults.
 
-The device should link a **local-type** override, whose content is updated through this entry point. Subscription refresh reruns that script and retains its saved constant. Replacing it directly with the remote published script restores the default `false`. Automatically updated remote overrides cannot merge device constants themselves; convert to a local copy first. This tool neither reloads the core nor changes group selections.
+The device should link a **local-type** override, whose content is updated through this entry point. Subscription refresh reruns that script and retains its saved constant. Replacing it directly with the remote published script restores the default `false`. Use the device selector above to persist your choice with a Clash Party remote override. This tool neither reloads the core nor changes group selections.
 
 When enabled, only the following four flows enter the existing `🇺🇸 美国节点` (US nodes) group, ahead of normal routing rules.
 
@@ -62,11 +68,11 @@ All targets match **UDP / 9993** only:
 | 84.17.53.155/32 | `🇺🇸 美国节点` |
 | 185.152.67.145/32 | `🇺🇸 美国节点` |
 
-Each uses `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,<address>/32,no-resolve)),🇺🇸 美国节点`. TCP/9993, other UDP ports, and other IPs do not match.
+In FlClash, each uses `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,<address>/32,no-resolve)),🇺🇸 美国节点`. TCP/9993, other UDP ports, and other IPs do not match.
 
-Other rule ordering, group membership/selections, DNS, and health-check/QUIC options remain unchanged. Repeated generation retains exactly four rules; disabling restores default rules.
+Other rule ordering, group membership/selections, DNS, and health-check/QUIC options remain unchanged. Repeated generation retains exactly four rules while enabled in FlClash. In Clash Party all four point to the device selector, and PASS restores the ordinary routing behavior.
 
-If no US node survives preflight/filtering, the script preserves the original input before writing and logs `requires existing 🇺🇸 美国节点`. It does not create an empty US group or choose another region. On an enabled device, inspect the first four generated rules, actual UDP replies, and ZeroTier ONLINE status; a version number or on-disk switch is insufficient.
+If the local constant explicitly enables the initial US preference but no US node survives preflight/filtering, the script preserves the original input before writing and logs `requires existing 🇺🇸 美国节点`. It does not create an empty US group or choose another region. On an enabled device, inspect the first four generated rules, actual UDP replies, and ZeroTier ONLINE status; a version number or on-disk switch is insufficient.
 
 The official [Mihomo routing rules](https://wiki.metacubex.one/config/rules/) define `AND`, `NETWORK`, `DST-PORT`, `IP-CIDR`, `no-resolve`, and top-to-bottom matching.
 

@@ -80,7 +80,7 @@ test('runtime synchronization preserves each explicit local privacy choice', () 
       return targets.some(target => path.resolve(root, target) === file)
         ? setLocalTrafficOptions(source, { browserUdpPolicy }) : source;
     });
-    for (const update of updates.slice(1)) {
+    for (const update of updates.filter(item => targets.some(target => path.resolve(root, target) === item.file))) {
       assert.equal(parseLocalTrafficOptions(update.updated).options.browserUdpPolicy, browserUdpPolicy);
     }
   }
@@ -107,7 +107,10 @@ for (const target of targets) {
       assert.deepEqual(withoutGuards, plain(baseline), 'Only the browser safety rules change');
       assert.equal(enabled['find-process-mode'], 'strict');
       assert.ok(enabled.rules.indexOf('DST-PORT,19302,DIRECT') >= guards.length);
-      if (zeroTier) assert.ok(enabled.rules.indexOf(graph.getZeroTierPlanetProxyPolicy().rules[0]) >= guards.length);
+      if (zeroTier) {
+        const zeroTierRules = target.includes('Clash Party') ? graph.getClashPartyZeroTierPlanetProxyPolicy().rules : graph.getZeroTierPlanetProxyPolicy().rules;
+        assert.ok(enabled.rules.indexOf(zeroTierRules[0]) >= guards.length);
+      }
       if (quic === 'block-foreign') assert.ok(enabled.rules.indexOf(graph.getQuicRules(quic)[0]) >= guards.length);
       const repeated = compile(target, 'reject', quic, zeroTier).run(enabled);
       assert.deepEqual(plain(repeated.rules), guards.concat(plain(baseline.rules)));

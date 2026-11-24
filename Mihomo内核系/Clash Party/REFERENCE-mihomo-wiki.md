@@ -5,6 +5,8 @@
 
 > English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
+> Reviewed 2026-11-25: verified the existing [PASS outbound](https://wiki.metacubex.one/en/config/proxies/built-in/#pass) and [profile.store-selected](https://wiki.metacubex.one/en/config/general/#cache) fields for the ZeroTier device selector. The four UDP/9993 rules retain their existing predicates.
+
 > Reviewed 2026-10-31 (Issue #193): [Mihomo routing rules](https://wiki.metacubex.one/config/rules/) were reread, using existing `AND`, `NETWORK`, `PROCESS-NAME`, and `REJECT` syntax. UDP may continue matching if the selected proxy lacks UDP support, so explicit local protection rejects rather than chooses a proxy. The option covers only Windows `chrome.exe` / `msedge.exe` / `firefox.exe`, requires TUN interception and effective process detection, defaults off, and adds no core field/minimum version. Browser tradeoffs are in the [official Chrome privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy). Configuration/core syntax checks do not replace recovery acceptance on the user’s device.
 
 > Reviewed 2026-10-29: official [DNS](https://wiki.metacubex.one/config/dns/) and [hosts](https://wiki.metacubex.one/config/dns/hosts/) were reread. Explicit hosts-only uses only the existing narrow exact-key/IP-array subset, without new core fields or changed node server/SNI/Host. Default adaptive and global DNS remain. Optional service projection preserves native rule order/required references; actual QuickJS testing is not app acceptance.

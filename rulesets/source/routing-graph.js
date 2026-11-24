@@ -53,6 +53,19 @@ function getZeroTierPlanetProxyPolicy() {
   };
 }
 
+// Clash Party can persist a device choice in the core's existing selector cache.
+// PASS continues the original rules; this is not part of the shared default graph.
+function getClashPartyZeroTierPlanetProxyPolicy() {
+  const planet = getZeroTierPlanetProxyPolicy();
+  const groupName = '🛰️ ZeroTier 根节点';
+  return {
+    groupName,
+    disabledChoice: 'PASS',
+    targetGroup: planet.targetGroup,
+    rules: planet.rules.map(rule => rule.slice(0, rule.lastIndexOf(',') + 1) + groupName),
+  };
+}
+
 // Trusted Windows browser opt-in, separate from the shared default graph.
 // Process matching requires the desktop TUN path and working process discovery.
 function getBrowserUdpPrivacyPolicy() {
@@ -2204,6 +2217,7 @@ module.exports = {
   getBusinessProfileDefinitions,
   getHealthCheckSettings,
   getZeroTierPlanetProxyPolicy,
+  getClashPartyZeroTierPlanetProxyPolicy,
   getBrowserUdpPrivacyPolicy,
   getQuicRules,
   buildMihomoRoutingGraph,

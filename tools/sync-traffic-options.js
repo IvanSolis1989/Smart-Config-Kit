@@ -8,6 +8,7 @@ const graph = require('../rulesets/source/routing-graph.js');
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const { parseLocalTrafficOptions, setLocalTrafficOptions } = require('./lib/local-traffic-options');
 const runtimePath = 'tools/runtime/traffic-options.js';
+const partyRuntimePath = 'tools/runtime/clash-party-zerotier.js';
 const targets = [
   'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js',
   'Mihomo内核系/Clash Party/ClashParty(mihomo).js',
@@ -23,6 +24,8 @@ const browserUdpBegin = '  // >>> SCKI BROWSER UDP: BEGIN';
 const browserUdpEnd = '  // <<< SCKI BROWSER UDP: END';
 const embedBegin = '// >>> SCKI TRAFFIC OPTIONS: BEGIN';
 const embedEnd = '// <<< SCKI TRAFFIC OPTIONS: END';
+const partyBegin = '// >>> SCKI CLASH PARTY ZEROTIER: BEGIN';
+const partyEnd = '// <<< SCKI CLASH PARTY ZEROTIER: END';
 
 function replaceMarked(source, begin, end, block, label) {
   const start = source.indexOf(begin);
@@ -52,6 +55,15 @@ function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.read
   runtime = replaceMarked(runtime, browserUdpBegin, browserUdpEnd, browserUdpBlock.replace(/\n/g, runtimeEol), runtimePath);
   updates.push({ file: runtimeFile, original: originalRuntime, updated: runtime });
 
+  const partyFile = path.join(root, partyRuntimePath);
+  const originalPartyRuntime = readFile(partyFile, 'utf8');
+  const partyEol = originalPartyRuntime.includes('\r\n') ? '\r\n' : '\n';
+  const policyBegin = '  // >>> SCKI CLASH PARTY ZEROTIER POLICY: BEGIN';
+  const policyEnd = '  // <<< SCKI CLASH PARTY ZEROTIER POLICY: END';
+  const partyRuntime = replaceMarked(originalPartyRuntime, policyBegin, policyEnd,
+    [policyBegin, '  var POLICY = ' + JSON.stringify(graph.getClashPartyZeroTierPlanetProxyPolicy()) + ';', policyEnd].join(partyEol), partyRuntimePath);
+  updates.push({ file: partyFile, original: originalPartyRuntime, updated: partyRuntime });
+
   for (const target of targets) {
     const file = path.join(root, target);
     const original = readFile(file, 'utf8');
@@ -75,6 +87,14 @@ function prepareUpdates(defaults = graph.getTrafficOptions(), readFile = fs.read
       zeroTierPlanetProxy: localOptions.zeroTierPlanetProxy ?? false,
       browserUdpPolicy: localOptions.browserUdpPolicy ?? 'off',
     }, target);
+    if (target.startsWith('Mihomo内核系/Clash Party/')) {
+      const partyBlock = [partyBegin + ' — generated from ' + partyRuntimePath + '.',
+        partyRuntime.trimEnd().replace(/\r\n/g, '\n').replace(/\n/g, eol), partyEnd].join(eol);
+      if (!updated.includes(partyBegin) && !updated.includes(partyEnd)) {
+        const at = updated.indexOf(embedEnd) + embedEnd.length;
+        updated = updated.slice(0, at) + eol + eol + partyBlock + updated.slice(at);
+      } else updated = replaceMarked(updated, partyBegin, partyEnd, partyBlock, target);
+    }
     updates.push({ file, original, updated });
   }
 

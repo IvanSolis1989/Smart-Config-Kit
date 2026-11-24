@@ -166,7 +166,7 @@ for (const [label, eol] of [['LF', '\n'], ['CRLF', '\r\n']]) {
   }
 
   function makeSources() {
-    const files = ['tools/runtime/traffic-options.js', ...targets.map(([file]) => file)];
+    const files = ['tools/runtime/traffic-options.js', 'tools/runtime/clash-party-zerotier.js', ...targets.map(([file]) => file)];
     return new Map(files.map(file => {
       const filename = path.join(root, file);
       // Derive platform-independent inputs; generated outputs are compared without normalization.
@@ -178,7 +178,7 @@ for (const [label, eol] of [['LF', '\n'], ['CRLF', '\r\n']]) {
   function readFrom(sources) {
     return (filename, encoding) => {
       assert.equal(encoding, 'utf8');
-      assert.ok(sources.has(filename), 'synchronizer reads only the runtime and three JS fixtures');
+      assert.ok(sources.has(filename), 'synchronizer reads only shared runtime, Clash Party runtime and three JS fixtures');
       return sources.get(filename);
     };
   }
@@ -196,7 +196,9 @@ for (const [label, eol] of [['LF', '\n'], ['CRLF', '\r\n']]) {
   test(`prepareUpdates ${label}: full generation preserves line endings and is byte-stable`, () => {
     const expected = makeSources();
     const sources = new Map(Array.from(expected, ([filename, source]) => {
-      const stale = source.replace(/var HEALTH_CHECK_PROFILES = [^\r\n]+/, 'var HEALTH_CHECK_PROFILES = {};');
+      const stale = source.includes('var HEALTH_CHECK_PROFILES = ')
+        ? source.replace(/var HEALTH_CHECK_PROFILES = [^\r\n]+/, 'var HEALTH_CHECK_PROFILES = {};')
+        : source.replace(/var POLICY = [^\r\n]+/, 'var POLICY = {};');
       assert.notEqual(stale, source, 'fixture contains a stale health-check block');
       return [filename, stale];
     }));

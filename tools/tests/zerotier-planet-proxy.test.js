@@ -10,7 +10,7 @@ const runtime = require('../runtime/traffic-options');
 const { prepareUpdates } = require('../sync-traffic-options');
 
 const root = path.resolve(__dirname, '../..');
-const targets = ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
+const targets = ['Mihomo内核系/FlClash/FlClash(mihomo).js'];
 const planet = graph.getZeroTierPlanetProxyPolicy();
 const plain = value => JSON.parse(JSON.stringify(value));
 function node(name) {
@@ -111,7 +111,7 @@ for (const target of targets) {
 
 test('runtime and all JS products synchronize graph policy and default-off local constants', () => {
   const updates = prepareUpdates();
-  assert.equal(updates.length, 4);
+  assert.equal(updates.length, 5);
   assert.ok(updates.every(update => update.original === update.updated));
-  for (const update of updates.slice(1)) assert.match(update.updated, /const SCKI_ZEROTIER_PLANET_PROXY = false\b/);
+  for (const target of targets) assert.match(updates.find(update => update.file.endsWith(target.replaceAll('/', path.sep))).updated, /const SCKI_ZEROTIER_PLANET_PROXY = false\b/);
 });

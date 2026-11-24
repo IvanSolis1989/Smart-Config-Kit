@@ -13,11 +13,13 @@ const { prepareUpdates, replaceMarked } = require('../sync-traffic-options');
 const root = path.resolve(__dirname, '../..');
 
 test('traffic runtime preflight prepares all targets without writes and rejects bad markers', () => {
-  const files = ['tools/runtime/traffic-options.js', 'Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
+  const runtimes = ['tools/runtime/traffic-options.js', 'tools/runtime/clash-party-zerotier.js'];
+  const targets = ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
+  const files = [...runtimes, ...targets];
   const before = files.map(file => fs.readFileSync(path.join(root, file)));
   const prepared = prepareUpdates({ healthCheckProfile: 'power-save', quicPolicy: 'follow-rules' });
-  assert.equal(prepared.length, files.length);
-  assert(prepared.slice(1).every(item => item.updated.includes("SCKI_HEALTH_CHECK_PROFILE = 'power-save'") && item.updated.includes("SCKI_QUIC_POLICY = 'follow-rules'")));
+  assert.deepEqual(prepared.map(item => item.file), files.map(file => path.join(root, file)));
+  assert(prepared.slice(runtimes.length).every(item => item.updated.includes("SCKI_HEALTH_CHECK_PROFILE = 'power-save'") && item.updated.includes("SCKI_QUIC_POLICY = 'follow-rules'")));
   files.forEach((file, index) => assert.deepEqual(fs.readFileSync(path.join(root, file)), before[index]));
   assert.throws(() => replaceMarked('begin without an end', 'begin', 'end-marker', 'replacement', 'fixture'), /invalid synchronization markers/);
 });

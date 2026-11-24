@@ -18,6 +18,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-dns.27 / v6.0.22-normal.27 (2026-11-25)
+
+- Keep the four exact ZeroTier root UDP/9993 rules in Clash Party Smart and Normal. The native selector remembers the device's explicit choice across remote refreshes. New devices use PASS by default.
+- The device selector uses Mihomo's existing PASS and profile.store-selected behavior. FlClash retains its local switch, and the shared fused rule sets are unchanged.
+
 ## v6.0.22-dns.26 / v6.0.22-normal.26 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

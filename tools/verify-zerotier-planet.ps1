@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
 Read-only verification of a locally enabled ZeroTier Planet UDP proxy.
+Verifier v1.0.1: understands the persistent Clash Party device selector.
 .DESCRIPTION
 Checks actual owned UDP return growth, ZeroTier ONLINE, fixed Smart selection,
 rule order and protected runtime state. Makes no controller mutations and never
@@ -35,9 +36,11 @@ if (-not ('SckiPipeIdentity' -as [type])) {
     Add-Type -TypeDefinition 'using System.Runtime.InteropServices; using Microsoft.Win32.SafeHandles; public static class SckiPipeIdentity { [DllImport("kernel32.dll",SetLastError=true)] public static extern bool GetNamedPipeServerProcessId(SafePipeHandle pipe,out uint pid); }'
 }
 $graphFile = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\rulesets\source\routing-graph.js'))
-$policyText = & node -e 'process.stdout.write(JSON.stringify(require(process.argv[1]).getZeroTierPlanetProxyPolicy()))' $graphFile
+$policyText = & node -e 'const g=require(process.argv[1]); process.stdout.write(JSON.stringify({legacy:g.getZeroTierPlanetProxyPolicy(),device:g.getClashPartyZeroTierPlanetProxyPolicy()}))' $graphFile
 if ($LASTEXITCODE -ne 0) { throw 'Cannot read authoritative Planet policy.' }
-$policy = $policyText | ConvertFrom-Json
+$policies = $policyText | ConvertFrom-Json
+$policy = $policies.legacy
+$devicePolicy = $policies.device
 $rootIps = @($policy.rules | ForEach-Object {
     if ($_ -notmatch 'IP-CIDR,([0-9.]+)/32,no-resolve') { throw 'Unexpected authoritative rule format.' }
     $Matches[1]
@@ -95,6 +98,32 @@ function Read-Hash([string]$File) {
     catch [System.UnauthorizedAccessException] { return [ordered]@{Hash=$null; HashAvailable=$false; Length=$item.Length; LastWriteUtc=$item.LastWriteTimeUtc.ToString('o')} }
 }
 
+function Get-PlanetRuleState($Rules, $ProxyMap, [string]$OverrideText, $LegacyPolicy, $DevicePolicy) {
+    $deviceMode = $OverrideText.Contains('SckiClashPartyZeroTier.apply(config, SCKI_ZEROTIER_PLANET_PROXY)')
+    $target = if ($deviceMode) { $DevicePolicy.groupName } else { $LegacyPolicy.targetGroup }
+    $offset = 0
+    $browsers = @('chrome.exe', 'msedge.exe', 'firefox.exe')
+    if ($Rules.Count -ge 3) {
+        $browserPrefix = $true
+        for ($i = 0; $i -lt 3; $i++) {
+            $browserPrefix = $browserPrefix -and $Rules[$i].type -eq 'AND' -and $Rules[$i].proxy -eq 'REJECT' -and $Rules[$i].payload -ceq ('((Network,udp) && (ProcessName,' + $browsers[$i] + '))')
+        }
+        if ($browserPrefix) { $offset = 3 }
+    }
+    $prefixMatches = $Rules.Count -ge ($offset + $LegacyPolicy.rules.Count)
+    for ($i = 0; $i -lt $LegacyPolicy.rules.Count -and $prefixMatches; $i++) {
+        if ($LegacyPolicy.rules[$i] -notmatch 'IP-CIDR,([0-9.]+)/32,no-resolve') { throw 'Unexpected authoritative rule format.' }
+        $expected = '((Network,udp) && (DstPort,9993) && (IPCIDR,' + $Matches[1] + '/32))'
+        $rule = $Rules[$offset + $i]
+        $prefixMatches = $rule.type -eq 'AND' -and $rule.payload -ceq $expected -and $rule.proxy -ceq $target
+    }
+    $deviceGroup = $ProxyMap.PSObject.Properties[$DevicePolicy.groupName].Value
+    $flags = [regex]::Matches($OverrideText, '(?m)^const SCKI_ZEROTIER_PLANET_PROXY = (true|false);?\r?$')
+    $enabled = if ($deviceMode) { $null -ne $deviceGroup -and $deviceGroup.type -eq 'Selector' -and $deviceGroup.now -ceq $LegacyPolicy.targetGroup }
+        else { $flags.Count -eq 1 -and $flags[0].Groups[1].Value -eq 'true' }
+    [ordered]@{ RulesFirst=$prefixMatches; Enabled=[bool]$enabled; DeviceSelector=$deviceMode; DeviceNow=$deviceGroup.now }
+}
+
 function Read-Snapshot {
     $service = Get-CimInstance Win32_Service -Filter "Name='ZeroTierOneService'"
     if (-not $service -or $service.State -ne 'Running') { throw 'ZeroTier service is not running.' }
@@ -120,13 +149,8 @@ function Read-Snapshot {
     } | ForEach-Object {
         [ordered]@{Id=$_.id; DestinationIP=$_.metadata.destinationIP; SourceIP=$_.metadata.sourceIP; SourcePort=$_.metadata.sourcePort; Process=$_.metadata.process; Rule=$_.rule; Chains=@($_.chains); Upload=$_.upload; Download=$_.download}
     })
-    $prefixMatches = $rules.Count -ge $rootIps.Count
-    for ($i = 0; $i -lt $rootIps.Count -and $prefixMatches; $i++) {
-        $expected = '((Network,udp) && (DstPort,9993) && (IPCIDR,' + $rootIps[$i] + '/32))'
-        $prefixMatches = $rules[$i].type -eq 'AND' -and $rules[$i].payload -ceq $expected -and $rules[$i].proxy -ceq $policy.targetGroup
-    }
     $overrideText = [IO.File]::ReadAllText($overrideFile)
-    $flags = [regex]::Matches($overrideText, '(?m)^const SCKI_ZEROTIER_PLANET_PROXY = (true|false);?\r?$')
+    $ruleState = Get-PlanetRuleState $rules $proxyMap $overrideText $policy $devicePolicy
     $selectors = @($proxyMap.PSObject.Properties | Where-Object {$_.Value.type -eq 'Selector'} | Sort-Object Name | ForEach-Object { [ordered]@{Name=$_.Name; Now=$_.Value.now} })
     $fixed = @($proxyMap.PSObject.Properties | Where-Object { $_.Name -ne $policy.targetGroup -and -not [string]::IsNullOrEmpty($_.Value.fixed) } | Sort-Object Name | ForEach-Object { [ordered]@{Name=$_.Name; Fixed=$_.Value.fixed} })
     $protected = [ordered]@{}
@@ -135,9 +159,9 @@ function Read-Snapshot {
         At=(Get-Date).ToString('o'); CorePid=$script:coreProcessId; CoreStarted=$script:coreStarted; ZeroTierPid=$service.ProcessId
         Node=$zt.address; Online=[bool]$zt.online; Networks=@($networks | ForEach-Object {[ordered]@{Id=$_.nwid; Status=$_.status; Addresses=@($_.assignedAddresses)}})
         Planet=@($peers | Where-Object role -eq 'PLANET' | ForEach-Object {[ordered]@{Address=$_.address; ActivePaths=@($_.paths | Where-Object active).Count}})
-        RuleCount=$rules.Count; PlanetRulesFirst=$prefixMatches; Tun=$config.tun
+        RuleCount=$rules.Count; PlanetRulesFirst=$ruleState.RulesFirst; Tun=$config.tun
         Selectors=$selectors; OtherFixed=$fixed; USFixed=$group.fixed; USNow=$group.now; USMembers=@($group.all)
-        OverrideEnabled=($flags.Count -eq 1 -and $flags[0].Groups[1].Value -eq 'true'); OverrideHash=(Read-Hash $overrideFile)
+        OverrideEnabled=$ruleState.Enabled; DeviceSelector=$ruleState.DeviceSelector; DeviceNow=$ruleState.DeviceNow; OverrideHash=(Read-Hash $overrideFile)
         ProtectedHashes=$protected; OwnedFlows=$ownedFlows
     }
 }

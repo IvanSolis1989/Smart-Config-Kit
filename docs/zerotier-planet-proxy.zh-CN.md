@@ -17,7 +17,13 @@
 
 [下载配置](guide/downloads.zh-CN.md) · [文档目录](README.zh-CN.md) · [检查与排障](guide/dns-and-verification.zh-CN.md)
 
-## 使用入口
+## Clash Party 远程覆写
+
+刷新 Smart 或 Normal 覆写后，在需要代理的设备上打开「🛰️ ZeroTier 根节点」，明确选择「🇺🇸 美国节点」。Mihomo 通过 [profile.store-selected](https://wiki.metacubex.one/en/config/general/#cache) 保存本机选择。再次刷新覆写并核对当前选项、ZeroTier ONLINE 状态和对端连接。
+
+发布脚本包含四条精确的 UDP/9993 根节点规则。新设备默认使用 [PASS](https://wiki.metacubex.one/config/proxies/built-in/#pass)，继续匹配原有规则。订阅没有美国节点组时只提供 PASS。本地 JS 常量只决定没有缓存时的初始选项。
+
+## 本地副本与 FlClash
 
 1. 将覆写关联为 local 类型，先用 `--dry-run` 检查更新。
 2. 在已有本地 JS 上显式选择 `--zerotier on` 或 `off`。
@@ -45,7 +51,7 @@ node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --z
 
 显式参数优先。实际更新会保留原件备份、原子替换并读回；dry-run 和内容相同的重复更新均不写入。ZeroTier 参数必须有目标本地文件，不能修改全仓默认值。
 
-设备应关联 **local 类型** 的覆写，再由上述入口更新其内容。订阅刷新会重新执行此本地脚本，因此沿用保存的常量；直接覆盖为远端发布脚本仍会得到发布默认 `false`。远端自动更新的 override 不能自行合并设备常量，应先转为本地副本。此工具不重新加载内核，也不修改代理组选择。
+设备应关联 **local 类型** 的覆写，再由上述入口更新其内容。订阅刷新会重新执行此本地脚本，因此沿用保存的常量；直接覆盖为远端发布脚本仍会得到发布默认 `false`。使用 Clash Party 远程覆写时，通过上文的设备选择组保存选项。此工具不重新加载内核，也不修改代理组选择。
 
 启用后只有下列四种流量进入现有 `🇺🇸 美国节点` 组，规则放在原分流规则之前：
 
@@ -58,11 +64,11 @@ node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --z
 | 84.17.53.155/32 | 🇺🇸 美国节点 |
 | 185.152.67.145/32 | 🇺🇸 美国节点 |
 
-每条使用 `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,<地址>/32,no-resolve)),🇺🇸 美国节点`，因此 TCP/9993、其他 UDP 端口和其他 IP 不在匹配范围内。
+FlClash 每条使用 `AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,<地址>/32,no-resolve)),🇺🇸 美国节点`，因此 TCP/9993、其他 UDP 端口和其他 IP 不在匹配范围内。
 
-其余规则顺序、代理组成员与选择、DNS 和健康检查/QUIC 选项保持原行为。重复生成保持四条；关闭后恢复默认规则。
+其余规则顺序、代理组成员与选择、DNS 和健康检查/QUIC 选项保持原行为。Clash Party 的四条规则指向设备选择组，选 PASS 时沿用原有路由。FlClash 启用时生成四条，关闭时恢复默认规则。
 
-节点预检或筛选后没有美国节点时，脚本在写入前保留原输入并输出 `requires existing 🇺🇸 美国节点`，不会创建空美国组或改用其他区域。启用设备需检查最终生成配置的首四条规则、实际 UDP 回包与 ZeroTier ONLINE 状态；不能只检查版本号或磁盘上的开关。
+本地常量明确选择美国节点作为初始选项，但预检或筛选后没有美国节点时，脚本在写入前保留原输入并输出 `requires existing 🇺🇸 美国节点`，不会创建空美国组或改用其他区域。启用设备需检查最终生成配置的首四条规则、实际 UDP 回包与 ZeroTier ONLINE 状态；不能只检查版本号或磁盘上的开关。
 
 官方 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/) 定义了 `AND`、`NETWORK`、`DST-PORT`、`IP-CIDR`、`no-resolve` 和从上至下匹配。
 
@@ -81,7 +87,7 @@ node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --z
 
 | 产物 | 本次处理 |
 | --- | --- |
-| Clash Party Smart / Normal | 同步本地开关、写前预检、前置规则和回归；默认关闭 |
+| Clash Party Smart / Normal | 四条前置规则及本机选择组，默认 PASS |
 | FlClash JS | 同步相同运行时，区域组仍为原有 url-test；默认关闭 |
 | CMFA / Stash / OpenClash Normal / Smart | 本次未扩展其静态或 shell 参数入口，默认图和实际产物字节不变 |
 | Shadowrocket / Surge / Loon / Quantumult X / Egern | 本次未新增其独立格式的本地选项入口，默认规则与实际资产字节不变；Egern 清单只更新源文件真实哈希 |
@@ -97,7 +103,7 @@ node tools/configure-traffic-options.js --target 'C:\path\existing-local.js' --z
 
 固定美国组也影响其他当前引用此组的流量，但无需修改其他 Selector 的选择。不要把某台设备的一次成功节点写入全仓常量。
 
-三份 JS 已启用 [`profile.store-selected`](https://wiki.metacubex.one/config/general/#_28)。Smart fork 的 [API 选择](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/route/proxies.go#L74) 写入缓存，[配置刷新](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/executor/executor.go#L449) 对 Smart 等可选组恢复选择；`fixed` 是 API 运行时状态，不是可新增的 Smart 配置字段。
+三份 JS 已启用 [`profile.store-selected`](https://wiki.metacubex.one/en/config/general/#cache8)。Smart fork 的 [API 选择](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/route/proxies.go#L74) 写入缓存，[配置刷新](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/hub/executor/executor.go#L449) 对 Smart 等可选组恢复选择；`fixed` 是 API 运行时状态，不是可新增的 Smart 配置字段。
 
 恢复要求同一缓存、同一组名和仍存在的节点名。节点消失时 [Smart 会回到自动选择](https://github.com/vernesong/mihomo/blob/daf3ad03021cca6031f4a7303ca6d861a14d5a16/adapter/outboundgroup/smart.go#L616)，应明确报验收未通过并重新实测；不能用 TCP 分数自动替代 UDP 证据或遍历未知候选。
 

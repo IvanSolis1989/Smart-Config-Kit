@@ -7,7 +7,8 @@ const vm = require('node:vm');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const RESTRICTED_SITE = '🚫 受限网站';
-const { getTrafficOptions, getQuicRules } = require('../rulesets/source/routing-graph');
+const { getTrafficOptions, getQuicRules, getClashPartyZeroTierPlanetProxyPolicy } = require('../rulesets/source/routing-graph');
+const PARTY_ZEROTIER = getClashPartyZeroTierPlanetProxyPolicy();
 const TRAFFIC_OPTIONS = getTrafficOptions();
 const EXPECTED_REGION_TEST_INTERVAL_SECONDS = TRAFFIC_OPTIONS.healthCheckProfile === 'power-save' ? 900 : 300;
 const FUSED_MANIFEST = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'rulesets/generated/fused/manifest.json'), 'utf8'));
@@ -565,9 +566,16 @@ function validateGroups(target, output, record) {
   const groupsByName = groupByName(output);
   const proxyNames = new Set(output.proxies.map((proxy) => proxy.name));
 
-  record.expectEqual(groups.length, EXPECTED_GROUP_ORDER.length, 'emits exactly the expected JS overwrite group count');
+  const expectedOrder = target.id === 'flclash' ? EXPECTED_GROUP_ORDER : EXPECTED_GROUP_ORDER.concat(PARTY_ZEROTIER.groupName);
+  record.expectEqual(groups.length, expectedOrder.length, 'emits exactly the expected JS overwrite group count');
   record.expectEqual(uniqueValues(groupNames).length, groupNames.length, 'does not emit duplicate proxy-group names');
-  record.expectArrayEqual(groupNames, EXPECTED_GROUP_ORDER, 'keeps global, business, then region group order stable');
+  record.expectArrayEqual(groupNames, expectedOrder, 'keeps global, business, then region group order stable');
+  if (target.id !== 'flclash') {
+    const deviceGroup = groupsByName.get(PARTY_ZEROTIER.groupName);
+    record.expectEqual(deviceGroup && deviceGroup.type, 'select', 'ZeroTier device switch is a native selector');
+    record.expectArrayEqual(deviceGroup && deviceGroup.proxies || [], [PARTY_ZEROTIER.disabledChoice, PARTY_ZEROTIER.targetGroup], 'ZeroTier is default-off and can use the retained US group');
+    record.expect(output.profile && output.profile['store-selected'] === true, 'device selector persistence is enabled');
+  }
 
   for (const name of BIZ_GROUPS) {
     const group = groupsByName.get(name);
@@ -622,7 +630,9 @@ function validateRulesAndProviders(output, record, target) {
   const providerNames = new Set(Object.keys(providers));
   const groupNames = new Set((output['proxy-groups'] || []).map((group) => group.name));
 
-  record.expectEqual(rules.length, EXPECTED_FUSED_RULES, `injects the fused ruleset`);
+  const deviceRuleCount = target.id === 'flclash' ? 0 : PARTY_ZEROTIER.rules.length;
+  record.expectEqual(rules.length, EXPECTED_FUSED_RULES + deviceRuleCount, 'injects the fused ruleset plus the explicit device-selector prefix');
+  if (deviceRuleCount) record.expectArrayEqual(rules.slice(0, deviceRuleCount), PARTY_ZEROTIER.rules, 'only the four exact root UDP/9993 rules precede the fused rules');
   record.expectEqual(providerNames.size, EXPECTED_FUSED_PROVIDERS, `injects the fused rule-provider set`);
   record.expect([...providerNames].every((name) => name.startsWith('scki-fused-')), 'final rule-providers are generated fused providers only');
   record.expectEqual(rules[rules.length - 1], 'MATCH,🐟 漏网之鱼', 'keeps MATCH as the final fallback');

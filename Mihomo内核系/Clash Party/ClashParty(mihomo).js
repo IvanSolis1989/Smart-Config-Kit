@@ -1,6 +1,6 @@
 // Clash 覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.22-normal.26 (2026-11-22)
-// 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
+// 版本：v6.0.22-normal.27 (2026-11-25)
+// 架构：22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 1 ZeroTier 设备选择组；149 融合 rule-providers / 168 基线 + 4 条 ZeroTier 规则
 // 规则源：rulesets/source/routing-graph.js v6.0.22（与 Smart 版规则等价，仅区域组从 smart 改为 url-test）
 // 适用：Mihomo / Clash.Meta 稳定版内核、不支持 smart + LightGBM 的分支；也适用于想完全关闭 ML 评估的用户
 // 变更历史：见 `Mihomo内核系/Clash Party/CHANGELOG.md`
@@ -9,7 +9,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.22-normal.26'
+const VERSION = 'v6.0.22-normal.27'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。
 // 不从机场订阅读取；默认 adaptive 不变；hosts-only 仅显式导入活动节点精确 IP hosts。
@@ -17,7 +17,7 @@ const SCKI_SUBSCRIPTION_ADAPTER_PROFILE = 'adaptive'
 // 仅本地可调；null 关闭倍率筛选，正数才按“倍率 > 阈值”剔除。
 const SCKI_MAX_NODE_MULTIPLIER = null
 
-// SCKI local traffic options. Sync restores health/QUIC presets and preserves the explicit local ZeroTier choice.
+// The ZeroTier constant only sets the initial candidate order. Store a device choice in the native selector.
 const SCKI_HEALTH_CHECK_PROFILE = 'standard'
 const SCKI_QUIC_POLICY = 'block-foreign'
 const SCKI_ZEROTIER_PLANET_PROXY = false
@@ -162,6 +162,39 @@ var SckiTrafficOptions = (function() {
 
 if (typeof module !== 'undefined' && module.exports) module.exports = SckiTrafficOptions;
 // <<< SCKI TRAFFIC OPTIONS: END
+
+// >>> SCKI CLASH PARTY ZEROTIER: BEGIN — generated from tools/runtime/clash-party-zerotier.js.
+// Clash Party device selector v1.0.0. Rule data is owned by routing-graph.js.
+var SckiClashPartyZeroTier = (function() {
+  // >>> SCKI CLASH PARTY ZEROTIER POLICY: BEGIN
+  var POLICY = {"groupName":"🛰️ ZeroTier 根节点","disabledChoice":"PASS","targetGroup":"🇺🇸 美国节点","rules":["AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,103.195.103.66/32,no-resolve)),🛰️ ZeroTier 根节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,79.127.159.187/32,no-resolve)),🛰️ ZeroTier 根节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,84.17.53.155/32,no-resolve)),🛰️ ZeroTier 根节点","AND,((NETWORK,UDP),(DST-PORT,9993),(IP-CIDR,185.152.67.145/32,no-resolve)),🛰️ ZeroTier 根节点"]};
+  // <<< SCKI CLASH PARTY ZEROTIER POLICY: END
+
+  function apply(config, initiallyEnabled) {
+    if (typeof initiallyEnabled !== 'boolean') throw new Error('Invalid SCKI ZeroTier planet proxy option');
+    var groups = config['proxy-groups'];
+    if (!Array.isArray(groups) || !Array.isArray(config.rules)) throw new Error('SCKI ZeroTier selector requires generated groups and rules');
+    var hasTarget = groups.some(function(group) { return group && group.name === POLICY.targetGroup; });
+    SckiTrafficOptions.requireZeroTierPlanetProxyTarget(initiallyEnabled, hasTarget ? [POLICY.targetGroup] : []);
+    var choices = hasTarget ? (initiallyEnabled ? [POLICY.targetGroup, POLICY.disabledChoice] : [POLICY.disabledChoice, POLICY.targetGroup]) : [POLICY.disabledChoice];
+
+    // Rebuild only our group/rules. Native store-selected restores an explicit
+    // device choice after reload/restart; never trust subscription fields as state.
+    config['proxy-groups'] = groups.filter(function(group) { return group.name !== POLICY.groupName; });
+    config['proxy-groups'].push({ name: POLICY.groupName, type: 'select', proxies: choices });
+    SckiTrafficOptions.applyZeroTierPlanetProxy(config.rules, false, []);
+    for (var i = config.rules.length - 1; i >= 0; i--) {
+      if (POLICY.rules.indexOf(config.rules[i]) >= 0) config.rules.splice(i, 1);
+    }
+    for (var j = POLICY.rules.length - 1; j >= 0; j--) config.rules.unshift(POLICY.rules[j]);
+    return config;
+  }
+
+  return { groupName: POLICY.groupName, apply: apply };
+})();
+
+if (typeof module !== 'undefined' && module.exports) module.exports = SckiClashPartyZeroTier;
+// <<< SCKI CLASH PARTY ZEROTIER: END
 
 // >>> SCKI SUBSCRIPTION NODE FILTER: BEGIN — generated from tools/runtime/subscription-node-filter.js; edit runtime then synchronize.
 // Shared browser-safe runtime. Embedded verbatim in the three JS overwrite adapters.
@@ -1596,7 +1629,7 @@ function main(config) {
   try {
     if (!config || typeof config !== 'object') return config
     SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY, browserUdpPolicy: SCKI_BROWSER_UDP_POLICY, aiHongKongPolicy: SCKI_AI_HONG_KONG_POLICY })
-    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
+    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ), [SckiClashPartyZeroTier.groupName]), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
       console.log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)
       return config
@@ -1677,7 +1710,7 @@ function main(config) {
     SckiTrafficOptions.applyAiHongKongPolicy(config, SCKI_AI_HONG_KONG_POLICY, c.HK, BIZ.AI)
     SckiTrafficOptions.applyHealthCheckProfile(config, SCKI_HEALTH_CHECK_PROFILE, 'normal')
     SckiTrafficOptions.applyQuicPolicy(config.rules, SCKI_QUIC_POLICY)
-    SckiTrafficOptions.applyZeroTierPlanetProxy(config.rules, SCKI_ZEROTIER_PLANET_PROXY, config['proxy-groups'].map(function(group) { return group.name }))
+    SckiClashPartyZeroTier.apply(config, SCKI_ZEROTIER_PLANET_PROXY)
     SckiTrafficOptions.applyBrowserUdpPolicy(config.rules, SCKI_BROWSER_UDP_POLICY)
     sortProxyGroups(config)
     console.log(`[${VERSION}] Done! Groups: ${config['proxy-groups'].length}, Rules: ${config.rules.length}, Providers: ${Object.keys(config['rule-providers']).length}`)

@@ -16,6 +16,10 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## Clash Party v6.0.22.27 (2026-11-25)
+
+- Persist the device's ZeroTier root proxy selection across remote refreshes. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#v6022-dns27--v6022-normal27-2026-11-25).
+
 ## v6.0.22 (2026-11-22)
 
 - Fix DingTalk and Doubao host routing and add optional AI group filtering to the JS overrides. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md#v6022-dns26--v6022-normal26-2026-11-22).

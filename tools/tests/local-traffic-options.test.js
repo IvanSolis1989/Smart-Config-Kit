@@ -11,6 +11,7 @@ const { prepareUpdates } = require('../sync-traffic-options');
 const { parseLocalTrafficOptions, planLocalTrafficOptions, writeLocalTrafficOptions } = require('../lib/local-traffic-options');
 
 const root = path.resolve(__dirname, '../..');
+const targets = ['Mihomo内核系/Clash Party/ClashParty(mihomo-smart).js', 'Mihomo内核系/Clash Party/ClashParty(mihomo).js', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
 const fixture = (zero = false, health = 'standard', quic = 'block-foreign', eol = '\n') => [
   `const SCKI_HEALTH_CHECK_PROFILE = '${health}'`,
   `const SCKI_QUIC_POLICY = '${quic}'`,
@@ -57,7 +58,7 @@ test('sync keeps an existing on/off const and defaults only missing declarations
       return source;
     };
     const updates = prepareUpdates(defaults, read);
-    for (const item of updates.slice(1)) assert.equal(parseLocalTrafficOptions(item.updated).options.zeroTierPlanetProxy, value ?? false);
+    for (const item of updates.filter(update => targets.some(target => path.resolve(root, target) === update.file))) assert.equal(parseLocalTrafficOptions(item.updated).options.zeroTierPlanetProxy, value ?? false);
     const map = new Map(updates.map(item => [item.file, item.updated]));
     assert(prepareUpdates(defaults, file => map.get(file)).every(item => item.original === item.updated));
   }
