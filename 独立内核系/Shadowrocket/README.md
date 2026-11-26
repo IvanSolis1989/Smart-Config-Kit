@@ -15,7 +15,7 @@ Service-based routing, exit selection and ad-blocking configuration. Add configu
 
 Open `🌍 全球节点` to choose `♻️ 全球自动` or a regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://help.shadowrocket.net/) The historical help endpoint was unavailable during review, so this uses the existing select syntax and requires device verification.
 
-> File: `Shadowrocket.conf` · **v6.0.22-SR.14** (Build 2026-10-28)
+> File: `Shadowrocket.conf` · **v6.0.22-SR.14** (Build 2026-11-27)
 > 22 regional groups (11 all-node + 11 residential) and 33 service groups; Clash Party v6.0.22 routing baseline.
 
 <a id="before-start"></a>

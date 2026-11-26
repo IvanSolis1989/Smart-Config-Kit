@@ -6,14 +6,14 @@
     {
       "english": "Meow内核系/Aerove Lite/README.md",
       "chinese": "Meow内核系/Aerove Lite/README.zh-CN.md",
-      "english_sha256": "8e9b594f5e05e6463e48ef0ea4197e2844ff912577f0a49a4fbe74c914648e1b",
-      "chinese_sha256": "a600bc17eaa6fe5691f49bf2558dd544f70963a28329df78f15ddd94f7c255aa"
+      "english_sha256": "d1070d4330b549b9b5fa08bb8d0bd2386bd2d0fb5055cb1236d59b1e09dc81fe",
+      "chinese_sha256": "79113469f17ab3ef574c6d8446305cfdc69273e090dce8dafd48f097cdaefa83"
     },
     {
       "english": "Meow内核系/Meow/README.md",
       "chinese": "Meow内核系/Meow/README.zh-CN.md",
-      "english_sha256": "d5e42c1ae914265d8b6ec62fd5fcf03e295559ca07668d0aca733c53f6bdc314",
-      "chinese_sha256": "350270f0055147d4b6047efe241d5b0ad9241bda93126f522455aac38ed98d8c"
+      "english_sha256": "d3af06b6b53633149bffba363c08e63bb2a8473606cc5dbd459a08440dcb1093",
+      "chinese_sha256": "b09ff5b4a28dcaecaa0eb5cc402812b49ce0a65689343bc31ec55b83ba04802f"
     },
     {
       "english": "Meow内核系/README.md",
@@ -24,26 +24,26 @@
     {
       "english": "Mihomo内核系/Clash Meta For Android/README.md",
       "chinese": "Mihomo内核系/Clash Meta For Android/README.zh-CN.md",
-      "english_sha256": "3b1ba9c06f2dc64f1c8e2a6066f4123d02cabcb6c46cb0da587d960292bc6466",
-      "chinese_sha256": "d9f2852fe5488b06422d893f1df45fecc334ec2168b856ff5fa18f0f5b314074"
+      "english_sha256": "78965eef24c2d68e51a688a135c9949190bbe9619e98f8e4c8c6cdd42b6c1dfd",
+      "chinese_sha256": "d3728d67486c098488f23e284e4a0c1b5dbe99eee7e01f63c75b2d895c9b40d8"
     },
     {
       "english": "Mihomo内核系/Clash Party/README.md",
       "chinese": "Mihomo内核系/Clash Party/README.zh-CN.md",
-      "english_sha256": "d8f0c119e03293b48050305a9b8fda9a395262bf6b2d901ac092ebce32d89a9a",
-      "chinese_sha256": "69296e0b4103092f73d67c145dbab23a9834d979b4cba1b63b3f7559f0ec57c0"
+      "english_sha256": "ea3b007a7128fb6647118924e988afea8459c228fb8ca64ad1a417ea8a148d4a",
+      "chinese_sha256": "12558df8d43f40cdfce435852c8ea61caba91f0d84f57a25c8f3d9dead6815d8"
     },
     {
       "english": "Mihomo内核系/FlClash/README.md",
       "chinese": "Mihomo内核系/FlClash/README.zh-CN.md",
-      "english_sha256": "dadc58e38bcc458702da1098569c59efeb587601c2f2eb5384a05dbe57022608",
-      "chinese_sha256": "e79731b7265193b6ea2f9a584b0c0083ccedb6157f80499c426fae85086a33da"
+      "english_sha256": "1d9352a9314cdd865b5ca037b1f46a092ad5dd870ab2809322c9bca7fc813a0e",
+      "chinese_sha256": "390e554a6fa1673658b6178752078624d10aa5725113e53fbf86bf86b27c7ce6"
     },
     {
       "english": "Mihomo内核系/OpenClash/README.md",
       "chinese": "Mihomo内核系/OpenClash/README.zh-CN.md",
-      "english_sha256": "0892fe9eb95b3cc5dd14d83a9c0087c92d121a5c969692cf45e4f7999a81bca5",
-      "chinese_sha256": "ed535edf31b26e023d46c12dcf99408c247af603a95dd2483ef6da044ade9f0e"
+      "english_sha256": "6450f6a3d537c772fed3ee82ff756c0cf06f4a925e0b1e727c35d680ea80e674",
+      "chinese_sha256": "c50a4a77d017f851cf83522082a9e1b57f66e679f2e53c0605c9d8c5b203c3bb"
     },
     {
       "english": "Mihomo内核系/README.md",
@@ -54,8 +54,8 @@
     {
       "english": "README.md",
       "chinese": "README.zh-CN.md",
-      "english_sha256": "cc08cda3eeb4896974dfa04720b36ec87ea55d7290c19f68701ab5baaa5d01bc",
-      "chinese_sha256": "db21bce6c3800eb06a50ac0f23230ce16a791858326e859e8bab154e3177be5c"
+      "english_sha256": "d6ef9f49e46e93fb70b89ef50b81a820f6846af3d6a9e3f67c43ed949b2a0875",
+      "chinese_sha256": "5e92e6864c470f16b9a5d4ead196cb6c0080220c4c2cf11b3f7ed169e9906efc"
     },
     {
       "english": "Sing-box内核系/Karing/README.md",
@@ -180,20 +180,20 @@
     {
       "english": "独立内核系/Egern/README.md",
       "chinese": "独立内核系/Egern/README.zh-CN.md",
-      "english_sha256": "c91fa61c652381c0b2f20ee01d2dbf70d8d0bca45f827eeea4f55cf4eae5a0f4",
-      "chinese_sha256": "c335e259ab0a73fadf242c815478f0703a28ed1a3e7b301216d616dfe2104d18"
+      "english_sha256": "3cef8cc1e58ff655ed30666dd6d0b79d806c40c2d3e1fea81245663027c85a00",
+      "chinese_sha256": "79c75516236cbceca5f9b4357bc6efa8cabbcc2d3b5b90b50fbf91dbbbcc2ba3"
     },
     {
       "english": "独立内核系/Loon/README.md",
       "chinese": "独立内核系/Loon/README.zh-CN.md",
-      "english_sha256": "b2b03a84527958460df79ebc1f19922ae3f36e27ff65e0a0402e558cf3b1a3f2",
-      "chinese_sha256": "e271ec9ffdda8366a959fe04219485cd471fb94f7f5b7f712585a37001d97f77"
+      "english_sha256": "7b1e1ab8f9f1b0ea1c48963f74cd367265fb511f8564b2be1beacd3cb6c8a674",
+      "chinese_sha256": "4966f2b6a94135b645dffe90f2fc5dc902e39eb2fd3cabb1e7ee553e8f522fcc"
     },
     {
       "english": "独立内核系/Quantumult X/README.md",
       "chinese": "独立内核系/Quantumult X/README.zh-CN.md",
-      "english_sha256": "e2217c415e1f705da9cb5d23a31b71dc9aeade0c7ddd41f68dc37a239a1b98f4",
-      "chinese_sha256": "580af98ca7076e70527748191ec43b468d10c0e22f4ad8d16e73fa9326d1c69f"
+      "english_sha256": "04d3d4805a681e329fca8a6603d5b1df3696bb9a040f1af72ad57df43becc8a3",
+      "chinese_sha256": "33140238018af6999ad191d0cb4a43b4d06637f804234b265a2404206df556e5"
     },
     {
       "english": "独立内核系/README.md",
@@ -204,20 +204,20 @@
     {
       "english": "独立内核系/Shadowrocket/README.md",
       "chinese": "独立内核系/Shadowrocket/README.zh-CN.md",
-      "english_sha256": "066f51e92d391acb1354a87cf98b902cb320a237177b5a47e7737e6c24ffcc96",
-      "chinese_sha256": "461e057faa679d0b22bc7afb9f02d6809bdfa09216ef6378b0b2eed34b95874b"
+      "english_sha256": "2eb14bc4d642da3974bb1007733277e95a2df66beef608decdb8a8c928c5399a",
+      "chinese_sha256": "4f52d264caa45e6a24728cbba9c4296c311e1d90b05c93876ee30812f2ac0183"
     },
     {
       "english": "独立内核系/Stash/README.md",
       "chinese": "独立内核系/Stash/README.zh-CN.md",
-      "english_sha256": "4719308113d6249fe129f65894c5418b0426333acd3d8e5ec784246038bc70b6",
-      "chinese_sha256": "3a27aa1aeb000f32aa7e6161ee8085dbf43a02bc35b5d0e40b366ce0793132b4"
+      "english_sha256": "e1b47d4509cd0fc69e65621036b0bda9367e4844bff0f20819903e3bc90c1e34",
+      "chinese_sha256": "5684b43a86480274ee1b3dc53711a2dbbb9206d0dfb9f7443a9af8ba35e7e4f8"
     },
     {
       "english": "独立内核系/Surge/README.md",
       "chinese": "独立内核系/Surge/README.zh-CN.md",
-      "english_sha256": "97f78658788a4bd1f721c55cb32a5de5b8657b8af4602c7ade673ba0cb636c02",
-      "chinese_sha256": "7efc44d1a076429a9cfec45a475062a56512e18f7a829108845576a0558b4591"
+      "english_sha256": "448ab76610f40a4f193d7b40d1f8248e0cb9f29f244b8061dc7aef13a947fcae",
+      "chinese_sha256": "18071bb16b714c39f2dd9e0ec8755cf515416bd70e4b99f345c220a70d6660c6"
     }
   ]
 }
