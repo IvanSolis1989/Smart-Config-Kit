@@ -13,6 +13,9 @@ Meow routing JavaScript for the AEROVE Lite `main(config)` host, with dedicated 
 
 [Optional service profiles and local parameters](../../docs/configuration.md): the complete profile remains the default. Optional projections are written to separate directories; see the shared guide for supported runtime parameters.
 
+
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import.
+
 ## Before you start
 
 This repository does not provide nodes or subscriptions. Import your node subscription into Lite first and confirm that the configuration contains expanded `proxies`. Remote-only `proxy-providers` must first be flattened with [Sub-Store](../../SubStore/README.md); the script cannot download subscriptions on behalf of the host.
@@ -35,7 +38,7 @@ To update, refresh the page, select the same profile and parameters, and downloa
 4. Complete host configuration admission, resource preparation and runtime assembly. Read back the final YAML and check nodes, service groups, ordered rules and MRS/residual resource references.
 5. Wait for resource updates and health checks, then test Android VPN, ad blocking, direct routing, international websites and service exits.
 
-The script creates regional groups only where matching nodes exist, so the combined regional/service group count can be below 55. Resolve explicit errors for empty input, unexpanded nodes or incompatible configuration before refreshing the override.
+The script creates regional groups only where matching nodes exist, so the combined regional/service group count can be below 56. Resolve explicit errors for empty input, unexpanded nodes or incompatible configuration before refreshing the override.
 
 ## Failure behavior and pending acceptance
 

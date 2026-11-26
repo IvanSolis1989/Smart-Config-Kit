@@ -9,6 +9,10 @@
 
 [Usage](README.md) · [Support queue](../../docs/support-queue.md#meow) · [Documentation](../../docs/README.md)
 
+## v6.0.22-meow.6 (2026-11-27)
+
+- Issue #206 adds a global selection entry with global automatic routing and regional choices. Existing test parameters and independent service exits are preserved. Application acceptance remains tracked in the client guide.
+
 ## v6.0.22-meow.5 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

@@ -18,6 +18,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-dns.28 / v6.0.22-normal.28 (2026-11-27)
+
+- Issue #206 adds a global selector with global automatic selection first, followed by available regional groups. The automatic group reuses all-node testing and preserves empty-input rejection, regional classification and independent service exits.
+
 ## v6.0.22-dns.27 / v6.0.22-normal.27 (2026-11-25)
 
 - Keep the four exact ZeroTier root UDP/9993 rules in Clash Party Smart and Normal. The native selector remembers the device's explicit choice across remote refreshes. New devices use PASS by default.

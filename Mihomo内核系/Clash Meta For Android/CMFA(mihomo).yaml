@@ -1,6 +1,6 @@
 # ================================================================
-# Clash Smart v6.0.22-cmfa.16 - CMFA (Clash Meta for Android) 配置
-# Build: 2026-11-22
+# Clash Smart v6.0.22-cmfa.17 - CMFA (Clash Meta for Android) 配置
+# Build: 2026-11-27
 # 架构：proxy-providers 订阅 + 22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 # 规则源：rulesets/source/routing-graph.js v6.0.22；客户端基线：Clash Party v6.0.22
 # 变更历史：见 `Mihomo内核系/Clash Meta For Android/CHANGELOG.md`
@@ -227,6 +227,20 @@ proxy-providers:
     # v5.4.20 #6 借鉴 Proxy-override：补充 junk 关键词（免费/试用/应急 中文子串；Sign/Login/Register/Help/FAQ 英文用 \b 词边界，RE2 下避免误伤 Signal 等）
     exclude-filter: '(?i)(导航网址|距离下次重置|剩余流量|套餐到期|网址导航|官网|订阅|到期|剩余|重置|免费|试用|应急|\bSign\b|\bLogin\b|\bRegister\b|\bHelp\b|\bFAQ\b)'
 proxy-groups:
+- name: '🌍 全球节点'
+  type: select
+  proxies:
+  - '♻️ 全球自动'
+  - '🇭🇰 香港节点'
+  - '🇹🇼 台湾节点'
+  - '🇸🇬 狮城节点'
+  - '🇯🇵 日韩节点'
+  - '🌏 亚太节点'
+  - '🇺🇸 美国节点'
+  - '🇪🇺 欧洲节点'
+  - '🌎 美洲节点'
+  - '🌍 非洲节点'
+  - '🌏 其他节点'
 - type: url-test
   exclude-type: 'direct|reject'
   empty-fallback: REJECT
@@ -234,7 +248,7 @@ proxy-groups:
   interval: 300
   tolerance: 10
   lazy: true
-  name: '🌍 全球节点'
+  name: '♻️ 全球自动'
   use:
   - Subscribe
 - name: '🤖 AI 服务'

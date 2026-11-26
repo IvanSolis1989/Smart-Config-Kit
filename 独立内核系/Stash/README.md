@@ -13,11 +13,14 @@ YAML configuration for Stash iOS / macOS / tvOS. Replace the subscription in a l
 
 [Before you start](#before-start) · [Download](#download) · [Import in order](#import) · [Required settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#reference)
 
-> Configuration: `Stash.yaml` · **v6.0.21-stash.15**(Build 2026-10-28)
-> Generated from CMFA, with 22 regional and 33 service groups; no Mihomo Smart / LightGBM.
+> Configuration: `Stash.yaml` · **v6.0.22-stash.17**(Build 2026-11-27)
+> Generated from CMFA, with 22 automatic regional/residential groups, one global selector and 33 service groups; no Mihomo Smart / LightGBM.
 
 <a id="before-start"></a>
 
+
+
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import.
 
 ## Before you start
 
@@ -76,7 +79,7 @@ Confirm the subscription and all rule-providers downloaded, check actual regiona
 
 ### Policies and empty groups
 
-Confirm 22 regional and 33 service groups. Latency-test subscriptions should contain remote proxies only. Empty Stash providers/groups default to direct routing: inspect members before use. Verify references to special outbounds such as named direct routes separately. See the [routing policy guide](../../docs/guide/routing-policy.md).
+Confirm 22 automatic regional/residential groups, one global selector and 33 service groups. Latency-test subscriptions should contain remote proxies only. Empty Stash providers/groups default to direct routing: inspect members before use. Verify references to special outbounds such as named direct routes separately. See the [routing policy guide](../../docs/guide/routing-policy.md).
 
 ### DNS and formats
 
@@ -89,7 +92,7 @@ Confirm 22 regional and 33 service groups. Latency-test subscriptions should con
 
 ## Import verification
 
-1. Confirm this configuration is active with 22 regional and 33 service groups loaded. Check that regional groups contain working nodes.
+1. Confirm this configuration is active with 22 automatic regional/residential groups, one global selector and 33 service groups loaded. Check that regional groups contain working nodes.
 2. Confirm the subscription and all `rule-providers` downloads succeeded. An enabled connection switch does not replace download checks.
 3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`; inspect request/connection logs for AI, Netflix and China-streaming matches and actual exits.
 4. Complete the [DNS and post-import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.

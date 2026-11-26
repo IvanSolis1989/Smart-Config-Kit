@@ -13,11 +13,14 @@ Stash iOS / macOS / tvOS 使用的 YAML 配置。先在本地副本替换节点�
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-> 配置：`Stash.yaml` · **v6.0.21-stash.15**（Build 2026-10-28）
-> 由 CMFA 生成，22 区域组 + 33 业务组；不支持 Mihomo Smart / LightGBM。
+> 配置：`Stash.yaml` · **v6.0.22-stash.17**（Build 2026-11-27）
+> 由 CMFA 生成，22 个自动地区/家宽组 + 1 个全球入口 + 33 业务组；不支持 Mihomo Smart / LightGBM。
 
 <a id="before-start"></a>
 
+
+
+在 **🌍 全球节点** 中选择 **♻️ 全球自动** 可在全部合格节点中自动选路，也可选择地区组。全球自动和地区组沿用原有测速参数，业务组仍可独立选择出口。导入后检查所选组的节点成员和实际连接。
 
 ## 开始前
 
@@ -76,7 +79,7 @@ Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线
 
 ### 策略与空组
 
-确认 22 个区域组和 33 个业务组。测速订阅只应包含远端代理；Stash 空 provider 或空组会默认直连，使用前逐组检查实际成员。具名直连等特殊出站需另行确认引用。业务策略参考[分流策略指南](../../docs/guide/routing-policy.zh-CN.md)。
+确认 22 个自动地区/家宽组、1 个全球入口和 33 个业务组。测速订阅只应包含远端代理；Stash 空 provider 或空组会默认直连，使用前逐组检查实际成员。具名直连等特殊出站需另行确认引用。业务策略参考[分流策略指南](../../docs/guide/routing-policy.zh-CN.md)。
 
 ### DNS 与格式
 
@@ -89,7 +92,7 @@ Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线
 
 ## 导入验收
 
-1. 确认当前启用本目录配置，22 个区域组与 33 个业务组已载入；检查区域组内确有可用节点。
+1. 确认当前启用本目录配置，22 个自动地区/家宽组、1 个全球入口与 33 个业务组已载入；检查区域组内确有可用节点。
 2. 确认订阅与全部 `rule-providers` 下载成功；连接开关开启不能代替下载检查。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
 4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)，按需复测 Wi-Fi / 蜂窝切换。

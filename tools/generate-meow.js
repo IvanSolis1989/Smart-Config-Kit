@@ -22,11 +22,10 @@ const SCRIPT_PATH = `${SCRIPT_CLIENT_DIR}/AeroveLite(meow).js`;
 const NATIVE_PATH = `${CLIENT_DIR}/Meow(meow).yaml`;
 const CMFA_PATH = 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml';
 const MANIFEST_PATH = `${FAMILY_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.9`;
-const BUILD = '2026-11-22';
-// The native client has no Lite per-resource cap; preserve its published bytes.
-const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
-const NATIVE_BUILD = '2026-11-22';
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.10`;
+const BUILD = '2026-11-27';
+const NATIVE_VERSION = `${SOURCE_GRAPH_VERSION}-meow.6`;
+const NATIVE_BUILD = BUILD;
 const canonical = text => text.replace(/\r\n/g, '\n');
 const hash = text => crypto.createHash('sha256').update(canonical(text)).digest('hex');
 const read = file => canonical(fs.readFileSync(path.join(ROOT, file), 'utf8'));
@@ -46,7 +45,7 @@ function readCmfa() {
 function renderNative(profile) {
   return [
     `# Meow 原生 YAML ${NATIVE_VERSION} | Build: ${NATIVE_BUILD}`,
-    '# 架构：22 provider-filter 区域组 + 33 业务组；融合 MRS / residual YAML',
+    '# 架构：全球选择入口 + 22 provider-filter 测速组 + 33 业务组；融合 MRS / residual YAML',
     `# 规则源：rulesets/source/routing-graph.js ${SOURCE_GRAPH_VERSION}`,
     '# 生成：node tools/generate-meow.js（禁止手工改生成物）',
     '# 变更历史：Meow内核系/Meow/CHANGELOG.md；官方 App 导入与宿主设置另验。',
@@ -130,7 +129,7 @@ function renderScript(input, splits) {
   return [
     '// AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）',
     `// 版本：${VERSION} | Build：${BUILD}`,
-    '// 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML',
+    '// 架构：全球选择入口 + 最多 22 个 url-test 组 + 33 业务组；融合 MRS / residual YAML',
     `// 规则源：rulesets/source/routing-graph.js ${SOURCE_GRAPH_VERSION}`,
     `// 生成：node tools/generate-meow.js；运行时输入：${SOURCE_PATH}`,
     `// 变更历史：${SCRIPT_CLIENT_DIR}/CHANGELOG.md；状态：docs/support-queue.md#aerove-lite-meow`,

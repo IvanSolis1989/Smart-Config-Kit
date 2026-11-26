@@ -7,7 +7,7 @@ const vm = require('node:vm');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const RESTRICTED_SITE = '🚫 受限网站';
-const { getTrafficOptions, getQuicRules, getClashPartyZeroTierPlanetProxyPolicy } = require('../rulesets/source/routing-graph');
+const { GLOBAL_SELECTOR, getTrafficOptions, getQuicRules, getClashPartyZeroTierPlanetProxyPolicy } = require('../rulesets/source/routing-graph');
 const PARTY_ZEROTIER = getClashPartyZeroTierPlanetProxyPolicy();
 const TRAFFIC_OPTIONS = getTrafficOptions();
 const EXPECTED_REGION_TEST_INTERVAL_SECONDS = TRAFFIC_OPTIONS.healthCheckProfile === 'power-save' ? 900 : 300;
@@ -53,7 +53,7 @@ const TARGETS = [
 ];
 
 const SMART_GROUPS = [
-  '🌍 全球节点',
+  GLOBAL_SELECTOR.automatic,
   '🏡 全球家宽',
   '🇭🇰 香港节点',
   '🏡 香港家宽',
@@ -113,7 +113,7 @@ const BIZ_GROUPS = [
   '🛑 广告拦截',
 ];
 
-const EXPECTED_GROUP_ORDER = [SMART_GROUPS[0], ...BIZ_GROUPS, ...SMART_GROUPS.slice(1)];
+const EXPECTED_GROUP_ORDER = [GLOBAL_SELECTOR.name, GLOBAL_SELECTOR.automatic, ...BIZ_GROUPS, ...SMART_GROUPS.slice(1)];
 const DIRECT_POLICIES = new Set(['DIRECT', 'REJECT', 'REJECT-DROP', 'PASS']);
 const INFO_NODES = new Set(['剩余流量 10G', '官网 example.com', 'USE 100GB']);
 const EXTRA_INFO_NODES = new Set(['距离下次重置 12 天', '套餐到期 2026-06-01', 'Panel Channel Author',
@@ -569,7 +569,13 @@ function validateGroups(target, output, record) {
   const expectedOrder = target.id === 'flclash' ? EXPECTED_GROUP_ORDER : EXPECTED_GROUP_ORDER.concat(PARTY_ZEROTIER.groupName);
   record.expectEqual(groups.length, expectedOrder.length, 'emits exactly the expected JS overwrite group count');
   record.expectEqual(uniqueValues(groupNames).length, groupNames.length, 'does not emit duplicate proxy-group names');
-  record.expectArrayEqual(groupNames, expectedOrder, 'keeps global, business, then region group order stable');
+  record.expectArrayEqual(groupNames, expectedOrder, 'displays global selector and automatic group before business and region groups');
+  const global = groupsByName.get(GLOBAL_SELECTOR.name);
+  const automatic = groupsByName.get(GLOBAL_SELECTOR.automatic);
+  record.expectEqual(global && global.type, 'select', 'global entry is a selector');
+  record.expectArrayEqual(global && global.proxies || [], [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions],
+    'global selector defaults to automatic and offers ordinary regions in order');
+  record.expectArrayEqual(automatic && automatic.proxies || [], [...proxyNames], 'global automatic tests all eligible fixture nodes directly');
   if (target.id !== 'flclash') {
     const deviceGroup = groupsByName.get(PARTY_ZEROTIER.groupName);
     record.expectEqual(deviceGroup && deviceGroup.type, 'select', 'ZeroTier device switch is a native selector');

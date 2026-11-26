@@ -7,6 +7,9 @@
 
 # OpenClash import guide
 
+The 🌍 全球节点 selector opens with ♻️ 全球自动 and offers the regional groups. Global automatic selection uses all eligible nodes. Business groups can also select regional exits independently.
+
+
 Deploy a Shell override for an existing node subscription on OpenWrt to generate consistent groups, rules and DNS. **Choose either Smart or Normal.** Complete scripts use the fixed custom-script entry point.
 
 <p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="Post-import verification" width="145" height="38"></a></p>

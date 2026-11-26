@@ -1,6 +1,6 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.22-dns.27 (2026-11-25)
-// 架构：SUB-STORE 多机场融合 + 22 Smart 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 1 ZeroTier 设备选择组；149 融合 rule-providers / 168 基线 + 4 条 ZeroTier 规则
+// 版本：v6.0.22-dns.28 (2026-11-27)
+// 架构：全球选择入口 + SUB-STORE 多机场融合 + 22 Smart 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 1 ZeroTier 设备选择组；149 融合 rule-providers / 168 基线 + 4 条 ZeroTier 规则
 // 规则源：rulesets/source/routing-graph.js v6.0.22（同策略规范化与语义去重）
 // 变更历史：见 `Mihomo内核系/Clash Party/CHANGELOG.md`
 
@@ -8,7 +8,8 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.22-dns.27'
+const VERSION = 'v6.0.22-dns.28'
+const GLOBAL_AUTO = '♻️ 全球自动'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。
 // 不从机场订阅读取；默认 adaptive 不变；hosts-only 仅显式导入活动节点精确 IP hosts。
@@ -141,13 +142,22 @@ var SckiTrafficOptions = (function() {
         candidates.push(name);
       }
     }
-    // Generated region groups contain leaf nodes. Keep safe selectors intact;
-    // flatten only contaminated selectors so GLOBAL/APAC cannot bypass exclusion.
+    function collectLeaves(name, result) {
+      var group = byName[name];
+      if (!group) {
+        result.push(name);
+        return;
+      }
+      for (var n = 0; n < group.proxies.length; n++) collectLeaves(group.proxies[n], result);
+    }
+    // Keep safe selectors intact, including the global selector. For a group
+    // containing excluded nodes, keep only its eligible leaf choices.
     for (var i = 0; i < ai.proxies.length; i++) {
       var name = ai.proxies[i];
-      var group = byName[name];
-      if (group && group.proxies.some(function(node) { return !!excluded[node]; })) {
-        for (var n = 0; n < group.proxies.length; n++) append(group.proxies[n]);
+      var nodes = [];
+      collectLeaves(name, nodes);
+      if (nodes.some(function(node) { return !!excluded[node]; })) {
+        for (var n = 0; n < nodes.length; n++) append(nodes[n]);
       } else {
         append(name);
       }
@@ -1680,7 +1690,7 @@ function injectSmartFingerprint(config) {
 function sortProxyGroups(config) {
   const bizGroups = [], smartGroups = [], otherGroups = []
   const bizNames = new Set(Object.values(BIZ))
-  const smartNames = new Set(Object.values(SMART))
+  const smartNames = new Set(Object.values(SMART).concat([GLOBAL_AUTO]))
   config['proxy-groups'].forEach(g => {
     if (!g || !g.name) return
     if (bizNames.has(g.name)) { bizGroups.push(g) }
@@ -1689,12 +1699,13 @@ function sortProxyGroups(config) {
   })
   const bizOrder = Object.values(BIZ)
   bizGroups.sort((a, b) => bizOrder.indexOf(a.name) - bizOrder.indexOf(b.name))
-  const smartOrder = Object.values(SMART)
+  const smartOrder = [SMART.GLOBAL, GLOBAL_AUTO].concat(Object.values(SMART))
   smartGroups.sort((a, b) => { const ia = smartOrder.indexOf(a.name); const ib = smartOrder.indexOf(b.name); return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib) })
   // v5.4.5: 🌍 全球节点置顶，方便查看全部节点状态和测速
   var globalGroup = smartGroups.find(function(g) { return g.name === SMART.GLOBAL })
-  var restSmartGroups = smartGroups.filter(function(g) { return g.name !== SMART.GLOBAL })
-  config['proxy-groups'] = globalGroup ? [globalGroup, ...bizGroups, ...restSmartGroups, ...otherGroups] : [...bizGroups, ...smartGroups, ...otherGroups]
+  var globalAutoGroup = smartGroups.filter(function(g) { return g.name === GLOBAL_AUTO })
+  var restSmartGroups = smartGroups.filter(function(g) { return g.name !== SMART.GLOBAL && g.name !== GLOBAL_AUTO })
+  config['proxy-groups'] = globalGroup ? [globalGroup, ...globalAutoGroup, ...bizGroups, ...restSmartGroups, ...otherGroups] : [...bizGroups, ...smartGroups, ...otherGroups]
 }
 
 // ================================================================
@@ -1705,7 +1716,7 @@ function main(config) {
   try {
     if (!config || typeof config !== 'object') return config
     SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY, browserUdpPolicy: SCKI_BROWSER_UDP_POLICY, aiHongKongPolicy: SCKI_AI_HONG_KONG_POLICY })
-    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ), [SckiClashPartyZeroTier.groupName]), SCKI_MAX_NODE_MULTIPLIER)
+    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat([GLOBAL_AUTO], Object.values(BIZ), [SckiClashPartyZeroTier.groupName]), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
       console.log(`[${VERSION}] Node preflight rejected: ${nodePlan.reason}${nodePlan.reason === 'provider-input' ? '; flatten in SubStore for provider subscriptions' : ''}`)
       return config
@@ -1749,7 +1760,7 @@ function main(config) {
     var homeJpkrNodes = c.HOME_JP.concat(c.HOME_KR)
     var homeApacNodes = c.HOME_HK.concat(c.HOME_TW, c.HOME_CN, c.HOME_JP, c.HOME_KR, c.HOME_SG, c.HOME_APAC_OTHER)
     var homeAmericasNodes = c.HOME_US.concat(c.HOME_AM)
-    if (c.ALL.length) upsertSmartGroup(config, SMART.GLOBAL, c.ALL)
+    if (c.ALL.length) upsertSmartGroup(config, GLOBAL_AUTO, c.ALL)
     else config['proxy-groups'].push({ name: SMART.GLOBAL, type: 'select', proxies: ['REJECT'] })
     if (c.HOME_ALL.length > 0) upsertSmartGroup(config, SMART.GLOBAL_HOME, c.HOME_ALL)
     // v5.2.6 FIX#25-P0: 统一空区域不建组（原 HK/TW/JPKR/APAC/US fallback 到 apacNodes/c.ALL
@@ -1775,6 +1786,16 @@ function main(config) {
     if (c.HOME_AF.length > 0) upsertSmartGroup(config, SMART.AFRICA_HOME, c.HOME_AF)
     if (c.OTHER.length > 0) upsertSmartGroup(config, SMART.OTHER, c.OTHER)
     if (c.HOME_OTHER.length > 0) upsertSmartGroup(config, SMART.OTHER_HOME, c.HOME_OTHER)
+
+    if (c.ALL.length) {
+      var ordinaryRegions = [SMART.HK, SMART.TW, SMART.SG, SMART.JPKR, SMART.APAC, SMART.US, SMART.EU, SMART.AMERICAS, SMART.AFRICA, SMART.OTHER]
+      var createdGroups = new Set(config['proxy-groups'].map(function(group) { return group.name }))
+      config['proxy-groups'].push({
+        name: SMART.GLOBAL,
+        type: 'select',
+        proxies: [GLOBAL_AUTO].concat(ordinaryRegions.filter(function(name) { return createdGroups.has(name) })),
+      })
+    }
 
     // 收集实际创建的 Smart 组名，过滤业务组的 proxy 引用
     var activeSmartNames = new Set(config['proxy-groups'].filter(function(g) { return g && g.type === 'smart' }).map(function(g) { return g.name }))

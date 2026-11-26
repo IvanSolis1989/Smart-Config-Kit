@@ -13,6 +13,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.22-stash.17 (2026-11-27)
+
+- Issue #206 adds a global selection entry with global automatic routing and regional choices. Existing test parameters and independent service exits are preserved. Generated from the CMFA group topology.
+
 ## v6.0.22-stash.16 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

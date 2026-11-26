@@ -7,6 +7,9 @@
 
 # Clash Meta For Android（CMFA） 导入指南
 
+「🌍 全球节点」提供统一选择入口，首项「♻️ 全球自动」使用全部合格节点，随后可选各地区测速组。业务组仍可独立选择出口。
+
+
 在 Android 导入原生 Mihomo YAML；ClashMi 也可复用同一文件。先填节点订阅，再导入启动；本配置使用 **url-test，不含 Smart / LightGBM**。
 
 <p><a href="../../docs/guide/downloads.zh-CN.md#mihomo"><img src="../../docs/assets/readme/zh-CN/nav-downloads.svg" alt="下载目录" width="145" height="38"></a> <a href="../../docs/README.zh-CN.md"><img src="../../docs/assets/readme/zh-CN/nav-docs.svg" alt="文档中心" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/zh-CN/nav-verify.svg" alt="导入后验收" width="145" height="38"></a></p>

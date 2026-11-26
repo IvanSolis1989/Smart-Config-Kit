@@ -37,6 +37,7 @@ const {
 } = require('./lib/subscription-adapter-profiles');
 const {
   SOURCE_GRAPH_ID,
+  GLOBAL_SELECTOR,
   DOMESTIC_AUTHORITY_ANCHOR_RULE,
   GENERIC_INTL_FALLBACK_RULES,
   getRawRoutingGraph,
@@ -51,9 +52,9 @@ const CURRENT_MRS = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'rulesets/ge
 const CURRENT_SOURCE = getMihomoNormalizedRoutingGraph();
 const GAME_CN_GUARD_ID = CURRENT_FUSED.source_segments.find(row => row.policy === '🕹️ 国内游戏' && row.source_rules.some(rule => rule.startsWith('RULE-SET,scki-game-cn-guard,')))?.id;
 if (!GAME_CN_GUARD_ID) throw new Error('Missing source-bound domestic game guard segment');
-const EXPECTED_GROUPS = 55;
 const EXPECTED_BUSINESS_GROUPS = 33;
-const EXPECTED_REGION_GROUPS = EXPECTED_GROUPS - EXPECTED_BUSINESS_GROUPS;
+const EXPECTED_REGION_GROUPS = 22;
+const EXPECTED_GROUPS = EXPECTED_BUSINESS_GROUPS + EXPECTED_REGION_GROUPS + 1;
 const EXPECTED_SINGBOX_GROUPS = 54;
 const EXPECTED_SINGBOX_URLTEST_GROUPS = 2;
 const EXPECTED_PASSWALL_RULES = CURRENT_FUSED.generated_passwall_files;
@@ -1211,7 +1212,9 @@ function rubyYamlFileProbe(relativePath, rubyPath) {
     '  top_rules: raw.scan(/^rules:$/).length,',
     '  providers: (data["rule-providers"] || {}).size,',
     '  rules: (data["rules"] || []).size,',
-    '  groups: (data["proxy-groups"] || []).size',
+    '  groups: (data["proxy-groups"] || []).size,',
+    '  proxy_groups: data["proxy-groups"],',
+    '  policy_groups: data["policy_groups"]',
     '})',
   ].join('\n');
   const result = childProcess.spawnSync(rubyPath, ['-e', rubyScript, relPath(relativePath)], { encoding: 'utf8' });
@@ -1219,6 +1222,19 @@ function rubyYamlFileProbe(relativePath, rubyPath) {
     throw new Error((result.stderr || result.stdout || 'Ruby YAML file probe failed').trim());
   }
   return JSON.parse(result.stdout);
+}
+
+function checkGlobalSelector(record, id, groups, automaticType) {
+  const byName = new Map(groups.map(group => [group.name, group]));
+  const global = byName.get(GLOBAL_SELECTOR.name);
+  const automatic = byName.get(GLOBAL_SELECTOR.automatic);
+  const expected = [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions];
+  const actual = global?.proxies;
+  record.check(`${id}.global-selector`, global?.type === 'select'
+    && Array.isArray(actual) && actual.length === expected.length
+    && expected.every((name, index) => actual[index] === name && byName.has(name))
+    && automatic?.type === automaticType && !automatic.proxies?.includes(GLOBAL_SELECTOR.name),
+  { message: 'Global selector must default to its automatic group, followed by the existing regional groups', value: actual });
 }
 
 function makeRecorder() {
@@ -1369,6 +1385,7 @@ function validateClashYaml(record, baselineVersion, options) {
       record.check('cmfa.ruby-top-provider-singleton', parsed.top_providers === 1, { value: parsed.top_providers });
       record.check('cmfa.ruby-top-rules-singleton', parsed.top_rules === 1, { value: parsed.top_rules });
       record.check('cmfa.ruby-group-count', parsed.groups === EXPECTED_GROUPS, { value: parsed.groups });
+      checkGlobalSelector(record, 'cmfa', parsed.proxy_groups, 'url-test');
       record.check('cmfa.ruby-provider-count', parsed.providers >= MIN_FULL_PROVIDERS, { value: parsed.providers });
       record.check('cmfa.ruby-rule-count', parsed.rules === MIN_FULL_RULES, { value: parsed.rules });
     } catch (error) {
@@ -1486,6 +1503,7 @@ function validateStashYaml(record, baselineVersion, options) {
       record.check('stash.ruby-top-provider-singleton', parsed.top_providers === 1, { value: parsed.top_providers });
       record.check('stash.ruby-top-rules-singleton', parsed.top_rules === 1, { value: parsed.top_rules });
       record.check('stash.ruby-group-count', parsed.groups === EXPECTED_GROUPS, { value: parsed.groups });
+      checkGlobalSelector(record, 'stash', parsed.proxy_groups, 'url-test');
       record.check('stash.ruby-provider-count', parsed.providers >= MIN_FULL_PROVIDERS, { value: parsed.providers });
       record.check('stash.ruby-rule-count', parsed.rules === MIN_FULL_RULES, { value: parsed.rules });
     } catch (error) {
@@ -1740,6 +1758,15 @@ function validateConfProducts(record, baselineVersion) {
     const source = readText(spec.file);
     const groupCount = countMatches(source, spec.regex);
     record.check(`${spec.id}.group-count`, groupCount === EXPECTED_GROUPS, { value: groupCount });
+    const section = extractConfSection(source, spec.id === 'qx' ? 'policy' : 'Proxy Group');
+    const groups = section.split(/\r?\n/).map(line => line.match(/^([^#=]+?)\s*=\s*(.+)$/)).filter(Boolean)
+      .map(([, key, definition]) => {
+        const [first, ...members] = definition.split(',').map(token => token.trim());
+        const type = spec.id === 'qx' ? key.trim() : first;
+        const name = spec.id === 'qx' ? first : key.trim();
+        return { name, type: type === 'static' ? 'select' : type, proxies: members.filter(token => !token.includes('=')) };
+      });
+    checkGlobalSelector(record, spec.id, groups, spec.id === 'qx' ? 'url-latency-benchmark' : 'url-test');
     const hasBaselineHeader = source.includes(`Clash Party ${baselineVersion}`);
     record.check(`${spec.id}.baseline-header`, hasBaselineHeader, failureMessage(hasBaselineHeader, `missing Clash Party ${baselineVersion}`));
     record.check(`${spec.id}.changelog-reference`, source.includes('CHANGELOG.md'));
@@ -2184,7 +2211,7 @@ function validateEgern(record, baselineVersion, options) {
   record.check('egern.external-subscription', /^\s+- external:\s*$/m.test(source) && source.includes('name: Subscribe'));
   record.check('egern.region-smart-count', smartCount === EXPECTED_REGION_GROUPS, { value: smartCount });
   record.check('egern.no-region-auto-test', autoTestCount === 0, { value: autoTestCount });
-  record.check('egern.business-select-count', selectCount === EXPECTED_BUSINESS_GROUPS + 1, { value: selectCount });
+  record.check('egern.select-count', selectCount === EXPECTED_BUSINESS_GROUPS + 2, { value: selectCount });
   for (const group of SINGBOX_BUSINESS_ORDER) {
     const hasGroup = source.includes(`name: ${group}`);
     record.check(`egern.business-group.${group}`, hasGroup, failureMessage(hasGroup, `missing ${group}`));
@@ -2275,7 +2302,12 @@ function validateEgern(record, baselineVersion, options) {
     else record.warn('egern.ruby-available', message);
   } else {
     try {
-      rubyYamlFileProbe(file, rubyPath);
+      const parsed = rubyYamlFileProbe(file, rubyPath);
+      const groups = parsed.policy_groups.map((entry) => {
+        const [type, group] = Object.entries(entry)[0];
+        return { name: group.name, type, proxies: group.policies };
+      });
+      checkGlobalSelector(record, 'egern', groups, 'smart');
       for (const fileName of fs.readdirSync(relPath('rulesets/generated/egern')).filter((entry) => entry.endsWith('.yaml'))) {
         rubyYamlFileProbe(`rulesets/generated/egern/${fileName}`, rubyPath);
       }

@@ -113,13 +113,22 @@ var SckiTrafficOptions = (function() {
         candidates.push(name);
       }
     }
-    // Generated region groups contain leaf nodes. Keep safe selectors intact;
-    // flatten only contaminated selectors so GLOBAL/APAC cannot bypass exclusion.
+    function collectLeaves(name, result) {
+      var group = byName[name];
+      if (!group) {
+        result.push(name);
+        return;
+      }
+      for (var n = 0; n < group.proxies.length; n++) collectLeaves(group.proxies[n], result);
+    }
+    // Keep safe selectors intact, including the global selector. For a group
+    // containing excluded nodes, keep only its eligible leaf choices.
     for (var i = 0; i < ai.proxies.length; i++) {
       var name = ai.proxies[i];
-      var group = byName[name];
-      if (group && group.proxies.some(function(node) { return !!excluded[node]; })) {
-        for (var n = 0; n < group.proxies.length; n++) append(group.proxies[n]);
+      var nodes = [];
+      collectLeaves(name, nodes);
+      if (nodes.some(function(node) { return !!excluded[node]; })) {
+        for (var n = 0; n < nodes.length; n++) append(nodes[n]);
       } else {
         append(name);
       }

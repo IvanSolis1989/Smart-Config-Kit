@@ -2,8 +2,8 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.22-oc-smart.20 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
-# Build: 2026-11-22
+# Clash Smart v6.0.22-oc-smart.21 — OpenClash 覆写脚本（与 Clash Party 主线同等规则量）
+# Build: 2026-11-27
 # ============================================================================
 # 定位：对齐 Clash Party v6.0.22 JS 主线的 OpenClash 全量版本。v5.4.2: P0-FIX#41 小米白名单。
 #       与同目录 OpenClash(mihomo).sh（Normal）互补：
@@ -23,7 +23,7 @@
 
 
 
-VERSION_TAG="v6.0.22-oc-smart.20"
+VERSION_TAG="v6.0.22-oc-smart.21"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_DEFAULT_HEALTH_CHECK_PROFILE="standard"
@@ -1904,7 +1904,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.22-oc-smart.20"
+VERSION = "v6.0.22-oc-smart.21"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
@@ -2868,7 +2868,7 @@ HOME_GROUP_NAMES = {
 }
 
 filtered_proxies, filter_report = SckiSubscriptionNodeFilter.validate_and_filter(
-  config, override, ARGV[4], GROUP_NAMES.values + HOME_GROUP_NAMES.values + ["🌍 全球节点", "🏡 全球家宽"]
+  config, override, ARGV[4], GROUP_NAMES.values + HOME_GROUP_NAMES.values + ["🌍 全球节点", "♻️ 全球自动", "🏡 全球家宽"]
 )
 selectable_proxies = filtered_proxies.select { |proxy| SckiSubscriptionNodeFilter.selectable_proxy?(proxy) }
 File.open(STATUS_LOG, 'w') { |f| f.puts "[#{VERSION}] start" }
@@ -2937,14 +2937,12 @@ def make_smart_group(name, health_profile:, proxies_filter_mode:, explicit_proxi
 end
 
 smart_groups = []
-# 🌍 全球节点：全部节点参与 LightGBM 评估
-smart_groups << if selectable_proxies.empty?
-  { "name" => "🌍 全球节点", "type" => "select", "proxies" => ["REJECT"] }
-elsif selectable_proxies.length == filtered_proxies.length
-  make_smart_group("🌍 全球节点", health_profile: health_profile, proxies_filter_mode: :include_all)
+# ♻️ 全球自动：保留全部合格节点的既有测速行为
+smart_groups << if selectable_proxies.length == filtered_proxies.length
+  make_smart_group("♻️ 全球自动", health_profile: health_profile, proxies_filter_mode: :include_all)
 else
-  make_smart_group("🌍 全球节点", health_profile: health_profile, proxies_filter_mode: :explicit, explicit_proxies: selectable_proxies.map { |proxy| proxy['name'] })
-end
+  make_smart_group("♻️ 全球自动", health_profile: health_profile, proxies_filter_mode: :explicit, explicit_proxies: selectable_proxies.map { |proxy| proxy['name'] })
+end unless selectable_proxies.empty?
 smart_groups << make_smart_group("🏡 全球家宽", health_profile: health_profile, proxies_filter_mode: :explicit, explicit_proxies: home_all_members.uniq) if home_all_members.any?
 
 # 8 个区域组：仅该区域节点参与；家宽子组只在匹配到家宽节点时创建
@@ -2957,6 +2955,12 @@ smart_groups << make_smart_group("🏡 全球家宽", health_profile: health_pro
   home_members = home_buckets[gkey].uniq
   smart_groups << make_smart_group(home_name, health_profile: health_profile, proxies_filter_mode: :explicit, explicit_proxies: home_members) unless home_members.empty?
 end
+
+global_candidates = ["♻️ 全球自动"] + ["🇭🇰 香港节点","🇹🇼 台湾节点","🇸🇬 狮城节点","🇯🇵 日韩节点","🌏 亚太节点","🇺🇸 美国节点","🇪🇺 欧洲节点","🌎 美洲节点","🌍 非洲节点","🌏 其他节点"]
+active_groups = smart_groups.map { |group| group["name"] }
+global_candidates.select! { |name| active_groups.include?(name) }
+global_candidates = ["REJECT"] if global_candidates.empty?
+smart_groups.unshift({ "name" => "🌍 全球节点", "type" => "select", "proxies" => global_candidates })
 
 # ---------------------------------------------------------------
 # Phase 2: TLS 指纹注入
@@ -2997,7 +3001,8 @@ override_biz_groups = (override["proxy-groups"] || []).map do |group|
   patched
 end
 # 🌍 全球节点移至最前，业务组居中，其余区域组兜底（smart_groups 首个元素即 🌍 全球节点）
-config["proxy-groups"] = [smart_groups.shift] + override_biz_groups + smart_groups
+global_groups, region_groups = smart_groups.partition { |group| ["🌍 全球节点", "♻️ 全球自动"].include?(group["name"]) }
+config["proxy-groups"] = global_groups + override_biz_groups + region_groups
 
 # 清空并重建 rule-providers 和 rules
 config["rule-providers"] = override["rule-providers"] if override["rule-providers"]

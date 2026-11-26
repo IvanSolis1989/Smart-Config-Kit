@@ -15,6 +15,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.22-QX.16 (2026-11-27)
+
+- Add a manual `🌍 全球节点` entry containing `♻️ 全球自动` and regional groups. Preserve the automatic group's existing subscription selection and independent service-group choices (#206).
+
 ## v6.0.22-QX.15 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

@@ -15,6 +15,9 @@ Official projects: [meow-rs core](https://github.com/meow-rs/meow-rs) · [Androi
 
 [Optional service profiles and local parameters](../../docs/configuration.md): the complete profile remains the default. Optional projections use separate directories; see the shared guide for runtime parameter support.
 
+
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import.
+
 ## Preparation and file selection
 
 ### Online selection and local import
@@ -40,11 +43,11 @@ For direct core use, save as `config.yaml` and run `meow -f config.yaml -t`. Sta
 
 ## Required settings and acceptance
 
-The native template retains 33 service groups and 22 regional/residential groups. Regions filter provider members using `use: [Subscribe]` and Rust regex, with a static REJECT sentinel. Empty pools, total failure or checks not yet completed can reject connections; they do not silently switch to direct routing. The native `其他` group retains CMFA's broad fallback selection semantics.
+The native template contains 33 service groups, 22 automatic regional/residential groups and one global selector. Regions filter provider members using `use: [Subscribe]` and Rust regex, with a static REJECT sentinel. Empty pools, total failure or checks not yet completed can reject connections; they do not silently switch to direct routing. The native `其他` group retains CMFA's broad fallback selection semantics.
 
 The template listens only on 127.0.0.1 and enables neither TUN nor an external controller. DNS is projected to native fields, omitting Mihomo extensions not declared by the pinned core. Rule ordering, download proxy, no-resolve, MRS and logical rules share the same source.
 
-The official v0.26.1 release binary was executed with `-t` after archive SHA-256 verification. It accepted 149 real local rule assets, 168 rules, 55 groups and actual Geo data without warnings or errors. Nodes were synthetic examples and no proxy traffic was started. This does not prove production HTTP download routing or real exits.
+The earlier 55-group template was checked using the official v0.26.1 release binary, executed with `-t` after archive SHA-256 verification. It accepted 149 real local rule assets, 168 rules, 55 groups and actual Geo data without warnings or errors. Nodes were synthetic examples and no proxy traffic was started. This does not prove production HTTP download routing or real exits.
 
 Full import, resource updates, host assembly and real connections in each application remain tracked in the [support queue](../../docs/support-queue.md#meow-official-apps). Core validation does not replace application acceptance.
 

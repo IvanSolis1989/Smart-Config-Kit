@@ -7,6 +7,9 @@
 
 # Clash Meta For Android (CMFA) import guide
 
+The 🌍 全球节点 selector opens with ♻️ 全球自动 and offers the regional groups. Global automatic selection uses all eligible nodes. Business groups can also select regional exits independently.
+
+
 Import native Mihomo YAML on Android. ClashMi can reuse the same file. Enter your node subscription before importing and starting. This configuration uses **url-test, not Smart / LightGBM**.
 
 <p><a href="../../docs/guide/downloads.md#mihomo"><img src="../../docs/assets/readme/nav-downloads.svg" alt="Downloads" width="145" height="38"></a> <a href="../../docs/README.md"><img src="../../docs/assets/readme/nav-docs.svg" alt="Documentation" width="145" height="38"></a> <a href="#verification"><img src="../../docs/assets/readme/nav-verify.svg" alt="Post-import verification" width="145" height="38"></a></p>

@@ -18,6 +18,8 @@
 
 各客户端的策略组、DNS 和导入能力不同，具体边界在对应教程中说明。
 
+支持嵌套策略组的配置提供 **🌍 全球节点** 统一入口，可选择全球自动或地区自动选路；具体客户端范围见[分流策略指南](docs/guide/routing-policy.zh-CN.md)。
+
 
 [可选业务方案与本地参数](docs/configuration.zh-CN.md)：默认采用完整配置，20 个维护入口可在[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)选择业务与支持的参数后直接下载。Clash Party 和 FlClash 可单独为 AI 服务排除香港节点。
 

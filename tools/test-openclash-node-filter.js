@@ -191,13 +191,15 @@ for (const target of targets) {
     assert.equal(result.status, 0, `${target}: support-mixed rejected ${result.stderr}`);
     output = yamlRead(files.config);
     assert.deepEqual(output.proxies.map(p => p.name), ['HK direct', 'HK reject', 'HK real']);
-    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies, ['HK real'], `${target}: support-mixed global`);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies, ['♻️ 全球自动', '🇭🇰 香港节点', '🌏 亚太节点']);
+    assert.deepEqual(output['proxy-groups'].slice(0, 3).map(g => g.name), ['🌍 全球节点', '♻️ 全球自动', '🐟 漏网之鱼']);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '♻️ 全球自动').proxies, ['HK real'], `${target}: support-mixed global`);
     assert.deepEqual(output['proxy-groups'].find(g => g.name === '🇭🇰 香港节点').proxies, ['HK real'], `${target}: support-mixed HK region`);
 
     files = fixture(temp, 'ordinary-global', [makeProxy('HK real')]);
     result = execute(script, files);
     assert.equal(result.status, 0, `${target}: ordinary global rejected ${result.stderr}`);
-    assert.equal(yamlRead(files.config)['proxy-groups'].find(g => g.name === '🌍 全球节点')['include-all-proxies'], true, `${target}: ordinary include-all changed`);
+    assert.equal(yamlRead(files.config)['proxy-groups'].find(g => g.name === '♻️ 全球自动')['include-all-proxies'], true, `${target}: ordinary include-all changed`);
 
     for (const [label, list, extra] of [
       ['bad-entry', [null], {}], ['bad-name', [makeProxy(23)], {}], ['bad-type', [makeProxy('A', { type: [] })], {}],
@@ -205,6 +207,7 @@ for (const target of targets) {
       ['ambiguous', [makeProxy('A'), makeProxy('A', { server: 'different.example' })], {}],
       ['group-conflict', [makeProxy('🐟 漏网之鱼')], {}], ['built-in-conflict', [makeProxy('DIRECT')], {}],
       ['global-conflict', [makeProxy('GLOBAL')], {}],
+      ['auto-conflict', [makeProxy('♻️ 全球自动')], {}],
       ['pass-rule-conflict', [makeProxy('PASS-RULE')], {}],
       ['provider-only', [], { 'proxy-providers': { airport: { type: 'http' } } }],
       ['provider-mixed', [makeProxy('A')], { 'proxy-providers': { airport: { type: 'http' } } }],
@@ -255,6 +258,20 @@ for (const target of targets) {
     result = execute(script, files);
     assert.equal(result.status, 0, `${target}: reordered equal duplicate rejected ${result.stderr}`);
     assert.equal(yamlRead(files.config).proxies.length, 1, `${target}: reordered equal duplicate not deduped`);
+
+
+    files = fixture(temp, 'selector-regions', [makeProxy('HK first'), makeProxy('US second'), makeProxy('JP third')]);
+    result = execute(script, files);
+    assert.equal(result.status, 0, result.stderr);
+    output = yamlRead(files.config);
+    const regionGroups = output['proxy-groups'];
+    assert.deepEqual(regionGroups[0].proxies, ['♻️ 全球自动', '🇭🇰 香港节点', '🇯🇵 日韩节点', '🌏 亚太节点', '🇺🇸 美国节点', '🌎 美洲节点']);
+    assert.deepEqual(regionGroups.find(g => g.name === '🇭🇰 香港节点').proxies, ['HK first']);
+    assert.deepEqual(regionGroups.find(g => g.name === '🇺🇸 美国节点').proxies, ['US second']);
+    assert.deepEqual(regionGroups.find(g => g.name === '🇯🇵 日韩节点').proxies, ['JP third']);
+    for (const group of regionGroups.filter(g => g.name !== '🌍 全球节点' && g.name !== '🐟 漏网之鱼')) {
+      assert(!(group.proxies || []).some(name => regionGroups.some(candidate => candidate.name === name)), 'automatic pools contain only actual nodes');
+    }
 
     files = fixture(temp, 'all-info', [makeProxy('剩余流量 1G')]);
     result = execute(script, files);

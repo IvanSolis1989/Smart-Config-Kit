@@ -115,7 +115,7 @@ async function runValidation(options = {}) {
         assert.ok(Object.keys(quickjs.output['rule-providers']).length > 1, `${target.id}/${scenario.id}: missing rule providers`);
         if (scenario.id === 'valid-dialer-chain') {
           assert.equal(quickjs.output.proxies[2]['dialer-proxy'], 'JP Transit x1');
-          assert.ok(!quickjs.output['proxy-groups'].find(group => group.name === '🌍 全球节点').proxies.includes('HK Interface'));
+          assert.ok(!quickjs.output['proxy-groups'].find(group => group.name === '♻️ 全球自动').proxies.includes('HK Interface'));
         }
         if (scenario.id === 'mixed-inline-provider') assert.equal(Object.hasOwn(quickjs.output, 'proxy-providers'), false);
       }

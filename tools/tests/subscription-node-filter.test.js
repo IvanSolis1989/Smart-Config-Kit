@@ -83,7 +83,7 @@ for (const target of targets) {
     assert.equal(result, input);
     assert.deepEqual(Array.from(input.proxies, p => p.name), ['HK Inline 01']);
     assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
-    assert.ok(input['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies.includes('HK Inline 01'));
+    assert.ok(input['proxy-groups'].find(g => g.name === '♻️ 全球自动').proxies.includes('HK Inline 01'));
     assert.match(messages, /inline=/);
   });
 
@@ -121,7 +121,7 @@ for (const target of targets) {
     assert.deepEqual(input.proxies.map(p => p.name), ['US Linked', 'JP Explicit', 'HK Inline 01']);
     assert.equal(input.proxies[0]['dialer-proxy'], 'HK Inline 01');
     assert.equal(Object.hasOwn(input, 'proxy-providers'), false);
-    assert.ok(input['proxy-groups'].find(g => g.name === '🌍 全球节点').proxies.includes('HK Inline 01'));
+    assert.ok(input['proxy-groups'].find(g => g.name === '♻️ 全球自动').proxies.includes('HK Inline 01'));
     assert.notDeepEqual(input.dns.nameserver, ['1.1.1.1']);
   });
 
@@ -146,7 +146,10 @@ for (const target of targets) {
     const { input } = run(target, source);
     assert.deepEqual(input.proxies.map(p => p.name), ['HK Interface Direct', 'US Block', 'US Linked']);
     const global = input['proxy-groups'].find(g => g.name === '🌍 全球节点');
-    assert.deepEqual(Array.from(global.proxies), ['US Linked']);
+    const automatic = input['proxy-groups'].find(g => g.name === '♻️ 全球自动');
+    assert.equal(global.type, 'select');
+    assert.deepEqual(Array.from(global.proxies), ['♻️ 全球自动', '🇺🇸 美国节点', '🌎 美洲节点']);
+    assert.deepEqual(Array.from(automatic.proxies), ['US Linked']);
     assert.equal(input['proxy-groups'].some(g => g.name === '🇭🇰 香港节点'), false);
     assert.deepEqual(Array.from(input['proxy-groups'].find(g => g.name === '🇺🇸 美国节点').proxies), ['US Linked']);
   });
@@ -192,6 +195,7 @@ for (const target of targets) {
       { proxies: [node('GLOBAL')] },
       { proxies: [node('PASS-RULE')] },
       { proxies: [node('🌍 全球节点')] },
+      { proxies: [node('♻️ 全球自动')] },
       { proxies: [node('HK')], 'proxy-providers': { remote: { type: 'http' } } },
       { proxies: [], 'proxy-providers': { remote: { type: 'http' } } },
     ];

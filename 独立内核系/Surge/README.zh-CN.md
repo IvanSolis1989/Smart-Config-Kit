@@ -13,8 +13,10 @@
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-> 配置：`Surge.conf` · **v6.0.21-Surge.14**（Build 2026-10-28）
-> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.21 分流基线。
+在 `🌍 全球节点` 中选择 `♻️ 全球自动` 或指定地区组。首项继续对符合原有筛选条件的订阅节点自动选择，地区组继续选择各自成员，各业务组仍可独立选择出口。新增一个全球手动入口后共 56 个策略组。[策略组参考](https://manual.nssurge.com/policy-groups/overview.html)
+
+> 配置：`Surge.conf` · **v6.0.22-Surge.16**（Build 2026-10-28）
+> 22 区域组（11 全部 + 11 家宽）+ 33 业务组；跟随 Clash Party v6.0.22 分流基线。
 
 <a id="before-start"></a>
 

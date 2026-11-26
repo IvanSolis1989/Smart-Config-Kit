@@ -49,7 +49,10 @@ test('static platform presets switch reversibly and preserve UDP capability fall
   const cmfa = fs.readFileSync(path.join(root, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml'), 'utf8');
   const cmfaSaving = applyCmfaTrafficOptions(cmfa, saving);
   assert.match(cmfaSaving, /health-check:\n      enable: true\n      url: [^\n]+\n      interval: 900\n      lazy: true/);
-  assert.match(cmfaSaving, /proxy-groups:\n- type: url-test[\s\S]*?  interval: 900\n  tolerance: 10\n  lazy: true/);
+  const globalAutomatic = cmfaSaving.split(/(?=^- )/m).find(block => /^  name: '♻️ 全球自动'$/m.test(block));
+  assert.ok(globalAutomatic);
+  assert.match(globalAutomatic, /^- type: url-test$/m);
+  assert.match(globalAutomatic, /^  interval: 900\n  tolerance: 10\n  lazy: true$/m);
   const cmfaStandard = applyCmfaTrafficOptions(cmfaSaving, standard);
   assert.match(cmfaStandard, /health-check:\n      enable: true\n      url: [^\n]+\n      interval: 300\n      lazy: true/);
   assert.equal((cmfaStandard.match(/^  lazy: true$/gm) || []).length, 22);

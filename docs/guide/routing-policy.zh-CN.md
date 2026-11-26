@@ -37,6 +37,16 @@
   <img alt="策略关系：33业务组选择区域或家宽，区域组选择实际节点" src="../assets/readme/zh-CN/policy-map.svg" width="1120">
 </picture>
 
+### 全球入口与自动选路
+
+在 **🌍 全球节点** 中选择 **♻️ 全球自动**，可由全部合格节点自动选路。也可选择香港、台湾、狮城、日韩、亚太、美国、欧洲、美洲、非洲或其他地区组，由所选组继续自动选路。脚本只列出实际创建的地区组；静态模板按订阅过滤成员，导入后需检查候选是否有可用节点。
+
+Clash Party Normal、FlClash、CMFA、OpenClash Normal 与 Stash 使用 url-test。Clash Party Smart、OpenClash Smart 保留 Smart / LightGBM。Shadowrocket、Surge、Loon、Quantumult X 和 Egern 使用各自原生选择与自动策略，Egern 的全球自动保留 smart。Meow 原生 YAML 与 AEROVE Lite 候选也包含该入口，App 完整导入与连接验收仍按各客户端教程确认。
+
+全球入口本身采用手动选择，全球自动与地区组沿用现有测速参数。Mihomo 采用现有 interval 与 lazy 设置，额外探测量取决于当前激活的组及订阅 provider 的健康检查。业务组继续独立选择地区或家宽出口；全球入口的选择作用于引用它的业务出口。
+
+SingBox 模板使用静态 outbounds 接入方式。Karing 分流文件将代理动作交给 App 当前选择的节点，节点组由 App 管理。v2rayN Xray 与 Passwall / Passwall2 产物负责路由和分流，节点选择由其客户端设置完成。
+
 ### 业务组与规则来源速查
 
 > 表中仅列主要源图输入及来源，不是最终 provider 清单；编译器按策略、顺序和平台能力生成 `rulesets/generated/fused/**/scki-fused-*`。

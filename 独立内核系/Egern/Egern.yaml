@@ -1,9 +1,9 @@
 ---
 # ======================================================================
-# Egern Smart v6.0.22-egern.14 - Egern Profile
-# Build: 2026-11-22
+# Egern Smart v6.0.22-egern.15 - Egern Profile
+# Build: 2026-11-27
 # Baseline: Clash Party v6.0.22
-# Architecture: 22 smart region groups + 33 business groups + fused CMFA rule order.
+# Architecture: one global selector + 22 smart region groups + 33 business groups + fused CMFA rule order.
 # Rule parity: generated from CMFA 149 rule-providers and 168 rules.
 # Egern rule sets: 141 generated native YAML files.
 # Platform limit: Egern official rules do not expose Clash PROCESS-NAME.
@@ -140,8 +140,11 @@ policy_groups:
       policies: [Subscribe]
       flatten: true
       filter: "(?i)非洲|南非|埃及|尼日利亚|肯尼亚|ZA|EG|NG|KE|Africa"
-  - smart:
+  - select:
       name: 🌍 全球节点
+      policies: [♻️ 全球自动, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇸🇬 狮城节点, 🇯🇵 日韩节点, 🌏 亚太节点, 🇺🇸 美国节点, 🇪🇺 欧洲节点, 🌎 美洲节点, 🌍 非洲节点, 🌏 其他节点]
+  - smart:
+      name: ♻️ 全球自动
       policies: [Subscribe]
       flatten: true
       filter: ".*"

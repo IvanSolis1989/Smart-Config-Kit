@@ -39,8 +39,10 @@ test('Meow adapter preserves the shared ordered routing and region/business topo
   const expected = projectAeroveRouting(run(source(), input), splitManifest().splits);
   const actual = run(api().renderScript(source()), input);
   for (const key of ['proxy-groups', 'rule-providers', 'rules']) assert.deepEqual(actual[key], expected[key], key);
-  assert.equal(actual['proxy-groups'].length, 55);
-  assert.equal(actual['proxy-groups'].filter(group => group.type === 'select').length, 33);
+  assert.equal(actual['proxy-groups'].length, 56);
+  assert.equal(actual['proxy-groups'].filter(group => group.type === 'select').length, 34);
+  assert.equal(actual['proxy-groups'][0].name, '🌍 全球节点');
+  assert.equal(actual['proxy-groups'][0].proxies[0], '♻️ 全球自动');
   assert.equal(actual.rules.at(-1), 'MATCH,🐟 漏网之鱼');
 });
 

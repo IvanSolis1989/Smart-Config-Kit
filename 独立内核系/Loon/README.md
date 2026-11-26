@@ -13,8 +13,10 @@ Use native Loon configuration for same-source routing rules. Add node subscripti
 
 [Before you start](#before-start) · [Download](#download) · [Import in order](#import) · [Required settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#reference)
 
-> Configuration: `Loon.conf` · **v6.0.21-Loon.11**(Build 2026-10-28)
-> 22 regional groups (11 all-node + 11 residential) + 33 service groups, following the Clash Party v6.0.21 routing baseline.
+Open `🌍 全球节点` to choose `♻️ 全球自动` or a regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://nsloon.app/docs/Policy/policygroup/)
+
+> Configuration: `Loon.conf` · **v6.0.22-Loon.13**(Build 2026-10-28)
+> 22 regional groups (11 all-node + 11 residential) + 33 service groups, following the Clash Party v6.0.22 routing baseline.
 
 <a id="before-start"></a>
 

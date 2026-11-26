@@ -39,6 +39,16 @@ Service groups select a purpose, while regional groups select an exit. The layer
 </picture>
 
 <a id="业务组与规则来源速查"></a>
+### Global entry and automatic routing
+
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes. You can also select Hong Kong, Taiwan, Singapore, Japan/Korea, Asia-Pacific, US, Europe, Americas, Africa or the other-region group for automatic routing within that group. Scripts list only the regional groups they create. Static templates filter subscription members, so check that your selected group has working nodes after import.
+
+Clash Party Normal, FlClash, CMFA, OpenClash Normal and Stash use url-test. Clash Party Smart and OpenClash Smart retain Smart / LightGBM. Shadowrocket, Surge, Loon, Quantumult X and Egern use their native selection and automatic policies. Egern retains smart for global automatic routing. Native Meow YAML and AEROVE Lite candidates also include this entry. Follow their client guides for the status of full application import and connection validation.
+
+The global entry uses manual selection. Global automatic and regional groups reuse the existing test parameters. Mihomo retains its interval and lazy settings, so additional probing depends on the active groups and subscription-provider health checks. Service groups retain independent regional or residential choices. The global selection affects service exits that reference it.
+
+The SingBox template uses statically wired outbounds. Karing routing files delegate proxy actions to the application's currently selected node, with node groups managed in the application. v2rayN Xray and Passwall / Passwall2 artifacts provide routing and shunting, while their clients manage node selection.
+
 ### Service groups and rule-source reference
 
 > The tables list principal source-graph inputs and origins, not the final provider inventory. The compiler generates `rulesets/generated/fused/**/scki-fused-*` according to policy, order, and platform capability.

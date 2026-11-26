@@ -17,6 +17,9 @@ Create and associate a dedicated JS override with a Mihomo node subscription to 
 
 [Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. To filter Hong Kong nodes from AI Service, choose **Exclude** under **Hong Kong nodes for AI services** and reload the exported override.
 
+
+In **🌍 全球节点**, choose **♻️ 全球自动** to select automatically across all eligible nodes, or choose an available regional group for automatic routing within that region. Regions absent from the subscription are omitted. Global and regional automatic groups use url-test. Service groups can still select their own regional exits.
+
 ## Before you start: version and subscription
 
 You need **FlClash ≥ v0.8.85**, a Mihomo node subscription and this directory's JS. Get the client from the [official repository](https://github.com/chen08209/FlClash), then choose the procedure for your [interface version](#ui-version).
@@ -175,7 +178,7 @@ Use application-access-control exclusions when an entire application must bypass
 
 Open Proxies and expect:
 
-- **Up to 22 regional groups** (11 all-node + 11 residential; empty regions skipped), including `🌍 全球节点`, `🇭🇰 香港节点`, `🇸🇬 狮城节点` and `🌏 其他节点`.
+- **Up to 22 regional groups** (11 all-node + 11 residential; empty regions skipped), plus the global selector, including `♻️ 全球自动`, `🇭🇰 香港节点`, `🇸🇬 狮城节点` and `🌏 其他节点`.
 - **33 service groups in Full**, including `🤖 AI 服务`, `🎵 TikTok`, `🎥 Netflix` and `📱 社交媒体`. Lite / Custom retain fewer optional services; foundational ad, safety and direct-routing protection remains.
 - Use the [60-second checklist](../../docs/guide/dns-and-verification.md#verification) for downloads, GEOSITE matches and bounded anti-ad exceptions.
 

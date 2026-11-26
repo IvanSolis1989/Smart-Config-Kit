@@ -1,6 +1,6 @@
 // AEROVE Lite / meow-rs 分流覆写候选（共享 Meow 分流实现）
-// 版本：v6.0.22-meow.9 | Build：2026-11-22
-// 架构：最多 22 个 url-test 区域组 + 33 业务组；融合 MRS / residual YAML
+// 版本：v6.0.22-meow.10 | Build：2026-11-27
+// 架构：全球选择入口 + 最多 22 个 url-test 组 + 33 业务组；融合 MRS / residual YAML
 // 规则源：rulesets/source/routing-graph.js v6.0.22
 // 生成：node tools/generate-meow.js；运行时输入：Mihomo内核系/FlClash/FlClash(mihomo).js
 // 变更历史：Meow内核系/Aerove Lite/CHANGELOG.md；状态：docs/support-queue.md#aerove-lite-meow
@@ -11,7 +11,8 @@
 // Lite 大资源按安全预算无损分片，同目标 RULE-SET 在原位置连续展开。
 // 客户端联调和真实连接验收状态见支持队列。
 
-const VERSION = 'v6.0.22-meow.9'
+const VERSION = 'v6.0.22-meow.10'
+const GLOBAL_AUTO = '♻️ 全球自动'
 
 // 本候选的 DNS 与 hosts 由 App 托管；不启用订阅 Node-DNS 投影。
 // 保留源参数占位为 off，桌面 JS 的 DNS profile 不适用于此入口。
@@ -142,13 +143,22 @@ var SckiTrafficOptions = (function() {
         candidates.push(name);
       }
     }
-    // Generated region groups contain leaf nodes. Keep safe selectors intact;
-    // flatten only contaminated selectors so GLOBAL/APAC cannot bypass exclusion.
+    function collectLeaves(name, result) {
+      var group = byName[name];
+      if (!group) {
+        result.push(name);
+        return;
+      }
+      for (var n = 0; n < group.proxies.length; n++) collectLeaves(group.proxies[n], result);
+    }
+    // Keep safe selectors intact, including the global selector. For a group
+    // containing excluded nodes, keep only its eligible leaf choices.
     for (var i = 0; i < ai.proxies.length; i++) {
       var name = ai.proxies[i];
-      var group = byName[name];
-      if (group && group.proxies.some(function(node) { return !!excluded[node]; })) {
-        for (var n = 0; n < group.proxies.length; n++) append(group.proxies[n]);
+      var nodes = [];
+      collectLeaves(name, nodes);
+      if (nodes.some(function(node) { return !!excluded[node]; })) {
+        for (var n = 0; n < nodes.length; n++) append(nodes[n]);
       } else {
         append(name);
       }
@@ -679,7 +689,7 @@ function cleanupSubscription(config) {
 function sortProxyGroups(config) {
   const bizGroups = [], smartGroups = [], otherGroups = []
   const bizNames = new Set(Object.values(BIZ))
-  const smartNames = new Set(Object.values(SMART))
+  const smartNames = new Set(Object.values(SMART).concat([GLOBAL_AUTO]))
   config['proxy-groups'].forEach(g => {
     if (!g || !g.name) return
     if (bizNames.has(g.name)) { bizGroups.push(g) }
@@ -688,16 +698,18 @@ function sortProxyGroups(config) {
   })
   const bizOrder = Object.values(BIZ)
   bizGroups.sort((a, b) => bizOrder.indexOf(a.name) - bizOrder.indexOf(b.name))
-  const smartOrder = Object.values(SMART)
+  const smartOrder = [SMART.GLOBAL, GLOBAL_AUTO].concat(Object.values(SMART))
   smartGroups.sort((a, b) => { const ia = smartOrder.indexOf(a.name); const ib = smartOrder.indexOf(b.name); return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib) })
   // FlClash: 必须原地修改，不能重新赋值（QuickJS FFI 桥接层限制）
-  var globalGroup = null, restSmartGroups = []
+  var globalGroup = null, globalAutoGroup = null, restSmartGroups = []
   for (var s = 0; s < smartGroups.length; s++) {
     if (smartGroups[s].name === SMART.GLOBAL) { globalGroup = smartGroups[s] }
+    else if (smartGroups[s].name === GLOBAL_AUTO) { globalAutoGroup = smartGroups[s] }
     else { restSmartGroups.push(smartGroups[s]) }
   }
   config['proxy-groups'].splice(0, config['proxy-groups'].length)
   if (globalGroup) { config['proxy-groups'].push(globalGroup) }
+  if (globalAutoGroup) { config['proxy-groups'].push(globalAutoGroup) }
   for (var i = 0; i < bizGroups.length; i++) { config['proxy-groups'].push(bizGroups[i]) }
   for (var j = 0; j < restSmartGroups.length; j++) { config['proxy-groups'].push(restSmartGroups[j]) }
   for (var k = 0; k < otherGroups.length; k++) { config['proxy-groups'].push(otherGroups[k]) }
@@ -711,7 +723,7 @@ function sckiRoutingMain(config) {
   try {
 
     SckiTrafficOptions.validate({ healthCheckProfile: SCKI_HEALTH_CHECK_PROFILE, quicPolicy: SCKI_QUIC_POLICY, zeroTierPlanetProxy: SCKI_ZEROTIER_PLANET_PROXY })
-    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat(Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
+    var nodePlan = SckiSubscriptionNodeFilter.preflight(config, Object.values(SMART).concat([GLOBAL_AUTO], Object.values(BIZ)), SCKI_MAX_NODE_MULTIPLIER)
     if (!nodePlan.ok) {
       throw new Error('Node preflight rejected: ' + nodePlan.reason + '; flatten provider subscriptions in SubStore first')
     }
@@ -738,7 +750,7 @@ function sckiRoutingMain(config) {
     var homeJpkrNodes = c.HOME_JP.concat(c.HOME_KR)
     var homeApacNodes = c.HOME_HK.concat(c.HOME_TW, c.HOME_CN, c.HOME_JP, c.HOME_KR, c.HOME_SG, c.HOME_APAC_OTHER)
     var homeAmericasNodes = c.HOME_US.concat(c.HOME_AM)
-    if (c.ALL.length) upsertUrlTestGroup(config, SMART.GLOBAL, c.ALL)
+    if (c.ALL.length) upsertUrlTestGroup(config, GLOBAL_AUTO, c.ALL)
     else config['proxy-groups'].push({ name: SMART.GLOBAL, type: 'select', proxies: ['REJECT'] })
     if (c.HOME_ALL.length > 0) upsertUrlTestGroup(config, SMART.GLOBAL_HOME, c.HOME_ALL)
     // v5.2.8-normal.2: 全部/家宽区域统一空组不创建，避免静默回退污染家宽或地区语义
@@ -763,6 +775,16 @@ function sckiRoutingMain(config) {
     if (c.HOME_AF.length > 0) upsertUrlTestGroup(config, SMART.AFRICA_HOME, c.HOME_AF)
     if (c.OTHER.length > 0) upsertUrlTestGroup(config, SMART.OTHER, c.OTHER)
     if (c.HOME_OTHER.length > 0) upsertUrlTestGroup(config, SMART.OTHER_HOME, c.HOME_OTHER)
+
+    if (c.ALL.length) {
+      var ordinaryRegions = [SMART.HK, SMART.TW, SMART.SG, SMART.JPKR, SMART.APAC, SMART.US, SMART.EU, SMART.AMERICAS, SMART.AFRICA, SMART.OTHER]
+      var createdGroups = new Set(config['proxy-groups'].map(function(group) { return group.name }))
+      config['proxy-groups'].push({
+        name: SMART.GLOBAL,
+        type: 'select',
+        proxies: [GLOBAL_AUTO].concat(ordinaryRegions.filter(function(name) { return createdGroups.has(name) })),
+      })
+    }
 
     // 收集实际创建的区域组名（按 SMART 常量名匹配），过滤业务组的 proxy 引用
     var activeSmartNames = new Set(config['proxy-groups'].filter(function(g) { return g && g.type === 'url-test' }).map(function(g) { return g.name }))

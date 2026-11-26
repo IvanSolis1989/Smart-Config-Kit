@@ -13,6 +13,16 @@ const VERSION = SOURCE_GRAPH_VERSION;
 const TRAFFIC_OPTIONS = require('./traffic-options.json');
 const BUSINESS_DNS_POLICY = require('./business-dns-policy.json');
 
+// Shared topology for clients that can select among subscription-backed groups.
+const GLOBAL_SELECTOR = Object.freeze({
+  name: '🌍 全球节点',
+  automatic: '♻️ 全球自动',
+  regions: Object.freeze([
+    '🇭🇰 香港节点', '🇹🇼 台湾节点', '🇸🇬 狮城节点', '🇯🇵 日韩节点', '🌏 亚太节点',
+    '🇺🇸 美国节点', '🇪🇺 欧洲节点', '🌎 美洲节点', '🌍 非洲节点', '🌏 其他节点',
+  ]),
+});
+
 function validateTrafficOptions(options) {
   if (!options || Object.prototype.toString.call(options) !== '[object Object]' ||
       Object.keys(options).some(key => key !== 'healthCheckProfile' && key !== 'quicPolicy') ||
@@ -2206,6 +2216,7 @@ module.exports = {
   SOURCE_GRAPH_ID,
   SOURCE_GRAPH_VERSION,
   SOURCE_REPOSITORY_ASSET_BASE,
+  GLOBAL_SELECTOR,
   BIZ,
   MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES,
   normalizeMihomoMrsProviderEntries,

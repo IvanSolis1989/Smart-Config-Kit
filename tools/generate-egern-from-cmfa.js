@@ -11,7 +11,7 @@ const {
   repositoryAssetUrl,
   withAssetRevision,
 } = require('./lib/generated-asset-url');
-const { SOURCE_GRAPH_VERSION, getTrafficOptions, getQuicRules } = require('../rulesets/source/routing-graph');
+const { SOURCE_GRAPH_VERSION, GLOBAL_SELECTOR, getTrafficOptions, getQuicRules } = require('../rulesets/source/routing-graph');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const CMFA_FILE = path.join(REPO_ROOT, 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml');
@@ -27,8 +27,8 @@ const SCKI_BASE = SCKI_REPOSITORY_BASE;
 const ASSET_REVISION = SOURCE_GRAPH_VERSION;
 const META_GEOSITE_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite';
 const META_GEOIP_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip';
-const EGERN_VERSION = 'v6.0.22-egern.14';
-const BUILD_DATE = '2026-11-22';
+const EGERN_VERSION = 'v6.0.22-egern.15';
+const BUILD_DATE = '2026-11-27';
 const FETCH_CONCURRENCY = 3;
 const MIHOMO_MRS_BASE_PATH = '/rulesets/generated/mihomo-mrs/';
 // jsDelivr rejects files at 20 MB. Keep generated Egern-native rule sets below 18 MiB.
@@ -376,12 +376,31 @@ function renderEgernRule(rule, providers, assets, stats) {
   throw new Error(`Unsupported Egern rule type: ${rule}`);
 }
 
+function projectGlobalSelector(body) {
+  const groupPattern = /  - (?:smart|select):\n      name: ([^\n]+)\n[\s\S]*?(?=  - [a-z_]+:|\n[a-z_]+:|$)/g;
+  const blocks = [...body.matchAll(groupPattern)];
+  const automatic = blocks.find(match => match[1] === GLOBAL_SELECTOR.automatic)
+    || blocks.find(match => match[1] === GLOBAL_SELECTOR.name);
+  if (!automatic) throw new Error('Missing seeded Egern global automatic group');
+  const automaticBlock = automatic[0].replace(/name: [^\n]+/, `name: ${GLOBAL_SELECTOR.automatic}`);
+  const names = new Set(blocks.map(match => match[1]));
+  const members = [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions.filter(name => names.has(name))];
+  const selector = `  - select:\n      name: ${GLOBAL_SELECTOR.name}\n      policies: [${members.join(', ')}]\n`;
+  let inserted = false;
+  return body.replace(groupPattern, (block, name) => {
+    if (name !== GLOBAL_SELECTOR.name && name !== GLOBAL_SELECTOR.automatic) return block;
+    if (inserted) return '';
+    inserted = true;
+    return selector + automaticBlock;
+  });
+}
+
 function renderPrefix(assetCount, cmfaProviderCount, cmfaRuleCount) {
   const current = readText(EGERN_FILE);
   const bodyStart = current.indexOf('\nipv6:');
   const rulesStart = current.indexOf('\nrules:');
   if (bodyStart === -1 || rulesStart === -1) throw new Error('Cannot locate Egern body/rules sections');
-  let body = current.slice(bodyStart + 1, rulesStart).replace(/\r\n/g, '\n');
+  let body = projectGlobalSelector(current.slice(bodyStart + 1, rulesStart).replace(/\r\n/g, '\n'));
   body = body
     .replace('Egern Preview Profile', 'Egern Profile')
     .replace('type: auto_test', 'type: select')
@@ -397,7 +416,7 @@ function renderPrefix(assetCount, cmfaProviderCount, cmfaRuleCount) {
     `# Egern Smart ${EGERN_VERSION} - Egern Profile`,
     `# Build: ${BUILD_DATE}`,
     `# Baseline: Clash Party ${SOURCE_GRAPH_VERSION}`,
-    '# Architecture: 22 smart region groups + 33 business groups + fused CMFA rule order.',
+    '# Architecture: one global selector + 22 smart region groups + 33 business groups + fused CMFA rule order.',
     `# Rule parity: generated from CMFA ${cmfaProviderCount} rule-providers and ${cmfaRuleCount} rules.`,
     `# Egern rule sets: ${assetCount} generated native YAML files.`,
     '# Platform limit: Egern official rules do not expose Clash PROCESS-NAME.',
