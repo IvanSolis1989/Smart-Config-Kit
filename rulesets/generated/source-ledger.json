@@ -137062,8 +137062,8 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "9f84a6493932c0318501b83f35f3c70bdcd6882c243be995e817e0b3ea702a4e",
-    "bytes": 120295,
+    "sha256": "2a1b34280fe4a06b806422e3bafacc0e1684077cc6792729ab04bc0ffe6ea131",
+    "bytes": 120844,
     "text_normalization": "LF",
     "version": "v6.0.22",
     "semantic_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305"
