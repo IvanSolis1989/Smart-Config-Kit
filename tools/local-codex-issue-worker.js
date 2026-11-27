@@ -6,9 +6,20 @@ const { Worker, validateConfig, acquireLock, readJSON, redact } = require('./lib
 
 async function main(args = process.argv.slice(2)) {
   const configIndex = args.indexOf('--config');
-  if (configIndex < 0 || !args[configIndex + 1]) throw new Error('Usage: node local-codex-issue-worker.js --config ABSOLUTE_PATH [--once|--status|--smoke|--retry TASK_KEY|--resume-publish TASK_KEY]');
+  if (configIndex < 0 || !args[configIndex + 1]) throw new Error('Usage: node local-codex-issue-worker.js --config ABSOLUTE_PATH [--once|--status|--smoke|--retry TASK_KEY|--resume-publish TASK_KEY]\nTo reuse trusted changes: --retry TASK_KEY --once --seed-patch PATH');
   const file = path.resolve(args[configIndex + 1]);
   const config = validateConfig(readJSON(file));
+  const retryIndex = args.indexOf('--retry');
+  const seedIndex = args.indexOf('--seed-patch');
+  let seedPatch;
+  if (seedIndex >= 0) {
+    if (retryIndex < 0 || !args[retryIndex + 1] || !args[seedIndex + 1] || !args.includes('--once')
+        || ['--smoke', '--status', '--resume-publish'].some(flag => args.includes(flag))) {
+      throw new Error('--seed-patch requires --retry TASK_KEY --once');
+    }
+    seedPatch = path.resolve(args[seedIndex + 1]);
+    if (!fs.lstatSync(seedPatch).isFile()) throw new Error('The retry patch must be a regular local file');
+  }
   if (args.includes('--status')) {
     const stateFile = path.join(config.stateDir, 'state.json');
     const state = fs.existsSync(stateFile) ? readJSON(stateFile) : {};
@@ -18,7 +29,7 @@ async function main(args = process.argv.slice(2)) {
     console.log(JSON.stringify({ repository: config.repository, model: config.model, effort: config.effort, running, pid,
       paused: fs.existsSync(path.join(config.stateDir, 'PAUSED')), lastPollAt: state.lastPollAt, lastError: state.lastError,
       tasks: Object.values(state.tasks || {}).map(r => ({ taskKey: r.task.taskKey, mode: r.task.mode, status: r.status,
-        outcome: r.outcome, model: r.model, effort: r.effort, threadId: r.threadId, sessionUrl: r.sessionUrl, commitSha: r.commitSha,
+        outcome: r.outcome, model: r.model, effort: r.effort, threadId: r.threadId, turnId: r.turnId, sessionUrl: r.sessionUrl, commitSha: r.commitSha,
         validationRunUrl: r.validationRunUrl, commentId: r.commentId, error: r.error })) }, null, 2));
     return;
   }
@@ -32,7 +43,15 @@ async function main(args = process.argv.slice(2)) {
     if (args.includes('--smoke')) { await worker.smoke(); return; }
     const resumeIndex = args.indexOf('--resume-publish');
     if (resumeIndex >= 0) { await worker.resumePublication(args[resumeIndex + 1]); return; }
-    const retryIndex = args.indexOf('--retry');
+    if (seedPatch) {
+      if (fs.existsSync(path.join(config.stateDir, 'PAUSED'))) throw new Error('The worker is paused');
+      const key = args[retryIndex + 1];
+      if (worker.state.tasks[key]?.task.mode !== 'handle') throw new Error('A trusted patch requires a recorded Issue handling task');
+      const record = worker.retry(key);
+      await worker.process(record, { seedPatch });
+      if (record.status !== 'completed' || !record.commitSha) throw new Error(record.error || `Seeded retry ended in status ${record.status}`);
+      return;
+    }
     if (retryIndex >= 0) worker.retry(args[retryIndex + 1]);
     do {
       if (!fs.existsSync(path.join(config.stateDir, 'PAUSED'))) {

@@ -1,5 +1,5 @@
 'use strict';
-// Local Issue bridge v1.0.2. GitHub is the durable inbox; only this process publishes.
+// Local Issue bridge v1.0.6. GitHub is the durable inbox; only this process publishes.
 const { POLICY, language, text, assertLanguage, assertReplyLanguage } = require('./ai-issue-language');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -89,6 +89,11 @@ function parseResult(text) {
   return { ...result, summary: redact(result.summary), reply: redact(result.reply) };
 }
 function taskId(key) { return crypto.createHash('sha256').update(key).digest('hex').slice(0, 20); }
+function transientGitNetworkError(error) {
+  const message = String(error?.message || error);
+  if (/certificate|cert_verify|CERT_E_|SEC_E_UNTRUSTED|self.signed|unknown ca|authentication|permission denied|access denied|repository not found|could not read Username|returned error: (?:401|403)/i.test(message)) return false;
+  return /TLS handshake timeout|schannel: (?:failed to receive handshake|server closed abruptly)|connection (?:reset|timed out|closed|was reset)|could not resolve host|couldn't connect|failed to connect|unexpected EOF|early EOF|HTTP (?:502|503|504)|returned error: (?:502|503|504)/i.test(message);
+}
 
 class Worker {
   constructor(config, dependencies = {}) {
@@ -117,6 +122,17 @@ class Worker {
   }
   async json(args, opts) { return JSON.parse((await this.command('gh', args, opts)).stdout); }
   async git(args, cwd) { return (await this.command('git', args, { cwd, timeoutMs: 600000 })).stdout.trim(); }
+  async prepareGit(stage, args, cwd, canRetry = () => true) {
+    for (let attempt = 1; ; attempt++) {
+      if (this.signal?.aborted) throw new Error(`Worker stopped before Git ${stage}`);
+      try { return await this.git(args, cwd); }
+      catch (error) {
+        if (attempt >= 3 || this.signal?.aborted || !canRetry() || !transientGitNetworkError(error)) throw error;
+        this.log(`Git ${stage} transport retry ${attempt}/2`);
+        await this.delay(attempt * 2000);
+      }
+    }
+  }
   async discover() {
     const repo = this.config.repository;
     const endpoint = `repos/${repo}/actions/workflows/${WORKFLOW}/runs?per_page=100&created=${encodeURIComponent(`>=${this.state.cursor}`)}`;
@@ -166,16 +182,25 @@ class Worker {
   async prepare(record) {
     const bare = path.join(this.config.worktreeRoot, 'repository.git');
     const origin = `https://github.com/${this.config.repository}.git`;
-    if (!fs.existsSync(bare)) await this.git(['clone', '--bare', '--filter=blob:none', origin, bare]);
+    if (!fs.existsSync(bare)) await this.prepareGit('clone', ['clone', '--bare', '--filter=blob:none', origin, bare], undefined, () => !fs.existsSync(bare));
     if (await this.git(['--git-dir', bare, 'remote', 'get-url', 'origin']) !== origin) throw new Error('Unexpected bridge Git remote');
-    await this.git(['--git-dir', bare, 'fetch', '--no-tags', 'origin', 'main']);
+    if (process.platform === 'win32') {
+      // The MSIX physical install path and repository filenames can exceed MAX_PATH.
+      await this.git(['--git-dir', bare, 'config', '--local', 'core.longpaths', 'true']);
+      // Generated artifacts are checked against the same bytes used in CI.
+      await this.git(['--git-dir', bare, 'config', '--local', 'core.autocrlf', 'false']);
+    }
+    await this.prepareGit('fetch', ['--git-dir', bare, 'fetch', '--no-tags', 'origin', 'main']);
     record.baseSha = await this.git(['--git-dir', bare, 'rev-parse', 'FETCH_HEAD']);
     const suffix = taskId(`${record.task.taskKey}-${record.attempt || 1}`);
     record.branch = `codex/issue-${record.task.issueNumber}-${suffix}`;
     record.cwd = path.join(this.config.worktreeRoot, `issue-${record.task.issueNumber}-${suffix}`);
     if (fs.existsSync(record.cwd)) throw new Error('Task checkout already exists; inspect before retry');
     this.save();
-    await this.git(['--git-dir', bare, 'worktree', 'add', '-b', record.branch, record.cwd, record.baseSha]);
+    // Register once. A blobless clone can contact the promisor remote when
+    // populating files. Retry population before the session owns this checkout.
+    await this.git(['--git-dir', bare, 'worktree', 'add', '--no-checkout', '-b', record.branch, record.cwd, record.baseSha]);
+    await this.prepareGit('checkout', ['reset', '--hard', '--quiet', record.baseSha], record.cwd);
     if (await this.git(['status', '--porcelain'], record.cwd)) throw new Error('Task checkout is not clean');
   }
   prompt(record, issue) {
@@ -267,8 +292,14 @@ class Worker {
     record.replyLanguage = assertLanguage(language(issue));
     assertReplyLanguage(record.replyLanguage, result.reply);
     await this.git(['add', '--', ...files], record.cwd);
+    if (record.seedTree && await this.git(['write-tree'], record.cwd) !== record.seedTree) {
+      throw new Error('The approved retry patch changed during the Codex session');
+    }
     await this.git(['-c', 'user.name=Codex Issue Worker', '-c', 'user.email=codex-issue-worker@users.noreply.github.com',
       'commit', '-m', formatCommitMessage(record.task.issueNumber)], record.cwd);
+    if (record.seedTree && await this.git(['rev-parse', 'HEAD^{tree}'], record.cwd) !== record.seedTree) {
+      throw new Error('The saved commit differs from the approved retry patch');
+    }
     record.commitSha = await this.git(['rev-parse', 'HEAD'], record.cwd);
     // --raw includes index/blob identities; establish the baseline after staging/commit.
     const fingerprint = await this.fingerprint(record);
@@ -323,7 +354,7 @@ class Worker {
       this.log(`Smoke passed: ${target.threadId}`); return target;
     } catch (error) { target.status = 'failed'; target.error = redact(error.message); this.save(); throw error; }
   }
-  async process(record) {
+  async process(record, { seedPatch } = {}) {
     if (record.task.mode === 'smoke') return this.smoke(record);
     record.attempt = (record.attempt || 0) + 1; record.status = 'preparing'; this.save();
     record.model = this.config.model; record.effort = this.config.effort;
@@ -334,13 +365,20 @@ class Worker {
       record.replyLanguage = assertLanguage(language(issue));
       this.save();
       await this.prepare(record);
+      if (seedPatch) {
+        await this.git(['apply', '--index', '--binary', '--', seedPatch], record.cwd);
+        record.seedTree = await this.git(['write-tree'], record.cwd);
+      }
       record.status = 'running'; this.save();
       const result = await this.runCodexTask({ command: this.config.codexCommand, args: this.config.codexArgs,
         model: this.config.model, effort: this.config.effort,
-        cwd: record.cwd, prompt: this.prompt(record, issue), title: `Smart-Config-Kit #${issue.number}: ${issue.title.slice(0, 80)}`,
+        cwd: record.cwd, prompt: this.prompt(record, issue) + (seedPatch
+          ? '\n本次是维护者明确授权的重试。工作目录已经导入维护者验收过的候选补丁。只审阅现有改动并运行只读验证。补丁内容须原样保留，有实质问题则返回 blocked，外层会保留现场。\n'
+          : ''), title: `Smart-Config-Kit #${issue.number}: ${issue.title.slice(0, 80)}`,
         timeoutMs: this.config.timeoutMs, outputSchema: RESULT_SCHEMA, signal: this.signal,
         onThread: async id => { record.threadId = id; record.sessionUrl = `codex://threads/${id}`; this.save(); } });
       if (result.status !== 'completed') throw new Error(`Codex terminal status: ${result.status}`);
+      record.turnId = result.turnId;
       const parsed = parseResult(result.text); assertReplyLanguage(record.replyLanguage, parsed.reply); record.outcome = parsed.outcome; record.summary = parsed.summary;
       if (parsed.outcome === 'ready') await this.publish(record, parsed);
       else {
@@ -353,7 +391,7 @@ class Worker {
       if (!['publishing', 'published', 'replying'].includes(record.status)) record.status = this.signal?.aborted ? 'interrupted' : 'failed';
       record.error = redact(error.message); record.updatedAt = new Date().toISOString(); this.save();
       this.log(`Task ${record.task.taskKey} ${record.status}: ${record.error}`);
-      if (record.status === 'failed' && !this.signal?.aborted) {
+      if (record.status === 'failed' && !this.signal?.aborted && !seedPatch) {
         record.completionStatus = 'failed';
         // Unknown language is a local blocker, not a wrong-language public notice.
         if (!record.replyLanguage || record.replyLanguage === 'und') return;
@@ -384,8 +422,12 @@ class Worker {
   retry(key) {
     const record = this.state.tasks[key];
     if (!record || !['failed', 'interrupted'].includes(record.status) || record.commitSha) throw new Error('Only failed/interrupted unpublished tasks may be explicitly retried');
-    record.history = [...(record.history || []), { status: record.status, threadId: record.threadId, cwd: record.cwd, error: record.error }];
-    record.status = 'queued'; delete record.error; delete record.threadId; this.save();
+    record.history = [...(record.history || []), { status: record.status, threadId: record.threadId, turnId: record.turnId, cwd: record.cwd,
+      error: record.error, completionStatus: record.completionStatus, commentId: record.commentId, finishedAt: record.finishedAt }];
+    record.status = 'queued';
+    for (const field of ['error', 'threadId', 'turnId', 'sessionUrl', 'completionStatus', 'reply', 'commentId', 'finishedAt', 'updatedAt', 'outcome', 'summary', 'seedTree']) delete record[field];
+    this.save();
+    return record;
   }
   async resumePublication(key) {
     const record = this.state.tasks[key];

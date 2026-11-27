@@ -16,6 +16,14 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## Local Codex Issue bridge v1.0.6 (2026-11-27)
+
+- Recover transient Git transport failures when materializing a new Issue worktree and support explicit retries with an approved local patch.
+- Enable long paths in the bridge's own Windows Git repository so deep files can be checked out under the MSIX installation path.
+- Keep new worktrees outside MSIX package storage and allow an existing installation to select a different worktree root.
+- Preserve Git's stored line endings in the Windows bridge so byte-level checks match CI.
+- Recognize JavaScript engine and policy names in Chinese issue replies.
+
 ## Global selector candidate (2026-11-27)
 
 - Issue #206 adds global automatic and regional choices under the global selector across supported group-based clients. See the [Clash Party changelog](Mihomo%E5%86%85%E6%A0%B8%E7%B3%BB/Clash%20Party/CHANGELOG.md).

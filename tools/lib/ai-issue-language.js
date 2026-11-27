@@ -62,7 +62,7 @@ function replyProse(value) {
     .replace(/<!--[^]*?(?:-->|$)/g, '').replace(/`[^`]*`/g, '')
     .replace(/https?:\/\/[^\s)>]+/g, '').replace(/\b(?:[A-Za-z]:)?[\w.\-]+(?:[\\/][\w.\-]+)+/g, '');
 }
-const ZH_TECHNICAL_WORDS = new Set(('MiMo Codex GitHub Karing FlClash Flutter Makepad Rust AEROVE main JSON YAML SRS HTTP HTTPS DNS TLS CDN URL URI API PR README AGENTS TCP UDP IP IPv4 IPv6 Clash Mihomo sing-box SingBox Shadowrocket Surge Loon Quantumult X Stash Egern OpenClash Passwall Passwall2 v2rayN Hiddify ClashMi Smart-Config-Kit SCKI').toLowerCase().split(' '));
+const ZH_TECHNICAL_WORDS = new Set(('MiMo Codex GitHub Karing FlClash Flutter Makepad Rust AEROVE main JSON YAML SRS HTTP HTTPS DNS TLS CDN URL URI API PR README AGENTS TCP UDP IP IPv4 IPv6 Clash Mihomo sing-box SingBox Shadowrocket Surge Loon Quantumult X Stash Egern OpenClash Passwall Passwall2 v2rayN Hiddify ClashMi Smart-Config-Kit SCKI JS AI Smart QuickJS Node').toLowerCase().split(' '));
 function assertReplyLanguage(locale, reply) {
   assertLanguage(locale);
   const narrative = replyProse(reply);

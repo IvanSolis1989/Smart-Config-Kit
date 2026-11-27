@@ -3,6 +3,7 @@ param(
     [string]$RepositoryPath = (Split-Path -Parent $PSScriptRoot),
     [string]$Repository = 'IvanSolis1989/Smart-Config-Kit',
     [string]$InstallRoot = (Join-Path $env:LOCALAPPDATA 'Smart-Config-Kit\codex-issue-bridge'),
+    [string]$WorktreeRoot,
     [switch]$NoStart,
     [switch]$Uninstall
 )
@@ -120,9 +121,14 @@ $InstallRoot = Split-Path -Parent (Get-PhysicalFilePath $anchor)
 
 $runtime = Join-Path $InstallRoot 'runtime'
 $stateDir = Join-Path $InstallRoot 'state'
-$worktreeRoot = Join-Path $InstallRoot 'worktrees'
+$configPath = Join-Path $InstallRoot 'config.json'
+$oldConfig = if (Test-Path -LiteralPath $configPath) { Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json }
+if (-not $WorktreeRoot) {
+    $WorktreeRoot = if ($oldConfig.worktreeRoot) { [string]$oldConfig.worktreeRoot } else { Join-Path $env:USERPROFILE '.scki-issue-worktrees' }
+}
+$WorktreeRoot = [System.IO.Path]::GetFullPath($WorktreeRoot)
 $logs = Join-Path $stateDir 'logs'
-New-Item -ItemType Directory -Force -Path $runtime,$stateDir,$worktreeRoot,$logs | Out-Null
+New-Item -ItemType Directory -Force -Path $runtime,$stateDir,$WorktreeRoot,$logs | Out-Null
 $lockPath = Join-Path $stateDir 'worker.lock'
 if (Test-Path $lockPath) {
     try { $lock=Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json; $p=Get-CimInstance Win32_Process -Filter "ProcessId=$([int]$lock.pid)" -ErrorAction SilentlyContinue; if($p -and $p.CommandLine -like "*$(Join-Path $runtime 'local-codex-issue-worker.js')*" -and $p.CommandLine -like "*--config*$(Join-Path $InstallRoot 'config.json')*") { throw 'Verified worker is running; stop it before updating runtime.' } } catch { if($_.Exception.Message -like 'Verified worker*'){throw} }
@@ -146,15 +152,11 @@ foreach ($relative in $files) {
     Copy-Item -LiteralPath $source -Destination $destination -Force
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'run-local-codex-issue-worker.ps1') -Destination (Join-Path $runtime 'run-local-codex-issue-worker.ps1') -Force
-$configPath = Join-Path $InstallRoot 'config.json'
 $enabledAfter = (Get-Date).ToUniversalTime().ToString('o')
-if (Test-Path -LiteralPath $configPath) {
-    $oldConfig = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
-    if ($oldConfig.enabledAfter) { $enabledAfter = [string]$oldConfig.enabledAfter }
-}
+if ($oldConfig.enabledAfter) { $enabledAfter = [string]$oldConfig.enabledAfter }
 $config = [ordered]@{
     schemaVersion = 1; repository = $Repository; repositoryPath = $resolvedRepo
-    stateDir = $stateDir; worktreeRoot = $worktreeRoot; codexCommand = $codexCommand; codexArgs = $codexArgs
+    stateDir = $stateDir; worktreeRoot = $WorktreeRoot; codexCommand = $codexCommand; codexArgs = $codexArgs
     model = 'gpt-6.1-sol'; effort = 'ultra'
     pollSeconds = 60; timeoutMs = 2700000; enabledAfter = $enabledAfter
     publish = $true

@@ -66,6 +66,8 @@ node "$bridge\runtime\local-codex-issue-worker.js" --config "$bridge\config.json
 
 崩溃或超时中的模型任务标记为 `interrupted`，保留会话、工作目录和错误；不会自动重跑。检查后可停掉常驻实例，再运行 `--retry <taskKey> --once`。已生成提交但推送确认失败时使用 `--resume-publish <taskKey>`：重新验证、核对远端基线后尝试正常推送；远端已经包含提交时只补核回复。main 已前进且不包含该提交时保留现场，须人工整合。推送或评论确认丢失会先核对真实远端状态和回复标记，不重复运行模型。
 
+工作树只注册一次。Git 在展开文件时如需补拉缺失对象，短暂传输失败最多重试两次。Windows 新安装默认将工作树放在 MSIX 包目录外的 `%USERPROFILE%\.scki-issue-worktrees`。已有安装如果无法从沙箱进入旧工作树目录，可停掉 worker，使用 `-WorktreeRoot <绝对路径>` 重新安装。旧工作树和任务记录可在原位置查阅。若未发布的任务已有核准的本地 Git 补丁，可用 `--retry <taskKey> --once --seed-patch <path>`。Codex 会在新工作树内审阅补丁，桥接器核对提交树与核准内容一致后，再进入 CI 和发布流程。
+
 ```powershell
 pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1 -Uninstall
 ```

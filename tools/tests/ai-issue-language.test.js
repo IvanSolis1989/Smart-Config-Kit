@@ -66,6 +66,10 @@ test('wrong-language model output is terminal invalid response, never patch publ
  assert.equal(calls,1);assert.equal(result.status,'invalid_response');assert.equal(result.hasPatch,false);assert.equal(result.rawResponse,'');
  assert.equal(result.reply,text('en','incomplete'));
 });
+test('Chinese verification prose accepts engine and policy names without accepting English explanations',()=>{
+ assert.doesNotThrow(()=>assertReplyLanguage('zh','JS 覆写保留 Smart 策略和 AI 地区排除，QuickJS 与 Node 的输出一致。'));
+ assert.throws(()=>assertReplyLanguage('zh','JS 检查通过。QuickJS and Node produce the same result.'),/REPLY_LANGUAGE_MISMATCH/);
+});
 test('Chinese logs do not override English author prose, and unnecessary bilingual glosses are rejected',()=>{
  const body='The download fails when I import this file. Why does the app not register the rule set?\nERROR 下载失败，请检查网络\n2026-11-09 12:00:00 中文错误\nThe error message is “下载规则失败”.';
  assert.equal(language({body,title:'下载失败'}),'en');

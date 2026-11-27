@@ -70,6 +70,8 @@ To pause claims, create an empty `PAUSED` file in `state`; remove it to resume. 
 
 Crashed/timed-out model tasks become `interrupted`, retaining the session, work directory, and error; they are not automatically rerun. After inspection, stop the resident instance and use `--retry <taskKey> --once`. If a commit exists but push confirmation failed, use `--resume-publish <taskKey>`: revalidate and check the remote baseline before a normal push. If the remote already contains the commit, only verify/complete the reply. If main advanced without the commit, state is retained for manual integration. Lost push/comment confirmation triggers a check of actual remote state and reply markers rather than rerunning the model.
 
+Worktree preparation registers the new directory once. If Git needs to download missing objects while filling the checkout, the worker retries transient transport failures up to twice. On Windows, the default worktree root for new installations is `%USERPROFILE%\.scki-issue-worktrees`, outside MSIX package storage. For an existing installation whose sandbox cannot enter the old checkout directory, stop the worker and reinstall with `-WorktreeRoot <absolute-path>`. Existing task records and worktrees stay available in their original locations. For an unpublished task with an approved local Git patch, use `--retry <taskKey> --once --seed-patch <path>`. Codex reviews the patch in the fresh checkout. The worker checks the approved tree before sending the new commit through the normal CI and publication steps.
+
 ```powershell
 pwsh -NoProfile -File tools\install-local-codex-issue-worker.ps1 -Uninstall
 ```

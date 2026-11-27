@@ -205,7 +205,13 @@ test('ready publication binds the committed patch to CI then pushes that exact S
   await worker.initialize();
   worker.validate = async record => { calls.push('CI'); assert.equal(git(['rev-parse', 'HEAD']), record.commitSha);
     record.validation = ['real CI gate']; record.validationRunUrl = 'https://github.com/owner/repo/actions/runs/999'; };
-  const record = { task: queuedTask(), cwd, baseSha, branch };
+  git(['add', 'source.js']);
+  const record = { task: queuedTask(), cwd, baseSha, branch, seedTree: git(['write-tree']) };
+  fs.writeFileSync(path.join(cwd, 'source.js'), 'changed by session\n');
+  await assert.rejects(worker.publish(record, { summary: 'fix behavior', reply: '已修复。' }), /approved retry patch changed/);
+  assert.deepEqual(calls, []);
+  assert.equal(git(['rev-parse', 'HEAD']), baseSha);
+  fs.writeFileSync(path.join(cwd, 'source.js'), 'after\n');
   await worker.publish(record, { summary: 'fix behavior', reply: '已修复。' });
   assert.equal(record.status, 'published'); assert.notEqual(record.commitSha, baseSha);
   assert.deepEqual(calls, [`${record.commitSha}:refs/heads/${branch}`, 'CI', `${record.commitSha}:refs/heads/main`]);
@@ -284,4 +290,145 @@ test('commit metadata stays English independently of Chinese issue replies', () 
   assert.equal(formatCommitMessage(196),'[agent: codex] fix(#196): apply verified issue changes');
   assert.throws(()=>formatCommitMessage('196\nother'),/Invalid issue number/);
   assert.throws(()=>formatCommitMessage(-1),/Invalid issue number/);
+});
+
+const checkoutTransportFailure = 'git failed (128): error: RPC failed; curl 56 schannel: server closed abruptly (missing close_notify)\nerror: 8192 bytes of body are still expected\nfatal: early EOF\nfatal: could not fetch 8e3f47288327a2bc43e978703ebf28b4e7e2c411 from promisor remote';
+
+async function checkoutFixture(t, resetFailure, failures = 1) {
+  const config = fixture(t);
+  const calls = [], delays = [];
+  const worker = new Worker(config, { delay: async ms => delays.push(ms) });
+  await worker.initialize();
+  fs.mkdirSync(path.join(config.worktreeRoot, 'repository.git'));
+  const record = { task: queuedTask(), attempt: 1 };
+  worker.state.tasks[record.task.taskKey] = record;
+  let resetAttempts = 0;
+  worker.git = async (args, cwd) => {
+    calls.push({ args, cwd });
+    if (args.includes('get-url')) return 'https://github.com/owner/repo.git';
+    if (args.includes('rev-parse')) return 'a'.repeat(40);
+    if (args.includes('worktree')) {
+      assert.ok(args.includes('--no-checkout'));
+      assert.ok(args.includes('-b'));
+      fs.mkdirSync(record.cwd);
+    }
+    if (args[0] === 'reset') {
+      assert.deepEqual(args, ['reset', '--hard', '--quiet', record.baseSha]);
+      assert.equal(cwd, record.cwd);
+      resetAttempts++;
+      if (resetAttempts <= failures) throw new Error(resetFailure);
+    }
+    return '';
+  };
+  return { worker, record, calls, delays };
+}
+
+test('checkout retries lazy blob transport in its fresh directory before starting Codex', async t => {
+  const { worker, record, calls, delays } = await checkoutFixture(t, checkoutTransportFailure);
+  let runs = 0;
+  worker.snapshot = async () => ({ number: 1, state: 'open', title: '请检查配置', body: '请检查配置。' });
+  worker.runCodexTask = async opts => {
+    runs++;
+    assert.equal(opts.cwd, record.cwd);
+    assert.equal(calls.filter(call => call.args[0] === 'reset').length, 2);
+    const longPathConfig = calls.find(call => call.args.includes('core.longpaths'));
+    const lineEndingConfig = calls.find(call => call.args.includes('core.autocrlf'));
+    if (process.platform === 'win32') {
+      const localConfig = ['--git-dir', path.join(worker.config.worktreeRoot, 'repository.git'), 'config', '--local'];
+      assert.deepEqual(longPathConfig?.args, [...localConfig, 'core.longpaths', 'true']);
+      assert.deepEqual(lineEndingConfig?.args, [...localConfig, 'core.autocrlf', 'false']);
+    } else {
+      assert.equal(longPathConfig, undefined);
+      assert.equal(lineEndingConfig, undefined);
+    }
+    assert.ok(calls.some(call => call.args[0] === 'status'));
+    await opts.onThread('recovered-checkout-thread');
+    return { status: 'completed', text: JSON.stringify({ outcome: 'answered', summary: 'verified', reply: '检查通过。' }) };
+  };
+  worker.changes = async () => [];
+  worker.reply = async target => { target.status = 'completed'; };
+  await worker.process(record);
+  assert.equal(record.status, 'completed');
+  assert.equal(record.threadId, 'recovered-checkout-thread');
+  assert.equal(runs, 1);
+  assert.equal(calls.filter(call => call.args.includes('worktree')).length, 1);
+  assert.equal(delays.length, 1);
+});
+
+test('checkout does not retry certificate, authentication or ownership failures', async t => {
+  for (const message of [
+    'fatal: SSL certificate problem: unable to get local issuer certificate',
+    'fatal: Authentication failed for https://github.com/owner/repo.git',
+    'fatal: detected dubious ownership in repository',
+  ]) {
+    await t.test(message, async st => {
+      const { worker, record, calls, delays } = await checkoutFixture(st, message, 3);
+      await assert.rejects(worker.prepare(record), error => error.message === message);
+      assert.equal(calls.filter(call => call.args[0] === 'reset').length, 1);
+      assert.equal(calls.filter(call => call.args.includes('worktree')).length, 1);
+      assert.equal(delays.length, 0);
+      assert.ok(fs.existsSync(record.cwd));
+    });
+  }
+});
+
+test('checkout transport exhaustion preserves the original diagnostic and checkout', async t => {
+  const { worker, record, calls, delays } = await checkoutFixture(t, checkoutTransportFailure, 3);
+  worker.snapshot = async () => ({ number: 1, state: 'open', title: '请检查配置', body: '请检查配置。' });
+  worker.runCodexTask = async () => { assert.fail('Codex must not start after checkout exhaustion'); };
+  worker.reply = async () => {};
+  await worker.process(record);
+  assert.equal(record.status, 'failed');
+  assert.equal(record.error, checkoutTransportFailure);
+  const saved = JSON.parse(fs.readFileSync(worker.stateFile, 'utf8')).tasks[record.task.taskKey];
+  assert.equal(saved.error, checkoutTransportFailure);
+  assert.equal(saved.cwd, record.cwd);
+  assert.equal(saved.threadId, undefined);
+  assert.equal(calls.filter(call => call.args[0] === 'reset').length, 3);
+  assert.equal(calls.filter(call => call.args.includes('worktree')).length, 1);
+  assert.equal(delays.length, 2);
+  assert.ok(fs.existsSync(record.cwd));
+  assert.ok(!calls.some(call => call.args[0] === 'status'));
+});
+
+test('preexisting task directory is rejected before registration or hard reset', async t => {
+  const { worker, record, calls } = await checkoutFixture(t, checkoutTransportFailure);
+  // Discover the same deterministic target without completing its registration.
+  worker.git = async args => {
+    if (args.includes('get-url')) return 'https://github.com/owner/repo.git';
+    if (args.includes('rev-parse')) return 'a'.repeat(40);
+    if (args.includes('worktree')) { fs.mkdirSync(record.cwd); throw new Error('registration interrupted'); }
+    return '';
+  };
+  await assert.rejects(worker.prepare(record), /registration interrupted/);
+  const sentinel = path.join(record.cwd, 'existing-user-file');
+  fs.writeFileSync(sentinel, 'preserve');
+  calls.length = 0;
+  worker.git = async args => {
+    calls.push({ args });
+    if (args.includes('get-url')) return 'https://github.com/owner/repo.git';
+    if (args.includes('rev-parse')) return 'a'.repeat(40);
+    return '';
+  };
+  await assert.rejects(worker.prepare(record), /already exists/);
+  assert.ok(!calls.some(call => call.args.includes('worktree') || call.args[0] === 'reset'));
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'preserve');
+});
+
+test('explicit retry archives the failed attempt and clears its completion status', async t => {
+  const worker = new Worker(fixture(t));
+  await worker.initialize();
+  const record = { task: queuedTask(), status: 'failed', completionStatus: 'failed', attempt: 1,
+    threadId: 'old-thread', cwd: 'old-checkout', error: checkoutTransportFailure };
+  worker.state.tasks[record.task.taskKey] = record;
+  worker.retry(record.task.taskKey);
+  assert.equal(record.status, 'queued');
+  assert.equal(record.completionStatus, undefined);
+  assert.equal(record.threadId, undefined);
+  assert.equal(record.error, undefined);
+  assert.equal(record.history.length, 1);
+  assert.equal(record.history[0].status, 'failed');
+  assert.equal(record.history[0].threadId, 'old-thread');
+  assert.equal(record.history[0].cwd, 'old-checkout');
+  assert.equal(record.history[0].error, checkoutTransportFailure);
 });
