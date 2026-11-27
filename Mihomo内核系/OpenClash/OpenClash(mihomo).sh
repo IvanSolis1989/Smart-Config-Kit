@@ -2,7 +2,7 @@
 . /usr/share/openclash/log.sh
 
 # ============================================================================
-# Clash Smart v6.0.22-oc-normal.20 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
+# Clash Smart v6.0.22-oc-normal.21 — OpenClash 覆写脚本（非 Smart 内核 / url-test 区域组）
 # Build: 2026-11-27
 # ============================================================================
 # 定位：与同目录 OpenClash(mihomo-smart).sh 规则 100% 等价的「非 Smart 内核」版本。
@@ -26,7 +26,7 @@
 
 
 
-VERSION_TAG="v6.0.22-oc-normal.20"
+VERSION_TAG="v6.0.22-oc-normal.21"
 CONFIG_FILE="$1"
 LOG_FILE="/tmp/openclash.log"
 SCKI_DEFAULT_HEALTH_CHECK_PROFILE="standard"
@@ -1907,7 +1907,7 @@ cat > "$RUBY_SCRIPT" << 'RUBY_EOF'
 require 'yaml'
 require 'digest'
 
-VERSION = "v6.0.22-oc-normal.20"
+VERSION = "v6.0.22-oc-normal.21"
 
 STATUS_LOG = ARGV[2]
 def status(msg); File.open(STATUS_LOG, 'a') { |f| f.puts(msg) }; end
@@ -2960,7 +2960,7 @@ smart_groups << make_smart_group("🏡 全球家宽", health_profile: health_pro
   smart_groups << make_smart_group(home_name, health_profile: health_profile, proxies_filter_mode: :explicit, explicit_proxies: home_members) unless home_members.empty?
 end
 
-global_candidates = ["♻️ 全球自动"] + ["🇭🇰 香港节点","🇹🇼 台湾节点","🇸🇬 狮城节点","🇯🇵 日韩节点","🌏 亚太节点","🇺🇸 美国节点","🇪🇺 欧洲节点","🌎 美洲节点","🌍 非洲节点","🌏 其他节点"]
+global_candidates = ["♻️ 全球自动"] + ["🇭🇰 香港节点","🇹🇼 台湾节点","🇸🇬 狮城节点","🇯🇵 日韩节点","🌏 亚太节点","🇺🇸 美国节点","🇪🇺 欧洲节点","🌎 美洲节点","🌍 非洲节点","🌏 其他节点"] + ["🏡 全球家宽","🏡 香港家宽","🏡 台湾家宽","🏡 狮城家宽","🏡 日韩家宽","🏡 亚太家宽","🏡 美国家宽","🏡 欧洲家宽","🏡 美洲家宽","🏡 非洲家宽","🏡 其他家宽"]
 active_groups = smart_groups.map { |group| group["name"] }
 global_candidates.select! { |name| active_groups.include?(name) }
 global_candidates = ["REJECT"] if global_candidates.empty?

@@ -13,9 +13,9 @@ Import native QX routing configuration, enter your node subscription, then check
 
 [Preparation](#before-start) · [Download](#download) · [Import](#import) · [Settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Reference](#reference)
 
-Open `🌍 全球节点` to choose `♻️ 全球自动` or a regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)
+Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or residential regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)
 
-> File: `QuantumultX.conf` · **v6.0.22-QX.16** (Build 2026-11-27)
+> File: `QuantumultX.conf` · **v6.0.22-QX.17** (Build 2026-11-27)
 > 22 regional groups (11 all-node + 11 residential) and 33 service groups, following the Clash Party v6.0.22 routing baseline.
 
 <a id="before-start"></a>

@@ -573,8 +573,8 @@ function validateGroups(target, output, record) {
   const global = groupsByName.get(GLOBAL_SELECTOR.name);
   const automatic = groupsByName.get(GLOBAL_SELECTOR.automatic);
   record.expectEqual(global && global.type, 'select', 'global entry is a selector');
-  record.expectArrayEqual(global && global.proxies || [], [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions],
-    'global selector defaults to automatic and offers ordinary regions in order');
+  record.expectArrayEqual(global && global.proxies || [], [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions, ...GLOBAL_SELECTOR.residential],
+    'global selector defaults to automatic and offers ordinary regions then residential groups');
   record.expectArrayEqual(automatic && automatic.proxies || [], [...proxyNames], 'global automatic tests all eligible fixture nodes directly');
   if (target.id !== 'flclash') {
     const deviceGroup = groupsByName.get(PARTY_ZEROTIER.groupName);

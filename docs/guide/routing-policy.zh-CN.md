@@ -43,6 +43,8 @@
 
 Clash Party Normal、FlClash、CMFA、OpenClash Normal 与 Stash 使用 url-test。Clash Party Smart、OpenClash Smart 保留 Smart / LightGBM。Shadowrocket、Surge、Loon、Quantumult X 和 Egern 使用各自原生选择与自动策略，Egern 的全球自动保留 smart。Meow 原生 YAML 与 AEROVE Lite 候选也包含该入口，App 完整导入与连接验收仍按各客户端教程确认。
 
+候选按固定顺序排列，先为全球自动，再为香港、台湾、狮城、日韩、亚太、美国、欧洲、美洲、非洲、其他地区，最后为全球家宽及相同地区顺序的家宽组。脚本只加入实际创建的候选；无家宽节点时省略相应家宽组。无合格节点时，Mihomo JS 的全球入口仍指向 REJECT。静态模板保留各平台既有空组行为，选择前需检查成员。全球自动仍为默认首项，已存在的地区组名和业务组候选兼容原有选择。
+
 全球入口本身采用手动选择，全球自动与地区组沿用现有测速参数。Mihomo 采用现有 interval 与 lazy 设置，额外探测量取决于当前激活的组及订阅 provider 的健康检查。业务组继续独立选择地区或家宽出口；全球入口的选择作用于引用它的业务出口。
 
 SingBox 模板使用静态 outbounds 接入方式。Karing 分流文件将代理动作交给 App 当前选择的节点，节点组由 App 管理。v2rayN Xray 与 Passwall / Passwall2 产物负责路由和分流，节点选择由其客户端设置完成。

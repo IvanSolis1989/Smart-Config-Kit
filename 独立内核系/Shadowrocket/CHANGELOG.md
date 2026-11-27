@@ -14,6 +14,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.22-SR.15 (2026-11-27)
+
+- Append the existing global and regional residential groups to the global selector after ordinary regions, preserving the automatic default and existing policy choices (#206).
+
 ## v6.0.22-SR.14 (2026-11-27)
 
 - Add a manual `🌍 全球节点` entry containing `♻️ 全球自动` and regional groups. Preserve the automatic group's existing subscription selection and independent service-group choices (#206).

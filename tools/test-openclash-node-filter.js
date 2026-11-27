@@ -273,6 +273,18 @@ for (const target of targets) {
       assert(!(group.proxies || []).some(name => regionGroups.some(candidate => candidate.name === name)), 'automatic pools contain only actual nodes');
     }
 
+
+    files = fixture(temp, 'residential-selector', [makeProxy('HK 家宽'), makeProxy('US residential'), makeProxy('JP ordinary')]);
+    result = execute(script, files);
+    assert.equal(result.status, 0, result.stderr);
+    output = yamlRead(files.config);
+    assert.deepEqual(output['proxy-groups'][0].proxies, [
+      '♻️ 全球自动', '🇭🇰 香港节点', '🇯🇵 日韩节点', '🌏 亚太节点', '🇺🇸 美国节点', '🌎 美洲节点',
+      '🏡 全球家宽', '🏡 香港家宽', '🏡 亚太家宽', '🏡 美国家宽', '🏡 美洲家宽',
+    ]);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🏡 香港家宽').proxies, ['HK 家宽']);
+    assert.deepEqual(output['proxy-groups'].find(g => g.name === '🏡 美国家宽').proxies, ['US residential']);
+
     files = fixture(temp, 'all-info', [makeProxy('剩余流量 1G')]);
     result = execute(script, files);
     assert.equal(result.status, 0, `${target}: all info failed ${result.stderr}`);

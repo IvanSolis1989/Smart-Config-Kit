@@ -1,5 +1,5 @@
 # ================================================================
-# Clash Smart v6.0.22-cmfa.17 - CMFA (Clash Meta for Android) 配置
+# Clash Smart v6.0.22-cmfa.18 - CMFA (Clash Meta for Android) 配置
 # Build: 2026-11-27
 # 架构：proxy-providers 订阅 + 22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules
 # 规则源：rulesets/source/routing-graph.js v6.0.22；客户端基线：Clash Party v6.0.22
@@ -241,6 +241,17 @@ proxy-groups:
   - '🌎 美洲节点'
   - '🌍 非洲节点'
   - '🌏 其他节点'
+  - '🏡 全球家宽'
+  - '🏡 香港家宽'
+  - '🏡 台湾家宽'
+  - '🏡 狮城家宽'
+  - '🏡 日韩家宽'
+  - '🏡 亚太家宽'
+  - '🏡 美国家宽'
+  - '🏡 欧洲家宽'
+  - '🏡 美洲家宽'
+  - '🏡 非洲家宽'
+  - '🏡 其他家宽'
 - type: url-test
   exclude-type: 'direct|reject'
   empty-fallback: REJECT

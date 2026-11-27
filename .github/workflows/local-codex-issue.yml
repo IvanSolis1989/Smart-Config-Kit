@@ -41,11 +41,19 @@ jobs:
           )) ||
           (github.event.action == 'labeled' && github.event.label.name == 'codex')
         )) ||
-        (github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/codex') && (
+        (github.event_name == 'issue_comment' && ((startsWith(github.event.comment.body, '/codex') && (
           github.event.comment.author_association == 'OWNER' ||
           github.event.comment.author_association == 'MEMBER' ||
           github.event.comment.author_association == 'COLLABORATOR'
-        )) ||
+        )) || (
+          github.event.issue.state == 'open' &&
+          github.event.comment.user.id > 0 &&
+          github.event.comment.user.id == github.event.issue.user.id &&
+          github.event.sender.id == github.event.issue.user.id &&
+          github.event.comment.user.type == 'User' && github.event.sender.type == 'User' &&
+          !startsWith(github.event.comment.body, '/') &&
+          !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+        ))) ||
         github.event_name == 'workflow_dispatch'
       )
     runs-on: ubuntu-latest
@@ -64,8 +72,16 @@ jobs:
           REPO: ${{ github.repository }}
           ACTOR: ${{ github.actor }}
           INPUT_ISSUE_NUMBER: ${{ inputs.issue_number }}
+          AUTHOR_FOLLOWUP: ${{ github.event_name == 'issue_comment' && github.event.issue.state == 'open' && github.event.comment.user.id > 0 && github.event.comment.user.id == github.event.issue.user.id && github.event.sender.id == github.event.issue.user.id && github.event.comment.user.type == 'User' && github.event.sender.type == 'User' && !startsWith(github.event.comment.body, '/') && !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) }}
         run: |
           if [ "$EVENT_NAME" = "issues" ] && { [ "$EVENT_ACTION" = "opened" ] || [ "$EVENT_ACTION" = "reopened" ]; }; then
+            echo "authorized=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # This permits only metadata production. The tested producer validates
+          # the event again and can emit read-only followup mode for the author.
+          if [ "$AUTHOR_FOLLOWUP" = "true" ]; then
             echo "authorized=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi

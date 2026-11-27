@@ -1,4 +1,4 @@
-# Meow 原生 YAML v6.0.22-meow.6 | Build: 2026-11-27
+# Meow 原生 YAML v6.0.22-meow.7 | Build: 2026-11-27
 # 架构：全球选择入口 + 22 provider-filter 测速组 + 33 业务组；融合 MRS / residual YAML
 # 规则源：rulesets/source/routing-graph.js v6.0.22
 # 生成：node tools/generate-meow.js（禁止手工改生成物）
@@ -157,6 +157,17 @@ proxy-groups:
   - "\U0001F30E 美洲节点"
   - "\U0001F30D 非洲节点"
   - "\U0001F30F 其他节点"
+  - "\U0001F3E1 全球家宽"
+  - "\U0001F3E1 香港家宽"
+  - "\U0001F3E1 台湾家宽"
+  - "\U0001F3E1 狮城家宽"
+  - "\U0001F3E1 日韩家宽"
+  - "\U0001F3E1 亚太家宽"
+  - "\U0001F3E1 美国家宽"
+  - "\U0001F3E1 欧洲家宽"
+  - "\U0001F3E1 美洲家宽"
+  - "\U0001F3E1 非洲家宽"
+  - "\U0001F3E1 其他家宽"
 - name: "♻️ 全球自动"
   type: url-test
   use:

@@ -16,6 +16,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-flclash.29 (2026-11-27)
+
+- Issue #206 includes existing global and regional residential groups after the ordinary regional choices in the global selector. Global automatic remains first and absent residential groups are omitted.
+
 ## v6.0.22-flclash.28 (2026-11-27)
 
 - Issue #206 adds a global selector with global automatic selection first, followed by available regional groups. The automatic group reuses all-node testing and preserves empty-input rejection, regional classification and independent service exits.

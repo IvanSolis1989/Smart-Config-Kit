@@ -19,7 +19,7 @@ Apply a JS override to a Mihomo node subscription to generate consistent groups,
 [Optional service profiles and local parameters](../../docs/configuration.md): the complete configuration remains the default. To filter Hong Kong nodes from AI Service, choose **Exclude** under **Hong Kong nodes for AI services** and reload the exported override.
 
 
-In **🌍 全球节点**, choose **♻️ 全球自动** to select automatically across all eligible nodes, or choose an available regional group for automatic routing within that region. Regions absent from the subscription are omitted. Smart retains Smart / LightGBM, while Normal uses url-test. Service groups can still select their own regional exits.
+In **🌍 全球节点**, choose **♻️ 全球自动** to select automatically across all eligible nodes, or choose an available regional or residential group for automatic routing within that group. Candidates are ordered as global automatic, ordinary regions, global residential and regional residential groups. Only groups created from the subscription are listed. Smart retains Smart / LightGBM, while Normal uses url-test. Service groups can still select their own regional exits.
 
 ## Before you start: client and core
 

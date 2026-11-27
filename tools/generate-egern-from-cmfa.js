@@ -27,7 +27,7 @@ const SCKI_BASE = SCKI_REPOSITORY_BASE;
 const ASSET_REVISION = SOURCE_GRAPH_VERSION;
 const META_GEOSITE_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite';
 const META_GEOIP_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip';
-const EGERN_VERSION = 'v6.0.22-egern.15';
+const EGERN_VERSION = 'v6.0.22-egern.16';
 const BUILD_DATE = '2026-11-27';
 const FETCH_CONCURRENCY = 3;
 const MIHOMO_MRS_BASE_PATH = '/rulesets/generated/mihomo-mrs/';
@@ -384,7 +384,7 @@ function projectGlobalSelector(body) {
   if (!automatic) throw new Error('Missing seeded Egern global automatic group');
   const automaticBlock = automatic[0].replace(/name: [^\n]+/, `name: ${GLOBAL_SELECTOR.automatic}`);
   const names = new Set(blocks.map(match => match[1]));
-  const members = [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions.filter(name => names.has(name))];
+  const members = [GLOBAL_SELECTOR.automatic, ...[...GLOBAL_SELECTOR.regions, ...GLOBAL_SELECTOR.residential].filter(name => names.has(name))];
   const selector = `  - select:\n      name: ${GLOBAL_SELECTOR.name}\n      policies: [${members.join(', ')}]\n`;
   let inserted = false;
   return body.replace(groupPattern, (block, name) => {

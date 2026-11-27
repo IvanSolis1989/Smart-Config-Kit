@@ -13,6 +13,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.22-stash.18 (2026-11-27)
+
+- Include global and regional residential choices after the ordinary regions in the global selector, preserving global automatic as the first candidate and existing regional selection behavior.
+
 ## v6.0.22-stash.17 (2026-11-27)
 
 - Issue #206 adds a global selection entry with global automatic routing and regional choices. Existing test parameters and independent service exits are preserved. Generated from the CMFA group topology.

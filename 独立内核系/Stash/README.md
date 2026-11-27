@@ -13,14 +13,14 @@ YAML configuration for Stash iOS / macOS / tvOS. Replace the subscription in a l
 
 [Before you start](#before-start) · [Download](#download) · [Import in order](#import) · [Required settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#reference)
 
-> Configuration: `Stash.yaml` · **v6.0.22-stash.17**(Build 2026-11-27)
+> Configuration: `Stash.yaml` · **v6.0.22-stash.18**(Build 2026-11-27)
 > Generated from CMFA, with 22 automatic regional/residential groups, one global selector and 33 service groups; no Mihomo Smart / LightGBM.
 
 <a id="before-start"></a>
 
 
 
-In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import.
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional or residential group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import. Candidates list global automatic and ordinary regions first, followed by global residential and regional residential groups in the same regional order. Dynamic scripts omit residential groups without members. Static templates retain their platform-specific empty-group behavior. Global automatic stays first, and service groups can continue using their existing regional choices.
 
 ## Before you start
 

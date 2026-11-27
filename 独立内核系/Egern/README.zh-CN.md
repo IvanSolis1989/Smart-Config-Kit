@@ -13,9 +13,9 @@
 
 [开始前](#before-start) · [获取配置](#download) · [顺序导入](#import) · [必要设置](#settings) · [验收](#verification) · [常见问题](#faq) · [进阶与参考](#reference)
 
-在 `🌍 全球节点` 中选择 `♻️ 全球自动` 或指定地区组。首项继续对符合原有筛选条件的订阅节点自动选择，沿用 Egern 原生 smart，地区组继续选择各自成员，各业务组仍可独立选择出口。新增一个全球手动入口后共 57 个策略组（含原有节点选择入口）。[策略组参考](https://egernapp.com/docs/configuration/policy_groups/)
+在 `🌍 全球节点` 中选择 `♻️ 全球自动` 或指定普通地区组、家宽组。首项继续对符合原有筛选条件的订阅节点自动选择，沿用 Egern 原生 smart，地区组继续选择各自成员，各业务组仍可独立选择出口。新增一个全球手动入口后共 57 个策略组（含原有节点选择入口）。[策略组参考](https://egernapp.com/docs/configuration/policy_groups/)
 
-> 配置：`Egern.yaml` · **v6.0.22-egern.15**（Build 2026-11-27）
+> 配置：`Egern.yaml` · **v6.0.22-egern.16**（Build 2026-11-27）
 > 22 原生 smart 区域组 + 33 业务组；跟随 Clash Party v6.0.22 分流基线。
 
 <a id="before-start"></a>

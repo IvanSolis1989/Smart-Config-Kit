@@ -16,6 +16,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.22-cmfa.18 (2026-11-27)
+
+- Issue #206 includes global and regional residential groups after the ordinary region candidates in the global selector.
+
 ## v6.0.22-cmfa.17 (2026-11-27)
 
 - Issue #206 adds a global selector with global automatic selection first, followed by available regional groups. Existing automatic and regional selection settings are preserved.

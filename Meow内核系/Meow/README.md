@@ -16,7 +16,7 @@ Official projects: [meow-rs core](https://github.com/meow-rs/meow-rs) · [Androi
 [Optional service profiles and local parameters](../../docs/configuration.md): the complete profile remains the default. Optional projections use separate directories; see the shared guide for runtime parameter support.
 
 
-In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import.
+In **🌍 全球节点**, choose **♻️ 全球自动** for automatic routing across all eligible nodes, or select a regional or residential group. Global automatic and regional groups retain their test parameters, and service groups can select exits independently. Check group members and actual connections after import. Candidates list global automatic and ordinary regions first, followed by global residential and regional residential groups in the same regional order. Dynamic scripts omit residential groups without members. Static templates retain their platform-specific empty-group behavior. Global automatic stays first, and service groups can continue using their existing regional choices.
 
 ## Preparation and file selection
 

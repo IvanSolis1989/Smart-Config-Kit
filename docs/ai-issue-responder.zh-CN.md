@@ -38,6 +38,7 @@
 派单模型固定为 **GPT-6.1 Sol**（`gpt-6.1-sol`），推理强度 **ultra**。配置、线程创建与每轮执行均显式指定；不继承本机默认模型，不静默降档。账号或客户端不支持时任务会报告失败并保留现场。
 
 - 自动入口：新建或重开、带 `question`、`faq`、`help wanted`、`bug`、`enhancement` 或 `documentation` 标签的 Issue。安装前的历史 Issue 不会被自动重放。
+- 作者追问入口：原始真人作者在仍开放、带支持类别标签的 Issue 中新增普通评论，会建立只读 `followup` 任务。使用 GitHub 数字用户 ID 核对作者、评论人与事件发送者，每个评论 ID 对应独立任务 key。自动回复和维护者普通回复会被过滤。worker 重新核对指定评论后可公开答复。需要修改代码时使用下面的维护者入口。
 - 维护者入口：在 Issue 评论中以 `/codex` 开头派单，或添加 `codex` 标签；事件操作者须具有仓库 write/maintain/admin 权限。
 - 手动入口：Actions → **Queue Local Codex Issue Task** → Run workflow → 填写 Issue 编号。`handle` 正常处理，`smoke` 只验收派单及模型响应，不改业务代码、提交或公开回复。
 - 已投递的事件以任务 key 去重；显式再次评论 `/codex` 会建立新的任务。单个仓库由一个本地 worker 串行处理。

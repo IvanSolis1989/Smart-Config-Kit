@@ -16,6 +16,11 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## Global selector and Issue bridge follow-up (2026-11-27)
+
+- Add existing residential groups to the global selector on supported clients. See the [routing guide](docs/guide/routing-policy.md).
+- Local Codex Issue bridge v1.0.7 queues original-reporter follow-ups for read-only review. See the [bridge guide](docs/ai-issue-responder.md).
+
 ## Local Codex Issue bridge v1.0.6 (2026-11-27)
 
 - Recover transient Git transport failures when materializing a new Issue worktree and support explicit retries with an approved local patch.

@@ -7,7 +7,7 @@
 
 # OpenClash import guide
 
-The 🌍 全球节点 selector opens with ♻️ 全球自动 and offers the regional groups. Global automatic selection uses all eligible nodes. Business groups can also select regional exits independently.
+The 🌍 全球节点 selector opens with ♻️ 全球自动 and offers the regional groups, followed by global and regional residential groups. Global automatic selection uses all eligible nodes. Business groups can also select regional exits independently.
 
 
 Deploy a Shell override for an existing node subscription on OpenWrt to generate consistent groups, rules and DNS. **Choose either Smart or Normal.** Complete scripts use the fixed custom-script entry point.

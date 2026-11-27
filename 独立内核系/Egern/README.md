@@ -13,9 +13,9 @@ An importable Egern profile with 22 native smart regional groups and 33 service 
 
 [Before you start](#before-start) · [Download](#download) · [Import in order](#import) · [Required settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced reference](#reference)
 
-Open `🌍 全球节点` to choose `♻️ 全球自动` or a regional group. The first option retains the existing automatic selection of eligible subscription nodes using Egern smart. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 57 groups including the existing node selector. [Policy group reference](https://egernapp.com/docs/configuration/policy_groups/)
+Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or residential regional group. The first option retains the existing automatic selection of eligible subscription nodes using Egern smart. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 57 groups including the existing node selector. [Policy group reference](https://egernapp.com/docs/configuration/policy_groups/)
 
-> Configuration: `Egern.yaml` · **v6.0.22-egern.15**(Build 2026-11-27)
+> Configuration: `Egern.yaml` · **v6.0.22-egern.16**(Build 2026-11-27)
 > 22 native smart regional groups + 33 service groups, following the Clash Party v6.0.22 routing baseline.
 
 <a id="before-start"></a>

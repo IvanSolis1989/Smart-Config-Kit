@@ -102,6 +102,57 @@ function queuedTask() {
     createdAt: '2026-11-01T01:00:00.000Z', actor: 'owner',
     source: { eventName: 'issues', runId: '123', runAttempt: 1, headSha: 'a'.repeat(40) } };
 }
+test('author follow-up reviews the exact original comment and stores a local draft without publishing', async t => {
+  const config = fixture(t);
+  const base = queuedTask();
+  const task = { ...base, taskKey: 'issue-1-comment-42', mode: 'followup', actor: 'reporter',
+    source: { ...base.source, eventName: 'issue_comment', commentId: '42' } };
+  const reporter = { id: 700, login: 'reporter', type: 'User' };
+  const issue = { number: 1, html_url: task.issueUrl, title: '配置问题', body: '请问配置如何调整。',
+    state: 'open', labels: [{ name: 'enhancement' }], user: reporter };
+  const comment = { id: 42, issue_url: 'https://api.github.com/repos/owner/repo/issues/1',
+    user: reporter, author_association: 'NONE', body: '可以把家宽加入入口吗？' };
+  let calls = 0;
+  let outcome = 'answered';
+  const worker = new Worker(config, {
+    command: async (bin, args) => {
+      assert.equal(bin, 'gh'); assert.equal(args[0], 'api');
+      if (args[1] === 'repos/owner/repo/issues/1') return { stdout: JSON.stringify(issue) };
+      if (args[1] === 'repos/owner/repo/issues/comments/42') return { stdout: JSON.stringify(comment) };
+      throw new Error('Unexpected GitHub operation');
+    },
+    runCodexTask: async options => {
+      calls++;
+      assert.equal(options.readOnly, true);
+      assert.ok(options.prompt.includes('可以把家宽加入入口吗？'));
+      await options.onThread('read-only-thread');
+      return { status: 'completed', text: JSON.stringify({ outcome, summary: 'Residential follow-up', reply: '需要维护者复核该变更。' }) };
+    },
+  });
+  worker.prepare = async record => { record.cwd = config.repositoryPath; record.baseSha = base.source.headSha; };
+  worker.git = async args => { assert.deepEqual(args, ['rev-parse', 'HEAD']); return base.source.headSha; };
+  worker.changes = async () => [];
+  worker.reply = async () => assert.fail('Author task must never post a public reply');
+  await worker.initialize();
+  const record = { task, status: 'queued' };
+  await worker.process(record);
+  assert.equal(record.status, 'completed');
+  assert.equal(record.threadId, 'read-only-thread');
+  assert.equal(record.draftReply, '需要维护者复核该变更。');
+
+  outcome = 'ready';
+  const mutating = { task, status: 'queued' };
+  await worker.process(mutating);
+  assert.equal(mutating.status, 'failed');
+  assert.match(mutating.error, /unpublishable change/);
+  await assert.rejects(worker.publish(mutating, {}), /cannot publish code/);
+
+  comment.issue_url = 'https://api.github.com/repos/owner/repo/issues/2';
+  const wrongIssue = { task, status: 'queued' };
+  await worker.process(wrongIssue);
+  assert.match(wrongIssue.error, /no longer matches/);
+  assert.equal(calls, 2);
+});
 test('repeated polls deduplicate a durable artifact and bind it to the actual workflow run', async t => {
   const config = fixture(t); const task = queuedTask();
   const worker = new Worker(config, { command: async (cmd, args) => {

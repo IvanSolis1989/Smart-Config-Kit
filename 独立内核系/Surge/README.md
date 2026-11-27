@@ -13,9 +13,9 @@ Native routing configuration for Surge iOS and Surge Mac. Import configuration a
 
 [Preparation](#before-start) · [Download](#download) · [Import](#import) · [Settings](#settings) · [Verification](#verification) · [Troubleshooting](#faq) · [Reference](#reference)
 
-Open `🌍 全球节点` to choose `♻️ 全球自动` or a regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://manual.nssurge.com/policy-groups/overview.html)
+Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or residential regional group. The first option retains the existing automatic selection of eligible subscription nodes. Regional groups continue to choose their own members, and each service group retains its independent upstream choices. The global entry adds one manual selector, bringing the total to 56 groups. [Policy group reference](https://manual.nssurge.com/policy-groups/overview.html)
 
-> File: `Surge.conf` · **v6.0.22-Surge.16** (Build 2026-11-27)
+> File: `Surge.conf` · **v6.0.22-Surge.17** (Build 2026-11-27)
 > 22 regional groups (11 all-node + 11 residential) + 33 service groups, following Clash Party v6.0.22 routing.
 
 <a id="before-start"></a>

@@ -1228,13 +1228,13 @@ function checkGlobalSelector(record, id, groups, automaticType) {
   const byName = new Map(groups.map(group => [group.name, group]));
   const global = byName.get(GLOBAL_SELECTOR.name);
   const automatic = byName.get(GLOBAL_SELECTOR.automatic);
-  const expected = [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions];
+  const expected = [GLOBAL_SELECTOR.automatic, ...GLOBAL_SELECTOR.regions, ...GLOBAL_SELECTOR.residential];
   const actual = global?.proxies;
   record.check(`${id}.global-selector`, global?.type === 'select'
     && Array.isArray(actual) && actual.length === expected.length
     && expected.every((name, index) => actual[index] === name && byName.has(name))
     && automatic?.type === automaticType && !automatic.proxies?.includes(GLOBAL_SELECTOR.name),
-  { message: 'Global selector must default to its automatic group, followed by the existing regional groups', value: actual });
+  { message: 'Global selector must offer automatic selection, ordinary regions, then residential groups', value: actual });
 }
 
 function makeRecorder() {

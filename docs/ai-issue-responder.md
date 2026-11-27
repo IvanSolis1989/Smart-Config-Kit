@@ -42,6 +42,7 @@ Repository Actions Variable `LOCAL_CODEX_ENABLED` selects the main backend. When
 Dispatch is fixed to **GPT-6.1 Sol** (`gpt-6.1-sol`) with **ultra** reasoning. Configuration, thread creation, and every execution specify both explicitly. Local defaults are not inherited and no silent downgrade occurs. Unsupported accounts/clients produce a failed task with its state retained.
 
 - Automatic entry: newly opened/reopened issues carrying `question`, `faq`, `help wanted`, `bug`, `enhancement`, or `documentation`. Historical issues predating installation are not replayed automatically.
+- Author follow-up entry: an ordinary new comment by the original human author on an open issue with a supported category creates a read-only `followup` task. GitHub numeric user IDs bind the author, comment and sender. Each comment ID has its own task key. Automated replies and plain maintainer replies are excluded. The worker rechecks the exact comment and may answer publicly. Code changes require the maintainer entry below.
 - Maintainer entry: comment beginning `/codex`, or add the `codex` label. The event actor must have repository write/maintain/admin permission.
 - Manual entry: Actions → **Queue Local Codex Issue Task** → Run workflow → enter the issue number. `handle` performs normal processing; `smoke` validates dispatch and model response only, without business-code changes, commits, or public replies.
 - Delivered events are deduplicated by task key. An explicit new `/codex` comment creates a new task. One local worker processes a repository serially.

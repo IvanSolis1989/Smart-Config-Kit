@@ -1,6 +1,6 @@
 ---
 # ======================================================================
-# Egern Smart v6.0.22-egern.15 - Egern Profile
+# Egern Smart v6.0.22-egern.16 - Egern Profile
 # Build: 2026-11-27
 # Baseline: Clash Party v6.0.22
 # Architecture: one global selector + 22 smart region groups + 33 business groups + fused CMFA rule order.
@@ -142,7 +142,7 @@ policy_groups:
       filter: "(?i)非洲|南非|埃及|尼日利亚|肯尼亚|ZA|EG|NG|KE|Africa"
   - select:
       name: 🌍 全球节点
-      policies: [♻️ 全球自动, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇸🇬 狮城节点, 🇯🇵 日韩节点, 🌏 亚太节点, 🇺🇸 美国节点, 🇪🇺 欧洲节点, 🌎 美洲节点, 🌍 非洲节点, 🌏 其他节点]
+      policies: [♻️ 全球自动, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇸🇬 狮城节点, 🇯🇵 日韩节点, 🌏 亚太节点, 🇺🇸 美国节点, 🇪🇺 欧洲节点, 🌎 美洲节点, 🌍 非洲节点, 🌏 其他节点, 🏡 全球家宽, 🏡 香港家宽, 🏡 台湾家宽, 🏡 狮城家宽, 🏡 日韩家宽, 🏡 亚太家宽, 🏡 美国家宽, 🏡 欧洲家宽, 🏡 美洲家宽, 🏡 非洲家宽, 🏡 其他家宽]
   - smart:
       name: ♻️ 全球自动
       policies: [Subscribe]

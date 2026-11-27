@@ -66,7 +66,7 @@ async function waitForChildExit(child) {
  */
 async function runCodexTask({ command, args = [], cwd, prompt, title,
   timeoutMs = DEFAULT_TIMEOUT_MS, rpcTimeoutMs = DEFAULT_RPC_TIMEOUT_MS,
-  onThread = async () => {}, onEvent = () => {}, outputSchema, smoke = false, signal,
+  onThread = async () => {}, onEvent = () => {}, outputSchema, smoke = false, readOnly = smoke, signal,
   model = 'gpt-6.1-sol', effort = 'ultra' } = {}) {
   if (typeof command !== 'string' || !command.trim()) throw new TypeError('command is required');
   if (!Array.isArray(args) || args.some(arg => typeof arg !== 'string')) throw new TypeError('args must be strings');
@@ -231,7 +231,7 @@ async function runCodexTask({ command, args = [], cwd, prompt, title,
       // SandboxMode uses kebab-case; SandboxPolicy.type below uses camelCase.
       // Verified with the installed Codex App's generate-json-schema output.
       cwd, model, config: { model_reasoning_effort: effort },
-      approvalPolicy: 'never', sandbox: smoke ? 'read-only' : 'workspace-write', ephemeral: false
+      approvalPolicy: 'never', sandbox: readOnly ? 'read-only' : 'workspace-write', ephemeral: false
     }));
     threadId = started?.thread?.id;
     if (typeof threadId !== 'string' || !threadId) throw new Error('Codex thread/start returned no thread id');
@@ -246,7 +246,7 @@ async function runCodexTask({ command, args = [], cwd, prompt, title,
     turnSubmitted = true;
     const response = await guard(request('turn/start', {
       threadId, model, effort, input: [{ type: 'text', text: prompt }], approvalPolicy: 'never',
-      sandboxPolicy: smoke ? { type: 'readOnly' } : { type: 'workspaceWrite', writableRoots: [cwd], networkAccess: true },
+      sandboxPolicy: readOnly ? { type: 'readOnly' } : { type: 'workspaceWrite', writableRoots: [cwd], networkAccess: true },
       ...(outputSchema === undefined ? {} : { outputSchema })
     }));
     if (typeof response?.turn?.id !== 'string' || !response.turn.id) throw new Error('Codex turn/start returned no turn id');

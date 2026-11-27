@@ -31,9 +31,9 @@
   },
   "inputs": {
     "providers_sha256": "e28c09e895e0893404a35fa2ba6148c0df28ab1378efc7cd1551108abcc10d47",
-    "fused_manifest_sha256": "87fcf982a13efaa837f04b5e1e421d5d3a663232ed4fbb3626bf88cadbeebe95",
+    "fused_manifest_sha256": "a28c1cd51697dac9ca0dfde0bca09b4d897d2ff85646308ed86e40f2b81d7288",
     "files": {
-      "rulesets/source/routing-graph.js": "74da5762ab0421a1331d57b5b1a134fce58646749dfd837f6008cb151661d7cf",
+      "rulesets/source/routing-graph.js": "0b1e906c1a23006e6ed61d42834a81d1f6b75a3ffa32ebc28455ac57afc3b4bb",
       "tools/lib/aerove-rule-assets.js": "d40f797462f21c90ab1925ea2980c6c0bdb8236baf78387701dee0f1bb2b6161",
       "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14"
     }

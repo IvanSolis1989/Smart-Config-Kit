@@ -1,8 +1,8 @@
 # ================================================================
-# Stash Smart v6.0.22-stash.17 - Stash (Clash Premium) 配置
+# Stash Smart v6.0.22-stash.18 - Stash (Clash Premium) 配置
 # Build: 2026-11-27
 # 架构：由 CMFA 自动裁剪生成；22 url-test 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 149 融合 rule-providers / 168 rules（源 525/984）
-# 规则源：rulesets/source/routing-graph.js v6.0.22 / 派生：CMFA v6.0.22-cmfa.17
+# 规则源：rulesets/source/routing-graph.js v6.0.22 / 派生：CMFA v6.0.22-cmfa.18
 # 生成：node tools/generate-stash-from-cmfa.js（禁止手工修改 独立内核系/Stash/Stash.yaml）
 # 变更历史：见 `独立内核系/Stash/CHANGELOG.md`
 # 注意：Stash 不支持 Mihomo Smart + LightGBM；本产物使用 url-test 区域组
@@ -144,6 +144,17 @@ proxy-groups:
   - '🌎 美洲节点'
   - '🌍 非洲节点'
   - '🌏 其他节点'
+  - '🏡 全球家宽'
+  - '🏡 香港家宽'
+  - '🏡 台湾家宽'
+  - '🏡 狮城家宽'
+  - '🏡 日韩家宽'
+  - '🏡 亚太家宽'
+  - '🏡 美国家宽'
+  - '🏡 欧洲家宽'
+  - '🏡 美洲家宽'
+  - '🏡 非洲家宽'
+  - '🏡 其他家宽'
 - type: url-test
   url: 'https://www.gstatic.com/generate_204'
   interval: 300

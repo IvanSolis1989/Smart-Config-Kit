@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "version": "v6.0.22-meow.10",
+  "version": "v6.0.22-meow.11",
   "build": "2026-11-27",
   "client": "Meow",
   "kernel": "meow-rs",
@@ -8,25 +8,25 @@
   "source_authority": "rulesets/source/routing-graph.js",
   "queue": "docs/support-queue.md#meow",
   "input_sha256_lf": {
-    "Mihomo内核系/FlClash/FlClash(mihomo).js": "fc683a1123a7186f7c0fc3aa389c8149259b948e5e922407f15ddefe6e23ca2d",
-    "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "660f826662382b0165280518c09922d5989cd8dd45fa00ebd7cd0b2e8182319b",
-    "rulesets/source/routing-graph.js": "74da5762ab0421a1331d57b5b1a134fce58646749dfd837f6008cb151661d7cf",
-    "rulesets/generated/fused/manifest.json": "2479f6753bd57a81a60c95b52ddcf5bb30587d0eaf404a35e02a487c6abcbe11",
-    "tools/generate-meow.js": "d15c9bb5240dfe8cccd7d282c11315b26d7e495ec2cad5a4a36b82f856105482",
+    "Mihomo内核系/FlClash/FlClash(mihomo).js": "ce899652c7cf2e55e6b674872f974f5a76c27205d77825d57c6250ef818637c9",
+    "Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml": "eb95ce5f68f7b5ba076b418aa9a7fd2c9d358b6b03a8f759745280ef9f3ca2f3",
+    "rulesets/source/routing-graph.js": "0b1e906c1a23006e6ed61d42834a81d1f6b75a3ffa32ebc28455ac57afc3b4bb",
+    "rulesets/generated/fused/manifest.json": "805e2839822af1a19f7575053387ec57811957efe588874cb236fe7e7f57f42b",
+    "tools/generate-meow.js": "1b97ae52f369bad52aecfea996dcdfdb1eafd1c4bf4efb75e8593efa9e928e16",
     "tools/lib/meow-native-profile.js": "41a027ba125409aaf9dfe14eb8423adba5d01f7d64f3fb1f125b7dba41f937ed",
     "tools/lib/aerove-rule-assets.js": "d40f797462f21c90ab1925ea2980c6c0bdb8236baf78387701dee0f1bb2b6161",
     "tools/lib/aerove-rule-projection.js": "3ced72d0842c47cce7fcf19acab930e45bfc5018c619f92df768e8ab7c6b2c4b",
     "tools/generate-aerove-rule-assets.js": "1aa8e7baeca8ba4924d4fccf89db6dc3b46721d5f9cb813fa7851663e08d3c14",
-    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "546c948165b78c52c9e3e4f3937efdcc757a80da22f111d8fde7f19b1ca311a7"
+    "Meow内核系/Aerove Lite/rule-assets/manifest.json": "59eb72d58575d692cac9eb6224d78e892cb3d0bb924947d677994025da3533d2"
   },
   "output": {
     "path": "Meow内核系/Aerove Lite/AeroveLite(meow).js",
-    "sha256_lf": "0e5a89d8b5dfa48a764ac4540635bb5336d33c2ddfc65ccdeac86113480fc8a1"
+    "sha256_lf": "f0d315abfee4c5bc8b8ca6fdd4e9249c39e177a2e5fb627e3e8fbb8157cf388a"
   },
   "native_output": {
     "path": "Meow内核系/Meow/Meow(meow).yaml",
-    "version": "v6.0.22-meow.6",
-    "sha256_lf": "aee9d07dc777457f21397074c2173f0b46ea3c4f73e8cb384138037ee56aa3dc",
+    "version": "v6.0.22-meow.7",
+    "sha256_lf": "c0b08e4bd43d1c8414871b35b9a3c15199e0a73dfc3680000cf650ca67080e52",
     "requires_js_host": false
   },
   "aerove_rule_assets": {

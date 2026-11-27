@@ -1,5 +1,5 @@
 // Clash Smart 内核覆写脚本 - SUB-STORE 多机场精细分流版
-// 版本：v6.0.22-dns.28 (2026-11-27)
+// 版本：v6.0.22-dns.29 (2026-11-27)
 // 架构：全球选择入口 + SUB-STORE 多机场融合 + 22 Smart 区域组（11 全部 + 11 家宽）+ 33 业务策略组 + 1 ZeroTier 设备选择组；149 融合 rule-providers / 168 基线 + 4 条 ZeroTier 规则
 // 规则源：rulesets/source/routing-graph.js v6.0.22（同策略规范化与语义去重）
 // 变更历史：见 `Mihomo内核系/Clash Party/CHANGELOG.md`
@@ -8,7 +8,7 @@
 //  版本常量
 // ================================================================
 
-const VERSION = 'v6.0.22-dns.28'
+const VERSION = 'v6.0.22-dns.29'
 const GLOBAL_AUTO = '♻️ 全球自动'
 
 // 受信任的本地订阅适配模式：off | policy | adaptive | hosts-only。
@@ -1789,11 +1789,12 @@ function main(config) {
 
     if (c.ALL.length) {
       var ordinaryRegions = [SMART.HK, SMART.TW, SMART.SG, SMART.JPKR, SMART.APAC, SMART.US, SMART.EU, SMART.AMERICAS, SMART.AFRICA, SMART.OTHER]
+      var residentialRegions = [SMART.GLOBAL_HOME, SMART.HK_HOME, SMART.TW_HOME, SMART.SG_HOME, SMART.JPKR_HOME, SMART.APAC_HOME, SMART.US_HOME, SMART.EU_HOME, SMART.AMERICAS_HOME, SMART.AFRICA_HOME, SMART.OTHER_HOME]
       var createdGroups = new Set(config['proxy-groups'].map(function(group) { return group.name }))
       config['proxy-groups'].push({
         name: SMART.GLOBAL,
         type: 'select',
-        proxies: [GLOBAL_AUTO].concat(ordinaryRegions.filter(function(name) { return createdGroups.has(name) })),
+        proxies: [GLOBAL_AUTO].concat(ordinaryRegions.concat(residentialRegions).filter(function(name) { return createdGroups.has(name) })),
       })
     }
 
