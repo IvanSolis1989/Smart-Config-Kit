@@ -253,12 +253,37 @@ test('AEROVE shard manifests close the release inventory and bind every binary b
   const bytes = 'fixture-mrs-binary';
   const asset = { path: assetPath, bytes: Buffer.byteLength(bytes), sha256: hash(bytes) };
   f.write(assetPath, bytes);
-  f.save(manifestPath, { schema_version: 1, version: 'v1.0.0-meow.4', assets: [asset] });
-  f.save(adapter, { version: 'v1.0.0-meow.4', aerove_rule_assets: { manifest: manifestPath, assets: [asset] } });
+  const assetManifest = { schema_version: 1, version: 'v1.0.0-meow.5', assets: [asset] };
+  const descriptor = { version: 'v1.0.0-meow.9', aerove_rule_assets: { manifest: manifestPath, assets: [asset] } };
+  const bind = () => {
+    f.save(manifestPath, assetManifest);
+    descriptor.input_sha256_lf = { [manifestPath]: hash(f.read(manifestPath)) };
+    f.save(adapter, descriptor);
+  };
+  bind();
   f.git('add', '--', '.'); f.git('commit', '-qm', 'adapter baseline');
   const receipt = f.prepare();
   assert.ok(receipt.currentOutputs.some(row => row.path === assetPath));
   assert.ok(receipt.currentOutputs.some(row => row.path === manifestPath));
+  assert.equal(receipt.changedPaths.length, 0);
+  assetManifest.version = 'v1.0.0-meow.6';
+  f.save(manifestPath, assetManifest);
+  assert.throws(() => f.prepare(), /AEROVE asset manifest hash binding failed/);
+  assetManifest.version = 'v9.0.0-meow.5';
+  bind();
+  assert.throws(() => f.prepare(), /AEROVE asset revision must use the fused baseline version/);
+  assetManifest.version = 'v1.0.0-meow.5';
+  for (const invalid of [
+    { ...asset, path: 'Meow内核系/Aerove Lite/rule-assets/scki-fused-010-ad-domain-part-002.mrs' },
+    { ...asset, bytes: asset.bytes + 1 },
+    { ...asset, sha256: 'f'.repeat(64) },
+  ]) {
+    assetManifest.assets = [invalid];
+    bind();
+    assert.throws(() => f.prepare(), /AEROVE asset inventories differ/);
+  }
+  assetManifest.assets = [asset];
+  bind();
   const orphan = 'Meow内核系/Aerove Lite/rule-assets/orphan.mrs';
   f.write(orphan, 'orphan');
   assert.throws(() => f.prepare(), /Unexpected changed path: Meow内核系\/Aerove Lite\/rule-assets\/orphan\.mrs/);
