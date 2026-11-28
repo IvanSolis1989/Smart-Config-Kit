@@ -271733,7 +271733,6 @@ host, telemetry.enterprise.githubcopilot.com
 host, origin-tracker.individual.githubcopilot.com
 host, telemetry.individual.githubcopilot.com
 host, copilot-telemetry-service.githubusercontent.com
-host, origin-tracker.githubusercontent.com
 host, campaign.gitiho.com
 host, otel.gitkraken.com
 host, ledger-wallet.gitlab.io

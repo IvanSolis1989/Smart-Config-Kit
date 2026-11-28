@@ -45817,8 +45817,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
-          "bytes": 235
+          "sha256": "bce1233065d484b7c0988aa47096361a7192f8991ce2bfe7584d58e927b3c4f8",
+          "bytes": 279
         },
         "source": {
           "id": "scki",
@@ -45841,14 +45841,14 @@
       "conversion": {
         "status": "converted",
         "type_counts": {
-          "domain": 5
+          "domain": 6
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "domain",
             "file": "scki-adfp-ai.mrs",
-            "entries": 5,
+            "entries": 6,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -45859,8 +45859,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-                "bytes": 148
+                "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+                "bytes": 175
               },
               "source": {
                 "id": "repository-local",
@@ -45889,8 +45889,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-                "bytes": 148
+                "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+                "bytes": 175
               },
               "source": {
                 "id": "repository-local",
@@ -52166,7 +52166,7 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 212,
+          "domain": 211,
           "ipcidr": 18,
           "PROCESS-NAME": 10
         },
@@ -52175,7 +52175,7 @@
           {
             "behavior": "domain",
             "file": "szkane-ai-domain.mrs",
-            "entries": 197,
+            "entries": 196,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -52186,8 +52186,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "ef4c8c8a500ea1902f0154d6c394c6443f763bd3aa0de04d9f41e945bd524074",
-                "bytes": 2047
+                "sha256": "66035f2235f95436ca2b2e40f6ac351cbf98d56c7e42609753b5c784ba2583ae",
+                "bytes": 2057
               },
               "source": {
                 "id": "repository-local",
@@ -52216,8 +52216,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "ef4c8c8a500ea1902f0154d6c394c6443f763bd3aa0de04d9f41e945bd524074",
-                "bytes": 2047
+                "sha256": "66035f2235f95436ca2b2e40f6ac351cbf98d56c7e42609753b5c784ba2583ae",
+                "bytes": 2057
               },
               "source": {
                 "id": "repository-local",
@@ -52615,8 +52615,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "b367bcddc9d074976b36362fdea697254cdf6ea9b4f20e026009850759f6dea9",
-          "bytes": 1632
+          "sha256": "9cfe5fa11f021ec413e85d68fcab2c5d585f27b1ede3349b0e18cbeb86877f5e",
+          "bytes": 1523
         },
         "source": {
           "id": "scki",
@@ -52640,7 +52640,7 @@
         "status": "partial",
         "type_counts": {
           "PROCESS-NAME": 8,
-          "domain": 30,
+          "domain": 26,
           "ipcidr": 1
         },
         "reason": null,
@@ -52648,7 +52648,7 @@
           {
             "behavior": "domain",
             "file": "szkane-ciciai-domain.mrs",
-            "entries": 28,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -52659,8 +52659,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "e0f0bb086e4f1c8287a813c8ddd26085ee04ce9de1b2eaeafb57fcc41f8c224a",
-                "bytes": 363
+                "sha256": "c8a46488fc3c5788d9f0fef15e22d108b8b2bbf2998c7dfc80fe4128ce31ca6e",
+                "bytes": 348
               },
               "source": {
                 "id": "repository-local",
@@ -52689,8 +52689,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "e0f0bb086e4f1c8287a813c8ddd26085ee04ce9de1b2eaeafb57fcc41f8c224a",
-                "bytes": 363
+                "sha256": "c8a46488fc3c5788d9f0fef15e22d108b8b2bbf2998c7dfc80fe4128ce31ca6e",
+                "bytes": 348
               },
               "source": {
                 "id": "repository-local",
@@ -52778,7 +52778,7 @@
           {
             "behavior": "classical",
             "file": "szkane-ciciai-classical.yaml",
-            "entries": 10,
+            "entries": 9,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -52789,8 +52789,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "a0e6f06f14e7219afcfb11e56aaea1237c0682aff4e07e1212f63286915ae3e3",
-                "bytes": 314
+                "sha256": "59bec039040d2f00e68a0a36d86d66d358720ff4a6be2683b200552ad4467404",
+                "bytes": 288
               },
               "source": {
                 "id": "repository-local",
@@ -52819,8 +52819,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "a0e6f06f14e7219afcfb11e56aaea1237c0682aff4e07e1212f63286915ae3e3",
-                "bytes": 314
+                "sha256": "59bec039040d2f00e68a0a36d86d66d358720ff4a6be2683b200552ad4467404",
+                "bytes": 288
               },
               "source": {
                 "id": "repository-local",
@@ -116776,8 +116776,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
-          "bytes": 235
+          "sha256": "bce1233065d484b7c0988aa47096361a7192f8991ce2bfe7584d58e927b3c4f8",
+          "bytes": 279
         },
         "source": {
           "id": "scki",
@@ -116800,14 +116800,14 @@
       "conversion": {
         "status": "converted",
         "type_counts": {
-          "domain": 5
+          "domain": 6
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "domain",
             "file": "scki-adfp-ai.mrs",
-            "entries": 5,
+            "entries": 6,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -116818,8 +116818,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-                "bytes": 148
+                "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+                "bytes": 175
               },
               "source": {
                 "id": "repository-local",
@@ -116848,8 +116848,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-                "bytes": 148
+                "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+                "bytes": 175
               },
               "source": {
                 "id": "repository-local",
@@ -123724,7 +123724,7 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 212,
+          "domain": 211,
           "ipcidr": 18,
           "PROCESS-NAME": 10
         },
@@ -123885,7 +123885,7 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 212,
+          "domain": 211,
           "ipcidr": 18,
           "PROCESS-NAME": 10
         },
@@ -123894,7 +123894,7 @@
           {
             "behavior": "domain",
             "file": "szkane-ai-domain.mrs",
-            "entries": 197,
+            "entries": 196,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -123905,8 +123905,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "ef4c8c8a500ea1902f0154d6c394c6443f763bd3aa0de04d9f41e945bd524074",
-                "bytes": 2047
+                "sha256": "66035f2235f95436ca2b2e40f6ac351cbf98d56c7e42609753b5c784ba2583ae",
+                "bytes": 2057
               },
               "source": {
                 "id": "repository-local",
@@ -123935,8 +123935,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "ef4c8c8a500ea1902f0154d6c394c6443f763bd3aa0de04d9f41e945bd524074",
-                "bytes": 2047
+                "sha256": "66035f2235f95436ca2b2e40f6ac351cbf98d56c7e42609753b5c784ba2583ae",
+                "bytes": 2057
               },
               "source": {
                 "id": "repository-local",
@@ -124046,7 +124046,7 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 212,
+          "domain": 211,
           "ipcidr": 18,
           "PROCESS-NAME": 10
         },
@@ -124446,8 +124446,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "b367bcddc9d074976b36362fdea697254cdf6ea9b4f20e026009850759f6dea9",
-          "bytes": 1632
+          "sha256": "9cfe5fa11f021ec413e85d68fcab2c5d585f27b1ede3349b0e18cbeb86877f5e",
+          "bytes": 1523
         },
         "source": {
           "id": "scki",
@@ -124471,7 +124471,7 @@
         "status": "partial",
         "type_counts": {
           "PROCESS-NAME": 8,
-          "domain": 30,
+          "domain": 26,
           "ipcidr": 1
         },
         "reason": null,
@@ -124479,7 +124479,7 @@
           {
             "behavior": "classical",
             "file": "szkane-ciciai-classical.yaml",
-            "entries": 10,
+            "entries": 9,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -124490,8 +124490,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "a0e6f06f14e7219afcfb11e56aaea1237c0682aff4e07e1212f63286915ae3e3",
-                "bytes": 314
+                "sha256": "59bec039040d2f00e68a0a36d86d66d358720ff4a6be2683b200552ad4467404",
+                "bytes": 288
               },
               "source": {
                 "id": "repository-local",
@@ -124520,8 +124520,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "a0e6f06f14e7219afcfb11e56aaea1237c0682aff4e07e1212f63286915ae3e3",
-                "bytes": 314
+                "sha256": "59bec039040d2f00e68a0a36d86d66d358720ff4a6be2683b200552ad4467404",
+                "bytes": 288
               },
               "source": {
                 "id": "repository-local",
@@ -124578,8 +124578,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "b367bcddc9d074976b36362fdea697254cdf6ea9b4f20e026009850759f6dea9",
-          "bytes": 1632
+          "sha256": "9cfe5fa11f021ec413e85d68fcab2c5d585f27b1ede3349b0e18cbeb86877f5e",
+          "bytes": 1523
         },
         "source": {
           "id": "scki",
@@ -124603,7 +124603,7 @@
         "status": "partial",
         "type_counts": {
           "PROCESS-NAME": 8,
-          "domain": 30,
+          "domain": 26,
           "ipcidr": 1
         },
         "reason": null,
@@ -124611,7 +124611,7 @@
           {
             "behavior": "domain",
             "file": "szkane-ciciai-domain.mrs",
-            "entries": 28,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -124622,8 +124622,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "e0f0bb086e4f1c8287a813c8ddd26085ee04ce9de1b2eaeafb57fcc41f8c224a",
-                "bytes": 363
+                "sha256": "c8a46488fc3c5788d9f0fef15e22d108b8b2bbf2998c7dfc80fe4128ce31ca6e",
+                "bytes": 348
               },
               "source": {
                 "id": "repository-local",
@@ -124652,8 +124652,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "e0f0bb086e4f1c8287a813c8ddd26085ee04ce9de1b2eaeafb57fcc41f8c224a",
-                "bytes": 363
+                "sha256": "c8a46488fc3c5788d9f0fef15e22d108b8b2bbf2998c7dfc80fe4128ce31ca6e",
+                "bytes": 348
               },
               "source": {
                 "id": "repository-local",
@@ -124710,8 +124710,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "b367bcddc9d074976b36362fdea697254cdf6ea9b4f20e026009850759f6dea9",
-          "bytes": 1632
+          "sha256": "9cfe5fa11f021ec413e85d68fcab2c5d585f27b1ede3349b0e18cbeb86877f5e",
+          "bytes": 1523
         },
         "source": {
           "id": "scki",
@@ -124735,7 +124735,7 @@
         "status": "partial",
         "type_counts": {
           "PROCESS-NAME": 8,
-          "domain": 30,
+          "domain": 26,
           "ipcidr": 1
         },
         "reason": null,
@@ -137102,11 +137102,11 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "cf8212e1a871a0663efa3cd9b4da9b8bd96115257f4bb1704560b725afb0d587",
-    "bytes": 122125,
+    "sha256": "308c386d80c03ad1f1af341fdf7a6ad0ab2a02318d4e6dea0f3a8edf378ecf5c",
+    "bytes": 122200,
     "text_normalization": "LF",
-    "version": "v6.0.23",
-    "semantic_fingerprint": "d8f8ff1dfce14a99699396543d936158490a8c2cb3846547c741c5b77bec2586"
+    "version": "v6.0.24",
+    "semantic_fingerprint": "4594fc2e206ceec53b2e5bf38a550e717b61798d8bea9c630b397d772b15def0"
   },
   "registry": {
     "path": "rulesets/source/upstream-sources.json",
@@ -137117,14 +137117,20 @@
   "generators": [
     {
       "path": "tools/sync-mihomo-mrs-rule-providers.js",
-      "sha256": "99d13558fb4992930bb62d2fff31799a3f0e134ab4987287c557477ed5512ff3",
-      "bytes": 30355,
+      "sha256": "e8d59e4d3070d1a425ef7c78c7a4e0d62b190bc61ee42b05c26011ab3eba94ac",
+      "bytes": 27064,
       "text_normalization": "LF"
     },
     {
       "path": "tools/build-fused-rule-sets.js",
-      "sha256": "6361c46b5338c1e0a4f31d4870cd9cbe03a4205f8b639cb95ceb5b7ae64af554",
-      "bytes": 78897,
+      "sha256": "d2e924ce093ba1c261f16713f26a9626319a28b73c68e7dda9c8239dcb769b64",
+      "bytes": 74542,
+      "text_normalization": "LF"
+    },
+    {
+      "path": "tools/lib/official-kernel.js",
+      "sha256": "01234f32f29afad89aa3f58db044fe54a37d5a5eded2a3da6a0fed979c67c504",
+      "bytes": 6179,
       "text_normalization": "LF"
     },
     {
@@ -137147,8 +137153,8 @@
     },
     {
       "path": "tools/refresh-rule-quality.js",
-      "sha256": "2e5e7c0b9ada032cf2015ddc2f49debb59b410116b86d6cc638c3e3bc7a52e73",
-      "bytes": 13121,
+      "sha256": "7381a166de6b7901100cf9936ccb10da0e07924870cb28e3b2efa608506353f5",
+      "bytes": 13153,
       "text_normalization": "LF"
     },
     {
@@ -137183,7 +137189,7 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "5f202ab3a8e090bd9afe5288960fd035190d576e11f7976d31efa1f53c6ba63d",
+      "sha256": "bc4dd217b5bea879e3d3fb7c7bf8f312b4888a340f4546bfaf974ba83cf25db9",
       "bytes": 9052,
       "text_normalization": "LF"
     },
@@ -137195,25 +137201,25 @@
     },
     {
       "path": "tools/generate-egern-from-cmfa.js",
-      "sha256": "1533cc3aecf16aebc09dba98f77bce027f3a6340404a930481abf29d2d2213e4",
+      "sha256": "70047506ba114658cb036319bb96aff20a7aee514bfa4d2ea3a1037ff721b41a",
       "bytes": 53532,
       "text_normalization": "LF"
     },
     {
       "path": "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "773a504a54f8c0ed1ae44d0bcfcfcd2a924a011d588408233dfd2513fa8e449b",
-      "bytes": 28958,
+      "sha256": "8518f40a7d76b0f60dc03dfcef275d8dfc4fd158ce5eeaaef2620ea6602a48c2",
+      "bytes": 30006,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "3875f38b09edad8a2e12ab5d26886af42d388c6ae5a0a4b63f1e2364a3774836",
+      "sha256": "af48e43a23cab337358806e8304557f294c354341efee0a2e7d303f64d236f8d",
       "bytes": 28063,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-karing.js",
-      "sha256": "d95edf8ef8a910fda79b446f4b60bf7b0a518385f5b95ac1182fbd6e3bd1d535",
+      "sha256": "7cbba1ad1c9c7fe90fae73ca23ef42122ef122938edf451ceb53a62d651df292",
       "bytes": 24321,
       "text_normalization": "LF"
     },
@@ -137256,8 +137262,8 @@
   ],
   "mrs_manifest": {
     "path": "rulesets/generated/mihomo-mrs/manifest.json",
-    "sha256": "1ea75c00ecf679a357c3af888e3d48c7e82f6f4e9cb0c02ce4e3ecdd5a179f0d",
-    "bytes": 1534201,
+    "sha256": "8e448dc4364314587a82266a6588357c0fc160faedc80f91ccfb844aa0954d6e",
+    "bytes": 1534200,
     "text_normalization": "LF"
   },
   "fused_inputs": [],
@@ -137282,8 +137288,8 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-004-ai.list",
-      "sha256": "a19e0e99ae840f56a6ddbef77877393c40a52e540493f3801a4ebcc494c03b23",
-      "bytes": 155,
+      "sha256": "e44e9a842060a15ba0ed32387c825586924aa6f0361b56124be3b1a0a971bb05",
+      "bytes": 199,
       "text_normalization": "LF"
     },
     {
@@ -137318,8 +137324,8 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-010-ad.list",
-      "sha256": "321a71c03dce0b2ec13633e53cfa9e481d9e0727685d389703ab71e8186e9dc5",
-      "bytes": 12467127,
+      "sha256": "7a4b1ec0607caf936ec65ca93aa2a453199991c58b2aa8ad4671e6fdd4381a5c",
+      "bytes": 12467083,
       "text_normalization": "LF"
     },
     {
@@ -137456,8 +137462,8 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-033-ai.list",
-      "sha256": "eddf68b7d7159d197ca6bb3afd920174a2692f86ba929f0906c9e575675103c0",
-      "bytes": 2935,
+      "sha256": "a469d01dde8f8b64b9bf8cb00cda11810a1c06dba611c9925281d84644f12212",
+      "bytes": 2883,
       "text_normalization": "LF"
     },
     {
@@ -137750,8 +137756,8 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-004-ai.yaml",
-      "sha256": "be0678a0dfab4b476907eea8c57a50dd6513bc3f4eda801aab5c119fae3421c2",
-      "bytes": 208,
+      "sha256": "501a5a76e0845bd5d44bc2764c96f4016ce4127f1ff205f64e892e78a1139182",
+      "bytes": 251,
       "text_normalization": "LF"
     },
     {
@@ -137786,8 +137792,8 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-010-ad.yaml",
-      "sha256": "0c1cdef98c33f006818fb51e4454ee7318e86c0197f789127cb604e46db12504",
-      "bytes": 10381270,
+      "sha256": "7e6021e01c105ab99ce47256517a628df145b859595524f1e5707cfa1692abd2",
+      "bytes": 10381227,
       "text_normalization": "LF"
     },
     {
@@ -137924,8 +137930,8 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-033-ai.yaml",
-      "sha256": "1f6e92f04cf47ab71732960823ba8c23646b16cd0de426fad23fa91043364708",
-      "bytes": 2327,
+      "sha256": "0843042ad9423e99812f8a4da40cb505812de170c8b3b92c7bfcbde27d696da4",
+      "bytes": 2292,
       "text_normalization": "LF"
     },
     {
@@ -138236,14 +138242,14 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.mrs",
-      "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-      "bytes": 148,
+      "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+      "bytes": 175,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
-      "sha256": "1c171c93b5c8f762c7964af6743b0f2aa4b1ae25b5b0cb29d746bb1c62c8f5ef",
-      "bytes": 159,
+      "sha256": "f126f388febe75540faa47069c5e3e4e2b881efc288b8b427d13b6f078a7358a",
+      "bytes": 202,
       "text_normalization": "LF"
     },
     {
@@ -138320,14 +138326,14 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.mrs",
-      "sha256": "6ba389e85d8418472345c8f8ced97c5876cfa1fd1c627f8f94ffefdacb9eafb4",
-      "bytes": 3350413,
+      "sha256": "451ca18bcca3682c51b7d0bbef4652374e66e0a719aa1772d88a918bc0772cd6",
+      "bytes": 3351054,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
-      "sha256": "81c02b9749b7cf9c59f6799114bde516aee8e6324add388c6e2c0ef11a38c6ca",
-      "bytes": 11065463,
+      "sha256": "9afc6d9b3c927406e285bf6d1e5d4114229b09c16e0e8ba274519ef848195a4d",
+      "bytes": 11065420,
       "text_normalization": "LF"
     },
     {
@@ -138704,14 +138710,14 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.mrs",
-      "sha256": "9ac1a714ebd39e104a7447e2a4835e170c4a36a65ac6c0366437ab51d86d0ef6",
-      "bytes": 1646,
+      "sha256": "93c231cccbedbd4d7e3a067b2352702fc2f854318242e83c0faf4c33fd750803",
+      "bytes": 1634,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
-      "sha256": "c045aa3c0df81e416a9641d928a2c4bf802a268f62c20d467476f4169753ec5f",
-      "bytes": 3991,
+      "sha256": "bb28fd1ba8c8c07e952b943262cdb4a9728d380aab156f0ed2a27302069333ab",
+      "bytes": 3948,
       "text_normalization": "LF"
     },
     {
@@ -138740,8 +138746,8 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "sha256": "fcd3e3f41815b04f7ad8d393d0ac072b47c342267091300f1f8561d55bde4d10",
-      "bytes": 1034,
+      "sha256": "7a17cb620755dcbe147096ed520a4330dcdb58ced3e2a2e5627cc3d44c267563",
+      "bytes": 1008,
       "text_normalization": "LF"
     },
     {
@@ -139754,8 +139760,8 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-004-ai.list",
-      "sha256": "f1e8236d09ed887415894a4173d278e008c464ae9f4e3588f6a05cfadbe115ec",
-      "bytes": 150,
+      "sha256": "f2720860fbc4e66de9193f4101108c17ed8d58256a0d1c9e56a7b6fb4ad1c91b",
+      "bytes": 193,
       "text_normalization": "LF"
     },
     {
@@ -139790,8 +139796,8 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-010-ad.list",
-      "sha256": "e97d65fa516c8f99e4c90d0139d9837b1fce806ad52a23cf72335d3466ff8a93",
-      "bytes": 12061792,
+      "sha256": "a636d4d93fc50a2e20115534af517123a5dc3338d5bf0ea848fa72629671020d",
+      "bytes": 12061749,
       "text_normalization": "LF"
     },
     {
@@ -139928,8 +139934,8 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-033-ai.list",
-      "sha256": "afcdeebbcf23e4684d12da9c57452a710e80711f935df493cc95411f49cfd88a",
-      "bytes": 2847,
+      "sha256": "a1a1aa27bc9bc47f0aec63c87c389b1b26f7ed27649b1ffcd27a76798697859b",
+      "bytes": 2797,
       "text_normalization": "LF"
     },
     {
@@ -140240,14 +140246,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-004-ai.json",
-      "sha256": "b5046f7d23fe36abccde1c6e8cfd932d436e67fc156177685853fcb369b78035",
-      "bytes": 249,
+      "sha256": "40b80b95704fee8082c62a63729509fc66724348438d01aa999dcfcabd0d8159",
+      "bytes": 297,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-004-ai.srs",
-      "sha256": "2a492981f5fa8c0d83594ef999efd34ba98fe55445474d533df9f4dde5ca2ce5",
-      "bytes": 134,
+      "sha256": "b941ab5a234b5f253812c7b7d74690aef9e19abef809cc1c0a0e49f4d11d547b",
+      "bytes": 162,
       "text_normalization": null
     },
     {
@@ -140312,14 +140318,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-010-ad.json",
-      "sha256": "1b235cb97c661a0a319002a0e5157e8b8eca1922d2cf7d662df3a2dbabc3fee1",
-      "bytes": 12408023,
+      "sha256": "fb226a758738195fef1a00fe873c7eb19aa4be6e408aa8c71c3ac92406cc23dc",
+      "bytes": 12407975,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-010-ad.srs",
-      "sha256": "a9984574d0dd385770d63d279785cd6da872710bf0bcf927b2677a1f3db98b4f",
-      "bytes": 3045174,
+      "sha256": "89a2b1b604e3ea55609cbb4ace2dabb3361878c906b52d2c645ba9d684cf982f",
+      "bytes": 3045100,
       "text_normalization": null
     },
     {
@@ -140588,14 +140594,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-033-ai.json",
-      "sha256": "2ec3d4e9ce72e62e33cde9492339a010e86941181b76ef7b477b14ba306b6eb8",
-      "bytes": 3329,
+      "sha256": "fc851af299d63030957a58236a7278704c13d4e71cd1b9476cc01440a042982a",
+      "bytes": 3284,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-033-ai.srs",
-      "sha256": "c61d0cfa9e0d68b0e1b4be6ec193f395bfe5ff37d9c7cc7bb8ef2e985d5b29b4",
-      "bytes": 1199,
+      "sha256": "1e330308f84a03e16ff0ded174af17634687ba5ffaaaf683cfc0330d15674e29",
+      "bytes": 1177,
       "text_normalization": null
     },
     {
@@ -141158,8 +141164,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-004-ai.list",
-      "sha256": "a19e0e99ae840f56a6ddbef77877393c40a52e540493f3801a4ebcc494c03b23",
-      "bytes": 155,
+      "sha256": "e44e9a842060a15ba0ed32387c825586924aa6f0361b56124be3b1a0a971bb05",
+      "bytes": 199,
       "text_normalization": "LF"
     },
     {
@@ -141194,8 +141200,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-010-ad.list",
-      "sha256": "321a71c03dce0b2ec13633e53cfa9e481d9e0727685d389703ab71e8186e9dc5",
-      "bytes": 12467127,
+      "sha256": "7a4b1ec0607caf936ec65ca93aa2a453199991c58b2aa8ad4671e6fdd4381a5c",
+      "bytes": 12467083,
       "text_normalization": "LF"
     },
     {
@@ -141332,8 +141338,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-033-ai.list",
-      "sha256": "f8597db88058dd766ba1e532f347cd24b9683e69e211ed6a1b5fcdf28fb99654",
-      "bytes": 3447,
+      "sha256": "f00d91b4afc31d8b0b8dbaa2196748645e1eb7461514888ffdf0bbff29dca5e6",
+      "bytes": 3395,
       "text_normalization": "LF"
     },
     {
@@ -141607,11 +141613,11 @@
       "text_normalization": "LF"
     }
   ],
-  "fused_payload_fingerprint": "7eb9d724ea9cbabcb0ea612799828c1b6e1ab720cf856d78344b09da4ecd7736",
+  "fused_payload_fingerprint": "619078a3978574fd576b02ccb86b740a1a919433ee1dbc898e95a002896521bc",
   "incremental_build_receipt": {
     "path": "rulesets/generated/supplemental-patch.json",
-    "sha256": "d115bff81fc5e423e70549d428a90c5cd0dccf67679ecc3e006d5f177e9a4747",
-    "bytes": 6639,
+    "sha256": "823757931661098c78a1cd2ec316ff43ac373bf615b964383c7d6d875125b72a",
+    "bytes": 6535,
     "text_normalization": "LF",
     "status": "historical-stage-only"
   }

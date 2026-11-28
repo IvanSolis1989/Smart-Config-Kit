@@ -16,6 +16,12 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## v6.0.24 (2026-11-28)
+
+- Restore the exact Copilot public-code detection API, narrow the Dola, ByteDance and Fathom AI matches, and fix the order of the primary sing-box DNS ad filter.
+- Validate mobile fused policy bindings and downloaded rule payloads. Verify automatically fetched compiler archives against official release digests.
+- Use the default Node-DNS adapter for unrecognized profile names.
+
 ## v6.0.23 (2026-11-28)
 
 - Scope the Copilot routing exception to service domains across clients and renew their asset URLs. See the [routing change](Mihomo内核系/Clash%20Party/CHANGELOG.md#v6023-dns30--v6023-normal30-2026-11-28).

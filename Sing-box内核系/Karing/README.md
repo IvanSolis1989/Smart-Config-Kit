@@ -15,7 +15,7 @@ Import same-source fused rules into Karing's custom routing groups. Configure no
 
 [Before you start](#before-start) · [Import](#import) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-> Configuration: `v6.0.23-karing.5` · Build: 2026-11-28. Source: `rulesets/source/routing-graph.js` v6.0.23, derived through the fused manifest and SingBox 1.13 routing. See [CHANGELOG](CHANGELOG.md).
+> Configuration: `v6.0.24-karing.6` · Build: 2026-11-28. Source: `rulesets/source/routing-graph.js` v6.0.24, derived through the fused manifest and SingBox 1.13 routing. See [CHANGELOG](CHANGELOG.md).
 
 <a id="before-start"></a>
 <a id="下载配置"></a>

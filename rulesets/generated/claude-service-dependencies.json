@@ -6039,7 +6039,7 @@
             "evidenceTruncated": false,
             "firstDecidableMatch": {
               "entry": "DOMAIN,browser-intake-us5-datadoghq.com",
-              "entryIndex": 334013,
+              "entryIndex": 334012,
               "index": 11,
               "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
               "policy": "🛑 广告拦截",
@@ -6048,7 +6048,7 @@
             },
             "hit": {
               "entry": "DOMAIN,browser-intake-us5-datadoghq.com",
-              "entryIndex": 334013,
+              "entryIndex": 334012,
               "index": 11,
               "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
               "policy": "🛑 广告拦截",
@@ -6067,7 +6067,7 @@
             "evidenceTruncated": false,
             "firstDecidableMatch": {
               "entry": "DOMAIN,browser-intake-us5-datadoghq.com",
-              "entryIndex": 334013,
+              "entryIndex": 334012,
               "index": 11,
               "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
               "policy": "🛑 广告拦截",
@@ -7225,10 +7225,10 @@
     "No real account sign-in, API call, upload, application update or message was exercised."
   ],
   "policy_gaps": [],
-  "report_identity": "b4711be0a6ce003981ece149dbc2240cae95966a2f433a18878a3f15246146c1",
+  "report_identity": "59048db97d4a05787614faf535ceacd8937ee87ee1fd3d3b58dc938764a7467a",
   "schema_version": 1,
   "scope": "Claude登录、API、Files API上传、Desktop/Code更新与CDN、可选遥测的静态依赖台账；不执行真实账户或客户端流量。",
-  "semantic_identity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0",
+  "semantic_identity": "b8ac3f9a4b316ce272f65907a23b4ff5b24cc1cbbb83a2b272862d006dae5d88",
   "sources": [
     {
       "authority": "anthropic",

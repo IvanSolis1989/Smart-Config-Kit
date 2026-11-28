@@ -99,7 +99,9 @@ function renderJavaScriptProfileRuntime(contract) {
   lines.push('}');
   lines.push('function sckiResolveSubscriptionAdapterProfile(requestedProfile) {');
   lines.push('  var requested = typeof requestedProfile === \'string\' ? requestedProfile : \'\'');
-  lines.push('  var selected = SCKI_SUBSCRIPTION_ADAPTER_PROFILES[requested] || SCKI_SUBSCRIPTION_ADAPTER_PROFILES[SCKI_SUBSCRIPTION_ADAPTER_PROFILE_DEFAULT]');
+  lines.push('  var profileId = Object.prototype.hasOwnProperty.call(SCKI_SUBSCRIPTION_ADAPTER_PROFILES, requested)');
+  lines.push('    ? requested : SCKI_SUBSCRIPTION_ADAPTER_PROFILE_DEFAULT');
+  lines.push('  var selected = SCKI_SUBSCRIPTION_ADAPTER_PROFILES[profileId]');
   lines.push('  return { id: selected.id, nodeDnsProjection: selected.nodeDnsProjection }');
   lines.push('}');
   return lines.join('\n');

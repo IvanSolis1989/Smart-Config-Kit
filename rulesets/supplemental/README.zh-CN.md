@@ -41,6 +41,8 @@ for loading application code and user content (checked 2026-10-13). The current
 ad feed otherwise matches both before the general AI providers. These exact
 exceptions do not exempt other Anthropic subdomains or optional telemetry.
 
+`adfp-ai.list` 在广泛的广告规则前放行 Copilot 的精确建议接口 `origin-tracker.githubusercontent.com`。GitHub 将它列入 [Copilot 建议接口放行清单](https://docs.github.com/en/copilot/reference/copilot-allowlist-reference#specific-required-domains)，并说明 [GHE.com 的公开代码检测](https://docs.github.com/en/enterprise-cloud@latest/copilot/reference/copilot-allowlist-reference#copilot-on-ghecom) 需要访问这个主机。上一版在它到达业务规则前就拦截了它。Copilot 的独立统计主机仍由广告规则处理。
+
 Inline single rules in main product files are allowed only when the rule cannot
 be represented safely as a supplemental rule set, such as port rules, logical
 AND/OR/NOT rules, platform-local syntax traps, or documented engine gaps.

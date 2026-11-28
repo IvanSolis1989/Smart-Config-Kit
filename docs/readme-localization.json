@@ -60,8 +60,8 @@
     {
       "english": "Sing-box内核系/Karing/README.md",
       "chinese": "Sing-box内核系/Karing/README.zh-CN.md",
-      "english_sha256": "0563cefdafad956a1cc599c6d2f6cec880f0765060e3d7c0537b30739965360a",
-      "chinese_sha256": "ad924b771b1cbc4de51009fdf15c16f6270cf12099bd229a810c8d017f5905b8"
+      "english_sha256": "a48ecdbe9c498386d4f3df1baddac95b0c2c5b884d92f84897b3f49b08d9e3a5",
+      "chinese_sha256": "7162cae0723cef8383778dd1a5bc9925c2638134996136fde2ff890ded759ada"
     },
     {
       "english": "Sing-box内核系/README.md",
@@ -72,8 +72,8 @@
     {
       "english": "Sing-box内核系/SingBox/README.md",
       "chinese": "Sing-box内核系/SingBox/README.zh-CN.md",
-      "english_sha256": "dbb8a5bf6f670241ca98034c457c47f62cbd6004295d66a07fbf94c066ad0360",
-      "chinese_sha256": "90706854c57a0ef8d8eef8d7063316a96aa218071d75dea279ba293cec121a0d"
+      "english_sha256": "e6704137ba09f30ce8f0b22d965f98939faee037ddd69b822843c82d34f89362",
+      "chinese_sha256": "afeea43dbca3a599b728ef347a67b6ce5f1d6e023d5614bc6196a774e9032f81"
     },
     {
       "english": "SubStore/README.md",
@@ -144,8 +144,8 @@
     {
       "english": "rulesets/supplemental/README.md",
       "chinese": "rulesets/supplemental/README.zh-CN.md",
-      "english_sha256": "893b890e93ad72902aa56f8029b46be1f7b2db74612a4800140901b65c30726c",
-      "chinese_sha256": "d8bdce3067034cb3cc6eafda812ee701dfe9b30dcfba2dcb3a8120450c8b5b05"
+      "english_sha256": "4b167ae32b510f7214b5720e9e7f4bc9dd222a4000903b0b224fe35e6bf0538f",
+      "chinese_sha256": "0f362a2dcd0a77ef042bee8e0a0093685fef3a78b9ad9dc6d094c7bcbc1544d0"
     },
     {
       "english": "tools/README.md",

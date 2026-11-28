@@ -22,7 +22,6 @@ payload:
   - "PROCESS-NAME,language_server"
   - "PROCESS-NAME,Google Drive"
   - "DOMAIN-KEYWORD,ciciai"
-  - "DOMAIN-KEYWORD,dola"
   - "PROCESS-NAME,Cici"
   - "PROCESS-NAME,Cici Helper (Renderer)"
   - "PROCESS-NAME,Cici Helper"

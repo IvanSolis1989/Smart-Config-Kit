@@ -85,6 +85,7 @@ on:
       - 'tools/tests/adfp-exceptions.test.js'
       - 'rulesets/generated/**'
       - 'tools/build-fused-rule-sets.js'
+      - 'tools/lib/official-kernel.js'
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
       - 'tools/lib/local-traffic-options.js'
@@ -112,6 +113,8 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/singbox-dns-behavior.test.js'
+      - 'tools/tests/mobile-fused-contracts.test.js'
       - 'tools/tests/mihomo-native-config.test.js'
       - 'tools/collect-mihomo-connections.js'
       - 'tools/lib/mihomo-connection-evidence.js'
@@ -120,6 +123,7 @@ on:
       - 'tools/tests/blackmatrix7-exposure.test.js'
       - 'tools/tests/qx-running-mode-trigger.test.js'
       - 'tools/tests/copilot-routing.test.js'
+      - 'tools/tests/ai-shared-domains.test.js'
       - 'tools/tests/desktop-ai-process-routing.test.js'
       - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
@@ -223,6 +227,7 @@ on:
       - 'tools/tests/adfp-exceptions.test.js'
       - 'rulesets/generated/**'
       - 'tools/build-fused-rule-sets.js'
+      - 'tools/lib/official-kernel.js'
       - 'tools/configure-traffic-options.js'
       - 'tools/sync-traffic-options.js'
       - 'tools/lib/local-traffic-options.js'
@@ -250,6 +255,8 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/singbox-dns-behavior.test.js'
+      - 'tools/tests/mobile-fused-contracts.test.js'
       - 'tools/tests/mihomo-native-config.test.js'
       - 'tools/collect-mihomo-connections.js'
       - 'tools/lib/mihomo-connection-evidence.js'
@@ -258,6 +265,7 @@ on:
       - 'tools/tests/blackmatrix7-exposure.test.js'
       - 'tools/tests/qx-running-mode-trigger.test.js'
       - 'tools/tests/copilot-routing.test.js'
+      - 'tools/tests/ai-shared-domains.test.js'
       - 'tools/tests/desktop-ai-process-routing.test.js'
       - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
@@ -406,13 +414,16 @@ jobs:
             fi
           done
 
-      - name: Check both sing-box schemas with official cores
+      - name: Check both sing-box schemas and DNS behavior with official cores
         run: |
-          node --test tools/tests/singbox-current-schema.test.js
-          SING_BOX_114_BIN="$SCKI_SING_BOX_CURRENT_114_BIN" node --test --test-name-pattern '^official sing-box 1\.14 ' tools/tests/singbox-current-schema.test.js
+          test -x "$SING_BOX_113_BIN"
+          test -x "$SING_BOX_114_BIN"
+          test -x "$SCKI_SING_BOX_CURRENT_114_BIN"
+          node --test tools/tests/singbox-current-schema.test.js tools/tests/singbox-dns-behavior.test.js
+          SING_BOX_114_BIN="$SCKI_SING_BOX_CURRENT_114_BIN" node --test --test-name-pattern '^official sing-box 1\.14 ' tools/tests/singbox-current-schema.test.js tools/tests/singbox-dns-behavior.test.js
 
-      - name: Validate local connection evidence, source inventory and QX projection
-        run: node --test tools/tests/mihomo-connection-evidence.test.js tools/tests/blackmatrix7-exposure.test.js tools/tests/qx-running-mode-trigger.test.js
+      - name: Validate local connection evidence, source inventory and mobile routing contracts
+        run: node --test tools/tests/mihomo-connection-evidence.test.js tools/tests/blackmatrix7-exposure.test.js tools/tests/qx-running-mode-trigger.test.js tools/tests/mobile-fused-contracts.test.js
 
       - name: Validate rule asset delivery regressions
         run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js tools/tests/fused-artifact-performance.test.js tools/tests/xray-fallback-headless.test.js
@@ -430,7 +441,7 @@ jobs:
           node tools/refresh-rule-quality.js --check
           node tools/validate-adfp-exceptions.js
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
-          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/copilot-routing.test.js tools/tests/desktop-ai-process-routing.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/copilot-routing.test.js tools/tests/ai-shared-domains.test.js tools/tests/desktop-ai-process-routing.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           approval_args=()
           if [ -f rulesets/source/semantic-approval.json ]; then
             approval_args=(--expected-changes rulesets/source/semantic-approval.json)

@@ -9,6 +9,10 @@
 
 [Usage](README.md) · [Support queue](../../docs/support-queue.md#meow) · [Documentation](../../docs/README.md)
 
+## v6.0.24-meow.9 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-meow.8 (2026-11-28)
 
 - Use the narrowed Copilot rule asset in the native YAML.

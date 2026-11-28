@@ -15,7 +15,9 @@ Complete same-source sing-box configuration with 20 regional groups, 33 service 
 
 [Preparation](#before-start) · [Import](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-> Version: `v6.0.23-sing.14` · Build: 2026-11-28 · Routing baseline: `rulesets/source/routing-graph.js` v6.0.23. See [CHANGELOG](CHANGELOG.md).
+> Version: `v6.0.24-sing.15` · Build: 2026-11-28 · Routing baseline: `rulesets/source/routing-graph.js` v6.0.24. See [CHANGELOG](CHANGELOG.md).
+
+Private names keep their direct DNS route. The primary advertising rule rejects matches before the ordinary DNS lookup, with the same early service exceptions used by routing.
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>

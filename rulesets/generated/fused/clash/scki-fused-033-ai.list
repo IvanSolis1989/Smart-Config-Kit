@@ -42,7 +42,6 @@ DOMAIN-SUFFIX,ssl.kaptcha.com
 DOMAIN-SUFFIX,swc.cdn.skype.com
 DOMAIN-SUFFIX,swx.cdn.skype.com
 DOMAIN-SUFFIX,tst.kaptcha.com
-DOMAIN-SUFFIX,usefathom.com
 DOMAIN-SUFFIX,uservoice.com
 DOMAIN-SUFFIX,variflight.com
 DOMAIN-SUFFIX,virtualearth.net
@@ -50,6 +49,7 @@ DOMAIN-SUFFIX,windows.net
 DOMAIN-SUFFIX,xpaycdn-int.azureedge.net
 DOMAIN-SUFFIX,xpaycdn.azureedge.net
 DOMAIN-SUFFIX,cici.com
+DOMAIN-SUFFIX,dola.com
 DOMAIN-SUFFIX,vcs-sg.byteoversea.com
 DOMAIN-SUFFIX,lf-rc1.yhgfb-static.com
 DOMAIN-SUFFIX,itobsnssdk.com
@@ -62,7 +62,6 @@ DOMAIN-SUFFIX,trae.ai
 DOMAIN-SUFFIX,bytednsdoc.com
 DOMAIN-SUFFIX,mchost.guru
 DOMAIN-SUFFIX,marscode.com
-DOMAIN-SUFFIX,zijieapi.com
 DOMAIN-SUFFIX,mon-va.byteoversea.com
 DOMAIN-SUFFIX,maliva-mcs.byteoversea.com
 DOMAIN-SUFFIX,abtestvm.bytedance.com
@@ -92,4 +91,3 @@ DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,goog
 DOMAIN-KEYWORD,antigravity
 DOMAIN-KEYWORD,ciciai
-DOMAIN-KEYWORD,dola

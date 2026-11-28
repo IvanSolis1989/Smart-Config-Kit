@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.23",
-  "registry_sha256": "6dd63ca26338154d7e777ccf47f5deae867c732c35e5af4364fffc1bbddf2421",
-  "total_records": 40,
+  "source_graph_version": "v6.0.24",
+  "registry_sha256": "214bacf8b574f4c431373880af0adc8a7e6b1e256abde496b439a07f3c313601",
+  "total_records": 41,
   "coverage": {
     "scki-adfp-direct": 31,
     "scki-adfp-intl-site": 3,
     "scki-adfp-payments": 1,
-    "scki-adfp-ai": 5
+    "scki-adfp-ai": 6
   },
   "ordered_provider_indices": {
     "scki-adfp-direct": 0,
@@ -19,8 +19,8 @@
   "scope": "Registered payload coverage, matching boundaries and static early first-match probes; no live-client claim.",
   "registry": {
     "path": "rulesets/source/adfp-exceptions.json",
-    "sha256": "6dd63ca26338154d7e777ccf47f5deae867c732c35e5af4364fffc1bbddf2421",
-    "bytes": 42181,
+    "sha256": "214bacf8b574f4c431373880af0adc8a7e6b1e256abde496b439a07f3c313601",
+    "bytes": 43262,
     "text_normalization": "LF"
   },
   "payloads": [
@@ -44,8 +44,8 @@
     },
     {
       "path": "rulesets/supplemental/clash/adfp-ai.list",
-      "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
-      "bytes": 235,
+      "sha256": "bce1233065d484b7c0988aa47096361a7192f8991ce2bfe7584d58e927b3c4f8",
+      "bytes": 279,
       "text_normalization": "LF"
     }
   ],
@@ -69,6 +69,11 @@
       "host": "a-cdn.anthropic.com",
       "expected_policy": "🤖 AI 服务",
       "exception_id": "claude-desktop-a-cdn"
+    },
+    {
+      "host": "origin-tracker.githubusercontent.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "github-copilot-origin-tracker"
     },
     {
       "host": "login.nvidia.cn",
@@ -370,6 +375,23 @@
         "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
         "entry": "DOMAIN,a-cdn.anthropic.com",
         "entryIndex": 4,
+        "index": 3,
+        "policy": "🤖 AI 服务",
+        "provider": "scki-fused-004-ai-domain"
+      }
+    },
+    {
+      "host": "origin-tracker.githubusercontent.com",
+      "expected_policy": "🤖 AI 服务",
+      "exception_id": "github-copilot-origin-tracker",
+      "mode": "full-static",
+      "status": "match",
+      "actual_policy": "🤖 AI 服务",
+      "evidence": {
+        "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+        "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+        "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+        "entryIndex": 5,
         "index": 3,
         "policy": "🤖 AI 服务",
         "provider": "scki-fused-004-ai-domain"

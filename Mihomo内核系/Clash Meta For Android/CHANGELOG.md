@@ -16,6 +16,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.24-cmfa.20 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-cmfa.19 (2026-11-28)
 
 - Use the narrowed Copilot AI rule asset and a new asset cache revision.

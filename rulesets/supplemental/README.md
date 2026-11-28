@@ -41,6 +41,13 @@ for loading application code and user content (checked 2026-10-13). The current
 ad feed otherwise matches both before the general AI providers. These exact
 exceptions do not exempt other Anthropic subdomains or optional telemetry.
 
+`adfp-ai.list` protects the exact GitHub Copilot suggestion endpoint
+`origin-tracker.githubusercontent.com` before the broad ad feeds. GitHub lists
+it in the [Copilot allowlist](https://docs.github.com/en/copilot/reference/copilot-allowlist-reference#specific-required-domains)
+and requires it for [public code detection on GHE.com](https://docs.github.com/en/enterprise-cloud@latest/copilot/reference/copilot-allowlist-reference#copilot-on-ghecom).
+The baseline rejects this hostname before it reaches its normal service rules.
+The exception leaves the separate Copilot analytics hosts subject to the ad feeds.
+
 Inline single rules in main product files are allowed only when the rule cannot
 be represented safely as a supplemental rule set, such as port rules, logical
 AND/OR/NOT rules, platform-local syntax traps, or documented engine gaps.

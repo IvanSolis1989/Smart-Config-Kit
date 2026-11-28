@@ -18,9 +18,9 @@ const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall/shunt-rul
 const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall2/shunt-rules');
 
 const BUILD_DATE = '2026-11-28';
-const V2RAYN_VERSION = 'v6.0.23-v2n.13';
-const PASSWALL_VERSION = 'v6.0.23-pw.14';
-const PASSWALL2_VERSION = 'v6.0.23-pw2.14';
+const V2RAYN_VERSION = 'v6.0.24-v2n.14';
+const PASSWALL_VERSION = 'v6.0.24-pw.15';
+const PASSWALL2_VERSION = 'v6.0.24-pw2.15';
 
 const DIRECT_POLICIES = new Set([
   'DIRECT',

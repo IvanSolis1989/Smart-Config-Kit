@@ -3,9 +3,7 @@
 
 const childProcess = require('node:child_process');
 const fs = require('node:fs');
-const os = require('node:os');
 const path = require('node:path');
-const zlib = require('node:zlib');
 const {
   SOURCE_GRAPH_ID,
   normalizeMihomoMrsProviderEntries,
@@ -19,9 +17,10 @@ const {
   localPathForRepositoryRuleUrl,
 } = require('./lib/repository-rule-asset');
 const { readFrozenMrsInput } = require('./lib/frozen-mrs-input');
+const { officialKernelAsset, ensureOfficialKernel } = require('./lib/official-kernel');
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const {
-  sha256, parseGitSource, acquireSource, createSourceReceipt,
+  parseGitSource, acquireSource, createSourceReceipt,
   buildProviderLedger, buildSnapshotProviderLedger, collectManifestOutputReceipts,
 } = require('./lib/source-provenance');
 
@@ -29,7 +28,6 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const FINAL_OUTPUT_DIR = path.join(REPO_ROOT, 'rulesets/generated/mihomo-mrs');
 let OUTPUT_DIR = FINAL_OUTPUT_DIR;
 const CACHE_DIR = path.join(REPO_ROOT, '.cache/mihomo-mrs');
-const MIHOMO_REPO_API = 'https://api.github.com/repos/MetaCubeX/mihomo/releases/latest';
 const SCKI_GENERATED_MARKERS = [
   '/rulesets/generated/mihomo-mrs/',
   '/rulesets/generated/fused/',
@@ -360,78 +358,23 @@ async function downloadJson(url) {
   return response.json();
 }
 
-function platformAssetPattern() {
-  const arch = os.arch();
-  if (process.platform === 'win32') {
-    if (arch !== 'x64') throw new Error(`Unsupported Windows arch for automatic mihomo download: ${arch}`);
-    return /^mihomo-windows-amd64-compatible-.*\.zip$/;
-  }
-  if (process.platform === 'linux') {
-    if (arch === 'x64') return /^mihomo-linux-amd64-compatible-.*\.gz$/;
-    if (arch === 'arm64') return /^mihomo-linux-arm64-.*\.gz$/;
-  }
-  if (process.platform === 'darwin') {
-    if (arch === 'x64') return /^mihomo-darwin-amd64-compatible-.*\.gz$/;
-    if (arch === 'arm64') return /^mihomo-darwin-arm64-.*\.gz$/;
-  }
-  throw new Error(`Unsupported platform for automatic mihomo download: ${process.platform}/${arch}`);
-}
-
 async function ensureMihomoBinary(explicitPath, options = {}, cacheDir = CACHE_DIR) {
   if (explicitPath) {
     const resolved = path.resolve(explicitPath);
     if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) throw new Error(`Missing mihomo binary: ${resolved}`);
     return resolved;
   }
-  const binaryReceipt = path.join(cacheDir, 'binary.json');
-  if (options.offline) {
-    if (!fs.existsSync(binaryReceipt)) throw new Error('offline mihomo binary cache miss; specify --mihomo-bin');
-    const record = JSON.parse(readText(binaryReceipt));
-    if (!record.file || path.basename(record.file) !== record.file) throw new Error('Invalid cached mihomo binary path');
-    const target = path.join(cacheDir, record.file);
-    if (!fs.existsSync(target)) throw new Error('offline mihomo binary cache miss');
-    const bytes = fs.readFileSync(target);
-    if (sha256(bytes) !== record.sha256 || bytes.length !== record.bytes) throw new Error('Cached mihomo binary hash mismatch');
-    return target;
-  }
-  fs.mkdirSync(cacheDir, { recursive: true });
-  const release = await downloadJson(MIHOMO_REPO_API);
-  const pattern = platformAssetPattern();
-  const asset = release.assets.find((candidate) => pattern.test(candidate.name));
-  if (!asset) throw new Error(`No mihomo release asset matches ${pattern}`);
-
-  const ext = process.platform === 'win32' ? '.exe' : '';
-  const target = path.join(cacheDir, `mihomo-${release.tag_name}${ext}`);
-  if (fs.existsSync(target) && fs.existsSync(binaryReceipt)) {
-    const record = JSON.parse(readText(binaryReceipt));
-    const bytes = fs.readFileSync(target);
-    if (record.file === path.basename(target) && record.sha256 === sha256(bytes) && record.bytes === bytes.length) return target;
-  }
-
-  const archive = path.join(cacheDir, asset.name);
-  const response = await fetch(asset.browser_download_url, { headers: { 'user-agent': 'Smart-Config-Kit-MRS-Sync/1.0' } });
-  if (!response.ok) throw new Error(`${asset.browser_download_url} -> HTTP ${response.status}`);
-  fs.writeFileSync(archive, Buffer.from(await response.arrayBuffer()));
-
-  if (asset.name.endsWith('.gz')) {
-    fs.writeFileSync(target, zlib.gunzipSync(fs.readFileSync(archive)));
-    fs.chmodSync(target, 0o755);
-  } else if (asset.name.endsWith('.zip') && process.platform === 'win32') {
-    const unzipDir = path.join(cacheDir, `unzip-${release.tag_name}`);
-    fs.rmSync(unzipDir, { recursive: true, force: true });
-    fs.mkdirSync(unzipDir, { recursive: true });
-    const result = childProcess.spawnSync('powershell.exe', ['-NoProfile', '-Command', `Expand-Archive -LiteralPath ${JSON.stringify(archive)} -DestinationPath ${JSON.stringify(unzipDir)} -Force`], { encoding: 'utf8' });
-    if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'Expand-Archive failed');
-    const exe = fs.readdirSync(unzipDir).find((file) => file.endsWith('.exe'));
-    if (!exe) throw new Error(`No mihomo exe found in ${asset.name}`);
-    fs.copyFileSync(path.join(unzipDir, exe), target);
-  } else {
-    throw new Error(`Unsupported mihomo archive: ${asset.name}`);
-  }
-  const bytes = fs.readFileSync(target);
-  fs.writeFileSync(binaryReceipt, `${JSON.stringify({ file: path.basename(target), sha256: sha256(bytes), bytes: bytes.length,
-    release_tag: release.tag_name, download_url: asset.browser_download_url }, null, 2)}\n`, 'utf8');
-  return target;
+  const spec = officialKernelAsset('mihomo');
+  if (!spec) throw new Error(`Unsupported platform for mihomo: ${process.platform}/${process.arch}`);
+  return ensureOfficialKernel({
+    spec, cacheDir, offline: options.offline,
+    getRelease: repo => downloadJson(`https://api.github.com/repos/${repo}/releases/latest`),
+    download: async url => {
+      const response = await fetch(url, { headers: { 'user-agent': 'Smart-Config-Kit-MRS-Sync/1.0' } });
+      if (!response.ok) throw new Error(`${url} -> HTTP ${response.status}`);
+      return Buffer.from(await response.arrayBuffer());
+    },
+  });
 }
 
 function convertWithMihomo(mihomoBin, behavior, sourceFile, targetFile) {

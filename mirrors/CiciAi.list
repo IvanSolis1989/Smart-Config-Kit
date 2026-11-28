@@ -8,7 +8,6 @@ PROCESS-NAME,Cici
 PROCESS-NAME,Cici Helper (Renderer)
 PROCESS-NAME,Cici Helper
 DOMAIN-KEYWORD,ciciai
-DOMAIN-KEYWORD,dola
 DOMAIN-SUFFIX,cici.com
 DOMAIN-SUFFIX,dola.com
 DOMAIN-SUFFIX,ciciai.com
@@ -37,13 +36,10 @@ DOMAIN-SUFFIX,bytednsdoc.com
 DOMAIN-SUFFIX,mchost.guru
 
 DOMAIN-SUFFIX,marscode.com
-DOMAIN-SUFFIX,zijieapi.com
 DOMAIN-SUFFIX,api.marscode.com
 DOMAIN-SUFFIX,api-sg-central.marscode.com
 DOMAIN-SUFFIX,mon-va.byteoversea.com
 DOMAIN-SUFFIX,sgali-mcs.byteoversea.com
 DOMAIN-SUFFIX,maliva-mcs.byteoversea.com
-DOMAIN-SUFFIX,mcs.zijieapi.com
-DOMAIN-SUFFIX,mon.zijieapi.com
 DOMAIN-SUFFIX,lf-cdn.marscode.com
 DOMAIN-SUFFIX,abtestvm.bytedance.com

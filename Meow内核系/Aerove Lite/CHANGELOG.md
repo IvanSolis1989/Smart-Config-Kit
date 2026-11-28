@@ -11,6 +11,10 @@
 
 [Core family](../README.md) · [Support queue](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.24-meow.13 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-meow.12 (2026-11-28)
 
 - Use the narrowed Copilot rule asset and regenerate the manifest for the matching rule revision.

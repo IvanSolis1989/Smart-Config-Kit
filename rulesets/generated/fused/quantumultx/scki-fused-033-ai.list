@@ -42,7 +42,6 @@ host-suffix, ssl.kaptcha.com
 host-suffix, swc.cdn.skype.com
 host-suffix, swx.cdn.skype.com
 host-suffix, tst.kaptcha.com
-host-suffix, usefathom.com
 host-suffix, uservoice.com
 host-suffix, variflight.com
 host-suffix, virtualearth.net
@@ -50,6 +49,7 @@ host-suffix, windows.net
 host-suffix, xpaycdn-int.azureedge.net
 host-suffix, xpaycdn.azureedge.net
 host-suffix, cici.com
+host-suffix, dola.com
 host-suffix, vcs-sg.byteoversea.com
 host-suffix, lf-rc1.yhgfb-static.com
 host-suffix, itobsnssdk.com
@@ -62,7 +62,6 @@ host-suffix, trae.ai
 host-suffix, bytednsdoc.com
 host-suffix, mchost.guru
 host-suffix, marscode.com
-host-suffix, zijieapi.com
 host-suffix, mon-va.byteoversea.com
 host-suffix, maliva-mcs.byteoversea.com
 host-suffix, abtestvm.bytedance.com
@@ -92,4 +91,3 @@ host-keyword, google
 host-keyword, goog
 host-keyword, antigravity
 host-keyword, ciciai
-host-keyword, dola

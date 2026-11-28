@@ -8,6 +8,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { isDeepStrictEqual } = require('node:util');
 const vm = require('node:vm');
 const {
   MAX_JSDELIVR_ASSET_BYTES,
@@ -357,33 +358,11 @@ function checkNeedleBefore(record, id, source, beforeNeedle, afterNeedle) {
   });
 }
 
-function checkNeedleSequence(record, id, source, needles) {
-  let previousIndex = -1;
-  let valid = true;
-  for (const needle of needles) {
-    const index = source.indexOf(needle);
-    if (index === -1 || index <= previousIndex) {
-      valid = false;
-      break;
-    }
-    previousIndex = index;
-  }
-  record.check(id, valid, {
-    message: valid ? undefined : `missing or reordered fused rules: ${needles.join(' -> ')}`,
-  });
-}
-
-function fusedTextRuleSetFiles(manifest, platform, segmentId) {
-  const segment = (manifest.segments || []).find((row) => row.id === segmentId);
-  const entry = segment && segment.files && segment.files[platform];
+function fusedTextRuleSetFiles(segment, platform) {
+  const entry = segment.files && segment.files[platform];
   if (!entry) return [];
   if (Array.isArray(entry.parts)) return entry.parts;
   return entry.file ? [entry.file] : [];
-}
-
-function fusedTextRuleSetUrls(manifest, platform, segmentId) {
-  return fusedTextRuleSetFiles(manifest, platform, segmentId)
-    .map((file) => repositoryAssetUrl(`rulesets/generated/fused/${platform}/${file}`, manifest.asset_revision));
 }
 
 function supplementalUrl(flavor, file) {
@@ -679,7 +658,7 @@ function validateFusedRuleSets(record) {
   const countFiles = (subdir, suffix) => fs.readdirSync(path.join(fusedDir, subdir)).filter((file) => file.endsWith(suffix)).length;
   const checkTextPlatformFiles = (platform) => {
     const expected = (manifest.segments || [])
-      .flatMap((segment) => fusedTextRuleSetFiles(manifest, platform, segment.id))
+      .flatMap((segment) => fusedTextRuleSetFiles(segment, platform))
       .sort();
     const actual = fs.readdirSync(path.join(fusedDir, platform))
       .filter((file) => file.endsWith('.list'))
@@ -806,46 +785,80 @@ function checkSupplementalMihomoRules(record, id, rulesSource) {
   checkNeedleBefore(record, `${id}.fused.cn-game-before-intl-game`, rulesSource, `RULE-SET,${CONTRACT_SEGMENTS["scki-fused-060-game-cn"]}-domain,🕹️ 国内游戏`, `RULE-SET,${CONTRACT_SEGMENTS["scki-fused-061-game-intl"]}-domain,🎮 国外游戏`);
 }
 
-function checkSupplementalMobileRules(record, id, source, flavor, options = {}, fusedManifest) {
-  const platform = options.qx ? 'quantumultx' : id === 'surge' ? 'surge' : 'clash';
-  const segments = [
-    `${CONTRACT_SEGMENTS["scki-fused-002-intl-site"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-005-cnmedia"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-006-ad"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-007-cn-site"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-008-direct"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-009-work"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-022-google"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-036-work"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-039-tiktok"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-060-game-cn"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-061-game-intl"]}`,
-    `${CONTRACT_SEGMENTS["scki-fused-062-intl-site"]}`,
-  ];
-  const urlsFor = (segment) => fusedTextRuleSetUrls(fusedManifest, platform, segment);
-  const isNonEmptyUrl = (url) => {
-    const marker = '/rulesets/generated/';
-    const asset = decodeURIComponent(new URL(url).pathname.split(marker)[1]);
-    return readText(`rulesets/generated/${asset}`).split(/\r?\n/)
-      .some((line) => line.trim() && !line.trim().startsWith('#'));
-  };
-  const effectiveUrlsFor = (segment) => urlsFor(segment).filter(isNonEmptyUrl);
-  for (const segment of segments) {
-    const mappedUrls = urlsFor(segment);
-    const urls = effectiveUrlsFor(segment);
-    const emptyUrls = mappedUrls.filter((url) => !isNonEmptyUrl(url));
-    record.check(`${id}.fused-manifest.${segment}`, mappedUrls.length > 0, {
-      message: `missing ${platform} fused manifest mapping for ${segment}`,
+function extractMobileProxyGroups(source, id) {
+  const qx = id === 'qx';
+  const section = extractConfSection(source, qx ? 'policy' : 'Proxy Group');
+  return section.split(/\r?\n/).map(line => line.match(/^([^#;=]+?)\s*=\s*(.+)$/)).filter(Boolean)
+    .map(([, key, definition]) => {
+      const [first, ...members] = definition.split(',').map(token => token.trim());
+      const type = qx ? key.trim() : first;
+      const name = qx ? first : key.trim();
+      return { name, type: type === 'static' ? 'select' : type, proxies: members.filter(token => !token.includes('=')) };
     });
-    record.check(`${id}.fused-rule.${segment}`, mappedUrls.length > 0 && urls.every((url) => source.includes(url)), {
-      message: `missing fused ${segment} part in ${id}`,
-    });
-    record.check(`${id}.fused-rule.${segment}.empty-assets-excluded`, emptyUrls.every((url) => !source.includes(url)), {
-      message: `empty ${platform} fused assets must not be referenced by ${id}: ${emptyUrls.join(', ')}`,
-    });
-    checkNeedleSequence(record, `${id}.fused-rule.${segment}.part-order`, source, urls);
+}
+
+function checkMobileFusedRuleSets(record, id, source, manifest, groups = extractMobileProxyGroups(source, id)) {
+  const namedPolicy = id === 'qx' ? 'force-policy' : id === 'loon' ? 'policy' : null;
+  const section = id === 'qx' ? 'filter_remote' : id === 'loon' ? 'Remote Rule' : 'Rule';
+  const platform = id === 'qx' ? 'quantumultx' : id === 'surge' ? 'surge' : 'clash';
+  const qxBuiltInPolicies = { DIRECT: 'direct', REJECT: 'reject', 'REJECT-DROP': 'reject' };
+  const definedPolicies = new Set(groups.map(group => group.name));
+  for (const policy of ['DIRECT', 'REJECT', 'REJECT-DROP']) {
+    definedPolicies.add(id === 'qx' ? qxBuiltInPolicies[policy] : policy);
   }
-  checkNeedleSequence(record, `${id}.fused.timeline-order`, source, segments.flatMap((segment) => effectiveUrlsFor(segment)));
+  const expected = [];
+  const unmapped = [];
+  for (const segment of manifest.segments) {
+    const files = fusedTextRuleSetFiles(segment, platform);
+    if (files.length === 0 && segment.target_counts?.mobile !== 0) unmapped.push(segment.id);
+    const policy = id === 'qx' ? qxBuiltInPolicies[segment.policy] ?? segment.policy : segment.policy;
+    for (const file of files) {
+      const asset = `rulesets/generated/fused/${platform}/${file}`;
+      if (!meaningfulRuleLines(asset).length) continue;
+      expected.push({ url: repositoryAssetUrl(asset, manifest.asset_revision), policy, enabled: true });
+    }
+  }
+  record.check(`${id}.fused.manifest-mappings`, unmapped.length === 0, {
+    message: unmapped.length ? `missing ${platform} mappings for ${unmapped.join(', ')}` : undefined,
+  });
+
+  const actual = [];
+  for (const line of extractConfSection(source, section).split(/\r?\n/)) {
+    const fields = line.split(',').map(field => field.trim());
+    const url = fields[namedPolicy ? 0 : 1];
+    if (!/^https?:\/\//.test(url) || !url.includes('/rulesets/generated/fused/')) continue;
+    if (!namedPolicy) {
+      if (fields[0] === 'RULE-SET') actual.push({ url, policy: fields[2], enabled: true });
+      continue;
+    }
+    const options = fields.slice(1).map(field => {
+      const delimiter = field.indexOf('=');
+      return delimiter === -1 ? [field] : [field.slice(0, delimiter).trim(), field.slice(delimiter + 1).trim()];
+    });
+    const policyFields = options.filter(([key]) => key === namedPolicy);
+    const enabledFields = options.filter(([key]) => key === 'enabled');
+    // Generated QX payloads have no embedded policy and rely on force-policy.
+    const policy = policyFields.length === 1 ? policyFields[0][1] : undefined;
+    const enabled = enabledFields.length === 0 || (enabledFields.length === 1 && enabledFields[0][1] === 'true');
+    actual.push({ url, policy, enabled });
+  }
+
+  let mismatch = actual.findIndex((got, index) => {
+    const want = expected[index];
+    return !want || got.url !== want.url || got.policy !== want.policy || got.enabled !== want.enabled;
+  });
+  if (mismatch === -1 && actual.length < expected.length) mismatch = actual.length;
+  const describe = (rule) => rule
+    ? `${rule.url} policy=${rule.policy ?? '(missing or ambiguous)'} enabled=${rule.enabled}`
+    : '(no rule)';
+  record.check(`${id}.fused.rule-set-bindings`, mismatch === -1, {
+    message: mismatch === -1 ? undefined
+      : `fused reference #${mismatch + 1}: expected ${describe(expected[mismatch])}, got ${describe(actual[mismatch])}`,
+  });
+  const missingPolicies = [...new Set(actual.map(rule => rule.policy).filter(policy => policy && !definedPolicies.has(policy)))];
+  record.check(`${id}.fused.rule-set-targets`, missingPolicies.length === 0, {
+    message: missingPolicies.length ? `undefined policy groups: ${missingPolicies.join(', ')}` : undefined,
+  });
 }
 
 function countLiteral(source, literal) {
@@ -1754,14 +1767,8 @@ function validateConfProducts(record, baselineVersion) {
     const source = readText(spec.file);
     const groupCount = countMatches(source, spec.regex);
     record.check(`${spec.id}.group-count`, groupCount === EXPECTED_GROUPS, { value: groupCount });
-    const section = extractConfSection(source, spec.id === 'qx' ? 'policy' : 'Proxy Group');
-    const groups = section.split(/\r?\n/).map(line => line.match(/^([^#=]+?)\s*=\s*(.+)$/)).filter(Boolean)
-      .map(([, key, definition]) => {
-        const [first, ...members] = definition.split(',').map(token => token.trim());
-        const type = spec.id === 'qx' ? key.trim() : first;
-        const name = spec.id === 'qx' ? first : key.trim();
-        return { name, type: type === 'static' ? 'select' : type, proxies: members.filter(token => !token.includes('=')) };
-      });
+    const groups = extractMobileProxyGroups(source, spec.id);
+    checkMobileFusedRuleSets(record, spec.id, source, fusedManifest, groups);
     checkGlobalSelector(record, spec.id, groups, spec.id === 'qx' ? 'url-latency-benchmark' : 'url-test');
     const hasBaselineHeader = source.includes(`Clash Party ${baselineVersion}`);
     record.check(`${spec.id}.baseline-header`, hasBaselineHeader, failureMessage(hasBaselineHeader, `missing Clash Party ${baselineVersion}`));
@@ -1797,7 +1804,6 @@ function validateConfProducts(record, baselineVersion) {
   record.check('surge.tun.fake-ip-captured', surgeFakeIpBypass.length === 0, {
     message: `tun-excluded-routes must not overlap Surge Fake IP/DNS range 198.18.0.0/15: ${surgeFakeIpBypass.join(', ')}`,
   });
-  const loonRemoteRule = extractConfSection(loon, 'Remote Rule');
   const loonRuleSection = extractConfSection(loon, 'Rule');
   const qxFilterRemote = extractConfSection(qx, 'filter_remote');
   const qxFilterLocal = extractConfSection(qx, 'filter_local');
@@ -1825,10 +1831,6 @@ function validateConfProducts(record, baselineVersion) {
   record.check('surge.no-legacy-scholar-list', !surge.includes('/Scholar/Scholar.list'));
   record.check('loon.no-legacy-scholar-list', !loon.includes('/Scholar/Scholar.list'));
   record.check('qx.no-legacy-scholar-list', !qx.includes('/Scholar/Scholar.list'));
-  checkSupplementalMobileRules(record, 'shadowrocket', shadowrocket, 'clash', {}, fusedManifest);
-  checkSupplementalMobileRules(record, 'surge', surge, 'clash', { surgeProcess: true }, fusedManifest);
-  checkSupplementalMobileRules(record, 'loon', loonRemoteRule, 'clash', { loon: true }, fusedManifest);
-  checkSupplementalMobileRules(record, 'qx', qxFilterRemote, 'quantumultx', { qx: true }, fusedManifest);
   record.check('shadowrocket.no-foldable-domain-inline-rules', !/^DOMAIN(?:-SUFFIX|-KEYWORD)?,/m.test(shadowrocket));
   record.check('surge.no-foldable-domain-inline-rules', !/^DOMAIN(?:-SUFFIX|-KEYWORD)?,/m.test(surge));
   record.check('loon.no-foldable-domain-inline-rules', !/^DOMAIN(?:-SUFFIX|-KEYWORD)?,/m.test(loonRuleSection));
@@ -2045,10 +2047,29 @@ function validateJsonProducts(record, baselineVersion) {
   record.check('singbox.dns.proxy-redundancy', dnsServers.filter((s) => s.tag && s.tag.startsWith('dns_proxy')).length >= 2, {
     value: dnsServers.filter((s) => s.tag && s.tag.startsWith('dns_proxy')).map((s) => s.tag),
   });
-  const singboxPrivateDnsDirect = dnsRules.some((rule) => (
-    Array.isArray(rule.rule_set) && rule.rule_set.includes('geosite-private') && rule.server === 'dns_direct'
-  ));
-  record.check('singbox.dns.private-direct', singboxPrivateDnsDirect, failureMessage(singboxPrivateDnsDirect, 'geosite-private DNS must use dns_direct'));
+  const firstDnsAdSegment = CURRENT_FUSED.segments.find(segment => segment.policy === '🛑 广告拦截' && segment.files.sing_box);
+  const adSourceIndex = CURRENT_FUSED.source_segments.findIndex(segment => segment.id === firstDnsAdSegment?.id);
+  const precedingAdExceptions = adSourceIndex < 0 ? [] : CURRENT_FUSED.source_segments.slice(0, adSourceIndex)
+    .filter(segment => segment.source_rules.length && segment.source_rules.every(rule => rule.startsWith('RULE-SET,scki-adfp-')))
+    .map(segment => segment.id);
+  const expectedDnsHead = [
+    { rule_set: ['geosite-private'], action: 'route', server: 'dns_direct' },
+    {
+      type: 'logical',
+      mode: 'and',
+      rules: [
+        { rule_set: [firstDnsAdSegment?.id] },
+        { rule_set: precedingAdExceptions, invert: true },
+      ],
+      action: 'reject',
+    },
+  ];
+  for (const [id, rules] of [['singbox', dnsRules], ['singbox.compat', singboxCompat.dns.rules]]) {
+    record.check(`${id}.dns.private-and-ad-before-cn`, precedingAdExceptions.length > 0
+      && isDeepStrictEqual(rules.slice(0, expectedDnsHead.length), expectedDnsHead), {
+      message: 'DNS must route private domains directly, then reject first-block ad matches outside the precise pre-ad exceptions, before CN routing',
+    });
+  }
   const cnQueryRule = dnsRules.findIndex(rule => rule.rule_set?.includes('geosite-cn') && rule.server === 'dns_direct' && rule.action === 'route');
   const evaluateIndex = dnsRules.findIndex(rule => rule.action === 'evaluate' && rule.server === 'dns_direct');
   const cnResponseRule = dnsRules[evaluateIndex + 1];
@@ -2710,9 +2731,13 @@ function main() {
   if (!result.ok) process.exit(1);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(error && error.stack ? error.stack : String(error));
-  process.exit(1);
+if (require.main === module) {
+  try {
+    main();
+  } catch (error) {
+    console.error(error && error.stack ? error.stack : String(error));
+    process.exit(1);
+  }
 }
+
+module.exports = { checkMobileFusedRuleSets };

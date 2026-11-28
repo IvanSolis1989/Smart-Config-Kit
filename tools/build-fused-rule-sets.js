@@ -4,9 +4,7 @@
 const childProcess = require('node:child_process');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
-const os = require('node:os');
 const path = require('node:path');
-const zlib = require('node:zlib');
 const vm = require('node:vm');
 const { createRequire } = require('node:module');
 const {
@@ -41,6 +39,7 @@ const {
 } = require('./lib/generated-asset-url');
 const { createFusedSourceLoader } = require('./lib/fused-source-provenance');
 const { downloadSource } = require('./sync-mihomo-mrs-rule-providers');
+const { officialKernelAsset, ensureOfficialKernel } = require('./lib/official-kernel');
 const { refreshRuleQuality } = require('./refresh-rule-quality');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -59,10 +58,6 @@ const MIHOMO_MRS_BASE_PATH = '/rulesets/generated/mihomo-mrs/';
 const FUSED_MIHOMO_BASE_PATH = '/rulesets/generated/fused/mihomo/';
 const META_GEOSITE_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite';
 const META_GEOIP_BASE = 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip';
-const MIHOMO_REPO = 'MetaCubeX/mihomo';
-const SING_BOX_REPO = 'SagerNet/sing-box';
-const MIHOMO_REPO_API = `https://api.github.com/repos/${MIHOMO_REPO}/releases/latest`;
-const SING_BOX_REPO_API = `https://api.github.com/repos/${SING_BOX_REPO}/releases/latest`;
 const RELEASE_FETCH_TIMEOUT_MS = Number(process.env.SCKI_RELEASE_FETCH_TIMEOUT_MS || 15000);
 const SOURCE_FETCH_TIMEOUT_MS = Number(process.env.SCKI_SOURCE_FETCH_TIMEOUT_MS || 30000);
 const SCKI_OFFLINE = process.env.SCKI_OFFLINE === '1';
@@ -913,6 +908,8 @@ function readReleaseWithGhCli(repo) {
       assets: (release.assets || []).map((asset) => ({
         name: asset.name,
         browser_download_url: asset.url,
+        digest: asset.digest,
+        id: Number(new URL(asset.apiUrl).pathname.split('/').pop()),
       })),
     };
   } catch {
@@ -920,10 +917,10 @@ function readReleaseWithGhCli(repo) {
   }
 }
 
-async function downloadRelease(repo, apiUrl) {
+async function downloadRelease(repo) {
   const ghRelease = readReleaseWithGhCli(repo);
-  if (ghRelease) return ghRelease;
-  return downloadJson(apiUrl);
+  if (ghRelease?.assets.some(asset => asset.digest)) return ghRelease;
+  return downloadJson(`https://api.github.com/repos/${repo}/releases/latest`);
 }
 
 async function downloadBuffer(url) {
@@ -959,52 +956,14 @@ async function downloadBuffer(url) {
   }
 }
 
-function mihomoAssetPattern() {
-  const arch = os.arch();
-  if (process.platform === 'win32') {
-    if (arch !== 'x64') throw new Error(`Unsupported Windows arch: ${arch}`);
-    return /^mihomo-windows-amd64-compatible-.*\.zip$/;
-  }
-  if (process.platform === 'linux') {
-    if (arch === 'x64') return /^mihomo-linux-amd64-compatible-.*\.gz$/;
-    if (arch === 'arm64') return /^mihomo-linux-arm64-.*\.gz$/;
-  }
-  if (process.platform === 'darwin') {
-    if (arch === 'x64') return /^mihomo-darwin-amd64-compatible-.*\.gz$/;
-    if (arch === 'arm64') return /^mihomo-darwin-arm64-.*\.gz$/;
-  }
-  throw new Error(`Unsupported platform for mihomo: ${process.platform}/${arch}`);
-}
-
 async function ensureMihomoBinary() {
-  const configured = configuredExecutable('SCKI_MIHOMO_BIN', process.platform === 'win32' ? ['mihomo.exe', 'mihomo'] : ['mihomo']);
+  const commands = process.platform === 'win32' ? ['mihomo.exe', 'mihomo'] : ['mihomo'];
+  const configured = configuredExecutable('SCKI_MIHOMO_BIN', commands);
   if (configured) return configured;
-
-  fs.mkdirSync(MIHOMO_CACHE_DIR, { recursive: true });
-  const existing = fs.readdirSync(MIHOMO_CACHE_DIR).find((file) => /^mihomo-v.*\.exe$/.test(file) || /^mihomo-v/.test(file));
-  if (existing) return path.join(MIHOMO_CACHE_DIR, existing);
-
-  const release = await downloadRelease(MIHOMO_REPO, MIHOMO_REPO_API);
-  const asset = release.assets.find((candidate) => mihomoAssetPattern().test(candidate.name));
-  if (!asset) throw new Error('No mihomo release asset found');
-  const target = path.join(MIHOMO_CACHE_DIR, `mihomo-${release.tag_name}${process.platform === 'win32' ? '.exe' : ''}`);
-  if (fs.existsSync(target)) return target;
-  const archive = path.join(MIHOMO_CACHE_DIR, asset.name);
-  fs.writeFileSync(archive, await downloadBuffer(asset.browser_download_url));
-  if (asset.name.endsWith('.gz')) {
-    fs.writeFileSync(target, zlib.gunzipSync(fs.readFileSync(archive)));
-    fs.chmodSync(target, 0o755);
-  } else {
-    const unzipDir = path.join(MIHOMO_CACHE_DIR, `unzip-${release.tag_name}`);
-    fs.rmSync(unzipDir, { recursive: true, force: true });
-    fs.mkdirSync(unzipDir, { recursive: true });
-    const result = childProcess.spawnSync('powershell.exe', ['-NoProfile', '-Command', `Expand-Archive -LiteralPath ${JSON.stringify(archive)} -DestinationPath ${JSON.stringify(unzipDir)} -Force`], { encoding: 'utf8' });
-    if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'Expand-Archive failed');
-    const exe = fs.readdirSync(unzipDir).find((file) => file.endsWith('.exe'));
-    if (!exe) throw new Error(`No mihomo exe in ${asset.name}`);
-    fs.copyFileSync(path.join(unzipDir, exe), target);
-  }
-  return target;
+  const spec = officialKernelAsset('mihomo');
+  if (!spec) throw new Error(`Unsupported platform for mihomo: ${process.platform}/${process.arch}`);
+  return ensureOfficialKernel({ spec, cacheDir: MIHOMO_CACHE_DIR, offline: SCKI_OFFLINE,
+    preferCache: true, getRelease: downloadRelease, download: downloadBuffer });
 }
 
 function convertWithMihomo(mihomoBin, behavior, sourceFile, targetFile) {
@@ -1015,58 +974,14 @@ function convertWithMihomo(mihomoBin, behavior, sourceFile, targetFile) {
   if (result.status !== 0) throw new Error(`mihomo convert-ruleset ${behavior} failed: ${result.stderr || result.stdout}`);
 }
 
-function singBoxAssetPattern() {
-  const arch = os.arch();
-  if (process.platform === 'win32' && arch === 'x64') return /sing-box-.*-windows-amd64\.zip$/;
-  if (process.platform === 'linux' && arch === 'x64') return /sing-box-.*-linux-amd64\.tar\.gz$/;
-  if (process.platform === 'linux' && arch === 'arm64') return /sing-box-.*-linux-arm64\.tar\.gz$/;
-  if (process.platform === 'darwin' && arch === 'x64') return /sing-box-.*-darwin-amd64\.tar\.gz$/;
-  if (process.platform === 'darwin' && arch === 'arm64') return /sing-box-.*-darwin-arm64\.tar\.gz$/;
-  return null;
-}
-
 async function ensureSingBoxBinary() {
-  const command = process.platform === 'win32' ? 'sing-box.exe' : 'sing-box';
-  const configured = configuredExecutable('SCKI_SING_BOX_BIN', process.platform === 'win32' ? ['sing-box.exe', 'sing-box'] : ['sing-box']);
+  const commands = process.platform === 'win32' ? ['sing-box.exe', 'sing-box'] : ['sing-box'];
+  const configured = configuredExecutable('SCKI_SING_BOX_BIN', commands);
   if (configured) return configured;
-
-  const pattern = singBoxAssetPattern();
-  if (!pattern) return null;
-  const dir = path.join(CACHE_DIR, 'sing-box');
-  fs.mkdirSync(dir, { recursive: true });
-  const existing = fs.readdirSync(dir).find((file) => file === command || file === 'sing-box.exe');
-  if (existing) return path.join(dir, existing);
-
-  const release = await downloadRelease(SING_BOX_REPO, SING_BOX_REPO_API);
-  const asset = release.assets.find((candidate) => pattern.test(candidate.name));
-  if (!asset) return null;
-  const archive = path.join(dir, asset.name);
-  fs.writeFileSync(archive, await downloadBuffer(asset.browser_download_url));
-  const extractDir = path.join(dir, `unpack-${release.tag_name}`);
-  fs.rmSync(extractDir, { recursive: true, force: true });
-  fs.mkdirSync(extractDir, { recursive: true });
-  if (asset.name.endsWith('.zip')) {
-    const result = childProcess.spawnSync('powershell.exe', ['-NoProfile', '-Command', `Expand-Archive -LiteralPath ${JSON.stringify(archive)} -DestinationPath ${JSON.stringify(extractDir)} -Force`], { encoding: 'utf8' });
-    if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'Expand-Archive failed');
-  } else {
-    const result = childProcess.spawnSync('tar', ['-xzf', archive, '-C', extractDir], { encoding: 'utf8' });
-    if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'tar failed');
-  }
-  const stack = [extractDir];
-  while (stack.length) {
-    const current = stack.pop();
-    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
-      const full = path.join(current, entry.name);
-      if (entry.isDirectory()) stack.push(full);
-      else if (entry.name === command || entry.name === 'sing-box.exe') {
-        const target = path.join(dir, command);
-        fs.copyFileSync(full, target);
-        if (process.platform !== 'win32') fs.chmodSync(target, 0o755);
-        return target;
-      }
-    }
-  }
-  return null;
+  const spec = officialKernelAsset('sing-box');
+  if (!spec) return null;
+  return ensureOfficialKernel({ spec, cacheDir: path.join(CACHE_DIR, 'sing-box'), offline: SCKI_OFFLINE,
+    preferCache: true, getRelease: downloadRelease, download: downloadBuffer });
 }
 
 function compileSingBoxRuleSet(singBoxBin, sourceFile, targetFile) {

@@ -14,6 +14,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.24-sing.15 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+- Reject advertising DNS requests before the country-resolver decision, retaining private DNS and the earlier service exceptions in both supported config formats.
+
 ## v6.0.23-sing.14 (2026-11-28)
 
 - Both supported profiles use binary rules with the broad Copilot keyword removed and its existing service suffixes preserved.

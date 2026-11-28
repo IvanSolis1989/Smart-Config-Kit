@@ -15869,13 +15869,13 @@
       "source_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/adfp-ai.list",
       "source_entry_count": 5,
       "type_counts": {
-        "domain": 5
+        "domain": 6
       },
       "generated": [
         {
           "behavior": "domain",
           "file": "scki-adfp-ai.mrs",
-          "entries": 5,
+          "entries": 6,
           "output_receipt": {
             "schema_version": 1,
             "requested_url": null,
@@ -15886,8 +15886,8 @@
             "verification": "content-sha256",
             "content_normalization": "raw-bytes",
             "content": {
-              "sha256": "d6de406718402402fcd6f131c4c760423508edaf8d23c987904b6469e89c97d1",
-              "bytes": 148
+              "sha256": "f6423d5e45fe5374acd54cc959e4c69680a9ccc22bd4caf117454f244beae93a",
+              "bytes": 175
             },
             "source": {
               "id": "repository-local",
@@ -15918,8 +15918,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "7229a725d889f1672112f1d9bcbec3c1867ca2370b809973da812abccaedb5d4",
-          "bytes": 235
+          "sha256": "bce1233065d484b7c0988aa47096361a7192f8991ce2bfe7584d58e927b3c4f8",
+          "bytes": 279
         },
         "source": {
           "id": "scki",
@@ -33714,7 +33714,7 @@
       "source_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
       "source_entry_count": 245,
       "type_counts": {
-        "domain": 212,
+        "domain": 211,
         "ipcidr": 18,
         "PROCESS-NAME": 10
       },
@@ -33722,7 +33722,7 @@
         {
           "behavior": "domain",
           "file": "szkane-ai-domain.mrs",
-          "entries": 197,
+          "entries": 196,
           "output_receipt": {
             "schema_version": 1,
             "requested_url": null,
@@ -33733,8 +33733,8 @@
             "verification": "content-sha256",
             "content_normalization": "raw-bytes",
             "content": {
-              "sha256": "ef4c8c8a500ea1902f0154d6c394c6443f763bd3aa0de04d9f41e945bd524074",
-              "bytes": 2047
+              "sha256": "66035f2235f95436ca2b2e40f6ac351cbf98d56c7e42609753b5c784ba2583ae",
+              "bytes": 2057
             },
             "source": {
               "id": "repository-local",
@@ -33885,17 +33885,17 @@
       "source_behavior": "classical",
       "source_format": "text",
       "source_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/mirrors/CiciAi.list",
-      "source_entry_count": 39,
+      "source_entry_count": 35,
       "type_counts": {
         "PROCESS-NAME": 8,
-        "domain": 30,
+        "domain": 26,
         "ipcidr": 1
       },
       "generated": [
         {
           "behavior": "domain",
           "file": "szkane-ciciai-domain.mrs",
-          "entries": 28,
+          "entries": 25,
           "output_receipt": {
             "schema_version": 1,
             "requested_url": null,
@@ -33906,8 +33906,8 @@
             "verification": "content-sha256",
             "content_normalization": "raw-bytes",
             "content": {
-              "sha256": "e0f0bb086e4f1c8287a813c8ddd26085ee04ce9de1b2eaeafb57fcc41f8c224a",
-              "bytes": 363
+              "sha256": "c8a46488fc3c5788d9f0fef15e22d108b8b2bbf2998c7dfc80fe4128ce31ca6e",
+              "bytes": 348
             },
             "source": {
               "id": "repository-local",
@@ -33966,7 +33966,7 @@
       "residual": {
         "behavior": "classical",
         "file": "szkane-ciciai-classical.yaml",
-        "entries": 10,
+        "entries": 9,
         "output_receipt": {
           "schema_version": 1,
           "requested_url": null,
@@ -33977,8 +33977,8 @@
           "verification": "content-sha256",
           "content_normalization": "LF",
           "content": {
-            "sha256": "a0e6f06f14e7219afcfb11e56aaea1237c0682aff4e07e1212f63286915ae3e3",
-            "bytes": 314
+            "sha256": "59bec039040d2f00e68a0a36d86d66d358720ff4a6be2683b200552ad4467404",
+            "bytes": 288
           },
           "source": {
             "id": "repository-local",
@@ -34008,8 +34008,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "b367bcddc9d074976b36362fdea697254cdf6ea9b4f20e026009850759f6dea9",
-          "bytes": 1632
+          "sha256": "9cfe5fa11f021ec413e85d68fcab2c5d585f27b1ede3349b0e18cbeb86877f5e",
+          "bytes": 1523
         },
         "source": {
           "id": "scki",

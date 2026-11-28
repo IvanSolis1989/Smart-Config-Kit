@@ -2,7 +2,7 @@
 
 [English](REFERENCE-flclash.md) | **简体中文**
 
-> 核对于 2026-11-28。[v0.9.5 正式版](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5) 内置 [FlClash 的 Mihomo 分支 `fea2926`](https://github.com/MetaCubeX/mihomo/compare/v1.19.34...chen08209:fea29264f541cba170bb8b7dda84697aa1dbcc3b)，基于 v1.19.34 加 13 个提交。[RS v0.9.5-rs.2+1](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) 另有独立预发布安装包，内置 Concord，按 [Concord 官方兼容范围](https://github.com/Vialibrex/concord/blob/faaadad9c93d1967d44a65732bfcb02b7a93aefc/docs/compatibility.md) 单独核对。
+> 核对于 2026-11-28。[v0.9.5 正式版](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5) 内置 [FlClash 的 Mihomo 分支 `fea2926`](https://github.com/MetaCubeX/mihomo/compare/v1.19.34...chen08209:fea29264f541cba170bb8b7dda84697aa1dbcc3b)，基于 v1.19.34 加 13 个提交。[RS v0.9.5-rs.2+1](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) 另有独立预发布安装包，内置 Concord，按 [Concord 官方兼容范围](https://github.com/Vialibrex/concord/blob/4d5893409d1aff1b7e068510190080052398dac1/docs/compatibility.md) 单独核对。
 
 > 正式版先执行 `main(config)`，再应用 [App patch](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/providers/actions/setup.dart#L560-L638)。App 将模块 hosts 合并到 hosts 表，依次应用选定的 DNS 键与模块 DNS，并可追加系统 DNS。模块规则插入最终配置的规则首部。macOS 在 TUN 的 `dns-mode` 缺失时填入 `native`。先关闭模块取基线，再逐个启用，通过最终配置和「请求」记录比较 DNS、规则首命中及实际出口。 [TUN 处理](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L243-L267) · [DNS 和 hosts](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L337-L374) · [规则顺序](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L392-L433)
 

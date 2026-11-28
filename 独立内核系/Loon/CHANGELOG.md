@@ -13,6 +13,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.24-Loon.16 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-Loon.15 (2026-11-28)
 
 - The Copilot rule set matches its service domains without matching unrelated names containing the same word.

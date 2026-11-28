@@ -10,8 +10,10 @@ const { spawn } = require('node:child_process');
 const { localPathForRepositoryRuleUrl, REPOSITORY_URL_PREFIXES } = require('./lib/repository-rule-asset');
 
 const ROOT = path.resolve(__dirname, '..');
-const TEXT_EXTENSIONS = new Set(['.txt', '.list', '.conf', '.yaml', '.yml', '.json']);
+const RULE_SET_TEXT_EXTENSIONS = new Set(['.txt', '.list', '.conf']);
+const TEXT_EXTENSIONS = new Set([...RULE_SET_TEXT_EXTENSIONS, '.yaml', '.yml', '.json']);
 const RULE_LINE = /^(?:DOMAIN(?:-SUFFIX|-KEYWORD|-WILDCARD|-REGEX)?|IP-CIDR6?|IP-ASN|GEOIP|GEOSITE|PROCESS-NAME|PROCESS-PATH|USER-AGENT|URL-REGEX|DEST-PORT|DST-PORT|SRC-IP(?:-CIDR)?|SRC-PORT|AND|OR|NOT|NETWORK),/;
+const CONFIG_SECTION = /^\[[A-Za-z][\w -]*\](?:\s*[#;].*)?$/;
 const hash = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 
 function validateProxy(proxy) {
@@ -83,10 +85,15 @@ function inspectDownload(url, downloaded, localPath) {
   if (isText && body.length) result.canonicalSha256 = hash(canonicalBytes(body));
   if (!result.failure && isText) {
     const text = body.toString('utf8');
-    if (/^\s*(?:<!doctype html|<html|404: Not Found|Failed to fetch|Package size exceeded)/i.test(text)
-      || (new Set(['.list', '.txt', '.conf']).has(extension)
-        && !text.split(/\r?\n/).some((line) => RULE_LINE.test(line.trim())))) {
+    if (/^\s*(?:<!doctype html|<html|404: Not Found|Failed to fetch|Package size exceeded)/i.test(text)) {
       result.failure = 'body is not a rule set';
+    } else if (RULE_SET_TEXT_EXTENSIONS.has(extension)) {
+      const lines = text.split(/\r?\n/);
+      if (!localPath && lines.some((line) => CONFIG_SECTION.test(line.trim()))) {
+        result.failure = 'body contains configuration sections';
+      } else if (!lines.some((line) => RULE_LINE.test(line.trim()))) {
+        result.failure = 'body is not a rule set';
+      }
     }
   }
   if (localPath) {

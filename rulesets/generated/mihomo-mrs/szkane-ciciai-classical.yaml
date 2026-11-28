@@ -8,4 +8,3 @@ payload:
   - "PROCESS-NAME,ai-agent"
   - "PROCESS-NAME,ai-completion"
   - "DOMAIN-KEYWORD,ciciai"
-  - "DOMAIN-KEYWORD,dola"

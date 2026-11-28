@@ -101917,7 +101917,6 @@ domain_set:
   - "origin-tracker.business.githubcopilot.com"
   - "origin-tracker.deutschebahn.ghe.com"
   - "origin-tracker.enterprise.githubcopilot.com"
-  - "origin-tracker.githubusercontent.com"
   - "origin-tracker.individual.githubcopilot.com"
   - "origin-tracker.raiffeisen.ghe.com"
   - "origin-tracker.riess-engineering-europe.ghe.com"

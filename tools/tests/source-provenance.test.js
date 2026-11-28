@@ -5,7 +5,9 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
+const { gzipSync } = require('node:zlib');
 const provenance = require('../lib/source-provenance');
+const { officialKernelAsset, ensureOfficialKernel } = require('../lib/official-kernel');
 const { downloadSource, ensureMihomoBinary, parseArgs, parsePayloadEntries, classifyEntry } = require('../sync-mihomo-mrs-rule-providers');
 
 const commit = '0123456789abcdef0123456789abcdef01234567';
@@ -149,13 +151,77 @@ test('offline binary selection never calls the release API and validates cached 
   global.fetch = async () => { throw new Error('NETWORK MUST NOT RUN'); };
   t.after(() => { global.fetch = originalFetch; });
   await assert.rejects(ensureMihomoBinary(null, { offline: true }, root), /offline mihomo binary cache miss/);
-  const file = path.join(root, 'mihomo-test.exe');
+  const legacy = path.join(root, 'mihomo-test.exe');
+  const spec = officialKernelAsset('mihomo');
+  fs.writeFileSync(legacy, 'binary');
+  const digest = provenance.sha256(Buffer.from('binary'));
+  const receipt = path.join(root, 'binary.json');
+  fs.writeFileSync(receipt, JSON.stringify({ file: path.basename(legacy), sha256: digest, bytes: 6 }));
+  await assert.rejects(ensureMihomoBinary(null, { offline: true }, root), /offline mihomo binary cache miss/);
+  assert.equal(await ensureMihomoBinary(legacy, { offline: true }, root), legacy);
+  const file = path.join(root, `${digest}-${spec.executable}`);
   fs.writeFileSync(file, 'binary');
-  fs.writeFileSync(path.join(root, 'binary.json'), JSON.stringify({ file: path.basename(file), sha256: provenance.sha256(Buffer.from('binary')), bytes: 6 }));
+  fs.writeFileSync(receipt, JSON.stringify({
+    schema: 1, repo: spec.repo, release_tag: 'v1.19.34', asset_id: 1, asset_name: spec.archiveName('v1.19.34'),
+    file: path.basename(file), digest: `sha256:${digest}`, sha256: digest, bytes: 6,
+  }));
   assert.equal(await ensureMihomoBinary(null, { offline: true }, root), file);
-  assert.equal(await ensureMihomoBinary(file, { offline: true }, root), file);
   fs.writeFileSync(file, 'mutant');
   await assert.rejects(ensureMihomoBinary(null, { offline: true }, root), /hash mismatch/);
+});
+
+test('automatic kernel acquisition rejects missing, forged and corrupt packages before caching', async t => {
+  const cacheDir = fixture(t);
+  const spec = officialKernelAsset('mihomo', 'linux', 'arm64');
+  const tag = 'v1.19.34';
+  const name = spec.archiveName(tag);
+  const url = `https://github.com/${spec.repo}/releases/download/${tag}/${name}`;
+  const asset = { id: 123, name, browser_download_url: url, digest: null };
+  const expectedBytes = Buffer.from('trusted kernel');
+  const archive = gzipSync(expectedBytes);
+  let response = archive;
+  let downloads = 0;
+  const getRelease = async repo => {
+    assert.equal(repo, spec.repo);
+    return { tag_name: tag, assets: [{ ...asset, name: name.replace('-v1.19', '-go124-v1.19') }, asset] };
+  };
+  const acquire = (extra = {}) => ensureOfficialKernel({
+    spec, cacheDir, getRelease,
+    download: async requested => {
+      assert.equal(requested, url);
+      downloads += 1;
+      return response;
+    },
+    ...extra,
+  });
+  await assert.rejects(acquire(), /Missing official SHA-256/);
+  assert.equal(downloads, 0);
+  asset.digest = `sha256:${'0'.repeat(64)}`;
+  await assert.rejects(acquire(), /Official SHA-256 mismatch/);
+  assert.deepEqual(fs.readdirSync(cacheDir), []);
+
+  response = Buffer.from('invalid gzip with the expected hash');
+  asset.digest = `sha256:${provenance.sha256(response)}`;
+  await assert.rejects(acquire(), /incorrect header check/);
+  assert.deepEqual(fs.readdirSync(cacheDir), []);
+
+  response = archive;
+  asset.digest = `sha256:${provenance.sha256(archive)}`;
+  const selected = await acquire();
+  assert.deepEqual(fs.readFileSync(selected), expectedBytes);
+  const receipt = JSON.parse(fs.readFileSync(path.join(cacheDir, 'binary.json'), 'utf8'));
+  assert.equal(receipt.asset_id, asset.id);
+  assert.equal(receipt.digest, asset.digest);
+  assert.equal(receipt.sha256, provenance.sha256(expectedBytes));
+  assert.equal(await acquire(), selected);
+  assert.equal(await acquire({ preferCache: true, getRelease: () => { throw new Error('unexpected network'); } }), selected);
+  assert.equal(downloads, 3);
+
+  fs.writeFileSync(selected, 'modified');
+  await assert.rejects(acquire({ offline: true }), /binary cache miss or hash mismatch/);
+  assert.equal(await acquire(), selected);
+  assert.deepEqual(fs.readFileSync(selected), expectedBytes);
+  assert.equal(downloads, 4);
 });
 
 test('small mixed provider fixture records partition statistics and output hashes independently', t => {

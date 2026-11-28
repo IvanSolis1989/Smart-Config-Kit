@@ -3,13 +3,13 @@
   "mode": "domain-projection",
   "before": {
     "root": ".",
-    "ref": "485453aa06f94db8453209a125f204c9fd0553a1",
-    "identity": "b7d673c4a5983aaf9068b75fdc9d7015fe6f2e0be8c46f7afe33e83c744a6602"
+    "ref": "010ebff48f7e5215b78b55cab14d9cc99e2d6e3f",
+    "identity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0"
   },
   "after": {
     "root": ".",
     "ref": null,
-    "identity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0"
+    "identity": "b8ac3f9a4b316ce272f65907a23b4ff5b24cc1cbbb83a2b272862d006dae5d88"
   },
   "limits": [
     "Finite witnesses do not prove all-domain/all-IP equivalence.",
@@ -20,15 +20,15 @@
   ],
   "summary": {
     "hasChanges": true,
-    "changedProviders": 3,
+    "changedProviders": 4,
     "ruleOrderChanged": false,
-    "entryChangeCount": 12,
+    "entryChangeCount": 5,
     "routeChangeCount": 4,
-    "undecidableCount": 4
+    "undecidableCount": 7
   },
   "budget": {
     "maxProbes": 1000,
-    "evaluated": 10,
+    "evaluated": 14,
     "droppedProbes": 0,
     "truncated": false,
     "maxEvidence": 1000,
@@ -36,23 +36,30 @@
   },
   "changedProviders": [
     {
-      "provider": "scki-fused-013-ai-domain",
-      "before": "f12d138ef8f1b1fe7fc1ea953c0e658980a2effa475e5bc8b625d79ef8d82268",
-      "after": "678719d4811ba20d48abb7f37bd277e338f44691971d9d933a1cae4a6d39d967",
+      "provider": "scki-fused-004-ai-domain",
+      "before": "afd433118440e55b860233488ea163dfe5a8dd35e12c999225efbd093fca2d95",
+      "after": "ec2e888d10d2e5f483d7ce5bfacebe216568ecc790195336a5e0047b2405bb7e",
+      "beforeKind": "domain",
+      "afterKind": "domain"
+    },
+    {
+      "provider": "scki-fused-010-ad-domain",
+      "before": "d0c571dd91f712542fffdb5be5eded0832062392241d6f362cd1fe26e3f6ba72",
+      "after": "292fb8a244359c2285e873363a0cc9ee7ba1be87253fca498dc45ba53343ec82",
+      "beforeKind": "domain",
+      "afterKind": "domain"
+    },
+    {
+      "provider": "scki-fused-033-ai-domain",
+      "before": "4132da70df50dd6b644ea52dbbfd8c73deaea9bb4dc062015e9dd0ce62566a96",
+      "after": "147d7e66e4c36fe24e34ebec5575698d47cc6a937bc3b3bbd8efbfcdbc1d409b",
       "beforeKind": "domain",
       "afterKind": "domain"
     },
     {
       "provider": "scki-fused-033-ai-residual",
-      "before": "b5d24a7aa89bccbe8448f06acab18bc35d90b88d94d0d23516d52bc449642150",
-      "after": "986fa6128f96db79249081c1c986f9baa1ebd75d04617a57b7d5a0a080a5221c",
-      "beforeKind": "residual",
-      "afterKind": "residual"
-    },
-    {
-      "provider": "scki-fused-035-ai-residual",
-      "before": "cd8be3041aa14b30f904292348517dd6bda27b7dbf701f1ca76a76d1e40189dd",
-      "after": "6fb22bedf80bb6f3be839b131286f17067c1c81c53c6d60777baa706a4de5f72",
+      "before": "986fa6128f96db79249081c1c986f9baa1ebd75d04617a57b7d5a0a080a5221c",
+      "after": "faf0b5aeafd456fd21c34f39879f0787c98e3978f04ee8754e575a22ebd0f7df",
       "beforeKind": "residual",
       "afterKind": "residual"
     }
@@ -61,189 +68,112 @@
     {
       "change": "added",
       "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-      "entry": "DOMAIN,cr.m365copilotapp.svc.cloud.microsoft",
-      "entryIndex": 1,
-      "index": 16,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-013-ai-domain",
-      "domainPayload": "cr.m365copilotapp.svc.cloud.microsoft"
-    },
-    {
-      "change": "added",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-      "entry": "DOMAIN,copilot.cloud.microsoft",
-      "entryIndex": 2,
-      "index": 16,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-013-ai-domain",
-      "domainPayload": "copilot.cloud.microsoft"
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "entry": "DOMAIN-KEYWORD,copilot",
-      "entryIndex": 7,
-      "index": 68,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-033-ai-residual",
-      "domainPayload": null
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "entry": "PROCESS-NAME,Claude",
-      "entryIndex": 13,
-      "index": 68,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-033-ai-residual",
-      "domainPayload": null
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "entry": "PROCESS-NAME,Claude Helper",
-      "entryIndex": 14,
-      "index": 68,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-033-ai-residual",
-      "domainPayload": null
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "entry": "PROCESS-NAME,Claude Helper (Renderer)",
-      "entryIndex": 15,
-      "index": 68,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-033-ai-residual",
-      "domainPayload": null
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,Claude.exe",
+      "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+      "entry": "DOMAIN,origin-tracker.githubusercontent.com",
       "entryIndex": 5,
-      "index": 72,
+      "index": 3,
       "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
-      "domainPayload": null
+      "provider": "scki-fused-004-ai-domain",
+      "domainPayload": "origin-tracker.githubusercontent.com"
     },
     {
       "change": "removed",
       "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,claude",
-      "entryIndex": 6,
-      "index": 72,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
-      "domainPayload": null
+      "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+      "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+      "entryIndex": 274741,
+      "index": 11,
+      "policy": "🛑 广告拦截",
+      "provider": "scki-fused-010-ad-domain",
+      "domainPayload": "origin-tracker.githubusercontent.com"
     },
     {
       "change": "removed",
       "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,claude.exe",
-      "entryIndex": 7,
-      "index": 72,
+      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+      "entry": "DOMAIN-SUFFIX,usefathom.com",
+      "entryIndex": 104,
+      "index": 65,
       "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
-      "domainPayload": null
+      "provider": "scki-fused-033-ai-domain",
+      "domainPayload": "+.usefathom.com"
     },
     {
       "change": "removed",
       "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,ChatGPT",
-      "entryIndex": 20,
-      "index": 72,
+      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+      "entry": "DOMAIN-SUFFIX,zijieapi.com",
+      "entryIndex": 128,
+      "index": 65,
       "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
-      "domainPayload": null
+      "provider": "scki-fused-033-ai-domain",
+      "domainPayload": "+.zijieapi.com"
     },
     {
       "change": "removed",
       "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,ChatGPT.exe",
-      "entryIndex": 21,
-      "index": 72,
+      "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
+      "entry": "DOMAIN-KEYWORD,dola",
+      "entryIndex": 23,
+      "index": 68,
       "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
-      "domainPayload": null
-    },
-    {
-      "change": "removed",
-      "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-      "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "entry": "PROCESS-NAME,chatgpt",
-      "entryIndex": 24,
-      "index": 72,
-      "policy": "🤖 AI 服务",
-      "provider": "scki-fused-035-ai-residual",
+      "provider": "scki-fused-033-ai-residual",
       "domainPayload": null
     }
   ],
   "conversionTypes": {
     "DOMAIN": {
-      "added": 2,
-      "removed": 0
+      "added": 1,
+      "removed": 1
+    },
+    "DOMAIN-SUFFIX": {
+      "added": 0,
+      "removed": 2
     },
     "DOMAIN-KEYWORD": {
       "added": 0,
       "removed": 1
-    },
-    "PROCESS-NAME": {
-      "added": 0,
-      "removed": 9
     }
   },
   "ruleOrder": null,
   "routes": [
     {
       "probe": {
-        "host": "cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
         "status": "match",
-        "policy": "🤖 AI 服务",
+        "policy": "🛑 广告拦截",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
         "overlaps": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+            "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+            "entryIndex": 81,
+            "index": 126,
+            "policy": "🔧 工具与服务",
+            "provider": "scki-fused-064-tools-domain"
           }
         ],
         "overlapCount": 1,
@@ -255,33 +185,33 @@
         "policy": "🤖 AI 服务",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,cr.m365copilotapp.svc.cloud.microsoft",
-          "entryIndex": 1,
-          "index": 16,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
+          "provider": "scki-fused-004-ai-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,cr.m365copilotapp.svc.cloud.microsoft",
-          "entryIndex": 1,
-          "index": 16,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
+          "provider": "scki-fused-004-ai-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
         "overlaps": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+            "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+            "entryIndex": 81,
+            "index": 126,
+            "policy": "🔧 工具与服务",
+            "provider": "scki-fused-064-tools-domain"
           }
         ],
         "overlapCount": 1,
@@ -290,44 +220,37 @@
     },
     {
       "probe": {
-        "host": "witness.cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "witness.origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
+        "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
           }
         ],
-        "overlapCount": 1,
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -337,12 +260,12 @@
         "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "unknownBlockers": [
           {
@@ -364,44 +287,37 @@
     },
     {
       "probe": {
-        "host": "boundary-cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "boundary-origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
+        "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
           }
         ],
-        "overlapCount": 1,
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -411,12 +327,12 @@
         "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "unknownBlockers": [
           {
@@ -438,7 +354,531 @@
     },
     {
       "probe": {
-        "host": "cr.m365copilotapp.svc.cloud.microsoft.outside.invalid"
+        "host": "origin-tracker.githubusercontent.com.outside.invalid"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "usefathom.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🛑 广告拦截",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403025,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403025,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+            "entry": "DOMAIN-SUFFIX,usefathom.com",
+            "entryIndex": 104,
+            "index": 65,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-033-ai-domain"
+          }
+        ],
+        "overlapCount": 1,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🛑 广告拦截",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403024,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403024,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "witness.usefathom.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "boundary-usefathom.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "usefathom.com.outside.invalid"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "witness.zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "boundary-zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "zijieapi.com.outside.invalid"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "DIRECT",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,invalid",
+          "entryIndex": 15,
+          "index": 30,
+          "policy": "DIRECT",
+          "provider": "scki-fused-018-direct-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "dola.invalid"
       },
       "before": {
         "mode": "domain-projection",
@@ -468,8 +908,8 @@
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
             "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-            "entry": "DOMAIN-KEYWORD,copilot",
-            "entryIndex": 7,
+            "entry": "DOMAIN-KEYWORD,dola",
+            "entryIndex": 23,
             "index": 68,
             "policy": "🤖 AI 服务",
             "provider": "scki-fused-033-ai-residual"
@@ -509,236 +949,7 @@
     },
     {
       "probe": {
-        "host": "copilot.cloud.microsoft"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,copilot.cloud.microsoft",
-          "entryIndex": 2,
-          "index": 16,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,copilot.cloud.microsoft",
-          "entryIndex": 2,
-          "index": 16,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "witness.copilot.cloud.microsoft"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "unknown",
-        "policy": null,
-        "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "unknownBlockers": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
-            "entryIndex": 4,
-            "index": 72,
-            "policy": "🤖 AI 服务",
-            "provider": "scki-fused-035-ai-residual",
-            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
-          }
-        ],
-        "unknownBlockerCount": 1,
-        "overlaps": [],
-        "overlapCount": 0,
-        "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "boundary-copilot.cloud.microsoft"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "unknown",
-        "policy": null,
-        "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "unknownBlockers": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
-            "entryIndex": 4,
-            "index": 72,
-            "policy": "🤖 AI 服务",
-            "provider": "scki-fused-035-ai-residual",
-            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
-          }
-        ],
-        "unknownBlockerCount": 1,
-        "overlaps": [],
-        "overlapCount": 0,
-        "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "copilot.cloud.microsoft.outside.invalid"
+        "host": "boundary-dola.invalid"
       },
       "before": {
         "mode": "domain-projection",
@@ -768,150 +979,8 @@
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
             "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-            "entry": "DOMAIN-KEYWORD,copilot",
-            "entryIndex": 7,
-            "index": 68,
-            "policy": "🤖 AI 服务",
-            "provider": "scki-fused-033-ai-residual"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "DIRECT",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [],
-        "overlapCount": 0,
-        "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "copilot.invalid"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "DIRECT",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-            "entry": "DOMAIN-KEYWORD,copilot",
-            "entryIndex": 7,
-            "index": 68,
-            "policy": "🤖 AI 服务",
-            "provider": "scki-fused-033-ai-residual"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "DIRECT",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [],
-        "overlapCount": 0,
-        "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "boundary-copilot.invalid"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "DIRECT",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-            "entry": "DOMAIN-KEYWORD,copilot",
-            "entryIndex": 7,
+            "entry": "DOMAIN-KEYWORD,dola",
+            "entryIndex": 23,
             "index": 68,
             "policy": "🤖 AI 服务",
             "provider": "scki-fused-033-ai-residual"
@@ -953,41 +1022,41 @@
   "routeChanges": [
     {
       "probe": {
-        "host": "witness.cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
         "status": "match",
-        "policy": "🤖 AI 服务",
+        "policy": "🛑 广告拦截",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
         "overlaps": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+            "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+            "entryIndex": 81,
+            "index": 126,
+            "policy": "🔧 工具与服务",
+            "provider": "scki-fused-064-tools-domain"
           }
         ],
         "overlapCount": 1,
@@ -995,18 +1064,81 @@
       },
       "after": {
         "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-004-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-004-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+            "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+            "entryIndex": 81,
+            "index": 126,
+            "policy": "🔧 工具与服务",
+            "provider": "scki-fused-064-tools-domain"
+          }
+        ],
+        "overlapCount": 1,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "witness.usefathom.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
         "status": "unknown",
         "policy": null,
         "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
+        "firstDecidableMatch": null,
         "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1027,7 +1159,7 @@
     },
     {
       "probe": {
-        "host": "boundary-cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "zijieapi.com"
       },
       "before": {
         "mode": "domain-projection",
@@ -1035,36 +1167,26 @@
         "policy": "🤖 AI 服务",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -1072,15 +1194,7 @@
         "status": "unknown",
         "policy": null,
         "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
+        "firstDecidableMatch": null,
         "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1101,7 +1215,7 @@
     },
     {
       "probe": {
-        "host": "witness.copilot.cloud.microsoft"
+        "host": "witness.zijieapi.com"
       },
       "before": {
         "mode": "domain-projection",
@@ -1109,126 +1223,34 @@
         "policy": "🤖 AI 服务",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
-      },
-      "after": {
-        "mode": "domain-projection",
-        "status": "unknown",
-        "policy": null,
-        "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "unknownBlockers": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
-            "entryIndex": 4,
-            "index": 72,
-            "policy": "🤖 AI 服务",
-            "provider": "scki-fused-035-ai-residual",
-            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
-          }
-        ],
-        "unknownBlockerCount": 1,
         "overlaps": [],
         "overlapCount": 0,
         "evidenceTruncated": false
-      }
-    },
-    {
-      "probe": {
-        "host": "boundary-copilot.cloud.microsoft"
-      },
-      "before": {
-        "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
-        "evidenceTruncated": false
       },
       "after": {
         "mode": "domain-projection",
         "status": "unknown",
         "policy": null,
         "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
+        "firstDecidableMatch": null,
         "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1251,44 +1273,37 @@
   "undecidable": [
     {
       "probe": {
-        "host": "witness.cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "witness.origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
+        "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
           }
         ],
-        "overlapCount": 1,
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -1298,12 +1313,12 @@
         "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "unknownBlockers": [
           {
@@ -1325,44 +1340,37 @@
     },
     {
       "probe": {
-        "host": "boundary-cr.m365copilotapp.svc.cloud.microsoft"
+        "host": "boundary-origin-tracker.githubusercontent.com"
       },
       "before": {
         "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
+        "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
           }
         ],
-        "overlapCount": 1,
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -1372,12 +1380,12 @@
         "hit": null,
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "unknownBlockers": [
           {
@@ -1399,7 +1407,7 @@
     },
     {
       "probe": {
-        "host": "witness.copilot.cloud.microsoft"
+        "host": "witness.usefathom.com"
       },
       "before": {
         "mode": "domain-projection",
@@ -1407,36 +1415,26 @@
         "policy": "🤖 AI 服务",
         "hit": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "provider": "scki-fused-033-ai-domain"
         },
         "unknownBlockers": [],
         "unknownBlockerCount": 0,
-        "overlaps": [
-          {
-            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
-          }
-        ],
-        "overlapCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -1444,15 +1442,7 @@
         "status": "unknown",
         "policy": null,
         "hit": null,
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
+        "firstDecidableMatch": null,
         "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1473,44 +1463,29 @@
     },
     {
       "probe": {
-        "host": "boundary-copilot.cloud.microsoft"
+        "host": "boundary-usefathom.com"
       },
       "before": {
         "mode": "domain-projection",
-        "status": "match",
-        "policy": "🤖 AI 服务",
-        "hit": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "firstDecidableMatch": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "unknownBlockers": [],
-        "unknownBlockerCount": 0,
-        "overlaps": [
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-            "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-            "entry": "DOMAIN-SUFFIX,microsoft",
-            "entryIndex": 17,
-            "index": 129,
-            "policy": "Ⓜ️ 微软服务",
-            "provider": "scki-fused-065-microsoft-domain"
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
           }
         ],
-        "overlapCount": 1,
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
         "evidenceTruncated": false
       },
       "after": {
@@ -1518,15 +1493,170 @@
         "status": "unknown",
         "policy": null,
         "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
         "firstDecidableMatch": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
         },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "witness.zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "match",
+        "policy": "🤖 AI 服务",
+        "hit": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "firstDecidableMatch": {
+          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,zijieapi.com",
+          "entryIndex": 128,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
+        },
+        "unknownBlockers": [],
+        "unknownBlockerCount": 0,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      }
+    },
+    {
+      "probe": {
+        "host": "boundary-zijieapi.com"
+      },
+      "before": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
+        "unknownBlockers": [
+          {
+            "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
+            "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
+            "entry": "DOMAIN-REGEX,^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
+            "entryIndex": 4,
+            "index": 72,
+            "policy": "🤖 AI 服务",
+            "provider": "scki-fused-035-ai-residual",
+            "reason": "DOMAIN-REGEX requires the core RE2 engine; JS RegExp is not substituted"
+          }
+        ],
+        "unknownBlockerCount": 1,
+        "overlaps": [],
+        "overlapCount": 0,
+        "evidenceTruncated": false
+      },
+      "after": {
+        "mode": "domain-projection",
+        "status": "unknown",
+        "policy": null,
+        "hit": null,
+        "firstDecidableMatch": null,
         "unknownBlockers": [
           {
             "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1552,107 +1682,82 @@
       {
         "side": "before",
         "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "origin-tracker.githubusercontent.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "after",
         "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "origin-tracker.githubusercontent.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,cr.m365copilotapp.svc.cloud.microsoft",
-          "entryIndex": 1,
-          "index": 16,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
+          "provider": "scki-fused-004-ai-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "before",
         "probe": {
-          "host": "witness.cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "usefathom.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403025,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "before",
         "probe": {
-          "host": "boundary-cr.m365copilotapp.svc.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft.outside.invalid"
+          "host": "dola.invalid"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1666,8 +1771,8 @@
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
           "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
+          "entry": "DOMAIN-KEYWORD,dola",
+          "entryIndex": 23,
           "index": 68,
           "policy": "🤖 AI 服务",
           "provider": "scki-fused-033-ai-residual"
@@ -1677,107 +1782,7 @@
       {
         "side": "before",
         "probe": {
-          "host": "copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "after",
-        "probe": {
-          "host": "copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,copilot.cloud.microsoft",
-          "entryIndex": 2,
-          "index": 16,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "witness.copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "boundary-copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "copilot.cloud.microsoft.outside.invalid"
+          "host": "boundary-dola.invalid"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1791,58 +1796,8 @@
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
           "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "copilot.invalid"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "boundary-copilot.invalid"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
+          "entry": "DOMAIN-KEYWORD,dola",
+          "entryIndex": 23,
           "index": 68,
           "policy": "🤖 AI 服务",
           "provider": "scki-fused-033-ai-residual"
@@ -1854,107 +1809,82 @@
       {
         "side": "before",
         "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "origin-tracker.githubusercontent.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 274741,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "after",
         "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "origin-tracker.githubusercontent.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,cr.m365copilotapp.svc.cloud.microsoft",
-          "entryIndex": 1,
-          "index": 16,
+          "path": "rulesets/generated/fused/mihomo/scki-fused-004-ai-domain.yaml",
+          "entry": "DOMAIN,origin-tracker.githubusercontent.com",
+          "entryIndex": 5,
+          "index": 3,
           "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
+          "provider": "scki-fused-004-ai-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-064-tools-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,githubusercontent.com",
+          "entryIndex": 81,
+          "index": 126,
+          "policy": "🔧 工具与服务",
+          "provider": "scki-fused-064-tools-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "before",
         "probe": {
-          "host": "witness.cr.m365copilotapp.svc.cloud.microsoft"
+          "host": "usefathom.com"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-010-ad-domain.yaml",
+          "entry": "DOMAIN,usefathom.com",
+          "entryIndex": 403025,
+          "index": 11,
+          "policy": "🛑 广告拦截",
+          "provider": "scki-fused-010-ad-domain"
         },
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
+          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-domain.yaml",
+          "entry": "DOMAIN-SUFFIX,usefathom.com",
+          "entryIndex": 104,
+          "index": 65,
+          "policy": "🤖 AI 服务",
+          "provider": "scki-fused-033-ai-domain"
         },
         "scope": "witness-only"
       },
       {
         "side": "before",
         "probe": {
-          "host": "boundary-cr.m365copilotapp.svc.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "cr.m365copilotapp.svc.cloud.microsoft.outside.invalid"
+          "host": "dola.invalid"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -1968,8 +1898,8 @@
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
           "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
+          "entry": "DOMAIN-KEYWORD,dola",
+          "entryIndex": 23,
           "index": 68,
           "policy": "🤖 AI 服务",
           "provider": "scki-fused-033-ai-residual"
@@ -1979,107 +1909,7 @@
       {
         "side": "before",
         "probe": {
-          "host": "copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "after",
-        "probe": {
-          "host": "copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-          "entry": "DOMAIN,copilot.cloud.microsoft",
-          "entryIndex": 2,
-          "index": 16,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-013-ai-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "witness.copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "boundary-copilot.cloud.microsoft"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-065-microsoft-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,microsoft",
-          "entryIndex": 17,
-          "index": 129,
-          "policy": "Ⓜ️ 微软服务",
-          "provider": "scki-fused-065-microsoft-domain"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "copilot.cloud.microsoft.outside.invalid"
+          "host": "boundary-dola.invalid"
         },
         "earlier": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
@@ -2093,58 +1923,8 @@
         "later": {
           "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
           "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "copilot.invalid"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
-          "index": 68,
-          "policy": "🤖 AI 服务",
-          "provider": "scki-fused-033-ai-residual"
-        },
-        "scope": "witness-only"
-      },
-      {
-        "side": "before",
-        "probe": {
-          "host": "boundary-copilot.invalid"
-        },
-        "earlier": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-018-direct-domain.yaml",
-          "entry": "DOMAIN-SUFFIX,invalid",
-          "entryIndex": 15,
-          "index": 30,
-          "policy": "DIRECT",
-          "provider": "scki-fused-018-direct-domain"
-        },
-        "later": {
-          "source": "rulesets/source/routing-graph.js after Mihomo MRS normalization",
-          "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-          "entry": "DOMAIN-KEYWORD,copilot",
-          "entryIndex": 7,
+          "entry": "DOMAIN-KEYWORD,dola",
+          "entryIndex": 23,
           "index": 68,
           "policy": "🤖 AI 服务",
           "provider": "scki-fused-033-ai-residual"
@@ -2153,9 +1933,9 @@
       }
     ]
   },
-  "reviewedChangeDigest": "32fc65a461d4c43846d4b030d9a2c8941631d58bd80ba5139617937eaae26d18",
-  "reviewedEvidenceDigest": "ad9dec00c50f7969f53639da948b5f5672b38ae4ba54652292fb1a27385c9de7",
-  "undecidableDigest": "30135bf61a1912b13c21b55ca53e35f5f9176ee89a6a863b1632188ad7b99249",
+  "reviewedChangeDigest": "73e275983ec4cd7580d282148c91d0d69ac0cfcb2af3cd058b2946041b4145e6",
+  "reviewedEvidenceDigest": "6345bbbad4f2857d67fb7671905d893ec7535c486c0c853579c0e5225cb23f0a",
+  "undecidableDigest": "d6cead32f03a69353c3bc6d9f1a141c85e97e3012f198fd37a5d057ec7db9777",
   "check": {
     "ok": true,
     "approved": true,

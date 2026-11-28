@@ -47,7 +47,6 @@
         "swc.cdn.skype.com",
         "swx.cdn.skype.com",
         "tst.kaptcha.com",
-        "usefathom.com",
         "uservoice.com",
         "variflight.com",
         "virtualearth.net",
@@ -55,6 +54,7 @@
         "xpaycdn-int.azureedge.net",
         "xpaycdn.azureedge.net",
         "cici.com",
+        "dola.com",
         "vcs-sg.byteoversea.com",
         "lf-rc1.yhgfb-static.com",
         "itobsnssdk.com",
@@ -67,7 +67,6 @@
         "bytednsdoc.com",
         "mchost.guru",
         "marscode.com",
-        "zijieapi.com",
         "mon-va.byteoversea.com",
         "maliva-mcs.byteoversea.com",
         "abtestvm.bytedance.com",
@@ -100,8 +99,7 @@
         "google",
         "goog",
         "antigravity",
-        "ciciai",
-        "dola"
+        "ciciai"
       ]
     },
     {

@@ -68,6 +68,18 @@ test('DOMAIN-REGEX is a valid nonempty rule set', () => {
   }, null).ok, true);
 });
 
+test('an external text RULE-SET must not be a sectioned configuration', () => {
+  const configuration = '[General]\r\ndns-server = system\r\n  [Rule] # routing\r\nDOMAIN,example.com,DIRECT\r\n';
+  const rules = '# [General] is only a comment\nDOMAIN-REGEX,^[ab]\\.example\\.com$\nIP-CIDR,192.0.2.0/24,no-resolve\n';
+  for (const extension of ['list', 'txt', 'conf']) {
+    const url = `https://example.com/rules.${extension}?version=1`;
+    const inspect = (body) => inspectDownload(url, { status: 200, body: Buffer.from(body) }, null);
+    assert.equal(inspect(configuration).failure, 'body contains configuration sections');
+    assert.equal(inspect('DOMAIN,example.com\n[Proxy Group]\nExample = select,DIRECT\n').ok, false);
+    assert.equal(inspect(rules).ok, true);
+  }
+});
+
 test('local hash evidence distinguishes exact bytes, LF canonical and mismatches', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scki-download-test-'));
   try {

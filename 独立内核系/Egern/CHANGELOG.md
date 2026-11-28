@@ -9,6 +9,10 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.24-egern.18 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-egern.17 (2026-11-28)
 
 - Regenerate the Copilot residual rule set with the broad keyword removed.

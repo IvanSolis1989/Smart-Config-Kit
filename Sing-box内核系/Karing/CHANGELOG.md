@@ -11,6 +11,10 @@
 
 > Native custom-routing artifacts follow the authoritative routing graph. See README and adapter manifest for platform differences.
 
+## v6.0.24-karing.6 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches.
+
 ## v6.0.23-karing.5 (2026-11-28)
 
 - Update the remote rule-set revision for scoped Copilot domain matching.

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "beforeIdentity": "b7d673c4a5983aaf9068b75fdc9d7015fe6f2e0be8c46f7afe33e83c744a6602",
-  "afterIdentity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0",
-  "reviewedChangeDigest": "32fc65a461d4c43846d4b030d9a2c8941631d58bd80ba5139617937eaae26d18",
-  "reviewedEvidenceDigest": "ad9dec00c50f7969f53639da948b5f5672b38ae4ba54652292fb1a27385c9de7",
-  "acknowledgedUndecidableDigest": "30135bf61a1912b13c21b55ca53e35f5f9176ee89a6a863b1632188ad7b99249",
-  "baselineRef": "485453aa06f94db8453209a125f204c9fd0553a1",
-  "reason": "Reviewed for publication at the maintainer’s instruction. The reviewed delta adds two exact Microsoft Copilot hosts, removes the broad Copilot keyword, and removes nine standalone ChatGPT and Claude desktop process predicates. The four default static witnesses blocked by existing RE2 evaluation remain unknown and are explicitly bound by the acknowledgement digest. Independent native Mihomo and sing-box loopback evidence covers the intended destination and process behavior."
+  "beforeIdentity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0",
+  "afterIdentity": "b8ac3f9a4b316ce272f65907a23b4ff5b24cc1cbbb83a2b272862d006dae5d88",
+  "reviewedChangeDigest": "73e275983ec4cd7580d282148c91d0d69ac0cfcb2af3cd058b2946041b4145e6",
+  "reviewedEvidenceDigest": "6345bbbad4f2857d67fb7671905d893ec7535c486c0c853579c0e5225cb23f0a",
+  "acknowledgedUndecidableDigest": "d6cead32f03a69353c3bc6d9f1a141c85e97e3012f198fd37a5d057ec7db9777",
+  "baselineRef": "010ebff48f7e5215b78b55cab14d9cc99e2d6e3f",
+  "reason": "Reviewed for the maintainer-authorized v6.0.24 publication. Move the exact Copilot origin-tracker host ahead of advertising and narrow the Dola, ByteDance and Fathom AI matches. Official sing-box 1.13.14 and 1.14.6 verified all seven static witnesses in both the baseline and candidate using the generated TCP routing order and all 78 local SRS assets. Two origin-tracker lookalikes stay in Tools, three former AI matches fall through to FINAL, and two boundary lookalikes stay at FINAL. Both cores rejected all seven inputs against the isolated RE2 blocker and matched the positive control. The bounded static projection retains its original seven unknown values. Native verification receipt SHA-256: ba3c4eb5587442a64dc8f0eebc1bc8b154506ef95c623274f70ccbe78b7574ff. Mihomo v1.19.32 independently agreed on all seven baseline and candidate results with 149 native providers and 168 ordered rules, and reproduced the isolated RE2 control. Mihomo native receipt SHA-256: 26fbd39fabb8060967d315e43bf5884dc7757114bc80a5f0052ae51889941e39."
 }

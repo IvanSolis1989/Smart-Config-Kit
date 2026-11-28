@@ -17,7 +17,9 @@
 
 [开始前](#before-start) · [分步导入](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.23-sing.14` · Build：2026-11-28 · 规则基线：`rulesets/source/routing-graph.js` v6.0.23。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.24-sing.15` · Build：2026-11-28 · 规则基线：`rulesets/source/routing-graph.js` v6.0.24。历史见 [CHANGELOG](CHANGELOG.md)。
+
+私有域名继续使用直连 DNS。主广告规则在普通 DNS 查询前拒绝匹配项，并沿用分流规则中优先匹配的业务例外。
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>

@@ -6,3 +6,4 @@ domain_set:
   - "o33249.ingest.us.sentry.io"
   - "a-api.anthropic.com"
   - "a-cdn.anthropic.com"
+  - "origin-tracker.githubusercontent.com"

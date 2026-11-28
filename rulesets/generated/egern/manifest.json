@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
   "generator": "tools/generate-egern-from-cmfa.js",
-  "asset_revision": "v6.0.23",
+  "asset_revision": "v6.0.24",
   "source": {
-    "cmfa_sha256": "884ee6518b469296cd1e01c57ad26e445693fb1366c16477f359b87a659300bb",
-    "routing_graph_sha256": "cf8212e1a871a0663efa3cd9b4da9b8bd96115257f4bb1704560b725afb0d587",
+    "cmfa_sha256": "ed97bd1dc6d96b92a3d12dda96a717d9022031c476422c0ebc4871ba429898fa",
+    "routing_graph_sha256": "308c386d80c03ad1f1af341fdf7a6ad0ab2a02318d4e6dea0f3a8edf378ecf5c",
     "cmfa_provider_count": 149,
     "cmfa_rule_count": 168
   },
   "rendered": {
-    "profile_sha256": "75c724fab06d8ba267aee212652b86a237ffb51c92ae8260a41cccb55952efe8",
+    "profile_sha256": "c429100c0892ca5518396a377ca3eacc55222ae058045c95eef968aee4d3391e",
     "rule_count": 153,
     "rule_set_ref_count": 136,
     "native_rule_set_count": 141,
-    "source_entry_count": 581587,
+    "source_entry_count": 581585,
     "dedup_removed": 124161,
     "global_exact_duplicates_removed": 123612,
     "empty_asset_count": 13
@@ -62,8 +62,8 @@
       },
       {
         "file": "provider-scki-fused-004-ai-domain.yaml",
-        "bytes": 401,
-        "sha256": "1f6020ff8554e56e9a4e2b9c7f13a3b22b178150c33233054a0fccb2fc601e88"
+        "bytes": 444,
+        "sha256": "0a281dff6796ca82fa7eade62231ae3cbae7fc94cb1dbb3d445be4d8af555200"
       },
       {
         "file": "provider-scki-fused-005-cnmedia-domain.yaml",
@@ -92,8 +92,8 @@
       },
       {
         "file": "provider-scki-fused-010-ad-domain.yaml",
-        "bytes": 10583366,
-        "sha256": "a3cb042a457497d106e7fba287cbfeff28dcd4d9fd5df10538a5b0f678fa10b8"
+        "bytes": 10583323,
+        "sha256": "e730f2919d08e3a70a03f8da13b20909e0d87c4beece59d274debde51d4c9506"
       },
       {
         "file": "provider-scki-fused-010-ad-ipcidr.yaml",
@@ -262,8 +262,8 @@
       },
       {
         "file": "provider-scki-fused-033-ai-domain.yaml",
-        "bytes": 3619,
-        "sha256": "60e54b5c12a2ad5a5e306424de84d32601137c4828d7883de0d7bfcee2e66e02"
+        "bytes": 3599,
+        "sha256": "726a771630514b91ab7d14bd47c79779dec740df0ee3026e38cff29f381541c0"
       },
       {
         "file": "provider-scki-fused-033-ai-ipcidr-no-resolve.yaml",
@@ -277,8 +277,8 @@
       },
       {
         "file": "provider-scki-fused-033-ai-residual.yaml",
-        "bytes": 512,
-        "sha256": "c49981d787b263fd9d0fd77584ea7f295696054155d0d4d70058e79e8b17eba2"
+        "bytes": 501,
+        "sha256": "cf9ce1a8fcec93c8dea5012e64e5f620041d38e50ca09aec1b8915f0b6ad457b"
       },
       {
         "file": "provider-scki-fused-034-google-domain.yaml",

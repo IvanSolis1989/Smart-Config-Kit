@@ -2,8 +2,10 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 const {
   PROFILE_IDS,
   readProfileContract,
@@ -33,6 +35,26 @@ test('subscription adapter profile contract is closed and renders the same enum 
   }
   assert.match(js, /SCKI_SUBSCRIPTION_ADAPTER_PROFILE_DEFAULT = "adaptive"/);
   assert.match(ruby, /DEFAULT = "adaptive"\.freeze/);
+});
+
+test('unrecognized JS adapter profiles retain adaptive DNS for active node endpoints', () => {
+  const contract = readProfileContract(REPOSITORY_ROOT);
+  const profileRuntime = renderJavaScriptProfileRuntime(contract);
+  const dnsRuntime = fs.readFileSync(path.join(REPOSITORY_ROOT, 'tools/runtime/node-dns-hints.js'), 'utf8');
+  const capture = vm.runInNewContext(`${profileRuntime}\n${dnsRuntime}\n;(function (profile) {
+    return JSON.stringify(SckiSubscriptionAdapter.captureNodeDns({
+      dns: { 'proxy-server-nameserver': ['tls://resolver.example.test'] },
+      hosts: { 'resolver.example.test': '192.0.2.21' }
+    }, ['node.example.test'], profile));
+  })`);
+
+  for (const profile of ['adaptive', 'invalid-profile', 'constructor', 'toString', '__proto__']) {
+    const snapshot = JSON.parse(capture(profile));
+    assert.equal(snapshot.profile, 'adaptive', profile);
+    assert.deepEqual(snapshot.policy, { 'node.example.test': ['tls://resolver.example.test'] }, profile);
+    assert.deepEqual(snapshot.hosts, { 'resolver.example.test': ['192.0.2.21'] }, profile);
+  }
+  assert.deepEqual(JSON.parse(capture('off')).policy, {});
 });
 
 test('subscription adapter profile contract rejects routing-affecting expansion', () => {

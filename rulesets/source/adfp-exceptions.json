@@ -99,6 +99,35 @@
       }
     },
     {
+      "id": "github-copilot-origin-tracker",
+      "provider": "scki-adfp-ai",
+      "rule": "DOMAIN,origin-tracker.githubusercontent.com",
+      "match_scope": "exact",
+      "target_policy": "🤖 AI 服务",
+      "reason": "GitHub documents this exact hostname for Copilot suggestions and public code detection on GHE.com. The broad ad feed otherwise rejects it before service routing.",
+      "evidence": [
+        {
+          "path": "rulesets/supplemental/README.md",
+          "anchor": "protects the exact GitHub Copilot suggestion endpoint",
+          "level": "static"
+        }
+      ],
+      "positive_examples": [
+        "origin-tracker.githubusercontent.com"
+      ],
+      "negative_examples": [
+        "sub.origin-tracker.githubusercontent.com",
+        "origin-tracker.githubusercontent.com.example",
+        "copilot-telemetry.githubusercontent.com",
+        "collector.github.com",
+        "raw.githubusercontent.com"
+      ],
+      "expected_relation": {
+        "negative_examples_match": false,
+        "positive_examples_match": true
+      }
+    },
+    {
       "id": "nvidia-cn-login",
       "provider": "scki-adfp-direct",
       "rule": "DOMAIN,login.nvidia.cn",

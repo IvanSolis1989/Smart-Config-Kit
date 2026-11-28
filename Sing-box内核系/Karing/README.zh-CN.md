@@ -17,7 +17,7 @@
 
 [开始前](#before-start) · [分步导入](#import) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.23-karing.5` · Build：2026-11-28。规则源：`rulesets/source/routing-graph.js` v6.0.23，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.24-karing.6` · Build：2026-11-28。规则源：`rulesets/source/routing-graph.js` v6.0.24，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="下载配置"></a>

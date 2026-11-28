@@ -5,7 +5,7 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.23';
+const SOURCE_GRAPH_VERSION = 'v6.0.24';
 // Client-facing repository assets use raw GitHub: jsDelivr's repository
 // package-size limit can reject even a small, existing individual rule file.
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
@@ -276,7 +276,11 @@ const MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES = {
     ],
   },
   'szkane-ai': {
-    dropEntriesExact: ['+.azureedge.net', 'DOMAIN-SUFFIX,azureedge.net', ...DESKTOP_AI_PROCESS_RULES],
+    dropEntriesExact: [
+      '+.azureedge.net', 'DOMAIN-SUFFIX,azureedge.net',
+      '+.usefathom.com', 'DOMAIN-SUFFIX,usefathom.com',
+      ...DESKTOP_AI_PROCESS_RULES,
+    ],
     // Keep explicit Copilot endpoints. The bare keyword catches unrelated hostnames.
     dropDomainKeywords: ['copilot'],
   },

@@ -8,9 +8,9 @@ const TRAFFIC_OPTIONS = getTrafficOptions();
 // SingBox Smart Full; minimum core: sing-box 1.14.3.
 // 20 regional + 33 business groups + one node selector; source graph stays authoritative.
 // Change history: Sing-box内核系/SingBox/CHANGELOG.md. Metadata belongs here, outside the core JSON schema.
-const VERSION = 'v6.0.23-sing.14';
+const VERSION = 'v6.0.24-sing.15';
 const BUILD = '2026-11-28';
-const BASELINE = 'Clash Party v6.0.23';
+const BASELINE = 'Clash Party v6.0.24';
 const RULE_SET_HTTP_CLIENT = 'rules-download';
 
 const SMART = {
@@ -552,6 +552,28 @@ const allRouteRuleSets = uniqueRuleSets([...ruleSet, ...requiredGeoRuleSets, ...
 const availableRuleSets = new Set(allRouteRuleSets.map((item) => item.tag));
 const adFusedRuleSet = fusedManifest.segments.find((segment) => segment.policy === BIZ.AD && segment.files && segment.files.sing_box);
 if (!adFusedRuleSet) throw new Error('missing fused ad rule set for Sing-box DNS rejection');
+const adSourceIndex = fusedManifest.source_segments.findIndex((segment) => segment.id === adFusedRuleSet.id);
+if (adSourceIndex < 0) throw new Error('missing source segment for Sing-box DNS rejection');
+const isAdException = (rule) => rule.startsWith('RULE-SET,scki-adfp-');
+const dnsAdExceptions = [];
+for (const segment of fusedManifest.source_segments.slice(0, adSourceIndex)) {
+  if (!segment.source_rules.some(isAdException)) continue;
+  if (!segment.source_rules.every(isAdException) || !availableRuleSets.has(segment.id)) {
+    throw new Error(`cannot preserve exact Sing-box DNS ad exceptions from fused segment: ${segment.id}`);
+  }
+  dnsAdExceptions.push(segment.id);
+}
+if (!dnsAdExceptions.length) throw new Error('missing pre-ad exceptions for Sing-box DNS rejection');
+const dnsPrivateRule = { rule_set: ['geosite-private'], action: 'route', server: 'dns_direct' };
+const dnsAdRule = {
+  type: 'logical',
+  mode: 'and',
+  rules: [
+    { rule_set: [adFusedRuleSet.id] },
+    { rule_set: dnsAdExceptions, invert: true }
+  ],
+  action: 'reject'
+};
 // v5.4.22 #1 借鉴 Proxy-override：QUIC 精细化——sing-box 首命中模型逐条匹配。
 // 插入到 Clash 主线 5 条 AND/QUIC 规则所在位置，避免被后续普通规则或 route.final 改变语义。
 // YouTube/Google/MS/Apple QUIC → 走对应业务组；CN QUIC → DIRECT 放行；其余海外 QUIC → REJECT。
@@ -670,19 +692,18 @@ baseConfig.dns = {
     })
   ],
   rules: [
+    dnsPrivateRule,
+    // Reject by query name before any upstream lookup, preserving pre-ad exceptions.
+    dnsAdRule,
     {
-      rule_set: ['geosite-private', 'geosite-cn'],
+      rule_set: ['geosite-cn'],
       action: 'route',
       server: 'dns_direct'
     },
     // Preserve the former GeoIP acceptance filter: evaluate the direct response,
     // return it only for CN addresses, otherwise continue to the proxy resolver.
     { action: 'evaluate', server: 'dns_direct' },
-    { match_response: true, rule_set: ['geoip-cn'], action: 'respond' },
-    {
-      rule_set: [adFusedRuleSet.id],
-      action: 'reject'
-    }
+    { match_response: true, rule_set: ['geoip-cn'], action: 'respond' }
   ],
   final: 'dns_proxy',
   strategy: 'prefer_ipv4'
@@ -745,8 +766,9 @@ function buildConfiguration(coreLine) {
       ruleSet.download_detour = SMART.GLOBAL;
     }
     config.dns.rules = [
-      { rule_set: ['geosite-private', 'geosite-cn', 'geoip-cn'], action: 'route', server: 'dns_direct' },
-      { rule_set: [adFusedRuleSet.id], action: 'reject' }
+      dnsPrivateRule,
+      dnsAdRule,
+      { rule_set: ['geosite-cn', 'geoip-cn'], action: 'route', server: 'dns_direct' }
     ];
   } else if (coreLine !== '1.14') {
     throw new Error(`Unsupported sing-box schema profile: ${coreLine}`);

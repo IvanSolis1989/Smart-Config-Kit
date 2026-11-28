@@ -18,6 +18,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.24-dns.31 / v6.0.24-normal.31 (2026-11-28)
+
+- Use the exact Copilot public-code detection hostname before the advertising rule. Limit Dola and ByteDance AI routing to service-specific matches. Remove the broad Fathom AI match while preserving its analytics block.
+- Keep the default Node-DNS adapter when the selected profile is unknown.
+
 ## v6.0.23-dns.30 / v6.0.23-normal.30 (2026-11-28)
 
 - Remove the broad Copilot keyword from the upstream AI provider. Keep the existing Microsoft and GitHub Copilot domain rules in the AI policy. The targeted asset rebuild preserves routing order.
