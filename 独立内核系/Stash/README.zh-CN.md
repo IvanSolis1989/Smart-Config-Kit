@@ -85,7 +85,7 @@ Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线
 
 - 保留 `nameserver-policy` 与 `fake-ip-filter`；业务 DNS policy 由 CMFA 继承。
 - domain / ipcidr 规则使用 MRS，混合规则保留兼容格式。
-- 现有输出采用保守 DNS。Stash iOS/tvOS 3.6+、Mac 4.3+ 已官方支持加密 `default-nameserver`、独立 `proxy-server-nameserver` 与 DNS 规则集引用，但本产物尚未启用这些能力。
+- 模板使用明文 IP 做 bootstrap，业务 DNS 通过 `nameserver-policy` 指定。加密 bootstrap、独立节点 DNS 和 DNS 跟随分流的使用条件见 [Stash 参考](REFERENCE-Stash-wiki.zh-CN.md)。
 - `tolerance` 单位为毫秒，最初引入版本未确认；生成器暂不保留该字段，也不推断支持 Mihomo `empty-fallback` / `exclude-type`。
 
 <a id="verification"></a>
@@ -101,11 +101,15 @@ Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线
 
 <a id="faq"></a>
 
+Stash 5.0 可在已信任的控制器上用 `GET /rules/match?target=example.com&resolve=false` 模拟选路，核对命中规则、最终出口，以及出现提前拒绝时的 `stage`。模板的可切换广告组继续使用常规匹配。`pre-matching` 仅支持内置拒绝目标，会先于普通例外运行。[Stash HTTP API](https://stash.wiki/en/features/http-api#rules) · [规则选项](https://stash.wiki/en/rules/rule-types#pre-matching)
+
 ## 常见问题
 
 ### 导入后没有节点？
 
 确认修改的是当前选中配置的 `proxy-providers.Subscribe.url`，地址不是示例值；刷新订阅并查看下载错误。订阅格式须为 Stash 支持的格式。
+
+如果 Sub-Store 输出仅缺少 VLESS XHTTP + REALITY 节点，对照源订阅与转换结果，先确认节点在哪一步丢失。[Sub-Store 兼容范围与替代入口](../../SubStore/README.zh-CN.md#stash-xhttp-reality-subscription)
 
 ### 开启后请求意外直连？
 

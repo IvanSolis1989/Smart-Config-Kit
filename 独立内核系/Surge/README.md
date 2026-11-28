@@ -22,9 +22,9 @@ Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or resid
 
 ## Before you start
 
-Prepare Surge, a working provider subscription URL and the configuration URL below. As checked on 2026-10-19, stable Surge 5.23.0 requires iOS 17+, and Surge Mac 6.10.0 requires macOS 12+. See [store-region and version evidence](../../docs/upstream/2026-10-19/apple/report.md).
+Prepare Surge, a working provider subscription URL and the configuration URL below. As of 2026-11-28, the US App Store lists Surge 6.0.1 for iOS/iPadOS 17 or later. The native Mac release is 6.12.0 build 12880. [iOS App Store](https://apps.apple.com/us/app/surge-6/id1442620678) · [Mac release notes](https://nssurge.com/support/mac/release-notes/)
 
-- Install Surge 5 from the App Store on iOS or get Mac builds from [Surge](https://nssurge.com/). Official pages determine licensing and pricing.
+- Install Surge from the App Store on iOS or get Mac builds from [Surge](https://nssurge.com/). Official pages determine licensing and pricing.
 - This repository's `.conf` contains no working provider nodes. RULE-SET assets require network downloads.
 - Regional groups use `url-test`. Native Surge smart differs from Mihomo Smart / LightGBM. MITM and scripts are disabled by default.
 
@@ -149,6 +149,7 @@ All current encrypted DNS is direct. If every endpoint fails, there is no implem
 2. Confirm subscription and all RULE-SET downloads succeed. The connection switch is not a download check.
 3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`. In **Activity / Recent Requests**, verify AI, Netflix and China-streaming rule matches and exits.
 4. Follow the [DNS and post-import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
+5. On Apple TV, deploy the profile from Surge iOS and inspect the external-resource status in Remote Controller after first startup. A resource still downloading or failing to download can leave rules or groups empty and temporarily send traffic `DIRECT`. Once resources are ready, verify the rule and exit, and repeat after restarting the app. [Surge tvOS guide](https://kb.nssurge.com/surge-knowledge-base/guidelines/tvos)
 
 For missing requests, empty groups or unexpected exits, continue below.
 

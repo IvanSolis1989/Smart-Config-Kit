@@ -63,7 +63,9 @@
       ],
       "domain": [
         "live-mediashield-ava-hulustream-com.akamaized.net"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.hulu.plus"
       ]

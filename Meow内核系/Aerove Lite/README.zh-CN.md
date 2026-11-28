@@ -25,6 +25,8 @@
 
 标准版 AEROVE 使用 Mihomo；本页对应 AEROVE Lite 的 Meow 接入。官方 meow-rs 核心及官方 Android/iOS 的原生配置入口见[官方 Meow](../Meow/README.zh-CN.md)。
 
+[公开 v45 安装包](https://github.com/IvanSolis1989/Aerove/releases/tag/lite-offlineprobe-v45-20261113)为 Android 13+ ARM64 诊断构建。用于评估时，记录版本、包名及验签身份。[Full 稳定版](https://github.com/IvanSolis1989/Aerove/releases/tag/v0.13.0%2B2026102340)使用 Mihomo 及独立脚本。
+
 ## 导入与关联
 
 ### 在线选择与本地导入

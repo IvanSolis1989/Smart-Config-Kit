@@ -15,7 +15,7 @@ Import same-source fused rules into Karing's custom routing groups. Configure no
 
 [Before you start](#before-start) · [Import](#import) · [Verification](#verification) · [Troubleshooting](#faq) · [Advanced](#advanced)
 
-> Configuration: `v6.0.21-karing.3` · Build: 2026-11-09. Source: `rulesets/source/routing-graph.js` v6.0.21, derived through the fused manifest and SingBox 1.13 routing. See [CHANGELOG](CHANGELOG.md).
+> Configuration: `v6.0.23-karing.5` · Build: 2026-11-28. Source: `rulesets/source/routing-graph.js` v6.0.23, derived through the fused manifest and SingBox 1.13 routing. See [CHANGELOG](CHANGELOG.md).
 
 <a id="before-start"></a>
 <a id="下载配置"></a>
@@ -31,6 +31,8 @@ Import same-source fused rules into Karing's custom routing groups. Configure no
 [![Download Karing routing JSON](../../docs/assets/readme/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
 
 The button opens the raw file; copy the link or save it locally. Normal import needs only this JSON. It references remote fused SRS assets and standard sing-box source rule-sets for complex conditions.
+
+GitHub and the US App Store list **1.2.26.2934** as the current stable release. Its import and download status should be checked as described below. Private DNS configured through a subscription belongs to the profile, outside this routing JSON. [Version and DNS evidence](REFERENCE-Karing.md)
 
 ### Online selection and local import
 
@@ -49,7 +51,7 @@ To update, refresh the page, select the same services and parameters and downloa
 4. Check actions: `direct` and `block` follow source defaults; proxy services use `currentSelected`. For separate regional/service exits, first create custom node groups in Karing, then bind each routing rule manually. This file does not automatically create or restore nested source policy groups.
 5. In Karing routing settings, set the **final default action** to **Current selection**. The import file has no empty-match FINAL rule.
 6. Check DNS, TUN, sniffing and rule-download settings. Check whether ISP / built-in country-region rules match earlier, and adjust as needed.
-7. **Registration check for affected versions:** Karing 1.2.25.2802 has a report of imported groups whose SRS entries are missing from probing. If affected, open each `SCKI` custom group and save without changing anything. This invokes the application's remote-asset registration path. Do not merge or reorder rules. No one-click batch alternative has been verified.
+7. **Check remote-asset registration:** Karing 1.2.25.2802 has a report of imported groups whose SRS entries are missing from probing. Check this explicitly on 1.2.26.2934 too because the current import registration has not been verified on a device. If affected, open each `SCKI` custom group and save without changing anything. This invokes the application's remote-asset registration path. Do not merge or reorder rules. No one-click batch alternative has been verified.
 8. Return to Karing's home screen, turn the connection off and on to apply settings, then open **Routing rule probing** and confirm remote downloads before acceptance below.
 
 See official [custom routing](https://karing.app/tutorial/custom-diversion), [group editing](https://karing.app/app-manual/diversion-rule-edit) and the [pinned source / compatibility reference](REFERENCE-Karing.md).

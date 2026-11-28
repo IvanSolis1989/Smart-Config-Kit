@@ -57,6 +57,20 @@ test('asset reuse rejects unrelated provider, rule and segment ownership changes
   assert.throws(() => reuseSnapshotTopology(ownershipChange, manifest), /topology mismatch/);
 });
 
+test('traffic-only reuse rejects a changed upstream predicate filter', () => {
+  const sourceFile = path.join(root, 'rulesets/source/routing-graph.js');
+  const original = fs.readFileSync(sourceFile, 'utf8');
+  const amended = original.replace("dropDomainKeywords: ['copilot']", "dropDomainKeywords: ['copilot', 'fixture-filter']");
+  assert.notEqual(amended, original);
+  try {
+    fs.writeFileSync(sourceFile, amended);
+    assert.throws(() => execFileSync(process.execPath, ['tools/build-fused-rule-sets.js', '--reuse-assets', '--dry-run'], { cwd: root, stdio: 'pipe' }),
+      error => /unchanged provider entry normalization/.test(error.stderr.toString('utf8')));
+  } finally {
+    fs.writeFileSync(sourceFile, original);
+  }
+});
+
 test('snapshot reuse dry run leaves manifest and client files unchanged', () => {
   const files = ['rulesets/generated/fused/manifest.json', 'Mihomo内核系/Clash Meta For Android/CMFA(mihomo).yaml', 'Mihomo内核系/FlClash/FlClash(mihomo).js'];
   const before = files.map(file => fs.readFileSync(path.join(root, file)));

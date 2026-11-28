@@ -25,6 +25,8 @@
 
 ## 开始前：确认内核并备份
 
+在 LuCI 分别查看 OpenClash 插件版本和当前内核。GitHub 正式版为 v0.48.002，dev 工作流已构建 0.48.016。dev 支持在构建时选择把 Meta 内核装进插件包，普通安装仍可单独获取内核。按路由器当前选用的内核选择下方脚本。 [正式版](https://github.com/vernesong/OpenClash/releases/tag/v0.48.002) · [0.48.016 dev 构建](https://github.com/vernesong/OpenClash/actions/runs/43793877973)
+
 先按 [OpenClash 官方入口](https://github.com/vernesong/OpenClash)安装插件，准备路由器可访问的 Mihomo 节点订阅。备份现有插件设置和自定义脚本；已有逻辑先合并再部署。
 
 | 选择 | 所需核心与区域组 |
@@ -156,6 +158,10 @@ LuCI → **配置订阅** → 添加订阅链接 → 下载 → **全局设置**
 <a id="faq"></a>
 
 ## 常见问题
+
+### 路由器同时运行 Tailscale 时如何核对 MagicDNS？
+
+OpenClash 的 dev 修复处理路由器 DNS 接管，内置 Tailscale 模块提供分域解析配置。本仓库固定 Shell 在 OpenClash 自带的 YAML 处理后运行，并写入自身 DNS 块。若 tailnet 域名经 Mihomo DNS 解析，检查最终运行 YAML 中是否还保留 tailnet 的 DNS 策略及 fake-IP 排除项。若 dnsmasq 将 tailnet 域直接转发至可达的 Tailscale stub，分别在路由器和 LAN 设备核查该路径。重载前后各验证一个完整 MagicDNS 主机名和一个公网域名，保持 stub 仅服务 tailnet 解析路径。 [OpenClash 问题记录](https://github.com/vernesong/OpenClash/issues/5378) · [上游 dev 修复](https://github.com/vernesong/OpenClash/commit/a0ac7ff7f4ff08c96a16ee6f4adf36f2eaa174b6) · [Tailscale DNS 文档](https://tailscale.com/docs/reference/dns-in-tailscale)
 
 ### Q1：我现在不是 Smart 内核，还能用这套规则吗？
 

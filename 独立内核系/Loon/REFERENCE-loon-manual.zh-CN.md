@@ -6,7 +6,15 @@
 
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：当前官方站由 App Store 开发者链接确认，正文及release metadata已缓存；详见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)和[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
-## 当前复核结论
+<a id="当前复核结论"></a>
+## 2026-11-28 兼容性复核
+
+- 美国商店正式版为 3.5.3（2026-10-30，iOS 15+）。发行渠道列出 iOS 测试版 3.5.4 build 1019（2026-11-24 JST）及 Loon for Mac alpha 0.5.0 build 1011（2026-10-28）。测试版新增节点协议与 Tailscale 自动规则按官方门槛单独验证。[App Store](https://apps.apple.com/us/app/loon/id1373567447) · [iOS 测试版](https://t.me/LoonNews/2073) · [Mac alpha](https://nsloon.app/Loon4Mac/changelog.html)
+- Loon 3.5.2 build 996+ 的 `server-dns` 可用于本地及订阅节点，仅负责节点域名解析。优先级依次为订阅 Host Map、主配置 Host Map、主配置里的订阅条目、节点行、订阅的通用 DNS、SSID/全局 DNS。已选层级查询失败后不下探，CNAME 沿用同组 DNS。在本地副本分别验证解析失败、CNAME 和普通业务域名。[订阅节点 DNS 优先级](https://nsloon.app/docs/Node/subscription/)
+- Build 1008+ 支持不区分大小写的 `DOMAIN-WILDCARD`。`*.example.com` 的星号可跨点，但表达式中的字面点让裸域落在匹配范围之外。添加远程规则前，用合成本地规则核对裸域、单层和多层子域，以及相邻反例。Loon 当前使用的共享规则资产没有显式 `DOMAIN-WILDCARD` 条目。[域名规则](https://nsloon.app/docs/Rule/domain_rule/)
+- 当前手册明确允许嵌套策略组。域名先匹配，未命中再解析并检查 IP。规则来源优先级为本地、插件、订阅。下文旧摘要的嵌套限制只作历史记录。公开 General 文档说明了 `bypass-tun`，但没有公布 Fake IP 池，局域网旁路和 DNS 接管需按 Loon 实机核对。[策略组](https://nsloon.app/docs/Policy/policygroup/) · [匹配顺序](https://nsloon.app/docs/Rule/) · [TUN 选项](https://nsloon.app/docs/General/#bypass-tun)
+
+## 2026-10-19 复核结论
 
 - 稳定版3.5.2，2026-10-01 UTC；官方预发布版本/日期未取得，pending。3.5.1新Rewrite/Script兼容旧写法，本仓库未启用该类功能，不迁移路由。
 - 当前官方 [Remote Rule](https://nsloon.app/docs/Rule/sub_rule/)、[Policy Group](https://nsloon.app/docs/Policy/policygroup/)、[DNS](https://nsloon.app/docs/DNS/)、[General](https://nsloon.app/docs/General/)实际正文已保存，不再以无法读取的旧页面代替。

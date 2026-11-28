@@ -23,7 +23,9 @@
 
 ## 开始前：确认版本与节点订阅
 
-需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/chen08209/FlClash)提供客户端；按下方[界面版本](#ui-version)选择操作路径。
+本指南用于 [FlClash v0.9.5 正式版](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5) 和支持 JS 的旧版 Mihomo 系 App。正式版内置 FlClash 的 Mihomo 分支。[FlClash RS v0.9.5-rs.2+1](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) 使用 Concord 内核，请按独立的 [Concord 兼容文档](https://github.com/Vialibrex/concord/blob/faaadad9c93d1967d44a65732bfcb02b7a93aefc/docs/compatibility.md) 核对要用的配置和内核功能。
+
+需要 **FlClash ≥ v0.8.85**、Mihomo 节点订阅及本目录 JS。[官方仓库](https://github.com/Vialibrex/FlClash)提供客户端；按下方[界面版本](#ui-version)选择操作路径。
 
 - 单机场优先使用原生订阅链接；多机场按 [Sub-Store 教程](../../SubStore/README.zh-CN.md)输出一条 `Clash.Meta(mihomo)` URL。
 - 创建脚本后必须在对应配置（Profile）中选择「脚本」模式并关联脚本；只粘贴或保存不会生效。多个订阅需要分别关联。
@@ -161,6 +163,8 @@ node tools/configure.js --settings '.../settings.json' --output-dir '.../全新�
 
 ## 导入后核验
 
+在 v0.9.5 首次验收时先停用第三方 MITM 模块，使用「请求」页面查看命中规则、实际出口和 DNS。若之后启用模块，分别对一个广告、一个业务域名和一个局域网目标重复核查。FlClash 将模块规则置于 JS 生成规则之前。App 将模块 hosts 合并到 hosts 表，并在选中的 DNS 覆写键之后应用模块 DNS。 [最终规则顺序](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L392-L433) · [DNS 和 hosts 合并](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L337-L374)
+
 点「代理」标签，应看到：
 - **最多 22 个区域组**（11 全部 + 11 家宽；空区域自动跳过，另有全球选择入口）：♻️ 全球自动、🇭🇰 香港节点、🇸🇬 狮城节点、🌏 其他节点……
 - **完整方案的 33 业务组**：🤖 AI 服务、🎵 TikTok、🎥 Netflix、📱 社交媒体……Lite / Custom 的可选业务组更少；广告、安全、直连等基础保护保留。
@@ -285,7 +289,7 @@ UI 保存的旧值不能证明当前生效状态；合并顺序与版本边界�
 
 <a id="相关链接"></a>
 
-- [FlClash GitHub](https://github.com/chen08209/FlClash)
+- [FlClash GitHub](https://github.com/Vialibrex/FlClash)
 - [覆写脚本源码](./FlClash(mihomo).js)
 - [CMFA YAML（备选方案）](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)
 

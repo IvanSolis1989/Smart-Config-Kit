@@ -25,6 +25,8 @@
 
 ## 开始前：准备客户端与订阅
 
+官方正式版 v2.11.37 内置 Mihomo v1.19.34（`0455d0d`）。11 月 18 日的预发布版与正式版使用同一核心，并调整了开启私网绕过时的 VPN 热点路由。日常导入可选正式版。若依赖热点转发，请分别用手机与热点客户端验证。 [正式版](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.37) · [核心依赖](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/856/files) · [预发布版热点修复](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/864)
+
 准备 Android 设备、CMFA APK、Mihomo 节点订阅与本目录 YAML。使用已验收的 **Mihomo v1.19.29 或更新核心**。
 
 <a id="一下载-cmfa-客户端"></a>
@@ -105,6 +107,8 @@ proxy-providers:
 1. 将 YAML 托管到 GitHub Raw / Gist / 自建 HTTP 服务。
 2. CMFA → **配置** → ➕ → **从 URL 导入** → 粘贴 URL → 确定。
 3. 后续自动轮询更新（默认每 24 小时，可在配置设置里调整）。
+
+v2.11.36 起可在 URL 配置的菜单中将配置 URL 生成二维码用于分享。确认该 URL 可以公开或转给指定接收人，妥善保管订阅令牌和本地配置。 [CMFA 二维码分享](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/850)
 
 <a id="四首次启动"></a>
 

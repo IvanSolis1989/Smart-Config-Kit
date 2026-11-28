@@ -15,10 +15,12 @@ host-suffix, cerebras.ai
 host-suffix, chinacloudapp.cn
 host-suffix, cjfdbemmaeeohgibnhdhlakiahifjjcf
 host-suffix, clickserve.dartsearch.net
+host-suffix, copilot.microsoft.com
 host-suffix, delve.office.com
 host-suffix, facebook.net
 host-suffix, github.gallery.vsassets.io
 host-suffix, github.gallerycdn.vsassets.io
+host-suffix, githubcopilot.com
 host-suffix, gtm.oasisfeng.com
 host-suffix, hexun.com
 host-suffix, latest-swx.cdn.skype.com
@@ -84,7 +86,6 @@ host-keyword, anthropic
 host-keyword, claude
 host-keyword, grok
 host-keyword, bing
-host-keyword, copilot
 host-keyword, edgeassetservice
 host-keyword, gmail
 host-keyword, google

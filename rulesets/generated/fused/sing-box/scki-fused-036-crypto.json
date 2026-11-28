@@ -245,7 +245,9 @@
         "okx",
         "metamask",
         "moonpay"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "Binance.exe",
         "Huobi.exe",

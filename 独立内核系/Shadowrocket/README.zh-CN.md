@@ -23,7 +23,7 @@
 
 ## 开始前
 
-准备 Shadowrocket、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 2.2.92 要求 iOS 13+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/shadowrocket/id932747118)为准。
+准备 Shadowrocket、机场订阅 URL 和下方配置直链。截至 2026-11-28，美国 App Store 的正式版为 2.2.93，要求 iOS 13 或更新版本。其他平台要求见[官方商店](https://apps.apple.com/us/app/shadowrocket/id932747118)。
 
 - 从 [App Store](https://apps.apple.com/app/shadowrocket/id932747118)安装应用；首次连接需允许添加 VPN 配置。
 - 机场订阅是节点列表 URL，本仓库 `.conf` 是分流配置，不包含可用节点。
@@ -140,6 +140,7 @@ tun-excluded-routes = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, ..
 2. 确认订阅与全部远程规则下载成功；连接开关开启不能代替下载检查。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
 4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+5. 如果使用 Enforce Routes，在开关两种状态下分别验证本应可达的局域网目标与应走代理的网站。完全退出并重启 App 后复测，核对 DNS、命中规则和最终出口。[App Store 版本历史](https://apps.apple.com/us/app/shadowrocket/id932747118)
 
 若日志没有请求、组内为空或出口不符，继续按下方 FAQ 排查。
 

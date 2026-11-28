@@ -69,6 +69,8 @@ Compilation preserves shared-source semantics, deduplicates within segments, and
 | Social media (`📱 社交媒体`) | `twitter` `twitter-ip` `tiktok` `facebook` `instagram` `snapchat` `reddit`<br>Sources: MetaCubeX / blackmatrix7 |
 | Meetings and collaboration (`🧑‍💼 会议协作`) | `zoom` `slack` `teams` `atlassian` `notion` `remotedesktop` `acc-rustdesk` `rustdesk.com`<br>Sources: ACL4SSR / blackmatrix7 / Accademia / SCKI supplemental |
 
+ChatGPT and Claude desktop traffic follows destination rules. Their official service domains still select the AI group, and third-party pages opened in their embedded browsers can select their own policies. A CLI using the same process name also follows destination matching.
+
 <a id="流媒体与地区内容"></a>
 #### Streaming and regional content
 

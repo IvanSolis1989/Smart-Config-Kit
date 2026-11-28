@@ -3,6 +3,35 @@
 [English](REFERENCE-sing-box.md) | **简体中文**
 
 
+> 更新于 2026-11-28（上次复核 2026-10-28）。官方稳定版已到 1.14.6，1.15 预发布改变了默认 TUN 协议栈。版本及导入边界见下文。
+
+<a id="compatibility-review-2026-11-28"></a>
+
+## 2026-11-28 兼容性复核
+
+- 官方发布 [1.14.6 稳定版](https://github.com/SagerNet/sing-box/releases/tag/v1.14.6)、[1.15.0-alpha.15 预发布](https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.15)及上一系列的 [1.13.21](https://github.com/SagerNet/sing-box/releases/tag/v1.13.21)。既有基线分别使用官方 1.14.3 和 1.13.14 检查。1.14.6 已拒绝组内重复成员并修正嵌套组解析，两份生成配置都没有组内重复成员。[1.14.3 至 1.14.6 源码差异](https://github.com/SagerNet/sing-box/compare/v1.14.3...v1.14.6)
+- 两份 JSON 都设有 `stack: mixed`。官方 1.15 构建默认不带 `with_gvisor`，`mixed` 与 `gvisor` 均依赖该构建标记。`stack` 从 1.15 起弃用，计划在 1.17 移除。为 1.15 准备配置时，需单独检查使用新默认协议栈的配置和实际 TUN。[TUN 迁移说明](https://sing-box.sagernet.org/migration/#migrate-tun-stack)
+- Full 使用命名 `http_clients` 和 DNS 响应匹配，1.13 变体使用 `download_detour`。后者从 1.14 起弃用，计划在 1.16 移除。对 `485453aa` 的 78 个融合 `.srs` 读回，文件头均为二进制格式 2。客户端升级无需为此重编共享资产。[规则集配置](https://sing-box.sagernet.org/configuration/rule-set/) · [规则集格式](https://sing-box.sagernet.org/configuration/rule-set/source-format/)
+- 美国 App Store 为 10 月 24 日发布的 [sing-box MT 1.14.8](https://apps.apple.com/us/app/sing-box-mt/id6785326793)，F-Droid 为 10 月 27 日收录的 [SFA 1.14.4](https://f-droid.org/packages/io.nekohasekai.sfa/)。商店渠道按实际安装版本核对。Apple 配置迁移见[账户变更说明](https://sing-box.sagernet.org/migration/#migrate-the-macos-standalone-client-data)。[官方桌面客户端](https://sing-box.sagernet.org/clients/desktop/)支持本地或远端完整配置，Linux 图形包自 1.14.5 起命名为 `sfl`。
+
+<a id="hiddify-profile-builder"></a>
+
+### Hiddify 配置生成
+
+GitHub 与美国 App Store 均已发布 Hiddify 5.9.15。App 固定 Hiddify Core 5.9.15，实际替换的 sing-box 模块是 fork `a26e58b3`，其提交历史包含上游 1.15.0-alpha.13。该 fork 已包含 1.14 的 HTTP 客户端和 DNS 响应结构，Hiddify 构建另带 `with_gvisor`。[App 依赖](https://github.com/hiddify/hiddify-app/blob/v5.9.15/dependencies.properties) · [Core 依赖](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/go.mod#L329-L345) · [fork 祖先提交](https://github.com/SagerNet/sing-box/compare/824dbcfb4dd0a95921840b1737b950cde590241e...hiddify:a26e58b376987a3305b201ec87fbc8918f620ad3)
+
+常规订阅配置构建器读取输入后替换 `RouteOptions`，并重建出站选择组。App 发布时固定的源提交和 Windows Core 发行版均包含这段实现。原始配置分支直接调用 `ReadSingOptions`。[App 固定源码中的路由生成](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/v2/config/builder.go#L1119-L1137) · [原始配置分支](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/v2/hcore/buildconfighelper.go#L28-L43)
+
+[官方 Windows Core 5.9.15 发行物](https://github.com/hiddify/hiddify-core/releases/tag/v5.9.15) 自报 fork 1.15.0-alpha.13、`with_gvisor` 和构建提交 `4e5a9a35`。对 `485453aa` 的两份 JSON 离线执行 `HiddifyCore.exe build --full-config` 均成功退出。读回两份生成结果，85 个源规则集和 54 个源组均未保留，98 条路由缩为 4 条，Full 的顶层 `rules-download` 客户端消失，兜底出口改为 `select`。使用显式 `enable-full-config: true` 并填入回环 DNS 的设置文件复测，两份结果均为 6 条路由及 2 个 Hiddify 自有规则集，仍未保留源规则集或源组。
+
+本次只在本机执行生成并读回，未启动代理或在 App 真机连接。请通过官方 sing-box 客户端加载本仓配置，或使用原始配置入口并读回生效结果。独立 Hiddify Core 的 `srun` 可直接加载完整 JSON。[Hiddify Core 命令说明](https://hiddify.com/core/cli/#srun)
+
+<a id="homeproxy-package-and-uci"></a>
+
+### HomeProxy 软件包与 UCI
+
+HomeProxy master `fadaa676` 依赖软件源提供的 `sing-box` 包。复核时 ImmortalWrt master 为 1.14.3，24.10 和 25.12 软件源为 1.12.25。以路由器实际安装为准。HomeProxy 的 1.14 适配以及经 VPN 连接节点时的启动修复仍在开放 PR 中。验收以 LuCI 经 UCI 生成的配置为准，核对启动及实际规则下载。[软件包依赖](https://github.com/immortalwrt/homeproxy/blob/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile) · [master 软件源](https://github.com/immortalwrt/packages/blob/master/net/sing-box/Makefile) · [25.12 软件源](https://github.com/immortalwrt/packages/blob/openwrt-25.12/net/sing-box/Makefile) · [1.14 适配](https://github.com/immortalwrt/homeproxy/pull/671) · [启动修复](https://github.com/immortalwrt/homeproxy/pull/673)
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/)，沿用现有 rule_set 与 route 目标出站映射，保留 1.13/1.14 两个既有产物。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 更新于 2026-10-19：完成本次涉及字段的官方原文核验，详见[版本、源码、适配与验证报告](../../docs/upstream/2026-10-19/singbox/report.md)及其原文缓存。下方旧摘要未整篇当前化；存在冲突时以下列核验结论为准。

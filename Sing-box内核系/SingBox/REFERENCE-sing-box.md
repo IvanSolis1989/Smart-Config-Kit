@@ -4,6 +4,35 @@
 **English** | [简体中文](REFERENCE-sing-box.zh-CN.md)
 
 
+> Reviewed on 2026-11-28 (previous review 2026-10-28). The official current stable is 1.14.6 and the 1.15 prerelease changes the default TUN stack. See the version-specific checks and client boundaries below.
+
+<a id="compatibility-review-2026-11-28"></a>
+
+## Compatibility review for 2026-11-28
+
+- Official releases list [1.14.6 stable](https://github.com/SagerNet/sing-box/releases/tag/v1.14.6), [1.15.0-alpha.15 prerelease](https://github.com/SagerNet/sing-box/releases/tag/v1.15.0-alpha.15) and [1.13.21](https://github.com/SagerNet/sing-box/releases/tag/v1.13.21) for the previous series. The existing baseline checks use official 1.14.3 and 1.13.14. In 1.14.6, duplicate outbound-group members are rejected and nested resolution was corrected. Neither generated file contains duplicate group members. [1.14.3 to 1.14.6 source comparison](https://github.com/SagerNet/sing-box/compare/v1.14.3...v1.14.6)
+- Both current JSON files have `stack: mixed`. Official 1.15 builds omit `with_gvisor` by default. The `mixed` and `gvisor` stacks require this tag, and `stack` is deprecated in 1.15 with removal planned for 1.17. A 1.15 target needs a check and a separate TUN test with the new default stack. [TUN migration](https://sing-box.sagernet.org/migration/#migrate-tun-stack)
+- Full uses named `http_clients` and DNS response matching. The 1.13 variant uses `download_detour`, deprecated from 1.14 and scheduled for removal in 1.16. The 78 published fused `.srs` files checked at `485453aa` all carry binary-format version 2. The application upgrade alone does not require recompiling the shared assets. [Rule-set configuration](https://sing-box.sagernet.org/configuration/rule-set/) · [Rule-set format](https://sing-box.sagernet.org/configuration/rule-set/source-format/)
+- The US App Store lists [sing-box MT 1.14.8](https://apps.apple.com/us/app/sing-box-mt/id6785326793), published October 24. F-Droid lists [SFA 1.14.4](https://f-droid.org/packages/io.nekohasekai.sfa/), added October 27. Check the installed build on store channels. Apple profiles are subject to the [account migration](https://sing-box.sagernet.org/migration/#migrate-the-macos-standalone-client-data). The official [desktop clients](https://sing-box.sagernet.org/clients/desktop/) support complete local or remote profiles, and the Linux graphical package is named `sfl` from 1.14.5.
+
+<a id="hiddify-profile-builder"></a>
+
+### Hiddify profile builder
+
+The GitHub and US App Store channels list Hiddify 5.9.15. Its build pins Hiddify Core 5.9.15 and the replaced sing-box module is the fork at `a26e58b3`, which includes upstream 1.15.0-alpha.13 in its ancestry. The fork exposes the 1.14 HTTP-client and DNS-response schema. Hiddify's build separately includes `with_gvisor`. [App dependency](https://github.com/hiddify/hiddify-app/blob/v5.9.15/dependencies.properties) · [Core dependency](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/go.mod#L329-L345) · [Fork ancestry](https://github.com/SagerNet/sing-box/compare/824dbcfb4dd0a95921840b1737b950cde590241e...hiddify:a26e58b376987a3305b201ec87fbc8918f620ad3)
+
+The ordinary profile builder replaces `RouteOptions` after reading the input, and it reconstructs the outbound selector list. Both the App-pinned revision and released Windows Core contain this code. The raw branch calls `ReadSingOptions` directly. [App-pinned route builder](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/v2/config/builder.go#L1119-L1137) · [Raw configuration branch](https://github.com/hiddify/hiddify-core/blob/b736fe9926bea6680b429e0900f040eed2aeee45/v2/hcore/buildconfighelper.go#L28-L43)
+
+The [official Windows Core 5.9.15 asset](https://github.com/hiddify/hiddify-core/releases/tag/v5.9.15) reported fork version 1.15.0-alpha.13, build tag `with_gvisor` and revision `4e5a9a35`. Offline `HiddifyCore.exe build --full-config` returned success for both repository JSON files at `485453aa`. For each, the saved result kept none of the 85 source rule-sets or 54 source groups, reduced routing rules from 98 to 4, removed the top-level `rules-download` client where present and changed the final policy to `select`. Using a settings file with `enable-full-config: true` and loopback DNS produced 6 rules and 2 Hiddify rule-sets, still retaining none of the source rule-sets or groups.
+
+This check exercised configuration generation without starting a proxy or connecting a device. Use an official sing-box client for the supplied profiles, or verify the effective configuration through a raw path. Standalone Hiddify Core documents `srun` for direct loading of complete JSON. [Hiddify Core command reference](https://hiddify.com/core/cli/#srun)
+
+<a id="homeproxy-package-and-uci"></a>
+
+### HomeProxy package and UCI
+
+HomeProxy master `fadaa676` depends on the feed's `sing-box` package. At review time, ImmortalWrt's master feed listed 1.14.3, and the 24.10 and 25.12 feeds listed 1.12.25. Check the router's installed version. HomeProxy's 1.14 adaptation and the case where a node is reached via a VPN still have open PRs. Use generated UCI configuration for validation, including startup and actual rule downloads. [Package dependency](https://github.com/immortalwrt/homeproxy/blob/fadaa676104f59ff6ace480a780a258d846d0aec/Makefile) · [Master feed](https://github.com/immortalwrt/packages/blob/master/net/sing-box/Makefile) · [25.12 feed](https://github.com/immortalwrt/packages/blob/openwrt-25.12/net/sing-box/Makefile) · [1.14 adaptation](https://github.com/immortalwrt/homeproxy/pull/671) · [Startup fix](https://github.com/immortalwrt/homeproxy/pull/673)
+
 > Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [sing-box Route Rule](https://sing-box.sagernet.org/configuration/route/rule/) was rechecked. Existing rule_set/route outbound mappings and both 1.13/1.14 outputs remain. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
 > Updated on 2026-10-19: official originals were checked for the fields involved; see the [version, source, adaptation, and validation report](../../docs/upstream/2026-10-19/singbox/report.md) and its cache. Older summaries below were not fully updated. Where they conflict, the following review takes precedence. Code examples and obsolete statements remain historical evidence, not current configuration recommendations.

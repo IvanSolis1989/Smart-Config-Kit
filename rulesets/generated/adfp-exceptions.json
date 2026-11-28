@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_graph_version": "v6.0.22",
+  "source_graph_version": "v6.0.23",
   "registry_sha256": "6dd63ca26338154d7e777ccf47f5deae867c732c35e5af4364fffc1bbddf2421",
   "total_records": 40,
   "coverage": {

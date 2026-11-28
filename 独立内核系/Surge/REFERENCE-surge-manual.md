@@ -20,7 +20,14 @@
 > Updated 2026-10-19 (previous topic summary 2026-05-31): official text, version metadata, decisions, and validation gaps are in the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md). Original snapshots and hashes are in the [source manifest](../../docs/upstream/2026-10-19/apple/manifest.json).
 
 <a id="当前复核结论"></a>
-## Current review findings
+<a id="current-review-findings"></a>
+## Compatibility review on 2026-11-28
+
+- Stable releases are Surge iOS 6.0.1 (2026-11-19, iOS/iPadOS 17+) and Surge Mac 6.12.0 build 12880 (2026-11-16). The published test builds reviewed were Mac 6.13.0 (12910), iOS 6.100.0 (4045) and tvOS 5.102.0 (4033, labeled Surge tvOS 6.0 RC1). The app listing includes tvOS 17+, but does not identify its independent stable build. [iOS App Store](https://apps.apple.com/us/app/surge-6/id1442620678) · [Mac release notes](https://nssurge.com/support/mac/release-notes/) · [Mac beta](https://t.me/SurgeChangelog/2492) · [iOS beta](https://t.me/SurgeChangelog/2496) · [tvOS RC](https://t.me/SurgeChangelog/2489)
+- Run the native Mac parser with `surge-cli --check <path>`. On a device with the profile active, use `rule explain` to inspect the matched rule-set entry and policy chain, and `dns trace` to inspect the resolver and interface. With VIF active, verify DNS through the Mac or iOS responder and IPv6 `fd00:6152::2` where enabled, then verify a connection resolves back to the original domain in the request log. On tvOS, verify external resources finish loading after deployment and that the expected rule and exit persist after restart. Device testing remains pending. [CLI](https://manual.nssurge.com/tools/cli.html) · [Fake IP DNS](https://manual.nssurge.com/dns/advanced.html) · [tvOS](https://kb.nssurge.com/surge-knowledge-base/guidelines/tvos)
+- The current profile uses `block-quic = all-proxy`. Surge 6 adaptive blocking is a separate per-policy behavior for UDP-relay-capable policies. Its acceptance cases are HTTP/3 with TCP fallback, QUIC-only traffic and non-QUIC UDP on port 443. The removal of the million-entry rule-set limit does not establish a memory or cold-start result for this profile. [Surge iOS 6 notes](https://nssurge.com/surge-ios-6/release-notes) · [Rule sets](https://manual.nssurge.com/rules/ruleset.html)
+
+## 2026-10-19 review findings
 
 - Surge iOS stable 5.23.0 (2026-10-12 UTC); Mac stable 6.10.0/12500 (2026-10-12 UTC). The Mac beta feed reported 6.11.0/12560 (2026-10-16 UTC). The enclosure/old-title conflict was retained, not mixed into stable findings.
 - Official [Profile Format](https://manual.nssurge.com/profile/format.html) does not recognize `[DNS]`; global DNS keys belong in `[General]`. Earlier descriptions of a separate DNS section, `fallback-dns-server`, and `dns-direct-fallback-proxy` were wrong and corrected.

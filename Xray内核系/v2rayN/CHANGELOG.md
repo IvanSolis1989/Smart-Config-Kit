@@ -16,6 +16,12 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-v2n.13 (2026-11-28)
+
+- Regenerate the AI rule object with Copilot service suffixes and without the broad keyword.
+- Update official v2rayN and Xray compatibility. Keep the three-outbound RuleObject import distinct from full native Xray configuration.
+- Apply the desktop AI process exclusions to the generated v2rayN routing list.
+
 ## v6.0.22-v2n.12 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

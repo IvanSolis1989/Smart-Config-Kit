@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "beforeIdentity": "d69998809c366ba0f1728af78eb4f168e3ffba7d8a4fd0986aa200d70cb715e9",
-  "afterIdentity": "b7d673c4a5983aaf9068b75fdc9d7015fe6f2e0be8c46f7afe33e83c744a6602",
-  "reviewedChangeDigest": "0fa34841289ca77d5fab3c3b494fd9927c825c295a88b1f62bfd42d3a97f6090",
-  "reviewedEvidenceDigest": "dd405395e405de68fe3708093bcd8a16ee61a4566f4bdde420e073778e264699",
-  "acknowledgedUndecidableDigest": "e294a46b54129255c6aebb115670e87d478a93d906e875e74902bd108ef07eb0",
-  "baselineRef": "21b05e478d94313c7b703beb141b77aa21bffe19",
-  "reason": "Scoped repair for the two hosts reported in Issue #203. Four entry changes move static.dingtalk.com and mcs.doubao.com from the advertising set to the leading DIRECT set. Two first-domain policies change and rule order is unchanged. Four boundary probes remain undecidable with the same earlier RE2 blocker and same first decidable policy. The finite static witness report has no truncated evidence."
+  "beforeIdentity": "b7d673c4a5983aaf9068b75fdc9d7015fe6f2e0be8c46f7afe33e83c744a6602",
+  "afterIdentity": "1b09ee2233c56f3cc1de5216d5bb243e0572a65c8b4799cf6affe8f09026b4a0",
+  "reviewedChangeDigest": "32fc65a461d4c43846d4b030d9a2c8941631d58bd80ba5139617937eaae26d18",
+  "reviewedEvidenceDigest": "ad9dec00c50f7969f53639da948b5f5672b38ae4ba54652292fb1a27385c9de7",
+  "acknowledgedUndecidableDigest": "30135bf61a1912b13c21b55ca53e35f5f9176ee89a6a863b1632188ad7b99249",
+  "baselineRef": "485453aa06f94db8453209a125f204c9fd0553a1",
+  "reason": "Reviewed for publication at the maintainer’s instruction. The reviewed delta adds two exact Microsoft Copilot hosts, removes the broad Copilot keyword, and removes nine standalone ChatGPT and Claude desktop process predicates. The four default static witnesses blocked by existing RE2 evaluation remain unknown and are explicitly bound by the acknowledgement digest. Independent native Mihomo and sing-box loopback evidence covers the intended destination and process behavior."
 }

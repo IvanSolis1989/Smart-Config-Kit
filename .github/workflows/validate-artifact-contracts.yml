@@ -96,6 +96,8 @@ on:
       - 'tools/generate-egern-supplemental.js'
       - 'tools/generate-egern-from-cmfa.js'
       - 'tools/generate-fused-fallback-artifacts.js'
+      - 'tools/tests/fused-artifact-performance.test.js'
+      - 'tools/tests/xray-fallback-headless.test.js'
       - 'Sing-box内核系/SingBox/SingBox(sing-box)-generator.js'
       - 'tools/tests/traffic-*.test.js'
       - 'tools/tests/stash-traffic-options.test.js'
@@ -110,6 +112,15 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/mihomo-native-config.test.js'
+      - 'tools/collect-mihomo-connections.js'
+      - 'tools/lib/mihomo-connection-evidence.js'
+      - 'tools/tests/mihomo-connection-evidence.test.js'
+      - 'tools/audit-blackmatrix7-exposure.js'
+      - 'tools/tests/blackmatrix7-exposure.test.js'
+      - 'tools/tests/qx-running-mode-trigger.test.js'
+      - 'tools/tests/copilot-routing.test.js'
+      - 'tools/tests/desktop-ai-process-routing.test.js'
       - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
@@ -223,6 +234,8 @@ on:
       - 'tools/generate-egern-supplemental.js'
       - 'tools/generate-egern-from-cmfa.js'
       - 'tools/generate-fused-fallback-artifacts.js'
+      - 'tools/tests/fused-artifact-performance.test.js'
+      - 'tools/tests/xray-fallback-headless.test.js'
       - 'Sing-box内核系/SingBox/SingBox(sing-box)-generator.js'
       - 'tools/tests/traffic-*.test.js'
       - 'tools/tests/stash-traffic-options.test.js'
@@ -237,6 +250,15 @@ on:
       - 'tools/tests/official-docs-cache.test.js'
       - 'tools/tests/passwall-backend-guard.test.js'
       - 'tools/tests/singbox-current-schema.test.js'
+      - 'tools/tests/mihomo-native-config.test.js'
+      - 'tools/collect-mihomo-connections.js'
+      - 'tools/lib/mihomo-connection-evidence.js'
+      - 'tools/tests/mihomo-connection-evidence.test.js'
+      - 'tools/audit-blackmatrix7-exposure.js'
+      - 'tools/tests/blackmatrix7-exposure.test.js'
+      - 'tools/tests/qx-running-mode-trigger.test.js'
+      - 'tools/tests/copilot-routing.test.js'
+      - 'tools/tests/desktop-ai-process-routing.test.js'
       - 'tools/tests/surge-tun-capture.test.js'
       - 'docs/upstream/**'
       - 'tools/validate-process-name-direct.js'
@@ -326,6 +348,27 @@ jobs:
       - name: Validate cross-client artifact contracts
         run: node tools/validate-artifact-contracts.js --strict-ruby
 
+      - name: Parse standard Mihomo artifacts with the official core
+        run: |
+          set -euo pipefail
+          destination="$RUNNER_TEMP/mihomo-native"
+          mkdir -p "$destination"
+          cd "$destination"
+          curl -fsSL --retry 2 --max-time 90 'https://github.com/MetaCubeX/mihomo/releases/download/v1.19.34/mihomo-linux-amd64-v1-v1.19.34.gz' -o mihomo.gz
+          curl -fsSL --retry 2 --max-time 90 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/9152725ac409fbd208d04e03a7a11f1503c4555f/geosite.dat' -o GeoSite.dat
+          curl -fsSL --retry 2 --max-time 90 'https://raw.githubusercontent.com/Loyalsoldier/geoip/360904642cb991b4b8fa8740cee1320fd2110c72/geoip.dat' -o GeoIP.dat
+          curl -fsSL --retry 2 --max-time 90 'https://raw.githubusercontent.com/Loyalsoldier/geoip/360904642cb991b4b8fa8740cee1320fd2110c72/Country.mmdb' -o Country.mmdb
+          sha256sum --check --strict <<'SUMS'
+          0c07340a01408d033dda4088ea2a4c1e4d82aeed7b2f84f7c046e93b6ff3290c  mihomo.gz
+          f187c87088838f757c880bcbd4bb172e45697d6a8d08158beb49c7500dc0da1e  GeoSite.dat
+          9dc8e7de8db8300ce27b606f4a30632265713d2f33bcc568c0d2c44c825c8687  GeoIP.dat
+          6c3ca78dadf2477261ea6addf632682bcfc1ab5924bb4c30eb28c37c828e3373  Country.mmdb
+          SUMS
+          gzip -dc mihomo.gz > mihomo
+          chmod +x mihomo
+          cd "$GITHUB_WORKSPACE"
+          MIHOMO_NATIVE_BIN="$destination/mihomo" MIHOMO_NATIVE_GEODATA="$destination" node --test tools/tests/mihomo-native-config.test.js
+
       - name: Validate PROCESS-NAME direct whitelist
         run: node tools/validate-process-name-direct.js
 
@@ -343,7 +386,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for version in 1.14.3 1.13.14; do
+          for version in 1.14.3 1.13.14 1.14.6; do
             asset="sing-box-${version}-linux-amd64.tar.gz"
             destination="$RUNNER_TEMP/sing-box-$version"
             mkdir -p "$destination"
@@ -356,16 +399,23 @@ jobs:
             test -x "$binary"
             if [ "$version" = 1.14.3 ]; then
               echo "SING_BOX_114_BIN=$binary" >> "$GITHUB_ENV"
+            elif [ "$version" = 1.14.6 ]; then
+              echo "SCKI_SING_BOX_CURRENT_114_BIN=$binary" >> "$GITHUB_ENV"
             else
               echo "SING_BOX_113_BIN=$binary" >> "$GITHUB_ENV"
             fi
           done
 
       - name: Check both sing-box schemas with official cores
-        run: node --test tools/tests/singbox-current-schema.test.js
+        run: |
+          node --test tools/tests/singbox-current-schema.test.js
+          SING_BOX_114_BIN="$SCKI_SING_BOX_CURRENT_114_BIN" node --test --test-name-pattern '^official sing-box 1\.14 ' tools/tests/singbox-current-schema.test.js
+
+      - name: Validate local connection evidence, source inventory and QX projection
+        run: node --test tools/tests/mihomo-connection-evidence.test.js tools/tests/blackmatrix7-exposure.test.js tools/tests/qx-running-mode-trigger.test.js
 
       - name: Validate rule asset delivery regressions
-        run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js
+        run: node --test tools/tests/generated-asset-url.test.js tools/tests/issue-186-asset-delivery.test.js tools/tests/rule-asset-downloads.test.js tools/tests/fused-artifact-performance.test.js tools/tests/xray-fallback-headless.test.js
 
       - name: Validate Surge Fake IP VIF capture
         run: node --test tools/tests/surge-tun-capture.test.js
@@ -380,7 +430,7 @@ jobs:
           node tools/refresh-rule-quality.js --check
           node tools/validate-adfp-exceptions.js
           node tools/validate-claude-service-dependencies.js --check --strict-coverage
-          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
+          node --test tools/tests/source-provenance.test.js tools/tests/fused-source-provenance.test.js tools/tests/ordered-rule-semantics.test.js tools/tests/copilot-routing.test.js tools/tests/desktop-ai-process-routing.test.js tools/tests/adfp-exceptions.test.js tools/tests/claude-service-dependencies.test.js tools/tests/release-batch.test.js tools/tests/snapshot-supplemental-patch.test.js tools/tests/egern-supplemental-patch.test.js
           approval_args=()
           if [ -f rulesets/source/semantic-approval.json ]; then
             approval_args=(--expected-changes rulesets/source/semantic-approval.json)

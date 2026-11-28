@@ -20,10 +20,12 @@
         "chinacloudapp.cn",
         "cjfdbemmaeeohgibnhdhlakiahifjjcf",
         "clickserve.dartsearch.net",
+        "copilot.microsoft.com",
         "delve.office.com",
         "facebook.net",
         "github.gallery.vsassets.io",
         "github.gallerycdn.vsassets.io",
+        "githubcopilot.com",
         "gtm.oasisfeng.com",
         "hexun.com",
         "latest-swx.cdn.skype.com",
@@ -93,7 +95,6 @@
         "claude",
         "grok",
         "bing",
-        "copilot",
         "edgeassetservice",
         "gmail",
         "google",
@@ -101,11 +102,10 @@
         "antigravity",
         "ciciai",
         "dola"
-      ],
+      ]
+    },
+    {
       "process_name": [
-        "Claude",
-        "Claude Helper",
-        "Claude Helper (Renderer)",
         "LM Studio",
         "grok",
         "Code Helper",

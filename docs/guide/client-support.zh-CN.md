@@ -37,7 +37,7 @@
 
 ## <a id="protocols"></a>协议支持矩阵
 
-以下沿用 **2026-10-19** 核验口径，描述核心或客户端能力；实际设备仍需完成连接验收。FlClash、Karing 与 Meow 系等未单列客户端不借此扩展能力声明；Meow 核心字段及 App 联调分别见[官方依据](../../Meow内核系/Meow/REFERENCE-meow-rs.md)和[AEROVE 验收记录](../../Meow内核系/Aerove%20Lite/VALIDATION.md)。
+以下描述核心或客户端能力，沿用 **2026-10-19** 核验基线，并单列 Xray Hysteria 2 的后续核对；实际设备仍需完成连接验收。FlClash、Karing 与 Meow 系等未单列客户端不借此扩展能力声明；Meow 核心字段及 App 联调分别见[官方依据](../../Meow内核系/Meow/REFERENCE-meow-rs.md)和[AEROVE 验收记录](../../Meow内核系/Aerove%20Lite/VALIDATION.md)。
 
 **✓ 支持**　 **△ 有条件支持**　 **— 不支持**
 
@@ -131,7 +131,7 @@ SR = Shadowrocket。
 | **REALITY + Vision** | ✓ | ✓ |
 | **Trojan** | ✓ | ✓ |
 | **Hysteria 1** | ✓ | — |
-| **Hysteria 2** | ✓ | — |
+| **Hysteria 2** | ✓ | △⁸ |
 | **TUIC v5** | ✓ | — |
 | **WireGuard** | ✓ | △ |
 | **AnyTLS** | ✓ | — |
@@ -153,6 +153,7 @@ SR = Shadowrocket。
 - **⁵ Surge AnyTLS**：iOS 5.17.0+ / Mac 6.4.3+。
 - **⁶ Loon AnyTLS**：3.3.9+。
 - **⁷ Quantumult X AnyTLS**：1.6.0+。
+- **⁸ v2rayN Xray Hysteria 2** 适用于支持该原生出站的 Xray 核心。请在 App 核对节点实际使用的核心，并用当前节点的混淆、端口跳跃配置做连接验证。[官方出站文档](https://xtls.github.io/config/outbounds/hysteria.html) · [v2rayN 7.25.6 节点生成源码](https://github.com/2dust/v2rayN/blob/7.25.6/v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayOutboundService.cs#L178-L192) · [路由导入边界](../../Xray内核系/v2rayN/REFERENCE-xray.zh-CN.md#current-review)
 
 [查看官方证据与未验证项](../upstream/2026-10-19/apple/report.md)。
 
@@ -161,11 +162,15 @@ Clash Party 包含 Clash Party / Clash Verge Rev / Mihomo Party；CMFA 是 Clash
 
 ### 常见选择
 
-常用协议（SS / VMess / Trojan）→ 按设备挑；VLESS + REALITY → Mihomo / sing-box / SR / Loon / v2rayN；Hysteria 2 / TUIC → 避开 Surge 旧版 / QX / Xray；想要 **LightGBM 自动择优** → 只能走 Clash Party / OpenClash + Smart Alpha 内核。
+常用协议（SS / VMess / Trojan）→ 按设备挑；VLESS + REALITY → Mihomo / sing-box / SR / Loon / v2rayN；Hysteria 2 / TUIC → 可选 Mihomo 或 sing-box；v2rayN Xray 使用 Hysteria 2 时按上表核对核心；想要 **LightGBM 自动择优** → 只能走 Clash Party / OpenClash + Smart Alpha 内核。
 
 ### 其他导入边界
 
-ShellCrash（原 ShellClash，mihomo 模式）可用 CMFA YAML，但需检查启动后的覆写；HomeProxy 由 UCI 生成配置，尚未验证完整 JSON 导入；Stash / Egern 使用各自 YAML；Passwall / Passwall2 的 fused SRS fallback 仅适用于 sing-box 分流节点。Happ 的路由 Profile 与 v2rayN RuleObject 数组格式不同，不能直接导入本仓库 Xray JSON。详见[额外消费者核对](../upstream/2026-10-19/consumers/report.md)与各端说明。
+- **ShellCrash** 在 mihomo 模式可使用 CMFA YAML。若启用客户端覆写，启动后检查最终 DNS、规则顺序与 rule-provider。mix／route 模式可注入 `cn` MRS。[正式版与覆写源码](https://github.com/juewuy/ShellCrash/blob/1.9.4/scripts/starts/clash_modify.sh#L177-L211)
+- **Clash Mi** 复用 CMFA YAML。订阅和自定义覆写先合并，App 再应用内置选项。iOS 使用 Apple 推送附加规则时，检查 App 的 APNs 捕获设置和最终匹配。[官方 FAQ](https://clashmi.app/guide/faq)
+- **Clash Verge Rev** 使用 Normal 覆写。检查订阅扩展是否替换 DNS 策略表、App 是否接管 TUN 或 IPv6，以及续载后的最终规则。2.6.0 AutoBuild 可从连接详情增加规则，并在选择某些节点时联动父组。测试版须单独核对新增规则与实际出口。[覆写顺序](https://www.clashverge.dev/guide/extend.html) · [AutoBuild](https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/autobuild)
+- **Happ** 按订阅管理原生路由 Profile，应用变更后需要重连。JSON 订阅最多有一份随订阅提供的 Profile，路由数组只适用于 v2rayN。Desktop 4.8.3 对部分 JSON 订阅的 TUN 域名规则有专项修复，验证时以导入格式、重连和最终命中为准。[官方路由文档](https://www.happ.su/main/dev-docs/routing) · [Desktop 4.8.3](https://github.com/Happ-proxy/happ-desktop/releases/tag/4.8.3)
+- **HomeProxy** 由 UCI 生成配置，尚未验证完整 JSON 导入。**Stash** 与 **Egern** 使用各自 YAML。**Passwall** 与 **Passwall2** 的融合 SRS 仅适用于 sing-box 分流节点。[额外消费者核对](../upstream/2026-10-19/consumers/report.md)
 
 
 完整操作入口见 [下载与导入](downloads.zh-CN.md)，各平台 DNS 与导入后的检查见 [DNS 与运行验证](dns-and-verification.zh-CN.md)。

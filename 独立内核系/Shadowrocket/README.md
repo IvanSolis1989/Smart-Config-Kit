@@ -22,7 +22,7 @@ Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or resid
 
 ## Before you start
 
-Prepare Shadowrocket, your provider subscription URL and the configuration URL below. As checked on 2026-10-19, official stable 2.2.92 requires iOS 13+. See the [official store](https://apps.apple.com/us/app/shadowrocket/id932747118) for other device compatibility.
+Prepare Shadowrocket, your provider subscription URL and the configuration URL below. As of 2026-11-28, the US App Store lists Shadowrocket 2.2.93 for iOS 13 or later. See the [official store](https://apps.apple.com/us/app/shadowrocket/id932747118) for other platforms.
 
 - Install from the [App Store](https://apps.apple.com/app/shadowrocket/id932747118); allow VPN configuration on first connection.
 - A provider subscription URL lists nodes. This repository's `.conf` contains routing and no working nodes.
@@ -139,6 +139,7 @@ Names such as `🚫 受限网站`, `🌐 国外网站` and `📺 国内流媒体
 2. Confirm subscription and all remote-rule downloads succeed; the connection switch is not a download check.
 3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`; check AI, Netflix and China-streaming matches and actual exits in request/connection logs.
 4. Follow the [DNS and post-import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
+5. If you use Enforce Routes, test an intended LAN destination and an ordinary proxied site with the setting off and on. Repeat after a full app restart, and inspect the DNS, rule match and final exit. [App Store release history](https://apps.apple.com/us/app/shadowrocket/id932747118)
 
 For absent requests, empty groups or unexpected exits, continue below.
 

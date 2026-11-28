@@ -50,12 +50,14 @@ test('aggregate contract uses grammar validation, not a ban on filter', () => {
 test('full, lite and custom Quantumult X projections preserve valid trigger and general settings', () => {
   const { buildProfilePlan } = require('../lib/business-profiles');
   const { projectPlatform } = require('../lib/business-profile-platforms');
-  const source = fs.readFileSync(path.join(root, '独立内核系/Quantumult X/QuantumultX.conf'), 'utf8');
-  const general = text => text.match(/\[general\]([\s\S]*?)\[dns\]/)[1];
+  const source = fs.readFileSync(path.join(root, '独立内核系/Quantumult X/QuantumultX.conf'), 'utf8').replace(/\r\n/g, '\n');
+  const general = text => text.match(/\[general\]([\s\S]*?)\[dns\]/)[1].replace(/\r\n/g, '\n');
   for (const profile of ['full', 'lite', 'custom']) {
     const plan = buildProfilePlan({ profile, ...(profile === 'custom' ? { enable: [] } : {}), root });
-    const output = profile === 'full' ? source : projectPlatform(source, 'quantumult', plan);
-    assert.equal(validate(output).ok, true, profile);
-    assert.equal(general(output), general(source), profile);
+    for (const [label, input] of [['LF', source], ['CRLF', source.replace(/\n/g, '\r\n')]]) {
+      const output = profile === 'full' ? input : projectPlatform(input, 'quantumult', plan);
+      assert.equal(validate(output).ok, true, `${profile}/${label}`);
+      assert.equal(general(output), general(source), `${profile}/${label}`);
+    }
   }
 });

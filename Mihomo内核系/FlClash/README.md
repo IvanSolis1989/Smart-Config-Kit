@@ -22,7 +22,9 @@ In **🌍 全球节点**, choose **♻️ 全球自动** to select automatically
 
 ## Before you start: version and subscription
 
-You need **FlClash ≥ v0.8.85**, a Mihomo node subscription and this directory's JS. Get the client from the [official repository](https://github.com/chen08209/FlClash), then choose the procedure for your [interface version](#ui-version).
+These steps cover the [official stable FlClash v0.9.5](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5) and earlier Mihomo-based releases that support JS. The stable build uses the FlClash fork of Mihomo. For [FlClash RS v0.9.5-rs.2+1](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1), use the separate [Concord compatibility reference](https://github.com/Vialibrex/concord/blob/faaadad9c93d1967d44a65732bfcb02b7a93aefc/docs/compatibility.md) to check the profile and core features you need.
+
+You need **FlClash ≥ v0.8.85**, a Mihomo node subscription and this directory's JS. Get the client from the [official repository](https://github.com/Vialibrex/FlClash), then choose the procedure for your [interface version](#ui-version).
 
 - For one provider, prefer its native subscription URL. For several, follow [Sub-Store](../../SubStore/README.md) to produce one `Clash.Meta(mihomo)` URL.
 - After creating the script, select Script mode in the relevant profile and associate it. Pasting or saving alone does not activate it. Associate each profile separately.
@@ -176,6 +178,8 @@ Use application-access-control exclusions when an entire application must bypass
 
 ## Post-import verification
 
+In v0.9.5, make the first check with third-party MITM modules disabled. Use **Requests** to read the matched rule, final outbound, and DNS details. After enabling a module, repeat the same checks for one ad, one service, and one LAN destination. FlClash adds module rules ahead of the JS-generated rules. The App merges module hosts into the hosts map and applies module DNS after selected DNS override keys. [Final rule order](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L392-L433) · [DNS and hosts merge](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L337-L374)
+
 Open Proxies and expect:
 
 - **Up to 22 regional groups** (11 all-node + 11 residential; empty regions skipped), plus the global selector, including `♻️ 全球自动`, `🇭🇰 香港节点`, `🇸🇬 狮城节点` and `🌏 其他节点`.
@@ -324,7 +328,7 @@ Preserve working caches before replacement. Check complete URL, HTTP status, siz
 
 <a id="相关链接"></a>
 
-- [FlClash GitHub](https://github.com/chen08209/FlClash)
+- [FlClash GitHub](https://github.com/Vialibrex/FlClash)
 - [Override source](./FlClash(mihomo).js)
 - [Alternative CMFA YAML](../Clash%20Meta%20For%20Android/CMFA(mihomo).yaml)
 

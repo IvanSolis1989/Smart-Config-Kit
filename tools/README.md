@@ -29,6 +29,8 @@ Meow / AEROVE tools require Node.js ≥ 22.15, Ruby ≥ 3.0 and pinned Mihomo v1
 
 Validators are read-only by default; generators rewrite published artifacts. Start with checks directly related to the change. [AGENTS.md (Chinese source)](../AGENTS.md) defines complete acceptance requirements.
 
+Run `node --test tools/tests/mihomo-native-config.test.js` with `MIHOMO_NATIVE_BIN` set to the official Mihomo executable and `MIHOMO_NATIVE_GEODATA` set to a directory with `GeoIP.dat`, `GeoSite.dat` and `Country.mmdb`. The test processes the two standard JS entries, CMFA YAML and the OpenClash Normal Ruby output. It uses local rule assets and a synthetic subscription in a disposable directory. The optional `MIHOMO_SMART_NATIVE_BIN` must point to a Smart Alpha core and adds the two Smart entries. This checks core parsing without starting a tunnel. The [CI step](../.github/workflows/validate-artifact-contracts.yml) pins the standard core and databases by digest.
+
 <a id="js-overwrite-smoke-contract"></a>
 
 ### JS override behavior checks

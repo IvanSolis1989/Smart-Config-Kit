@@ -139,6 +139,10 @@ All three require real connections, final configuration and logs. Follow the [ru
 
 <a id="5-happ-用户"></a>
 
+### App versions and routing import
+
+With stable v2rayN 7.25.6 or prerelease 8.0.2, import the rule array in the routing settings. The app manages multiple `CustomOutbound` entries in 8.0.2. After importing, check the actual core version, rule order, and `proxy`, `direct`, and `block` exits. Native Xray uses `ruleTag` for logging and the v2rayN editor uses `remarks` for labels. [Official versions and fields](REFERENCE-xray.md#current-review)
+
 ### Happ users
 
 Happ uses Xray-core, but its native routing profile, complete Xray JSON and v2rayN RuleObject arrays are different formats. **Do not directly import this JSON into Happ and assume equivalent policy.** Official Happ profiles use `happ://routing/...`; JSON subscriptions have separate routing-binding restrictions. See [official import documentation](https://www.happ.su/main/dev-docs/routing) and the [historical review](../../docs/upstream/2026-10-19/consumers/report.md). This repository has no acceptance-tested native Happ artifact or converter.

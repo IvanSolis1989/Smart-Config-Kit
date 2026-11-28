@@ -185,6 +185,8 @@ Privately back up `./data` before upgrades. Do not commit/publish it. Cross-devi
 
 <a id="方式三cloudflare-workers无服务器兼容版"></a>
 
+The Compose image tag above pins the example. For the original backend, consult its release notes before upgrading and preserve the localhost Origin allowlist in this example. The upstream hosted frontend can be useful for its own setup, while the browser extension’s local transport uses the configured loopback frontend. The Workers adapter below has its own API and compatibility checks. [Upstream release](https://github.com/sub-store-org/Sub-Store/releases/tag/2.44.31) · [Upstream frontend and CORS](https://github.com/sub-store-org/Sub-Store/blob/d0bf093c186f3573e3571ae537c5cf6683d72e61/README.md#cors-allowlist)
+
 ## Method 3: Cloudflare Workers compatibility implementation
 
 The community project [Sub-Store Cloudflare](https://github.com/realchendahuang/sub-store-cloudflare) deploys Sources, Collections and download URLs to your Worker, storing data in D1. It suits lightweight “multiple providers → one `mihomo` URL → one client profile” workflows, but is **not** an equivalent replacement for official Docker / Node Sub-Store. Prefer methods 1 or 2 by default.
@@ -351,6 +353,15 @@ Profiles support switching. Sub-Store merges nodes into one pool so one override
 ### Empty groups or only one provider after aggregation?
 
 Confirm you imported the collection output URL, associated the override and refreshed that same profile.
+
+<a id="stash-xhttp-reality-subscription"></a>
+
+### VLESS XHTTP + REALITY nodes disappear from a Stash subscription
+
+Sub-Store 2.44.31 parses VLESS TCP + REALITY, XHTTP + REALITY and XHTTP + TLS inputs. In a three-node check with the official release bundle, the default `Stash` YAML retained only TCP + REALITY and XHTTP + TLS. The `ClashMeta` control and the explicitly enabled `Stash` option both retained all three, including the XHTTP path and REALITY options. The loss occurs in the Stash producer. Stash documents VLESS XHTTP with REALITY. [Sub-Store release](https://github.com/sub-store-org/Sub-Store/releases/tag/2.44.31) · [Producer source](https://github.com/sub-store-org/Sub-Store/blob/d0bf093c186f3573e3571ae537c5cf6683d72e61/backend/src/core/proxy-utils/producers/stash.js#L64-L95) · [Stash protocol syntax](https://stash.wiki/en/proxy-protocols/proxy-types#using-xhttp)
+
+1. Use a provider-native Stash YAML subscription when it is available and verify that the expected nodes appear in `Subscribe`.
+2. For an independently reviewed source on the original Sub-Store backend, test a separate download link with `target=Stash&includeUnsupportedProxy=true`. This switch bypasses the producer’s other compatibility filters too. Compare node counts and inspect the XHTTP and REALITY fields before importing into Stash 5.0. Verify connection and group membership in the app before adopting the link. [Sub-Store parameter reference](https://sub-store-org.github.io/doc/reference/link-params#%E5%8F%82%E6%95%B0%E6%B8%85%E5%8D%95)
 
 ### Duplicate names or unclear sources?
 

@@ -2,6 +2,10 @@
 
 [English](REFERENCE-flclash.md) | **简体中文**
 
+> 核对于 2026-11-28。[v0.9.5 正式版](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5) 内置 [FlClash 的 Mihomo 分支 `fea2926`](https://github.com/MetaCubeX/mihomo/compare/v1.19.34...chen08209:fea29264f541cba170bb8b7dda84697aa1dbcc3b)，基于 v1.19.34 加 13 个提交。[RS v0.9.5-rs.2+1](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) 另有独立预发布安装包，内置 Concord，按 [Concord 官方兼容范围](https://github.com/Vialibrex/concord/blob/faaadad9c93d1967d44a65732bfcb02b7a93aefc/docs/compatibility.md) 单独核对。
+
+> 正式版先执行 `main(config)`，再应用 [App patch](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/providers/actions/setup.dart#L560-L638)。App 将模块 hosts 合并到 hosts 表，依次应用选定的 DNS 键与模块 DNS，并可追加系统 DNS。模块规则插入最终配置的规则首部。macOS 在 TUN 的 `dns-mode` 缺失时填入 `native`。先关闭模块取基线，再逐个启用，通过最终配置和「请求」记录比较 DNS、规则首命中及实际出口。 [TUN 处理](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L243-L267) · [DNS 和 hosts](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L337-L374) · [规则顺序](https://github.com/Vialibrex/FlClash/blob/v0.9.5/lib/common/task.dart#L392-L433)
+
 > 核对于 2026-10-31（Issue #193）：沿用已核对的 v0.9.0 / v0.9.1 `main(config)` 扩展入口；按 [Mihomo 规则文档](https://wiki.metacubex.one/config/rules/)使用 `AND` / `NETWORK` / `PROCESS-NAME` / `REJECT`，加入默认关闭的可信本地 Windows 浏览器 UDP 拒绝层。三个 `.exe` 名称及 `find-process-mode: strict` 只适用于进入核心并可识别的 Windows 进程；Android 不适用，App patch 后最终配置和设备连接仍须核对。未改变默认 DNS / 路由或抬高脚本 API 最低版本。
 
 > 核对于 2026-10-31（界面文案）：核对 [v0.8.99 配置菜单](https://github.com/chen08209/FlClash/blob/v0.8.99/lib/views/profiles/profiles.dart#L315-L354)的「更多 → 覆写」和 [v0.9.1 脚本菜单](https://github.com/chen08209/FlClash/blob/v0.9.1/lib/views/config/scripts.dart#L282-L320)。[中文资源](https://github.com/chen08209/FlClash/blob/v0.9.1/arb/intl_zh_CN.arb)中三个创建选项为「从零开始」「通过URL导入」「通过文件导入」，v0.8.99 也使用相同选项；没有名为「粘贴」的导入菜单。

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-14T05:26:34.327Z",
+  "generated_at": "2026-11-28T02:29:26.610Z",
   "source": "rulesets/source/routing-graph.js raw provider graph before Mihomo MRS normalization",
-  "mihomo_bin": "mihomo-windows-amd64-compatible.exe",
+  "mihomo_bin": "mihomo-v1.19.32.exe",
   "output_dir": "rulesets/generated/mihomo-mrs",
   "converted": [
     {
@@ -16868,15 +16868,15 @@
       "source_behavior": "classical",
       "source_format": "text",
       "source_url": "https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/supplemental/clash/microsoft-ai-guard.list",
-      "source_entry_count": 1,
+      "source_entry_count": 3,
       "type_counts": {
-        "domain": 1
+        "domain": 3
       },
       "generated": [
         {
           "behavior": "domain",
           "file": "scki-microsoft-ai-guard.mrs",
-          "entries": 1,
+          "entries": 3,
           "output_receipt": {
             "schema_version": 1,
             "requested_url": null,
@@ -16887,8 +16887,8 @@
             "verification": "content-sha256",
             "content_normalization": "raw-bytes",
             "content": {
-              "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-              "bytes": 75
+              "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+              "bytes": 130
             },
             "source": {
               "id": "repository-local",
@@ -16919,8 +16919,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "1698c7ee5c64438ef1ffeb6d48d3805e05a99975331754a2a66bd3526f3170f4",
-          "bytes": 127
+          "sha256": "e15bb0526399888dd9b26b0fe30ca4e56969a7643600b2cddf00cf3973a2ef30",
+          "bytes": 288
         },
         "source": {
           "id": "scki",
@@ -33714,9 +33714,9 @@
       "source_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
       "source_entry_count": 245,
       "type_counts": {
-        "domain": 213,
+        "domain": 212,
         "ipcidr": 18,
-        "PROCESS-NAME": 13
+        "PROCESS-NAME": 10
       },
       "generated": [
         {
@@ -33793,7 +33793,7 @@
       "residual": {
         "behavior": "classical",
         "file": "szkane-ai-classical.yaml",
-        "entries": 29,
+        "entries": 25,
         "output_receipt": {
           "schema_version": 1,
           "requested_url": null,
@@ -33804,8 +33804,8 @@
           "verification": "content-sha256",
           "content_normalization": "LF",
           "content": {
-            "sha256": "c80687d38fea70f1d71f2d993ee5f825430d7e89b47257518396f6b981da2039",
-            "bytes": 967
+            "sha256": "a29bc090c58461ddf95034cef5e7d80d88f50dc0977f5cd21d4bc44e4fc3a332",
+            "bytes": 835
           },
           "source": {
             "id": "repository-local",
@@ -33829,7 +33829,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/szkane-ai.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/szkane-ai.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -33846,10 +33846,15 @@
           "source_path": "Clash/Ruleset/AiDomain.list",
           "declaration": "rulesets/source/upstream-sources.json#szkane",
           "license": {
-            "status": "unknown",
-            "spdx": null,
-            "declaration_url": "https://github.com/szkane/ClashRuleSet",
-            "note": "Repository identity only; license text not yet captured and verified."
+            "status": "declared",
+            "spdx": "MIT",
+            "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+            "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+            "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+            "declaration_bytes": 1062,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
           },
           "resolved_commit": null,
           "version_state": "legacy-output-only"
@@ -35393,7 +35398,7 @@
       "type_counts": {
         "domain": 214,
         "ipcidr": 6,
-        "PROCESS-NAME": 23,
+        "PROCESS-NAME": 16,
         "IP-ASN": 3
       },
       "generated": [
@@ -35471,7 +35476,7 @@
       "residual": {
         "behavior": "classical",
         "file": "vpsdance-ai-coding-classical.yaml",
-        "entries": 32,
+        "entries": 25,
         "output_receipt": {
           "schema_version": 1,
           "requested_url": null,
@@ -35482,8 +35487,8 @@
           "verification": "content-sha256",
           "content_normalization": "LF",
           "content": {
-            "sha256": "b47cab547df39a3459352cf97a01c1d3645baba107e9b833f40bff0b54659e8c",
-            "bytes": 1002
+            "sha256": "6791e5d7fdd68b932b2d78bd5ac13634c660e1a50e9412191ab8f18a3eca2752",
+            "bytes": 805
           },
           "source": {
             "id": "repository-local",
@@ -35507,7 +35512,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/coding.yaml",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/vpsdance-ai-coding.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/vpsdance-ai-coding.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",

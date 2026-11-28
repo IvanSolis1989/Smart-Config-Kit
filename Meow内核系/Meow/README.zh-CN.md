@@ -31,14 +31,14 @@
 
 本仓库不提供节点或订阅。模板中的 `proxy-providers.Subscribe.url` 是不可用的占位地址，先替换为自己的 Clash 格式节点订阅。原文件不能直接启动，也不能将仓库模板 URL 当成个人可运行配置。
 
-官方 Android 稳定 v1.0.8 固定核心 v0.20.2；iOS 稳定 v2.0.0 固定核心 a663364469b3b7dc2b46d2e0f4530e50a54108ee。旧核心关键字段已有源码依据，完整模板在这些 App 上仍待验，详见 [REFERENCE](REFERENCE-meow-rs.zh-CN.md)。
+官方 Android GitHub v1.0.11 内嵌 meow-rs v0.29.0。iOS/tvOS App Store 2.0 内嵌 v0.21.2，新增 Apple TV 配置同步和定时刷新。按实际安装渠道和版本使用对应说明，详见 [REFERENCE](REFERENCE-meow-rs.zh-CN.md)。
 
 ## 导入步骤
 
 1. 下载 YAML，替换 `proxy-providers.Subscribe.url` 的 `https://example.invalid/replace-with-your-subscription-url`，保存个人配置。
 2. 官方 Android/iOS 使用本地 YAML 或配置 URL 导入入口。URL 模式须托管已经替换订阅地址的私有配置，避免公开个人订阅。
 3. 等待节点订阅、MRS / residual YAML 和首轮地区健康检查完成，选择有可用节点的地区/业务出口，再启动 VPN。
-4. 读回最终配置与连接日志，核对组、规则、下载、DNS 和出口。iOS 替换源 DNS；Android 也管理 DNS、监听与 VPN，不能假定 App 原样保留核心 YAML 的所有平台设置。
+4. 读回最终配置与连接日志，核对组、规则下载、DNS 和出口。iOS/tvOS 2.0 隧道保留支持的源 DNS 选项，并接管监听和 fake-IP 地址池。Android v1.0.11 还需检查 App 的内置 DNS 开关。
 
 直接使用官方核心时，将配置保存为 config.yaml，执行 `meow -f config.yaml -t`；订阅、规则与 Geo 数据准备成功后再启动核心及本机代理。
 
@@ -69,6 +69,6 @@ node tools/generate-meow.js --check
 node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js
 ```
 
-设置 MEOW_BIN、MEOW_GEOSITE_FILE、MEOW_MMDB_FILE 后，最后一条命令执行真实核心 -t；未设置时明确跳过。独立 CI 固定下载官方核心并验 SHA 后执行。
+设置 MEOW_BIN、MEOW_GEOSITE_FILE、MEOW_MMDB_FILE 后，最后一条命令执行真实核心 -t；未设置时明确跳过。CI 验证归档哈希后运行 v0.26.1 门禁和 v0.30.0 诊断。
 
 规则权威源为 `rulesets/source/routing-graph.js`。原生组/字段从 CMFA 投影，rules/providers 使用经源指纹校验的 fused 结果。与 AEROVE Lite 共用生成器和[适配清单](../adapter-manifest.json)，各客户端的使用文档与验收状态分别维护。

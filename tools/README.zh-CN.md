@@ -27,6 +27,8 @@ Meow / AEROVE 工具需要 Node.js ≥ 22.15、Ruby ≥ 3.0 及固定 Mihomo v1.
 
 验证器默认只读；生成器会改写已发布产物。请从本次改动直接相关的检查开始；完整验收要求以 [AGENTS.md](../AGENTS.md) 为准。
 
+运行 `node --test tools/tests/mihomo-native-config.test.js` 前，将 `MIHOMO_NATIVE_BIN` 指向官方 Mihomo，将 `MIHOMO_NATIVE_GEODATA` 指向存有 `GeoIP.dat`、`GeoSite.dat`、`Country.mmdb` 的目录。测试执行两份普通 JS 入口、读取 CMFA YAML，并运行 OpenClash Normal 的 Ruby 处理器。在临时目录里使用本地规则资产和合成订阅检查核心解析，全程不启动隧道。可用 `MIHOMO_SMART_NATIVE_BIN` 指定 Smart Alpha 内核，再检查两个 Smart 入口。[CI 步骤](../.github/workflows/validate-artifact-contracts.yml)固定标准核心和数据库的哈希。
+
 <a id="js-overwrite-smoke-contract"></a>
 
 ### JS 覆写行为检查

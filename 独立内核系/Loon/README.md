@@ -23,7 +23,7 @@ Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or resid
 
 ## Before you start
 
-Prepare Loon, your provider subscription URL and the configuration URL below. As checked on 2026-10-19, official stable 3.5.2 requires iOS 15+. The official store also permits the iOS application on Apple Silicon Macs, distinct from a standalone native Mac version. See the [historical review](../../docs/upstream/2026-10-19/apple/report.md).
+Prepare Loon, your provider subscription URL and the configuration URL below. As of 2026-11-28, the US App Store lists Loon 3.5.3 for iOS 15 or later. The standalone Loon for Mac has a separate alpha channel. [App Store](https://apps.apple.com/us/app/loon/id1373567447) · [Mac release notes](https://nsloon.app/Loon4Mac/changelog.html)
 
 - Install from the [App Store](https://apps.apple.com/app/loon/id1373567447); allow adding a VPN configuration on first connection.
 - The `.conf` provides routing, not provider nodes. `[Remote Rule]` requires network downloads.
@@ -121,6 +121,7 @@ Check database download status after import. On failure check URL/network; an en
 2. Confirm subscription and all remote-rule downloads succeed. The connection switch does not replace download checks.
 3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`; inspect request/connection logs for AI, Netflix and China-streaming matches and actual exits.
 4. Complete the [DNS and post-import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
+5. Check that the global selector can choose Global Auto, a regional group and a residential group. Refresh remote rules and reopen Loon, then confirm the selected group and actual node in the request log. [Loon policy groups](https://nsloon.app/en/docs/Policy/policygroup/)
 
 If logs have no requests, groups are empty or exits differ, continue below.
 

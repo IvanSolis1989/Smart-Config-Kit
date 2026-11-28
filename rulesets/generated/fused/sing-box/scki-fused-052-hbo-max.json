@@ -48,7 +48,9 @@
         "nowe.hk",
         "players.brightcove.net",
         "warnermediacdn.com"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.hbo.hbonow"
       ]

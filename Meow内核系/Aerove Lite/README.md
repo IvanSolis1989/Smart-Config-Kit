@@ -24,6 +24,8 @@ Input DNS, hosts, sniffing, IPv6, ports, mode, controller and TUN settings must 
 
 Standard AEROVE uses Mihomo. This page covers AEROVE Lite's Meow integration. For the official meow-rs core and native configuration entry points in the official Android/iOS applications, see [official Meow](../Meow/README.md).
 
+The [public v45 package](https://github.com/IvanSolis1989/Aerove/releases/tag/lite-offlineprobe-v45-20261113) is an ARM64 Android 13+ diagnostic build. Record its version, package and signing identity when using it for evaluation. The [Full stable release](https://github.com/IvanSolis1989/Aerove/releases/tag/v0.13.0%2B2026102340) uses Mihomo and a separate script.
+
 ## Import and association
 
 ### Online selection and local import

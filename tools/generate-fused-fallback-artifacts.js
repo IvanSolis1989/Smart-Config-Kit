@@ -2,6 +2,7 @@
 'use strict';
 
 const fs = require('node:fs');
+const { randomUUID } = require('node:crypto');
 const { writeRepositoryArtifact } = require('./lib/write-repository-artifact');
 const path = require('node:path');
 const { repositoryAssetUrl } = require('./lib/generated-asset-url');
@@ -16,10 +17,10 @@ const V2RAYN_FILE = path.join(REPO_ROOT, 'Xray内核系/v2rayN/v2rayN(xray).json
 const PASSWALL_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall/shunt-rules');
 const PASSWALL2_SHUNT_DIR = path.join(REPO_ROOT, '双内核系/Passwall2/shunt-rules');
 
-const BUILD_DATE = '2026-11-22';
-const V2RAYN_VERSION = 'v6.0.22-v2n.12';
-const PASSWALL_VERSION = 'v6.0.22-pw.13';
-const PASSWALL2_VERSION = 'v6.0.22-pw2.13';
+const BUILD_DATE = '2026-11-28';
+const V2RAYN_VERSION = 'v6.0.23-v2n.13';
+const PASSWALL_VERSION = 'v6.0.23-pw.14';
+const PASSWALL2_VERSION = 'v6.0.23-pw2.14';
 
 const DIRECT_POLICIES = new Set([
   'DIRECT',
@@ -120,10 +121,6 @@ function* xrayIpsFromSingBoxRule(rule) {
   for (const value of rule.ip_cidr || []) yield value;
 }
 
-function* xraySourceIpsFromSingBoxRule(rule) {
-  for (const value of rule.source_ip_cidr || []) yield value;
-}
-
 function xrayProcessesFromSingBoxRule(rule) {
   return [...(rule.process_name || []), ...(rule.process_path || [])];
 }
@@ -189,10 +186,6 @@ function writeXrayRuleSuffix(fd, rule) {
     writeFd(fd, ',\n    "process": ');
     writeJsonStringArray(fd, rule.process);
   }
-  if (rule.sourceIP) {
-    writeFd(fd, ',\n    "sourceIP": ');
-    writeJsonStringArray(fd, rule.sourceIP);
-  }
   writeFd(fd, '\n  }');
 }
 
@@ -205,12 +198,41 @@ function writeStaticXrayRule(fd, rule, isFirst) {
   writeXrayRuleSuffix(fd, rule);
 }
 
-function writeSegmentXrayRule(fd, segment, ordinal, isFirst) {
-  const sourceFile = segment.files && segment.files.sing_box && segment.files.sing_box.source;
-  if (!sourceFile) throw new Error(`${segment.id}: missing sing-box source metadata`);
-  const singBoxFile = path.join(FUSED_SING_BOX_DIR, sourceFile);
-  const singBox = readJson(singBoxFile);
-  const rules = singBox.rules || [];
+const XRAY_DESTINATION_FIELDS = new Set(['domain', 'domain_suffix', 'domain_keyword', 'domain_regex', 'ip_cidr']);
+
+function validateXraySourceRules(rules, segmentId) {
+  if (!Array.isArray(rules) || rules.length === 0) {
+    throw new Error(`${segmentId}: missing sing-box headless rules`);
+  }
+  for (const [index, rule] of rules.entries()) {
+    const label = `${segmentId}: sing-box rule ${index + 1}`;
+    if (!rule || typeof rule !== 'object' || Array.isArray(rule)
+        || (rule.type !== undefined && rule.type !== 'default')
+        || (rule.invert !== undefined && rule.invert !== false)) {
+      throw new Error(`${label}: v2rayN requires a non-inverted default rule`);
+    }
+    const dimensions = new Set();
+    for (const [field, values] of Object.entries(rule)) {
+      if (field === 'type' || field === 'invert') continue;
+      const destination = XRAY_DESTINATION_FIELDS.has(field);
+      if (!destination && field !== 'process_name' && field !== 'process_path') {
+        throw new Error(`${label}: v2rayN cannot preserve ${field}`);
+      }
+      if (!Array.isArray(values) || values.some((value) => typeof value !== 'string' || value.length === 0)) {
+        throw new Error(`${label}: invalid ${field} values`);
+      }
+      if (values.length > 0) dimensions.add(destination ? 'destination' : field);
+    }
+    if (dimensions.size !== 1) {
+      throw new Error(`${label}: v2rayN requires a single non-empty matching dimension`);
+    }
+  }
+}
+
+function writeSegmentXrayRule(fd, segment, ordinal, isFirst, rules) {
+  validateXraySourceRules(rules, segment.id);
+  // The v2rayN importer emits domain, IP and process as separate native
+  // rules. A GUI row therefore preserves the OR of these headless rows.
   writeXrayRulePrefix(fd, {
     id: segment.id,
     remarks: `[${String(ordinal).padStart(3, '0')}] ${segment.id} | ${segment.policy} | fused -> ${outboundTag(segment.policy)}`,
@@ -220,17 +242,11 @@ function writeSegmentXrayRule(fd, segment, ordinal, isFirst) {
   writeJsonArrayFromRuleFields(fd, rules, xrayDomainsFromSingBoxRule);
   writeFd(fd, ',\n    "ip": ');
   writeJsonArrayFromRuleFields(fd, rules, xrayIpsFromSingBoxRule);
-  const sourceIPs = rules.flatMap((rule) => [...xraySourceIpsFromSingBoxRule(rule)]);
   const processes = rules.flatMap(xrayProcessesFromSingBoxRule);
-  const unsupportedProcessRegex = rules.flatMap((rule) => rule.process_path_regex || []);
-  if (unsupportedProcessRegex.length) {
-    throw new Error(`${segment.id}: Xray RuleObject cannot preserve PROCESS-PATH-REGEX`);
-  }
   writeXrayRuleSuffix(fd, {
     port: '',
     network: 'tcp,udp',
     process: processes.length ? processes : null,
-    sourceIP: sourceIPs.length ? sourceIPs : null,
   });
 }
 
@@ -345,52 +361,64 @@ function writeV2rayNArtifact(manifest, fusedRules) {
       .map((segment) => [segment.id, segment]),
   );
   const emittedSegments = new Set();
-  const fd = fs.openSync(ensureRepoPath(V2RAYN_FILE), 'w');
+  const target = ensureRepoPath(V2RAYN_FILE);
+  const temporary = `${target}.${randomUUID()}.tmp`;
   let count = 0;
   try {
-    writeFd(fd, '[\n');
-    writeStaticXrayRule(fd, {
-      id: 'scki-000-meta',
-      enabled: false,
-      remarks: `Smart-Config-Kit ${V2RAYN_VERSION} | Build ${BUILD_DATE} | Baseline Clash Party ${manifest.baseline_version} | source rulesets/source/routing-graph.js | fused segments=${manifest.segment_count} | Xray native flatten from rulesets/generated/fused/sing-box/*.json`,
-      outboundTag: 'direct',
-      domain: ['domain:smart-config-kit.invalid'],
-      ip: [],
-      port: '',
-      network: 'tcp,udp',
-    }, true);
-    count += 1;
-
-    let inlineIndex = 0;
-    let segmentOrdinal = 0;
-    for (const rule of fusedRules) {
-      const parts = splitTopLevel(rule);
-      if (parts[0] === 'RULE-SET') {
-        const segmentId = segmentIdFromRuleSet(parts[1]);
-        if (!segmentsById.has(segmentId) || emittedSegments.has(segmentId)) continue;
-        emittedSegments.add(segmentId);
-        segmentOrdinal += 1;
-        writeFd(fd, ',\n');
-        writeSegmentXrayRule(fd, segmentsById.get(segmentId), segmentOrdinal, true);
-        count += 1;
-        continue;
-      }
-      inlineIndex += 1;
-      const inlineRule = renderInlineXrayRule(rule, inlineIndex);
-      if (!inlineRule) continue;
-      writeFd(fd, ',\n');
-      writeStaticXrayRule(fd, inlineRule, true);
+    const fd = fs.openSync(temporary, 'wx');
+    try {
+      writeFd(fd, '[\n');
+      writeStaticXrayRule(fd, {
+        id: 'scki-000-meta',
+        enabled: false,
+        remarks: `Smart-Config-Kit ${V2RAYN_VERSION} | Build ${BUILD_DATE} | Baseline Clash Party ${manifest.baseline_version} | source rulesets/source/routing-graph.js | fused segments=${manifest.segment_count} | Xray native flatten from rulesets/generated/fused/sing-box/*.json`,
+        outboundTag: 'direct',
+        domain: ['domain:smart-config-kit.invalid'],
+        ip: [],
+        port: '',
+        network: 'tcp,udp',
+      }, true);
       count += 1;
+
+      let inlineIndex = 0;
+      let segmentOrdinal = 0;
+      for (const rule of fusedRules) {
+        const parts = splitTopLevel(rule);
+        if (parts[0] === 'RULE-SET') {
+          const segmentId = segmentIdFromRuleSet(parts[1]);
+          if (!segmentsById.has(segmentId) || emittedSegments.has(segmentId)) continue;
+          emittedSegments.add(segmentId);
+          segmentOrdinal += 1;
+          const segment = segmentsById.get(segmentId);
+          const { rules } = readJson(path.join(FUSED_SING_BOX_DIR, segment.files.sing_box.source));
+          writeSegmentXrayRule(fd, segment, segmentOrdinal, false, rules);
+          count += 1;
+          continue;
+        }
+        inlineIndex += 1;
+        const inlineRule = renderInlineXrayRule(rule, inlineIndex);
+        if (!inlineRule) continue;
+        writeFd(fd, ',\n');
+        writeStaticXrayRule(fd, inlineRule, true);
+        count += 1;
+      }
+      writeFd(fd, '\n]\n');
+    } finally {
+      fs.closeSync(fd);
     }
-    writeFd(fd, '\n]\n');
+    fs.renameSync(temporary, target);
   } finally {
-    fs.closeSync(fd);
+    if (fs.existsSync(temporary)) fs.unlinkSync(temporary);
   }
   return { ruleCount: count, emittedSegments: emittedSegments.size };
 }
 
-function passwallRuleUrl(segment, assetRevision) {
-  return repositoryAssetUrl(`rulesets/generated/fused/sing-box/${segment.id}.srs`, assetRevision);
+function passwallRuleUrl(segmentId, assetRevision) {
+  // Passwall and Passwall2 detect the format from the suffix of the whole
+  // URL, including its query. Keep the revision and end the URL in ".srs".
+  const url = new URL(repositoryAssetUrl(`rulesets/generated/fused/sing-box/${segmentId}.srs`, assetRevision));
+  url.searchParams.set('format', '.srs');
+  return url.toString();
 }
 
 function hasIpPayload(segment) {
@@ -424,7 +452,7 @@ function renderPasswallScript({ appName, version, title, configName, nodeComment
     : 'Socks|SS-Rust|SSR';
   const addCalls = segments.map((segment, index) => (
     `# [${String(index + 1).padStart(3, '0')}] ${segment.id} | ${segment.policy}\n`
-    + `add_fused_shunt_rule '${segment.id} | ${segment.policy}' '${passwallRuleUrl(segment, assetRevision)}' '${hasIpPayload(segment) ? '1' : '0'}'`
+    + `add_fused_shunt_rule '${segment.id} | ${segment.policy}' '${passwallRuleUrl(segment.id, assetRevision)}' '${hasIpPayload(segment) ? '1' : '0'}'`
   )).join('\n\n');
 
   return `#!/bin/sh
@@ -584,7 +612,7 @@ function renderPasswallConf({ title, version, readmePath, segments, baselineVers
     '',
   ];
   segments.forEach((segment, index) => {
-    const url = passwallRuleUrl(segment, assetRevision);
+    const url = passwallRuleUrl(segment.id, assetRevision);
     lines.push(`# [${String(index + 1).padStart(3, '0')}] ${segment.id} | ${segment.policy} | ${outboundTag(segment.policy)}`);
     lines.push('# [Domain List]');
     lines.push(`rule-set:remote:${url}`);
@@ -603,7 +631,7 @@ function renderPasswallList(segment, assetRevision) {
     '# Generated by tools/generate-fused-fallback-artifacts.js',
     `# Source: rulesets/generated/fused/sing-box/${segment.id}.srs`,
     '# Paste this line into Passwall / Passwall2 Domain List; for IP-bearing segments the apply.sh also writes it to IP List.',
-    `rule-set:remote:${passwallRuleUrl(segment, assetRevision)}`,
+    `rule-set:remote:${passwallRuleUrl(segment.id, assetRevision)}`,
     '',
   ].join('\n');
 }
@@ -738,4 +766,5 @@ if (require.main === module) {
 
 module.exports = {
   generateFusedFallbackArtifacts,
+  passwallRuleUrl,
 };

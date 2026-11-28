@@ -98,6 +98,8 @@ sh 'Passwall(xray+sing-box)-apply.sh' --append
 
 Passwall / Passwall2 的 sing-box 后端支持 `rule-set:remote:` / `rule-set:local:`。Xray 后端会过滤这些引用；Passwall2 还可能生成缺失域名/IP 条件的宽匹配规则。不要将 SRS 引用交给 Xray，也不要粘贴 Clash 的 `DOMAIN-SUFFIX,` 等前缀。
 
+复制生成的完整 URL。Passwall 26.11.23-1 用完整 URL 的末尾判断规则集格式。生成地址以 `&format=.srs` 结尾，`scki` 参数标识资产修订版。
+
 <a id="verification"></a>
 
 ## 导入验收
@@ -129,6 +131,10 @@ Passwall / Passwall2 的 sing-box 后端支持 `rule-set:remote:` / `rule-set:lo
 <summary>插件定位、融合规则与能力差异</summary>
 
 <a id="1-定位"></a>
+
+### 订阅节点的 DNS
+
+若通过 Clash 订阅自动提取节点 DNS，请在 `proxy-server-nameserver-policy` 使用完整节点域名或单层 `*.`。SRS 导入只负责写入分流规则。应用后查看路由器最终配置，并确认冷启动能下载规则资产。使用 sing-box 1.14 时，若规则首次下载失败，检查插件为 `remote_http_client` 选择的出站。 [官方版本及后端细节](REFERENCE-passwall.zh-CN.md#current-review)
 
 ### 插件定位与融合规则
 

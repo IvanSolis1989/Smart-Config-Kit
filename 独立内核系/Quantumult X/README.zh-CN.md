@@ -23,7 +23,7 @@ QX 原生分流教程：导入配置，填写节点订阅，再检查 policy 与
 
 ## 开始前
 
-准备 Quantumult X、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 1.8.1 要求 iOS 15+；其他设备兼容性以[官方商店](https://apps.apple.com/us/app/quantumult-x/id1443988620)为准。
+准备 Quantumult X、机场订阅 URL 和下方配置直链。截至 2026-11-28，美国 App Store 的正式版为 1.8.1，要求 iOS 15 或更新版本。其他平台要求见[官方商店](https://apps.apple.com/us/app/quantumult-x/id1443988620)。
 
 - 从 [App Store](https://apps.apple.com/app/quantumult-x/id1443988620)安装，首次连接需允许添加 VPN 配置。
 - `[server_remote]` / `[server_local]` 分别填写订阅 / 手动节点，本模板没有可用节点。
@@ -141,6 +141,7 @@ Apple / iCloud 等系统 DNS 例外由 `[general] dns_exclusion_list` 配置。�
 2. 确认订阅与全部 `filter_remote` 下载成功；连接开关开启不能代替下载检查。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
 4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+5. 按 [#206](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/206) 核对全球节点手选组，依次选择全球自动、一个地区组和一个家宽组，在请求日志中回读策略组和最终节点。刷新订阅并重启 App 后，检查先前选择是否保留。
 
 若日志没有请求、组内为空或出口不符，继续按下方 FAQ 排查。
 

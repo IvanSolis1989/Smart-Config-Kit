@@ -38,6 +38,8 @@ MetaCubeX Alpha 不等于 Smart。两份脚本规则、DNS 与业务组相同，
 
 ### Clash Party（原 Mihomo Party）
 
+当前正式版 Clash Party v2.0.5 的 Windows x64 发行构建包含 Mihomo v1.19.34、MetaCubeX Alpha `100ff73` 和 vernesong Smart `6a80483`。选择脚本前先确认 App 当前启用的内核。 [官方发布说明](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.5) · [发行构建日志](https://github.com/mihomo-party-org/clash-party/actions/runs/44671895631/job/136074584497)
+
 - 开源地址：https://github.com/mihomo-party-org/clash-party/releases
 - 支持 Windows / macOS (Intel + Apple Silicon) / Linux (deb/rpm/AppImage)
 - 支持 stable / Alpha / Smart 内核与 JS 覆写；使用 Smart 脚本前在客户端确认选中 Smart 内核，并检查模型状态。
@@ -126,6 +128,12 @@ Smart 与 Normal 二选一，按所用内核选择；两者均为 JS 覆写脚�
 2. 粘贴 `.js` 全部内容，保存。
 3. **订阅（Profiles）** → 右上角 ⋯ → **扩展管理（Extensions）** → 勾选刚才的脚本。
 4. 重启内核（Ctrl/Cmd + R）。
+
+### 可选：在 Clash Party v2.0.5 使用本地 YAML
+
+按上述订阅流程使用时，将 JS 关联到远程订阅并刷新订阅。App 在执行 JS 前读取原始订阅的受保护 DNS 字段。使用本仓库 JS 提供的 DNS 时，关闭 App 的 DNS 覆写，并查看当前配置最终生效的 DNS。
+
+使用完整 Mihomo YAML 时，在「本地配置」保存 YAML，再使用该页面的重载功能。该配置自行提供 DNS，节点和代理集合引用也需写在 YAML 内。如果从含受保护 DNS 的订阅切换，先查看 App 确认提示，再检查最终的 DNS、hosts 和路由。 [Clash Party 配置生成源码](https://github.com/mihomo-party-org/clash-party/blob/v2.0.5/src/main/core/factory.ts#L145-L219)
 
 ### 3. 核对 DNS 所有权并连接
 

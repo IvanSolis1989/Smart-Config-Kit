@@ -181,6 +181,8 @@ docker compose stop
 
 升级前私密备份 `./data`，勿提交 Git 或公开。跨设备访问需配置 HTTPS、认证或 VPN；随机路径不能替代访问控制，也不要直接改成公网监听。
 
+Compose 镜像标签固定了这份示例。升级原版后端前查看上游发行说明，保持本机方案的 localhost Origin 清单。上游托管前端适用于它自己的接入流程，浏览器扩展的本机通道使用已配置的回环前端。下文 Workers 适配有独立的接口和验收步骤。[上游正式版](https://github.com/sub-store-org/Sub-Store/releases/tag/2.44.31) · [上游前端和 CORS](https://github.com/sub-store-org/Sub-Store/blob/d0bf093c186f3573e3571ae537c5cf6683d72e61/README.md#cors-allowlist)
+
 ## 方式三：Cloudflare Workers（无服务器兼容版）
 
 这里介绍的是社区项目 [Sub-Store Cloudflare](https://github.com/realchendahuang/sub-store-cloudflare)：它把 Source、Collection 和最终下载链接部署到你自己的 Cloudflare Worker，数据保存在 D1。它适合“多个机场 → 一条 `mihomo` URL → FlClash / Clash Party 单一 Profile”的轻量需求，但**不是**官方 Docker / Node 版 Sub-Store 的等价替代；默认仍优先方式一或方式二。
@@ -341,6 +343,15 @@ https://sub-b.example/mirror/subscribe?token=...#flowDedup=airport-alpha
 ### 组合后策略组为空或只剩一个机场的节点？
 
 确认导入组合订阅的输出 URL，关联覆写并刷新同一个 Profile。
+
+<a id="stash-xhttp-reality-subscription"></a>
+
+### Stash 订阅缺少 VLESS XHTTP + REALITY 节点
+
+用 Sub-Store 2.44.31 官方发布包对照三个合成节点，解析端读到 TCP + REALITY、XHTTP + REALITY、XHTTP + TLS。默认 `Stash` YAML 只保留第一和第三项。`ClashMeta` 对照和显式开启保留选项的 `Stash` 输出都保留三个节点，XHTTP 路径和 REALITY 字段完整。丢失发生在 Stash producer，Stash 官方文档支持该组合。[Sub-Store 正式版](https://github.com/sub-store-org/Sub-Store/releases/tag/2.44.31) · [Producer 源码](https://github.com/sub-store-org/Sub-Store/blob/d0bf093c186f3573e3571ae537c5cf6683d72e61/backend/src/core/proxy-utils/producers/stash.js#L64-L95) · [Stash 协议文档](https://stash.wiki/en/proxy-protocols/proxy-types#using-xhttp)
+
+1. 供应商有原生 Stash YAML 订阅时，优先使用该入口，并确认预期节点出现在 `Subscribe`。
+2. 对已逐项复核的来源，可用原版 Sub-Store 单独试用 `target=Stash&includeUnsupportedProxy=true` 下载链接。该开关也会跳过 producer 的其他兼容过滤。先核对节点数、XHTTP 和 REALITY 字段，再在 Stash 5.0 导入、验证实际连接和组成员，确认后替换日常使用的链接。[Sub-Store 参数说明](https://sub-store-org.github.io/doc/reference/link-params#%E5%8F%82%E6%95%B0%E6%B8%85%E5%8D%95)
 
 ### 节点名称重复、来源看不出来怎么办？
 

@@ -8,7 +8,7 @@ This page records shared adaptation and client validation separately: source sup
 
 | Target | Entry | Recorded stage |
 | --- | --- | --- |
-| [Official meow-rs core](#meow) | Native YAML / WebUI | Real v0.26.1 `-t` passed; production subscriptions, HTTP downloads and routing remain unverified |
+| [Official meow-rs core](#meow) | Native YAML / WebUI | Official v0.26.1 and v0.30.0 passed `-t` with local assets; production subscriptions, HTTP downloads and routing remain unverified |
 | [Official meow-android / meow-ios](#meow-official-apps) | Native YAML | Import interfaces and key older-core capabilities checked in source; complete app import and connectivity remain unverified |
 | [AEROVE Lite](#aerove-lite-meow) | JS override and dedicated MRS shards | Production validation chain connected; QuickJS atomicity and named HTTP proxy cases passed; beta18 rejected the old three-shard set; the new candidate still needs all-resource app and real-routing validation |
 
@@ -26,9 +26,9 @@ Shared remaining checks:
 
 ## <a id="meow-official-apps"></a>Official Android / iOS
 
-meow-android stable v1.0.8 pins core v0.20.2; meow-ios stable v2.0.0 pins core `a663364469b3b7dc2b46d2e0f4530e50a54108ee`. Both have actual source consumers for MRS, provider.proxy, AND/OR/NOT and geodata. A different version number alone does not establish a missing capability.
+Meow Android GitHub v1.0.11 embeds meow-rs v0.29.0. App Store iOS/tvOS 2.0 embeds v0.21.2. The Android GitHub signing change and the iOS/tvOS tunnel's DNS field ownership are documented in the [Meow reference](../Meow内核系/Meow/REFERENCE-meow-rs.md).
 
-Remaining: import native YAML into the target APK/IPA, load resources, refresh subscriptions, read back the final configuration and test connections. Android manages listeners/DNS/VPN; iOS rewrites source DNS/subscriptions, so host behavior must be checked. This review did not find an AEROVE-style JS host in the official apps; do not instruct users to import JS into them.
+Remaining: import native YAML into the target builds, load resources, refresh subscriptions and inspect the effective configuration. Check Android with the Built-in DNS switch in the intended state. Check iOS/tvOS with the source DNS policy, host listener and fake-IP pool. On Apple TV, also verify the iCloud profile transfer. Use native YAML in the official apps.
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
@@ -53,6 +53,11 @@ Remaining production/device checks:
 3. Read back final YAML; verify named proxy/header downloads, trusted Geo context, rule order, updates and recovery. Then validate Android VPN, ads, China/non-China and service exits, distinguishing emulator and physical-device results.
 
 The early 74 JVM tests, AndroidTest compilation and old 128-resource restriction remain in the [historical integration record](../Meow内核系/Aerove%20Lite/VALIDATION.md). Its latest section supersedes earlier integration claims but does not replace full candidate acceptance.
+
+## AEROVE Full and FlClash RS
+
+- AEROVE Full stable `v0.13.0+2026102340` ships an Android ARM64 APK and uses Mihomo. Its original build source pins the embedded Smart-Config-Kit script to `v6.0.21-flclash.26`. Check the effective profile after composing references to nodes, providers, rules, filters and DNS settings when validating a newer script. [Full release](https://github.com/IvanSolis1989/Aerove/releases/tag/v0.13.0%2B2026102340) · [Embedded script receipt](https://github.com/IvanSolis1989/Aerove/blob/0b938396afbda83efef427a0b401d0682a404c93/apps/aerove/assets/data/smart-config-kit-flclash.source.json).
+- FlClash RS `v0.9.5-rs.2+1` is a separate prerelease using Concord at `4d58934`. Concord warns that `path-in-bundle` is ignored and can use an existing local rule file or its normal URL. Its Smart groups use per-site state and real-flow failures, and ignore LightGBM settings. A compatibility candidate would need pinned app tests for the effective YAML, MRS loads, routing and TUN scope. [RS prerelease](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) · [Core compatibility](https://github.com/Vialibrex/concord/blob/4d5893409d1aff1b7e068510190080052398dac1/docs/compatibility.md).
 
 ## Maintenance
 

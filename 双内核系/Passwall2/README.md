@@ -98,6 +98,8 @@ Without SSH, add shunt rules individually inside a **sing-box shunt node** in Lu
 
 The sing-box backends in Passwall / Passwall2 support `rule-set:remote:` / `rule-set:local:`. Xray filters out these references; Passwall2 can also generate broad rules missing domain/IP conditions. Do not pass SRS references to Xray or paste Clash prefixes such as `DOMAIN-SUFFIX,`.
 
+Copy each generated URL in full. Passwall2 26.11.23-1 checks the suffix of the complete URL when selecting the binary format. The generated `&format=.srs` preserves that suffix while `scki` identifies the asset revision.
+
 <a id="verification"></a>
 
 ## Import verification
@@ -129,6 +131,10 @@ Successful script exit, saved UCI or a running service does not replace rule-mat
 <summary>Plugin scope, fused rules and capability differences</summary>
 
 <a id="1-定位"></a>
+
+### DNS for subscription nodes
+
+If you import a Clash subscription with automatic DNS extraction, use exact node hostnames or a single-level `*.` pattern in `proxy-server-nameserver-policy`. The SRS import only installs routing rules. After applying, check the router's generated configuration and confirm that the rule assets download on a cold start. If an Xray shunt retains an SRS-only row, the missing predicates can leave a broad match. Remove those rows before switching backends. [Official version and backend details](REFERENCE-passwall2.md#current-review)
 
 ### Plugin scope and fused rules
 

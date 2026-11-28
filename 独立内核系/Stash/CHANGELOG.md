@@ -13,6 +13,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.23-stash.19 (2026-11-28)
+
+- Use the narrowed Copilot AI rule asset and a new asset cache revision.
+- Document Stash 5.0 native rule explanations, pre-matching, DNS and subscription conversion, and keep 5.1 beta features version-scoped.
+
 ## v6.0.22-stash.18 (2026-11-27)
 
 - Include global and regional residential choices after the ordinary regions in the global selector, preserving global automatic as the first candidate and existing regional selection behavior.

@@ -4,6 +4,17 @@
 **English** | [简体中文](REFERENCE-passwall.zh-CN.md)
 
 
+> Updated on 2026-11-28. The current review covers 26.11.23-1 and the subscription DNS and shunt backends used by that release.
+
+<a id="current-review"></a>
+## Current official compatibility
+
+- GitHub marks [26.11.23-1](https://github.com/Openwrt-Passwall/openwrt-passwall/releases/tag/26.11.23-1) as the stable release, published on 2026-11-23 JST. Check the actual core package installed on the router.
+- When Clash subscription conversion has automatic DNS extraction enabled, it can read `proxy-server-nameserver-policy` for node hostnames. An exact hostname takes precedence over a single-level `*.` pattern. Keys such as `+.`, `geosite:` and `rule-set:` stop that automatic extraction. Resolver URL fragments and queries cannot be preserved by both backends. This is node bootstrap DNS. The fused SRS installer writes shunt rules and does not import these subscription settings. [Subscription converter](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/root/usr/share/passwall/clash_subconverter.lua#L688-L795)
+- The sing-box backend resolves `rule-set:remote:` references into `route.rule_set`. With sing-box 1.14, this release assigns remote SRS downloads to `remote_http_client`, whose detour depends on the configured outbound. Check that the selected route can fetch the initial rule assets. [sing-box generator](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/luasrc/passwall/util_sing-box.lua#L1284-L1297)
+- The Xray backend filters SRS references from both destination lists. When neither list retains a predicate, the current generator inserts the remaining rule only if a protocol predicate is present. [Xray generator](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/luasrc/passwall/util_xray.lua#L1583-L1650)
+- The project’s POSIX shell test with mock UCI verifies zero writes on invalid shunt backends and 78 fused rules for the sing-box fixture. LuCI application, real downloads, and traffic matching are separate device checks. [Backend test](../../tools/tests/passwall-backend-guard.test.js)
+
 > Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Passwall2’s shared shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua) was rechecked. rule-set:remote SRS condition syntax remains; users still configure actual service exits in LuCI. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
 > Updated on 2026-10-19: see the [full report and cached originals](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2) for official stable-tag source verification. The older summary below was not fully updated. UI acceptance does not establish backend compatibility.

@@ -66,6 +66,8 @@ SingBox 模板使用静态 outbounds 接入方式。Karing 分流文件将代理
 | 📱 社交媒体 | `twitter` `twitter-ip` `tiktok` `facebook` `instagram` `snapchat` `reddit`<br>来源：MetaCubeX / blackmatrix7 |
 | 🧑‍💼 会议协作 | `zoom` `slack` `teams` `atlassian` `notion` `remotedesktop` `acc-rustdesk` `rustdesk.com`<br>来源：ACL4SSR / blackmatrix7 / Accademia / SCKI supplemental |
 
+ChatGPT、Claude 桌面端按目的地址分流。官方服务域名继续进入 AI 组，内置浏览器打开的第三方网页按自身地址选择策略。同名命令行进程也按目的地址匹配。
+
 #### 流媒体与地区内容
 
 | 业务组 | 主要输入示例与来源 |

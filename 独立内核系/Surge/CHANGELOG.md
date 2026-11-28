@@ -15,6 +15,12 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-Surge.18 (2026-11-28)
+
+- The Copilot rule set matches its service domains without matching unrelated names containing the same word.
+- Update the Surge 6 CLI rule explanation, fake-IP and tvOS resource validation notes.
+- Apply destination-based routing to ChatGPT and Claude desktop on platforms with process matching.
+
 ## v6.0.22-Surge.17 (2026-11-27)
 
 - Append the existing global and regional residential groups to the global selector after ordinary regions, preserving the automatic default and existing policy choices (#206).

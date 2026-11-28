@@ -2,6 +2,8 @@
 
 [English](REFERENCE-mihomo-wiki.md) | **简体中文**
 
+> 核对于 2026-11-28。[CMFA 正式版 v2.11.37](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.37) 与 [11 月 18 日预发布版](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/Prerelease-alpha) 都固定到 Mihomo v1.19.34（`0455d0d`），见[核心依赖更新](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/856/files)。[VPN 热点修复](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/864) 属于 App 层，当前列在预发布版。现有 YAML 沿用 `Subscribe`、MRS、`exclude-type` 与 `empty-fallback`。在 Android 上核对订阅拉取、非空区域组、空组与规则首命中。开启私网绕过时的热点路由应由手机与热点客户端另行验证。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用 CMFA 现有 Mihomo RULE-SET 策略名引用。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) 与 [CMFA 官方仓库](https://github.com/MetaCubeX/ClashMetaForAndroid)；本次 policy 表继续使用既有 Mihomo 字段，不改变 App 托管边界。

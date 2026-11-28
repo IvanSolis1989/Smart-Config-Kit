@@ -81,7 +81,7 @@ The compatible `external` subscription syntax is retained. Version 2.20.0 suppor
 
 ### DNS and platform boundaries
 
-DNS uses native Egern `bootstrap`, `upstreams`, `proxy_nameservers` and `forward`. Preserve the template structure and consult [official DNS documentation](https://egernapp.com/docs/configuration/dns/); do not directly copy Mihomo DNS fields.
+The template uses `bootstrap`, named `upstreams`, and ordered `forward` rules for ordinary DNS. Its explicit `proxy_nameservers` sends proxy DNS directly to the listed DoH endpoints and skips `forward`. See the [Egern reference](REFERENCE-Egern.md) for version-specific DNS behavior and the current source IP rule boundary.
 
 No official field evidence establishes corresponding process-rule support, so this logic is a platform exception. Do not generalize iOS limitations to every desktop platform. See [REFERENCE](REFERENCE-Egern.md) for fields and generation evidence.
 

@@ -2,6 +2,10 @@
 
 [English](REFERENCE-openclash.md) | **简体中文**
 
+> 核对于 2026-11-28。[v0.48.002](https://github.com/vernesong/OpenClash/releases/tag/v0.48.002) 为正式版，[0.48.016 dev 构建](https://github.com/vernesong/OpenClash/actions/runs/43793877973) 仍在自带 YAML 处理后调用固定自定义脚本，并把运行配置路径作为首参数。插件的 [master 内核渠道](https://github.com/vernesong/OpenClash/blob/core/master/core_version) 和 [dev 内核渠道](https://github.com/vernesong/OpenClash/blob/core/dev/core_version) 分别发布版本，设备验收同时记录插件版本和实际安装内核。 [正式版固定入口](https://github.com/vernesong/OpenClash/blob/v0.48.002/luci-app-openclash/root/etc/openclash/custom/openclash_custom_overwrite.sh#L1-L17) · [dev 调用源码](https://github.com/vernesong/OpenClash/blob/486f6949c9fa1db2d4f09c18bf86d0d9b2d71578/luci-app-openclash/root/etc/init.d/openclash#L4187-L4211)
+
+> [上游 dev 修复](https://github.com/vernesong/OpenClash/commit/a0ac7ff7f4ff08c96a16ee6f4adf36f2eaa174b6) 涉及路由器 DNS 接管。[内置 Tailscale 模块](https://github.com/vernesong/OpenClash/blob/486f6949c9fa1db2d4f09c18bf86d0d9b2d71578/luci-app-openclash/root/etc/openclash/overwrite/Tailscale) 为 `+.ts.net` 指定本地 stub 并排除 fake-IP。SCK 固定脚本在内置模块处理后整体写入 `dns`，本机 Ruby 夹具把模块策略和排除项作为输入，两版脚本保存的 YAML 均未保留该策略及 tailnet fake-IP 排除项。依赖这两个字段时，在路由器检查最终运行 YAML。dnsmasq 路径还取决于路由器 DNS 重定向模式。重载后在路由器和 LAN 设备各核对 tailnet FQDN 及公网域名。 [Tailscale 本地 stub 文档](https://tailscale.com/docs/reference/faq/dns-resolv-conf)
+
 > 核对于 2026-10-29：重新核对 [Mihomo DNS](https://wiki.metacubex.one/config/dns/) 与 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。新增值 hosts-only 是本仓库 shell/Ruby 的可信本地 profile，沿用现有 hosts 精确 IP 字段，不新增 UCI/内核语法；默认 adaptive、heredoc DNS 与节点身份不变。
 
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，沿用现有 heredoc 的 RULE-SET 策略名引用，不新增 UCI 字段。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。

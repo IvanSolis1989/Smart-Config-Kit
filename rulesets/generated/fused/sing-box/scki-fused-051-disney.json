@@ -173,7 +173,9 @@
         "thisispolaris.com",
         "watchdisneyfe.com",
         "watchespn.com"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.disney.datg.videoplatforms.android.abc",
         "com.disney.disneyplus"

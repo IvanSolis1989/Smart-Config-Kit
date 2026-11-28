@@ -6,7 +6,14 @@
 
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方发布metadata和已取得的正文见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)，下载状态及哈希见[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
-## 当前复核结论
+<a id="当前复核结论"></a>
+## 2026-11-28 兼容性复核
+
+- 美国 App Store 正式版为 2.2.93（2026-10-29，iOS 13+）。发行频道已公布 2.2.94 测试版（3516，2026-11-27 JST）。[App Store](https://apps.apple.com/us/app/shadowrocket/id932747118) · [测试版通告](https://t.me/ShadowrocketNews/1684)
+- 2.2.93 修正 Enforce Routes 下的局域网排除与路由选项优先级。商店说明确认这项行为。开发者站点和公开帮助地址未能提供可核实的 Shadowrocket Fake IP 地址池及排除字段说明。真机用当前完整配置核对冷启动导入、规则更新、Enforce Routes 开关下的局域网与代理流量，并以受控域名验证 A/AAAA/CNAME 查询。[App Store 版本历史](https://apps.apple.com/us/app/shadowrocket/id932747118)
+- 3515 测试版修正内部解析及 SOCKS5 UDP 对直连 DNS 的遵从。2.2.92 新增的直连域 DNS 能力可在从 App 读回精确字段后，用独立测试配置验证。[3515 版本说明](https://t.me/ShadowrocketNews/1683)
+
+## 2026-10-19 复核结论
 
 - US/JP稳定版均2.2.92，2026-09-07 UTC；未取得可确认版本/日期的官方预发布metadata，pending。
 - App Store开发者链接指向[Shadow Launch官方网站](https://shadowlaunch.com/)，该站本次可读但没有配置语法正文。`help.shadowrocket.net`本次无法读取，且未取得当前官方归属链，不将旧“官方帮助站”称谓作本次已验证事实。

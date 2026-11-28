@@ -23,8 +23,8 @@ const SUPPORT_PATH = `${SUPPORT_DIR}/manifest.json`;
 const ASSET_DIR = 'rulesets/generated/karing';
 const PROFILE_PATH = `${CLIENT_DIR}/diversion_rules_custom.json`;
 const MANIFEST_PATH = `${CLIENT_DIR}/adapter-manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-karing.4`;
-const BUILD = '2026-11-22';
+const VERSION = `${SOURCE_GRAPH_VERSION}-karing.5`;
+const BUILD = '2026-11-28';
 const MAX_ASSET_BYTES = 18 * 1024 * 1024;
 const NON_TERMINAL = new Set(['sniff', 'resolve', 'route-options']);
 // Headless source format version 3 (sing-box >= 1.11). Unknown route-only
@@ -109,6 +109,22 @@ function validateHeadless(rule, context = 'headless') {
   return rule;
 }
 
+function inheritedGroup(key) {
+  if (['domain', 'domain_suffix', 'domain_keyword', 'domain_regex', 'ip_cidr'].includes(key)) return 'destination';
+  if (['port', 'port_range'].includes(key)) return 'destination-port';
+  if (['source_port', 'source_port_range'].includes(key)) return 'source-port';
+  if (key === 'source_ip_cidr') return 'source-address';
+}
+
+function findInheritedOverlap(rule, outerGroups) {
+  if (rule.invert) return;
+  if (rule.type !== 'logical') return Object.keys(rule).find(key => outerGroups.has(inheritedGroup(key)));
+  for (const child of rule.rules) {
+    const overlap = findInheritedOverlap(child, outerGroups);
+    if (overlap) return overlap;
+  }
+}
+
 function validateRemote(item) {
   insist(item.type === 'remote' && ['source', 'binary'].includes(item.format), `unsupported rule-set definition: ${item.tag}`);
   let url;
@@ -171,22 +187,17 @@ function buildKaring({ config, fusedManifest, loadRuleSetSource, assetUrl = file
     const invert = base.invert;
     delete base.invert;
     const fields = Object.keys(base).filter(key => key !== 'type');
-    // sing-box merges the fields of a single default rule-set rule into the
-    // outer matcher. AND expansion is equivalent only if their matching
-    // groups do not overlap. Refuse future ambiguous inputs rather than
-    // silently tightening OR-of-domain/IP or OR-of-port matching.
-    const matchingGroup = key => {
-      if (['domain', 'domain_suffix', 'domain_keyword', 'domain_regex', 'ip_cidr'].includes(key)) return 'destination';
-      if (['port', 'port_range'].includes(key)) return 'port';
-      if (['source_port', 'source_port_range'].includes(key)) return 'source-port';
-      return key;
-    };
-    const outerGroups = new Set(fields.map(matchingGroup));
-    for (const tag of refs) {
-      const rules = sourceCache.get(tag);
-      if (rules.length !== 1 || rules[0].type === 'logical' || rules[0].invert) continue;
-      const overlap = Object.keys(rules[0]).filter(key => !['type', 'invert'].includes(key)).find(key => outerGroups.has(matchingGroup(key)));
-      insist(!overlap, `rule-set field merging cannot be safely AND-expanded: ${tag} (${overlap})`);
+    // The source profile uses sing-box 1.13. Its default matcher passes
+    // satisfied address/port groups into every referenced rule branch.
+    // Wrapping a reference in a separate AND child loses that state.
+    const outerGroups = new Set(fields.map(inheritedGroup).filter(Boolean));
+    if (outerGroups.size) {
+      for (const tag of refs) {
+        for (const rule of sourceCache.get(tag)) {
+          const overlap = findInheritedOverlap(rule, outerGroups);
+          insist(!overlap, `rule-set field merging cannot be safely AND-expanded: ${tag} (${overlap})`);
+        }
+      }
     }
     if (fields.length) refMatch = { type: 'logical', mode: 'and', rules: [refMatch, validateHeadless(base)] };
     if (invert !== undefined) refMatch = { type: 'logical', mode: 'and', rules: [refMatch], invert };

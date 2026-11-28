@@ -5,6 +5,8 @@
 
 > English translation of the dated reference below. Historical findings, uncertainties, and original illustrative code are retained; translation is not a new compatibility or device-validation claim.
 
+> Reviewed 2026-11-28. Both [CMFA v2.11.37](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.37) and the [November 18 prerelease](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/Prerelease-alpha) point to Mihomo v1.19.34 (`0455d0d`), as shown by the linked core in the [dependency update](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/856/files). The [VPN hotspot fix](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/864) is App-level and is listed for the prerelease. Keep `Subscribe`, MRS, group `exclude-type` and `empty-fallback` in the existing YAML contract. On device, verify provider fetch, one populated region, an empty regional group and a first-match result. Hotspot routing with private-network bypass requires its own handset and peer check.
+
 > Reviewed 2026-10-28: GoogleFCM was moved only from downloads/updates to Google services. [Mihomo routing rules](https://wiki.metacubex.one/config/rules/) were reviewed; CMFA’s existing RULE-SET policy-name references remain. DNS, fake-IP, sniffing, other push traffic, and node groups are unchanged. No fields, minimum versions, or device-success claims were added.
 
 > Reviewed 2026-10-23 (previous topic review 2026-10-20): [Mihomo DNS](https://wiki.metacubex.one/config/dns/#nameserver-policy) and the [official CMFA repository](https://github.com/MetaCubeX/ClashMetaForAndroid) were reread. The policy table retains existing Mihomo fields and app-owned boundaries.

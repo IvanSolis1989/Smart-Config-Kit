@@ -51,6 +51,8 @@
 - [维护工具](../tools/README.zh-CN.md)：官方文档缓存、生成与验证工具。
 - [客户端支持队列](support-queue.zh-CN.md)：预适配候选、接口边界与正式支持的剩余验收。
 - [规则资产交付](rule-asset-delivery.zh-CN.md)：下载 URL 与完整内容校验。
+- [Mihomo 连接证据](mihomo-connection-evidence.zh-CN.md)说明怎样从本机采集规则命中和出口链。
+- [blackmatrix7 来源韧性](research/2026-11-28-blackmatrix7-source-resilience.zh-CN.md)记录 provider 依赖与 Claude 替代来源试点。
 - [发布批次](release-batch.zh-CN.md)：生成物、版本与发布验收。
 - [官方参考与历史核验](archive/README.zh-CN.md)：客户端 REFERENCE、注明日期的官方版本复核和专题验收原文。
 - [AI Issue 自动回复](ai-issue-responder.zh-CN.md) · [通知说明](telegram.zh-CN.md) · [变更日志](../CHANGELOG.md)

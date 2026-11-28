@@ -3,6 +3,17 @@
 [English](REFERENCE-passwall.md) | **简体中文**
 
 
+> 更新于 2026-11-28。本次核对 26.11.23-1、订阅节点 DNS 和实际分流后端。
+
+<a id="current-review"></a>
+## 当前官方兼容性
+
+- GitHub 标记 [26.11.23-1](https://github.com/Openwrt-Passwall/openwrt-passwall/releases/tag/26.11.23-1) 为正式版，发布于 2026-11-23（JST）。请在路由器上核对实际安装的内核包。
+- Clash 订阅转换启用自动提取 DNS 后，可读取 `proxy-server-nameserver-policy` 解析节点地址。完整主机名优先于只匹配一级子域的 `*.`。遇到 `+.`、`geosite:` 或 `rule-set:` 等不支持的键时会停止本次自动提取。两种后端无法完整保留解析器 URL 的查询和片段。该能力仅处理订阅节点解析，融合 SRS 安装脚本只写分流规则。[订阅转换源码](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/root/usr/share/passwall/clash_subconverter.lua#L688-L795)
+- sing-box 后端将 `rule-set:remote:` 转为 `route.rule_set`。在 sing-box 1.14 上，此版本用 `remote_http_client` 下载远程 SRS，其出口由插件生成配置中的出站决定。首次启动时需确认该出口可读取规则资产。 [sing-box 生成源码](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/luasrc/passwall/util_sing-box.lua#L1284-L1297)
+- Xray 后端会从域名和 IP 列表中滤除 SRS 引用。两列条件均为空时，此版本仅在仍有协议条件的情况下插入剩余规则。 [Xray 生成源码](https://github.com/Openwrt-Passwall/openwrt-passwall/blob/26.11.23-1/luci-app-passwall/luasrc/passwall/util_xray.lua#L1583-L1650)
+- 仓库用真实 POSIX shell 与模拟 UCI 校验错误分流后端零写入，以及 sing-box 夹具写入 78 条融合规则。LuCI 应用、真实下载与流量命中仍需设备验收。[后端测试](../../tools/tests/passwall-backend-guard.test.js)
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Passwall2 同源 shunt_rules.lua](https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/main/luci-app-passwall2/luasrc/model/cbi/passwall2/client/shunt_rules.lua)，保持 rule-set:remote SRS 条件语法，实际业务出口仍由 LuCI 用户配置。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 更新于 2026-10-19：本次官方稳定标签源码核验见[完整报告与原文缓存](../../docs/upstream/2026-10-19/singbox/report.md#passwall--passwall2)。下方为历史摘要，未整篇当前化；“UI 接受规则”不能替代后端兼容证明。

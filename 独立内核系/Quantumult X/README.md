@@ -22,7 +22,7 @@ Open `🌍 全球节点` to choose `♻️ 全球自动` or an ordinary or resid
 
 ## Before you start
 
-Prepare Quantumult X, your provider subscription URL and the configuration URL below. As checked on 2026-10-19, official stable 1.8.1 requires iOS 15+. Check other device compatibility in the [official store](https://apps.apple.com/us/app/quantumult-x/id1443988620).
+Prepare Quantumult X, your provider subscription URL and the configuration URL below. As of 2026-11-28, the US App Store lists Quantumult X 1.8.1 for iOS 15 or later. See the [official store](https://apps.apple.com/us/app/quantumult-x/id1443988620) for other platforms.
 
 - Install from the [App Store](https://apps.apple.com/app/quantumult-x/id1443988620). The first connection requires permission to add a VPN configuration.
 - Enter subscriptions / manual nodes under `[server_remote]` / `[server_local]`. The template contains no working nodes.
@@ -138,6 +138,7 @@ Apple / iCloud system-DNS exceptions use `[general] dns_exclusion_list`. This do
 2. Confirm subscription and every `filter_remote` download succeeded. An enabled connection switch is not proof of successful downloads.
 3. Visit `chat.openai.com`, `www.netflix.com` and `www.bilibili.com`. Check AI, Netflix and China-streaming rule matches and actual exits in request/connection logs.
 4. Complete the [DNS and import checklist](../../docs/guide/dns-and-verification.md#verification), including Wi-Fi / cellular switching as needed.
+5. For the global selector in [#206](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/206), select Global Auto, a region and a residential group in turn. Read back the group and final node in the request log. Refresh the subscription and reopen the app to check that the selected group persists.
 
 If requests are absent from logs, groups are empty or exits differ, use the troubleshooting steps below.
 

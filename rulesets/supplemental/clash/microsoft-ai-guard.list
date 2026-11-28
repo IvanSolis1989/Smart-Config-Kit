@@ -1,2 +1,5 @@
 # Microsoft Designer is an AI product and must precede the broad Office service suffix.
 DOMAIN,designerapp.officeapps.live.com
+# Microsoft documents these hosts as Copilot application and Edge sidebar endpoints.
+DOMAIN,cr.m365copilotapp.svc.cloud.microsoft
+DOMAIN,copilot.cloud.microsoft

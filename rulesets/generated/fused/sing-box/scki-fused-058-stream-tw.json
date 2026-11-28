@@ -35,7 +35,9 @@
       ],
       "domain_keyword": [
         "hamivideo.cdn.hinet.net"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.linecorp.linetv"
       ]

@@ -143,7 +143,9 @@
       ],
       "domain_keyword": [
         "whatsapp"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.italkbbtv.phone"
       ]

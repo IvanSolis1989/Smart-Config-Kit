@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "version": "v6.0.22-karing.4",
-  "build": "2026-11-22",
-  "baseline_version": "v6.0.22",
+  "version": "v6.0.23-karing.5",
+  "build": "2026-11-28",
+  "baseline_version": "v6.0.23",
   "authority": "rulesets/source/routing-graph.js -> fused manifest -> generated SingBox 1.13 route",
   "input_hashes": {
-    "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json": "2439914257502705674dcaef58e3441c9427417bf80affcf97dab0092aa96eb1",
-    "rulesets/generated/fused/manifest.json": "805e2839822af1a19f7575053387ec57811957efe588874cb236fe7e7f57f42b",
+    "Sing-box内核系/SingBox/SingBox(sing-box)-1.13.json": "f7aacf1f61061305727ae39640845ef6bb51b6a8ea381548acaa66a615ef6afc",
+    "rulesets/generated/fused/manifest.json": "ece8250a0f7ef85e48db514c509925c16ab01a3836dd3b1ad2a6feaa376a0c46",
     "rulesets/source/karing-support/manifest.json": "414065959125b3ef83e39af6ee99396a83db22d813eba81a0e2c08d60b3a3c5c",
-    "rulesets/source/routing-graph.js": "0b1e906c1a23006e6ed61d42834a81d1f6b75a3ffa32ebc28455ac57afc3b4bb",
-    "tools/generate-karing.js": "1f8a42013a1ccbe6acfa83ebcdc4e0d608700feacb9ca093e699cf278ba37ff9",
+    "rulesets/source/routing-graph.js": "cf8212e1a871a0663efa3cd9b4da9b8bd96115257f4bb1704560b725afb0d587",
+    "tools/generate-karing.js": "d95edf8ef8a910fda79b446f4b60bf7b0a518385f5b95ac1182fbd6e3bd1d535",
     "tools/lib/karing-registration.js": "36b02b35a2bfb7a7179a762d82c56edfbb3e135c160da3ad33aac19cc4091e9e",
     "tools/client-layout.json": "83e85a68844c27cf0e758699bf8e496c20cad0305acca24d0b6d3e476d4b6eab",
     "rulesets/generated/fused/sing-box/scki-fused-001-direct.srs": "d5e7d6dea20c1bf51a2aa60dc38c0258f71a0eaf08fbe1eb227d0eeeecf69230",
@@ -19,17 +19,17 @@
     "rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs": "47a411707970c95ef675d47a51e366b02ef968721fe8ec03c971ec95699c36a8",
     "rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs": "2bb9da59370462ad44ec65ccb53914f9ea029c35c93b55120f4e6c5c1f79c8ee",
     "rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs": "a7a9feceb8a92455ad5a09710f2686b755db52d7f1245da40891309be2968f9e",
-    "rulesets/generated/fused/sing-box/scki-fused-008-social.srs": "0eaa018fb421093f323426069d3cb3ebce5524f0cbe7d37009ad742cf78e1557",
-    "rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs": "d7fb51b6ecbb2b4c29ee57ff91adad83dbdbcf6350199c1a57c1e4e28cce6cf3",
+    "rulesets/generated/fused/sing-box/scki-fused-008-social.srs": "19e14f670173056b4cc82b385131afe702db590c1ce8912bcd5118b08a3f306b",
+    "rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs": "2dd67c52190752baaa5a64a11441e6b939f0fb6875a5732b51c9d1bc5f255ce2",
     "rulesets/generated/fused/sing-box/scki-fused-010-ad.srs": "a9984574d0dd385770d63d279785cd6da872710bf0bcf927b2677a1f3db98b4f",
     "rulesets/generated/fused/sing-box/scki-fused-011-tools.srs": "04cda244dd5c31cb0b2c39c78f353fbc3983ecf3755eef5bafad1adfdaaaafb2",
     "rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs": "4388cd8b415cd757f55caaeaecf2e87bc48624e850920e1fffe8f11a8f4e299e",
-    "rulesets/generated/fused/sing-box/scki-fused-013-ai.srs": "c2f47a38d003556188df60c3b9f0d0b7a5a9dba3d1824a0ab71439b8bcf1f94b",
+    "rulesets/generated/fused/sing-box/scki-fused-013-ai.srs": "098d4e574dc6be1f9da85ff184b9fb0aa06cb3b8d4c3ee760a5752038b0086cd",
     "rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs": "0501c0d7dd449cf8d30a0563ecbdc46c3ebb6b73a151dbe7206f808139ba6638",
     "rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs": "ec1ab60f51b79fcd090c3bc45a2c5415a893819da6c3e6853d342defb89933b3",
     "rulesets/generated/fused/sing-box/scki-fused-016-ad.srs": "bcfb0f4ea4208c3fde9b6bb404ad08a5446ac18826e4eabc5916501345c2acb6",
     "rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs": "2b8e80041e2d9f06d8cc9d3fd976af988973fe0cb4eb5c14ff56cab69c3aa8d3",
-    "rulesets/generated/fused/sing-box/scki-fused-018-direct.srs": "e55f4af700b3ae30e3fc8d7f00da59a83768125ef8f79bd8fdab9d147a1a6482",
+    "rulesets/generated/fused/sing-box/scki-fused-018-direct.srs": "fac9046338a26af4a5dd74888a4c73361546686f75f32ccad35ff941b6ecbc4b",
     "rulesets/generated/fused/sing-box/scki-fused-019-work.srs": "4fca44273d75878e8a1d41c52a6d37a1bdb4022353ec3b93ac7d90e0c5f8ac2b",
     "rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs": "438c6e5d1801225ce9ad5ba212d487cd418821e99f0b5746d173c03ac9dba1fc",
     "rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs": "d57390bc6cc72632d8a989f0a701e1551eaec69bcce5b9ff615d3590eebe9d75",
@@ -44,47 +44,47 @@
     "rulesets/generated/fused/sing-box/scki-fused-030-download.srs": "b8168383a56620326a287785a8fb4c66d300458bd9c8051b89754c079f1c1b57",
     "rulesets/generated/fused/sing-box/scki-fused-031-google.srs": "3b862f3227c97c0c65e528cf16dd4fed3796d9b2038ac5d101e7245d72635af4",
     "rulesets/generated/fused/sing-box/scki-fused-032-tools.srs": "a532638c449357a9688da827624cbe551021a721192ecba60ebbdfeb15204737",
-    "rulesets/generated/fused/sing-box/scki-fused-033-ai.srs": "674277119791b57594d7387a48462e279e6f6d998a416e267f2adc6727b9a833",
+    "rulesets/generated/fused/sing-box/scki-fused-033-ai.srs": "c61d0cfa9e0d68b0e1b4be6ec193f395bfe5ff37d9c7cc7bb8ef2e985d5b29b4",
     "rulesets/generated/fused/sing-box/scki-fused-034-google.srs": "f72dc9b999533684983b16a76c67976776c9930cc37ba2a26d9bfbdd876af705",
-    "rulesets/generated/fused/sing-box/scki-fused-035-ai.srs": "ec31ecfac9f37bee68dd83189347a54fa3b9673b36dbe3660ddfdc017e03710d",
-    "rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs": "ad60441eafccef9f95cf730e33548c4574f3612f0232aeddd3748948cc7a08b5",
+    "rulesets/generated/fused/sing-box/scki-fused-035-ai.srs": "f3c827af8f3be35af046b39333685b19f36544bb70f3adc5daf51e5bf50613d6",
+    "rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs": "1584359437a37e0050dfb34301350c2f28ca5056d92edb8de87d668d6b805eaa",
     "rulesets/generated/fused/sing-box/scki-fused-037-payments.srs": "b250a5754cb2d5865442b3e28f02ff1f1e024cfeb12633d2c675376e9b88cf0b",
     "rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs": "5b65570ccc5ca9fc173971ed6084524825afbc519841029b6cf4e9be9e89f587",
     "rulesets/generated/fused/sing-box/scki-fused-040-direct.srs": "52127f29b832f04e1e9bd70c393be339ff750fbf0cf979ce8cd562915b57866f",
-    "rulesets/generated/fused/sing-box/scki-fused-041-im.srs": "e96a2a5423c4fe0ac2f7e0cf90c4249a0ff393c5d0257bacbcc85b2d9c10822e",
+    "rulesets/generated/fused/sing-box/scki-fused-041-im.srs": "32bd47fcba214a5d506f56bfab3e3d07527ed94166f011af56c3e4ee3319aa01",
     "rulesets/generated/fused/sing-box/scki-fused-042-social.srs": "ca719379ac5118566179126a92ef7ca441e1e5030b7a9dbe0ef6227f53a9180b",
     "rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs": "58477ca80ec439ed6d0f846e29e3735288abc2f80c6a89b180a2a8bdda77371c",
     "rulesets/generated/fused/sing-box/scki-fused-044-social.srs": "6bec1aa1a7876bc2728b06805a6ade6bb3520b7e48d9e5e1fc30d589bf650acd",
-    "rulesets/generated/fused/sing-box/scki-fused-045-work.srs": "f46b5b4f88ad0ed5d858df43b663e31b5ced2d344fd279ce8d74e2e874c5e073",
+    "rulesets/generated/fused/sing-box/scki-fused-045-work.srs": "d8e21296b0106ddf5efcf6c540a231427b1186ec583f8b603c20d261946e5bab",
     "rulesets/generated/fused/sing-box/scki-fused-046-direct.srs": "b546ae95e023c02dc315da0983f54010acc82f569e36235e68640d514f88f13a",
     "rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs": "217555916f18df6f399b8e335465369678732a1efaf34e6c737430c54b39e028",
     "rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs": "232fdd3fbfcb4cc37f88b8ed9104832eab05b0fb8f52c32398e98dbf5457d0be",
     "rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs": "a004bcdd4fbd84b6cedd359de2c0026bccdd58bc8d2d82a0947e69a6e9457493",
     "rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs": "dd938f6f71ac90a24e652ba6b8bc8ac08535739e06518a9fbd8063257afef063",
-    "rulesets/generated/fused/sing-box/scki-fused-051-disney.srs": "81296da3f3d5bc3959b61f3605411b01ee6bb28cea4425494421325ff49fe088",
-    "rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs": "23df7297d81b8106502e21180aca1f75d3c2726e02d4fe2a8bfffced40940467",
-    "rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs": "848345540455b4ce9700efa50dada308c49628d0b11e9e196989dc7c02e2f3c8",
+    "rulesets/generated/fused/sing-box/scki-fused-051-disney.srs": "897990d3c450afc6d5414f8b7a6f9884e1faec01679faf414f24009fc1ae3977",
+    "rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs": "488c64e405117cc478f65651990d903e9f3372af0ebe9b07d8609e111855898c",
+    "rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs": "0a1416bb2a9cc60b1c4c6aff2aebcbc59eff9da19bc5f52222c70670deff2d8f",
     "rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs": "a3e6151aa5f8c8f6199ce5d4da3ca9c5a7f877516b09ee1dc26e510f54351ecb",
-    "rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs": "58977a6da9490cb2252804d710e10539743200733f37f24203d8c6fb2616a8cc",
+    "rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs": "e1345c095345c602027a686dddad07bbc89ac8ac800132396e6537699e2ec0a8",
     "rulesets/generated/fused/sing-box/scki-fused-056-music.srs": "341fc3233e0042cdb74f0c3ed2312377c46d8abf0bf3bd2c512556ef628b8417",
     "rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs": "72958533b50ffce2f459beae0018deb84953650fecca81b7404dcc824ec2071e",
-    "rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs": "7392fc66d38c4c0bb868afe598afe8f46b308f9c1ba9779221a5fb133683e8bc",
+    "rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs": "90f9a82caf053c2a1c1f276ea34aae17c4f147dc0313370cbb48c55ba57d2a80",
     "rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs": "314cbbc982e8fb4038a9dcb2fee815f73c1652ac769df299cb5fb8ecb58ef4a6",
     "rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs": "b04350c71313fb1a366af68ad6cb0169532122f24c2427283f9f224cdc54b57e",
-    "rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs": "ae9ad75139cdcc1536a42073d5059cf26197ecc20419938414c644251c7d6829",
+    "rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs": "af081442d92b260a2fe11ee3434a34082fb6ff6824a97c7d7545bbbb9e1ca40a",
     "rulesets/generated/fused/sing-box/scki-fused-062-tools.srs": "594ec997e765e66331c5b055b975838fe86fd820cee58ef29fa801969d940bbc",
     "rulesets/generated/fused/sing-box/scki-fused-063-google.srs": "517ffa032fa2990d147a4a405b53cdce1d45d8c0bff4e8f48bf47cd9ee495cae",
-    "rulesets/generated/fused/sing-box/scki-fused-064-tools.srs": "4e87df7d6d326d676de36488eadb8c1d08db4a92f28ecc426527fe516dfc6fb8",
+    "rulesets/generated/fused/sing-box/scki-fused-064-tools.srs": "3a8e2a1309898b60b4903813d52f504be059b15d1b957cef8655467c505c3e00",
     "rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs": "5c58ccebd7b8d15a417c9a58047c690144e8e5598a0f5ade2fc9bd635075c778",
-    "rulesets/generated/fused/sing-box/scki-fused-066-apple.srs": "3d1a5358646e9db45000e7452dd698f83852abd4a4a54633e9709612dcea6c5f",
-    "rulesets/generated/fused/sing-box/scki-fused-067-download.srs": "ad8b7e3770f12fbd7deb7de1436e162adf9c2e8fa0a6b52a99992065da546a2c",
+    "rulesets/generated/fused/sing-box/scki-fused-066-apple.srs": "4ed9e9a209c1fba4d7d97e160b6962690f5819ad80be1e825745a68424378ecf",
+    "rulesets/generated/fused/sing-box/scki-fused-067-download.srs": "9d64d15a47b85788597598011c57d3d874bb789239051486e6821ae5c874c032",
     "rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs": "601438f5ad1243c7b71c13a1592e7a98d6177331b6415abf9ba75cf56b10926d",
     "rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs": "b7b1b62b629115be79d08d100272a71a8e39f9281b9659fb65c46de00ca26f9b",
     "rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs": "c990e9719194052a81891f6ea05dcca7ecc3c65b3bf085ffaadfb60ede7aecad",
     "rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs": "5e80f26a9a481bbaad3b1ccfa7953d7cf0e7579b72b8dffd0b544d6bf4aca911",
-    "rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs": "860524bc71f7d8f08789eddb3e279f4a72abecc0a9c7587c963f8f927ddaa983",
+    "rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs": "6ee2d0293fb138423ca36f76e6a185febaca027195b30b4a5a55c1dc36211408",
     "rulesets/generated/fused/sing-box/scki-fused-073-payments.srs": "ff9aa57baff58506cf54f6a5f085c2491658e93813ce5aca732848a6d689bae2",
-    "rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs": "724770b48e650eb3cc614ce0c6e0942c4deb284149cc38cfce76e84ba8b78cae",
+    "rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs": "5b709eaea1986285e5fbcf5b084b7b66dd8acebedec3ade4700b7b04a6a3f336",
     "rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs": "748dc9feb59afbe99aab61cbb96a1ce8c5098d7df839e1615c8725073e20fc82",
     "rulesets/generated/fused/sing-box/scki-fused-076-direct.srs": "d24a63392d64c089d3b565b1e9b9051e905bce782fb94c5ac72946c73938ed10",
     "rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs": "1f7c091b224a165c2cfc239ecd0892875179903fe71737da2c9fb8c3393a92c4",
@@ -99,7 +99,7 @@
   "source_rule_count": 98,
   "generated_rule_count": 97,
   "generated_source_asset_count": 19,
-  "profile_sha256": "6c108bbdb02a70fde969983acfaebc714290233f06b8ea35bea67fcf35a54a0d",
+  "profile_sha256": "5b69ca09bc828f1a028c097d78b7dfe38e0aa591aa48ff180a3c21f3661a04e1",
   "manual_final": {
     "source_outbound": "🐟 漏网之鱼",
     "outbound": "currentSelected",
@@ -124,7 +124,7 @@
         "scki-fused-001-direct"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.23"
       ]
     },
     {
@@ -142,7 +142,7 @@
         "scki-fused-002-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -160,7 +160,7 @@
         "scki-fused-003-payments"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.23"
       ]
     },
     {
@@ -178,7 +178,7 @@
         "scki-fused-004-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -196,7 +196,7 @@
         "scki-fused-005-cnmedia"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.23"
       ]
     },
     {
@@ -214,7 +214,7 @@
         "scki-fused-006-cn-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -233,7 +233,7 @@
         "scki-fused-007-stream-jpkr"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.23"
       ]
     },
     {
@@ -251,7 +251,7 @@
         "scki-fused-008-social"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.23"
       ]
     },
     {
@@ -269,7 +269,7 @@
         "scki-fused-009-tiktok"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.23"
       ]
     },
     {
@@ -284,7 +284,7 @@
         "scki-fused-010-ad"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.23"
       ]
     },
     {
@@ -302,7 +302,7 @@
         "scki-fused-011-tools"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.23"
       ]
     },
     {
@@ -320,7 +320,7 @@
         "scki-fused-012-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -338,7 +338,7 @@
         "scki-fused-013-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -356,7 +356,7 @@
         "scki-fused-014-game-cn"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.23"
       ]
     },
     {
@@ -374,7 +374,7 @@
         "scki-fused-015-microsoft"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.23"
       ]
     },
     {
@@ -389,7 +389,7 @@
         "scki-fused-016-ad"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.23"
       ]
     },
     {
@@ -407,7 +407,7 @@
         "scki-fused-017-cn-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -425,7 +425,7 @@
         "geosite-youtube"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-019-26287fc185de.json"
     },
@@ -444,7 +444,7 @@
         "geosite-google"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-020-8f1b4443197b.json"
     },
@@ -463,7 +463,7 @@
         "geosite-microsoft"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-021-998683cfd02e.json"
     },
@@ -482,7 +482,7 @@
         "geosite-apple"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json"
     },
@@ -500,7 +500,7 @@
         "geosite-cn"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-023-28525b585d4e.json"
     },
@@ -514,7 +514,7 @@
       "outbound_path": [],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json"
     },
@@ -528,7 +528,7 @@
       "outbound_path": [],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-025-fc1506634023.json"
     },
@@ -546,7 +546,7 @@
         "scki-fused-018-direct"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.23"
       ]
     },
     {
@@ -564,7 +564,7 @@
         "scki-fused-019-work"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.23"
       ]
     },
     {
@@ -579,7 +579,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-028-6f843f30639e.json"
     },
@@ -595,7 +595,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-029-463bda8b2b68.json"
     },
@@ -611,7 +611,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json"
     },
@@ -627,7 +627,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-031-247ef6d0b532.json"
     },
@@ -643,7 +643,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-032-bf849617bb18.json"
     },
@@ -659,7 +659,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json"
     },
@@ -675,7 +675,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-034-dde12ff2b951.json"
     },
@@ -691,7 +691,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-035-e26d38b4416a.json"
     },
@@ -707,7 +707,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-036-797b5a134fb7.json"
     },
@@ -723,7 +723,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json"
     },
@@ -742,7 +742,7 @@
         "scki-fused-020-crypto"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.23"
       ]
     },
     {
@@ -760,7 +760,7 @@
         "scki-fused-021-gfw"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.23"
       ]
     },
     {
@@ -778,7 +778,7 @@
         "scki-fused-022-youtube"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.23"
       ]
     },
     {
@@ -796,7 +796,7 @@
         "scki-fused-023-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -814,7 +814,7 @@
         "scki-fused-024-google"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.23"
       ]
     },
     {
@@ -832,7 +832,7 @@
         "scki-fused-025-work"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.23"
       ]
     },
     {
@@ -850,7 +850,7 @@
         "scki-fused-026-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -868,7 +868,7 @@
         "scki-fused-027-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -886,7 +886,7 @@
         "scki-fused-028-im"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.23"
       ]
     },
     {
@@ -904,7 +904,7 @@
         "scki-fused-029-work"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.23"
       ]
     },
     {
@@ -922,7 +922,7 @@
         "scki-fused-030-download"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.23"
       ]
     },
     {
@@ -940,7 +940,7 @@
         "scki-fused-031-google"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.23"
       ]
     },
     {
@@ -956,7 +956,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-050-e6463a01dabf.json"
     },
@@ -973,7 +973,7 @@
       ],
       "source_rule_set_tags": [],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.23"
       ],
       "generated_asset": "rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json"
     },
@@ -992,7 +992,7 @@
         "scki-fused-032-tools"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1010,7 +1010,7 @@
         "scki-fused-033-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1028,7 +1028,7 @@
         "scki-fused-034-google"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1046,7 +1046,7 @@
         "scki-fused-035-ai"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1064,7 +1064,7 @@
         "scki-fused-036-crypto"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1082,7 +1082,7 @@
         "scki-fused-037-payments"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1100,7 +1100,7 @@
         "scki-fused-039-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1117,7 +1117,7 @@
         "scki-fused-040-direct"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1135,7 +1135,7 @@
         "scki-fused-041-im"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1153,7 +1153,7 @@
         "scki-fused-042-social"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1171,7 +1171,7 @@
         "scki-fused-043-cn-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1189,7 +1189,7 @@
         "scki-fused-044-social"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1207,7 +1207,7 @@
         "scki-fused-045-work"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1224,7 +1224,7 @@
         "scki-fused-046-direct"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1242,7 +1242,7 @@
         "scki-fused-047-cnmedia"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1260,7 +1260,7 @@
         "scki-fused-048-tiktok"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1278,7 +1278,7 @@
         "scki-fused-049-youtube"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1296,7 +1296,7 @@
         "scki-fused-050-netflix"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1314,7 +1314,7 @@
         "scki-fused-051-disney"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1332,7 +1332,7 @@
         "scki-fused-052-hbo-max"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1350,7 +1350,7 @@
         "scki-fused-053-hulu"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1368,7 +1368,7 @@
         "scki-fused-054-prime-video"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1386,7 +1386,7 @@
         "scki-fused-055-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1404,7 +1404,7 @@
         "scki-fused-056-music"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1423,7 +1423,7 @@
         "scki-fused-057-stream-hk"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1442,7 +1442,7 @@
         "scki-fused-058-stream-tw"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1461,7 +1461,7 @@
         "scki-fused-059-stream-jpkr"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1480,7 +1480,7 @@
         "scki-fused-060-stream-eu"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1498,7 +1498,7 @@
         "scki-fused-061-stream-other"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1516,7 +1516,7 @@
         "scki-fused-062-tools"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1534,7 +1534,7 @@
         "scki-fused-063-google"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1552,7 +1552,7 @@
         "scki-fused-064-tools"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1570,7 +1570,7 @@
         "scki-fused-065-microsoft"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1588,7 +1588,7 @@
         "scki-fused-066-apple"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1606,7 +1606,7 @@
         "scki-fused-067-download"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1624,7 +1624,7 @@
         "scki-fused-068-tracker"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1642,7 +1642,7 @@
         "scki-fused-069-gfw"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1660,7 +1660,7 @@
         "scki-fused-070-game-cn"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1678,7 +1678,7 @@
         "scki-fused-071-game-intl"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1696,7 +1696,7 @@
         "scki-fused-072-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1714,7 +1714,7 @@
         "scki-fused-073-payments"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1732,7 +1732,7 @@
         "scki-fused-074-cnmedia"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1750,7 +1750,7 @@
         "scki-fused-075-cn-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1767,7 +1767,7 @@
         "scki-fused-076-direct"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1785,7 +1785,7 @@
         "scki-fused-077-cn-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1803,7 +1803,7 @@
         "scki-fused-078-intl-site"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.23"
       ]
     },
     {
@@ -1821,14 +1821,14 @@
         "scki-fused-080-netflix"
       ],
       "rule_set": [
-        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.22"
+        "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.23"
       ]
     }
   ],
   "rule_assets": [
     {
       "tag": "scki-fused-001-direct",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-001-direct.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1837,7 +1837,7 @@
     },
     {
       "tag": "scki-fused-002-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-002-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1846,7 +1846,7 @@
     },
     {
       "tag": "scki-fused-003-payments",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-003-payments.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1855,7 +1855,7 @@
     },
     {
       "tag": "scki-fused-004-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-004-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1864,7 +1864,7 @@
     },
     {
       "tag": "scki-fused-005-cnmedia",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-005-cnmedia.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1873,7 +1873,7 @@
     },
     {
       "tag": "scki-fused-006-cn-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-006-cn-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1882,7 +1882,7 @@
     },
     {
       "tag": "scki-fused-007-stream-jpkr",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-007-stream-jpkr.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1891,7 +1891,7 @@
     },
     {
       "tag": "scki-fused-008-social",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-008-social.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1900,7 +1900,7 @@
     },
     {
       "tag": "scki-fused-009-tiktok",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1909,7 +1909,7 @@
     },
     {
       "tag": "scki-fused-010-ad",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-010-ad.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1918,7 +1918,7 @@
     },
     {
       "tag": "scki-fused-011-tools",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-011-tools.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1927,7 +1927,7 @@
     },
     {
       "tag": "scki-fused-012-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-012-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1936,7 +1936,7 @@
     },
     {
       "tag": "scki-fused-013-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-013-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1945,7 +1945,7 @@
     },
     {
       "tag": "scki-fused-014-game-cn",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-014-game-cn.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1954,7 +1954,7 @@
     },
     {
       "tag": "scki-fused-015-microsoft",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-015-microsoft.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1963,7 +1963,7 @@
     },
     {
       "tag": "scki-fused-016-ad",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-016-ad.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1972,7 +1972,7 @@
     },
     {
       "tag": "scki-fused-017-cn-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-017-cn-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -1990,7 +1990,7 @@
     },
     {
       "tag": "scki-karing-019-26287fc185de",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-019-26287fc185de.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-019-26287fc185de.json",
@@ -2008,7 +2008,7 @@
     },
     {
       "tag": "scki-karing-020-8f1b4443197b",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-020-8f1b4443197b.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-020-8f1b4443197b.json",
@@ -2026,7 +2026,7 @@
     },
     {
       "tag": "scki-karing-021-998683cfd02e",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-021-998683cfd02e.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-021-998683cfd02e.json",
@@ -2044,7 +2044,7 @@
     },
     {
       "tag": "scki-karing-022-c54a9ebd198a",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-022-c54a9ebd198a.json",
@@ -2062,7 +2062,7 @@
     },
     {
       "tag": "scki-karing-023-28525b585d4e",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-023-28525b585d4e.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-023-28525b585d4e.json",
@@ -2071,7 +2071,7 @@
     },
     {
       "tag": "scki-karing-024-47f6ab4b491a",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-024-47f6ab4b491a.json",
@@ -2080,7 +2080,7 @@
     },
     {
       "tag": "scki-karing-025-fc1506634023",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-025-fc1506634023.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-025-fc1506634023.json",
@@ -2089,7 +2089,7 @@
     },
     {
       "tag": "scki-fused-018-direct",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-018-direct.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2098,7 +2098,7 @@
     },
     {
       "tag": "scki-fused-019-work",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-019-work.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2107,7 +2107,7 @@
     },
     {
       "tag": "scki-karing-028-6f843f30639e",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-028-6f843f30639e.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-028-6f843f30639e.json",
@@ -2116,7 +2116,7 @@
     },
     {
       "tag": "scki-karing-029-463bda8b2b68",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-029-463bda8b2b68.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-029-463bda8b2b68.json",
@@ -2125,7 +2125,7 @@
     },
     {
       "tag": "scki-karing-030-e634e1dd63f1",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-030-e634e1dd63f1.json",
@@ -2134,7 +2134,7 @@
     },
     {
       "tag": "scki-karing-031-247ef6d0b532",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-031-247ef6d0b532.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-031-247ef6d0b532.json",
@@ -2143,7 +2143,7 @@
     },
     {
       "tag": "scki-karing-032-bf849617bb18",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-032-bf849617bb18.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-032-bf849617bb18.json",
@@ -2152,7 +2152,7 @@
     },
     {
       "tag": "scki-karing-033-45c71d1b4aa1",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-033-45c71d1b4aa1.json",
@@ -2161,7 +2161,7 @@
     },
     {
       "tag": "scki-karing-034-dde12ff2b951",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-034-dde12ff2b951.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-034-dde12ff2b951.json",
@@ -2170,7 +2170,7 @@
     },
     {
       "tag": "scki-karing-035-e26d38b4416a",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-035-e26d38b4416a.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-035-e26d38b4416a.json",
@@ -2179,7 +2179,7 @@
     },
     {
       "tag": "scki-karing-036-797b5a134fb7",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-036-797b5a134fb7.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-036-797b5a134fb7.json",
@@ -2188,7 +2188,7 @@
     },
     {
       "tag": "scki-karing-037-cd2a7e346dfc",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-037-cd2a7e346dfc.json",
@@ -2197,7 +2197,7 @@
     },
     {
       "tag": "scki-fused-020-crypto",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-020-crypto.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2206,7 +2206,7 @@
     },
     {
       "tag": "scki-fused-021-gfw",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-021-gfw.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2215,7 +2215,7 @@
     },
     {
       "tag": "scki-fused-022-youtube",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-022-youtube.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2224,7 +2224,7 @@
     },
     {
       "tag": "scki-fused-023-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-023-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2233,7 +2233,7 @@
     },
     {
       "tag": "scki-fused-024-google",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-024-google.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2242,7 +2242,7 @@
     },
     {
       "tag": "scki-fused-025-work",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-025-work.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2251,7 +2251,7 @@
     },
     {
       "tag": "scki-fused-026-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-026-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2260,7 +2260,7 @@
     },
     {
       "tag": "scki-fused-027-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-027-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2269,7 +2269,7 @@
     },
     {
       "tag": "scki-fused-028-im",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-028-im.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2278,7 +2278,7 @@
     },
     {
       "tag": "scki-fused-029-work",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-029-work.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2287,7 +2287,7 @@
     },
     {
       "tag": "scki-fused-030-download",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-030-download.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2296,7 +2296,7 @@
     },
     {
       "tag": "scki-fused-031-google",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-031-google.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2305,7 +2305,7 @@
     },
     {
       "tag": "scki-karing-050-e6463a01dabf",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-050-e6463a01dabf.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-050-e6463a01dabf.json",
@@ -2314,7 +2314,7 @@
     },
     {
       "tag": "scki-karing-051-6a9f1e564bbb",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json?scki=v6.0.23",
       "format": "source",
       "kind": "generated",
       "path": "rulesets/generated/karing/scki-karing-051-6a9f1e564bbb.json",
@@ -2323,7 +2323,7 @@
     },
     {
       "tag": "scki-fused-032-tools",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-032-tools.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2332,7 +2332,7 @@
     },
     {
       "tag": "scki-fused-033-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-033-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2341,7 +2341,7 @@
     },
     {
       "tag": "scki-fused-034-google",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-034-google.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2350,7 +2350,7 @@
     },
     {
       "tag": "scki-fused-035-ai",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-035-ai.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2359,7 +2359,7 @@
     },
     {
       "tag": "scki-fused-036-crypto",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2368,7 +2368,7 @@
     },
     {
       "tag": "scki-fused-037-payments",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-037-payments.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2377,7 +2377,7 @@
     },
     {
       "tag": "scki-fused-039-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-039-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2386,7 +2386,7 @@
     },
     {
       "tag": "scki-fused-040-direct",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-040-direct.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2395,7 +2395,7 @@
     },
     {
       "tag": "scki-fused-041-im",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-041-im.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2404,7 +2404,7 @@
     },
     {
       "tag": "scki-fused-042-social",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-042-social.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2413,7 +2413,7 @@
     },
     {
       "tag": "scki-fused-043-cn-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-043-cn-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2422,7 +2422,7 @@
     },
     {
       "tag": "scki-fused-044-social",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-044-social.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2431,7 +2431,7 @@
     },
     {
       "tag": "scki-fused-045-work",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-045-work.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2440,7 +2440,7 @@
     },
     {
       "tag": "scki-fused-046-direct",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-046-direct.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2449,7 +2449,7 @@
     },
     {
       "tag": "scki-fused-047-cnmedia",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-047-cnmedia.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2458,7 +2458,7 @@
     },
     {
       "tag": "scki-fused-048-tiktok",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-048-tiktok.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2467,7 +2467,7 @@
     },
     {
       "tag": "scki-fused-049-youtube",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-049-youtube.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2476,7 +2476,7 @@
     },
     {
       "tag": "scki-fused-050-netflix",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-050-netflix.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2485,7 +2485,7 @@
     },
     {
       "tag": "scki-fused-051-disney",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-051-disney.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2494,7 +2494,7 @@
     },
     {
       "tag": "scki-fused-052-hbo-max",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2503,7 +2503,7 @@
     },
     {
       "tag": "scki-fused-053-hulu",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2512,7 +2512,7 @@
     },
     {
       "tag": "scki-fused-054-prime-video",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-054-prime-video.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2521,7 +2521,7 @@
     },
     {
       "tag": "scki-fused-055-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2530,7 +2530,7 @@
     },
     {
       "tag": "scki-fused-056-music",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-056-music.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2539,7 +2539,7 @@
     },
     {
       "tag": "scki-fused-057-stream-hk",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-057-stream-hk.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2548,7 +2548,7 @@
     },
     {
       "tag": "scki-fused-058-stream-tw",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2557,7 +2557,7 @@
     },
     {
       "tag": "scki-fused-059-stream-jpkr",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-059-stream-jpkr.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2566,7 +2566,7 @@
     },
     {
       "tag": "scki-fused-060-stream-eu",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-060-stream-eu.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2575,7 +2575,7 @@
     },
     {
       "tag": "scki-fused-061-stream-other",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2584,7 +2584,7 @@
     },
     {
       "tag": "scki-fused-062-tools",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-062-tools.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2593,7 +2593,7 @@
     },
     {
       "tag": "scki-fused-063-google",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-063-google.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2602,7 +2602,7 @@
     },
     {
       "tag": "scki-fused-064-tools",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-064-tools.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2611,7 +2611,7 @@
     },
     {
       "tag": "scki-fused-065-microsoft",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-065-microsoft.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2620,7 +2620,7 @@
     },
     {
       "tag": "scki-fused-066-apple",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-066-apple.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2629,7 +2629,7 @@
     },
     {
       "tag": "scki-fused-067-download",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-067-download.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2638,7 +2638,7 @@
     },
     {
       "tag": "scki-fused-068-tracker",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-068-tracker.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2647,7 +2647,7 @@
     },
     {
       "tag": "scki-fused-069-gfw",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-069-gfw.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2656,7 +2656,7 @@
     },
     {
       "tag": "scki-fused-070-game-cn",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-070-game-cn.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2665,7 +2665,7 @@
     },
     {
       "tag": "scki-fused-071-game-intl",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-071-game-intl.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2674,7 +2674,7 @@
     },
     {
       "tag": "scki-fused-072-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2683,7 +2683,7 @@
     },
     {
       "tag": "scki-fused-073-payments",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-073-payments.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2692,7 +2692,7 @@
     },
     {
       "tag": "scki-fused-074-cnmedia",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2701,7 +2701,7 @@
     },
     {
       "tag": "scki-fused-075-cn-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-075-cn-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2710,7 +2710,7 @@
     },
     {
       "tag": "scki-fused-076-direct",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-076-direct.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2719,7 +2719,7 @@
     },
     {
       "tag": "scki-fused-077-cn-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-077-cn-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2728,7 +2728,7 @@
     },
     {
       "tag": "scki-fused-078-intl-site",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-078-intl-site.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [
@@ -2737,7 +2737,7 @@
     },
     {
       "tag": "scki-fused-080-netflix",
-      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.22",
+      "url": "https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/rulesets/generated/fused/sing-box/scki-fused-080-netflix.srs?scki=v6.0.23",
       "format": "binary",
       "kind": "reused",
       "usage": [

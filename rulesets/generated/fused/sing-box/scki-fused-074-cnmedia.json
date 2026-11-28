@@ -3194,7 +3194,9 @@
         "ksapisrv.com",
         "app-analytics-services",
         "acs.m.goofish.com"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "com.qiyi.video",
         "com.zhiliaoapp.musically"

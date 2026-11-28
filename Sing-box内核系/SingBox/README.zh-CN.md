@@ -17,7 +17,7 @@
 
 [开始前](#before-start) · [分步导入](#import) · [Hiddify](#hiddify) · [v2rayN](#v2rayn) · [HomeProxy](#homeproxy) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.22-sing.13` · Build：2026-11-22 · 规则基线：`rulesets/source/routing-graph.js` v6.0.22。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.23-sing.14` · Build：2026-11-28 · 规则基线：`rulesets/source/routing-graph.js` v6.0.23。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="-规则下载链接"></a>
@@ -29,8 +29,8 @@
 
 | 使用环境 | 配置文件 | 内核要求 |
 | --- | --- | --- |
-| 当前稳定版、v2rayN 自定义 sing-box 配置 | [下载 Full JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) | sing-box **1.14.3+**；本次验收 1.14.3 |
-| Hiddify 4.1.1 的 1.13 系列内核、仍使用 1.13 的客户端 | [下载 1.13 兼容 JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) | 官方 sing-box **1.13.14** 已通过检查；Hiddify 自家内核需单独核对 |
+| 当前稳定版、v2rayN 自定义 sing-box 配置 | [下载 Full JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json) | sing-box **1.14.x（从 1.14.3 起）** |
+| 实际使用 sing-box 1.13 内核的客户端 | [下载 1.13 兼容 JSON](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json) | 官方 sing-box **1.13.14** 已通过检查 |
 
 [![下载 sing-box Full JSON](../../docs/assets/readme/zh-CN/button-sing-box-full.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-full.json)
 [![下载 sing-box 1.13 JSON](../../docs/assets/readme/zh-CN/button-sing-box-113.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/SingBox/SingBox%28sing-box%29-1.13.json)
@@ -46,7 +46,7 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E
 
 ### 在线选择与本地导入
 
-打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 **sing-box 1.14**（Full JSON 要求 1.14.3+）或 **sing-box 1.13**，再选择 Full、Lite 或 Custom 业务方案及测速、QUIC 参数，下载 JSON。按照下方步骤替换示例节点、检查配置，并从客户端支持的完整自定义配置入口加载。Hiddify 和 HomeProxy 的完整 JSON 保留能力及验收边界见各自章节。
+打开[在线配置页面](https://ivansolis1989.github.io/Smart-Config-Kit/)，按实际内核选择 **sing-box 1.14**（Full JSON 面向 1.14.3 起的 1.14 系列）或 **sing-box 1.13**，再选择 Full、Lite 或 Custom 业务方案及测速、QUIC 参数，下载 JSON。按照下方步骤替换示例节点、检查配置，并从客户端支持的完整自定义配置入口加载。Hiddify 和 HomeProxy 的完整 JSON 保留能力及验收边界见各自章节。
 
 更新时刷新页面，重新选择版本、业务和参数并下载；备份原配置及节点设置后替换同类本地配置，重新核对节点引用和实际加载结果。不要用官方完整配置的远程 URL 覆盖定制文件。选择和生成在浏览器本地完成，不读取或上传订阅及个人配置。
 
@@ -76,15 +76,13 @@ https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E
 - 日志中规则集下载成功，真实节点能够连接；业务规则按源规则顺序匹配，最终兜底为 `🐟 漏网之鱼`。
 - 核对客户端最终生效的 `route`、`dns`、`rule_set`、组引用和 TUN 设置，再按[运行验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)检查实际分流。
 
-现有仓库验收覆盖官方 1.14.3 / 1.13.14 `check`、两变体结构与 URL 对比及生成器回归。真实机场连接和各 GUI 的导入仍需在实际设备验收。
+仓库检查两份 JSON 的配置结构、规则 URL 和官方内核兼容性。GUI 导入及实际连接另行验收。[版本与验证依据](REFERENCE-sing-box.zh-CN.md#compatibility-review-2026-11-28)
 
 ## Hiddify
 
-[Hiddify app 4.1.1](https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1) 构建文件固定 `core.version=4.1.0`，对应源码使用 1.13 系列派生内核，因此优先选择 **1.13 兼容 JSON**。独立 hiddify-core 的新版本不能证明已安装 App 同步升级了内核。
+[Hiddify 5.9.15](https://github.com/hiddify/hiddify-app/releases/tag/v5.9.15) 可以读取 sing-box 语法。常规订阅配置构建器会替换本仓库 1.14 与 1.13 两份配置的路由和选择组，官方 Windows Core 在启用完整配置选项时也复现了这一行为。
 
-Hiddify 仅在完整配置模式下保留全部输入，普通路径可能只提取节点。导入后核对 `route`、`dns`、`rule_set` 和组引用；依据见[核验报告](../../docs/upstream/2026-10-19/singbox/report.zh-CN.md#hiddify)。
-
-本次通过的是官方 sing-box 1.13.14 的配置检查，尚未在 Hiddify 4.1.1 App 内进行完整配置导入和连接验收。
+要保留源分流，可用支持完整 JSON 的官方 sing-box 客户端。独立 Hiddify Core 的 `srun` 入口按官方文档直接读取原始 sing-box JSON。若选用原始配置入口，先核对生效的 `route`、`dns`、规则下载路径和组引用，再连接。[构建器验证](REFERENCE-sing-box.zh-CN.md#hiddify-profile-builder) · [Hiddify Core 官方说明](https://hiddify.com/core/#run-run-or-srun)
 
 ## v2rayN
 
@@ -94,9 +92,7 @@ Hiddify 仅在完整配置模式下保留全部输入，普通路径可能只提
 
 ## HomeProxy
 
-[HomeProxy](https://github.com/immortalwrt/homeproxy) 从节点订阅和 UCI 重建配置，不能据此保证导入 Full JSON 后保留全部规则和组。
-
-尚无经验证的 Full JSON → HomeProxy UCI 转换器。请通过其 UI 配置节点、DNS、分流与 rule-set，再检查生成结果；直接运行原生 JSON 则需自行管理服务与防火墙。
+[HomeProxy](https://github.com/immortalwrt/homeproxy) 从节点订阅和 UCI 生成配置。先核对路由器上实际安装的 sing-box 版本，再通过 LuCI 配置节点、DNS、分流与 rule-set。用本机内核对生成文件运行 `sing-box check`，并验证启动及规则下载。内核由 ImmortalWrt 软件源单独提供，稳定分支和 master 的版本可能不同。[软件源与兼容性依据](REFERENCE-sing-box.zh-CN.md#homeproxy-package-and-uci)
 
 Passwall / Passwall2 都支持 sing-box 与 Xray 后端，使用各自目录的受控脚本；本仓库 fused `.srs` 路径要求实际分流后端为 sing-box。
 
@@ -124,7 +120,7 @@ Passwall / Passwall2 都支持 sing-box 与 Xray 后端，使用各自目录的�
 
 Full 使用 1.14 的命名 `http_clients` 下载规则集，通过 `evaluate` / `match_response` / `respond` 显式处理 CN IP 解析结果。1.13 兼容文件使用该稳定系列支持的 `download_detour` 与 DNS GeoIP 接受过滤。两者均将规则下载交给 `🌍 全球节点`。
 
-TUN 使用 `172.19.0.1/30`、`auto_route` 和 `strict_route`。嗅探通过非终结 `action: sniff` 执行。客户端托管 TUN 时，应按其完整配置模式的规则调整入站并核对最终配置。
+TUN 使用 `172.19.0.1/30`、`auto_route`、`strict_route` 和 `stack: mixed`。现有两份配置分别面向 1.14 和 1.13 系列。使用官方 1.15 预发布构建前，应单独核对 [TUN 协议栈迁移](https://sing-box.sagernet.org/migration/#migrate-tun-stack)。嗅探使用非终止 `action: sniff`。若客户端托管 TUN，检查最终生效的入站配置。
 
 嗅探可辅助 SNI/Host 匹配，但不能恢复旧 `sniff_override_destination=true` 的动态目的地址重写：IP 目的仍拨原 IP。`route-options.override_address` 只支持固定地址。源码与影响见[迁移边界](../../docs/upstream/2026-10-19/singbox/report.zh-CN.md#嗅探迁移的行为边界)。
 
@@ -138,7 +134,7 @@ TUN 使用 `172.19.0.1/30`、`auto_route` 和 `strict_route`。嗅探通过非�
 
 ### 其他客户端与验证边界
 
-SagerNet 的 1.14.3 官方发布资产包含同版本 SFA APK、SFM 安装包及越狱版 SFI deb；独立 Android/Apple 源码仓库没有自己的 release。官网门槛为 Android 5.0+（低版本需对应 legacy 构建）、iOS 15+ / macOS 13+ / tvOS 17+。Play Store / App Store / TestFlight 的实际版本仍需在所用渠道核对，不能由 GitHub 核心版本直接推定。[Android 官方说明](https://sing-box.sagernet.org/clients/android/)、[Apple 官方说明](https://sing-box.sagernet.org/clients/apple/)
+[官方 1.14.6 发布页](https://github.com/SagerNet/sing-box/releases/tag/v1.14.6) 提供 Android APK、macOS 安装包、越狱版 iOS 安装包，以及 Windows/Linux 桌面客户端。Apple 商店当前产品为 **sing-box MT**。从旧 App 或使用旧开发者账号的 macOS 独立版迁移前，先导出现有配置。Linux 桌面安装包现名为 `sfl`，与 CLI 分开安装。App Store、Play Store 和 F-Droid 的版本各按实际渠道核对。[Android](https://sing-box.sagernet.org/clients/android/) · [Apple](https://sing-box.sagernet.org/clients/apple/) · [桌面客户端](https://sing-box.sagernet.org/clients/desktop/) · [macOS 迁移](https://sing-box.sagernet.org/migration/#migrate-the-macos-standalone-client-data)
 
 完整配置仍需满足实际内核版本与导入条件。Karing、NekoBox 等应用的转换、覆盖和 UI 行为未在本次验证，不能仅凭采用 sing-box 内核认定完整 JSON 可原样导入。
 

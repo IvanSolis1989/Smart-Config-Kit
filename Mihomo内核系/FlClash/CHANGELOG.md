@@ -16,6 +16,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.23-flclash.30 (2026-11-28)
+
+- Use the narrowed Copilot AI rule asset and a new asset cache revision.
+- Document the 0.9.5 Mihomo-based release, post-JS App module priorities and the separate Concord preview channel.
+
 ## v6.0.22-flclash.29 (2026-11-27)
 
 - Issue #206 includes existing global and regional residential groups after the ordinary regional choices in the global selector. Global automatic remains first and absent residential groups are omitted.

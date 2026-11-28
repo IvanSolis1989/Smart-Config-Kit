@@ -12,7 +12,13 @@
 > Correction, 2026-11-07: both `auto, auto, auto` and the interpretation “three values correspond to WiFi/cellular/other” in the old summary below are wrong. The pinned official sample says `filter, filter, LINK_22E171:all_proxy, LINK_22E172:all_direct`. This repository has no SSID exceptions and uses `filter, filter`. The pinned text was fetched again and its SHA-256 matched the 2026-10-19 cache. This corrects an old summary; it does not claim an upstream syntax change. QX device-import retesting remains pending.
 
 <a id="当前复核结论"></a>
-## Current review findings
+<a id="current-review-findings"></a>
+## Compatibility review on 2026-11-28
+
+- The US App Store lists stable 1.8.1 (2026-10-07), with iOS 15+ required from 1.8.0. Version 1.7.0 was the last release for iOS 14. No public prerelease build was confirmed. [App Store](https://apps.apple.com/us/app/quantumult-x/id1443988620)
+- The fixed sample documents `static`, `url-latency-benchmark`, remote `force-policy` and comma-separated concurrent DoH URLs on one line. The [#206](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/206) profile uses `static` for global selection with an automatic subgroup and regional and residential choices. Confirm native load, actual exits and selection persistence after subscription refresh and app restart. The sample does not demonstrate that full arrangement, and native confirmation on 1.8.1 remains pending. [Fixed official sample](https://github.com/crossutility/Quantumult-X/blob/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/sample.conf)
+
+## 2026-10-19 review findings
 
 - Stable 1.8.1, dated 2026-10-07 UTC; 1.8.0+ requires iOS 15. No confirmed official prerelease version/date was obtained; pending.
 - The [official sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf) places concurrent DoH URLs on one comma-separated line. This repository’s four URLs were consolidated onto one line in their original order. No claim was made that old duplicate-key last-wins behavior had been reproduced on a device.

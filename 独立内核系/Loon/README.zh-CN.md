@@ -23,7 +23,7 @@
 
 ## 开始前
 
-准备 Loon、机场订阅 URL 和下方配置直链。截至 2026-10-19，官方稳定版 3.5.2 要求 iOS 15+；官方商店亦允许在 Apple Silicon Mac 上运行 iOS App，这与独立原生 Mac 版本不同。来源见[复核报告](../../docs/upstream/2026-10-19/apple/report.zh-CN.md)。
+准备 Loon、机场订阅 URL 和下方配置直链。截至 2026-11-28，美国 App Store 的 Loon 正式版为 3.5.3，要求 iOS 15 或更新版本。独立原生 Loon for Mac 另走 alpha 渠道。[App Store](https://apps.apple.com/us/app/loon/id1373567447) · [Mac 发行说明](https://nsloon.app/Loon4Mac/changelog.html)
 
 - 从 [App Store](https://apps.apple.com/app/loon/id1373567447)安装，首次连接时允许添加 VPN 配置。
 - `.conf` 提供分流规则，不含机场节点；`[Remote Rule]` 需联网下载。
@@ -121,6 +121,7 @@ geoip-url = https://fastly.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mm
 2. 确认订阅与全部远程规则下载成功；连接开关开启不能代替下载检查。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在请求或连接日志中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
 4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+5. 检查全球节点手选组能否切到全球自动、地区组和家宽组。刷新远程规则并重启 Loon，在请求日志中核对组选择及实际节点。[Loon 策略组](https://nsloon.app/docs/Policy/policygroup/)
 
 若日志没有请求、组内为空或出口不符，继续按下方 FAQ 排查。
 

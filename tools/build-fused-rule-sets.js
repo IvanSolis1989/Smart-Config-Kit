@@ -12,6 +12,7 @@ const { createRequire } = require('node:module');
 const {
   SOURCE_GRAPH_ID,
   normalizeMihomoMrsProviderEntries,
+  MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES,
   getTrafficOptions,
   getHealthCheckSettings,
   getQuicRules,
@@ -790,12 +791,25 @@ function renderEgernYaml(entries) {
   return lines.join('\n');
 }
 
+const SING_BOX_DESTINATION_FIELDS = new Set(['domain', 'domain_suffix', 'domain_keyword', 'domain_regex', 'ip_cidr']);
+
+// Each fused entry is an independent alternative. The core ORs the fields in
+// its destination group, but ANDs source and process fields with that group.
+function splitSingBoxAlternatives(fields) {
+  const alternatives = new Map();
+  for (const [key, values] of Object.entries(fields)) {
+    const group = SING_BOX_DESTINATION_FIELDS.has(key) ? 'destination' : key;
+    if (!alternatives.has(group)) alternatives.set(group, {});
+    alternatives.get(group)[key] = dedupe(values);
+  }
+  return [...alternatives.values()];
+}
+
 function renderSingBoxSource(entries) {
   const rule = {};
   const unsupported = entries.filter((entry) => !addToSingBoxRule(rule, entry));
   if (unsupported.length) throw new Error(`unsupported sing-box target entries: ${unsupported.slice(0, 10).join(' | ')}`);
-  for (const key of Object.keys(rule)) rule[key] = dedupe(rule[key]);
-  return `${JSON.stringify({ version: 3, rules: Object.keys(rule).length ? [rule] : [] }, null, 2)}\n`;
+  return `${JSON.stringify({ version: 3, rules: splitSingBoxAlternatives(rule) }, null, 2)}\n`;
 }
 
 function entriesWithNoResolve(segment) {
@@ -1546,6 +1560,9 @@ function assertTrafficOnlySourceChange(clashOutput) {
     module, exports: module.exports, require: createRequire(sourceFile),
     __dirname: path.dirname(sourceFile), process: { env: {} }, Math: fixedMath, console: { log() {} },
   }, { filename: `${relative}@HEAD`, timeout: 15000 });
+  if (JSON.stringify(module.exports.MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES) !== JSON.stringify(MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES)) {
+    throw new Error('--reuse-assets requires unchanged provider entry normalization; run the MRS and fused build for source changes');
+  }
   const baseline = module.exports.buildMihomoRoutingGraph({ quicPolicy: 'block-foreign' });
   const normalizeProviders = providers => JSON.stringify(providers)
     .replace(/([?&]scki=)v\d+\.\d+\.\d+/g, '$1__revision__')
@@ -1577,6 +1594,7 @@ function trafficSourceFingerprint() {
   const canonical = JSON.stringify({
     rawProviders: raw['rule-providers'], normalizedProviders: normalized['rule-providers'],
     rawRules: raw.rules.filter(rule => !quic.has(rule)), normalizedRules: normalized.rules.filter(rule => !quic.has(rule)),
+    providerEntryOverrides: MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES,
     quicRules: getQuicRules('block-foreign'),
   }).replace(/([?&]scki=)v\d+\.\d+\.\d+/g, '$1__revision__')
     .replace(/\.\/ruleset\/v\d+\.\d+\.\d+\//g, './ruleset/__revision__/');
@@ -1781,5 +1799,5 @@ if (require.main === module) main().catch((error) => {
 });
 
 module.exports = { getSourceSegmentCatalog, applyCmfaTrafficOptions, applyMobileTrafficOptions, reuseSnapshotTopology, assertTrafficOnlySourceChange, assertSnapshotBinding, trafficSourceFingerprint, fusedPayloadReceipt, readMihomoMrsSourceMap, sourceInfoForProvider,
-  parsePayloadEntries, classifyEntry, optimizeSegment, removeGloballyRepeatedEntries, renderPayload, renderClassicalList, renderQxList, renderEgernYaml, renderSingBoxSource, convertWithMihomo, compileSingBoxRuleSet,
+  parsePayloadEntries, classifyEntry, optimizeSegment, removeGloballyRepeatedEntries, renderPayload, renderClassicalList, renderQxList, renderEgernYaml, renderSingBoxSource, splitSingBoxAlternatives, convertWithMihomo, compileSingBoxRuleSet,
   writeFusedRuleSets, writeClientArtifacts, mergeFusedRules };

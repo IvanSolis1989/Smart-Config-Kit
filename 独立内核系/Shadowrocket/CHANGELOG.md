@@ -14,6 +14,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-SR.16 (2026-11-28)
+
+- The Copilot rule set matches its service domains without matching unrelated names containing the same word.
+- Update 2.2.93 compatibility and verification steps for remote rule updates, DNS and Enforce Routes.
+
 ## v6.0.22-SR.15 (2026-11-27)
 
 - Append the existing global and regional residential groups to the global selector after ordinary regions, preserving the automatic default and existing policy choices (#206).

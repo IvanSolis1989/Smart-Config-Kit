@@ -30,14 +30,14 @@ Download [Meow(meow).yaml](Meow%28meow%29.yaml). Official clients use native YAM
 
 This repository does not provide nodes or subscriptions. `proxy-providers.Subscribe.url` is an unusable placeholder; replace it with your own Clash-format node subscription. The original file cannot start as-is, and the repository template URL is not a runnable personal configuration.
 
-Official Android stable v1.0.8 pins core v0.20.2. iOS stable v2.0.0 pins core a663364469b3b7dc2b46d2e0f4530e50a54108ee. Source evidence exists for key older-core fields, but complete-template acceptance in these applications remains pending. See [REFERENCE](REFERENCE-meow-rs.md).
+The official Android GitHub release v1.0.11 embeds meow-rs v0.29.0. The iOS/tvOS App Store 2.0 release embeds v0.21.2 and adds Apple TV configuration transfer and scheduled refresh. Check the installation channel and build before applying version-specific instructions. See [REFERENCE](REFERENCE-meow-rs.md).
 
 ## Import steps
 
 1. Download the YAML. Replace `https://example.invalid/replace-with-your-subscription-url` in `proxy-providers.Subscribe.url`, and save your personal configuration.
 2. In official Android/iOS, import local YAML or a configuration URL. URL import requires private hosting of your configuration with the subscription already replaced; do not expose your personal subscription publicly.
 3. Wait for the node subscription, MRS / residual YAML and initial regional health checks. Select regional/service exits with available nodes, then start VPN.
-4. Read back final configuration and connection logs; check groups, rules, downloads, DNS and exits. iOS replaces source DNS. Android also manages DNS, listeners and VPN. Do not assume the application preserves all core YAML platform settings unchanged.
+4. Read back the effective configuration and connection logs. Check groups, rule downloads, DNS and exits. The iOS/tvOS 2.0 tunnel retains supported source DNS choices while setting its own listener and fake-IP pool. On Android v1.0.11, also check whether the app's Built-in DNS switch is enabled.
 
 For direct core use, save as `config.yaml` and run `meow -f config.yaml -t`. Start the core and local proxy only after subscription, rule and Geo data preparation succeeds.
 
@@ -68,6 +68,6 @@ node tools/generate-meow.js --check
 node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js
 ```
 
-With `MEOW_BIN`, `MEOW_GEOSITE_FILE` and `MEOW_MMDB_FILE` set, the final command runs real-core `-t`; otherwise it explicitly skips that check. Separate CI downloads the pinned official core and verifies its SHA before running it.
+With `MEOW_BIN`, `MEOW_GEOSITE_FILE` and `MEOW_MMDB_FILE` set, the final command runs real-core `-t`; otherwise it explicitly skips that check. CI verifies the archives before running the v0.26.1 gate and v0.30.0 diagnostic.
 
 The routing authority is `rulesets/source/routing-graph.js`. Native groups/fields are projected from CMFA; rules/providers use fused results checked against source fingerprints. The generator and [adapter manifest](../adapter-manifest.json) are shared with AEROVE Lite. Client documentation and acceptance status are maintained separately.

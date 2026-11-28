@@ -4,6 +4,8 @@
 **English** | [简体中文](REFERENCE-Karing.zh-CN.md)
 
 
+> Reviewed on 2026-11-28 (previous review 2026-11-09). GitHub stable is [1.2.26.2934](https://github.com/KaringX/karing/releases/tag/v1.2.26.2934), released on November 19. The [US App Store](https://apps.apple.com/us/app/karing/id6472431552) lists the same build, published there on November 25. GitHub prerelease [1.2.27.3001](https://github.com/KaringX/karing/releases/tag/v1.2.27.3001) adds iOS TUN reconnection and ECH parsing fixes. The app identifies its core as the [Karing sing-box fork](https://github.com/KaringX/sing-box). The public release does not identify the exact core commit used in each packaged app.
+
 > Updated on 2026-11-09: Issue #196 was reviewed against official main `accbdfc05a999eaa3526aadb0aea994b3eafb7f5` (2026-11-05, source version 1.2.26+2922) and the last public custom-import implementation. The current importer remains unpublished; a JSON fix for 1.2.25.2802 cannot be claimed.
 
 > Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Karing routing](https://karing.app/app-manual/diversion) was rechecked. App-managed selection and domain-probing boundaries remain; service-target labels are not imported selectors. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
@@ -15,7 +17,7 @@
 ## Current official documentation
 
 - [Add profiles](https://karing.app/app-manual/add-profiles): accepts Clash, sing-box, and other subscription/configuration inputs.
-- [Clash compatibility](https://karing.app/clash): DNS is app-managed, not configured by subscription URL; advanced policy capabilities differ.
+- DNS settings are managed by the app. GitHub build [1.2.26.2925](https://github.com/KaringX/karing/releases/tag/v1.2.26.2925) documents an optional `outbound-dns` parameter on HTTPS subscription URLs. [1.2.26.2926](https://github.com/KaringX/karing/releases/tag/v1.2.26.2926) fixed private DNS updates and gave Clash `dns.proxy-server-nameserver` the highest priority. These are profile input features. Custom routing JSON remains a separate import format. [Provider FAQ](https://karing.app/en/provider-faq) · [App DNS manual](https://karing.app/en/app-manual/dns)
 - [Custom routing](https://karing.app/tutorial/custom-diversion): remote Rule Sets use `.srs` / `.json`.
 - [Custom group editing](https://karing.app/app-manual/diversion-rule-edit): single-level OR/AND per component; platform capabilities include ports, domains, processes, and Android package names.
 
@@ -45,14 +47,18 @@ Complex conditions use sing-box [Headless Rule](https://sing-box.sagernet.org/co
 
 URLs, retrieval times, original binaries, and decoded/compressed hashes for five external QUIC-support SRS assets are recorded in `rulesets/source/karing-support/manifest.json`. These snapshots are actual SRS responses from those URLs, decoded by an existing standard core, not substituted with similar fused service content. Matches that cannot be expressed as headless rules stop generation instead of being silently dropped.
 
-[Default route-rule semantics](https://sing-box.sagernet.org/configuration/route/rule/#default-fields) explains that fields of a single non-inverted default rule set may merge into the outer match. Current QUIC source-domain fields and outer port/network fields do not overlap, so AND expansion is equivalent. Future overlap between inner/outer domain/IP, port, or other field groups explicitly fails generation to avoid turning the original OR merge into AND.
+Each row in a rule-set is an alternative. Compound Karing assets preserve that OR, including within a negation. A default row can match a destination by domain or IP, while a separate process row remains another alternative. Pure remote references retain their URLs and let the core read the rules directly.
 
-Ordinary pure rule_set references retain their URLs; complex-condition assets are generated under `rulesets/generated/karing/`. no-resolve/pre-resolution differences, actual app download paths, and precedence require client readback, not merely successful schema compilation.
+The input profile targets sing-box 1.13, which passes matched outer address and port groups down through non-inverted rule-set branches. Newer 1.14 documentation describes merging a single non-inverted default row. The generator rejects an overlapping inherited group when converting a compound rule to separate AND children, where that inherited state would be lost. Current QUIC domain alternatives and its outer port/network conditions use distinct groups. [1.13 matcher](https://github.com/SagerNet/sing-box/blob/v1.13.14/route/rule/rule_abstract.go#L74-L157) · [1.14 route-rule field groups](https://sing-box.sagernet.org/configuration/route/rule/#default-fields)
+
+`no-resolve` and pre-resolution behavior, asset downloads and matching precedence still need to be read back from Karing. Generated compound files are under `rulesets/generated/karing/`.
 
 <a id="issue-196自定义组可见但远程资产未登记"></a>
 ## Issue #196: custom groups visible, remote assets unregistered
 
-The current official [edit/save path L1252–1264](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/screens/diversion_group_custom_edit_screen.dart#L1252-L1264) creates a `type=remote`, `tag=URL`, `format=binary/source`, `url=URL` entry for each URL and registers it in `ruleSetItems`. Reports that opening and immediately saving each group triggers downloads are consistent with that registration action.
+In both 1.2.26.2934 and 1.2.27.3001, the public confirmation screen still calls `DiversionCustomRules.importRules()`. Its implementation is absent from both public tags. The public edit/save path still registers remote items. On a clean app profile, check registration and download of one SRS and one JSON asset immediately after import, then after restart and repeat import. Use an unchanged group save as a comparison if assets are missing. [Stable import call](https://github.com/KaringX/karing/blob/v1.2.26.2934/lib/screens/diversion_rules_custom_set_screen.dart#L244-L250) · [Prerelease edit/save path](https://github.com/KaringX/karing/blob/v1.2.27.3001/lib/screens/diversion_group_custom_edit_screen.dart#L1253-L1265)
+
+The previously reviewed [edit/save path L1252–1264](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/screens/diversion_group_custom_edit_screen.dart#L1252-L1264) creates a `type=remote`, `tag=URL`, `format=binary/source`, `url=URL` entry for each URL and registers it in `ruleSetItems`. Reports that opening and immediately saving each group triggers downloads are consistent with that registration action.
 
 The last public [importRules L188–314](https://github.com/KaringX/karing/blob/e3c19f1eb1225dbd48a4862f0983b82d0af8de69/lib/app/utils/diversion_custom_utils.dart#L188-L314) copies URLs into groups without equivalent registration. Its top-level parser consumes only `rules`; `rule_set_items` in internal [DiversionGroupConfig L198–258](https://github.com/KaringX/karing/blob/accbdfc05a999eaa3526aadb0aea994b3eafb7f5/lib/app/modules/server_manager.dart#L198-L258) belongs to another model and cannot simply be inserted into custom-import JSON and declared a fix. Current full-configuration conversion is also unpublished, and no verified bulk alternative was found.
 

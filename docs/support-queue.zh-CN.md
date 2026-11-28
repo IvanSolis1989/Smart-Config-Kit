@@ -8,7 +8,7 @@
 
 | 对象 | 入口 | 当前阶段 |
 | --- | --- | --- |
-| [官方 meow-rs 核心](#meow) | 原生 YAML / WebUI | v0.26.1 真实 -t 通过；生产订阅/HTTP 下载与路由待验 |
+| [官方 meow-rs 核心](#meow) | 原生 YAML / WebUI | v0.26.1 与 v0.30.0 加载本地资产的 `-t` 均通过，生产订阅、HTTP 下载与路由待验 |
 | [官方 meow-android / meow-ios](#meow-official-apps) | 原生 YAML | 导入接口及旧核心关键能力已核源码；完整 App 导入与连接待验 |
 | [AEROVE Lite](#aerove-lite-meow) | JS 覆写及专用 MRS 分片 | 生产校验链已接通，QuickJS 原子性及命名 HTTP 代理用例已通过；beta18 拒绝旧三片；新候选待 App 全资源重验及真实路由验收 |
 
@@ -26,9 +26,9 @@
 
 ## <a id="meow-official-apps"></a>官方 Android / iOS
 
-meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定核心 a663364469b3b7dc2b46d2e0f4530e50a54108ee。两者的 MRS、provider.proxy、AND/OR/NOT 与 geodata 均有实际源码消费者；不能仅据版本号不同推断缺失。
+Meow Android GitHub v1.0.11 内嵌 meow-rs v0.29.0，iOS/tvOS App Store 2.0 内嵌 v0.21.2。Android GitHub 签名变更及 iOS/tvOS 隧道 DNS 字段的控制边界见 [Meow 参考](../Meow内核系/Meow/REFERENCE-meow-rs.zh-CN.md)。
 
-剩余：在目标 APK/IPA 分别导入原生 YAML，完成资源加载、订阅刷新、最终配置读回及真实连接。Android 管理监听/DNS/VPN，iOS 重写源 DNS/subscriptions；须核对宿主行为。本轮未发现官方 App 提供 AEROVE 式 JS 宿主，不要求用户向官方 App 导入 JS。
+待验包括在目标安装包导入原生 YAML、加载资源、刷新订阅、读回最终配置并核对真实连接。Android 记录内置 DNS 开关状态；iOS/tvOS 检查源 DNS 策略、宿主监听及 fake-IP 地址池，Apple TV 加验 iCloud 配置同步。官方 App 走原生 YAML 入口。
 
 ## <a id="aerove-lite-meow"></a>AEROVE Lite
 
@@ -53,6 +53,11 @@ meow-android 稳定 v1.0.8 固定核心 v0.20.2；meow-ios 稳定 v2.0.0 固定�
 3. 读回最终 YAML，核对命名代理/header 下载、可信 Geo 上下文、规则顺序、更新及恢复，再验收 Android VPN、广告、国内/国外与业务出口，区分模拟器和真机。
 
 早期 74 项 JVM、AndroidTest 编译及旧 128 资源限制保存在[历史联调核查](../Meow内核系/Aerove%20Lite/VALIDATION.md)；当前接线与单项执行结果以该页最新核查为准，不代替本候选的完整 App 验收。
+
+## AEROVE Full 与 FlClash RS
+
+- AEROVE Full 稳定版 `v0.13.0+2026102340` 提供 Android ARM64 APK，使用 Mihomo。原构建内置的 Smart-Config-Kit 脚本固定在 `v6.0.21-flclash.26`。验证更新脚本时，通过 App 实际装配节点、provider、规则、过滤器及 DNS，读回最终配置。[Full 发布](https://github.com/IvanSolis1989/Aerove/releases/tag/v0.13.0%2B2026102340) · [内置脚本收据](https://github.com/IvanSolis1989/Aerove/blob/0b938396afbda83efef427a0b401d0682a404c93/apps/aerove/assets/data/smart-config-kit-flclash.source.json)。
+- FlClash RS `v0.9.5-rs.2+1` 为独立预发布，固定 Concord `4d58934`。该核心对 `path-in-bundle` 提示告警，并使用已有本地规则文件或普通 URL。Smart 组根据站点状态和实际流量失败择路，忽略 LightGBM 字段。候选适配需用固定 App 验证最终 YAML、MRS 加载、分流和 TUN 捕获范围。[RS 预发布](https://github.com/Vialibrex/FlClash/releases/tag/v0.9.5-rs.2%2B1) · [核心兼容说明](https://github.com/Vialibrex/concord/blob/4d5893409d1aff1b7e068510190080052398dac1/docs/compatibility.md)。
 
 ## 维护
 

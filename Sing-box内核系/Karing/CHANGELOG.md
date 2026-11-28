@@ -11,6 +11,12 @@
 
 > Native custom-routing artifacts follow the authoritative routing graph. See README and adapter manifest for platform differences.
 
+## v6.0.23-karing.5 (2026-11-28)
+
+- Update the remote rule-set revision for scoped Copilot domain matching.
+- Update the reference for 1.2.26, including node DNS input and independent verification of rule-set registration.
+- Bind the repaired SRS assets and preserve their OR alternatives during expansion. Reject overlapping compound conditions that would change sing-box 1.13 behavior.
+
 ## v6.0.22-karing.4 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

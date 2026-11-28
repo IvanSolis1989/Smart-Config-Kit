@@ -23,6 +23,8 @@ Import native Mihomo YAML on Android. ClashMi can reuse the same file. Enter you
 
 ## Before you start: client and subscription
 
+The official stable app v2.11.37 ships Mihomo v1.19.34 at `0455d0d`. The November 18 prerelease uses the same core and changes App behavior for VPN hotspot traffic with private-network bypass enabled. Use the stable app for routine imports. Test both the handset and a hotspot peer if that scenario matters to you. [Stable release](https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.37) · [Core dependency](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/856/files) · [Prerelease hotspot change](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/864)
+
 Prepare an Android device, CMFA APK, Mihomo node subscription and this directory's YAML. Use the validated **Mihomo v1.19.29 baseline or a newer compatible core**.
 
 <a id="一下载-cmfa-客户端"></a>
@@ -104,6 +106,8 @@ For multiple providers, prefer one phone-accessible Mihomo URL from [Sub-Store](
 3. Automatic polling is normally every 24 hours; adjust in profile settings.
 
 Interface labels may vary by client version/language.
+
+The profile menu can share the URL of a URL-based profile as a QR code from v2.11.36 onward. Use this for a profile URL you intend to share. Keep subscription tokens and local profiles private. [CMFA QR sharing](https://github.com/MetaCubeX/ClashMetaForAndroid/pull/850)
 
 <a id="四首次启动"></a>
 

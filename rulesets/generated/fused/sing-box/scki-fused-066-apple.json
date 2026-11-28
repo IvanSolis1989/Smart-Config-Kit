@@ -1542,14 +1542,16 @@
       "ip_cidr": [
         "17.0.0.0/8"
       ],
+      "domain_keyword": [
+        "testflight"
+      ]
+    },
+    {
       "process_name": [
         "Music",
         "TV",
         "LookupViewService",
         "com.apple.geod"
-      ],
-      "domain_keyword": [
-        "testflight"
       ]
     }
   ]

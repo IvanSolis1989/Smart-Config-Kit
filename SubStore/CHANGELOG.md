@@ -11,6 +11,11 @@
 
 [![Documentation](../docs/assets/readme/nav-docs.svg)](../docs/README.md) [Project home](../README.md) · [Repository documentation](../docs/README.md)
 
+## Compatibility reference (2026-11-28)
+
+- Refresh the 2.44.31 subscription conversion guide with a reproduced Stash XHTTP REALITY omission and narrowly scoped input options.
+
+
 <a id="浏览器扩展-v181--证据复核与并发失败保护-2026-10-23"></a>
 
 ## Browser extension v1.8.1 / evidence review and concurrent-failure protection (2026-10-23)

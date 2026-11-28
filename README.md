@@ -86,7 +86,7 @@ The [Meow family](Meow内核系/README.md) has two separate entries: **official 
 
 **Combine subscriptions:** [Sub-Store guide](SubStore/README.md) · [browser synchronization helper](SubStore/edge-extension/README.md)
 
-See the [documentation index](docs/README.md) for advanced options, capability matrices, maintenance tools, and upstream evidence.
+See the [documentation index](docs/README.md) for advanced options, capability matrices, maintenance tools, and upstream evidence. Use [connection evidence](docs/mihomo-connection-evidence.md) to check the matched rule and outbound chain on Mihomo.
 
 ## Contribute
 

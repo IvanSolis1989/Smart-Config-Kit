@@ -4,6 +4,16 @@
 **English** | [简体中文](REFERENCE-xray.zh-CN.md)
 
 
+> Updated on 2026-11-28. This review covers app import, native Xray routing, and the Hysteria 2 outbound.
+
+<a id="current-review"></a>
+## Current official compatibility
+
+- v2rayN [7.25.6](https://github.com/2dust/v2rayN/releases/tag/7.25.6) (2026-10-11) is the stable release. [8.0.2](https://github.com/2dust/v2rayN/releases/tag/8.0.2) (2026-11-27) is a prerelease. Its multiple `CustomOutbound` support applies to custom outbounds. The routing documentation updated on November 21 still specifies an array. This repository's array uses the `proxy`, `direct`, and `block` targets. [Import format](https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules)
+- The app reads imported entries as `RulesItem`, skips disabled and DNS entries, then maps the remaining entries to core rules. The app model accepts `remarks` and has no `ruleTag` field. In a native Xray config, `ruleTag` identifies hits in Info logs. Use `remarks` to find entries in the app's routing editor. [Import model](https://github.com/2dust/v2rayN/blob/8.0.2/v2rayN/ServiceLib/Models/Entities/RulesItem.cs#L3-L17) · [Mapping](https://github.com/2dust/v2rayN/blob/8.0.2/v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayRoutingService.cs#L38-L64) · [Native routing fields](https://xtls.github.io/config/routing.html#ruleobject)
+- The current stable Xray core is [v26.11.9](https://github.com/XTLS/Xray-core/releases/tag/v26.11.9) (2026-11-09). Its Hysteria 2 outbound uses `protocol: hysteria` and `settings.version: 2` in the node and transport configuration. Check the selected core version and generated node configuration in the app. [Hysteria 2 outbound](https://xtls.github.io/config/outbounds/hysteria.html)
+- Review the final rule order and verify traffic against domain, IP and local-process predicates and all three outbound tags. Xray process matching applies to local Windows and Linux connections. Android requires the client to supply a process finder. [Process matching](https://xtls.github.io/config/routing.html#ruleobject)
+
 > Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Xray RoutingObject](https://xtls.github.io/config/routing.html) was rechecked; existing outboundTag mapping remains, with FCM moving from downloads/direct to Google/proxy. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
 > Updated on 2026-10-19: see the [official-version, cached-original, and local-adaptation report](../../docs/upstream/2026-10-19/singbox/report.md). Older summaries below retain their retrieval dates and were not wholly updated.

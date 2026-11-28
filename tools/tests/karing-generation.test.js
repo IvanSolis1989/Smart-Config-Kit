@@ -71,6 +71,67 @@ test('compiles nested AND and NOT plus rule-set/port/network into a standard hea
   assert.ok(profile.rules[0].rule_set[0].endsWith('.json'));
 });
 
+test('keeps a multi-row SRS as a pure URL and preserves OR under QUIC NOT and private source conditions', () => {
+  const tag = 'scki-fused-001-test';
+  const sourceRows = [
+    { domain_suffix: ['fixture.example'], ip_cidr: ['192.0.2.0/24'] },
+    { process_name: ['fixture-tool.exe'] }
+  ];
+  const input = fixture([
+    { rule_set: [tag], outbound: 'business' },
+    { type: 'logical', mode: 'and', action: 'reject', rules: [
+      { network: 'udp', port: [443] },
+      { rule_set: [tag], invert: true }
+    ] },
+    { rule_set: [tag], source_ip_cidr: ['10.0.0.0/8'], outbound: 'DIRECT' }
+  ]);
+  input.loadRuleSetSource = () => ({ version: 2, rules: sourceRows });
+  const { profile, manifest, assets } = api().buildKaring(input);
+  assert.deepEqual(profile.rules.map(rule => rule.outbound), ['currentSelected', 'block', 'direct']);
+  assert.deepEqual(profile.rules[0].rule_set, ['https://example.com/test.srs']);
+  assert.ok(!manifest.mappings[0].generated_asset);
+  const actual = index => JSON.parse(assets[manifest.mappings[index].generated_asset]);
+  const anyAlternate = { type: 'logical', mode: 'or', rules: sourceRows };
+  assert.deepEqual(actual(1), { version: 3, rules: [
+    { type: 'logical', mode: 'and', rules: [
+      { network: 'udp', port: [443] },
+      { type: 'logical', mode: 'and', rules: [anyAlternate], invert: true }
+    ] }
+  ] });
+  assert.deepEqual(actual(2), { version: 3, rules: [
+    { type: 'logical', mode: 'and', rules: [anyAlternate, { source_ip_cidr: ['10.0.0.0/8'] }] }
+  ] });
+});
+
+test('refuses overlapping inherited address and port groups inside multi-row SRS branches', () => {
+  const tag = 'scki-fused-001-test';
+  const cases = [
+    [{ domain_suffix: ['outer.example'] }, { ip_cidr: ['192.0.2.0/24'] }, 'ip_cidr'],
+    [{ port: [443] }, { port_range: ['80:90'] }, 'port_range'],
+    [{ source_port: [443] }, { source_port_range: ['80:90'] }, 'source_port_range'],
+    [{ source_ip_cidr: ['10.0.0.0/8'] }, { source_ip_cidr: ['172.16.0.0/12'] }, 'source_ip_cidr']
+  ];
+  for (const [outer, inner, field] of cases) {
+    const input = fixture([{ rule_set: [tag], ...outer, outbound: 'business' }]);
+    input.loadRuleSetSource = () => ({ version: 2, rules: [
+      { process_name: ['fixture-tool.exe'] },
+      { type: 'logical', mode: 'and', rules: [{ network: 'udp' }, inner] }
+    ] });
+    assert.throws(() => api().buildKaring(input), {
+      message: `rule-set field merging cannot be safely AND-expanded: ${tag} (${field})`
+    });
+  }
+});
+
+test('keeps overlapping fields within an inverted source branch isolated', () => {
+  const tag = 'scki-fused-001-test';
+  const input = fixture([{ rule_set: [tag], domain: ['outer.example'], outbound: 'business' }]);
+  const inverted = { type: 'logical', mode: 'and', invert: true, rules: [{ domain: ['exclude.example'] }] };
+  input.loadRuleSetSource = () => ({ version: 2, rules: [inverted, { process_name: ['fixture-tool.exe'] }] });
+  const { assets } = api().buildKaring(input);
+  const source = JSON.parse(Object.values(assets)[0]);
+  assert.deepEqual(source.rules[0].rules[0].rules[0], inverted);
+});
 test('records sniff and an empty FINAL for manual App settings without exporting catch-all rules', () => {
   const { profile, manifest } = api().buildKaring(fixture([
     { inbound: ['tun-in'], action: 'sniff' },

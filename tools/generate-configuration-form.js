@@ -6,6 +6,7 @@ const path = require('node:path');
 const { buildOfflineConfigurationBundle, renderOfflineConfigurationExporter } = require('./lib/offline-configuration-export');
 const output = path.join(__dirname, '../docs/configuration.html');
 const FORM_VERSION = '1.5.2';
+const canonicalLf = text => text.replace(/\r\n/g, '\n');
 const serialize = value => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 const { validateDisplayCatalog, renderConfigurationLocale, localizeStaticMarkup } = require('./lib/configuration-locale');
 const uiSource = fs.readFileSync(path.join(__dirname, 'lib/configuration-form-ui.js'), 'utf8').replace('__FORM_VERSION__', FORM_VERSION);
@@ -40,8 +41,9 @@ ${renderConfigurationLocale()}
 ${uiSource}
 </script></body></html>\n`;
 const scriptStart = page.indexOf('<script>');
-page = localizeStaticMarkup(page.slice(0, scriptStart)) + page.slice(scriptStart);
+// Keep checked-in output independent of Git's Windows checkout line endings.
+page = canonicalLf(localizeStaticMarkup(page.slice(0, scriptStart)) + page.slice(scriptStart));
 if (process.argv.includes('--check')) {
-  if (!fs.existsSync(output) || !configurationPagesEquivalent(fs.readFileSync(output, 'utf8'), page)) { console.error('Configuration form is out of date'); process.exitCode = 1; }
+  if (!fs.existsSync(output) || !configurationPagesEquivalent(canonicalLf(fs.readFileSync(output, 'utf8')), page)) { console.error('Configuration form is out of date'); process.exitCode = 1; }
   else console.log('Configuration form is up to date');
 } else { fs.writeFileSync(output, page); console.log(`Generated ${output}`); }

@@ -85,7 +85,7 @@ Confirm 22 automatic regional/residential groups, one global selector and 33 ser
 
 - Keep `nameserver-policy` and `fake-ip-filter`; service DNS policy is inherited from CMFA.
 - Domain / ipcidr rules use MRS; mixed rules retain compatible formats.
-- Output uses conservative DNS. Stash iOS/tvOS 3.6+ and Mac 4.3+ officially support encrypted `default-nameserver`, separate `proxy-server-nameserver` and DNS rule-set references, but this artifact does not enable them.
+- The template uses plaintext bootstrap IPs and service-specific `nameserver-policy`. See the [Stash reference](REFERENCE-Stash-wiki.md) for supported encrypted bootstrap, independent node DNS, and the requirements for DNS to follow routing rules.
 - `tolerance` uses milliseconds, but its first supported version is unconfirmed. The generator currently omits it and does not infer support for Mihomo `empty-fallback` / `exclude-type`.
 
 <a id="verification"></a>
@@ -101,11 +101,13 @@ This repository has not completed real application import and DNS-failure accept
 
 <a id="faq"></a>
 
+Stash 5.0 can simulate a route on a controller you already trust with `GET /rules/match?target=example.com&resolve=false`. Compare the matched rule, final outbound and the optional early-rejection `stage`. Use normal matching for the template’s selectable ad-blocking group. `pre-matching` uses only built-in rejection targets and evaluates them before the template’s ordinary exceptions. [Stash HTTP API](https://stash.wiki/en/features/http-api#rules) · [Rule options](https://stash.wiki/en/rules/rule-types#pre-matching)
+
 ## Troubleshooting
 
 ### No nodes after import?
 
-Check that you edited `proxy-providers.Subscribe.url` in the selected configuration and replaced the example URL. Refresh the subscription and inspect download errors. Its format must be supported by Stash.
+Check that you edited `proxy-providers.Subscribe.url` in the selected configuration and replaced the example URL. Refresh the subscription and inspect download errors. If only VLESS XHTTP + REALITY nodes are missing from a Sub-Store feed, compare the source and converted node lists. [Sub-Store compatibility and workarounds](../../SubStore/README.md#stash-xhttp-reality-subscription)
 
 ### Unexpected direct connections after starting?
 

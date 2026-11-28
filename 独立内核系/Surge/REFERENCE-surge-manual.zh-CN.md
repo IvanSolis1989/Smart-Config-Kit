@@ -15,7 +15,14 @@
 
 > 更新于 2026-10-19（上次专题摘要 2026-05-31）：官方正文、版本 metadata、取舍与验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)。原文快照及哈希见[来源清单](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
-## 当前复核结论
+<a id="当前复核结论"></a>
+## 2026-11-28 兼容性复核
+
+- 正式版为 Surge iOS 6.0.1（2026-11-19，iOS/iPadOS 17+）和 Mac 6.12.0 build 12880（2026-11-16）。已查到的测试通告为 Mac 6.13.0（12910）、iOS 6.100.0（4045）、tvOS 5.102.0（4033，标注 Surge tvOS 6.0 RC1）。商店列出 tvOS 17+，暂未单独核实 tvOS 正式 build。[iOS App Store](https://apps.apple.com/us/app/surge-6/id1442620678) · [Mac 发行说明](https://nssurge.com/support/mac/release-notes/) · [Mac 测试版](https://t.me/SurgeChangelog/2492) · [iOS 测试版](https://t.me/SurgeChangelog/2496) · [tvOS RC](https://t.me/SurgeChangelog/2489)
+- 用本地 `surge-cli --check <path>` 验证配置解析。配置在设备上生效后，用 `rule explain` 核对规则集条目与策略链，用 `dns trace` 核对解析器与接口。开启 VIF 后核对 Mac 或 iOS Fake IP 响应器，启用 IPv6 时也测 `fd00:6152::2`，再确认请求日志恢复原域名。tvOS 部署后先核对外部资源就绪，再比对重启前后的规则和出口。真机验收待完成。[CLI](https://manual.nssurge.com/tools/cli.html) · [Fake IP DNS](https://manual.nssurge.com/dns/advanced.html) · [tvOS 指南](https://kb.nssurge.com/surge-knowledge-base/guidelines/tvos)
+- 当前配置采用 `block-quic = all-proxy`。Surge 6 自适应阻断是支持 UDP 中继的策略上的独立行为，适合用会回退 TCP 的 HTTP/3、仅支持 QUIC 的业务、同端口非 QUIC UDP 验证。移除百万条规则集上限并未提供本配置的内存或冷启动测量。[Surge iOS 6 发行说明](https://nssurge.com/surge-ios-6/release-notes) · [规则集](https://manual.nssurge.com/rules/ruleset.html)
+
+## 2026-10-19 复核结论
 
 - Surge iOS 稳定版 5.23.0（2026-10-12 UTC）；Mac 稳定版 6.10.0/12500（2026-10-12 UTC）。Mac beta feed 为 6.11.0/12560（2026-10-16 UTC），enclosure 与旧 title 冲突已原样保留，不混入稳定版结论。
 - 官方 [Profile Format](https://manual.nssurge.com/profile/format.html)不识别 `[DNS]`；DNS 全局键位于 `[General]`。旧文的独立 DNS 节、`fallback-dns-server` 和 `dns-direct-fallback-proxy` 说明错误，已纠正。

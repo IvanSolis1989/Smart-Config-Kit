@@ -4,6 +4,8 @@
 **English** | [简体中文](REFERENCE-Egern.zh-CN.md)
 
 
+> Updated on 2026-11-28 (previous review 2026-10-28). Verified the Apple storefront and the official policy group, routing rule, and DNS references.
+
 > Reviewed on 2026-10-28: only GoogleFCM moved from downloads/updates to Google services. [Egern Rules](https://egernapp.com/docs/configuration/rules/) was rechecked; existing native targets and ordered matching were retained without introducing Mihomo MRS. DNS, fake-IP, sniffing, other push services, and node groups were unchanged. No fields, minimum versions, or device-pass claims were added.
 
 > Updated on 2026-10-19 (previous field review: 2026-09-30). See the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md) and [cache receipt](../../docs/upstream/2026-10-19/apple/manifest.json) for complete official text, versions, and verification gaps.
@@ -11,11 +13,12 @@
 <a id="当前复核结论"></a>
 ## Current review conclusions
 
-- Apple US/JP stable version was 2.20.0, dated 2026-07-23 UTC. An officially verifiable prerelease version/date was not obtained and remains pending.
+- Apple US/JP lists Egern 2.21.0, published 2026-11-05 JST. The release notes confirm source IP rules, SSR, Tailscale, and a fix for Fake-IP pool exhaustion. [Apple release record](https://itunes.apple.com/lookup?id=1616105820&country=us)
 - [Policy Groups](https://egernapp.com/docs/configuration/policy_groups/) allows basic groups to attach `urls` directly and mix static nodes. `external` remains compatible; existing Subscribe/flatten/filter does not require migration.
 - Egern `smart` uses its own health scores and actual failure feedback. The existing 22 native smart groups consume client improvements, not Mihomo LightGBM.
 - [Rules](https://egernapp.com/docs/configuration/rules/) still uses native YAML sets and remote `rule_set`. No MRS or Clash PROCESS-NAME support evidence was obtained; generated conversion and process-rule exceptions remain.
-- 2.20.0 explicitly added Snell v1–v5, SSH, SOCKS5-TLS, and more REALITY/gRPC capabilities. These are node/subscription capabilities, not routing changes in this revision. DNS follows [native forward/upstreams](https://egernapp.com/docs/configuration/dns/).
+- App Store 2.21.0 release notes list `SRC-IP`, but the public routing manual still omits the native YAML field and rule-set schema. The generated profile omits that predicate. Confirm the exact syntax from a native export and verify that two sources reaching the same destination can select different policies before adding any projection. Destination `ip_cidr` matches a different connection field. [Apple release record](https://itunes.apple.com/lookup?id=1616105820&country=us) · [Official rule types](https://egernapp.com/docs/configuration/rules/#supported-rules)
+- Default DNS takes the first matching `forward` entry. Explicit `proxy_nameservers` bypasses `forward` for proxy DNS and always connects directly to its resolvers. The profile uses literal DoH URLs. Version 2.21.0 also lists upstream group names in `proxy_nameservers`, while the DNS manual examples still use resolver addresses. Retain the existing explicit addresses. If evaluating a native export with group names, compare default and proxy lookups and check fallback and reachability independently. [Official DNS](https://egernapp.com/docs/configuration/dns/#proxy-nameservers-forced-upstream-for-proxy-dns) · [Apple release record](https://itunes.apple.com/lookup?id=1616105820&country=us)
 
 <a id="历史摘要边界"></a>
 ## Historical-summary boundaries

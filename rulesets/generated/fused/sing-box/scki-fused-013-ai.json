@@ -3,7 +3,9 @@
   "rules": [
     {
       "domain": [
-        "designerapp.officeapps.live.com"
+        "designerapp.officeapps.live.com",
+        "cr.m365copilotapp.svc.cloud.microsoft",
+        "copilot.cloud.microsoft"
       ]
     }
   ]

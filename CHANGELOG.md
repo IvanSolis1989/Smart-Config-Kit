@@ -16,6 +16,13 @@
 [![Documentation](docs/assets/readme/nav-docs.svg)](docs/README.md) [Back to README](README.md) · [Documentation center](docs/README.md)
 
 
+## v6.0.23 (2026-11-28)
+
+- Scope the Copilot routing exception to service domains across clients and renew their asset URLs. See the [routing change](Mihomo内核系/Clash%20Party/CHANGELOG.md#v6023-dns30--v6023-normal30-2026-11-28).
+- Update official client compatibility, verify native rule and config behavior, and add local route evidence and source coverage checks. See the [maintenance tools](tools/README.md) and [source review](docs/research/2026-11-28-blackmatrix7-source-resilience.md).
+- Preserve independent destination and process matches in 19 sing-box rule sets. Keep their policy order and use Passwall-compatible revisioned asset URLs.
+- Route ChatGPT and Claude desktop traffic by destination so embedded browser pages can use their own policies.
+
 ## Global selector and Issue bridge follow-up (2026-11-27)
 
 - Add existing residential groups to the global selector on supported clients. See the [routing guide](docs/guide/routing-policy.md).

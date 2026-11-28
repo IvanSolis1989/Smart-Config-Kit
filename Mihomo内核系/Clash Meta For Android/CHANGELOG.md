@@ -16,6 +16,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.23-cmfa.19 (2026-11-28)
+
+- Use the narrowed Copilot AI rule asset and a new asset cache revision.
+- Update the reference for CMFA 2.11.37 and the Android hotspot test channel.
+
 ## v6.0.22-cmfa.18 (2026-11-27)
 
 - Issue #206 includes global and regional residential groups after the ordinary region candidates in the global selector.

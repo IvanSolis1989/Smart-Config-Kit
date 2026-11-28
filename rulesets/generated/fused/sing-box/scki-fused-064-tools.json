@@ -820,14 +820,16 @@
         "2620:10f:d000::/44",
         "2a02:6b8::/29"
       ],
+      "domain_keyword": [
+        "registry",
+        "huggingface"
+      ]
+    },
+    {
       "process_name": [
         "UnityHub.exe",
         "OrbStack",
         "OrbStack Helper"
-      ],
-      "domain_keyword": [
-        "registry",
-        "huggingface"
       ]
     }
   ]

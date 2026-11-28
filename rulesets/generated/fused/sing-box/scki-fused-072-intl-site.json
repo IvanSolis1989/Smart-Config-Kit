@@ -494,7 +494,9 @@
         "seesaw",
         "getepic",
         "overdrive"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "mega.privacy.android.app"
       ]

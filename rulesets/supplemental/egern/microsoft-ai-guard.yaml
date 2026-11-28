@@ -2,3 +2,5 @@
 # Source: rulesets/supplemental/clash/microsoft-ai-guard.list
 domain_set:
   - "designerapp.officeapps.live.com"
+  - "cr.m365copilotapp.svc.cloud.microsoft"
+  - "copilot.cloud.microsoft"

@@ -23,9 +23,9 @@
 
 ## 开始前
 
-准备 Surge、可用的机场订阅 URL，以及下方配置直链。截至 2026-10-19，官方稳定版 Surge 5.23.0 要求 iOS 17+；Surge Mac 6.10.0 要求 macOS 12+。商店地区与版本证据见[复核报告](../../docs/upstream/2026-10-19/apple/report.zh-CN.md)。
+准备 Surge、可用的机场订阅 URL 和下方配置直链。截至 2026-11-28，美国 App Store 的 Surge 正式版为 6.0.1，要求 iOS/iPadOS 17 或更新版本。原生 Mac 正式版为 6.12.0 build 12880。[iOS App Store](https://apps.apple.com/us/app/surge-6/id1442620678) · [Mac 发行说明](https://nssurge.com/support/mac/release-notes/)
 
-- iOS 从 App Store 安装 Surge 5，Mac 从 [Surge 官网](https://nssurge.com/)获取；授权与价格以官方页面为准。
+- iOS 从 App Store 安装 Surge，Mac 从 [Surge 官网](https://nssurge.com/)获取；授权与价格以官方页面为准。
 - 本仓库 `.conf` 不包含可用机场节点；`RULE-SET` 需要联网下载。
 - 区域组使用 `url-test`，Surge 原生 smart 与 Mihomo Smart / LightGBM 是不同能力。MITM 与脚本默认关闭。
 
@@ -152,6 +152,7 @@ MMDB 由配置中的 `geoip-maxmind-url` 指定。检查数据库下载状态；
 2. 确认订阅与全部 `RULE-SET` 下载成功；连接开关开启不能代替下载检查。
 3. 访问 `chat.openai.com`、`www.netflix.com`、`www.bilibili.com`，在**活动（Activity）/ Recent Requests**中核对 AI、Netflix、国内流媒体的命中规则与实际出口。
 4. 完成[DNS 与导入后验证清单](../../docs/guide/dns-and-verification.zh-CN.md#verification)，按需复测 Wi-Fi / 蜂窝切换。
+5. Apple TV 上从 Surge iOS 部署配置，首次启动后在远程控制器检查外部资源状态。资源尚未下载或下载失败时，规则集和策略组可能为空，部分流量可能暂时走 `DIRECT`。资源就绪后核对命中规则和最终出口，重启 App 后复测。[Surge tvOS 指南](https://kb.nssurge.com/surge-knowledge-base/guidelines/tvos)
 
 若日志没有请求、组内为空或出口不符，继续按下方 FAQ 排查。
 

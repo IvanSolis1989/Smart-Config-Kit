@@ -23,6 +23,8 @@ Deploy a Shell override for an existing node subscription on OpenWrt to generate
 
 ## Before you start: identify the core and back up
 
+Check the OpenClash plug-in version and its selected core separately in LuCI. The GitHub stable release is v0.48.002. The dev workflow built 0.48.016, with an optional package build that includes the Meta core. A normal install can fetch a separate core. Select the script below using the router's active core. [Stable release](https://github.com/vernesong/OpenClash/releases/tag/v0.48.002) · [0.48.016 dev build](https://github.com/vernesong/OpenClash/actions/runs/43793877973)
+
 Install the plugin from [official OpenClash](https://github.com/vernesong/OpenClash). Prepare a Mihomo node subscription accessible from the router. Back up existing plugin settings and custom scripts; merge any existing custom logic before deployment.
 
 | Selection | Required core and regional groups |
@@ -160,6 +162,10 @@ LuCI → **Configuration subscriptions** → add URL → download → choose the
 <a id="faq"></a>
 
 ## Troubleshooting
+
+### MagicDNS on a Tailscale router
+
+The OpenClash dev fix for MagicDNS handles router DNS interception and the native Tailscale module supplies a split DNS policy. This repository's fixed script runs after OpenClash's YAML steps and writes its own DNS block. Verify that the final YAML still has the intended tailnet policy and fake-IP exclusions if the selected path depends on Mihomo DNS. When dnsmasq forwards the tailnet zone directly to a reachable Tailscale stub, check that path on the router and from the LAN. Compare one full MagicDNS name and one public name before and after reload. Keep the stub scoped to the tailnet DNS path. [OpenClash issue](https://github.com/vernesong/OpenClash/issues/5378) · [Upstream dev change](https://github.com/vernesong/OpenClash/commit/a0ac7ff7f4ff08c96a16ee6f4adf36f2eaa174b6) · [Tailscale DNS documentation](https://tailscale.com/docs/reference/dns-in-tailscale)
 
 ### Q1: Can I use these rules without a Smart core?
 

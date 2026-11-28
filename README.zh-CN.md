@@ -87,7 +87,7 @@
 
 **管理多机场订阅**　[Sub-Store 聚合教程](SubStore/README.zh-CN.md) · [浏览器同步助手](SubStore/edge-extension/README.zh-CN.md)
 
-更多高级选项、能力矩阵、维护工具与官方证据，见[文档中心](docs/README.zh-CN.md)。
+更多高级选项、能力矩阵、维护工具与官方证据，见[文档中心](docs/README.zh-CN.md)。Mihomo 命中规则和出口链可按[连接证据指南](docs/mihomo-connection-evidence.zh-CN.md)核对。
 
 ## 参与项目
 

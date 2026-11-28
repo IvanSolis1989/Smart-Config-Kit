@@ -1,7 +1,4 @@
 payload:
-  - "PROCESS-NAME,Claude"
-  - "PROCESS-NAME,Claude Helper"
-  - "PROCESS-NAME,Claude Helper (Renderer)"
   - "PROCESS-NAME,LM Studio"
   - "PROCESS-NAME,grok"
   - "PROCESS-NAME,Code Helper"
@@ -19,7 +16,6 @@ payload:
   - "DOMAIN-KEYWORD,claude"
   - "DOMAIN-KEYWORD,grok"
   - "DOMAIN-KEYWORD,bing"
-  - "DOMAIN-KEYWORD,copilot"
   - "DOMAIN-KEYWORD,edgeassetservice"
   - "DOMAIN-KEYWORD,colab"
   - "DOMAIN-KEYWORD,developerprofiles"

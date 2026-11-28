@@ -14,6 +14,12 @@ Candidate checks, historical production entry points and actual-device acceptanc
 
 <a id="2026-10-27beta18-真实失败与新本地候选"></a>
 
+### 2026-11-28: separate asset revisions and App acceptance
+
+Smart-Config-Kit `485453aa` binds the Lite JS `v6.0.22-meow.11` to the `v6.0.22-meow.5` asset manifest by fused baseline and LF-normalized SHA-256. Each of the six split files still has its own path, byte count and digest. The official v0.26.1 and v0.30.0 core checks loaded all 153 local providers and 172 projected rules with synthetic nodes. [Release-batch change](https://github.com/IvanSolis1989/Smart-Config-Kit/commit/6eddfe27fd711e1e6eab78cfe026da2e35fc919c) · [Adapter manifest](../adapter-manifest.json) · [Core check](../Meow/REFERENCE-meow-rs.md#actual-core-validation).
+
+The [public v45 package](https://github.com/IvanSolis1989/Aerove/releases/tag/lite-offlineprobe-v45-20261113) is test-signed and its release record does not bind the current JS/asset batch. This review found no available Android emulator with a verified build of the current batch. The pending acceptance is the target APK's script execution, all-resource preflight, effective YAML, provider download via the selected proxy with its headers, recovery, VPN and matched routes.
+
 ### 2026-10-27: real beta18 failure and new local candidate
 
 Pinned beta18 [`457fab8455ac8713fc9828e129d2050b11bf1beb`](https://github.com/IvanSolis1989/Aerove/commit/457fab8455ac8713fc9828e129d2050b11bf1beb), [run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068), attempt 1, executed the complete Smart case. Old three-shard `part-001` failed with `rule-provider trie exceeds 500000 nodes`. The pinned Rust reader reproduced rejection of old part-001 and part-002 and found the original 075 China-site asset also over budget. See [splitting evidence](RESOURCE-SPLITTING.md) for causes and counts.

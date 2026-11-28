@@ -52,6 +52,37 @@ test('each schema uses its supported download and DNS response mechanisms', () =
   }
 });
 
+const fusedDirectory = path.join(root, 'rulesets/generated/fused');
+const fusedManifest = JSON.parse(fs.readFileSync(path.join(fusedDirectory, 'manifest.json'), 'utf8'));
+
+// Issue #187 separates the WeChat download hostname from the sibling ad hostname.
+// Include adjacent domain labels and both IP families to detect conversion widening.
+const nativeProbes = [
+  { provider: 'scki-download-guard-domain', action: 'route', outbound: '📥 下载更新', probes: [
+    ['dldir1.qq.com', true], ['child.dldir1.qq.com', false], ['notdldir1.qq.com', false], ['dldir2.qq.com', false]
+  ] },
+  { provider: 'anti-ad', action: 'reject', probes: [
+    ['dldir2.qq.com', true], ['dldir1.qq.com', false]
+  ] },
+  { provider: 'cn-ip', action: 'route', outbound: '🏠 国内网站', probes: [
+    ['1.0.1.1', true], ['1.0.0.255', false], ['240e::1', true], ['2606:4700:4700::1111', false]
+  ] }
+];
+
+function cleanCoreEnv() {
+  const env = { ...process.env, NO_COLOR: '1' };
+  for (const key of Object.keys(env)) if (key.startsWith('ENABLE_DEPRECATED_')) delete env[key];
+  return env;
+}
+
+function runCore(binary, args, env) {
+  const result = spawnSync(binary, args, { encoding: 'utf8', env, timeout: 30000, windowsHide: true });
+  if (result.error) throw result.error;
+  const output = result.stdout + result.stderr;
+  assert.equal(result.status, 0, [args.join(' '), output].join('\n'));
+  return output;
+}
+
 const executable = process.platform === 'win32' ? 'sing-box.exe' : 'sing-box';
 const candidates = [
   ['1.14', 'SING_BOX_114_BIN', path.join(root, '.cache/official-singbox-1.14.3/sing-box-1.14.3-windows-amd64', executable), fullPath],
@@ -62,15 +93,39 @@ for (const [line, envName, fallbackBinary, filename] of candidates) {
   const binary = explicitlyConfigured ? process.env[envName] : fallbackBinary;
   test(`official sing-box ${line} accepts its generated profile without legacy overrides`, { skip: !explicitlyConfigured && !fs.existsSync(binary) }, () => {
     assert.ok(binary && fs.existsSync(binary) && fs.statSync(binary).isFile(), `${envName} points to a missing or non-file executable: ${binary}`);
-    const env = { ...process.env, NO_COLOR: '1' };
-    for (const key of Object.keys(env)) if (key.startsWith('ENABLE_DEPRECATED_')) delete env[key];
-    const version = spawnSync(binary, ['version'], { encoding: 'utf8', env, timeout: 30000 });
-    assert.equal(version.status, 0, version.stderr);
-    assert.match(version.stdout, new RegExp(`sing-box version ${line.replace('.', '\\.')}\\.`));
-    const checked = spawnSync(binary, ['check', '-c', filename], { encoding: 'utf8', env, timeout: 30000 });
-    assert.equal(checked.status, 0, `${checked.stdout}\n${checked.stderr}`);
-    assert.doesNotMatch(checked.stdout + checked.stderr, /deprecated|unknown field|FATAL/i);
+    const env = cleanCoreEnv();
+    const version = runCore(binary, ['version'], env);
+    assert.match(version, new RegExp(`sing-box version ${line.replace('.', '\\.')}\\.`));
+    const checked = runCore(binary, ['check', '-c', filename], env);
+    assert.doesNotMatch(checked, /deprecated|unknown field|FATAL/i);
   });
+
+  test(`official sing-box ${line} matches fused source and binary assets at policy boundaries`,
+    { skip: !explicitlyConfigured && !fs.existsSync(binary) }, () => {
+      assert.ok(binary && fs.existsSync(binary) && fs.statSync(binary).isFile(),
+        `${envName} points to a missing or non-file executable: ${binary}`);
+      const env = cleanCoreEnv();
+      const config = filename === fullPath ? full : compat;
+      for (const { provider, action, outbound, probes } of nativeProbes) {
+        const sourceSegment = fusedManifest.source_segments.find(segment =>
+          segment.source_rules.some(rule => rule.startsWith(`RULE-SET,${provider},`)));
+        const segment = fusedManifest.segments.find(item => item.id === sourceSegment?.id);
+        const payload = segment?.files.sing_box;
+        assert.ok(payload, `missing fused sing-box assets for ${provider}`);
+        const route = config.route.rules.find(rule => rule.rule_set?.includes(segment.id));
+        assert.equal(route?.action, action, segment.id);
+        assert.equal(route.outbound, outbound, segment.id);
+        for (const [format, asset] of [['source', payload.source], ['binary', payload.file]]) {
+          const file = path.join(fusedDirectory, 'sing-box', asset);
+          for (const [lookup, expected] of probes) {
+            const output = runCore(binary, ['rule-set', 'match', '-f', format, file, '--', lookup], env);
+            const label = `${segment.id} ${format} ${lookup}`;
+            if (expected) assert.match(output, /^match rules\.\[\d+\]:/m, label);
+            else assert.equal(output.trim(), '', label);
+          }
+        }
+      }
+    });
 
   test(`invalid explicit ${envName} fails instead of skipping the core check`, () => {
     const missing = path.join(root, '.cache', `missing-core-${process.pid}-${line}`, executable);

@@ -18,6 +18,14 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Back to README](../../README.md) · [Documentation center](../../docs/README.md)
 
+## v6.0.23-dns.30 / v6.0.23-normal.30 (2026-11-28)
+
+- Remove the broad Copilot keyword from the upstream AI provider. Keep the existing Microsoft and GitHub Copilot domain rules in the AI policy. The targeted asset rebuild preserves routing order.
+- Document the 2.0.5 Local Config and remote-profile JS paths, including DNS handling and bundled core variants.
+- Correct the sing-box projection of the shared rule graph so independent process and destination predicates remain alternatives.
+- Keep the dedicated Microsoft Copilot App and Edge Copilot Chat hosts in the AI guard as exact domains.
+- Filter standalone ChatGPT and Claude desktop process names from two AI sources, while preserving official domains and other process rules.
+
 ## v6.0.22-dns.29 / v6.0.22-normal.29 (2026-11-27)
 
 - Issue #206 includes existing global and regional residential groups after the ordinary regional choices in the global selector. Global automatic remains first and absent residential groups are omitted.

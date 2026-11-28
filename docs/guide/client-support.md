@@ -38,7 +38,7 @@ The [Meow core family](../../Meow内核系/README.md) has separate client entry 
 
 ## <a id="protocols"></a>Protocol support matrix
 
-The matrix retains the verification baseline of **2026-10-19** and describes core or client capabilities. Connections must still be validated on the actual device. It does not extend capability claims to clients without a dedicated column, including FlClash, Karing, or the Meow family. For Meow core fields and app integration, see the [official-source reference](../../Meow内核系/Meow/REFERENCE-meow-rs.md) and [AEROVE validation record](../../Meow内核系/Aerove%20Lite/VALIDATION.md).
+The matrix describes core and client capabilities. It retains the **2026-10-19** baseline with the later Xray Hysteria 2 verification noted below. Connections must still be validated on the actual device. It does not extend capability claims to clients without a dedicated column, including FlClash, Karing, or the Meow family. For Meow core fields and app integration, see the [official-source reference](../../Meow内核系/Meow/REFERENCE-meow-rs.md) and [AEROVE validation record](../../Meow内核系/Aerove%20Lite/VALIDATION.md).
 
 **✓ Supported**　 **△ Conditional**　 **— Unsupported**
 
@@ -132,7 +132,7 @@ SR = Shadowrocket.
 | **REALITY + Vision** | ✓ | ✓ |
 | **Trojan** | ✓ | ✓ |
 | **Hysteria 1** | ✓ | — |
-| **Hysteria 2** | ✓ | — |
+| **Hysteria 2** | ✓ | △⁸ |
 | **TUIC v5** | ✓ | — |
 | **WireGuard** | ✓ | △ |
 | **AnyTLS** | ✓ | — |
@@ -154,6 +154,7 @@ The following conditions correspond to the matrix footnotes:
 - **⁵ Surge AnyTLS**: iOS 5.17.0+ / Mac 6.4.3+.
 - **⁶ Loon AnyTLS**: 3.3.9+.
 - **⁷ Quantumult X AnyTLS**: 1.6.0+.
+- **⁸ v2rayN Xray Hysteria 2** requires an Xray version that supports the native outbound. Confirm the core used by the node in the app and test a connection with the node's obfuscation and port-hop settings. [Official outbound documentation](https://xtls.github.io/config/outbounds/hysteria.html) · [v2rayN 7.25.6 node generator](https://github.com/2dust/v2rayN/blob/7.25.6/v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayOutboundService.cs#L178-L192) · [Routing import scope](../../Xray内核系/v2rayN/REFERENCE-xray.md#current-review)
 
 [Official evidence and unverified items](../upstream/2026-10-19/apple/report.md).
 
@@ -163,12 +164,16 @@ The Clash Party category includes Clash Party, Clash Verge Rev, and Mihomo Party
 <a id="常见选择"></a>
 ### Common choices
 
-For common protocols (SS / VMess / Trojan), choose by device. For VLESS + REALITY, consider Mihomo / sing-box / SR / Loon / v2rayN. For Hysteria 2 / TUIC, avoid older Surge versions, QX, and Xray. **LightGBM automatic selection** requires Clash Party or OpenClash with the Smart Alpha core.
+For common protocols (SS / VMess / Trojan), choose by device. For VLESS + REALITY, consider Mihomo / sing-box / SR / Loon / v2rayN. Mihomo and sing-box both support Hysteria 2 and TUIC. For Hysteria 2 in v2rayN with Xray, check the core as described above. **LightGBM automatic selection** requires Clash Party or OpenClash with the Smart Alpha core.
 
 <a id="其他导入边界"></a>
 ### Other import boundaries
 
-ShellCrash (formerly ShellClash, in mihomo mode) can use CMFA YAML, but inspect overrides after startup. HomeProxy generates configuration through UCI; full JSON import has not been validated. Stash and Egern use their respective YAML files. Passwall / Passwall2 fused SRS fallbacks apply only to sing-box routing nodes. Happ routing profiles differ from v2rayN RuleObject arrays, so this repository’s Xray JSON cannot be imported directly into Happ. See the [additional consumer review](../upstream/2026-10-19/consumers/report.md) and individual client guides.
+- **ShellCrash** can use CMFA YAML in mihomo mode. With app overrides enabled, inspect the effective DNS, rule order, and rule providers after startup. Mix and route modes can add a `cn` MRS provider. [Stable release source](https://github.com/juewuy/ShellCrash/blob/1.9.4/scripts/starts/clash_modify.sh#L177-L211)
+- **Clash Mi** reuses CMFA YAML. The app applies its built-in settings after the subscription and custom override. If you enable Apple's supplementary push rules on iOS, check APNs capture settings and the final route. [Official FAQ](https://clashmi.app/guide/faq)
+- **Clash Verge Rev** uses the Normal override. Check whether the subscription extension replaces DNS policy, whether the app takes control of TUN or IPv6, and which rules apply after reloading. The 2.6.0 AutoBuild can add rules from connection details and switch a parent group when selecting some nodes. Check those rules and the actual egress separately in that channel. [Override order](https://www.clashverge.dev/guide/extend.html) · [AutoBuild](https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/autobuild)
+- **Happ** manages native routing profiles per subscription and applies changes after a reconnect. A JSON subscription can have at most one provider-bundled profile. Use the routing-rule array in v2rayN. Desktop 4.8.3 fixes TUN domain routing for some JSON subscriptions. Check the import format and actual matches after reconnecting. [Official routing documentation](https://www.happ.su/main/dev-docs/routing) · [Desktop 4.8.3](https://github.com/Happ-proxy/happ-desktop/releases/tag/4.8.3)
+- **HomeProxy** generates configuration through UCI, and full JSON import remains unverified. **Stash** and **Egern** use their own YAML files. **Passwall** and **Passwall2** use fused SRS only with sing-box shunt nodes. [Additional consumer review](../upstream/2026-10-19/consumers/report.md)
 
 
 For complete setup entry points, see [Downloads and import](downloads.md). For platform DNS behavior and post-import checks, see [DNS and runtime verification](dns-and-verification.md).

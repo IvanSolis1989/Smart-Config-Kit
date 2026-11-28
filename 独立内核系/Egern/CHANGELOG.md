@@ -9,6 +9,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project home](../../README.md) · [Repository documentation](../../docs/README.md)
 
+## v6.0.23-egern.17 (2026-11-28)
+
+- Regenerate the Copilot residual rule set with the broad keyword removed.
+- Update Egern 2.21 reference material and distinguish the documented DNS settings from source-IP and Tailscale features awaiting YAML verification.
+
 ## v6.0.22-egern.16 (2026-11-27)
 
 - Append the existing global and regional residential groups to the global selector after ordinary regions, preserving the automatic default and existing policy choices (#206).

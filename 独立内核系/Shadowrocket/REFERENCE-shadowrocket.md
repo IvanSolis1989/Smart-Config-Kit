@@ -10,7 +10,14 @@
 > Updated 2026-10-19 (previous topic summary 2026-05-31): official release metadata and retrieved text are in the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md); download status and hashes are in the [cache receipts](../../docs/upstream/2026-10-19/apple/manifest.json).
 
 <a id="当前复核结论"></a>
-## Current review findings
+<a id="current-review-findings"></a>
+## Compatibility review on 2026-11-28
+
+- The US App Store lists 2.2.93 (2026-10-29, iOS 13+). The publisher’s channel lists test build 2.2.94 (3516, 2026-11-27 JST). [App Store](https://apps.apple.com/us/app/shadowrocket/id932747118) · [Test build](https://t.me/ShadowrocketNews/1684)
+- The 2.2.93 tunnel fix covers LAN exclusions under Enforce Routes and routing-option precedence. The store describes the behavior. The developer site and public help URL did not establish Shadowrocket-specific Fake IP pool and exclusion syntax. Validate a cold import and rule refresh, LAN and proxied traffic with Enforce Routes on and off, and A/AAAA/CNAME results for a locally controlled resolution test. [App Store release history](https://apps.apple.com/us/app/shadowrocket/id932747118)
+- Test build 3515 fixes direct DNS routing for internal resolution and SOCKS5 UDP. The new DNS selection mentioned in 2.2.92 belongs in a separate test profile after the exact fields can be read from the app. [Build 3515 notes](https://t.me/ShadowrocketNews/1683)
+
+## 2026-10-19 review findings
 
 - US/JP stable versions were both 2.2.92, dated 2026-09-07 UTC. No official prerelease metadata establishing a version/date was obtained; pending.
 - The App Store developer link points to [Shadow Launch’s official website](https://shadowlaunch.com/). It was accessible but contained no configuration syntax. `help.shadowrocket.net` was inaccessible and its current official ownership chain was not established; the historical “official help site” label is not a newly verified fact.

@@ -15,10 +15,12 @@ DOMAIN-SUFFIX,cerebras.ai
 DOMAIN-SUFFIX,chinacloudapp.cn
 DOMAIN-SUFFIX,cjfdbemmaeeohgibnhdhlakiahifjjcf
 DOMAIN-SUFFIX,clickserve.dartsearch.net
+DOMAIN-SUFFIX,copilot.microsoft.com
 DOMAIN-SUFFIX,delve.office.com
 DOMAIN-SUFFIX,facebook.net
 DOMAIN-SUFFIX,github.gallery.vsassets.io
 DOMAIN-SUFFIX,github.gallerycdn.vsassets.io
+DOMAIN-SUFFIX,githubcopilot.com
 DOMAIN-SUFFIX,gtm.oasisfeng.com
 DOMAIN-SUFFIX,hexun.com
 DOMAIN-SUFFIX,latest-swx.cdn.skype.com
@@ -84,15 +86,11 @@ DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
 DOMAIN-KEYWORD,grok
 DOMAIN-KEYWORD,bing
-DOMAIN-KEYWORD,copilot
 DOMAIN-KEYWORD,edgeassetservice
 DOMAIN-KEYWORD,gmail
 DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,goog
 DOMAIN-KEYWORD,antigravity
-PROCESS-NAME,Claude
-PROCESS-NAME,Claude Helper
-PROCESS-NAME,Claude Helper (Renderer)
 PROCESS-NAME,LM Studio
 PROCESS-NAME,grok
 PROCESS-NAME,Code Helper

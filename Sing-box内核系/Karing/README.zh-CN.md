@@ -17,7 +17,7 @@
 
 [开始前](#before-start) · [分步导入](#import) · [导入验收](#verification) · [常见问题](#faq) · [进阶参考](#advanced)
 
-> 配置版本：`v6.0.21-karing.3` · Build：2026-11-09。规则源：`rulesets/source/routing-graph.js` v6.0.21，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
+> 配置版本：`v6.0.23-karing.5` · Build：2026-11-28。规则源：`rulesets/source/routing-graph.js` v6.0.23，经 fused manifest 和 SingBox 1.13 路由派生。历史见 [CHANGELOG](CHANGELOG.md)。
 
 <a id="before-start"></a>
 <a id="下载配置"></a>
@@ -34,6 +34,8 @@
 [![下载 Karing 分流 JSON](../../docs/assets/readme/zh-CN/button-karing-json.svg)](https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main/Sing-box%E5%86%85%E6%A0%B8%E7%B3%BB/Karing/diversion_rules_custom.json)
 
 按钮打开 Raw 文件，可复制链接或另存为。普通导入只需这一份 JSON；它会引用远程融合 SRS 和复杂条件的标准 sing-box source 规则集。
+
+GitHub 与美国 App Store 当前的稳定版为 **1.2.26.2934**。导入后按下文核对远程资产登记和下载。通过订阅设置的私有 DNS 属于订阅配置。[版本与 DNS 依据](REFERENCE-Karing.zh-CN.md)
 
 ### 在线选择与本地导入
 
@@ -52,7 +54,7 @@
 4. 检查动作：`direct` 和 `block` 按源配置默认动作生成，代理业务统一使用 `currentSelected`。需要独立地区或业务出口时，先在 Karing 创建自定义节点组，再逐项绑定对应分流规则；本文件不会自动创建或恢复原配置的嵌套策略组。
 5. 在 Karing 分流设置中，将 **最终默认动作**选为 **当前选择**。导入文件没有空匹配 FINAL。
 6. 在 App 中核对 DNS、TUN、嗅探和规则下载设置，并检查 ISP / 内置国家地区规则是否抢先匹配，按需要调整。
-7. **受影响版本的注册检查**：Karing 1.2.25.2802 已报告“组已导入，但探测中没有对应 SRS”。若遇到此现象，逐个打开 `SCKI` 自定义组，不改任何内容直接保存；这会走 App 的远程资产注册路径。不要合并或改动规则顺序。当前没有已验证的一键批量替代方法。
+7. **检查远程资产登记。** Karing 1.2.25.2802 已报告“组已导入，但探测中没有对应 SRS”。1.2.26.2934 的自动登记尚无真机验证，升级后也要检查。若遇到此现象，逐个打开 `SCKI` 自定义组，不改任何内容直接保存；这会走 App 的远程资产注册路径。不要合并或改动规则顺序。当前没有已验证的一键批量替代方法。
 8. 返回 Karing 首页，关闭再打开连接使设置生效；随后打开 **分流规则探测**，确认远程规则下载成功，再进行下方验收。
 
 入口依据见官方[自定义分流](https://karing.app/tutorial/custom-diversion)、[分流组编辑](https://karing.app/app-manual/diversion-rule-edit)及[固定源码与兼容边界](REFERENCE-Karing.zh-CN.md)。

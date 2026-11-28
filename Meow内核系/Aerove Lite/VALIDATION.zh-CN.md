@@ -8,6 +8,12 @@
 
 ## 核查基线
 
+### 2026-11-28：独立资产修订和 App 验收
+
+Smart-Config-Kit `485453aa` 通过相同融合基线及 LF 规范化 SHA-256，将 Lite JS `v6.0.22-meow.11` 绑定到 `v6.0.22-meow.5` 资源清单。六个分片仍逐个校验路径、字节数和哈希。官方 v0.26.1 和 v0.30.0 核心检查均以合成节点加载了 153 个本地 provider 和 172 条投影规则。[发布批次校验变更](https://github.com/IvanSolis1989/Smart-Config-Kit/commit/6eddfe27fd711e1e6eab78cfe026da2e35fc919c) · [适配清单](../adapter-manifest.json) · [核心检查](../Meow/REFERENCE-meow-rs.zh-CN.md#实际核心验证)。
+
+[公开 v45 安装包](https://github.com/IvanSolis1989/Aerove/releases/tag/lite-offlineprobe-v45-20261113)为测试签名，发布记录没有绑定当前 JS 与资源批次。本轮未找到可用的 Android 模拟器及已核定的同批 APK。待验为目标 APK 的脚本执行、全资源 preflight、最终 YAML、携带自定义 header 的命名代理下载、恢复、VPN 及实际规则命中。
+
 ### 2026-10-27：beta18 真实失败与新本地候选
 
 固定 beta18 [`457fab8455ac8713fc9828e129d2050b11bf1beb`](https://github.com/IvanSolis1989/Aerove/commit/457fab8455ac8713fc9828e129d2050b11bf1beb) 的 [run 40420651068](https://github.com/IvanSolis1989/Aerove/actions/runs/40420651068) attempt 1 实际运行全部 Smart 用例，旧三片 `part-001` 报 `rule-provider trie exceeds 500000 nodes`。固定 Rust reader 复现了旧 part-001 和 part-002 的拒绝，并发现 075 国内站点原资源同样超限。原因与计数详见[分片依据](RESOURCE-SPLITTING.zh-CN.md)。

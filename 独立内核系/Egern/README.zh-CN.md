@@ -81,7 +81,7 @@ Lite / Custom 的业务组按所选方案裁剪；下方组数量为 Full 基线
 
 ### DNS 与平台边界
 
-DNS 使用 Egern 原生 `bootstrap`、`upstreams`、`proxy_nameservers` 与 `forward`；保持模板结构，按[官方 DNS 文档](https://egernapp.com/docs/configuration/dns/)理解分流，不能直接复制 Mihomo DNS 字段。
+模板的普通 DNS 使用 `bootstrap`、命名 `upstreams` 和按顺序匹配的 `forward`。代理 DNS 按 `proxy_nameservers` 直连列出的 DoH 地址，跳过 `forward`。新版本 DNS 行为与来源 IP 规则的适用范围见 [Egern 参考](REFERENCE-Egern.zh-CN.md)。
 
 进程规则缺少对应官方字段证据，相关逻辑作为平台例外；不把 iOS 限制推断为所有桌面平台能力。字段与生成依据见 [REFERENCE](REFERENCE-Egern.zh-CN.md)。
 

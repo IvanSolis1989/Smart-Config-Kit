@@ -14,6 +14,13 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-sing.14 (2026-11-28)
+
+- Both supported profiles use binary rules with the broad Copilot keyword removed and its existing service suffixes preserved.
+- Verify binary rule matches with official cores, record the 1.15 preview's TUN stack change, and document the Hiddify builder and HomeProxy schema boundaries.
+- Use separate headless rule rows for independent destination and process predicates in 19 SRS assets. Verify domain, IP and actual process matches with the 1.13 and 1.14 cores.
+- Remove the ChatGPT and Claude desktop process alternatives from the binary AI assets. Their official service domains retain AI routing.
+
 ## v6.0.22-sing.13 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

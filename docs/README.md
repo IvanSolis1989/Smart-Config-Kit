@@ -50,6 +50,8 @@ Choose a path from configuration selection and complete import instructions to r
 - [Maintenance tools](../tools/README.md): upstream documentation cache, generators, and validators.
 - [Client support queue](support-queue.md): candidates, interface boundaries, and remaining acceptance work.
 - [Rule asset delivery](rule-asset-delivery.md): download URLs and complete-content verification.
+- [Mihomo connection evidence](mihomo-connection-evidence.md) for bounded local observation of rule matches and outbound chains.
+- [Blackmatrix7 source resilience](research/2026-11-28-blackmatrix7-source-resilience.md) for the provider inventory and a Claude replacement pilot.
 - [Release batches](release-batch.md): generated artifacts, versions, and release checks.
 - [Official references and historical reviews](archive/README.md): client references, dated upstream checks, and original topic-validation records.
 - [AI issue replies](ai-issue-responder.md) · [Notifications](telegram.md) · [Changelog](../CHANGELOG.md)

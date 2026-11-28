@@ -142,6 +142,10 @@ Xray 无 sing-box `.srs` 远程规则字段，须展开为原生 RuleObject，�
 
 <a id="5-happ-用户"></a>
 
+### 应用版本与路由导入
+
+使用 v2rayN 正式版 7.25.6 或预发布 8.0.2 时，均从路由设置导入规则数组。8.0.2 的多 `CustomOutbound` 由 App 管理。导入后在客户端核对实际核心版本、规则顺序和 `proxy`、`direct`、`block` 三种出口。原生 Xray 的 `ruleTag` 与 v2rayN 编辑器的 `remarks` 属于不同字段。[官方版本与字段参考](REFERENCE-xray.zh-CN.md#current-review)
+
 ### Happ 用户
 
 Happ 使用 Xray-core，但其原生路由 Profile、完整 Xray JSON 与 v2rayN 的 RuleObject 数组是不同格式。**不能将本目录 JSON 直接导入 Happ 并视为同等策略。** Happ 的官方 Profile 由 `happ://routing/...` 传递，JSON 订阅又有独立的路由绑定限制；详见[官方导入文档](https://www.happ.su/main/dev-docs/routing)和[本次核对](../../docs/upstream/2026-10-19/consumers/report.zh-CN.md)。本仓库尚未提供经过验收的 Happ 原生产物或转换器。

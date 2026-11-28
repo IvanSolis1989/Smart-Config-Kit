@@ -2,6 +2,8 @@
 
 [English](REFERENCE-mihomo-wiki.md) | **简体中文**
 
+> 核对于 2026-11-28。已核对 [Clash Party v2.0.5](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.5)、[Mihomo v1.19.34](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.34) 及 [vernesong/mihomo Smart Alpha `1348c4d`](https://github.com/vernesong/mihomo/blob/1348c4d2dee81f6941443b3d8b8a78a602b3d89c/adapter/outboundgroup/smart.go#L89-L96)。[App 配置生成](https://github.com/mihomo-party-org/clash-party/blob/v2.0.5/src/main/core/factory.ts#L145-L219) 在 JS 前检查远程订阅的 DNS，关闭 `controlDns` 时删除 App 受控 DNS 与 hosts 配置。本地 YAML 自持 DNS。分别在远程订阅刷新、本地保存重载后核对实际运行配置。v1.19.33 引入的 [`tun.dns-mode`](https://wiki.metacubex.one/en/config/inbound/tun/#dns-mode) 省略时沿用既有行为。Smart 选项仍含 `uselightgbm`、`collectdata`、`tolerance`，源码选项未定义 `strategy`。
+
 > 核对于 2026-10-31（Issue #193）：重新读取 [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/)，使用既有 `AND`、`NETWORK`、`PROCESS-NAME`、`REJECT` 语法；UDP 选择不支持 UDP 的代理可能继续匹配，故显式本地保护使用拒绝而非代理目标。新增选项只覆盖 Windows `chrome.exe` / `msedge.exe` / `firefox.exe`，依赖 TUN 接管及有效进程识别，默认关闭，不新增内核字段或最低版本。浏览器侧取舍另见 [Chrome 官方 privacy API](https://developer.chrome.com/docs/extensions/reference/api/privacy#property-network-webRTCIPHandlingPolicy)。配置/核心语法检查不代替用户设备恢复验收。
 
 > 核对于 2026-10-29：重新读取官方 [DNS](https://wiki.metacubex.one/config/dns/) 和 [hosts](https://wiki.metacubex.one/config/dns/hosts/)。显式 hosts-only 仅使用现有精确键及 IP 数组窄子集，不新增内核字段、不改节点 server/SNI/Host；默认 adaptive 与全局 DNS 不变。可选业务投影保留原生规则顺序及必要引用，真实 QuickJS 不代替 App 验收。

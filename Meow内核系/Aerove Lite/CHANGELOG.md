@@ -11,6 +11,11 @@
 
 [Core family](../README.md) · [Support queue](../../docs/support-queue.md#aerove-lite-meow)
 
+## v6.0.23-meow.12 (2026-11-28)
+
+- Use the narrowed Copilot rule asset and regenerate the manifest for the matching rule revision.
+- Record the public Lite diagnostic APK and its separate source revision. Document how to verify the exact script and resource batch for an App build.
+
 ## v6.0.22-meow.11 (2026-11-27)
 
 - Include global and regional residential choices after the ordinary regions in the global selector, preserving global automatic as the first candidate and existing regional selection behavior.

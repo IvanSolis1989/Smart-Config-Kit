@@ -9,6 +9,11 @@
 
 [Usage](README.md) · [Support queue](../../docs/support-queue.md#meow) · [Documentation](../../docs/README.md)
 
+## v6.0.23-meow.8 (2026-11-28)
+
+- Use the narrowed Copilot rule asset in the native YAML.
+- Document Meow iOS 2.0 effective DNS merging and Android 1.0.11, and verify an additional meow-rs 0.30.0 diagnostic while retaining 0.26.1 as the release gate.
+
 ## v6.0.22-meow.7 (2026-11-27)
 
 - Include global and regional residential choices after the ordinary regions in the global selector, preserving global automatic as the first candidate and existing regional selection behavior.

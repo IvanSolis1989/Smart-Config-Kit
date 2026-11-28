@@ -10,7 +10,15 @@
 > Updated 2026-10-19 (previous topic summary 2026-05-31): the current official site was confirmed through the App Store developer link. Text and release metadata were cached; see the [Apple-client review](../../docs/upstream/2026-10-19/apple/report.md) and [cache receipts](../../docs/upstream/2026-10-19/apple/manifest.json).
 
 <a id="当前复核结论"></a>
-## Current review findings
+<a id="current-review-findings"></a>
+## Compatibility review on 2026-11-28
+
+- The US store lists stable 3.5.3 (2026-10-30, iOS 15+). The publisher lists iOS beta 3.5.4 build 1019 (2026-11-24 JST) and Loon for Mac alpha 0.5.0 build 1011 (2026-10-28). New beta node protocols and Tailscale automatic rules apply only within their documented version ranges. [App Store](https://apps.apple.com/us/app/loon/id1373567447) · [iOS beta](https://t.me/LoonNews/2073) · [Mac alpha](https://nsloon.app/Loon4Mac/changelog.html)
+- Loon 3.5.2 build 996+ documents node-only `server-dns` for local nodes and subscriptions. Subscription Host Map takes priority over the main Host Map, then the main subscription entry, the node line, the subscription's general DNS, and SSID/global DNS. A failed query at the selected layer does not fall through and CNAME uses the same DNS. Test selected-layer failure, CNAME and ordinary business-domain DNS separately on a local copy. [Subscription DNS precedence](https://nsloon.app/en/docs/Node/subscription/)
+- Build 1008+ supports case-insensitive `DOMAIN-WILDCARD`. In `*.example.com`, the star spans dots and the literal dot keeps the apex outside the match. Verify apex, single-level, multi-level and adjacent nonmatching names with a synthetic local rule before adding a remote rule. The current shared rule assets used by Loon carry no explicit `DOMAIN-WILDCARD` entries. [Domain rules](https://nsloon.app/en/docs/Rule/domain_rule/)
+- The current manual permits nested groups. It documents domain matching before IP resolution and local rules before plugins and subscription rules. The older blanket statement below denying nested groups should be read as a historical note. Loon's public General page documents `bypass-tun` without publishing a Fake IP range. Preserve the platform-specific interpretation and verify LAN bypass and DNS capture in the app. [Policy groups](https://nsloon.app/en/docs/Policy/policygroup/) · [Match priority](https://nsloon.app/en/docs/Rule/) · [TUN options](https://nsloon.app/en/docs/General/#bypass-tun)
+
+## 2026-10-19 review findings
 
 - Stable 3.5.2, dated 2026-10-01 UTC. No official prerelease version/date was obtained; pending. The new Rewrite/Script syntax in 3.5.1 is backward compatible. This repository does not enable those features and does not migrate routing for them.
 - Actual current official [Remote Rule](https://nsloon.app/docs/Rule/sub_rule/), [Policy Group](https://nsloon.app/docs/Policy/policygroup/), [DNS](https://nsloon.app/docs/DNS/), and [General](https://nsloon.app/docs/General/) text was saved, rather than relying on inaccessible old pages.

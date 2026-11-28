@@ -36,6 +36,8 @@ MetaCubeX Alpha is not Smart. Both scripts share rules, DNS and service groups, 
 
 ### Clash Party (formerly Mihomo Party)
 
+The stable channel includes Clash Party v2.0.5. The Windows x64 release build includes Mihomo v1.19.34, MetaCubeX Alpha `100ff73`, and vernesong Smart `6a80483`. Check which core is active before choosing the script. [Official release](https://github.com/mihomo-party-org/clash-party/releases/tag/v2.0.5) · [Release build log](https://github.com/mihomo-party-org/clash-party/actions/runs/44671895631/job/136074584497)
+
 - Releases: https://github.com/mihomo-party-org/clash-party/releases
 - Windows / macOS (Intel + Apple Silicon) / Linux (deb/rpm/AppImage).
 - Supports stable / Alpha / Smart cores and JS overrides. Before using Smart JS, confirm the Smart core is selected and check model status.
@@ -121,6 +123,12 @@ Enter subscription URLs into a trusted conversion service, select Mihomo output 
 4. Restart the core (Ctrl/Cmd + R).
 
 Interface labels may vary with client version/language.
+
+### Optional: use a local YAML profile in Clash Party v2.0.5
+
+For the subscription workflow above, keep the JS associated with the remote profile and refresh that subscription. DNS protection reads the original subscription before override scripts run. To use the DNS emitted by this repository's JS, turn off the App's DNS overwrite and inspect the active profile's final DNS.
+
+For a full local Mihomo YAML, open **Local Config**, save the YAML there, then use its reload control. That profile provides its own DNS. The YAML needs its own node definitions or provider references. When switching from a subscription carrying protected DNS, review the App's confirmation prompt and check the resulting runtime DNS, hosts, and routing. [Clash Party profile generation](https://github.com/mihomo-party-org/clash-party/blob/v2.0.5/src/main/core/factory.ts#L145-L219)
 
 ### 3. Check DNS ownership and connect
 

@@ -5,7 +5,7 @@
 // upstream provider/rule relationship used by MRS and fused-rule compilers.
 
 const SOURCE_GRAPH_ID = 'rulesets/source/routing-graph.js';
-const SOURCE_GRAPH_VERSION = 'v6.0.22';
+const SOURCE_GRAPH_VERSION = 'v6.0.23';
 // Client-facing repository assets use raw GitHub: jsDelivr's repository
 // package-size limit can reject even a small, existing individual rule file.
 const SOURCE_REPOSITORY_ASSET_BASE = 'https://raw.githubusercontent.com/IvanSolis1989/Smart-Config-Kit/main';
@@ -252,6 +252,12 @@ const SCKI_SUPPLEMENTAL_RULE_SETS = [
 // broad shared-service keywords so unrelated hosts (for example wegame.com.cn)
 // cannot be classified as Apple. This transform is consumed by both MRS sync
 // and the fused compiler so regenerated assets preserve the same semantics.
+// ChatGPT and Claude desktop can load unrelated destinations in their embedded
+// browser. Their shared process names must not bypass destination-based routing.
+const DESKTOP_AI_PROCESS_RULES = [
+  'ChatGPT', 'ChatGPT.exe', 'Claude', 'Claude.exe', 'Claude Helper', 'Claude Helper (Renderer)',
+].map(name => `PROCESS-NAME,${name}`)
+
 const MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES = {
   'acc-apple': {
     domainKeywordSuffixes: [
@@ -266,10 +272,13 @@ const MIHOMO_MRS_PROVIDER_ENTRY_OVERRIDES = {
     dropEntriesExact: [
       '+.byteoversea.com', 'DOMAIN-SUFFIX,byteoversea.com',
       '+.awsstatic.com', 'DOMAIN-SUFFIX,awsstatic.com',
+      ...DESKTOP_AI_PROCESS_RULES,
     ],
   },
   'szkane-ai': {
-    dropEntriesExact: ['+.azureedge.net', 'DOMAIN-SUFFIX,azureedge.net'],
+    dropEntriesExact: ['+.azureedge.net', 'DOMAIN-SUFFIX,azureedge.net', ...DESKTOP_AI_PROCESS_RULES],
+    // Keep explicit Copilot endpoints. The bare keyword catches unrelated hostnames.
+    dropDomainKeywords: ['copilot'],
   },
   'acc-kwai': {
     dropEntriesExact: ['+.akamai.net', 'DOMAIN-SUFFIX,akamai.net'],

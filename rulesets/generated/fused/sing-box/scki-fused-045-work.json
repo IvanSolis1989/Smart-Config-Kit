@@ -98,7 +98,9 @@
         "2a0b:b581::/48",
         "2a0b:b582::/48",
         "2a0b:b583::/48"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "CrashReport.exe",
         "DriverInstaller.exe",

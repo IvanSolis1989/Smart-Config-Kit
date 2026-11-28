@@ -48158,8 +48158,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "1698c7ee5c64438ef1ffeb6d48d3805e05a99975331754a2a66bd3526f3170f4",
-          "bytes": 127
+          "sha256": "e15bb0526399888dd9b26b0fe30ca4e56969a7643600b2cddf00cf3973a2ef30",
+          "bytes": 288
         },
         "source": {
           "id": "scki",
@@ -48182,14 +48182,14 @@
       "conversion": {
         "status": "converted",
         "type_counts": {
-          "domain": 1
+          "domain": 3
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "domain",
             "file": "scki-microsoft-ai-guard.mrs",
-            "entries": 1,
+            "entries": 3,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -48200,8 +48200,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-                "bytes": 75
+                "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+                "bytes": 130
               },
               "source": {
                 "id": "repository-local",
@@ -48230,8 +48230,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-                "bytes": 75
+                "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+                "bytes": 130
               },
               "source": {
                 "id": "repository-local",
@@ -52095,10 +52095,15 @@
         "source_path": "Clash/Ruleset/AiDomain.list",
         "declaration": "rulesets/source/upstream-sources.json#szkane",
         "license": {
-          "status": "unknown",
-          "spdx": null,
-          "declaration_url": "https://github.com/szkane/ClashRuleSet",
-          "note": "Repository identity only; license text not yet captured and verified."
+          "status": "declared",
+          "spdx": "MIT",
+          "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+          "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+          "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+          "declaration_bytes": 1062,
+          "scope": "repository",
+          "data_license_status": "component-review-required",
+          "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
         },
         "resolved_commit": null,
         "version_state": "legacy-output-only"
@@ -52107,7 +52112,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/szkane-ai.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/szkane-ai.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -52124,10 +52129,15 @@
           "source_path": "Clash/Ruleset/AiDomain.list",
           "declaration": "rulesets/source/upstream-sources.json#szkane",
           "license": {
-            "status": "unknown",
-            "spdx": null,
-            "declaration_url": "https://github.com/szkane/ClashRuleSet",
-            "note": "Repository identity only; license text not yet captured and verified."
+            "status": "declared",
+            "spdx": "MIT",
+            "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+            "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+            "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+            "declaration_bytes": 1062,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
           },
           "resolved_commit": null,
           "version_state": "legacy-output-only"
@@ -52156,9 +52166,9 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 213,
+          "domain": 212,
           "ipcidr": 18,
-          "PROCESS-NAME": 13
+          "PROCESS-NAME": 10
         },
         "reason": null,
         "outputs": [
@@ -52295,7 +52305,7 @@
           {
             "behavior": "classical",
             "file": "szkane-ai-classical.yaml",
-            "entries": 29,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -52306,8 +52316,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "c80687d38fea70f1d71f2d993ee5f825430d7e89b47257518396f6b981da2039",
-                "bytes": 967
+                "sha256": "a29bc090c58461ddf95034cef5e7d80d88f50dc0977f5cd21d4bc44e4fc3a332",
+                "bytes": 835
               },
               "source": {
                 "id": "repository-local",
@@ -52336,8 +52346,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "c80687d38fea70f1d71f2d993ee5f825430d7e89b47257518396f6b981da2039",
-                "bytes": 967
+                "sha256": "a29bc090c58461ddf95034cef5e7d80d88f50dc0977f5cd21d4bc44e4fc3a332",
+                "bytes": 835
               },
               "source": {
                 "id": "repository-local",
@@ -59235,7 +59245,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/coding.yaml",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/vpsdance-ai-coding.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/vpsdance-ai-coding.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -59291,7 +59301,7 @@
         "type_counts": {
           "domain": 214,
           "ipcidr": 6,
-          "PROCESS-NAME": 23,
+          "PROCESS-NAME": 16,
           "IP-ASN": 3
         },
         "reason": null,
@@ -59429,7 +59439,7 @@
           {
             "behavior": "classical",
             "file": "vpsdance-ai-coding-classical.yaml",
-            "entries": 32,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -59440,8 +59450,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "b47cab547df39a3459352cf97a01c1d3645baba107e9b833f40bff0b54659e8c",
-                "bytes": 1002
+                "sha256": "6791e5d7fdd68b932b2d78bd5ac13634c660e1a50e9412191ab8f18a3eca2752",
+                "bytes": 805
               },
               "source": {
                 "id": "repository-local",
@@ -59470,8 +59480,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "b47cab547df39a3459352cf97a01c1d3645baba107e9b833f40bff0b54659e8c",
-                "bytes": 1002
+                "sha256": "6791e5d7fdd68b932b2d78bd5ac13634c660e1a50e9412191ab8f18a3eca2752",
+                "bytes": 805
               },
               "source": {
                 "id": "repository-local",
@@ -119304,8 +119314,8 @@
         "verification": "content-sha256",
         "content_normalization": "LF",
         "content": {
-          "sha256": "1698c7ee5c64438ef1ffeb6d48d3805e05a99975331754a2a66bd3526f3170f4",
-          "bytes": 127
+          "sha256": "e15bb0526399888dd9b26b0fe30ca4e56969a7643600b2cddf00cf3973a2ef30",
+          "bytes": 288
         },
         "source": {
           "id": "scki",
@@ -119328,14 +119338,14 @@
       "conversion": {
         "status": "converted",
         "type_counts": {
-          "domain": 1
+          "domain": 3
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "domain",
             "file": "scki-microsoft-ai-guard.mrs",
-            "entries": 1,
+            "entries": 3,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -119346,8 +119356,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-                "bytes": 75
+                "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+                "bytes": 130
               },
               "source": {
                 "id": "repository-local",
@@ -119376,8 +119386,8 @@
               "verification": "content-sha256",
               "content_normalization": "raw-bytes",
               "content": {
-                "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-                "bytes": 75
+                "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+                "bytes": 130
               },
               "source": {
                 "id": "repository-local",
@@ -123643,10 +123653,15 @@
         "source_path": "Clash/Ruleset/AiDomain.list",
         "declaration": "rulesets/source/upstream-sources.json#szkane",
         "license": {
-          "status": "unknown",
-          "spdx": null,
-          "declaration_url": "https://github.com/szkane/ClashRuleSet",
-          "note": "Repository identity only; license text not yet captured and verified."
+          "status": "declared",
+          "spdx": "MIT",
+          "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+          "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+          "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+          "declaration_bytes": 1062,
+          "scope": "repository",
+          "data_license_status": "component-review-required",
+          "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
         },
         "resolved_commit": null,
         "version_state": "legacy-output-only"
@@ -123655,7 +123670,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/szkane-ai.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/szkane-ai.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -123672,10 +123687,15 @@
           "source_path": "Clash/Ruleset/AiDomain.list",
           "declaration": "rulesets/source/upstream-sources.json#szkane",
           "license": {
-            "status": "unknown",
-            "spdx": null,
-            "declaration_url": "https://github.com/szkane/ClashRuleSet",
-            "note": "Repository identity only; license text not yet captured and verified."
+            "status": "declared",
+            "spdx": "MIT",
+            "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+            "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+            "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+            "declaration_bytes": 1062,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
           },
           "resolved_commit": null,
           "version_state": "legacy-output-only"
@@ -123704,16 +123724,16 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 213,
+          "domain": 212,
           "ipcidr": 18,
-          "PROCESS-NAME": 13
+          "PROCESS-NAME": 10
         },
         "reason": null,
         "outputs": [
           {
             "behavior": "classical",
             "file": "szkane-ai-classical.yaml",
-            "entries": 29,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -123724,8 +123744,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "c80687d38fea70f1d71f2d993ee5f825430d7e89b47257518396f6b981da2039",
-                "bytes": 967
+                "sha256": "a29bc090c58461ddf95034cef5e7d80d88f50dc0977f5cd21d4bc44e4fc3a332",
+                "bytes": 835
               },
               "source": {
                 "id": "repository-local",
@@ -123754,8 +123774,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "c80687d38fea70f1d71f2d993ee5f825430d7e89b47257518396f6b981da2039",
-                "bytes": 967
+                "sha256": "a29bc090c58461ddf95034cef5e7d80d88f50dc0977f5cd21d4bc44e4fc3a332",
+                "bytes": 835
               },
               "source": {
                 "id": "repository-local",
@@ -123794,10 +123814,15 @@
         "source_path": "Clash/Ruleset/AiDomain.list",
         "declaration": "rulesets/source/upstream-sources.json#szkane",
         "license": {
-          "status": "unknown",
-          "spdx": null,
-          "declaration_url": "https://github.com/szkane/ClashRuleSet",
-          "note": "Repository identity only; license text not yet captured and verified."
+          "status": "declared",
+          "spdx": "MIT",
+          "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+          "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+          "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+          "declaration_bytes": 1062,
+          "scope": "repository",
+          "data_license_status": "component-review-required",
+          "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
         },
         "resolved_commit": null,
         "version_state": "legacy-output-only"
@@ -123806,7 +123831,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/szkane-ai.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/szkane-ai.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -123823,10 +123848,15 @@
           "source_path": "Clash/Ruleset/AiDomain.list",
           "declaration": "rulesets/source/upstream-sources.json#szkane",
           "license": {
-            "status": "unknown",
-            "spdx": null,
-            "declaration_url": "https://github.com/szkane/ClashRuleSet",
-            "note": "Repository identity only; license text not yet captured and verified."
+            "status": "declared",
+            "spdx": "MIT",
+            "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+            "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+            "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+            "declaration_bytes": 1062,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
           },
           "resolved_commit": null,
           "version_state": "legacy-output-only"
@@ -123855,9 +123885,9 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 213,
+          "domain": 212,
           "ipcidr": 18,
-          "PROCESS-NAME": 13
+          "PROCESS-NAME": 10
         },
         "reason": null,
         "outputs": [
@@ -123945,10 +123975,15 @@
         "source_path": "Clash/Ruleset/AiDomain.list",
         "declaration": "rulesets/source/upstream-sources.json#szkane",
         "license": {
-          "status": "unknown",
-          "spdx": null,
-          "declaration_url": "https://github.com/szkane/ClashRuleSet",
-          "note": "Repository identity only; license text not yet captured and verified."
+          "status": "declared",
+          "spdx": "MIT",
+          "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+          "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+          "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+          "declaration_bytes": 1062,
+          "scope": "repository",
+          "data_license_status": "component-review-required",
+          "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
         },
         "resolved_commit": null,
         "version_state": "legacy-output-only"
@@ -123957,7 +123992,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/szkane/ClashRuleSet@main/Clash/Ruleset/AiDomain.list",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/szkane-ai.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/szkane-ai.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -123974,10 +124009,15 @@
           "source_path": "Clash/Ruleset/AiDomain.list",
           "declaration": "rulesets/source/upstream-sources.json#szkane",
           "license": {
-            "status": "unknown",
-            "spdx": null,
-            "declaration_url": "https://github.com/szkane/ClashRuleSet",
-            "note": "Repository identity only; license text not yet captured and verified."
+            "status": "declared",
+            "spdx": "MIT",
+            "declaration_url": "https://github.com/szkane/ClashRuleSet/blob/4113a2026627185112838ad20475057b313b0e4c/LICENSE",
+            "declaration_commit": "4113a2026627185112838ad20475057b313b0e4c",
+            "declaration_sha256": "3479189b3b5bd4995101111e137fc103d8f1ac10238c8f1c49de4ad5e6241782",
+            "declaration_bytes": 1062,
+            "scope": "repository",
+            "data_license_status": "component-review-required",
+            "note": "Frozen MIT LICENSE bytes inspected. Independently sourced rule data may have separate terms."
           },
           "resolved_commit": null,
           "version_state": "legacy-output-only"
@@ -124006,9 +124046,9 @@
       "conversion": {
         "status": "partial",
         "type_counts": {
-          "domain": 213,
+          "domain": 212,
           "ipcidr": 18,
-          "PROCESS-NAME": 13
+          "PROCESS-NAME": 10
         },
         "reason": null,
         "outputs": [
@@ -132373,7 +132413,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/coding.yaml",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/vpsdance-ai-coding.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/vpsdance-ai-coding.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -132429,7 +132469,7 @@
         "type_counts": {
           "domain": 214,
           "ipcidr": 6,
-          "PROCESS-NAME": 23,
+          "PROCESS-NAME": 16,
           "IP-ASN": 3
         },
         "reason": null,
@@ -132437,7 +132477,7 @@
           {
             "behavior": "classical",
             "file": "vpsdance-ai-coding-classical.yaml",
-            "entries": 32,
+            "entries": 25,
             "output_receipt": {
               "schema_version": 1,
               "requested_url": null,
@@ -132448,8 +132488,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "b47cab547df39a3459352cf97a01c1d3645baba107e9b833f40bff0b54659e8c",
-                "bytes": 1002
+                "sha256": "6791e5d7fdd68b932b2d78bd5ac13634c660e1a50e9412191ab8f18a3eca2752",
+                "bytes": 805
               },
               "source": {
                 "id": "repository-local",
@@ -132478,8 +132518,8 @@
               "verification": "content-sha256",
               "content_normalization": "LF",
               "content": {
-                "sha256": "b47cab547df39a3459352cf97a01c1d3645baba107e9b833f40bff0b54659e8c",
-                "bytes": 1002
+                "sha256": "6791e5d7fdd68b932b2d78bd5ac13634c660e1a50e9412191ab8f18a3eca2752",
+                "bytes": 805
               },
               "source": {
                 "id": "repository-local",
@@ -132535,7 +132575,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/coding.yaml",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/vpsdance-ai-coding.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/vpsdance-ai-coding.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -132591,7 +132631,7 @@
         "type_counts": {
           "domain": 214,
           "ipcidr": 6,
-          "PROCESS-NAME": 23,
+          "PROCESS-NAME": 16,
           "IP-ASN": 3
         },
         "reason": null,
@@ -132697,7 +132737,7 @@
         "schema_version": 1,
         "requested_url": "https://fastly.jsdelivr.net/gh/VPSDance/ai-proxy-rules@main/rules/clash/coding.yaml",
         "effective_url": null,
-        "local_path": ".cache/frozen-main/vpsdance-ai-coding.list",
+        "local_path": ".cache/desktop-ai-process-review/source-evidence/vpsdance-ai-coding.list",
         "input_kind": "legacy-snapshot",
         "acquisition": "published-mrs-decode",
         "verification": "content-sha256",
@@ -132753,7 +132793,7 @@
         "type_counts": {
           "domain": 214,
           "ipcidr": 6,
-          "PROCESS-NAME": 23,
+          "PROCESS-NAME": 16,
           "IP-ASN": 3
         },
         "reason": null,
@@ -137062,16 +137102,16 @@
   },
   "source_graph": {
     "path": "rulesets/source/routing-graph.js",
-    "sha256": "0b1e906c1a23006e6ed61d42834a81d1f6b75a3ffa32ebc28455ac57afc3b4bb",
-    "bytes": 121605,
+    "sha256": "cf8212e1a871a0663efa3cd9b4da9b8bd96115257f4bb1704560b725afb0d587",
+    "bytes": 122125,
     "text_normalization": "LF",
-    "version": "v6.0.22",
-    "semantic_fingerprint": "b474e6670e4df063d311eb847f42f48284999a62314091430ce8c3a933f2f305"
+    "version": "v6.0.23",
+    "semantic_fingerprint": "d8f8ff1dfce14a99699396543d936158490a8c2cb3846547c741c5b77bec2586"
   },
   "registry": {
     "path": "rulesets/source/upstream-sources.json",
-    "sha256": "7bf72fdaeb0ae1ba5d6c5db5d3a03ecde6466d2960118d9f5aee0ecf494a3ad0",
-    "bytes": 6691,
+    "sha256": "10798ac024bfb3db7df8fe727a18bec844d8f8582ebbe34898e1ef823de88224",
+    "bytes": 7726,
     "text_normalization": "LF"
   },
   "generators": [
@@ -137083,8 +137123,8 @@
     },
     {
       "path": "tools/build-fused-rule-sets.js",
-      "sha256": "1efb9e5a1b667cafc5a72d7e02d15e1c74b385e3c83afce8fa7fb259bba3199c",
-      "bytes": 77928,
+      "sha256": "6361c46b5338c1e0a4f31d4870cd9cbe03a4205f8b639cb95ceb5b7ae64af554",
+      "bytes": 78897,
       "text_normalization": "LF"
     },
     {
@@ -137143,7 +137183,7 @@
     },
     {
       "path": "tools/generate-stash-from-cmfa.js",
-      "sha256": "a0ad5941e3c5a1b25c8d93d0a3abdd46abc6c30ccdace70b8c3525ad3b3c396f",
+      "sha256": "5f202ab3a8e090bd9afe5288960fd035190d576e11f7976d31efa1f53c6ba63d",
       "bytes": 9052,
       "text_normalization": "LF"
     },
@@ -137155,26 +137195,26 @@
     },
     {
       "path": "tools/generate-egern-from-cmfa.js",
-      "sha256": "3c8e2ea1a01df07a1c8ab004b5dc18d0052d513a963494b8f1bc62c99044a7c1",
+      "sha256": "1533cc3aecf16aebc09dba98f77bce027f3a6340404a930481abf29d2d2213e4",
       "bytes": 53532,
       "text_normalization": "LF"
     },
     {
       "path": "Sing-box内核系/SingBox/SingBox(sing-box)-generator.js",
-      "sha256": "87e89c460467b9558ea4959a81ef065290abe7b06853469ec2ede3da70251e1b",
+      "sha256": "773a504a54f8c0ed1ae44d0bcfcfcd2a924a011d588408233dfd2513fa8e449b",
       "bytes": 28958,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-fused-fallback-artifacts.js",
-      "sha256": "21fbb7bea4d15be549c1d016f43fe85be291779871dde42c033b569c460baf0c",
-      "bytes": 26601,
+      "sha256": "3875f38b09edad8a2e12ab5d26886af42d388c6ae5a0a4b63f1e2364a3774836",
+      "bytes": 28063,
       "text_normalization": "LF"
     },
     {
       "path": "tools/generate-karing.js",
-      "sha256": "1f8a42013a1ccbe6acfa83ebcdc4e0d608700feacb9ca093e699cf278ba37ff9",
-      "bytes": 24130,
+      "sha256": "d95edf8ef8a910fda79b446f4b60bf7b0a518385f5b95ac1182fbd6e3bd1d535",
+      "bytes": 24321,
       "text_normalization": "LF"
     },
     {
@@ -137216,8 +137256,8 @@
   ],
   "mrs_manifest": {
     "path": "rulesets/generated/mihomo-mrs/manifest.json",
-    "sha256": "1212a6d92312be8d73cbf91cc456ac587d08871535955a65f19adb3939b4e5d6",
-    "bytes": 1533760,
+    "sha256": "1ea75c00ecf679a357c3af888e3d48c7e82f6f4e9cb0c02ce4e3ecdd5a179f0d",
+    "bytes": 1534201,
     "text_normalization": "LF"
   },
   "fused_inputs": [],
@@ -137296,8 +137336,8 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-013-ai.list",
-      "sha256": "d00e5b6c272ddffe94d11f5f4701b4719709e10cc5a37cfc141dc1d899dd1ff7",
-      "bytes": 39,
+      "sha256": "0fd57414402c5cedd709f67e49f3236a1680c8add180553d1c1f088823e1e776",
+      "bytes": 115,
       "text_normalization": "LF"
     },
     {
@@ -137416,8 +137456,8 @@
     },
     {
       "path": "rulesets/generated/fused/clash/scki-fused-033-ai.list",
-      "sha256": "61e025bfd1d3274f5d5bed5200e69c7de3f614ee4b0712ba5af9f482917eb735",
-      "bytes": 2890,
+      "sha256": "eddf68b7d7159d197ca6bb3afd920174a2692f86ba929f0906c9e575675103c0",
+      "bytes": 2935,
       "text_normalization": "LF"
     },
     {
@@ -137764,8 +137804,8 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-013-ai.yaml",
-      "sha256": "f46176d76a770964018bc674a159ac9391903ec1a7c78a71a6e3b1756ccee0f8",
-      "bytes": 96,
+      "sha256": "260858795eb05639580bcc544eb8281ce72a0e86cccc863174b97aaa5f23cffa",
+      "bytes": 170,
       "text_normalization": "LF"
     },
     {
@@ -137884,8 +137924,8 @@
     },
     {
       "path": "rulesets/generated/fused/egern/scki-fused-033-ai.yaml",
-      "sha256": "35ec2ade7fb9c010cb90dc4be4111c4c33478092ab6c87fbf6ab45349daa018b",
-      "bytes": 2289,
+      "sha256": "1f6e92f04cf47ab71732960823ba8c23646b16cd0de426fad23fa91043364708",
+      "bytes": 2327,
       "text_normalization": "LF"
     },
     {
@@ -138334,14 +138374,14 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.mrs",
-      "sha256": "f75bd63885aa82fa32c8fac02078a2bff365dbf5dc4a0ca4c47b8662e07485eb",
-      "bytes": 75,
+      "sha256": "9760abf93583aead9972de350059eb3bc3543ace44c40f54798cd1b641f1eee3",
+      "bytes": 130,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml",
-      "sha256": "64cf9f8802c3e9295cd63b5a84dbe8b6a678b4024924ff9bbc877f0b62c4bb6b",
-      "bytes": 47,
+      "sha256": "db3baccfb6eaf5ed218f682b75600d01cd48e2e8d373123d73b73aa95506d7df",
+      "bytes": 121,
       "text_normalization": "LF"
     },
     {
@@ -138700,8 +138740,8 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-033-ai-residual.yaml",
-      "sha256": "3a881e5ebbf474ee9aeeb7c144b5a87d9cc9c2d4fa15873bcfa5db04b4478ecb",
-      "bytes": 1166,
+      "sha256": "fcd3e3f41815b04f7ad8d393d0ac072b47c342267091300f1f8561d55bde4d10",
+      "bytes": 1034,
       "text_normalization": "LF"
     },
     {
@@ -138742,8 +138782,8 @@
     },
     {
       "path": "rulesets/generated/fused/mihomo/scki-fused-035-ai-residual.yaml",
-      "sha256": "0f18d0c543a691a61c0d9c56d6991ed6396857b39636a8ee084ea4de5916a50e",
-      "bytes": 1040,
+      "sha256": "4685d2b66370b7210b6e871704e4e9a9425a3a902e3bd209e7294f9e2d9d5481",
+      "bytes": 869,
       "text_normalization": "LF"
     },
     {
@@ -139768,8 +139808,8 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-013-ai.list",
-      "sha256": "1ca442495d138cb30789289bb5a6a56591ac602f1a639d3892bd4783d9da3422",
-      "bytes": 38,
+      "sha256": "da20217c1b02beaa752824f2a03d7e2fc29f4dec54e1f25f64618e3fcbeb3b40",
+      "bytes": 112,
       "text_normalization": "LF"
     },
     {
@@ -139888,8 +139928,8 @@
     },
     {
       "path": "rulesets/generated/fused/quantumultx/scki-fused-033-ai.list",
-      "sha256": "73dff06cc2be8d142a526f8cdf82351876eec379ce9f23f95417dc48a9ca7e95",
-      "bytes": 2803,
+      "sha256": "afcdeebbcf23e4684d12da9c57452a710e80711f935df493cc95411f49cfd88a",
+      "bytes": 2847,
       "text_normalization": "LF"
     },
     {
@@ -140248,26 +140288,26 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-008-social.json",
-      "sha256": "8d541be0cf9f09dbd242b0202634b1f80ada107e2e424e9c2c7bab545e283b69",
-      "bytes": 182,
+      "sha256": "0dd10ece5364cb801b4f6c386b71566a2f203241a3a981dacc2c737670cab23c",
+      "bytes": 194,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-008-social.srs",
-      "sha256": "0eaa018fb421093f323426069d3cb3ebce5524f0cbe7d37009ad742cf78e1557",
-      "bytes": 75,
+      "sha256": "19e14f670173056b4cc82b385131afe702db590c1ce8912bcd5118b08a3f306b",
+      "bytes": 79,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-009-tiktok.json",
-      "sha256": "cbbaa9f25b4943293586b3a9b516b8306954e803169a93e67cee230c1222e388",
-      "bytes": 277,
+      "sha256": "86e46d18f74e2441e686677082fef6a977b27af96e9462d2b57c370a2dfe89de",
+      "bytes": 289,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-009-tiktok.srs",
-      "sha256": "d7fb51b6ecbb2b4c29ee57ff91adad83dbdbcf6350199c1a57c1e4e28cce6cf3",
-      "bytes": 105,
+      "sha256": "2dd67c52190752baaa5a64a11441e6b939f0fb6875a5732b51c9d1bc5f255ce2",
+      "bytes": 108,
       "text_normalization": null
     },
     {
@@ -140308,14 +140348,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-013-ai.json",
-      "sha256": "2ba2426d40705db2cec3acbbb37c3daea3de3d2819c7b03dd6dc9abb3da1f272",
-      "bytes": 117,
+      "sha256": "eb5ff66ae269085d00eb52e444b164de7d952a894e2501f183ed068b917156ca",
+      "bytes": 201,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-013-ai.srs",
-      "sha256": "c2f47a38d003556188df60c3b9f0d0b7a5a9dba3d1824a0ab71439b8bcf1f94b",
-      "bytes": 68,
+      "sha256": "098d4e574dc6be1f9da85ff184b9fb0aa06cb3b8d4c3ee760a5752038b0086cd",
+      "bytes": 118,
       "text_normalization": null
     },
     {
@@ -140368,13 +140408,13 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-018-direct.json",
-      "sha256": "e9c28299ad22825d3e02775dc9eb042096ea56083eb4a1774b6f2e86155dc63e",
-      "bytes": 6591,
+      "sha256": "d58c5db039101db211e16ff0532142c62f613fdf5cf1ccbe7d4263743e1551e1",
+      "bytes": 6603,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-018-direct.srs",
-      "sha256": "e55f4af700b3ae30e3fc8d7f00da59a83768125ef8f79bd8fdab9d147a1a6482",
+      "sha256": "fac9046338a26af4a5dd74888a4c73361546686f75f32ccad35ff941b6ecbc4b",
       "bytes": 1349,
       "text_normalization": null
     },
@@ -140548,14 +140588,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-033-ai.json",
-      "sha256": "25fcc2567eb56b19b0fe17169dc017e53acac1fcf0a144417da05bd8825bc0ce",
-      "bytes": 3353,
+      "sha256": "2ec3d4e9ce72e62e33cde9492339a010e86941181b76ef7b477b14ba306b6eb8",
+      "bytes": 3329,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-033-ai.srs",
-      "sha256": "674277119791b57594d7387a48462e279e6f6d998a416e267f2adc6727b9a833",
-      "bytes": 1197,
+      "sha256": "c61d0cfa9e0d68b0e1b4be6ec193f395bfe5ff37d9c7cc7bb8ef2e985d5b29b4",
+      "bytes": 1199,
       "text_normalization": null
     },
     {
@@ -140572,26 +140612,26 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-035-ai.json",
-      "sha256": "360a3c7fd9e1c3c26e6e2fc09f1cb9c2643df37c9cbf6b9b8d776c8d93a3d371",
-      "bytes": 5124,
+      "sha256": "0de6ba97398ee025c7037bfbcf7a1ee08d613a23a8fb989f779a8a07754a3ca9",
+      "bytes": 5013,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-035-ai.srs",
-      "sha256": "ec31ecfac9f37bee68dd83189347a54fa3b9673b36dbe3660ddfdc017e03710d",
-      "bytes": 1812,
+      "sha256": "f3c827af8f3be35af046b39333685b19f36544bb70f3adc5daf51e5bf50613d6",
+      "bytes": 1784,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-036-crypto.json",
-      "sha256": "0a41c95402dac362b013542343aa540c55c1baa0a44bf4b0bdfbf0d3f2e16e92",
-      "bytes": 5887,
+      "sha256": "bfe6a54ad32b70b248f711fb42baf38a4c947437e2345477e90b8d509604d34e",
+      "bytes": 5899,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-036-crypto.srs",
-      "sha256": "ad60441eafccef9f95cf730e33548c4574f3612f0232aeddd3748948cc7a08b5",
-      "bytes": 1930,
+      "sha256": "1584359437a37e0050dfb34301350c2f28ca5056d92edb8de87d668d6b805eaa",
+      "bytes": 1929,
       "text_normalization": null
     },
     {
@@ -140632,14 +140672,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-041-im.json",
-      "sha256": "86805ca89ba66fac6ca63077c05730a918c90414ca262d18a145ea34bab71aa0",
-      "bytes": 3685,
+      "sha256": "5887eef1c4141a68f516bd2139a7964a5cb0e94db3711a5256f1ad17dc450a3f",
+      "bytes": 3697,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-041-im.srs",
-      "sha256": "e96a2a5423c4fe0ac2f7e0cf90c4249a0ff393c5d0257bacbcc85b2d9c10822e",
-      "bytes": 1301,
+      "sha256": "32bd47fcba214a5d506f56bfab3e3d07527ed94166f011af56c3e4ee3319aa01",
+      "bytes": 1302,
       "text_normalization": null
     },
     {
@@ -140680,14 +140720,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-045-work.json",
-      "sha256": "5d45f6811e5190a891151183acd3a429041e5c8a3b82c06e6db1f66a9c8e925a",
-      "bytes": 2617,
+      "sha256": "e952a3473ac8e4c7a907977eee5e140073a8208c9ee1e451b750b96026a8d9dd",
+      "bytes": 2629,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-045-work.srs",
-      "sha256": "f46b5b4f88ad0ed5d858df43b663e31b5ced2d344fd279ce8d74e2e874c5e073",
-      "bytes": 895,
+      "sha256": "d8e21296b0106ddf5efcf6c540a231427b1186ec583f8b603c20d261946e5bab",
+      "bytes": 898,
       "text_normalization": null
     },
     {
@@ -140752,38 +140792,38 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-051-disney.json",
-      "sha256": "779d304ce43fae9e0b517ac3640a0fbfcecc2ef45d77ef28ddeecbddcee2f285",
-      "bytes": 5000,
+      "sha256": "59fcdd548f5815cc02d88ab4e9c9ee2dbf11331ac0c494b0238db0b20b6ac674",
+      "bytes": 5012,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-051-disney.srs",
-      "sha256": "81296da3f3d5bc3959b61f3605411b01ee6bb28cea4425494421325ff49fe088",
-      "bytes": 1891,
+      "sha256": "897990d3c450afc6d5414f8b7a6f9884e1faec01679faf414f24009fc1ae3977",
+      "bytes": 1895,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.json",
-      "sha256": "b4bd240489983b17d0383bbf5c4e06e5588403f049265779b0a9be6af94beeb0",
-      "bytes": 1450,
+      "sha256": "867b0a185808a5997c8849adda5370cfbd5cd72324ec2a4cdac950c9efc23cd1",
+      "bytes": 1462,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-052-hbo-max.srs",
-      "sha256": "23df7297d81b8106502e21180aca1f75d3c2726e02d4fe2a8bfffced40940467",
-      "bytes": 580,
+      "sha256": "488c64e405117cc478f65651990d903e9f3372af0ebe9b07d8609e111855898c",
+      "bytes": 583,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-053-hulu.json",
-      "sha256": "646dfa634e1ffa591ed4a8a19261daa6f5c06cec93d4f7ba75dda51ca69c178e",
-      "bytes": 1654,
+      "sha256": "a48d7fbe880808006c107558c7d8995c0266ef443c9374a4a872a5b6bbed69ac",
+      "bytes": 1666,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-053-hulu.srs",
-      "sha256": "848345540455b4ce9700efa50dada308c49628d0b11e9e196989dc7c02e2f3c8",
-      "bytes": 612,
+      "sha256": "0a1416bb2a9cc60b1c4c6aff2aebcbc59eff9da19bc5f52222c70670deff2d8f",
+      "bytes": 615,
       "text_normalization": null
     },
     {
@@ -140800,14 +140840,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-055-intl-site.json",
-      "sha256": "9a53aa5143cf72a01b10ca1eee60c3ffe58a844101bb9da28f60569df3da4a63",
-      "bytes": 5271,
+      "sha256": "3a2e7f13a9fc2dee715288c0b220f672a5a0f8ece42663f2209db7201a5ab3c1",
+      "bytes": 5283,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-055-intl-site.srs",
-      "sha256": "58977a6da9490cb2252804d710e10539743200733f37f24203d8c6fb2616a8cc",
-      "bytes": 1854,
+      "sha256": "e1345c095345c602027a686dddad07bbc89ac8ac800132396e6537699e2ec0a8",
+      "bytes": 1857,
       "text_normalization": null
     },
     {
@@ -140836,14 +140876,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.json",
-      "sha256": "e018445573c9328ed692804a27dfbd2fd0f6eaafc09bbfc14709e2d1204a0608",
-      "bytes": 935,
+      "sha256": "95488fca3e3b6a4bd9b117d731428209bd13417cdcf64cbb7ac69680a0831083",
+      "bytes": 947,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-058-stream-tw.srs",
-      "sha256": "7392fc66d38c4c0bb868afe598afe8f46b308f9c1ba9779221a5fb133683e8bc",
-      "bytes": 350,
+      "sha256": "90f9a82caf053c2a1c1f276ea34aae17c4f147dc0313370cbb48c55ba57d2a80",
+      "bytes": 353,
       "text_normalization": null
     },
     {
@@ -140872,14 +140912,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-061-stream-other.json",
-      "sha256": "5c5cdf91f3b49737330663f1b759b727cef090fa6c1883ac6b4bcab15af414ec",
-      "bytes": 15335,
+      "sha256": "cf8b2f7a948980d5f75a6680a845c445851e04c308efac81dd742e2294691fb1",
+      "bytes": 15347,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-061-stream-other.srs",
-      "sha256": "ae9ad75139cdcc1536a42073d5059cf26197ecc20419938414c644251c7d6829",
-      "bytes": 5021,
+      "sha256": "af081442d92b260a2fe11ee3434a34082fb6ff6824a97c7d7545bbbb9e1ca40a",
+      "bytes": 5024,
       "text_normalization": null
     },
     {
@@ -140908,14 +140948,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-064-tools.json",
-      "sha256": "2d2c8ed1e52e7d0b44e7f3007c4c4c2ebf0d8c07b944be172121fc3711def60b",
-      "bytes": 22362,
+      "sha256": "1d182bb84e8e53ea3a463252eb224a0ffb2831b4d231cd6d2dca7643ad294a69",
+      "bytes": 22374,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-064-tools.srs",
-      "sha256": "4e87df7d6d326d676de36488eadb8c1d08db4a92f28ecc426527fe516dfc6fb8",
-      "bytes": 7094,
+      "sha256": "3a8e2a1309898b60b4903813d52f504be059b15d1b957cef8655467c505c3e00",
+      "bytes": 7096,
       "text_normalization": null
     },
     {
@@ -140932,26 +140972,26 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-066-apple.json",
-      "sha256": "a2b7762cd7d381d7d77cea90389067517311ff453ca4fc1c95bdf0cbdd13096e",
-      "bytes": 44925,
+      "sha256": "7087524573a82ec930e723d3838ad8382550c8f957324c778ca93cf270919cbd",
+      "bytes": 44937,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-066-apple.srs",
-      "sha256": "3d1a5358646e9db45000e7452dd698f83852abd4a4a54633e9709612dcea6c5f",
-      "bytes": 14050,
+      "sha256": "4ed9e9a209c1fba4d7d97e160b6962690f5819ad80be1e825745a68424378ecf",
+      "bytes": 14053,
       "text_normalization": null
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-067-download.json",
-      "sha256": "ceedaef31577ff377f91116f08524bc1f97ca9ed7bb3d5199f9093afca17f057",
-      "bytes": 31216,
+      "sha256": "304c4e10a9a3454c95f5d4b1442e57fd4b01054f6350cfe40b10e012dc141a75",
+      "bytes": 31228,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-067-download.srs",
-      "sha256": "ad8b7e3770f12fbd7deb7de1436e162adf9c2e8fa0a6b52a99992065da546a2c",
-      "bytes": 9565,
+      "sha256": "9d64d15a47b85788597598011c57d3d874bb789239051486e6821ae5c874c032",
+      "bytes": 9567,
       "text_normalization": null
     },
     {
@@ -141004,14 +141044,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-072-intl-site.json",
-      "sha256": "a0d1c555a029045aaee419780d4abcc35239a21589151e2e0e73d148aaddaa2c",
-      "bytes": 12797,
+      "sha256": "c734356f2d5fcdc5a68de5013efc28801f67d1462a954a256f829c9480bfd61b",
+      "bytes": 12809,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-072-intl-site.srs",
-      "sha256": "860524bc71f7d8f08789eddb3e279f4a72abecc0a9c7587c963f8f927ddaa983",
-      "bytes": 3925,
+      "sha256": "6ee2d0293fb138423ca36f76e6a185febaca027195b30b4a5a55c1dc36211408",
+      "bytes": 3927,
       "text_normalization": null
     },
     {
@@ -141028,14 +141068,14 @@
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.json",
-      "sha256": "647aaddfbd9bc6d9752d482c3554e2dc2b9ce27b524962a5cbf44f91fce018bc",
-      "bytes": 88767,
+      "sha256": "3434d035114f3c0f631528e5563cfd6ceca7d908acc0cda8579115a7adcfa847",
+      "bytes": 88779,
       "text_normalization": "LF"
     },
     {
       "path": "rulesets/generated/fused/sing-box/scki-fused-074-cnmedia.srs",
-      "sha256": "724770b48e650eb3cc614ce0c6e0942c4deb284149cc38cfce76e84ba8b78cae",
-      "bytes": 22811,
+      "sha256": "5b709eaea1986285e5fbcf5b084b7b66dd8acebedec3ade4700b7b04a6a3f336",
+      "bytes": 22814,
       "text_normalization": null
     },
     {
@@ -141172,8 +141212,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-013-ai.list",
-      "sha256": "d00e5b6c272ddffe94d11f5f4701b4719709e10cc5a37cfc141dc1d899dd1ff7",
-      "bytes": 39,
+      "sha256": "0fd57414402c5cedd709f67e49f3236a1680c8add180553d1c1f088823e1e776",
+      "bytes": 115,
       "text_normalization": "LF"
     },
     {
@@ -141292,8 +141332,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-033-ai.list",
-      "sha256": "f67a9b3174e33e99d2f79266b6188c6b0fa4607be80b2950380ff84158fb8a40",
-      "bytes": 3487,
+      "sha256": "f8597db88058dd766ba1e532f347cd24b9683e69e211ed6a1b5fcdf28fb99654",
+      "bytes": 3447,
       "text_normalization": "LF"
     },
     {
@@ -141304,8 +141344,8 @@
     },
     {
       "path": "rulesets/generated/fused/surge/scki-fused-035-ai.list",
-      "sha256": "4010667fed8d4fe3300ee3074c22b7422e0a8fe06fa4c30aff754d286c3cdf80",
-      "bytes": 5181,
+      "sha256": "d0fee9320ed31b07fb9e546a2e765157fd1ea5af1ca780fb6ac28756e6e2afc0",
+      "bytes": 5046,
       "text_normalization": "LF"
     },
     {
@@ -141567,12 +141607,12 @@
       "text_normalization": "LF"
     }
   ],
-  "fused_payload_fingerprint": "0672b1b95ab40a804d1fcc46adfc0365ce8ca8d7b57b8aeb335dd3f17421e103",
+  "fused_payload_fingerprint": "7eb9d724ea9cbabcb0ea612799828c1b6e1ab720cf856d78344b09da4ecd7736",
   "incremental_build_receipt": {
     "path": "rulesets/generated/supplemental-patch.json",
     "sha256": "d115bff81fc5e423e70549d428a90c5cd0dccf67679ecc3e006d5f177e9a4747",
     "bytes": 6639,
     "text_normalization": "LF",
-    "status": "current-payload-bound"
+    "status": "historical-stage-only"
   }
 }

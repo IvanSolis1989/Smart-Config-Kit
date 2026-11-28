@@ -152,11 +152,10 @@
       "domain_regex": [
         "^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$",
         "^chatgpt-async-webps-prod-\\\\S+-\\\\d+\\\\.webpubsub\\\\.azure\\\\.com$"
-      ],
+      ]
+    },
+    {
       "process_name": [
-        "Claude.exe",
-        "claude",
-        "claude.exe",
         "cowork-svc.exe",
         "Augment",
         "Augment.exe",
@@ -167,11 +166,8 @@
         "Antigravity",
         "Antigravity.exe",
         "antigravity",
-        "ChatGPT",
-        "ChatGPT.exe",
         "Codex",
         "Codex.exe",
-        "chatgpt",
         "codex",
         "Windsurf",
         "Windsurf.exe",

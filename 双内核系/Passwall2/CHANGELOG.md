@@ -15,6 +15,12 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-pw2.14 (2026-11-28)
+
+- Use the narrowed binary Copilot rule set via the sing-box shunt backend.
+- Document 26.11.23-1 subscription DNS extraction and the SRS loss in the Xray backend.
+- Import the 19 corrected SRS assets through URLs ending in `.srs` so the OpenWrt parser registers them as binary rule sets and retains the cache revision.
+
 ## v6.0.22-pw2.13 (2026-11-22)
 
 - Route `static.dingtalk.com` and `mcs.doubao.com` through the exact DIRECT guard before ad blocking. Existing adjacent-host rules are preserved (#203).

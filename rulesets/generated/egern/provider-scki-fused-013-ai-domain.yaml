@@ -2,4 +2,6 @@
 # Source id: provider-scki-fused-013-ai-domain
 # Source URL: https://fastly.jsdelivr.net/gh/IvanSolis1989/Smart-Config-Kit@main/rulesets/generated/fused/mihomo/scki-fused-013-ai-domain.yaml
 domain_set:
+  - "copilot.cloud.microsoft"
+  - "cr.m365copilotapp.svc.cloud.microsoft"
   - "designerapp.officeapps.live.com"

@@ -9,6 +9,7 @@ const {
   validateGeneratedRemoteAssetSizes,
 } = require('../validate-generated-remote-asset-size');
 const { optimizeEntries } = require('../lib/fused-rule-optimizer');
+const { renderSingBoxSource } = require('../build-fused-rule-sets');
 const { getMihomoNormalizedRoutingGraph } = require('../../rulesets/source/routing-graph');
 
 const REPO_ROOT = path.resolve(__dirname, '../..');
@@ -362,7 +363,22 @@ test('Mihomo source buckets do not repeat an exact rule across segments', () => 
   assert.deepEqual(duplicates.slice(0, 20), [], `${duplicates.length} exact Mihomo cross-segment duplicates`);
 });
 
-test('Sing-box target rule sets do not repeat an exact rule across segments', () => {
+test('fused sing-box source preserves independent destination, source and process alternatives', () => {
+  const source = JSON.parse(renderSingBoxSource([
+    'DOMAIN,destination.example', 'DOMAIN-SUFFIX,video.example', 'IP-CIDR,192.0.2.0/24',
+    'SRC-IP-CIDR,198.51.100.0/24', 'PROCESS-NAME,Client.exe', 'PROCESS-PATH,/opt/client',
+    'PROCESS-PATH-REGEX,^/opt/second$', 'PROCESS-NAME,Client.exe',
+  ]));
+  assert.deepEqual(source.rules, [
+    { domain: ['destination.example'], domain_suffix: ['video.example'], ip_cidr: ['192.0.2.0/24'] },
+    { source_ip_cidr: ['198.51.100.0/24'] },
+    { process_name: ['Client.exe'] },
+    { process_path: ['/opt/client'] },
+    { process_path_regex: ['^/opt/second$'] },
+  ]);
+});
+
+test('Sing-box target rule sets preserve flat OR alternatives without repeating a predicate across segments', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(FUSED_ROOT, 'manifest.json'), 'utf8'));
   const fieldTypes = {
     domain: 'DOMAIN',
@@ -383,6 +399,12 @@ test('Sing-box target rule sets do not repeat an exact rule across segments', ()
       'utf8',
     ));
     for (const rule of source.rules) {
+      const keys = Object.keys(rule);
+      // The core groups all domain matchers with destination ip_cidr. Every
+      // other generated field shares that row only with values of its own type.
+      assert.ok(keys.length && keys.every(field => Object.hasOwn(fieldTypes, field)), segment.id);
+      assert.ok(keys.length === 1 || keys.every(field => field.startsWith('domain') || field === 'ip_cidr'),
+        `${segment.id} ANDs independent source predicates: ${keys.join(', ')}`);
       for (const [field, type] of Object.entries(fieldTypes)) {
         for (const value of rule[field] || []) {
           const actualType = field === 'ip_cidr' && value.includes(':') ? 'IP-CIDR6' : type;

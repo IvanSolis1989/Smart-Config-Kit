@@ -160,7 +160,9 @@
         "::1/128",
         "fc00::/7",
         "fe80::/10"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "WorkPro.exe",
         "WorkProWebProcess.exe",

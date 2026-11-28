@@ -5,7 +5,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const {execFileSync} = require('node:child_process');
-const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
+// Review receipts use the LF Markdown stored by Git. A Windows checkout may
+// present the same tracked content with CRLF.
+const sha256 = value => crypto.createHash('sha256').update(value.replace(/\r\n/g,'\n')).digest('hex');
 function validateReadmeLocales(manifest, files, read) {
   const failures=[];
   if(manifest.schema_version!==1 || !Array.isArray(manifest.pairs)) return ['Invalid README localization manifest'];

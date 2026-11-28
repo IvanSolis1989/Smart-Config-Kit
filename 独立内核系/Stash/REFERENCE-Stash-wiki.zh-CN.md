@@ -3,6 +3,8 @@
 [English](REFERENCE-Stash-wiki.md) | **简体中文**
 
 
+> 更新于 2026-11-28（上次复核 2026-10-28）。核对 Apple 商店、Mac 更新源，以及现行 DNS、策略组、规则和 HTTP API 文档。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Stash 规则类型](https://stash.wiki/rules/rule-types)，沿用规则目标策略和现有 domain/ipcidr 规则集格式。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 核对于 2026-10-23（上次专项核对 2026-10-20）：重新读取 [DNS](https://stash.wiki/en/features/dns-server#domain-based-custom-dns-service) 与[配置示例](https://stash.wiki/en/configuration/example-config)；既有 nameserver-policy 的域名/geosite 键与服务器数组继续受支持，本次不启用新字段。
@@ -11,11 +13,12 @@
 
 ## 当前复核结论
 
-- iOS/tvOS 商店稳定版 3.6.4（2026-10-19 UTC）；Mac 官方 feed 稳定版 4.3.3/564（2026-10-14 UTC），beta 4.4.0/569（2026-10-16 UTC）。Wiki release-notes 的3.4.0/4.2.0是历史页面，不能当最新版本。
+- Apple 商店列出 iOS/iPadOS/tvOS 正式版 5.0.0（2026-11-15 JST）。Mac 官方更新源列出正式版 5.0.0 build 607（2026-11-15 JST）和 beta 5.1.0 build 609（2026-11-18 JST）。[Apple App Store](https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349?platform=appleTV) · [Mac 更新源](https://releases.stash.ws/appcast.xml)
 - [Rule Set](https://stash.wiki/en/rules/rule-set)确认 domain/ipcidr MRS；现有 fused MRS 保持。inline provider 是 iOS/tvOS3.6+/Mac4.3+ 可选能力，不替代大型远程集合。
-- [DNS](https://stash.wiki/en/features/dns-server)现明确 iOS/tvOS3.6+/Mac4.3+ 可用加密 `default-nameserver`（除system外使用IP）、`proxy-server-nameserver`、`rule-set:` DNS引用。旧文“只能明文IP/没有proxy-server”的概括已经过时；当前生成器尚未启用这些字段，本次保持原有保守输出。
+- 正式版支持 IP 端点的加密 `default-nameserver`（也可使用特殊值 `system`）、独立 `proxy-server-nameserver` 和 DNS `rule-set:` 选择器。`fallback-filter` 只在配置 `fallback` 时生效。启用 `follow-rule` 时，代理节点域名需要独立解析路径以避免 DNS 递归。仓库产物选用明文 bootstrap IP，并用 `nameserver-policy` 表达业务 DNS。[DNS 文档](https://stash.wiki/en/features/dns-server)
 - [策略组](https://stash.wiki/en/proxy-protocols/proxy-groups)已明确 `tolerance` 单位毫秒；CMFA值10ms可表达，但官方最初引入版本未取得，本次不修改受保护生成器。旧“未确认tolerance”的原因仅能解释历史裁剪。
-- `lazy`、`interval`、空组DIRECT按 Stash 原生文档判断；不从 Mihomo 推导 Smart/LightGBM、empty-fallback、exclude-type。
+- Stash 5.1 beta 支持原生 `smart`、`policy-priority`，以及组内 `include-all-proxies`、`include-all-providers`、`exclude-filter`、`exclude-type`。原生 `smart` 使用真实流量和按需探测，无 `interval` 或 `lazy`。组级 `exclude-type` 使用完整协议名，作用于合并后的所有成员。空组按 `DIRECT` 处理。当前产物使用 `url-test` 与显式订阅组。beta 的 `proxy-server-nameserver-policy` 还要求同时配置 `proxy-server-nameserver`。[Smart 策略组](https://stash.wiki/en/proxy-protocols/smart-group) · [组字段](https://stash.wiki/en/proxy-protocols/proxy-groups#member-assembly-and-filtering) · [节点 DNS policy](https://stash.wiki/en/features/dns-server#proxy-server-nameserver-policy)
+- Stash 5.0 的 `pre-matching` 在 DNS 或入口阶段提前匹配，只允许内置拒绝目标。常规优先规则无法保护提前拒绝的域名。现有广告规则使用可切换组，且前面有直连、支付和 AI 例外，继续使用常规匹配。用可信控制器的 `GET /rules/match?target=example.com&resolve=false` 对照受保护和拦截域名，读回模拟规则、出口及提前拒绝的 `stage`。该 API 不发起连接，真机流量另行检查。[规则选项](https://stash.wiki/en/rules/rule-types#pre-matching) · [HTTP API](https://stash.wiki/en/features/http-api#rules)
 
 ## 历史摘要边界
 
@@ -37,7 +40,7 @@
 | 策略组 | https://stash.wiki/en/proxy-protocols/proxy-groups | `proxy-groups` 支持 `select`、`url-test`、嵌套策略组、远程代理集、`filter` 正则筛选、`interval` 与 `lazy`。空组会按 `DIRECT` 处理。 |
 | 规则集 | https://stash.wiki/en/rules/rule-set | `rule-providers` 需要在 `rules` 中用 `RULE-SET` 引用；支持 `domain`、`ipcidr`、`classical`，MRS 仅支持 `domain` / `ipcidr`。 |
 | 规则类型 | https://stash.wiki/en/rules/rule-types | 支持域名、IP/端口、协议、逻辑与复合规则；规则按从上到下顺序匹配。 |
-| DNS 示例 | https://stash.wiki/en/configuration/example-config | `default-nameserver` 示例要求只填 DNS 服务器 IP；`nameserver` 支持 UDP/TCP/DoT/DoH/DoQ；`nameserver-policy` 支持域名与 `geosite:cn` 等键。 |
+| DNS 示例 | https://stash.wiki/en/features/dns-server | `default-nameserver` 支持明文或加密 IP 端点及 `system`。`nameserver-policy` 支持域名、`geosite:` 和 `rule-set:`。 |
 | 内置 DNS 服务 | https://stash.wiki/en/features/dns-server | Stash 默认 DNS 查询直连；启用 follow-rule 前需避免递归解析风险。 |
 | Override | https://stash.wiki/en/configuration/override | `.stoverride` 是可选覆盖文件，本仓库当前不生成 Stash override。 |
 | 协议类型 | https://stash.wiki/en/proxy-protocols/proxy-types | Stash 支持 Shadowsocks / Shadowsocks2022、ShadowsocksR、SOCKS5、HTTP、VMess、Snell、Trojan、AnyTLS、TrustTunnel、Hysteria、Hysteria2、VLESS、TUIC、Juicity、WireGuard、Tailscale、SSH 等协议；ShadowTLS 以 Shadowsocks 插件形式支持 v2/v3。 |
@@ -52,7 +55,7 @@
 3. DNS 仅保留 Stash 文档覆盖的 `enable`、`ipv6`、`enhanced-mode`、`fake-ip-range`、`fake-ip-filter`、`default-nameserver`、`nameserver`、`nameserver-policy`。
 4. `default-nameserver` 改为明文 IP：`223.5.5.5`、`119.29.29.29`、`1.1.1.1`、`8.8.8.8`。
 5. `proxy-providers.Subscribe` 只保留 `url`、`interval`、`path`，删除 CMFA 的 `type: http`、`health-check`、`exclude-filter`。
-6. `proxy-groups` 保留 `select` / `url-test` / `use` / `filter` / `proxies` / `interval`。`standard`（300 秒）与 `power-save`（900 秒）两档均保留源配置显式设置的 `lazy: true`；该字段已由 Stash 官方策略组文档确认支持。仅删除未确认的 `tolerance`。
+6. `proxy-groups` 保留 `select` / `url-test` / `use` / `filter` / `proxies` / `interval`。`standard`（300 秒）与 `power-save`（900 秒）两档均保留源配置显式设置的 `lazy: true`；该字段已由 Stash 官方策略组文档确认支持。当前产物裁剪 `tolerance`、`exclude-type` 和 `empty-fallback`。
 7. `rule-providers` 删除 provider 下载 `proxy` 字段，因为 Stash Wiki 的 rule set 文档未列出该字段。
 8. `rules` 原样保留，仍由合同验证检查 AMap、Douyin、CN game、Cloudflare R2、STUN 端口等关键顺序。
 
@@ -60,7 +63,7 @@
 
 - 本仓库尚未在真实 Stash App 内做导入截图级验收；当前验证覆盖 YAML 结构和官方文档字段面对齐。
 - 因删除 rule-provider 下载代理字段，首次拉取 GitHub / jsDelivr 规则集的可达性取决于 Stash 当前网络环境。
-- Stash Wiki 未承诺 Mihomo Smart / LightGBM 能力；本产物不提供 Smart 自动择优。
+- Stash 5.1 beta 配置需单独检查真机组成员、空组、DNS bootstrap 和故障切换。仓库发布配置使用正式版的 `url-test`。
 
 ### 2026-10-20 业务 DNS policy 复核
 

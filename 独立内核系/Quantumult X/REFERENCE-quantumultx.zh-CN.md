@@ -8,7 +8,13 @@
 
 > 2026-11-07 更正：下方旧摘要中 `auto, auto, auto` 及“三个值分别对应 WiFi/蜂窝/其他”均为错误解释。官方固定 sample 的原文为 `filter, filter, LINK_22E171:all_proxy, LINK_22E172:all_direct`；本仓库无 SSID 特例，采用 `filter, filter`。已重新获取固定正文并核对与 2026-10-19 缓存 SHA-256 一致；这是旧摘要修正，不是宣称上游刚更改语法。QX 真机导入尚待复测。
 
-## 当前复核结论
+<a id="当前复核结论"></a>
+## 2026-11-28 兼容性复核
+
+- 美国 App Store 正式版为 1.8.1（2026-10-07），从 1.8.0 起要求 iOS 15+，1.7.0 是最后支持 iOS 14 的版本。本轮未确认公开测试版。[App Store](https://apps.apple.com/us/app/quantumult-x/id1443988620)
+- 固定官方样例涵盖 `static`、`url-latency-benchmark`、远程 `force-policy` 和单行逗号分隔的并发 DoH。[#206](https://github.com/IvanSolis1989/Smart-Config-Kit/issues/206) 的配置使用 `static` 全球手选组，包含自动子组以及地区和家宽选项。验收需核对原生导入、实际出口、刷新订阅和重启后的选择保持。固定样例未演示这一完整嵌套，1.8.1 真机核对仍待完成。[固定官方样例](https://github.com/crossutility/Quantumult-X/blob/af6fb594233ec4a3ec6d4ccb3601e9c36b75ea2d/sample.conf)
+
+## 2026-10-19 复核结论
 
 - 稳定版1.8.1，2026-10-07 UTC；1.8.0起要求iOS15。未取得可确认的官方预发布版本/日期，pending。
 - [官方sample.conf](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf)规定多个并发DoH写在同一行、URL逗号分隔。本仓库四URL已合并一行且保留顺序；未声称旧重复键last-wins已实机复现。

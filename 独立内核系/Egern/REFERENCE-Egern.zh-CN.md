@@ -3,17 +3,20 @@
 [English](REFERENCE-Egern.md) | **简体中文**
 
 
+> 更新于 2026-11-28（上次复核 2026-10-28）。核对 Apple 商店，以及现行策略组、分流规则和 DNS 文档。
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Egern Rules](https://egernapp.com/docs/configuration/rules/)，沿用原生规则的既有目标和按序匹配语义，不引入 Mihomo MRS。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 更新于 2026-10-19（上次字段复核 2026-09-30）：完整官方正文、版本和验证缺口见[苹果客户端复核](../../docs/upstream/2026-10-19/apple/report.md)及[缓存收据](../../docs/upstream/2026-10-19/apple/manifest.json)。
 
 ## 当前复核结论
 
-- Apple US/JP 当前稳定版均为2.20.0，2026-07-23 UTC；当前官方可确认的预发布版本/日期未取得，pending。
+- Apple US/JP 列出正式版 2.21.0（2026-11-05 JST）。更新说明确认来源 IP 规则、SSR、Tailscale 和 Fake-IP 池耗尽修复。[Apple 发布记录](https://itunes.apple.com/lookup?id=1616105820&country=us)
 - [Policy Groups](https://egernapp.com/docs/configuration/policy_groups/)允许基本组直接挂 `urls` 并混合静态节点；`external` 仍为兼容语法，保留现有 Subscribe/flatten/filter 无需迁移。
 - Egern `smart` 使用自身健康评分和真实失败反馈；现有22个原生smart组会消费客户端改进，不映射成 Mihomo LightGBM。
 - [Rules](https://egernapp.com/docs/configuration/rules/)仍以原生 YAML 集合和远端 `rule_set` 表达；未取得 MRS 或 Clash PROCESS-NAME 支持证据，保持生成转换和进程规则例外。
-- 2.20.0明确加入Snell v1–v5、SSH、SOCKS5-TLS及更多REALITY/gRPC能力；属于节点/订阅能力，本次不增改路由。DNS以[原生forward/upstreams](https://egernapp.com/docs/configuration/dns/)为依据。
+- 2.21.0 发布说明列出 `SRC-IP`，公开规则手册尚未列出原生 YAML 字段或对应规则集结构。现有产物省略这类谓词。新增投影前先从 App 原生导出确认语法，再用不同来源访问同一目标，验证两条流量按预期分流。目的地址 `ip_cidr` 匹配的是另一个连接字段。[Apple 发布记录](https://itunes.apple.com/lookup?id=1616105820&country=us) · [官方规则类型](https://egernapp.com/docs/configuration/rules/#supported-rules)
+- 默认 DNS 使用首个命中的 `forward` 项。配置 `proxy_nameservers` 后，代理 DNS 绕过 `forward` 并直连该列表的解析器。仓库配置使用明确的 DoH URL。2.21.0 发版说明确认列表也接受 upstream 组名，当前 DNS 手册示例仍用地址。保留现有 DoH URL。验证组名导出时，分别比较普通与代理 DNS 的命中、兜底和解析可达性。[官方 DNS](https://egernapp.com/docs/configuration/dns/#proxy-nameservers-forced-upstream-for-proxy-dns) · [Apple 发布记录](https://itunes.apple.com/lookup?id=1616105820&country=us)
 
 ## 历史摘要边界
 

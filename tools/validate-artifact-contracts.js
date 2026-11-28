@@ -1100,10 +1100,6 @@ function meaningfulRuleLines(relativePath) {
     .filter((line) => line && !line.startsWith('#'));
 }
 
-function fusedSrsUrl(segmentId, assetRevision) {
-  return repositoryAssetUrl(`rulesets/generated/fused/sing-box/${segmentId}.srs`, assetRevision);
-}
-
 function fusedSingBoxText(segmentId) {
   return readText(`rulesets/generated/fused/sing-box/${segmentId}.json`);
 }
@@ -2361,7 +2357,7 @@ function validatePasswall(record, baselineVersion) {
     }
 
     for (const segment of passwallSegments) {
-      const url = fusedSrsUrl(segment.id, manifest.asset_revision);
+      const url = `${repositoryAssetUrl(`rulesets/generated/fused/sing-box/${segment.id}.srs`, manifest.asset_revision)}&format=.srs`;
       record.check(`${spec.id}.script-fused-url.${segment.id}`, source.includes(`add_fused_shunt_rule '${segment.id} | ${segment.policy}' '${url}'`), {
         message: `missing ${segment.id} in apply script`,
       });

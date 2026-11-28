@@ -3,6 +3,16 @@
 [English](REFERENCE-xray.md) | **简体中文**
 
 
+> 更新于 2026-11-28。本次核对 App 导入格式、Xray 内核规则和 Hysteria 2 出站。
+
+<a id="current-review"></a>
+## 当前官方兼容性
+
+- v2rayN 正式版为 [7.25.6](https://github.com/2dust/v2rayN/releases/tag/7.25.6)（2026-10-11），[8.0.2](https://github.com/2dust/v2rayN/releases/tag/8.0.2)（2026-11-27）为预发布。后者的多 `CustomOutbound` 用于自定义出站。11 月 21 日更新的官方路由文档仍使用数组，仓库产物保持 `proxy`、`direct`、`block` 三种目标。[导入格式](https://github.com/2dust/v2rayN/wiki/Description-of-custom-routing-rules)
+- App 将导入条目按 `RulesItem` 读取，筛掉禁用和 DNS 条目，再映射为核心规则。App 模型含 `remarks`，没有 `ruleTag`。直接维护原生 Xray 配置时可用 `ruleTag` 辅助查看 Info 命中日志，App 路由导入时可用 `remarks` 查找条目。[导入模型](https://github.com/2dust/v2rayN/blob/8.0.2/v2rayN/ServiceLib/Models/Entities/RulesItem.cs#L3-L17) · [映射](https://github.com/2dust/v2rayN/blob/8.0.2/v2rayN/ServiceLib/Services/CoreConfig/V2ray/V2rayRoutingService.cs#L38-L64) · [原生路由字段](https://xtls.github.io/config/routing.html#ruleobject)
+- Xray-core 最新正式版为 [v26.11.9](https://github.com/XTLS/Xray-core/releases/tag/v26.11.9)（2026-11-09）。其 Hysteria 2 出站使用 `protocol: hysteria` 与 `settings.version: 2`，由节点和传输配置接入。实际使用时在 App 中核对所选核心版本及生成的节点配置。[Hysteria 2 出站](https://xtls.github.io/config/outbounds/hysteria.html)
+- 路由验收应回读最终规则顺序，并核对域名、IP、本机进程与三种出站的实际流量。当前 Xray 官方进程匹配适用于 Windows／Linux 本机连接，Android 需要客户端注入查找器。[进程匹配](https://xtls.github.io/config/routing.html#ruleobject)
+
 > 核对于 2026-10-28：本次仅将 GoogleFCM 由下载更新归入 Google 服务；复核 [Xray RoutingObject](https://xtls.github.io/config/routing.html)，沿用现有 outboundTag；FCM 从下载 direct 映射迁到 Google proxy 映射。不改变 DNS、fake-IP、嗅探、其他推送或节点组；未新增字段、最低版本或真机通过声明。
 
 > 更新于 2026-10-19：本次核验见[官方版本、原文缓存及本地适配报告](../../docs/upstream/2026-10-19/singbox/report.md)。下方旧摘要保留其获取日期，未整篇当前化。

@@ -1111,7 +1111,9 @@
         "xlliveud",
         "xunlei",
         "yunpan"
-      ],
+      ]
+    },
+    {
       "process_name": [
         "BitComet",
         "BitComet.exe",

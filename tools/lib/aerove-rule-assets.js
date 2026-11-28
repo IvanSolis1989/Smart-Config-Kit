@@ -14,7 +14,7 @@ const { SOURCE_GRAPH_VERSION } = require('../../rulesets/source/routing-graph');
 
 const ASSET_DIR = 'Meow内核系/Aerove Lite/rule-assets';
 const MANIFEST_PATH = `${ASSET_DIR}/manifest.json`;
-const VERSION = `${SOURCE_GRAPH_VERSION}-meow.5`;
+const VERSION = `${SOURCE_GRAPH_VERSION}-meow.6`;
 const COMPILER_VERSION = 'v1.19.32';
 const LIMITS = Object.freeze({ max_entries: 250000, max_entry_bytes: 2048, max_entry_labels: 128,
   max_labels: 500000, max_text_bytes: 64 * 1024 * 1024, max_input_bytes: 64 * 1024 * 1024,

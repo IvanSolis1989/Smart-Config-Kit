@@ -80,3 +80,22 @@ jobs:
           node tools/generate-aerove-rule-assets.js --check
           node tools/generate-meow.js --check
           node --test tools/tests/meow-generation.test.js tools/tests/meow-native-profile.test.js tools/tests/aerove-rule-assets.test.js tools/tests/aerove-rule-projection.test.js tools/tests/browser-udp-aerove-boundary.test.js
+      - name: Diagnose latest official Meow core v0.30.0 compatibility
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/meow-diagnostic"
+          mkdir -p "$dir/core"
+          cd "$dir"
+          archive=meow-v0.30.0-x86_64-unknown-linux-gnu.tar.gz
+          curl -fLSs --retry 2 --max-time 60 "https://github.com/meow-rs/meow-rs/releases/download/v0.30.0/$archive" -o "$archive"
+          printf '%s  %s\n' '026b29702521b0c168a579de2822bb0106c726355e926612b31da5fd5759e39f' "$archive" | sha256sum --check --strict
+          tar -xzf "$archive" -C core
+          core=$(find "$dir/core" -type f -name meow -print -quit)
+          test -x "$core"
+          test -s "$MEOW_GEOSITE_FILE"
+          test -s "$MEOW_MMDB_FILE"
+          "$core" --version
+          cd "$GITHUB_WORKSPACE"
+          MEOW_BIN="$core" node --test tools/tests/meow-generation.test.js

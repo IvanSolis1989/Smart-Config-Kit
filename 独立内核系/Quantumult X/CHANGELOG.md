@@ -15,6 +15,11 @@
 
 [![Documentation](../../docs/assets/readme/nav-docs.svg)](../../docs/README.md) [Project README](../../README.md) · [Documentation index](../../docs/README.md)
 
+## v6.0.23-QX.18 (2026-11-28)
+
+- The Copilot filter uses its existing service domain suffixes.
+- Update the 1.8.1 compatibility notes and add explicit checks of selector membership and persistence after a rule refresh.
+
 ## v6.0.22-QX.17 (2026-11-27)
 
 - Append the existing global and regional residential groups to the global selector after ordinary regions, preserving the automatic default and existing policy choices (#206).

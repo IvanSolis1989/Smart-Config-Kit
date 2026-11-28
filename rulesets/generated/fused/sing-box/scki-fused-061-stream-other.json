@@ -547,6 +547,17 @@
         "199.9.248.0/21",
         "2402:2a80::/32"
       ],
+      "domain_keyword": [
+        "cn-hk-eq-bcache-",
+        "jooxweb-api",
+        "ttvnw",
+        "discovery.uplynk.com",
+        "emby.wtf",
+        "jmsooo",
+        "odysseyplus"
+      ]
+    },
+    {
       "process_name": [
         "com.viu.pad",
         "com.viu.phone",
@@ -560,15 +571,6 @@
         "com.cbs.app",
         "com.showtime.standalone",
         "com.mb.android"
-      ],
-      "domain_keyword": [
-        "cn-hk-eq-bcache-",
-        "jooxweb-api",
-        "ttvnw",
-        "discovery.uplynk.com",
-        "emby.wtf",
-        "jmsooo",
-        "odysseyplus"
       ]
     }
   ]
